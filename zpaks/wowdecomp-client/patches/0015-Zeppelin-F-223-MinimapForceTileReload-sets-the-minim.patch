@@ -1,0 +1,32 @@
+From bc6a3cc502293ec31fd360cc169908f3704feb4a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 17 Oct 2026 03:47:38 +0000
+Subject: [PATCH] Zeppelin F-223: MinimapForceTileReload sets the minimap dirty
+ bit
+
+MinimapUpdate skips its tile pass unless the player moved in x/y or
+s_updateFlags bit 0 is set, so a phase change while standing still kept the
+base tiles (WXL sets the same bit, its kDirtyTiles).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Source/Ui/MinimapFrame.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/WoW/Source/Ui/MinimapFrame.cpp b/WoW/Source/Ui/MinimapFrame.cpp
+index 681ca82..4afb2de 100644
+--- a/WoW/Source/Ui/MinimapFrame.cpp
++++ b/WoW/Source/Ui/MinimapFrame.cpp
+@@ -1253,6 +1253,8 @@ static bool s_forceTileReload;
+ // extension that changed the art a tile resolves to without the map id changing (a terrain phase).
+ void MinimapForceTileReload() {
+     s_forceTileReload = true;
++    // MinimapUpdate skips the tile pass unless the player moved in x/y or this bit is set.
++    s_updateFlags |= 1;
+ }
+ 
+ // VERIFY: dd828e8c manual
+-- 
+2.34.1
+

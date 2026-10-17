@@ -1,4 +1,4 @@
-From 6cdbead539c3f724354a7561a45b907e0762d56b Mon Sep 17 00:00:00 2001
+From a4dbe80b1bf92c2564393629d3d23898c09f213b Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 14:12:25 +0200
 Subject: [PATCH] fix(extensions): adding some missing comment and remove

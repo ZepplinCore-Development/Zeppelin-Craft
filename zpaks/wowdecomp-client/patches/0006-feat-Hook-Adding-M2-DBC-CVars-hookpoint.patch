@@ -1,4 +1,4 @@
-From 32b67629be03518a18dad82b1fc256e05bd08e58 Mon Sep 17 00:00:00 2001
+From c187e66d66406df192839728e508a053e24826ab Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 14:09:08 +0200
 Subject: [PATCH] feat(Hook): Adding M2, DBC, CVars hookpoint

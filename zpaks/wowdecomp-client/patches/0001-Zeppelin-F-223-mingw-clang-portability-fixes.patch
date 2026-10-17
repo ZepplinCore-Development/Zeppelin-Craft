@@ -1,4 +1,4 @@
-From ab052dd10ae6dbc583e6a38b4fa3904d1d738dbe Mon Sep 17 00:00:00 2001
+From ffae6675ded40678a754738c34e03212b7e96ffd Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 16 Oct 2026 10:43:25 +0000
 Subject: [PATCH] Zeppelin F-223: mingw/clang portability fixes

@@ -1,4 +1,4 @@
-From 43ca13d24614dc4784ad6296a62dd50b2f4bc13b Mon Sep 17 00:00:00 2001
+From d09f01894c366d54b233f249b8f5806ca492841c Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 16 Oct 2026 10:56:22 +0000
 Subject: [PATCH] Zeppelin F-223: mingw link/startup portability

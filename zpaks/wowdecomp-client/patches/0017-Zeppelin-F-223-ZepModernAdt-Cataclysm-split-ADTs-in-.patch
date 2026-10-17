@@ -1,0 +1,376 @@
+From d8e74b354834047dfaae8c796787d5711d8711af Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 17 Oct 2026 03:47:39 +0000
+Subject: [PATCH] Zeppelin F-223: ZepModernAdt - Cataclysm split ADTs in the
+ 3.3.5 terrain runtime
+
+Source counterpart of wxl-modern-adt for 4.x tiles: merges root + _tex0 + _obj0
+into one 3.3.5 ADT before the stock parse (MCIN/MHDR rebuilt, MCNK counts fixed,
+MCRF = MCRD + MCRW, MCAL/MCLY as-is on big-alpha maps). Lost Isles (F-196).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ Extensions/ZepModernAdt/src/ZepModernAdt.cpp | 350 +++++++++++++++++++
+ 1 file changed, 350 insertions(+)
+ create mode 100644 Extensions/ZepModernAdt/src/ZepModernAdt.cpp
+
+diff --git a/Extensions/ZepModernAdt/src/ZepModernAdt.cpp b/Extensions/ZepModernAdt/src/ZepModernAdt.cpp
+new file mode 100644
+index 0000000..7b24980
+--- /dev/null
++++ b/Extensions/ZepModernAdt/src/ZepModernAdt.cpp
+@@ -0,0 +1,350 @@
++// ZepModernAdt: loads Cataclysm split terrain tiles (root + _tex0 + _obj0) in the 3.3.5 terrain
++// runtime (Zeppelin F-196 / F-011 Lost Isles). Source counterpart of WarcraftXL's wxl-modern-adt.
++//
++// WXL lets the stock parser run on the split root and then fills the client's chunk objects from the
++// _tex0/_obj0 buffers. In source the tile's bytes can be replaced before the parse
++// (TerrainScript::OnTerrainTileRead), so the trio is merged into one 3.3.5 ADT and the stock parser,
++// chunk build and purge run on it unchanged:
++//   MVER | MHDR | MCIN | MTEX | MMDX | MMID | MWMO | MWID | MDDF | MODF | [MFBO] | [MH2O] | [MTXF] | MCNK x256
++// Each MCNK is the root's 128-byte header (counts fixed) + the root's sub-chunks (MCVT MCCV MCNR MCSE
++// MCLQ) + the _tex0 chunk's (MCLY MCSH MCAL) + MCRF (the _obj0 chunk's MCRD doodad refs then MCRW map
++// object refs). The engine reads only the counts and flags of the MCNK header (nLayers, sizeAlpha,
++// nDoodadRefs, nMapObjRefs, sizeLiquid, flags); the ofs* fields are filled for completeness.
++//
++// Alpha maps are copied as they are: the 3.3.5 decoders handle MCLY 0x200 (compressed) and 4096-byte
++// layers when the LIVE map's WDT has the big-alpha flag (CMap::header.m_flags & 0x4), which Kalimdor
++// (the map the Lost Isles overlay onto) has. A tile whose layers would need conversion for a 4-bit map
++// is logged and left to the stock parser rather than misdrawn.
++//
++// Not handled (4.x tiles do not need them): FileDataID name tables (MDID/MHID), height texturing
++// (MTXP), high-res holes, MCLV. Models the tile places still go through the stock M2/WMO loaders,
++// which accept only 3.3.5-version files.
++
++#include <cstdio>
++#include <cstring>
++#include <vector>
++#include "Engine/Source/BlizzardCore/SFile2-Core.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/WorldClient/Map.h"
++#include "WoW/Source/WorldClient/MapArea.h"
++#include "WoW/Source/WorldClient/MapChunk.h"
++#include "WoW/Source/WorldClient/MapRenderChunk.h"
++
++namespace {
++
++// A chunk tag as the client compares it: stored byte-reversed on disk, so the little-endian dword
++// equals the multi-character constant ('M' << 24 | ...).
++constexpr uint32_t Tag(const char (&s)[5]) {
++    return (uint32_t(uint8_t(s[0])) << 24) | (uint32_t(uint8_t(s[1])) << 16) | (uint32_t(uint8_t(s[2])) << 8) | uint32_t(uint8_t(s[3]));
++}
++
++uint32_t Rd32(const uint8_t* p) {
++    uint32_t v;
++    std::memcpy(&v, p, 4);
++    return v;
++}
++
++struct Chunk {
++    uint32_t tag = 0;
++    const uint8_t* data = nullptr;
++    uint32_t size = 0;
++};
++
++// Bounds-checked walk of the chunks in [p, p + n).
++template <class Fn>
++void Walk(const uint8_t* p, uint32_t n, Fn&& fn) {
++    for (uint32_t off = 0; off + 8 <= n;) {
++        uint32_t size = Rd32(p + off + 4);
++
++        if (size > n - off - 8) {
++            break;
++        }
++
++        fn(Chunk { Rd32(p + off), p + off + 8, size });
++        off += 8 + size;
++    }
++}
++
++// The top-level chunks of one file, with its MCNKs in file order.
++struct Parsed {
++    std::vector<Chunk> top;
++    std::vector<Chunk> mcnk;
++
++    const Chunk* Find(uint32_t tag) const {
++        for (const Chunk& chunk : top) {
++            if (chunk.tag == tag) {
++                return &chunk;
++            }
++        }
++
++        return nullptr;
++    }
++};
++
++Parsed Parse(const uint8_t* p, uint32_t n) {
++    Parsed parsed;
++    Walk(p, n, [&](const Chunk& chunk) {
++        (chunk.tag == Tag("MCNK") ? parsed.mcnk : parsed.top).push_back(chunk);
++    });
++    return parsed;
++}
++
++bool ReadWhole(const char* name, std::vector<uint8_t>& out) {
++    SFileImpl* file = nullptr;
++
++    if (!SFileOpenFile(name, &file) || !file) {
++        return false;
++    }
++
++    out.resize(SFileGetFileSize(file, nullptr));
++    uint32_t read = 0;
++
++    if (!out.empty()) {
++        SFileReadFile(file, out.data(), static_cast<uint32_t>(out.size()), &read, nullptr, 0);
++    }
++
++    SFileCloseFile(file);
++    out.resize(read);
++    return read != 0;
++}
++
++class Writer {
++    public:
++    uint32_t Offset() const { return static_cast<uint32_t>(m_bytes.size()); }
++
++    void Bytes(const void* p, uint32_t n) {
++        const uint8_t* b = static_cast<const uint8_t*>(p);
++        m_bytes.insert(m_bytes.end(), b, b + n);
++    }
++
++    void U32(uint32_t v) { Bytes(&v, 4); }
++
++    // Writes a chunk and returns the offset of its 8-byte header.
++    uint32_t Put(uint32_t tag, const void* data, uint32_t size) {
++        uint32_t at = Offset();
++        U32(tag);
++        U32(size);
++        Bytes(data, size);
++        return at;
++    }
++
++    uint32_t Put(uint32_t tag, const Chunk* chunk) {
++        return Put(tag, chunk ? chunk->data : nullptr, chunk ? chunk->size : 0);
++    }
++
++    void Patch32(uint32_t at, uint32_t v) { std::memcpy(&m_bytes[at], &v, 4); }
++
++    std::vector<uint8_t> m_bytes;
++};
++
++uint32_t s_tiles;
++uint32_t s_failures;
++
++// Builds a 3.3.5 ADT from the trio, or returns false to leave the root to the stock parser.
++bool Merge(const char* rootName, const uint8_t* rootBytes, uint32_t rootSize, std::vector<uint8_t>& out) {
++    Parsed root = Parse(rootBytes, rootSize);
++
++    // A monolithic tile has MCIN; only a split root lacks it.
++    if (root.Find(Tag("MCIN")) || !root.Find(Tag("MHDR")) || root.mcnk.size() != 256) {
++        return false;
++    }
++
++    char name[260];
++    std::vector<uint8_t> texBytes;
++    std::vector<uint8_t> objBytes;
++    size_t stem = std::strlen(rootName) - 4;  // drop ".adt"
++
++    std::snprintf(name, sizeof(name), "%.*s_tex0.adt", static_cast<int>(stem), rootName);
++    bool haveTex = ReadWhole(name, texBytes);
++    std::snprintf(name, sizeof(name), "%.*s_obj0.adt", static_cast<int>(stem), rootName);
++    bool haveObj = ReadWhole(name, objBytes);
++
++    if (!haveTex) {
++        sExtensionMgr->Log("ZepModernAdt: %s has no _tex0, left to the stock parser", rootName);
++        return false;
++    }
++
++    Parsed tex = Parse(texBytes.data(), static_cast<uint32_t>(texBytes.size()));
++    Parsed obj = haveObj ? Parse(objBytes.data(), static_cast<uint32_t>(objBytes.size())) : Parsed();
++
++    if (tex.mcnk.size() != 256 || (haveObj && obj.mcnk.size() != 256)) {
++        sExtensionMgr->Log("ZepModernAdt: %s has %u/%u tex/obj chunks, expected 256", rootName, static_cast<uint32_t>(tex.mcnk.size()), static_cast<uint32_t>(obj.mcnk.size()));
++        return false;
++    }
++
++    // Layers that are neither compressed nor 8-bit need a 4-bit live map; this reader only serves
++    // big-alpha maps, where the stock decoders take the tile's MCAL bytes as they are.
++    if (!(CMap::header.m_flags & 0x4)) {
++        sExtensionMgr->Log("ZepModernAdt: %s: live map is not big-alpha, split tile not converted", rootName);
++        return false;
++    }
++
++    const uint8_t* rootHeader = root.Find(Tag("MHDR"))->data;
++    const Chunk* mamp = tex.Find(Tag("MAMP"));
++
++    Writer w;
++    uint32_t version = 18;
++    w.Put(Tag("MVER"), &version, 4);
++
++    SMAreaHeader header = {};
++    header.m_flags = Rd32(rootHeader);
++    header.m_mampValue = mamp && mamp->size ? mamp->data[0] : 0;
++    uint32_t mhdr = w.Put(Tag("MHDR"), &header, sizeof(header));
++    uint32_t base = mhdr + 8;  // MHDR offsets are relative to its data
++
++    std::vector<SMChunkInfo> info(256);
++    uint32_t mcin = w.Put(Tag("MCIN"), info.data(), 256 * sizeof(SMChunkInfo));
++
++    header.m_mcin = mcin - base;
++    header.m_mtex = w.Put(Tag("MTEX"), tex.Find(Tag("MTEX"))) - base;
++    header.m_mmdx = w.Put(Tag("MMDX"), obj.Find(Tag("MMDX"))) - base;
++    header.m_mmid = w.Put(Tag("MMID"), obj.Find(Tag("MMID"))) - base;
++    header.m_mwmo = w.Put(Tag("MWMO"), obj.Find(Tag("MWMO"))) - base;
++    header.m_mwid = w.Put(Tag("MWID"), obj.Find(Tag("MWID"))) - base;
++    header.m_mddf = w.Put(Tag("MDDF"), obj.Find(Tag("MDDF"))) - base;
++    header.m_modf = w.Put(Tag("MODF"), obj.Find(Tag("MODF"))) - base;
++
++    if (const Chunk* mfbo = root.Find(Tag("MFBO"))) {
++        header.m_mfbo = w.Put(Tag("MFBO"), mfbo) - base;
++    } else {
++        header.m_flags &= ~0x1u;
++    }
++
++    if (const Chunk* mh2o = root.Find(Tag("MH2O"))) {
++        // MH2O instance offsets are relative to the chunk data, so the block moves as a unit.
++        header.m_mh2o = w.Put(Tag("MH2O"), mh2o) - base;
++    }
++
++    if (const Chunk* mtxf = tex.Find(Tag("MTXF"))) {
++        header.m_mtxf = w.Put(Tag("MTXF"), mtxf) - base;
++    }
++
++    for (uint32_t i = 0; i < 256; i++) {
++        const Chunk& rootChunk = root.mcnk[i];
++
++        if (rootChunk.size < sizeof(SMChunk)) {
++            sExtensionMgr->Log("ZepModernAdt: %s chunk %u has no header", rootName, i);
++            return false;
++        }
++
++        SMChunk mcnkHeader;
++        std::memcpy(&mcnkHeader, rootChunk.data, sizeof(SMChunk));
++
++        Chunk mcly, mcsh, mcal, mcrd, mcrw;
++        Walk(tex.mcnk[i].data, tex.mcnk[i].size, [&](const Chunk& c) {
++            if (c.tag == Tag("MCLY")) mcly = c;
++            else if (c.tag == Tag("MCSH")) mcsh = c;
++            else if (c.tag == Tag("MCAL")) mcal = c;
++        });
++
++        if (haveObj) {
++            Walk(obj.mcnk[i].data, obj.mcnk[i].size, [&](const Chunk& c) {
++                if (c.tag == Tag("MCRD")) mcrd = c;
++                else if (c.tag == Tag("MCRW")) mcrw = c;
++            });
++        }
++
++        uint32_t start = w.Offset();
++        w.Put(Tag("MCNK"), &mcnkHeader, sizeof(SMChunk));  // size patched below
++        bool haveLiquid = false;
++
++        Walk(rootChunk.data + sizeof(SMChunk), rootChunk.size - sizeof(SMChunk), [&](const Chunk& c) {
++            uint32_t at = w.Offset() - start;
++
++            if (c.tag == Tag("MCVT")) mcnkHeader.m_ofsHeight = at;
++            else if (c.tag == Tag("MCNR")) mcnkHeader.m_ofsNormal = at;
++            else if (c.tag == Tag("MCCV")) mcnkHeader.m_ofsMCCV = at;
++            else if (c.tag == Tag("MCSE")) mcnkHeader.m_ofsSndEmitters = at;
++            else if (c.tag == Tag("MCLQ")) { mcnkHeader.m_ofsLiquid = at; haveLiquid = true; }
++            else return;  // MCLV, MCBB, MCDD: not 3.3.5 data
++
++            w.Put(c.tag, c.data, c.size);
++        });
++
++        if (!haveLiquid) {
++            mcnkHeader.m_ofsLiquid = 0;
++            mcnkHeader.m_sizeLiquid = 0;
++        }
++
++        mcnkHeader.m_ofsLayer = w.Offset() - start;
++        w.Put(Tag("MCLY"), mcly.data, mcly.size);
++        mcnkHeader.m_nLayers = mcly.size / 16;
++
++        mcnkHeader.m_ofsRefs = w.Offset() - start;
++        w.U32(Tag("MCRF"));
++        w.U32(mcrd.size + mcrw.size);
++        w.Bytes(mcrd.data, mcrd.size);
++        w.Bytes(mcrw.data, mcrw.size);
++        mcnkHeader.m_nDoodadRefs = mcrd.size / 4;
++        mcnkHeader.m_nMapObjRefs = mcrw.size / 4;
++
++        if (mcsh.data) {
++            mcnkHeader.m_ofsShadow = w.Offset() - start;
++            mcnkHeader.m_sizeShadow = mcsh.size;
++            mcnkHeader.m_flags |= 0x1;
++            w.Put(Tag("MCSH"), mcsh.data, mcsh.size);
++        } else {
++            mcnkHeader.m_ofsShadow = 0;
++            mcnkHeader.m_sizeShadow = 0;
++            mcnkHeader.m_flags &= ~0x1u;
++        }
++
++        mcnkHeader.m_ofsAlpha = w.Offset() - start;
++        mcnkHeader.m_sizeAlpha = mcal.size + 8;
++        w.Put(Tag("MCAL"), mcal.data, mcal.size);
++
++        uint32_t total = w.Offset() - start;
++        w.Patch32(start + 4, total - 8);
++        std::memcpy(&w.m_bytes[start + 8], &mcnkHeader, sizeof(SMChunk));
++
++        info[i].m_offset = start;
++        info[i].m_size = total;
++        info[i].m_flags = 0;
++    }
++
++    std::memcpy(&w.m_bytes[mcin + 8], info.data(), 256 * sizeof(SMChunkInfo));
++    std::memcpy(&w.m_bytes[base], &header, sizeof(header));
++    out.swap(w.m_bytes);
++    return true;
++}
++
++class ZepModernAdtTerrainScript : public TerrainScript {
++    public:
++    ZepModernAdtTerrainScript() : TerrainScript("ZepModernAdtTerrainScript") {}
++
++    void OnTerrainTileRead(CMapArea& area, void*& buffer, int32_t& size) override {
++        const char* name = area.m_file ? area.m_file->m_name : nullptr;
++
++        if (!name || size < 8 || std::strlen(name) < 5) {
++            return;
++        }
++
++        std::vector<uint8_t> merged;
++
++        if (!Merge(name, static_cast<const uint8_t*>(buffer), static_cast<uint32_t>(size), merged)) {
++            return;
++        }
++
++        void* bytes = CMapArea::AllocAsyncLoadBuffer(static_cast<int32_t>(merged.size()));
++
++        if (!bytes) {
++            s_failures++;
++            return;
++        }
++
++        std::memcpy(bytes, merged.data(), merged.size());
++        CMapArea::FreeAsyncLoadBuffer(buffer, size);
++        buffer = bytes;
++        size = static_cast<int32_t>(merged.size());
++
++        if (++s_tiles <= 16 || (s_tiles & 63) == 0) {
++            sExtensionMgr->Log("ZepModernAdt: %s merged (%u bytes, %u split tile(s) so far)", name, static_cast<uint32_t>(merged.size()), s_tiles);
++        }
++    }
++};
++
++}
++
++void AddZepModernAdtExtension() {
++    new ZepModernAdtTerrainScript();
++}
+-- 
+2.34.1
+

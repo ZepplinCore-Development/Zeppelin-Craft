@@ -1,4 +1,4 @@
-From 3aed79182d34a3c12789a0ae436f4bbb4bffa14d Mon Sep 17 00:00:00 2001
+From d9e07d68df677f37813247d94fa5d8f71bc65f08 Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 13:20:16 +0200
 Subject: [PATCH] feat(extensions): adding extensions/modules basic system

@@ -1,4 +1,4 @@
-From e3f057b97f5c50f746ad7196aa87b9af16b858aa Mon Sep 17 00:00:00 2001
+From 967828d11e533a2a4a66f44c815ad9e016ee4c0c Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 15:26:30 +0200
 Subject: [PATCH] fix(extensions): Fix forward declaration

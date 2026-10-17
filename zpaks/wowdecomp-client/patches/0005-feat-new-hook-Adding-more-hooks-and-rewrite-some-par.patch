@@ -1,4 +1,4 @@
-From c15751d97db99468efe947dc80d6c7ee280c9b97 Mon Sep 17 00:00:00 2001
+From e5b0fd99bd0d204066ff6bbd77358db253afbce4 Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 13:50:38 +0200
 Subject: [PATCH] feat(new hook): Adding more hooks and rewrite some part of

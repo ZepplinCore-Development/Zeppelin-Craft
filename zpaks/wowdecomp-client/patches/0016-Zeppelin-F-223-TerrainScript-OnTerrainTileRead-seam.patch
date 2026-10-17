@@ -1,0 +1,81 @@
+From f621592838a5c2f461ff527cced6acf2de95be02 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 17 Oct 2026 03:47:38 +0000
+Subject: [PATCH] Zeppelin F-223: TerrainScript::OnTerrainTileRead seam
+
+CMapArea::AsyncCallback, before ProcessIffChunks: an extension may replace the
+tile's bytes (e.g. a merged split ADT) before the stock parse.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Source/Extension/ExtensionMgr.h                  | 1 +
+ WoW/Source/Extension/ScriptDefines/TerrainScript.cpp | 4 ++++
+ WoW/Source/Extension/ScriptDefines/TerrainScript.h   | 9 +++++++++
+ WoW/Source/WorldClient/MapArea.cpp                   | 3 +++
+ 4 files changed, 17 insertions(+)
+
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 82301ab..7f88fe8 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -169,6 +169,7 @@ class ExtensionMgr {
+     void OnTerrainChunkCreated(CMapChunk* chunk);
+     void OnTerrainChunkPurge(CMapChunk* chunk);
+     void OnTerrainTileFile(CMapArea* area, char* fileName, uint32_t fileNameSize);
++    void OnTerrainTileRead(CMapArea* area, void*& buffer, int32_t& size);
+ 
+     public: /* MapObjectScript */
+     void OnMapObjLoaded(CMapObj* mapObj);
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+index 4d3d165..9d9c4e7 100644
+--- a/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+@@ -18,6 +18,10 @@ void ExtensionMgr::OnTerrainTileFile(CMapArea* area, char* fileName, uint32_t fi
+     CALL_HOOKS(TerrainScript, script->OnTerrainTileFile(*area, fileName, fileNameSize));
+ }
+ 
++void ExtensionMgr::OnTerrainTileRead(CMapArea* area, void*& buffer, int32_t& size) {
++    CALL_HOOKS(TerrainScript, script->OnTerrainTileRead(*area, buffer, size));
++}
++
+ void ExtensionMgr::OnTerrainChunkPurge(CMapChunk* chunk) {
+     CALL_HOOKS(TerrainScript, script->OnTerrainChunkPurge(*chunk));
+ }
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.h b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+index 4875e7d..eda0e11 100644
+--- a/WoW/Source/Extension/ScriptDefines/TerrainScript.h
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+@@ -46,6 +46,15 @@ class TerrainScript : public ScriptObject {
+     // phase); the read, parse and chunk build then run on that file as if it were the map's own. The
+     // substitute must exist and be a 3.3.5 ADT. Scripts run in registration order on the main thread.
+     virtual void OnTerrainTileFile(CMapArea& area, char* fileName, uint32_t fileNameSize) {}
++
++    // CMapArea::AsyncCallback, before ProcessIffChunks: the tile's file is read whole into buffer
++    // (size bytes, allocated with CMapArea::AllocAsyncLoadBuffer) and area.m_file is still open
++    // (area.m_file->m_name is the file that was read). A script may replace the bytes with a 3.3.5
++    // ADT built from other data (e.g. a split root/_tex0/_obj0 trio): allocate the new buffer with
++    // CMapArea::AllocAsyncLoadBuffer, free the old one with CMapArea::FreeAsyncLoadBuffer, and set
++    // buffer and size; the parse, chunk build and the purge's free then use the new buffer. Runs on
++    // the main thread, in registration order, each script seeing the previous one's result.
++    virtual void OnTerrainTileRead(CMapArea& area, void*& buffer, int32_t& size) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/WorldClient/MapArea.cpp b/WoW/Source/WorldClient/MapArea.cpp
+index f0f995c..f0ac04d 100644
+--- a/WoW/Source/WorldClient/MapArea.cpp
++++ b/WoW/Source/WorldClient/MapArea.cpp
+@@ -350,6 +350,9 @@ void CMapArea::ProcessIffChunks() {
+ void CMapArea::AsyncCallback(void* param) {
+     CMapArea* area = static_cast<CMapArea*>(param);
+ 
++    // Not in the original: an extension may replace the tile's bytes before they are parsed.
++    sExtensionMgr->OnTerrainTileRead(area, area->m_fileBuffer, area->m_fileSize);
++
+     area->ProcessIffChunks();
+ 
+     // Not in the original: the ADT is parsed, no chunk is built yet.
+-- 
+2.34.1
+

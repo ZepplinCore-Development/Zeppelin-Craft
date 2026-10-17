@@ -1,4 +1,4 @@
-From c3c7e7ab687c3ee3f82af918e492fcbab3d6cffd Mon Sep 17 00:00:00 2001
+From 024e070fba85441cb12cb2e8d3f57854f11202ed Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 14:37:11 +0200
 Subject: [PATCH] feat(extensions): update HelloWorld first example extension
