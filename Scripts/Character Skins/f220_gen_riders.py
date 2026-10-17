@@ -166,6 +166,47 @@ def rider_helm(mp, race, sex):
     return best[1] if best else None
 
 
+# shoulder STYLE hints: a fused rider whose pauldrons are part of its rigid armour mesh (no shoulder
+# texture to match, no geometry a shoulder model matches by shape) gets this pauldron model, in the colour
+# variant nearest its painted pads (user's pick from rendered candidates, 2026-10-17)
+SHOULDER_STYLE = {'gnomemechastrider.m2': 'Shoulder_Plate_A_01'}
+
+
+def rider_shoulders(mp, skin_path):
+    """ItemDisplayInfo of the SHOULDER_STYLE model whose texture is nearest the pads' colour: the rider-skin
+    vertices at shoulder height (just under the helm, out to the sides) sampled through their UVs."""
+    style = SHOULDER_STYLE.get(mp.rsplit('/', 1)[-1])
+    if not style:
+        return None
+    import struct as _st
+    d = ix.stock[mp].read_bytes(); sk = ix.stock[mp[:-3] + '00.skin'].read_bytes()
+    vn, vo = _st.unpack_from('<II', d, 0x3C)
+    P = np.array([_st.unpack_from('<3f', d, vo + 48 * i) for i in range(vn)])
+    UV = np.array([_st.unpack_from('<2f', d, vo + 48 * i + 32) for i in range(vn)])
+    stem = skin_path.rsplit('/', 1)[-1][:-4]
+    body = [idx for gid, idx, tx in _subs(d, sk) if any(x.rsplit('/', 1)[-1][:-4] == stem for x in tx)]
+    H = _tex_subs(mp, 'helm')
+    if not body or H is None:
+        return None
+    idx = np.concatenate(body); B, U = P[idx], UV[idx]
+    zt = H[:, 2].min()
+    m = (B[:, 2] > zt - 0.1) & (B[:, 2] < zt + 0.16) & (np.abs(B[:, 1]) > 0.12)
+    tex = np.asarray(Image.open(ix.stock[skin_path]).convert('RGB'), dtype=np.float32)
+    h, w = tex.shape[:2]
+    pad = np.median(_lab(np.array([tex[int((v % 1) * (h - 1)), int((u % 1) * (w - 1))] for u, v in U[m]])), 0)
+    best = None
+    for r in q(f"SELECT id, left_model_texture FROM itemdisplayinfo WHERE left_model = 'L{style}.mdx' AND id < 200000 ORDER BY id"):
+        cf = ix.stock.get(f"item/objectcomponents/shoulder/{r['left_model_texture'].lower()}.blp")
+        if cf is None:
+            continue
+        c = _lab(np.asarray(Image.open(cf).convert('RGB').resize((32, 32), Image.BOX), dtype=np.float32)).reshape(-1, 3)
+        dlt = float(np.linalg.norm(np.median(c, 0) - pad))
+        if best is None or dlt < best[0]:
+            best = (dlt, int(r['id']), r['left_model_texture'])
+    print('   shoulders:', style, 'pad colour', pad.round(1), '->', best)
+    return best[1] if best else None
+
+
 HELM_MAX = 0.2      # shape score: the diver helm matched the mechastrider pilot's at 0.175, unrelated helms 0.21+
 
 from lib.npc_outfit import RIDER_CLASS as _RC
@@ -358,6 +399,9 @@ for path, race, sex, displays in riders:
     for m_ in sorted(k for k in ix.stock if k.endswith('.m2') and k.rsplit('/', 1)[-1] in _R):
         if m_ == mp or any(n == path for _, n in sf.texture_table(ix.stock[m_].read_bytes())):
             hv_ = hv_ or rider_helm(m_, race, sex)
+            sv_ = rider_shoulders(m_, path)
+            if sv_ and 'shoulders' not in pieces:
+                pieces['shoulders'] = {'display': sv_}   # fake and look alike
     if hv_:
         pieces['helm'] = {'display': hv_}             # the fake wears it too: compare like with like
     if did in DK_HELM:

@@ -29,6 +29,9 @@
         "mod": 0
       },
       "gloves": 19143,
+      "shoulders": {
+        "display": 17995
+      },
       "helm": {
         "display": 48573
       }
