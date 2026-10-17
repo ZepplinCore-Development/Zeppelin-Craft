@@ -115,6 +115,7 @@
   .empty { color: var(--muted); padding: 30px; }
   .help { color: var(--muted); font-size: 12px; padding: 0 14px 8px; }
   .prov summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+  .uniq details summary { cursor: pointer; font-size: 11px; color: var(--muted); }
   .pb { font-size: 11px; display: grid; gap: 3px; max-height: 300px; overflow: auto; }
   .custctl .ph { font-size: 12px; padding: 6px 8px; color: var(--muted); border-bottom: 1px solid var(--line); }
   .custctl .ph b { color: var(--text); }
@@ -1527,7 +1528,10 @@ function openAsset(e) {
     // a clean swap to ONE other model (Spaceslam's seagiant2 for all sea giant displays): the card
     // shows that model, not this file
     const sp = ids.length && looks.length === 1 ? looks[0].pane : p, sst = sp.stats || {};
-    const repHtml = ids.length ? `<div class="stats"><b>Moves all ${ids.length} displays to ${esc(looks[0].model)}</b> (a different model; ${esc(e.path.split('/').pop())} itself is unchanged)${g.swap ? ` · this pack's ${esc(looks[0].model)} file` : ''}</div>` : '';
+    // a pack that gives the display its own model ROW for this same file moves nothing (headlesshorsemanmount)
+    const samePath = ids.length && Object.keys(byModel).length === 1 && Object.keys(byModel)[0] === e.path;
+    const repHtml = samePath ? `<div class="stats">${ids.length === 1 ? 'Its display stays' : `All ${ids.length} displays stay`} on this model file (the pack gives ${ids.length === 1 ? 'it' : 'them'} a model row of its own)</div>`
+      : ids.length ? `<div class="stats"><b>Moves all ${ids.length} display${ids.length === 1 ? '' : 's'} to ${esc(looks[0].model)}</b> (a different model; ${esc(e.path.split('/').pop())} itself is unchanged)${g.swap ? ` · this pack's ${esc(looks[0].model)} file` : ''}</div>` : '';
     const src = (isItem && bodyPaneUrl(e, p, fitBody)) || paneUrl(sp);
     return `<div class="pane${chosen ? ' chosen' : ''}" data-opt="${p.option}"><iframe src="${src}" loading="lazy" title="${esc(label(g.sources))}"></iframe>
       <div class="info"><div class="h"><b>${esc(label(g.sources))}</b>${(p.completed || []).length ? '<span class="chip warn" title="The pack left this display on the old model while upgrading its siblings; we complete the repoint (sibling skins, scaled to match)">completed by us</span>' : ''}${p.reused ? '<span class="chip bad" title="I-390: the pack reused this stock display id for a different creature (another stock model, no bake, unrelated file name) - not an HD version of it">another creature</span>' : ''}${p.option === e.current && !ids.length ? '<span class="chip">current file</span>' : ''}${rpChip(p)}${lookChip(p)}${implied && implied.option === g.key && !c ? '<span class="chip ok">via model pick</span>' : ''}</div>
@@ -1865,8 +1869,16 @@ function uniqueBox(p) {
   const chips = Object.entries(byKind).map(([k, xs]) =>
     `<span class="chip warn" title="${esc(`${k} differs (${vs}):\n` + xs.join('\n'))}">${esc(k)} unique</span>`).join('');
   const chip = chips || `<span class="chip ok" title="${esc(`No visible difference found ${vs}` + (p.unique.length ? ':\n' + p.unique.map(line).join('\n') : ''))}">${esc(like)}</span>`;
-  return `<div class="stats">${chip}</div>` + (p.unique.length ? `<div class="stats uniq"><b>${esc(vs)}</b>${p.unique.map(u =>
-    `<div${u[0] === 'minor' ? ' style="opacity:.6"' : ''}>${esc(line(u))}</div>`).join('')}</div>` : '');
+  // one line per kind: its lines when there are a few, else a count (a remodel lists every batch's shader);
+  // the full list folds away
+  const summary = Object.entries(byKind).map(([k, xs]) => {
+    if (xs.length <= 3) return xs.map(x => `<div>${esc(k)}: ${esc(x)}</div>`).join('');
+    const n = (w) => xs.filter(x => x.startsWith(w)).length, add = n('added'), rem = n('removed'), other = xs.length - add - rem;
+    return `<div>${esc(k)}: ${[rem ? `${rem} removed` : '', add ? `${add} added` : '', other ? `${other} changed` : ''].filter(Boolean).join(', ')}</div>`;
+  }).join('');
+  return `<div class="stats">${chip}</div>` + (p.unique.length ? `<div class="stats uniq"><b>${esc(vs)}</b>${summary}${p.unique.length > Object.keys(byKind).length
+    ? `<details><summary>all ${p.unique.length} differences</summary>${p.unique.map(u =>
+      `<div${u[0] === 'minor' ? ' style="opacity:.6"' : ''}>${esc(line(u))}</div>`).join('')}</details>` : ''}</div>` : '');
 }
 function groupBox(did) {
   const g = groupOf(did);
