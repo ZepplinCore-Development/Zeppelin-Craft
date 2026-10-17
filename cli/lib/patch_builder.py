@@ -904,6 +904,15 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
             print(f"Parse complete for PATCH-{letter}")
         return True
 
+    # Step 1b: the FileDataID table for the source-built client (F-223) is generated from what every
+    # enabled zpak ships, so it is refreshed whenever the patch that carries it is packed.
+    if not dry_run and any(z['name'] == 'zep-models' for z in zpaks):
+        _print_step_header('FDID-TABLE', 'zep-models')
+        rc = subprocess.call(['python3', '-m', 'cli.zep', 'wxl', 'fdid-table'], cwd=str(Path(__file__).resolve().parents[2]))
+        if rc != 0:
+            print("fdid-table failed")
+            return False
+
     # Step 2: Collect zpaks with parsed-assets
     buildable = []
     for zpak in zpaks:
