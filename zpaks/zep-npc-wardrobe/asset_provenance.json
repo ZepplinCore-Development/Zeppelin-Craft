@@ -4,41 +4,6 @@
  "downport": "cli/lib/wardrobe/downport_harness.cpp + m2.classic_env_batches",
  "assets": [
   {
-   "path": "Item/ObjectComponents/Collections/chest_plate_raiddeathknightdragon_d_01_be_m_green.blp",
-   "fdid": 5094772,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "8c6105e44b2f03b56aea740b627af68f01c8ea2f0511e5241512f2441b163582"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/chest_plate_raiddeathknightdragon_d_01_or_f.m2",
-   "fdid": 4691746,
-   "build": "12.1.0.69875",
-   "kind": "downport+9 batch(es) classicised, 8 env pair(s), overlay mat 2",
-   "sha256": "45775224d25cff9127885ecc6c8169aa32e8fce38bb622995bdb3c894900521c"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/chest_plate_raiddeathknightdragon_d_01_or_f00.skin",
-   "fdid": 5095633,
-   "build": "12.1.0.69875",
-   "kind": "downport+9 batch(es) classicised, 8 env pair(s), overlay mat 2",
-   "sha256": "cf3b246156546ab9899e429a602c59932e4675b722fceec19e8ff70ad29da76e"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/chest_plate_raiddeathknightdragon_d_01_or_m.m2",
-   "fdid": 4691745,
-   "build": "12.1.0.69875",
-   "kind": "downport+9 batch(es) classicised, 8 env pair(s), overlay mat 2",
-   "sha256": "e7e1164e31ca341a36a32cec0309ae478bad7eecc1803059c04581946e270f07"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/chest_plate_raiddeathknightdragon_d_01_or_m00.skin",
-   "fdid": 5095469,
-   "build": "12.1.0.69875",
-   "kind": "downport+9 batch(es) classicised, 8 env pair(s), overlay mat 2",
-   "sha256": "7e1490d12f23d6545360b7544de3d582506b57955c3df4344240bc87488cf3ea"
-  },
-  {
    "path": "Item/ObjectComponents/Collections/collections_armor_orcclan_d_01_or_f.m2",
    "fdid": 1623637,
    "build": "12.1.0.69875",
@@ -109,41 +74,6 @@
    "sha256": "cd022841aa5bb8e6f9d0830d966be820a6218226637310b640dabed5282297cb"
   },
   {
-   "path": "Item/ObjectComponents/Collections/collections_plate_maldraxxus_d_01_necrolordprestige.blp",
-   "fdid": 3174969,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "0fb3711b921b789680050e9744566684f05cff945ca168fe0162b22ff4b24cde"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/collections_plate_maldraxxus_d_01_tr_f.m2",
-   "fdid": 3166581,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 7 env pair(s), overlay mat 1",
-   "sha256": "734e647ab3a2815623aa0c253a0a11dec7bd5a40f7d2a16f2a807a7394ed6e14"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/collections_plate_maldraxxus_d_01_tr_f00.skin",
-   "fdid": 3175213,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 7 env pair(s), overlay mat 1",
-   "sha256": "834ea3b76ff2b9e53ddfc595a769e4b790bc88f9f8ce94b6a7712ca18ea156d5"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/collections_plate_maldraxxus_d_01_tr_m.m2",
-   "fdid": 3166580,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 7 env pair(s), overlay mat 1",
-   "sha256": "60c23d71f174042af46a8de61d929c0e6b43bbc93d3340394dc319e065adee3d"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/collections_plate_maldraxxus_d_01_tr_m00.skin",
-   "fdid": 3175197,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 7 env pair(s), overlay mat 1",
-   "sha256": "3d79d066d4ab6b84110d626fd1999ccd6a61945263b0769309e810cd04c44741"
-  },
-  {
    "path": "Item/ObjectComponents/Collections/collections_plate_warfrontshorde_d_01_or_f.m2",
    "fdid": 1781569,
    "build": "12.1.0.69875",
@@ -177,34 +107,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "c7d3967a64a854de11af94fa50667a6b6ac308379c1c39a9028d4d02cba076a3"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/leather_raiddemonhuntert2_d_01_chest_tr_f.m2",
-   "fdid": 6032128,
-   "build": "12.1.0.69875",
-   "kind": "downport+6 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "1526b04386657ad2c48aa45d05d46acd5bc83e37ce54a9c3bddc2e9e5f840759"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/leather_raiddemonhuntert2_d_01_chest_tr_f00.skin",
-   "fdid": 6081221,
-   "build": "12.1.0.69875",
-   "kind": "downport+6 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "ea478b2ddb950718dbf9ced48c9f230e6c02fce874a7532f0eb3de983d4a5662"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/leather_raiddemonhuntert2_d_01_chest_tr_m.m2",
-   "fdid": 6032127,
-   "build": "12.1.0.69875",
-   "kind": "downport+6 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "ab31ba37c9b6a81bb5fd0ae77f27d5407e033efd518afe20304827ab83f22f3c"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/leather_raiddemonhuntert2_d_01_chest_tr_m00.skin",
-   "fdid": 6081125,
-   "build": "12.1.0.69875",
-   "kind": "downport+6 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "0a864c842cfc31a2df9bd6a3731f345495f46051e842a218703036af3da5896e"
   },
   {
    "path": "Item/ObjectComponents/Collections/plate_raiddeathknightemerald_d_01_glove_hu_f.m2",
@@ -480,20 +382,6 @@
    "sha256": "09a3227728b225ae4a96b9eba5b5f8d92f74adc92e04d080b5149b5a60d9c7a7"
   },
   {
-   "path": "Item/TextureComponents/ArmLowerTexture/4691726_al_u_5094674.blp",
-   "fdid": 5094674,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "239bdd0893286cb306eedaebe7015c31b999cb1dbd41e70cd39f0faeae39294e"
-  },
-  {
-   "path": "Item/TextureComponents/ArmLowerTexture/6032102_al_u_6080855.blp",
-   "fdid": 6080855,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "619fb06bfda2e105d13fc40ff3bd06f448da1901c6110655807b127556369399"
-  },
-  {
    "path": "Item/TextureComponents/ArmLowerTexture/armor_orcclan_d_01_bracer_al_u.blp",
    "fdid": 1623818,
    "build": "12.1.0.69875",
@@ -513,6 +401,13 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "1de9bd3e6bb3d2cb1c24bd61c8e0876f5f4a9297923e42d1829b493b9cd41dd1"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/glove_armor_civilianpeasant_b_01_al_u_5213103.blp",
+   "fdid": 5213103,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "6296f3e93c1a5bb78096cbcc3cbd80d35fa62d8586f9fcb5150ca285a0abdb32"
   },
   {
    "path": "Item/TextureComponents/ArmLowerTexture/leather_horde_b_03redblack_glove_al_u.blp",
@@ -541,6 +436,13 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "c62ede16672b2b5f07ce8d78dd9cdd65b873670b7335fc2cc6b9005bdc19c13a"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_draenordungeon_c_01_gold_glove_al_u.blp",
+   "fdid": 960804,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "eaf9b173b7a40c7f0cdc707266544534a65b13f72189e3fa51613b475d509f07"
   },
   {
    "path": "Item/TextureComponents/ArmLowerTexture/plate_horde_c_02black_glove_al_u.blp",
@@ -767,6 +669,13 @@
    "sha256": "c8c603e5788696c91b613b3749200c6f5c64c827ace9b1089cfd9adbfc5f55ee"
   },
   {
+   "path": "Item/TextureComponents/FootTexture/cloth_horde_b_01red_boot_fo_u.blp",
+   "fdid": 152736,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "615699283e6ef7817e895faf4dc621df47a7b36431b88007e29efea5d95a8a44"
+  },
+  {
    "path": "Item/TextureComponents/FootTexture/leather_a_05yellow_boot_fo_f.blp",
    "fdid": 152800,
    "build": "12.1.0.69875",
@@ -879,25 +788,18 @@
    "sha256": "8ac6e968aa7ff13662da45f76a62f76fb18b89e3eaf3c74fee39d682aa89e172"
   },
   {
-   "path": "Item/TextureComponents/HandTexture/4691726_ha_u_5094699.blp",
-   "fdid": 5094699,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "4e0d1831eb3461c1683dc27501f4eebd88161ea1abef331739bebba2ac10a9ec"
-  },
-  {
-   "path": "Item/TextureComponents/HandTexture/6032102_ha_u_6080868.blp",
-   "fdid": 6080868,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "861462de9d575b867da4aa4a604f006ad2ebf7c28c280cbf681917f4228a6bdf"
-  },
-  {
    "path": "Item/TextureComponents/HandTexture/armor_orcclan_d_01_glove_ha_u.blp",
    "fdid": 1623862,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "34fd3d1875d9ca6b8b5427c932efe19365d69a059b25c3be6d61186b74a78d70"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/glove_armor_civilianpeasant_b_01_ha_u_5213104.blp",
+   "fdid": 5213104,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e62a14507c69facbca44678b866da6f3b60f41f186ca6fe3e87ee37cf3f2590b"
   },
   {
    "path": "Item/TextureComponents/HandTexture/leather_a_05yellow_glove_ha_u.blp",
@@ -933,6 +835,13 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "4b602ae1db18ba0a3597f35827029169fb718ce3680e668c5d18e15097312e23"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/plate_draenordungeon_c_01_gold_glove_ha_u.blp",
+   "fdid": 960814,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "a0731b596bf26b6dde901ebbdcd31a5761764519348f026b9cb717d740c7d149"
   },
   {
    "path": "Item/TextureComponents/HandTexture/plate_horde_c_02black_glove_ha_u.blp",
@@ -1010,6 +919,13 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "1cad04098ccb4d7fd8b905900c2c46ba2237a3e342c514b3e2d96805ef9976bc"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/cloth_horde_b_01red_boot_ll_u.blp",
+   "fdid": 154971,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e1ff08c0321c2c5533a67ef2a81b3630ef19836d7b99a60ba36ee2bcf1a76be2"
   },
   {
    "path": "Item/TextureComponents/LegLowerTexture/leather_a_05yellow_boot_ll_f.blp",
@@ -1227,13 +1143,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "adb5c5322e15b6854e7393e15b7a8f2322f2b832a7bd2e693368e043db7df6ec"
-  },
-  {
-   "path": "Item/TextureComponents/LegLowerTexture/plate_maldraxxus_d_01_necrolordprestige_boot_ll_u.blp",
-   "fdid": 3175107,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "3f9ef02d1c0b542bff0c61c4e10ee23f8cebbba3ea69a8b20d1362c12b21f85d"
   },
   {
    "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343303.blp",
@@ -2072,7 +1981,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900503_HD.blp",
    "kind": "bake",
    "display": 900503,
-   "sha256": "1b3b6bda24ae001552e6a88b2cddec2ba62b1f0e8d056cd3c21d1b2e17e1e827"
+   "sha256": "a5ec0cb6a1528bbb314bd6b466d11f6d7e23c124254e9e536c667bf429223853"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900503_fake.blp",
@@ -2108,7 +2017,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900509_HD.blp",
    "kind": "bake",
    "display": 900509,
-   "sha256": "b214a9b5bc512c09c52eda9aa8c96df7b5a47ade4ef3c9f0c00968ed3770721d"
+   "sha256": "ff3aa741fcc9b6ebd98d610978ebce39e540d858624604a2d1cb371a029c6943"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900509_fake.blp",
@@ -2132,7 +2041,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900513_HD.blp",
    "kind": "bake",
    "display": 900513,
-   "sha256": "e8204f8f770cb5284b4a353e0845f209b6c682683ba5159fd15cffb4ae7faf58"
+   "sha256": "0582970bb437122e4cfb9f9772fc48b913b35e84e3d07d1a953b5df738733876"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900513_fake.blp",
@@ -2249,13 +2158,6 @@
    "sha256": "6e9302a95d6f08807158a87c8a69ff2d8d79b805f82273d3c3d3a41722404d19"
   },
   {
-   "path": "item/objectcomponents/collections/chest_plate_raiddeathknightdragon_d_01_be_m_5095205.blp",
-   "fdid": 5095205,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "c16b314e196e7ef32f7817481436e21c8c6b352b513dee3aab1c2d50d3a4a6ba"
-  },
-  {
    "path": "item/objectcomponents/collections/collections_plate_ardenweald_d_01_plate_ardenweald_d_01_fx1.blp",
    "fdid": 3081249,
    "build": "12.1.0.69875",
@@ -2268,13 +2170,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "f1bb2c32076158825e23083e1bc56aad542bc04eaf72418d34619f3132026483"
-  },
-  {
-   "path": "item/objectcomponents/collections/leather_raiddemonhuntert2_d_01_chest_ed_m_6080820.blp",
-   "fdid": 6080820,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "10f4c54468477bd01998b3cca205b5a900ed0e7e3616ddddf5459b0ef2004c56"
   },
   {
    "path": "world/lordaeron/scholomance/passivedoodads/brazier/fireswirlpurple.blp",

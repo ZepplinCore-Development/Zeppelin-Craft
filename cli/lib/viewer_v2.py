@@ -323,9 +323,13 @@ class Deployer:
             cdx_r = (self.result['stock_char_dbc'][0] if dbc_source == 'stock' else self.result['effective_char_dbc'][0]).get(
                 int(cdi_r.get('extended_display_info_id') or 0)) or {}
             # every item column: the body slots attach 3D pieces too (wxl-equip-extension collections)
-            hs_ = tuple(int(cdx_r.get(c_) or 0) for c_ in ('helm_id', 'shoulders_id', 'shirt_id', 'chest_id', 'belt_id',
-                                                         'legs_id', 'boots_id', 'wrists_id', 'gloves_id', 'tabard_id', 'cape_id'))
-            if any(hs_):
+            # and what each id IS (models, textures, icons): a wardrobe rebuild reuses ItemDisplayInfo ids
+            # (F-220: 210198 went from the DK dragon chest to a leather one; the id alone kept the old pane)
+            idi_ = mvd._load_item_lookups()[0]
+            ids_ = [int(cdx_r.get(c_) or 0) for c_ in ('helm_id', 'shoulders_id', 'shirt_id', 'chest_id', 'belt_id',
+                                                     'legs_id', 'boots_id', 'wrists_id', 'gloves_id', 'tabard_id', 'cape_id')]
+            hs_ = tuple((i_, tuple((idi_.get(i_) or [])[1:7])) for i_ in ids_)
+            if any(ids_):
                 base = base + (('items', hs_),)
         key = hashlib.sha1(repr(base + (('skins', own),) if own else base).encode()).hexdigest()[:16]
         hit = self.cache.get(key)

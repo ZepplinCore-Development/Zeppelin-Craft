@@ -184,6 +184,25 @@ INV_SLOT = {1: 'Helm', 3: 'Shoulders', 4: 'Shirt', 5: 'Chest', 20: 'Chest', 6: '
             9: 'Wrists', 10: 'Gloves', 19: 'Tabard', 16: 'Cape'}
 
 
+_IDI_MODELS = None
+
+
+def _retail_idi_with_models() -> set:
+    """Retail ItemDisplayInfo ids whose appearance has a 3D model (ModelResourcesID_0/1), from the local
+    wago db2 cache (offline). Empty when the cache is missing (nothing excluded)."""
+    global _IDI_MODELS
+    if _IDI_MODELS is None:
+        import csv
+        from pathlib import Path
+        _IDI_MODELS = set()
+        for f in sorted(Path('/workspace/project/Zeppelin-Tools/wago-retail-cache').glob('*/db2/ItemDisplayInfo.csv'))[-1:]:
+            with open(f, encoding='utf-8', errors='replace') as fh:
+                for r in csv.DictReader(fh):
+                    if (r.get('ModelResourcesID_0') or '0') != '0' or (r.get('ModelResourcesID_1') or '0') != '0':
+                        _IDI_MODELS.add(int(r['ID']))
+    return _IDI_MODELS
+
+
 class Outfits:
     def __init__(self, stock_files: Dict[str, object], meta, log: Callable = print,
                  extra_items: Optional[Dict[str, object]] = None):
@@ -414,7 +433,7 @@ class Outfits:
         look = [r for r in self.lookalike(skin_file, race, sex, klass) if r[0] not in have]
         return [r for r in rows if r[1] or not look] + look
 
-    LOOK_VERSION = 8         # bump when the rules change: cached results are recomputed
+    LOOK_VERSION = 11         # bump when the rules change: cached results are recomputed
 
     def lookalike(self, skin_file, race: str, sex: str, klass: Optional[int] = None,
                   only_items: Optional[frozenset] = None) -> List[list]:
@@ -503,6 +522,7 @@ class Outfits:
             except Exception:
                 self._rthumbs = {}
         th, new = self._rthumbs, 0
+        with_models = _retail_idi_with_models()
         items = []
         for fn, slot in RETAIL_SLOTS.items():
             try:
@@ -527,7 +547,9 @@ class Outfits:
                     if th.get(key) is None:
                         ok = False
                 if ok:                                     # it[4] = the retail ItemAppearance id, it[3] subclass
-                    items.append((slot, int(it[0]), str(it[1]), regs, int(it[4]), int(it[3] or 0)))
+                    # 3D: its appearance brings model pieces (a gauntlet's dragon-chest flap) - see _look_now
+                    items.append((slot, int(it[0]), str(it[1]), regs, int(it[4]), int(it[3] or 0),
+                                  slot != 'Belt' and int(it[5] or 0) in with_models))
         if new:
             try:
                 tmp = tp.with_suffix('.tmp')
@@ -567,7 +589,7 @@ class Outfits:
         # retail armour from the local store: appended to the same stacks, keyed 'r<fdid>'
         ritems, rth = self.retail_pool(sex)
         add: Dict[str, list] = {}
-        for _slot, _iid, _nm, regs, _app, _sub in ritems:
+        for _slot, _iid, _nm, regs, _app, _sub, _3d in ritems:
             for fld, fd in regs.items():
                 if fld in stk and f'r{fd}' not in stk[fld][1]:
                     stk[fld][1][f'r{fd}'] = -1                # placeholder: indexed below
@@ -580,9 +602,12 @@ class Outfits:
                 keys[f'r{fd}'] = n0 + j
             stk[fld] = (box, keys, np.concatenate([lab, _lab(a[..., :3])]),
                         np.concatenate([cov, np.clip((a[..., 3] - 96) / 128, 0, 1)]))
-        for slot, iid, nm, regs, app, sub in ritems:
+        has3d: set = set()
+        for slot, iid, nm, regs, app, sub, d3 in ritems:
             if all(fld in stk for fld in regs):
                 by_slot.setdefault(slot, []).append((('r', iid, nm, app, sub), [(fld, stk[fld][1][f'r{fd}']) for fld, fd in regs.items()]))
+                if d3:
+                    has3d.add(('r', iid, nm, app, sub))
 
         self._lpool = getattr(self, '_lpool', {})
         for f in list(stk):                             # float32: half the memory of the pool
@@ -602,6 +627,9 @@ class Outfits:
         # per slot: each candidate's armour class (0 = none: shirts, tabards, cosmetic)
         cls = {slot: np.array([(k[4] if k[4] in (1, 2, 3, 4) else 0) if isinstance(k, tuple) else self._armour.get(k, 0)
                                for k, _ in cands]) for slot, cands in by_slot.items()}
+        # per slot: True where the candidate's appearance brings 3D model pieces
+        self._l3d = getattr(self, '_l3d', {})
+        self._l3d[sex] = {slot: np.array([k in has3d for k, _ in cands], dtype=bool) for slot, cands in by_slot.items()}
         self._lpool[sex] = (stk, by_slot, arr, cls)
         return stk, by_slot, arr, cls
 
@@ -637,6 +665,7 @@ class Outfits:
         cur = min(skins, key=lambda x: float(np.median(np.linalg.norm(x[1][face] - tgt[face], axis=-1))))[1].copy()
         # 2. the search pool (cached per sex)
         stk, by_slot, arr, cls = self._look_pool(sex)
+        l3d = getattr(self, '_l3d', {}).get(sex, {})
         forced = bool(klass)
         ids_ = {slot: np.array([k[1] if isinstance(k, tuple) else -k for k, _ in cands]) for slot, cands in by_slot.items()}
         G = 0.7                                         # weight of the brightness-gradient (detail) term
@@ -763,6 +792,14 @@ class Outfits:
                         d = np.where(((c_ == 0) & free) | (c_ == klass), d, np.inf)
                     if slot in skin_cov:
                         d = np.where(skin_cov[slot] <= SKIN_COVER_MAX, d, np.inf)
+                    # an appearance that brings 3D pieces (a gauntlet's dragon-chest flap): the fused rider is
+                    # painted only, and the picker drew the flap as a black slab (F-220 wyvern rider). An
+                    # armour-class rider (the plate knights) is modelled armour anyway and keeps them (Graveboots'
+                    # cuffs), as does a shared set's own piece
+                    d3_ = None if forced else l3d.get(slot)
+                    if d3_ is not None and d3_.any():
+                        keep_ = ~d3_ | (np.isin(ids_[slot], list(only_items)) if only_items else False)
+                        d = np.where(keep_, d, np.inf)
                     if only_items:
                         # the shared set first; a slot where even its closest appearance makes this rider
                         # look worse (Zeliek's white: the set has no white variant) takes the best piece

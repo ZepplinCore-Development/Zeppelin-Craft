@@ -87,18 +87,18 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Duty-Bound Harbinger's Stompers (retail item 182519, display 188531)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210196;
+-- Sanguine Sandals (retail item 14374, display 157536)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210199;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210196,
-  `left_model` = 'collections_plate_maldraxxus_d_01.mdx:501,2001',
+  `id` = 210199,
+  `left_model` = '',
   `right_model` = '',
-  `left_model_texture` = 'collections_plate_maldraxxus_d_01_necrolordprestige',
+  `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
-  `icon_2` = '19::64',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 1,
   `geoset_group_3` = 0,
   `flags` = 0,
   `spell_visual_id` = 0,
@@ -111,21 +111,21 @@ INSERT INTO `itemdisplayinfo` SET
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
-  `lower_leg_texture` = 'plate_maldraxxus_d_01_necrolordprestige_boot_ll',
-  `foot_texture` = '',
+  `lower_leg_texture` = 'cloth_horde_b_01red_boot_ll',
+  `foot_texture` = 'cloth_horde_b_01red_boot_fo',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Netherwalker's Eternal Gloves (retail item 225126, display 687209)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210100;
+-- Sandy Quotidian Handcovers (retail item 218830, display 676988)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210200;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210100,
-  `left_model` = 'leather_raiddemonhuntert2_d_01_chest.mdx:401',
+  `id` = 210200,
+  `left_model` = '',
   `right_model` = '',
-  `left_model_texture` = 'leather_raiddemonhuntert2_d_01_chest_ed_m_6080820',
+  `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
-  `icon_2` = '19::64',
+  `icon_2` = '',
   `geoset_group_1` = 0,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
@@ -135,8 +135,8 @@ INSERT INTO `itemdisplayinfo` SET
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
   `upper_arm_texture` = '',
-  `lower_arm_texture` = '6032102_al_u',
-  `hands_texture` = '6032102_ha_u',
+  `lower_arm_texture` = 'glove_armor_civilianpeasant_b_01_al_u',
+  `hands_texture` = 'glove_armor_civilianpeasant_b_01_ha_u',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
@@ -754,17 +754,17 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Obsidian Gladiator's Plate Gauntlets (retail item 205477, display 667987)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210127;
+-- Incarnadine Gauntlets (retail item 109856, display 132554)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210201;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210127,
-  `left_model` = 'chest_plate_raiddeathknightdragon_d_01.mdx:401',
+  `id` = 210201,
+  `left_model` = '',
   `right_model` = '',
-  `left_model_texture` = 'chest_plate_raiddeathknightdragon_d_01_be_m_green',
+  `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
-  `icon_2` = '19::64',
-  `geoset_group_1` = 0,
+  `icon_2` = '',
+  `geoset_group_1` = 1,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
   `flags` = 0,
@@ -773,8 +773,8 @@ INSERT INTO `itemdisplayinfo` SET
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
   `upper_arm_texture` = '',
-  `lower_arm_texture` = '4691726_al_u',
-  `hands_texture` = '4691726_ha_u',
+  `lower_arm_texture` = 'plate_draenordungeon_c_01_gold_glove_al',
+  `hands_texture` = 'plate_draenordungeon_c_01_gold_glove_ha',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
