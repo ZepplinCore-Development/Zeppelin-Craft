@@ -1790,10 +1790,11 @@ const CARD_MIN_W = 340, VIEW_MIN_H = 320;
 let detOpen = (() => { try { return localStorage.getItem('mv.details') !== '0'; } catch (e) { return true; } })();
 // A card's details, in fixed collapsing sections (open state remembered per section name):
 //   Tags (every chip), Model (height, version, size, bones, particles, model path, and what the
-//   option does to it), Animations, Sources. A sentence that only explains a chip becomes its tooltip.
-const SECTIONS = ['Tags', 'Model', 'Outfit', 'Animations', 'Sources'];
+//   option does to it), Differences (uniqueBox: what differs from stock / the compared option), Outfit,
+//   Animations, Sources. A sentence that only explains a chip becomes its tooltip.
+const SECTIONS = ['Tags', 'Model', 'Differences', 'Outfit', 'Animations', 'Sources'];
 const secOpen = (() => { try { return JSON.parse(localStorage.getItem('mv.sections2') || '{}'); } catch (e) { return {}; } })();
-const secDefault = { Tags: true, Model: true, Outfit: false, Animations: false, Sources: false };
+const secDefault = { Tags: true, Model: true, Differences: false, Outfit: false, Animations: false, Sources: false };
 function sectionise(c) {
   const info = c.querySelector(':scope > .info');
   if (!info || info.dataset.sect) return;
@@ -1807,7 +1808,7 @@ function sectionise(c) {
     if (el.matches('details.prov')) { bins.Sources.push(el); return; }
     if (el.matches('.outfit')) { bins.Outfit.push(el); return; }
     if (el.matches('[data-live]') || el.id) { bins.Model.push(el); return; }   // stats filled in later
-    if (el.matches('.uniq')) { bins.Model.push(el); return; }                    // uniqueBox's list
+    if (el.matches('.uniq')) { bins.Differences.push(el); return; }              // uniqueBox's list: its own section
     const txt = el.textContent || '';
     if (/animation/i.test(txt) && el.querySelector('.chip')) {
       // the chips ARE the animation facts: kept as tags, and spelled out (with their lists) as text here
