@@ -50,7 +50,7 @@ let pending = 0;
 // ?diag on the picker (I-401): time where this pane holds the shared main thread - shader
 // compile waits, texture/buffer uploads, engine frames, our M2/BLP fix-ups - and report it.
 const DIAG = q.has('diag')
-  ? { t0: performance.now(), init: 0, shader: 0, links: 0, shared: 0, lastLink: 0, upload: 0, frame: 0, frameMax: 0, fix: 0, fixMax: 0, files: 0, bytes: 0, done: 0 } : null;
+  ? { t0: performance.now(), init: 0, shader: 0, links: 0, shared: 0, lastLink: 0, present: 0, lent: 0, upload: 0, frame: 0, frameMax: 0, fix: 0, fixMax: 0, files: 0, bytes: 0, done: 0 } : null;
 if (DIAG) setInterval(() => { if (!DIAG.done) parent.postMessage({ type: 'pane-diag', src: SRC, d: DIAG }, '*'); }, 500);
 
 // GL context (I-401): borrowed from the picker's glkeep.html frame (same origin, never reloaded),
@@ -58,12 +58,17 @@ if (DIAG) setInterval(() => { if (!DIAG.done) parent.postMessage({ type: 'pane-d
 // keeper the pane makes its own. Either way glcache.js links each distinct program once
 // (?noprogcache: every link is real) and times GL work for ?diag.
 const KEEPER = (() => { try { const k = parent.frames.mvglkeep; return k && typeof k.lend === 'function' ? k : null; } catch (e) { return null; } })();
-let LENT = null;
+// The lent context lives on the keeper's OffscreenCanvas: the engine draws there (this canvas's
+// getContext hands it over) and each frame is shown here through a bitmaprenderer.
+let LENT = null, SHOW = null;
 if (KEEPER) try { LENT = KEEPER.lend(); } catch (e) {}
-if (LENT) { LENT.id = 'wowcanvas'; document.getElementById('wowcanvas').replaceWith(LENT); }
-else mvGlHooks(WebGL2RenderingContext.prototype);
 {
-  const gl = document.getElementById('wowcanvas').getContext('webgl2', { antialias: false, alpha: true, depth: true, stencil: true });
+  const vis = document.getElementById('wowcanvas');
+  if (LENT) SHOW = HTMLCanvasElement.prototype.getContext.call(vis, 'bitmaprenderer');
+  if (LENT && !SHOW) { try { KEEPER.give(LENT); } catch (e) {} LENT = null; }
+  if (LENT) vis.getContext = (type) => (type === 'webgl2' ? LENT.gl : null);
+  else mvGlHooks(WebGL2RenderingContext.prototype);
+  const gl = LENT ? LENT.gl : vis.getContext('webgl2', { antialias: false, alpha: true, depth: true, stencil: true });
   if (gl) { gl.__diag = DIAG; gl.__nocache = q.has('noprogcache'); }
   if (DIAG) DIAG.lent = LENT ? 1 : 0;
 }
@@ -1166,7 +1171,9 @@ function startScene_() {
       if (gone) return;
       camStep();
       const tf = DIAG && performance.now();
+      if (LENT && (LENT.off.width !== c.width || LENT.off.height !== c.height)) { LENT.off.width = c.width; LENT.off.height = c.height; }
       Module._gameloop(last === undefined ? 0 : (now - last) / 1000);
+      if (LENT) { const tp = DIAG && performance.now(); SHOW.transferFromImageBitmap(LENT.off.transferToImageBitmap()); if (DIAG) DIAG.present += performance.now() - tp; }
       if (DIAG) { const d = performance.now() - tf; DIAG.frame += d; DIAG.frameMax = Math.max(DIAG.frameMax, d);
         if (!pending && now - DIAG.t0 > 3000 && !DIAG.idle) DIAG.idle = now; if (DIAG.idle && now - DIAG.idle > 2000 && !DIAG.done) { parent.postMessage({ type: 'pane-diag', src: SRC, d: DIAG }, '*'); DIAG.done = 1; } }
       last = now;

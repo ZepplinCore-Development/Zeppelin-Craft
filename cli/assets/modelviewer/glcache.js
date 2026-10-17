@@ -68,6 +68,13 @@
       try { gl['delete' + kind](v); } catch (e) {}
     }
     gl.__objs = [];
+    // The engine's GL layer hangs its own objects on the GL objects it makes (program.uniformLocsById, ...).
+    // A cached program outlives its pane, and one object from the pane's realm keeps that whole pane
+    // (page and wasm heap) alive, so strip everything but our own bookkeeping.
+    for (const p of keep) {
+      for (const k of Object.keys(p)) if (k !== '__rec') delete p[k];
+      for (const sh of (p.__rec ? p.__rec.sh : [])) for (const k of Object.keys(sh)) if (k !== '__src') delete sh[k];
+    }
     const G = gl;
     G.bindFramebuffer(G.FRAMEBUFFER, null); G.bindRenderbuffer(G.RENDERBUFFER, null);
     G.useProgram(null); G.bindVertexArray(null); G.bindTransformFeedback(G.TRANSFORM_FEEDBACK, null);

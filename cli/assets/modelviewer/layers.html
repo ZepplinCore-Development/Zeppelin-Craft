@@ -3080,13 +3080,14 @@ function diagShow() {
   if (!el) { el = document.createElement('pre'); el.id = 'mvdiag'; el.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:9999;margin:0;padding:8px 10px;max-width:760px;'
     + 'background:rgba(0,0,0,.85);color:#e8e8e8;font:12px/1.35 ui-monospace,monospace;border-radius:6px;white-space:pre;user-select:text;pointer-events:auto'; document.body.append(el); }
   const f = (n) => Math.round(n).toLocaleString(), sum = diagBlocks.reduce((a, b) => a + b, 0);
-  const rows = [...diagPanes.values()].map((d, i) => `pane ${i + 1}: init ${f(d.init)} | shaders ${f(d.shader)} (${d.links} links${d.shared ? `, ${d.shared} from cache` : ''}${d.lastLink ? `, last at ${f(d.lastLink - diagE0)}` : ''}) | uploads ${f(d.upload)} | frames ${f(d.frame)} (max ${f(d.frameMax)}) | fix-ups ${f(d.fix)} (max ${f(d.fixMax)}) | ${d.files} files ${(d.bytes / 1e6).toFixed(1)} MB${d.done ? '' : ' ...'}`);
+  const rows = [...diagPanes.values()].map((d, i) => `pane ${i + 1}: init ${f(d.init)} | shaders ${f(d.shader)} (${d.links} links${d.shared ? `, ${d.shared} from cache` : ''}${d.lastLink ? `, last at ${f(d.lastLink - diagE0)}` : ''}) | uploads ${f(d.upload)} | frames ${f(d.frame)} (max ${f(d.frameMax)})${d.lent ? `, present ${f(d.present)}` : ''} | fix-ups ${f(d.fix)} (max ${f(d.fixMax)}) | ${d.files} files ${(d.bytes / 1e6).toFixed(1)} MB${d.done ? '' : ' ...'}`);
   const tot = (k) => f([...diagPanes.values()].reduce((a, d) => a + d[k], 0));
   el.textContent = `diag (ms) since card opened ${f(performance.now() - diagT0)} - ${navigator.userAgent.replace(/^.*(Firefox|Chrome)\/(\d+).*$/, '$1 $2')}\n`
     + `page at ${location.protocol}//${location.host} - panes from ${PANE_BASES.length > 1 ? 'split over ' + PANE_BASES.join(' + ') : PANE_BASE || 'this site (same thread as this page)'}\n`
     + `probes: ${paneProbes.join(' | ') || 'none'}\n`
     + `page blocked ${f(sum)} in ${diagBlocks.length} blocks >50, longest ${f(Math.max(0, ...diagBlocks))}\n`
-    + `all panes: init ${tot('init')} | shaders ${tot('shader')} (${tot('links')} links, ${tot('shared')} from cache, last at ${f(Math.max(0, ...[...diagPanes.values()].map(d => (d.lastLink || diagE0) - diagE0)))}) | uploads ${tot('upload')} | frames ${tot('frame')} | fix-ups ${tot('fix')}\n`
+    + `all panes: init ${tot('init')} | shaders ${tot('shader')} (${tot('links')} links, ${tot('shared')} from cache, last at ${f(Math.max(0, ...[...diagPanes.values()].map(d => (d.lastLink || diagE0) - diagE0)))}) | uploads ${tot('upload')} | frames ${tot('frame')} (present ${tot('present')}) | fix-ups ${tot('fix')}\n`
+    + `GL keeper: ${document.querySelector('iframe[name=mvglkeep]') ? `on, ${[...diagPanes.values()].filter(d => d.lent).length} of ${diagPanes.size} panes on a kept context` : 'off (add &glkeep)'}\n`
     + `outside the panes' JS (browser layout / compositing / GPU waits / GC): ~${f(Math.max(0, sum - [...diagPanes.values()].reduce((a, d) => a + d.init + d.shader + d.upload + d.frame + d.fix, 0)))}\n` + rows.join('\n');
 }
 if (MV_DIAG) {
