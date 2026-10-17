@@ -256,3 +256,153 @@ def exe_patch(ctx, dry_run, only, exclude, output, include_all, deploy):
     elif deploy and dry_run:
         click.echo()
         click.echo("[DRY RUN] Would deploy patched exe to nginx/EXE/Wow.exe")
+
+
+# ─── Source-built client (F-223 build, F-224 launcher migration) ────────────────────────────────────
+# The decompiled client (Zeppelin-Tools/wowdecomp-build, forge zpak wowdecomp-client) builds to an x64
+# WowClient64.exe plus XvidDecoder.dll. The build is reproducible (no link timestamp, SOURCE_DATE_EPOCH
+# = the source commit), so an unchanged source rebuilds byte-identical and `ship` can tell a real
+# change from a recompile by checksum alone.
+
+SOURCE_BUILD_DIR = Path('/workspace/project/Zeppelin-Tools/wowdecomp-build')
+SOURCE_KEY = 'WowClient64'                        # register bundle key
+SOURCE_MEMBERS = ['WowClient64.exe', 'XvidDecoder.dll']
+SOURCE_SERVE_DIR = 'EXE64'                        # nginx/wow/EXE64/
+SOURCE_ZPAK = 'wowdecomp-client'
+
+
+def _git(*args) -> str:
+    import subprocess
+    return subprocess.run(['git', '-C', str(SOURCE_BUILD_DIR / 'src'), *args],
+                          capture_output=True, text=True, check=True).stdout.strip()
+
+
+def _source_state(craft_root: Path) -> dict:
+    """Source revision and whether every commit on it is captured as a forge patch."""
+    patches = sorted((craft_root / 'zpaks' / SOURCE_ZPAK / 'patches').glob('*.patch'))
+    ours = int(_git('rev-list', '--count', 'upstream/main..HEAD'))
+    return {
+        'head': _git('rev-parse', '--short', 'HEAD'),
+        'upstream': _git('rev-parse', '--short', 'upstream/main'),
+        'dirty': bool(_git('status', '--porcelain', '--untracked-files=no')),
+        'ours': ours,
+        'patches': len(patches),
+    }
+
+
+def _md5(path: Path) -> str:
+    import hashlib
+    h = hashlib.md5()
+    with open(path, 'rb') as f:
+        for chunk in iter(lambda: f.read(1 << 16), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _source_members() -> dict:
+    out = SOURCE_BUILD_DIR / 'src' / 'bin' / 'Win'
+    meta = {}
+    for name in SOURCE_MEMBERS:
+        path = out / name
+        if not path.is_file():
+            raise click.ClickException(f"{path} missing - run `zep build exe source build` first")
+        meta[name] = {'path': path, 'checksum': _md5(path), 'size_mb': round(path.stat().st_size / (1024 * 1024), 2)}
+    return meta
+
+
+def _combined(meta: dict) -> str:
+    import hashlib
+    return hashlib.md5(''.join(meta[n]['checksum'] for n in SOURCE_MEMBERS).encode()).hexdigest()
+
+
+@exe.group('source')
+def exe_source():
+    """Source-built x64 client (wowdecomp, F-223/F-224): reproducible build and hash-checked shipping."""
+
+
+@exe_source.command('build')
+@click.option('--allow-uncaptured', is_flag=True, help='Build even if src has commits or edits not captured as forge patches.')
+@click.pass_context
+def exe_source_build(ctx, allow_uncaptured):
+    """Build WowClient64.exe from the forge-managed source.
+
+    Refuses when src has uncommitted edits or commits that are not captured as wowdecomp-client patches:
+    a shipped exe must be rebuildable from Zeppelin-Craft alone.
+    """
+    import subprocess
+    state = _source_state(ctx.obj['craft_root'])
+    click.echo(f"source {state['head']} = upstream {state['upstream']} + {state['ours']} commit(s); "
+               f"{state['patches']} forge patch(es)")
+    if (state['dirty'] or state['ours'] != state['patches']) and not allow_uncaptured:
+        raise click.ClickException(
+            "src is not fully captured (uncommitted edits, or commits != patches). Commit in src, then "
+            f"`zep forge build-patch --name {SOURCE_ZPAK}` and commit the patches.")
+    rc = subprocess.call(['bash', str(SOURCE_BUILD_DIR / 'build.sh')])
+    if rc != 0:
+        raise click.ClickException(f"build.sh failed (exit {rc}); see {SOURCE_BUILD_DIR / 'build.log'}")
+    meta = _source_members()
+    for name in SOURCE_MEMBERS:
+        click.echo(f"  {name:18s} {meta[name]['size_mb']:6.2f} MB  md5={meta[name]['checksum']}")
+    click.echo(f"  combined           md5={_combined(meta)}")
+
+
+@exe_source.command('ship')
+@click.option('--activate', is_flag=True,
+              help='Write the register entry: the launcher then pushes the client to players. Default: stage only.')
+@click.option('--dry-run', is_flag=True, help='Report only; copy nothing.')
+@click.pass_context
+def exe_source_ship(ctx, activate, dry_run):
+    """Stage the built client for the launcher, skipping an identical rebuild.
+
+    The combined checksum of WowClient64.exe and XvidDecoder.dll is compared with the registered
+    WowClient64 entry. Identical: nothing is staged and the version is not bumped. Changed: the members
+    are copied to nginx/wow/EXE64/ and the entry that --activate would write (version + 1) is printed.
+    """
+    from lib.env import NGINX_PATH
+    from lib.patch_register import format_version, load_register, next_version, save_register
+
+    state = _source_state(ctx.obj['craft_root'])
+    meta = _source_members()
+    combined = _combined(meta)
+    register = load_register(NGINX_PATH)
+    prev = register.get('patches', {}).get(SOURCE_KEY)
+
+    if prev and prev.get('checksum') == combined:
+        click.echo(click.style(
+            f"{SOURCE_KEY}: unchanged (v{format_version(prev['version'])}, md5 {combined}) - identical "
+            "build, nothing staged, no version bump", fg='cyan'))
+        return
+
+    entry = {
+        'name': 'Zeppelin Client (x64 source build)',
+        'description': 'WowClient64.exe built from the wowdecomp source with the Zeppelin extensions',
+        'requires': [],
+        'required_for': [],
+        'build_source': 'wowdecomp',
+        'version': next_version(prev.get('version', 0) if prev else 0),
+        'size_mb': round(sum(meta[n]['size_mb'] for n in SOURCE_MEMBERS), 2),
+        'checksum': combined,
+        'source': f"{state['head']} (upstream {state['upstream']} + {state['patches']} patches)",
+        'last_modified': datetime.utcnow().isoformat() + 'Z',
+        'files': [{'name': n, 'checksum': meta[n]['checksum'], 'size_mb': meta[n]['size_mb']} for n in SOURCE_MEMBERS],
+    }
+    was = f"v{format_version(prev['version'])} md5 {prev.get('checksum')}" if prev else 'not registered'
+    click.echo(f"{SOURCE_KEY}: changed ({was} -> md5 {combined})")
+
+    if dry_run:
+        click.echo(f"[DRY RUN] would stage {', '.join(SOURCE_MEMBERS)} to {NGINX_PATH / SOURCE_SERVE_DIR}")
+    else:
+        dest = NGINX_PATH / SOURCE_SERVE_DIR
+        dest.mkdir(parents=True, exist_ok=True)
+        for name in SOURCE_MEMBERS:
+            shutil.copy2(meta[name]['path'], dest / name)
+            click.echo(f"  staged {SOURCE_SERVE_DIR}/{name}")
+
+    if activate and not dry_run:
+        register.setdefault('patches', {})[SOURCE_KEY] = entry
+        save_register(register, NGINX_PATH)
+        click.echo(click.style(f"{SOURCE_KEY}: registered v{format_version(entry['version'])} - the launcher will push it", fg='yellow'))
+    else:
+        import json
+        click.echo("Entry --activate would write:")
+        click.echo(json.dumps({SOURCE_KEY: entry}, indent=2))
