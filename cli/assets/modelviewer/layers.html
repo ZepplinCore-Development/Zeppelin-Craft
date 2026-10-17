@@ -1316,9 +1316,13 @@ function heightOf(p) {
 // seat attachment, and takes a seat offset only from its own mounts.json row). Fused rider models
 // (batrider, alliancerider: the rider is part of the mesh) get no second rider. -> {item, ovr} or null
 function riderParts(mount, own = mount) {
-  const rb = riderOn && !isFusedRider(mount) && !isFusedRider(own) && mountSet.has(mount) && riderBody(riderCode);
+  // what the CARD draws decides: a fused model (rider in the mesh) gets no second rider, but a riderless
+  // option on a fused mount's page (a retail remaster, our own cut-down mount) does - seated on its own
+  // seat, else the page mount's seat attachment (F-220: every mount + its rider comparable)
+  const seat = mountSet.has(own) ? own : mountSet.has(mount) ? mount : null;
+  const rb = riderOn && !isFusedRider(own) && seat && riderBody(riderCode);
   if (!rb) return null;
-  const [sa] = mountSet.get(mount), [, sx, sy, sz] = mountSet.get(own) || [0, 0, 0, 0];
+  const [sa] = mountSet.get(seat), [, sx, sy, sz] = mountSet.get(own) || [0, 0, 0, 0];
   const ovr = { [`rider/${riderCode}.m2`]: rb.m2, [`rider/${riderCode}00.skin`]: rb.skin };
   Object.entries(rb.tex || {}).forEach(([k, v]) => { ovr[`rider/${riderCode}_${k}.blp`] = v; });
   return { item: { a: sa, m: `rider/${riderCode}.m2`, t: '', fit: sx || sy || sz ? { dx: sx, dy: sy, dz: sz, scale: 1 } : undefined }, ovr };
@@ -1458,8 +1462,10 @@ function openAsset(e) {
   cur = e;
   resetAnims();
   const nRiders = setRiderOptions([e.display, ...(e.panes || []).map(p => p.display)].filter(Boolean));
+  // shown wherever a card can seat one: a riderless mount option, or any option of a fused mount's page
+  // (its retail remasters / our riderless mount are riderless; its fused cards just stay as they are)
   $('riderbox').hidden = (e.tab !== 'creature' && e.tab !== 'display') || !nRiders
-    || !(e.panes || []).some(p => mountSet.has(p.model) && !isFusedRider(p.model)) || isFusedRider(e.path);
+    || !(isFusedRider(e.path) || (e.panes || []).some(p => mountSet.has(p.model) && !isFusedRider(p.model)));
   const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
   $('title').textContent = e.id;          // favourites: the star on the list row; edits: each card's Edit
   $('subtitle').textContent = [e.display ? `shown on display ${e.display}` : '', e.names.slice(0, 3).join(', '),
