@@ -1332,7 +1332,16 @@ function riderParts(mount, own = mount) {
   const [sa] = mountSet.get(seat), [, sx, sy, sz] = mountSet.get(own) || [0, 0, 0, 0];
   const ovr = { [`rider/${riderCode}.m2`]: rb.m2, [`rider/${riderCode}00.skin`]: rb.skin };
   Object.entries(rb.tex || {}).forEach(([k, v]) => { ovr[`rider/${riderCode}_${k}.blp`] = v; });
-  return { item: { a: sa, m: `rider/${riderCode}.m2`, t: '', fit: sx || sy || sz ? { dx: sx, dy: sy, dz: sz, scale: 1 } : undefined }, ovr };
+  const fit = sx || sy || sz ? { dx: sx, dy: sy, dz: sz, scale: 1 } : undefined;
+  const items = [{ a: sa, m: `rider/${riderCode}.m2`, t: '', fit }];
+  // its helm / shoulders / weapons, posed with the body at deploy: seated at the same point
+  (rb.items || []).forEach((it, n) => {
+    const k = `rider/${riderCode}_i${n}`;
+    ovr[k + '.m2'] = it.m2; ovr[k + '00.skin'] = it.skin;
+    if (it.t) ovr[k + '.blp'] = it.t;
+    items.push({ a: sa, m: k + '.m2', t: it.t ? k + '.blp' : '', fit });
+  });
+  return { item: items[0], items, ovr };
 }
 // the mount model of the open card (creature path, display or Display editor base), '' when none
 function openMount(c = cur) {
@@ -1346,7 +1355,7 @@ function retailPaneSrc(prm, mount) {
   const rd = riderParts(mountSet.has(mount) ? mount : openMount(), prm.get('model'));
   if (rd) {
     let o = {}; try { o = JSON.parse(prm.get('ovr') || '{}') || {}; } catch (e) {}
-    prm.set('items', JSON.stringify([rd.item])); prm.set('ovr', JSON.stringify({ ...o, ...rd.ovr }));   // keeps pack skins
+    prm.set('items', JSON.stringify(rd.items)); prm.set('ovr', JSON.stringify({ ...o, ...rd.ovr }));   // keeps pack skins
   }
   return 'pane.html?' + prm;
 }
@@ -1379,7 +1388,7 @@ function paneUrl(p, extra = {}) {
   // a pane drawing another model (a pack repointing the displays, a Display editor model swap) is
   // still an option of the open mount: it seats the rider too (I-400)
   const rd = riderParts(mountSet.has(p.model) ? p.model : openMount(), p.model);
-  if (rd) { items.push(rd.item); ovr = { ...(ovr || {}), ...rd.ovr }; }
+  if (rd) { items.push(...rd.items); ovr = { ...(ovr || {}), ...rd.ovr }; }
   if (items.length) prm.set('items', JSON.stringify(items));
   if (p.scene) prm.set('scene', p.scene);
   if (ovr) prm.set('ovr', JSON.stringify(ovr));

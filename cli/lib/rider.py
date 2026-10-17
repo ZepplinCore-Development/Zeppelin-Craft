@@ -139,3 +139,58 @@ def bake(m2: bytes, skin: bytes, mesh: Sequence[int], textures: Dict[int, str]) 
     sk += b''.join(batches)
     struct.pack_into('<II', sk, 4 + 8 * 4, len(batches), at)
     return bytes(out), bytes(sk)
+
+
+def _apply(m: list, p) -> list:
+    return [m[r][0] * p[0] + m[r][1] * p[1] + m[r][2] * p[2] + m[r][3] for r in range(3)]
+
+
+def attachment_matrix(body_m2: bytes, att_id: int, anim_id: int = MOUNT) -> Optional[list]:
+    """The body's attachment att_id (11 head, 5 / 6 shoulders, 1 / 2 hands) in the posed body's space:
+    its bone's posed matrix x a translation to the attachment point. None when the body has none."""
+    mats = bone_matrices(body_m2, anim_id)
+    n, o = _arr(body_m2, 0xF0)
+    for i in range(n):
+        aid, bone = struct.unpack_from('<IH', body_m2, o + 40 * i)
+        if aid == att_id and bone < len(mats):
+            px, py, pz = struct.unpack_from('<3f', body_m2, o + 40 * i + 8)
+            return _mul(mats[bone], [[1, 0, 0, px], [0, 1, 0, py], [0, 0, 1, pz], [0, 0, 0, 1]])
+    return None
+
+
+def bake_item(item_m2: bytes, at: list) -> bytes:
+    """An attached item (helm / shoulder / weapon model) moved into a seated body's space: its own rest
+    frame skinned (its stand pose), then the body's posed attachment matrix applied; every bone track
+    cleared like bake(). Attached at the mount's seat beside the seated body, it sits where the body
+    wears it (F-220: the seated rider keeps its helm, shoulders and weapon)."""
+    out = bytearray(item_m2)
+    own = bone_matrices(item_m2, 0)
+    nv, ov = _arr(item_m2, 0x3C)
+    for i in range(nv):
+        v = ov + 48 * i
+        p = struct.unpack_from('<3f', item_m2, v)
+        nrm = struct.unpack_from('<3f', item_m2, v + 20)
+        w = item_m2[v + 12:v + 16]
+        bi = item_m2[v + 16:v + 20]
+        P, N, tot = [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], sum(w) or 1
+        for k in range(4):
+            if not w[k] or bi[k] >= len(own):
+                continue
+            M, f = own[bi[k]], w[k] / tot
+            q_ = _apply(M, p)
+            for r in range(3):
+                P[r] += f * q_[r]
+                N[r] += f * (M[r][0] * nrm[0] + M[r][1] * nrm[1] + M[r][2] * nrm[2])
+        if not any(w):
+            P, N = list(p), list(nrm)
+        P = _apply(at, P)
+        N = [at[r][0] * N[0] + at[r][1] * N[1] + at[r][2] * N[2] for r in range(3)]
+        struct.pack_into('<3f', out, v, *P)
+        ln = math.sqrt(sum(c * c for c in N)) or 1.0
+        struct.pack_into('<3f', out, v + 20, *(c / ln for c in N))
+    nb, ob = _arr(item_m2, 0x2C)
+    for i in range(nb):
+        for t in (16, 36, 56):
+            struct.pack_into('<II', out, ob + 88 * i + t + 4, 0, 0)
+            struct.pack_into('<II', out, ob + 88 * i + t + 12, 0, 0)
+    return bytes(out)

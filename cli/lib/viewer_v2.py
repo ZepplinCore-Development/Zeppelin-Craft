@@ -1119,6 +1119,7 @@ def _variant_code(path: str) -> str:
 
 
 RIDER_VERSION = 2
+SEAT_ATTACH = (11, 5, 6, 1, 2)      # head, shoulders, hands: the items a seated rider keeps
 RIDER_CACHE = Path('/workspace/project/logs/viewer_riders.json')
 
 
@@ -1151,6 +1152,30 @@ def riders(dep: 'Deployer', bd: Dict[str, dict], log: Callable = print) -> None:
         m = dep.maps.get(b['map']) or json.loads((dep.maps_dir / f"{b['map']}.json").read_text())
         b['rider'] = {'m2': hit['m2'], 'skin': hit['skin'],
                       'tex': {k: m.get(v) for k, v in (b.get('tex_keys') or {}).items() if m.get(v)}}
+        # F-220: the rider's own items (helm, shoulders, weapons), posed with the body and seated beside it
+        seated = []
+        root = m.get(b['model'])
+        for it in b.get('seat_items') or []:
+            if it.get('col') or it.get('a') not in SEAT_ATTACH:
+                continue
+            ik = f"{RIDER_VERSION}:{root}:{it['a']}:{m.get(it['m'])}"
+            ih = cache.get('i:' + ik)
+            if not (ih and (cas_dir / ih['m2']).exists()):
+                im, isk = m.get(it['m']), m.get(it['m'][:-3] + '00.skin')
+                if not (root and im and isk):
+                    continue
+                try:
+                    at = rider.attachment_matrix((cas_dir / root).read_bytes(), it['a'])
+                    if at is None:
+                        continue
+                    ih = cache['i:' + ik] = {'m2': dep.store.put_bytes(rider.bake_item((cas_dir / im).read_bytes(), at), '.m2'),
+                                             'skin': isk}
+                except Exception as ex:
+                    log(f'  rider {code} item {it["m"]}: skipped - {ex}')
+                    continue
+            seated.append({'m2': ih['m2'], 'skin': ih['skin'], 't': m.get(it.get('t') or '') or ''})
+        if seated:
+            b['rider']['items'] = seated
     RIDER_CACHE.write_text(json.dumps(cache))
     log(f'  riders: {sum(1 for b in bd.values() if b.get("rider"))} seated bodies ({n_new} baked)')
 
@@ -1159,7 +1184,7 @@ def linked_riders(dep: 'Deployer', links: Dict[int, List[Tuple[str, int]]], log:
     """F-220: the riders the world DB puts on each mount display (creature X shows rider display R
     and rides mount M), each seated in its Mount pose like the race bodies (lib/rider). The picker's
     Rider toggle on M offers them first. -> {'bodies': {'d<R>': pane}, 'links': {M: [{code, creature,
-    display}]}}. The rider's weapons and helm/shoulder attachments are not seated (bare body)."""
+    display}]}}. The rider's helm, shoulders and weapons are posed with it and seated too (riders())."""
     cdi, cmd = dep.result['effective_dbc']
     bd: Dict[str, dict] = {}
     for rdid in sorted({r for rows in links.values() for _, r in rows}):
@@ -1174,14 +1199,9 @@ def linked_riders(dep: 'Deployer', links: Dict[int, List[Tuple[str, int]]], log:
             if stock is None:
                 continue
             o = ai.Option('stock', ['stock'], {path: stock})
-        saved = dep.equipment.pop(rdid, None)
-        try:
-            pn = dep.pane(path, o, rdid)
-        finally:
-            if saved is not None:
-                dep.equipment[rdid] = saved
+        pn = dep.pane(path, o, rdid)
         if pn:
-            pn.pop('items', None)
+            pn['seat_items'] = pn.pop('items', None) or []      # seated with the body (riders())
             mvd._pane_cameras([pn])
             pn['code'] = f'd{rdid}'
             bd[pn['code']] = pn
