@@ -1,0 +1,144 @@
+From 700113b4f685dfaba0d2300b6009b25b3cedaffe Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 15:30:28 +0000
+Subject: [PATCH] Zeppelin F-223: modern WMO groups and shader ids
+ (wxl-modern-wmo gap)
+
+- Group optional-chunk walk steps over modern-only tags (MOBS etc.) instead of shifting every later read
+- MOMT shader ids above 6 remapped to the native effect of the same layer family at load
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Source/WorldClient/MapObjRead.cpp | 63 +++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+
+diff --git a/WoW/Source/WorldClient/MapObjRead.cpp b/WoW/Source/WorldClient/MapObjRead.cpp
+index 5fd27bc..80bb4ca 100644
+--- a/WoW/Source/WorldClient/MapObjRead.cpp
++++ b/WoW/Source/WorldClient/MapObjRead.cpp
+@@ -20,6 +20,56 @@ TSList<CMapObj, TSGetExplicitLink<CMapObj> > CMapObj::s_asyncLoadQueue = TSExpli
+ // STATIC: 0x00ADFC58
+ TSList<CMapObjGroup, TSGetExplicitLink<CMapObjGroup> > CMapObj::s_loadedGroups = TSExplicitList<CMapObjGroup, offsetof(CMapObjGroup, m_asyncLoadLink)>();
+ 
++// Not in the original (F-162 modern-wmo): modern (Legion+) WMO support for the few modern roots/groups we ship.
++// The client walks a group's optional sub-chunks by position, so a chunk it has no slot for (MOBS right
++// after MOBA, in every Cataclysm+ group) shifts every later read and yields a garbage BSP. These helpers
++// step over an explicit list of modern-only tags; anything else is read exactly as stock reads it.
++static bool IsModernOnlyGroupChunk(uint32_t token) {
++    switch (token) {
++        case 0x4D4F4253: // MOBS  shadow batches
++        case 0x4D505932: // MPY2  32-bit poly list
++        case 0x4D4F5658: // MOVX  32-bit indices
++        case 0x4D4F5147: // MOQG  query faces
++        case 0x4D4F4C50: // MOLP  point-light refs
++        case 0x4D4F4C53: // MOLS  spot-light refs
++        case 0x4D4F4C56: // MOLV  light vertices
++        case 0x4D4F4332: // MOC2  extra colour vertices
++        case 0x4D4F4458: // MODX  doodad-set refs
++            return true;
++
++        default:
++            return false;
++    }
++}
++
++static SIffChunk* SkipModernGroupChunks(SIffChunk* chunk, const uint8_t* end) {
++    while (reinterpret_cast<const uint8_t*>(chunk) + sizeof(SIffChunk) <= end && IsModernOnlyGroupChunk(chunk->m_token)) {
++        chunk = reinterpret_cast<SIffChunk*>(reinterpret_cast<uint8_t*>(&chunk->m_data) + chunk->m_size);
++    }
++
++    return chunk;
++}
++
++// Not in the original (F-162 modern-wmo): the client has pixel-shader effects 0..6 only and indexes its effect table unchecked, so a
++// modern MOMT shader id selects past the table. Map each modern id onto the native effect of the same layer
++// family (wxl-modern-wmo's NativeShaderFor): two-layer diffuse ids -> 6, env-metal ids -> 5, the rest
++// (including 21 MapObjLod, a single-layer shader) -> 0.
++static uint32_t NativeWmoShaderFor(uint32_t shader) {
++    switch (shader) {
++        case 0: case 1: case 2: case 3: case 4: case 5: case 6:
++            return shader;
++
++        case 7: case 9: case 13: case 15: case 18: case 19: case 20:
++            return 6;
++
++        case 11: case 12: case 17:
++            return 5;
++
++        default:
++            return 0;
++    }
++}
++
+ // VERIFY: 477d94a9 manual
+ // OFFSET: 0x007D72D0
+ void CMapObj::CreateMaterials() {
+@@ -68,6 +118,10 @@ void CMapObj::Load() {
+     this->m_materialList = reinterpret_cast<SMOMaterial*>(&chunk->m_data);
+     this->m_materialsCount = chunk->m_size / sizeof(SMOMaterial);
+ 
++    for (int32_t i = 0; i < static_cast<int32_t>(this->m_materialsCount); i++) {
++        this->m_materialList[i].m_shader = NativeWmoShaderFor(this->m_materialList[i].m_shader); // Not in the original (F-162 modern-wmo): modern shader ids remapped
++    }
++
+     chunk = reinterpret_cast<SIffChunk*>(reinterpret_cast<uint8_t*>(&chunk->m_data) + chunk->m_size);
+     this->m_groupNameList = reinterpret_cast<char*>(&chunk->m_data);
+     this->m_groupNameSize = chunk->m_size;
+@@ -286,17 +340,22 @@ CMapObjGroup* CMapObj::AttenTransVerts(CMapObjGroup* group) {
+ void CMapObjGroup::CreateOptionalDataPointers(SIffChunk* dataChunk) {
+     SIffChunk* chunk = dataChunk;
+     uint32_t flags = this->m_flags;
++    // Not in the original (F-162 modern-wmo): end of the group file, for SkipModernGroupChunks
++    const uint8_t* end = static_cast<const uint8_t*>(this->m_filePtr) + this->m_fileSize;
++    chunk = SkipModernGroupChunks(chunk, end); // Not in the original (F-162 modern-wmo): step over MOBS etc.
+ 
+     if (flags & 0x200) {
+         this->m_lightRefList = reinterpret_cast<uint16_t*>(&chunk->m_data);
+         this->m_lightRefListCount = chunk->m_size >> 1;
+         chunk = reinterpret_cast<SIffChunk*>(reinterpret_cast<uint8_t*>(&chunk->m_data) + chunk->m_size);
++        chunk = SkipModernGroupChunks(chunk, end); // Not in the original (F-162 modern-wmo): step over modern-only chunks
+     }
+ 
+     if (flags & 0x800) {
+         this->m_doodadRefList = reinterpret_cast<uint16_t*>(&chunk->m_data);
+         this->m_doodadRefListCount = chunk->m_size >> 1;
+         chunk = reinterpret_cast<SIffChunk*>(reinterpret_cast<uint8_t*>(&chunk->m_data) + chunk->m_size);
++        chunk = SkipModernGroupChunks(chunk, end); // Not in the original (F-162 modern-wmo): step over modern-only chunks
+     }
+ 
+     if (flags & 0x1) {
+@@ -306,12 +365,14 @@ void CMapObjGroup::CreateOptionalDataPointers(SIffChunk* dataChunk) {
+         uint32_t faceSize = chunk->m_size;
+         uint16_t* faces = reinterpret_cast<uint16_t*>(&chunk->m_data);
+         chunk = reinterpret_cast<SIffChunk*>(reinterpret_cast<uint8_t*>(&chunk->m_data) + faceSize);
++        chunk = SkipModernGroupChunks(chunk, end); // Not in the original (F-162 modern-wmo): step over modern-only chunks
+         this->m_cAaBspNodePtr1.Set(nodes, nodeSize >> 4, faces, faceSize >> 1, this->m_bbox);
+     }
+ 
+     if (this->m_flags & 0x400) {
+         for (uint32_t i = 0; i < 4; i++) {
+             chunk = reinterpret_cast<SIffChunk*>(reinterpret_cast<uint8_t*>(&chunk->m_data) + chunk->m_size);
++            chunk = SkipModernGroupChunks(chunk, end); // Not in the original (F-162 modern-wmo): step over modern-only chunks
+         }
+     }
+ 
+@@ -320,6 +381,7 @@ void CMapObjGroup::CreateOptionalDataPointers(SIffChunk* dataChunk) {
+         this->m_colorVertexList = reinterpret_cast<CImVector*>(&chunk->m_data);
+         this->m_colorVertexListSize = chunk->m_size >> 2;
+         chunk = reinterpret_cast<SIffChunk*>(reinterpret_cast<uint8_t*>(&chunk->m_data) + chunk->m_size);
++        chunk = SkipModernGroupChunks(chunk, end); // Not in the original (F-162 modern-wmo): step over modern-only chunks
+ 
+         if (!(parent->m_header->m_flags & 0x8)) {
+             this->FixColorVertexAlpha();
+@@ -371,6 +433,7 @@ void CMapObjGroup::CreateOptionalDataPointers(SIffChunk* dataChunk) {
+         this->m_textureVertexList2 = reinterpret_cast<C2Vector*>(&chunk->m_data);
+         this->m_textureVertexList2Count = chunk->m_size >> 3;
+         chunk = reinterpret_cast<SIffChunk*>(reinterpret_cast<uint8_t*>(&chunk->m_data) + chunk->m_size);
++        chunk = SkipModernGroupChunks(chunk, end); // Not in the original (F-162 modern-wmo): step over modern-only chunks
+     }
+ 
+     if (flags & 0x1000000) {
+-- 
+2.34.1
+

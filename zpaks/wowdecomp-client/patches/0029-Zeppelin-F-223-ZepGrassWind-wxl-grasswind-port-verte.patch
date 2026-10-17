@@ -1,0 +1,529 @@
+From 7782d7564dc9661911ab81851ac86bafc25e69f2 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 15:30:28 +0000
+Subject: [PATCH] Zeppelin F-223: ZepGrassWind (wxl-grasswind port) +
+ vertex-shader and clutter-constant seams
+
+- RenderScript::OnVertexShaderCreate lets an extension swap a vertex shader's bytecode at create time
+- RenderScript::OnDetailDoodadConstants exposes the clutter constant block (c14..c21 are free)
+- ZepGrassWind injects wind + player parting into the stock clutter VS; handles Wine's d3dcompiler syntax
+- ZEP_GRASS_AMPLITUDE test knob
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ .../Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp   |   8 +-
+ .../Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp    |   8 +-
+ Engine/Source/Gx/CMakeLists.txt               |   5 +
+ Extensions/ZepGrassWind/src/ZepGrassWind.cpp  | 334 ++++++++++++++++++
+ WoW/Source/Extension/ExtensionMgr.h           |   3 +
+ .../Extension/ScriptDefines/RenderScript.cpp  |   8 +
+ .../Extension/ScriptDefines/RenderScript.h    |  14 +
+ WoW/Source/WorldClient/DetailDoodad.cpp       |   4 +
+ 8 files changed, 382 insertions(+), 2 deletions(-)
+ create mode 100644 Extensions/ZepGrassWind/src/ZepGrassWind.cpp
+
+diff --git a/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp b/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp
+index 3b31bb2..cfef3ad 100644
+--- a/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp
++++ b/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp
+@@ -12,6 +12,7 @@
+ #include "Engine/Source/Os/TimeManager.h"
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "ThirdParty/nvapi/nvapi.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ typedef IDirect3D9* (WINAPI* Direct3DCreate9Proc)(UINT sdkVersion);
+ 
+@@ -835,7 +836,12 @@ void CGxDeviceD3d::IShaderCreateVertex(CGxShader* shader) {
+ 
+     LPDIRECT3DVERTEXSHADER9 vertexShader;
+ 
+-    if (shader->m_code.Count() && this->m_d3dDevice->CreateVertexShader(reinterpret_cast<const DWORD*>(shader->m_code.m_data), &vertexShader) == D3D_OK) {
++    // Not in the original: a script may create this shader from other bytecode.
++    const void* code = shader->m_code.m_data;
++    uint32_t size = shader->m_code.Count();
++    sExtensionMgr->OnVertexShaderCreate(shader, code, size);
++
++    if (size && this->m_d3dDevice->CreateVertexShader(reinterpret_cast<const DWORD*>(code), &vertexShader) == D3D_OK) {
+         shader->m_apiSpecific = vertexShader;
+         shader->m_valid = 1;
+     }
+diff --git a/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp b/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp
+index 10a24bc..6f3d5de 100644
+--- a/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp
++++ b/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp
+@@ -13,6 +13,7 @@
+ #include "Engine/Source/Os/TimeManager.h"
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "ThirdParty/nvapi/nvapi.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ typedef IDirect3D9* (WINAPI* Direct3DCreate9Proc)(UINT sdkVersion);
+ 
+@@ -828,7 +829,12 @@ void CGxDeviceD3d9Ex::IShaderCreateVertex(CGxShader* shader) {
+ 
+     LPDIRECT3DVERTEXSHADER9 vertexShader;
+ 
+-    if (shader->m_code.Count() && this->m_d3dDevice->CreateVertexShader(reinterpret_cast<const DWORD*>(shader->m_code.m_data), &vertexShader) == D3D_OK) {
++    // Not in the original: a script may create this shader from other bytecode.
++    const void* code = shader->m_code.m_data;
++    uint32_t size = shader->m_code.Count();
++    sExtensionMgr->OnVertexShaderCreate(shader, code, size);
++
++    if (size && this->m_d3dDevice->CreateVertexShader(reinterpret_cast<const DWORD*>(code), &vertexShader) == D3D_OK) {
+         shader->m_apiSpecific = vertexShader;
+         shader->m_valid = 1;
+     }
+diff --git a/Engine/Source/Gx/CMakeLists.txt b/Engine/Source/Gx/CMakeLists.txt
+index fa1bc0f..5b8abff 100644
+--- a/Engine/Source/Gx/CMakeLists.txt
++++ b/Engine/Source/Gx/CMakeLists.txt
+@@ -25,3 +25,8 @@ if (WIN32)
+             opengl32.lib
+     )
+ endif ()
++
++target_link_libraries(Gx
++    PRIVATE
++        Extension
++)
+diff --git a/Extensions/ZepGrassWind/src/ZepGrassWind.cpp b/Extensions/ZepGrassWind/src/ZepGrassWind.cpp
+new file mode 100644
+index 0000000..eda75c2
+--- /dev/null
++++ b/Extensions/ZepGrassWind/src/ZepGrassWind.cpp
+@@ -0,0 +1,334 @@
++// ZepGrassWind: grass sway and player parting on the ground clutter (Zeppelin F-224). Source
++// counterpart of WarcraftXL's wxl-grasswind, same shader injection and constants:
++//
++//   RenderScript::OnVertexShaderCreate      a stock detail-doodad vertex shader (recognised by its
++//                                           version token and exact length) is disassembled with
++//                                           d3dcompiler_47, the motion block is inserted after the
++//                                           view-space transform, and the shader is created from the
++//                                           reassembled bytecode (cached per stock shader).
++//   RenderScript::OnDetailDoodadConstants   once a frame the wind and parting constants are written
++//                                           into c14..c21 of the clutter constant block, which every
++//                                           clutter draw uploads whole.
++//
++// The motion displaces each blade in the world plane: two travelling sine waves (the wind) weighted
++// by 1 - uv.y (base anchored, tip loose), plus a repulsion cone around the player. Cosmetic only; if
++// d3dcompiler_47 or its D3DAssemble is missing, grass renders stock.
++
++#include <windows.h>
++#include <d3dcommon.h>
++#include <cmath>
++#include <cstdint>
++#include <cstdlib>
++#include <cstring>
++#include <cstdio>
++#include <string>
++#include <vector>
++#include "Engine/Source/Gx/CGxDevice/CGxShader.h"
++#include "Engine/Source/Os/TimeManager.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Object/ObjectClient/Unit_C.h"
++#include "WoW/Source/ObjectMgrClient/ObjectMgrClient.h"
++#include "WoW/Source/WorldClient/DayNight.h"
++#include "WoW/Source/WorldClient/DayNight__DNInfo.h"
++
++namespace {
++
++typedef HRESULT(WINAPI* AssembleFn)(LPCVOID, SIZE_T, LPCSTR, const D3D_SHADER_MACRO*, ID3DInclude*, UINT, ID3DBlob**, ID3DBlob**);
++typedef HRESULT(WINAPI* DisassembleFn)(LPCVOID, SIZE_T, UINT, LPCSTR, ID3DBlob**);
++
++constexpr float kEps = 1.0e-3f;
++constexpr float kJitter = 1.7f;
++constexpr float kTwoPi = 6.2831853f;
++constexpr uint32_t kFirstFreeRegister = 14;
++
++// Byte lengths of the six stock detail-doodad vertex shaders per profile: length plus version token
++// identify a grass shader at create time.
++constexpr uint32_t kStockLenVs20[6] = { 552, 644, 788, 1428, 1520, 1664 };
++constexpr uint32_t kStockLenVs30[6] = { 548, 676, 844, 1328, 1456, 1624 };
++
++// wxl-grasswind's defaults.
++struct Wind {
++    float directionDeg = 45.0f;
++    float speed = 3.0f;
++    float amplitude = 0.060f;
++    float wavelength = 18.0f;
++    float crossAmplitude = 0.02f;
++    float crossWavelength = 6.5f;
++    float crossAngleDeg = 35.0f;
++    float lean = 0.35f;
++    float variance = 0.6f;
++    float distanceFade = 0.015f;
++    float anchor = 0.3f;
++} s_wind;
++
++struct Parting {
++    float radius = 2.0f;
++    float forceCenter = 0.5f;
++    float forceEdge = 0.0f;
++    float coneHeight = 0.5f;
++    float minHeight = 0.3f;
++} s_parting;
++
++// Inserted after the world position lands in view-space r0, before the projection (wxl-grasswind's
++// block verbatim). c0..c2 are the clutter modelview rotation, c13.y = 1.0 the shader's own constant,
++// r2..r5 free scratch; constants c14..c21.
++const char* kMotionInject =
++    "    dp3 r2.x, c0, r0\n"
++    "    dp3 r2.y, c1, r0\n"
++    "    add r2.xy, r2, c14\n"
++    "    mov r4.xy, r2\n"
++    "    dp3 r3.z, c2, r0\n"
++    "    add r3.z, r3.z, c14.z\n"
++    "    add r3.z, r3.z, -c16.z\n"
++    "    add r3.z, r3.z, -c15.z\n"
++    "    mul_sat r4.z, r3.z, c15.x\n"
++    "    add r2.xy, r2, -c16\n"
++    "    mul r2.z, r2.x, r2.x\n"
++    "    mad r2.z, r2.y, r2.y, r2.z\n"
++    "    add r2.z, r2.z, c15.w\n"
++    "    rsq r2.w, r2.z\n"
++    "    mul r3.x, r2.z, r2.w\n"
++    "    mul_sat r3.y, r3.x, c15.y\n"
++    "    mad r3.y, c17.x, r3.y, c17.y\n"
++    "    slt r3.z, r3.x, c17.z\n"
++    "    mul r3.y, r3.y, r3.z\n"
++    "    mul r3.y, r3.y, r4.z\n"
++    "    mul r3.y, r3.y, r2.w\n"
++    "    mul r2.xy, r2, r3.y\n"
++    "    add r5.z, c13.y, -v3.y\n"
++    "    add r5.z, r5.z, c21.z\n"
++    "    mul_sat r5.z, r5.z, c21.w\n"
++    "    mul r5.z, r5.z, r5.z\n"
++    "    mov r5.w, c13.y\n"
++    "    mad r5.w, r0.z, c20.w, r5.w\n"
++    "    rcp r5.w, r5.w\n"
++    "    mul r5.z, r5.z, r5.w\n"
++    "    mul r3.x, r4.x, c20.x\n"
++    "    mad r3.x, r4.y, c20.y, r3.x\n"
++    "    frc r3.x, r3.x\n"
++    "    mad r2.z, r3.x, c21.y, c21.x\n"
++    "    mul r5.z, r5.z, r2.z\n"
++    "    mul r3.x, r3.x, c20.z\n"
++    "    mul r3.y, r4.x, c18.z\n"
++    "    mad r3.y, r4.y, c18.w, r3.y\n"
++    "    add r3.y, r3.y, r3.x\n"
++    "    add r3.y, r3.y, c17.w\n"
++    "    mul r3.z, r4.x, c19.z\n"
++    "    mad r3.z, r4.y, c19.w, r3.z\n"
++    "    add r3.z, r3.z, r3.x\n"
++    "    add r3.z, r3.z, c14.w\n"
++    "    sincos r4.xy, r3.y\n"
++    "    add r4.w, r4.y, c16.w\n"
++    "    sincos r5.xy, r3.z\n"
++    "    mul r3.zw, c18.xxxy, r4.wwww\n"
++    "    mad r3.zw, c19.xxxy, r5.yyyy, r3\n"
++    "    mul r3.zw, r3, r5.zzzz\n"
++    "    add r2.xy, r2, r3.zwzw\n"
++    "    mul r3.xyz, c0, r2.x\n"
++    "    mad r3.xyz, c1, r2.y, r3.xyz\n"
++    "    add r0.xyz, r0, r3\n";
++
++struct Injected {
++    uint32_t stockLen;
++    ID3DBlob* blob;  // kept for the life of the process
++};
++
++std::vector<Injected> s_cache;
++bool s_compilerMissing;
++uint32_t s_injected;
++
++bool IsStockGrassShader(const uint8_t* code, uint32_t len) {
++    if (!code || len < 8) {
++        return false;
++    }
++
++    uint32_t token;
++    std::memcpy(&token, code, 4);
++    const uint32_t* lens = token == 0xFFFE0200u ? kStockLenVs20 : token == 0xFFFE0300u ? kStockLenVs30 : nullptr;
++
++    for (uint32_t i = 0; lens && i < 6; i++) {
++        if (lens[i] == len) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
++ID3DBlob* BuildInjected(const uint8_t* stock, uint32_t len) {
++    for (const Injected& e : s_cache) {
++        if (e.stockLen == len) {
++            return e.blob;
++        }
++    }
++
++    if (s_compilerMissing) {
++        return nullptr;
++    }
++
++    HMODULE compiler = GetModuleHandleA("d3dcompiler_47.dll");
++    compiler = compiler ? compiler : LoadLibraryA("d3dcompiler_47.dll");
++    auto disassemble = reinterpret_cast<DisassembleFn>(compiler ? reinterpret_cast<void*>(GetProcAddress(compiler, "D3DDisassemble")) : nullptr);
++    auto assemble = reinterpret_cast<AssembleFn>(compiler ? reinterpret_cast<void*>(GetProcAddress(compiler, "D3DAssemble")) : nullptr);
++
++    if (!disassemble || !assemble) {
++        s_compilerMissing = true;
++        sExtensionMgr->Log("ZepGrassWind: d3dcompiler_47 D3DDisassemble/D3DAssemble unavailable, grass stays static");
++        return nullptr;
++    }
++
++    ID3DBlob* text = nullptr;
++
++    if (FAILED(disassemble(stock, len, 0, nullptr, &text)) || !text) {
++        return nullptr;
++    }
++
++    std::string source(static_cast<const char*>(text->GetBufferPointer()));
++    text->Release();
++    // The world-position add; native d3dcompiler_47 prints it bare, Wine's prints explicit .xyzw swizzles.
++    size_t at = source.find("add r0, r0, c3");
++
++    if (at == std::string::npos) {
++        at = source.find("add r0.xyzw, r0.xyzw, c3.xyzw");
++    }
++
++    if (at == std::string::npos || (at = source.find('\n', at)) == std::string::npos) {
++        sExtensionMgr->Log("ZepGrassWind: injection anchor missing (shader length %u)", len);
++
++        return nullptr;
++    }
++
++    source.insert(at + 1, kMotionInject);
++
++    // Wine's disassembler writes "def c13 = 0.00000000e+00, ...", which its assembler rejects (both the
++    // " = " and the exponent form); re-emit every def line as "def cN, a, b, c, d" in plain decimal.
++    for (size_t def = source.find("def c"); def != std::string::npos; def = source.find("def c", def + 1)) {
++        size_t end = source.find('\n', def);
++        std::string line = source.substr(def, end == std::string::npos ? std::string::npos : end - def);
++        uint32_t reg = 0;
++        float v[4] = {};
++
++        if (sscanf(line.c_str(), "def c%u = %f, %f, %f, %f", &reg, &v[0], &v[1], &v[2], &v[3]) == 5) {
++            char fixed[160];
++            snprintf(fixed, sizeof(fixed), "def c%u, %.8f, %.8f, %.8f, %.8f", reg, v[0], v[1], v[2], v[3]);
++            source.replace(def, line.size(), fixed);
++        }
++    }
++
++    // Wine names the second colour output "specular"; the assembler only accepts dcl_color1.
++    for (size_t spec = source.find("dcl_specular0"); spec != std::string::npos; spec = source.find("dcl_specular0", spec)) {
++        source.replace(spec, 13, "dcl_color1");
++    }
++
++    ID3DBlob* code = nullptr;
++    ID3DBlob* error = nullptr;
++
++    if (FAILED(assemble(source.c_str(), source.size(), "grassMotion", nullptr, nullptr, 0, &code, &error)) || !code) {
++        sExtensionMgr->Log("ZepGrassWind: assemble failed (shader length %u): %s", len, error ? static_cast<const char*>(error->GetBufferPointer()) : "?");
++
++
++        if (error) error->Release();
++        if (code) code->Release();
++        return nullptr;
++    }
++
++    if (error) {
++        error->Release();
++    }
++
++    s_cache.push_back({ len, code });
++    sExtensionMgr->Log("ZepGrassWind: motion injected into a clutter vertex shader (%u -> %u bytes)", len, static_cast<uint32_t>(code->GetBufferSize()));
++    return code;
++}
++
++bool PlayerPosition(C3Vector& out) {
++    WOWGUID guid = ClntObjMgrGetActivePlayer();
++
++    if (!guid) {
++        return false;
++    }
++
++    CGUnit_C* unit = static_cast<CGUnit_C*>(ClntObjMgrObjectPtr(guid, TYPEMASK_UNIT, __FILE__, __LINE__));
++
++    if (!unit) {
++        return false;
++    }
++
++    out = unit->GetPosition();
++    return true;
++}
++
++class ZepGrassWindRenderScript : public RenderScript {
++    public:
++    ZepGrassWindRenderScript() : RenderScript("ZepGrassWindRenderScript") {}
++
++    void OnVertexShaderCreate(CGxShader& shader, const void*& code, uint32_t& size) override {
++        if (!IsStockGrassShader(static_cast<const uint8_t*>(code), size)) {
++            return;
++        }
++
++        if (ID3DBlob* injected = BuildInjected(static_cast<const uint8_t*>(code), size)) {
++            code = injected->GetBufferPointer();
++            size = static_cast<uint32_t>(injected->GetBufferSize());
++            s_injected++;
++        }
++    }
++
++    void OnDetailDoodadConstants(float* constants, uint32_t registerCount) override {
++        if (registerCount < kFirstFreeRegister + 8 || s_cache.empty()) {
++            return;
++        }
++
++        const C3Vector& camera = DayNight::GetInfo()->m_cameraPos;
++        C3Vector player = camera;
++        bool repulsion = PlayerPosition(player);
++
++        static const bool s_envRead = [] {
++            // Test knob: ZEP_GRASS_AMPLITUDE overrides the wind amplitude (0 = no wind) for A/B screenshots.
++            if (const char* amp = getenv("ZEP_GRASS_AMPLITUDE")) {
++                s_wind.amplitude = static_cast<float>(atof(amp));
++                sExtensionMgr->Log("ZepGrassWind: amplitude %.3f from ZEP_GRASS_AMPLITUDE", s_wind.amplitude);
++            }
++
++            return true;
++        }();
++        (void)s_envRead;
++
++        const Wind& w = s_wind;
++        const Parting& p = s_parting;
++        const float t = (OsGetAsyncTimeMs() % 1000000u) * 0.001f;
++        const float a1 = w.directionDeg * (kTwoPi / 360.0f);
++        const float a2 = (w.directionDeg + w.crossAngleDeg) * (kTwoPi / 360.0f);
++        const float k1 = kTwoPi / (w.wavelength > 0.1f ? w.wavelength : 0.1f);
++        const float k2 = kTwoPi / (w.crossWavelength > 0.1f ? w.crossWavelength : 0.1f);
++        const float d1[2] = { std::cos(a1), std::sin(a1) };
++        const float d2[2] = { std::cos(a2), std::sin(a2) };
++        const float phase1 = -std::fmod(k1 * w.speed * t, kTwoPi);
++        const float phase2 = -std::fmod(k2 * w.speed * 1.37f * t, kTwoPi);
++        const float center = repulsion ? p.forceCenter : 0.0f;
++        const float edge = repulsion ? p.forceEdge : 0.0f;
++        const float coneH = p.coneHeight > 0.01f ? p.coneHeight : 0.01f;
++        const float radius = p.radius > 0.01f ? p.radius : 0.01f;
++        const float var = std::fmin(std::fmax(w.variance, 0.0f), 1.0f);
++        const float anchor = std::fmin(std::fmax(w.anchor, 0.0f), 0.9f);
++
++        const float block[8][4] = {
++            { camera.x, camera.y, camera.z, phase2 },                                  // c14
++            { 1.0f / coneH, 1.0f / radius, p.minHeight, kEps },                        // c15
++            { player.x, player.y, player.z, w.lean },                                  // c16
++            { edge - center, center, radius, phase1 },                                 // c17
++            { d1[0] * w.amplitude, d1[1] * w.amplitude, d1[0] * k1, d1[1] * k1 },      // c18
++            { d2[0] * w.crossAmplitude, d2[1] * w.crossAmplitude, d2[0] * k2, d2[1] * k2 },  // c19
++            { 0.737f, 1.311f, kJitter, w.distanceFade > 0.0f ? w.distanceFade : 0.0f },  // c20
++            { 1.0f - var * 0.5f, var, -anchor, 1.0f / (1.0f - anchor) },               // c21
++        };
++
++        std::memcpy(constants + kFirstFreeRegister * 4, block, sizeof(block));
++    }
++};
++
++}
++
++void AddZepGrassWindExtension() {
++    new ZepGrassWindRenderScript();
++}
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 82b9350..ec461f0 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -11,6 +11,7 @@ class C3Vector;
+ class CDataStore;
+ class CGObject_C;
+ class CGUnit_C;
++class CGxShader;
+ class CM2Model;
+ class CM2Shared;
+ class CMapArea;
+@@ -97,6 +98,8 @@ class ExtensionMgr {
+     void OnMinimapTileDirectory(int32_t tileX, int32_t tileY, const char*& directory);
+ 
+     public: /* RenderScript */
++    void OnVertexShaderCreate(CGxShader* shader, const void*& code, uint32_t& size);
++    void OnDetailDoodadConstants(float* constants, uint32_t registerCount);
+     void OnFrameBegin(float elapsedSec);
+     void OnWorldRendered();
+     void OnFrameEnd();
+diff --git a/WoW/Source/Extension/ScriptDefines/RenderScript.cpp b/WoW/Source/Extension/ScriptDefines/RenderScript.cpp
+index 15e4f29..f92ec6a 100644
+--- a/WoW/Source/Extension/ScriptDefines/RenderScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/RenderScript.cpp
+@@ -14,6 +14,14 @@ void ExtensionMgr::OnFrameEnd() {
+     CALL_HOOKS(RenderScript, script->OnFrameEnd());
+ }
+ 
++void ExtensionMgr::OnVertexShaderCreate(CGxShader* shader, const void*& code, uint32_t& size) {
++    CALL_HOOKS(RenderScript, script->OnVertexShaderCreate(*shader, code, size));
++}
++
++void ExtensionMgr::OnDetailDoodadConstants(float* constants, uint32_t registerCount) {
++    CALL_HOOKS(RenderScript, script->OnDetailDoodadConstants(constants, registerCount));
++}
++
+ RenderScript::RenderScript(const char* name) : ScriptObject(name) {
+     ScriptRegistry<RenderScript>::AddScript(this);
+     sExtensionMgr->Log("Extensions: registered RenderScript %s", name);
+diff --git a/WoW/Source/Extension/ScriptDefines/RenderScript.h b/WoW/Source/Extension/ScriptDefines/RenderScript.h
+index 1afd0ec..93a6895 100644
+--- a/WoW/Source/Extension/ScriptDefines/RenderScript.h
++++ b/WoW/Source/Extension/ScriptDefines/RenderScript.h
+@@ -1,8 +1,11 @@
+ #ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_RENDERSCRIPT_H
+ #define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_RENDERSCRIPT_H
+ 
++#include <cstdint>
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
++class CGxShader;
++
+ // Frame rendering. The frame is painted by the screen layer system (Engine/Source/Scrn/Layer.cpp,
+ // the EVENT_ID_PAINT handler): every layer (world frame and UI, console, loading screen, system
+ // messages, fades) paints in z-order, then the scene is presented. The world itself is drawn by one
+@@ -30,6 +33,17 @@ class RenderScript : public ScriptObject {
+     // top of the UI here. Fires once per painted frame, whether or not the frame is presented
+     // (the no-present debug mode skips the present only).
+     virtual void OnFrameEnd() {}
++
++    // The D3D device's IShaderCreateVertex, just before the vertex shader is created from
++    // shader.m_code: a script may point code/size at other bytecode for this create (the buffer must
++    // stay valid for the call; shader.m_code itself is left as loaded).
++    virtual void OnVertexShaderCreate(CGxShader& shader, const void*& code, uint32_t& size) {}
++
++    // End of CDetailDoodad::InitializeShaderConstants, once a frame before the ground-clutter pass:
++    // constants is the vertex shader constant block (CDetailDoodad::s_shaderConstants, registerCount
++    // float4 registers from c0) that every clutter draw uploads whole. c14 onward holds the point
++    // lights, which the stock clutter shaders do not read.
++    virtual void OnDetailDoodadConstants(float* constants, uint32_t registerCount) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/WorldClient/DetailDoodad.cpp b/WoW/Source/WorldClient/DetailDoodad.cpp
+index e5b8dcf..e1de3f2 100644
+--- a/WoW/Source/WorldClient/DetailDoodad.cpp
++++ b/WoW/Source/WorldClient/DetailDoodad.cpp
+@@ -30,6 +30,7 @@
+ #include "WoW/Source/WorldClient/MapObjGroup.h"
+ #include "WoW/Source/WorldClient/Types.h"
+ #include "WoW/Source/WorldClient/World.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00D1C4C4
+ static uint32_t s_indexBufferSize;
+@@ -312,6 +313,9 @@ void CDetailDoodad::InitializeShaderConstants() {
+     consts.m_fade.y = dist * fade;
+     consts.m_fade.z = 0.0f;
+     consts.m_fade.w = 0.0f;
++
++    // Not in the original: the block is complete for this frame.
++    sExtensionMgr->OnDetailDoodadConstants(reinterpret_cast<float*>(&consts), sizeof(consts) / sizeof(C4Vector));
+ }
+ 
+ // VERIFY: 7ec422be manual
+-- 
+2.34.1
+
