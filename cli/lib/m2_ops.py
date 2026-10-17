@@ -498,7 +498,7 @@ SEQ_SUB_ID_OFFSET = 2       # uint16
 SEQ_FLAGS_OFFSET = 12       # uint32
 SEQ_ALIAS_NEXT_OFFSET = 62  # uint16
 
-SEQ_FLAG_PRIMARY = 0x20     # sequence carries its own bone data
+SEQ_FLAG_PRIMARY = 0x20     # bone data is embedded in the .m2 (else it is in <model><animId>-<sub>.anim)
 SEQ_FLAG_ALIAS = 0x40       # data lives in the sequence named by aliasNext
 
 
@@ -511,6 +511,13 @@ def _op_sequence_flags(data: bytearray, cfg: Dict[str, Any]) -> str:
     flagged 0x0 and whose aliasNext is ITSELF — so resolution never terminates and
     the client hangs the moment an attack plays.  Both attacks in fact carry their
     own data (940 and 835 keyframes), so the repair is to stop lying about it.
+
+    0x20 does NOT mean "owns data" in general: it means the keyframes are inside
+    the .m2.  A sequence with neither 0x20 nor 0x40 keeps them in an external
+    .anim, and its track offsets are offsets into THAT file — marking it 0x20 makes
+    the client read them from the .m2 instead (NaN bones; NaN-positioned model
+    sounds then crash FMOD with INT_DIVIDE_BY_ZERO at 0x0094BF6B — I-248).  So
+    adding 0x20 to an external-anim sequence is refused.
 
     `expect_anim_id` guards the write: sequence indices only mean anything for the
     exact mesh the recipe was written against.
@@ -539,6 +546,12 @@ def _op_sequence_flags(data: bytearray, cfg: Dict[str, Any]) -> str:
         )
 
     before = struct.unpack_from('<I', data, at + SEQ_FLAGS_OFFSET)[0]
+    if (value & SEQ_FLAG_PRIMARY) and not (before & (SEQ_FLAG_PRIMARY | SEQ_FLAG_ALIAS)):
+        raise M2OpError(
+            f"sequence {index} (animID {anim_id}) keeps its keyframes in an external "
+            f".anim (flags {before:#x}); setting 0x20 would make the client read them "
+            f"from the .m2 — refusing"
+        )
     struct.pack_into('<I', data, at + SEQ_FLAGS_OFFSET, value)
     return f"sequence[{index}] (animID {anim_id}).flags {before:#x} -> {value:#x}"
 
