@@ -224,28 +224,3 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-900529_HD.blp';
-
--- f220_orcdrakerider_orcdrakeriderskin_male_look: male
-DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900531;
-INSERT INTO `creaturedisplayinfoextra` SET
-  `id` = 900531,
-  `race` = 2,
-  `gender` = 0,
-  `skin_color` = 9,
-  `face_type` = 6,
-  `hair_style` = 0,
-  `hair_color` = 7,
-  `facial_hair` = 0,
-  `helm_id` = 0,
-  `shoulders_id` = 0,
-  `shirt_id` = 0,
-  `chest_id` = 210083,
-  `belt_id` = 0,
-  `legs_id` = 210084,
-  `boots_id` = 210120,
-  `wrists_id` = 0,
-  `gloves_id` = 210121,
-  `tabard_id` = 0,
-  `cape_id` = 0,
-  `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900531_HD.blp';

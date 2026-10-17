@@ -24,3 +24,6 @@ DELETE FROM creature_model_info WHERE DisplayID = 900519;
 DELETE FROM creature_model_info WHERE DisplayID = 900521;
 DELETE FROM creature_model_info WHERE DisplayID = 900523;
 DELETE FROM creature_model_info WHERE DisplayID = 900525;
+
+-- 900531 (Rend exists as display 16664)
+DELETE FROM creature_model_info WHERE DisplayID = 900531;

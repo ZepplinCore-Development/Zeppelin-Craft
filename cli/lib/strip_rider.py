@@ -127,14 +127,26 @@ def strip(m2: bytes, skins: List[bytes], rider_textures: Set[str], slots: Set[in
     br0 = [c for c in _submesh_branches(m2, skins[0], parent) if c]
     shared = all(c.most_common(1)[0][0] == rb for c in br0)    # the mount hangs from the rider's branch too
     sub_bones, heavy = _rider_bones(m2, skins[0], rider_textures, slots) if shared else (None, None)
+    tex = _textures(m2)
+    tl_n, tl_o = struct.unpack_from('<II', m2, 0x80)
+    tl = struct.unpack_from(f'<{tl_n}H', m2, tl_o)
     out_skins, removed = [], []
     for sk in skins:
+        # drawn with a rider texture = the rider, whatever bones it hangs from (the gnome rocket car's
+        # driver legs are weighted to the car)
+        by_tex = set()
+        for b_ in _batches(sk)[2]:
+            sub_, combo_ = struct.unpack_from('<H', b_, 4)[0], struct.unpack_from('<H', b_, 16)[0]
+            typ_, name_ = tex[tl[combo_]]
+            if name_.rsplit('/', 1)[-1][:-4] in rider_textures or typ_ in slots:
+                by_tex.add(sub_)
         if shared:
             rider_sub = {i for i, c in enumerate(_submesh_bones(m2, sk))
                          if c and sum(w for b, w in c.items() if b in sub_bones) * 2 > sum(c.values())}
         else:
             br = _submesh_branches(m2, sk, parent)
             rider_sub = {i for i, c in enumerate(br) if c and c.most_common(1)[0][0] == rb}
+        rider_sub |= by_tex
         n, o, bs = _batches(sk)
         keep = [b for b in bs if struct.unpack_from('<H', b, 4)[0] not in rider_sub]
         new = bytearray(sk)

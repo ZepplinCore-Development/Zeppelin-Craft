@@ -3,8 +3,8 @@
 -- (creature_template_addon.mount). Each rider is ONE display; its other looks (the "fake": the fused
 -- rider skin itself as the bake on the classic model) are options of that display
 -- (zep-npc-wardrobe/display_options.json), picked on the display's page. Never spawned.
--- 902236+ = riders that already exist as their own HD model (no rider built): the existing display on
--- the riderless mount.
+-- 902236+ (and 902233, Rend Blackhand 16664) = riders that already exist as their own display (no rider
+-- built): the existing display on the riderless mount.
 -- Retired: the former "Fake" previews (one display per look, never spawned), and the death knight
 -- riders' previews (902217-902227 odd: the death knights stay fused, 2026-10-17).
 
@@ -329,8 +329,8 @@ INSERT INTO creature_template_addon SET
 DELETE FROM creature_template WHERE entry = 902233;
 INSERT INTO creature_template SET
   `entry` = 902233,
-  `name` = 'F-220 Orc Drake Rider',
-  `subname` = 'rider preview, display 900531',
+  `name` = 'F-220 HD Rider Rend Blackhand',
+  `subname` = 'rider preview, display 16664',
   `minlevel` = 60,
   `maxlevel` = 60,
   `faction` = 35,
@@ -341,7 +341,7 @@ DELETE FROM creature_template_model WHERE CreatureID = 902233;
 INSERT INTO creature_template_model SET
   CreatureID = 902233,
   Idx = 0,
-  CreatureDisplayID = 900531,
+  CreatureDisplayID = 16664,
   DisplayScale = 1,
   Probability = 1,
   VerifiedBuild = 0;

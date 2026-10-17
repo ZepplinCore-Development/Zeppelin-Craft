@@ -184,7 +184,9 @@ names = {}
 # riders kept FUSED (not split): the death knights' fused bodies match no character model (bespoke plate,
 # helms and pauldrons no item reproduces), so the stock fused model stays (user, 2026-10-17). Their ids
 # stay reserved so the riders after them keep theirs
-KEEP_FUSED = ('creature/mounteddeathknight/',)
+KEEP_FUSED = ('creature/mounteddeathknight/',
+              # riders that exist as their own character display: not built (Rend Blackhand = display 16664)
+              'creature/orcdrakerider/')
 for path, race, sex, displays in riders:
     if path not in ix.stock: continue
     if path.startswith(KEEP_FUSED):

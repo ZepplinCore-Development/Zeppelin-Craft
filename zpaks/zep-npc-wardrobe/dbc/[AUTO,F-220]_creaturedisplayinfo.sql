@@ -179,23 +179,3 @@ INSERT INTO `creaturedisplayinfo` SET
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
-
--- f220_orcdrakerider_orcdrakeriderskin_male_look: model/sound of stock display 1619
-DELETE FROM `creaturedisplayinfo` WHERE `id` = 900531;
-INSERT INTO `creaturedisplayinfo` SET
-  `id` = 900531,
-  `model_id` = 51,
-  `sound_id` = 0,
-  `extended_display_info_id` = 900531,
-  `creature_model_scale` = 1.0,
-  `creature_model_alpha` = 255,
-  `texture_variation_1` = '',
-  `texture_variation_2` = '',
-  `texture_variation_3` = '',
-  `portrait_texture_name` = '',
-  `blood_level` = 0,
-  `blood_id` = 0,
-  `npc_sound_id` = 60,
-  `praticle_color_id` = 0,
-  `creature_geoset_data` = 0,
-  `obj_effect_package_id` = 0;

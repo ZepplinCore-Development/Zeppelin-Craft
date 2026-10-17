@@ -52,3 +52,7 @@ DELETE FROM creaturedisplayinfo WHERE id = 900523;
 DELETE FROM creaturedisplayinfoextra WHERE id = 900523;
 DELETE FROM creaturedisplayinfo WHERE id = 900525;
 DELETE FROM creaturedisplayinfoextra WHERE id = 900525;
+
+-- 900531 (Orc Drake Rider): Rend Blackhand already exists as his own character display 16664 (2026-10-17).
+DELETE FROM creaturedisplayinfo WHERE id = 900531;
+DELETE FROM creaturedisplayinfoextra WHERE id = 900531;
