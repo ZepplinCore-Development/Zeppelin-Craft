@@ -234,24 +234,28 @@ window.MV_DIAG = /[?&]diag\b/.test(location.search);
 // first that answers, in this order, serves the panes; none = this site, as before.
 // ?panehost=<host:port> forces one, ?panehost=same turns it off.
 const PANE_HOSTS = ['192.168.0.55:8111', 'tower:8111', '100.118.226.124:8111', '159.196.84.172:8111'];
-let PANE_BASE = '';
+let PANE_BASE = '', PANE_BASES = [], paneDeal = 0;
 const paneProbes = [];   // ?diag: what each pane-host probe returned
 const paneHostReady = (async () => {
-  const dir = location.pathname.replace(/[^/]*$/, ''), asked = new URLSearchParams(location.search).get('panehost');
+  const dir = location.pathname.replace(/[^/]*$/, '').replace(/\/{2,}/g, '/'), asked = new URLSearchParams(location.search).get('panehost');
   if (asked === 'same') return;
   const cand = asked ? [asked] : PANE_HOSTS.filter(h => h.split(':')[0] !== location.hostname);
-  const probe = (h) => { const ac = new AbortController(), t = setTimeout(() => ac.abort(), 1500), t0 = performance.now();
+  // The probes run while this page parses its data files on the same thread, which can hold it
+  // for seconds, so the deadline is long: the first answer is taken at once and only an
+  // unreachable name waits it out (a 1.5 s deadline expired before replies already in were read).
+  const probe = (h) => { const ac = new AbortController(), t = setTimeout(() => ac.abort(), 8000), t0 = performance.now();
     return fetch(`${location.protocol}//${h}${dir}blp.js`, { mode: 'no-cors', cache: 'no-store', signal: ac.signal })
-      .then(() => { paneProbes.push(`${h} ok ${Math.round(performance.now() - t0)} ms`); return h; },
-        (e) => { paneProbes.push(`${h} ${ac.signal.aborted ? 'no answer in 1.5 s' : 'failed (' + (e && e.message || e) + ')'}`); throw e; })
+      .then(() => { paneProbes.push(`${h} ok ${Math.round(performance.now() - t0)} ms`); return `${location.protocol}//${h}${dir}`; },
+        (e) => { paneProbes.push(`${h} ${ac.signal.aborted ? 'no answer in 8 s' : 'failed (' + (e && e.message || e) + ')'}`); throw e; })
       .finally(() => clearTimeout(t)); };
-  const ok = (await Promise.allSettled(cand.map(probe))).filter(r => r.status === 'fulfilled').map(r => `${location.protocol}//${r.value}${dir}`);
-  if (ok.length) PANE_BASE = ok[0];
+  const probes = cand.map(probe);
   // ?panesplit: deal the panes out over every name that answered (a process each), to test
   // whether the browser runs their GPU work in parallel
-  if (/[?&]panesplit\b/.test(location.search)) PANE_BASES = ok;
+  if (/[?&]panesplit\b/.test(location.search)) {
+    PANE_BASES = (await Promise.allSettled(probes)).filter(r => r.status === 'fulfilled').map(r => r.value);
+    PANE_BASE = PANE_BASES[0] || '';
+  } else PANE_BASE = await Promise.any(probes).catch(() => '');
 })();
-let PANE_BASES = [], paneDeal = 0;
 const paneSrc = (prm) => (PANE_BASES.length > 1 ? PANE_BASES[paneDeal++ % PANE_BASES.length] : PANE_BASE) + 'pane.html?' + prm + (MV_DIAG ? '&diag' : '') + (/[?&]noprogcache\b/.test(location.search) ? '&noprogcache' : '');
 // Layered asset selection (F-216): 1. 3D asset (mesh) -> 2. 2D asset (texture) -> 3. customise.
 // Choices: choices/layers.json {version: 2, mesh: {path: pick}, texture: {path: pick}, custom: {}}
@@ -612,7 +616,9 @@ const isFusedRider = (path) => FUSED.has((path || '').split('/').pop());
 // knights match no character model; the goblin rocket car's driver (creature goblin, no Mount anim)
 // cannot be cut out and dressed
 const F220_DROPPED = new Set(['mounteddeathknight.m2', 'mounteddeathknight_blaumeux.m2', 'mounteddeathknight_korthazz.m2',
-  'mounteddeathknight_mograine.m2', 'mounteddeathknight_zeliek.m2', 'goblinrocketcar.m2']);
+  'mounteddeathknight_mograine.m2', 'mounteddeathknight_zeliek.m2', 'goblinrocketcar.m2',
+  // the demon knight: no character-model body and no standalone creature (2026-10-17)
+  'mounteddemonknight.m2']);
 const inF220 = (path) => isFusedRider(path) && !F220_DROPPED.has((path || '').split('/').pop());
 const F220 = 'Fused rider/driver: the rider is part of the mount model. F-220 replaces these with an NPC on a mount or vehicle.';
 // a creature/character model no creature shows (no display, or only unused displays)
@@ -1822,6 +1828,12 @@ function openAsset(e) {
     if (mount) riderCards(e, links[mount].filter(l => l.display !== e.display && l.display >= 900000).map(l => [l.display, l.creature]), +mount);
     // F-220: a MOUNT display that lost its fused rider: every model of the mount's family as a card
     if ((links[e.display] || []).length) mountCards(e);
+  } else if (e.tab === 'creature' && inF220(e.path)) {
+    // the fused model's page: the same mount options, picked for every split display of the model
+    const links = mountRiders.links || {};
+    const targets = [...displaysOfModel(e.path.toLowerCase())].map(d => d.display !== undefined ? d.display : d)
+      .concat([e.display, ...(e.panes || []).map(p => p.display)]).filter(d => d && (links[d] || []).length);
+    if (targets.length) mountCards(e, false, [...new Set(targets)]);
   }
   if ($('todisplays')) $('todisplays').onclick = () => showModelDisplays(e.path);
   if ($('toriders')) $('toriders').onclick = () => showModelRiders(e.path);
@@ -2332,13 +2344,16 @@ const MOUNT_FAMILY = { 'batrider.m2': ['bat'], 'horderider.m2': ['wyvern'], 'all
   'alliancerider2.m2': ['gryphon'], 'felorcnetherdrakemounted.m2': ['netherdrake', 'netherdragon'],
   'orcdrakerider.m2': ['drake'], 'tauren_mountedcanoe.m2': ['canoe'], 'gnomerocketcar.m2': ['rocketcar'],
   'gnomespidertank.m2': ['spidertank'], 'gnomemechastrider.m2': ['mechastrider', 'mechanostrider'],
-  'mountedknight.m2': ['horse', 'charger'], 'mounteddemonknight.m2': ['horse', 'charger', 'deathknightmount'],
-  'terongorefiend_mounted.m2': ['horse', 'charger'], 'headlesshorsemanmount.m2': ['horse'] };
+  'mountedknight.m2': ['horse', 'charger'],
+  // Teron and the Horseman ride undead / spectral horses (their riders are their own displays)
+  'terongorefiend_mounted.m2': ['undeadhorse', 'deathcharger', 'skeletalhorse', 'undeadwarhorse', 'deathknightmount', 'horse'],
+  'headlesshorsemanmount.m2': ['headlesshorseman', 'undeadhorse', 'deathcharger', 'horse'] };
 const MOUNT_CARDS_FIRST = 12;
 let _mountRun = 0;
-async function mountCards(e, showAll = false) {
+async function mountCards(e, showAll = false, targets = null) {
   const run = ++_mountRun;
-  const fused = (e.panes || []).map(p => p.model).find(m => isFusedRider(m));
+  const dids = targets || [e.display];                 // the displays a pick here applies to
+  const fused = e.tab === 'creature' ? e.path : (e.panes || []).map(p => p.model).find(m => isFusedRider(m));
   const words = MOUNT_FAMILY[(fused || '').split('/').pop()];
   if (!words) return;
   ensureCatalog();
@@ -2349,19 +2364,23 @@ async function mountCards(e, showAll = false) {
   assets.concat(catalog || []).forEach(a => {
     if (a.tab !== 'creature' || a.retailOnly || !a.path || seen.has(a.path) || shown.has(a.path) || isFusedRider(a.path)) return;
     const stem = a.path.split('/').pop().replace(/\.m2$/, '');
-    if (!words.some(w => stem.includes(w))) return;
+    // the family, or a riderless model in the fused model's own folder (our cuts: horderider_mount.m2)
+    const ownFolder = a.path.slice(0, a.path.lastIndexOf('/')) === fused.slice(0, fused.lastIndexOf('/'));
+    if (!ownFolder && !words.some(w => stem.includes(w))) return;
     const pn = (a.panes || []).find(x => x.option === a.current) || (a.panes || [])[0];
     if (!pn) return;
     seen.add(a.path);
     cands.push({ a, pn, mount: mountSet.has(a.path), n: a.displays || (a.panes || []).length });
   });
-  // models already ridden as mounts first, then the most used
-  cands.sort((x, y) => (y.mount - x.mount) || (y.n - x.n) || x.a.path.localeCompare(y.a.path));
+  // our own riderless cut first, then models already ridden as mounts, then the most used; within a
+  // family, the earlier words rank first (Teron: undead horses before any horse)
+  const rank = (a) => { const st = a.path.split('/').pop(); const i = words.findIndex(w => st.includes(w)); return i < 0 ? -1 : i; };
+  cands.sort((x, y) => (rank(x.a) - rank(y.a)) || (y.mount - x.mount) || (y.n - x.n) || x.a.path.localeCompare(y.a.path));
   document.querySelectorAll('#panes .pane[data-mcand], #mcmore').forEach(x => x.remove());
-  const pk = pickOf(e) || {}, cu = (choices.custom || {})[String(e.display)] || null;
+  const cus = dids.map(d => ({ pk: (choices.display || {})[String(d)] || {}, cu: (choices.custom || {})[String(d)] || null }));
   (showAll ? cands : cands.slice(0, MOUNT_CARDS_FIRST)).forEach(({ a, pn }) => {
     const ent = customList.find(x => x.display === pn.display) || {};
-    const chosen = pk.option === 'custom' && cu && cu.path === a.path;
+    const chosen = cus.some(({ pk, cu }) => pk.option === 'custom' && cu && cu.path === a.path);
     const div = document.createElement('div');
     div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.mcand = a.path;
     div.innerHTML = `<iframe src="${paneUrl({ ...pn, display: e.display })}" loading="lazy" title="${esc(a.path)}"></iframe>
@@ -2377,16 +2396,17 @@ async function mountCards(e, showAll = false) {
         entry: { path: a.path, groups: {}, slots: ent.slots || [], tex_key: pn.tex_key || ent.tex_key || null, skins: ent.skins || null,
                  cgd: [0, 0, 0, 0, 0, 0, 0, 0], char: null, via: 'F-220 mount option', from_names: e.names || [],
                  base: { ...pn, src_display: e.display } } };
-      if (await saveCustom(e.display, pick)) {
-        await save('display', String(e.display), e, 'custom', {}, false);
-        openDisplay(e.display);
+      for (const d of dids) {
+        if (!(await saveCustom(d, pick))) return;
+        await save('display', String(d), displayEntry(d) || e, 'custom', {}, false);
       }
+      if (e.tab === 'display') openDisplay(e.display); else openItem(e);
     };
     $('panes').append(div);
   });
   if (!showAll && cands.length > MOUNT_CARDS_FIRST) {
     $('panes').insertAdjacentHTML('beforeend', `<button id="mcmore" class="btn" style="grid-column:1/-1">More mount options (${cands.length - MOUNT_CARDS_FIRST}) →</button>`);
-    $('mcmore').onclick = () => mountCards(e, true);
+    $('mcmore').onclick = () => mountCards(e, true, targets);
   }
   if (typeof fitPanes === 'function') fitPanes();
 }
