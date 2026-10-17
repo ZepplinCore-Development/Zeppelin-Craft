@@ -16,7 +16,6 @@ JOBS = {
     21602: ('creature/tauren_mountedcanoe/tauren_mountedcanoe.m2', 'Creature/Tauren_MountedCanoe/Tauren_Canoe.m2', {'taurenmaleskin'}, set()),
     2490: ('creature/gnomerocketcar/gnomerocketcar.m2', 'Creature/GnomeRocketCar/GnomeRocketCar_Empty.m2', {'gnomepounderpilotskin_yellow_01'}, set()),
     5926: ('creature/gnomespidertank/gnomespidertank.m2', 'Creature/GnomeSpidertank/GnomeSpiderTank_Empty.m2', set(), {12}),
-    15649: ('creature/mounteddemonknight/mounteddemonknight.m2', 'Creature/MountedDemonKnight/MountedDemonKnight_Horse.m2', set(), {12}),
     1545: ('creature/mountedknight/mountedknight.m2', 'Creature/MountedKnight/MountedKnight_Horse.m2', set(), {12}),
 }
 for did, (src, out, tex, slots) in JOBS.items():

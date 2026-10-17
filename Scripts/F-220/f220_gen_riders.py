@@ -210,9 +210,8 @@ def rider_shoulders(mp, skin_path):
 HELM_MAX = 0.2      # shape score: the diver helm matched the mechastrider pilot's at 0.175, unrelated helms 0.21+
 
 from lib.npc_outfit import RIDER_CLASS as _RC
-_mog = o.lookalike(ix.stock['creature/mounteddeathknight/mounteddeathknightgoldred_03.blp'], 'human', 'male', 4)
-DK_SET = frozenset(int(str(r[3][0])[2:]) if str(r[3][0]).startswith('r:') else -int(r[1]) for r in _mog if r[3] or r[1])
-print('DK set from Mograine:', [(r[0], r[2]) for r in _mog])
+# the death knights are kept fused (KEEP_FUSED): their shared Mograine set is no longer computed
+_mog, DK_SET = [], frozenset()
 # the Risen Nightmare chest's colour variants: modifier -> ItemAppearance, and each appearance's TorsoUpper fdid
 CHEST_VARIANTS = {0: 82957, 4: 82946, 1: 82924, 3: 82935}
 CHEST_TU = {82957: 5343330, 82946: 5343329, 82924: 5343327, 82935: 5343328}
@@ -225,7 +224,7 @@ names = {}
 # riders kept FUSED (not split): the death knights' fused bodies match no character model (bespoke plate,
 # helms and pauldrons no item reproduces), so the stock fused model stays (user, 2026-10-17). Their ids
 # stay reserved so the riders after them keep theirs
-KEEP_FUSED = ('creature/mounteddeathknight/',
+KEEP_FUSED = ('creature/mounteddeathknight/', 'creature/mounteddemonknight/',
               # riders that exist as their own character display: not built (Rend Blackhand = display 16664)
               'creature/orcdrakerider/')
 for path, race, sex, displays, *fixed in riders:

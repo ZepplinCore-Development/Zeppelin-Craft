@@ -161,38 +161,6 @@ INSERT INTO creaturemodeldata SET
   missile_collision_push = 0.0,
   missile_collision_raise = 0.0;
 
--- 900226 = MountedDemonKnight_Horse: creature/mounteddemonknight/mounteddemonknight.m2 (model 2215) without its rider; removed batches per skin [1, 1, 1, 3]
-DELETE FROM creaturemodeldata WHERE id = 900226;
-INSERT INTO creaturemodeldata SET
-  id = 900226,
-  flags = 0,
-  model_path = 'Creature\\MountedDemonKnight\\MountedDemonKnight_Horse.mdx',
-  size_class = 1,
-  model_scale = 1.0,
-  blood_id = 3,
-  footprint_texture_id = 6,
-  footprint_texture_length = 0.0,
-  footprint_texture_width = 0.0,
-  footprint_particle_scale = 0.0,
-  foley_material_id = 0,
-  footstep_shake_size = 0,
-  death_thud_shake_size = 0,
-  sound_data = 2107,
-  collision_width = 0.6944000124931335,
-  collision_height = 2.0829999446868896,
-  mount_height = 0.0,
-  geo_box_min_x = -1.3987510204315186,
-  geo_box_min_y = -0.6576809883117676,
-  geo_box_min_z = -0.0021160000469536,
-  geo_box_max_x = 2.212157964706421,
-  geo_box_max_y = 0.6186699867248535,
-  geo_box_max_z = 3.3843510150909424,
-  world_effect_scale = 1.0,
-  attached_effect_scale = 1.0,
-  missile_collision_radius = 0.0,
-  missile_collision_push = 0.0,
-  missile_collision_raise = 0.0;
-
 -- 900227 = MountedKnight_Horse: creature/mountedknight/mountedknight.m2 (model 195) without its rider; removed batches per skin [1, 1, 1, 3]
 DELETE FROM creaturemodeldata WHERE id = 900227;
 INSERT INTO creaturemodeldata SET

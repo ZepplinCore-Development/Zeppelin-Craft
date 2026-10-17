@@ -56,3 +56,7 @@ DELETE FROM creaturedisplayinfoextra WHERE id = 900525;
 -- 900531 (Orc Drake Rider): Rend Blackhand already exists as his own character display 16664 (2026-10-17).
 DELETE FROM creaturedisplayinfo WHERE id = 900531;
 DELETE FROM creaturedisplayinfoextra WHERE id = 900531;
+
+-- 900527 (Demon Knight Rider): kept fused - the fused body matches no character model and has no standalone creature (2026-10-17).
+DELETE FROM creaturedisplayinfo WHERE id = 900527;
+DELETE FROM creaturedisplayinfoextra WHERE id = 900527;

@@ -200,31 +200,6 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-900513_HD.blp';
 
--- f220_mounteddemonknight_mounteddemonknightblack_02_male_look: male
-DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900527;
-INSERT INTO `creaturedisplayinfoextra` SET
-  `id` = 900527,
-  `race` = 1,
-  `gender` = 0,
-  `skin_color` = 9,
-  `face_type` = 0,
-  `hair_style` = 0,
-  `hair_color` = 2,
-  `facial_hair` = 0,
-  `helm_id` = 0,
-  `shoulders_id` = 0,
-  `shirt_id` = 0,
-  `chest_id` = 210138,
-  `belt_id` = 210116,
-  `legs_id` = 210060,
-  `boots_id` = 210117,
-  `wrists_id` = 0,
-  `gloves_id` = 210105,
-  `tabard_id` = 0,
-  `cape_id` = 0,
-  `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900527_HD.blp';
-
 -- f220_mountedknight_mountedknightblue_02_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900529;
 INSERT INTO `creaturedisplayinfoextra` SET

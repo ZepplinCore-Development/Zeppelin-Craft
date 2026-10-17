@@ -160,26 +160,6 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_mounteddemonknight_mounteddemonknightblack_02_male_look: model/sound of stock display 1292
-DELETE FROM `creaturedisplayinfo` WHERE `id` = 900527;
-INSERT INTO `creaturedisplayinfo` SET
-  `id` = 900527,
-  `model_id` = 49,
-  `sound_id` = 0,
-  `extended_display_info_id` = 900527,
-  `creature_model_scale` = 1.0,
-  `creature_model_alpha` = 255,
-  `texture_variation_1` = '',
-  `texture_variation_2` = '',
-  `texture_variation_3` = '',
-  `portrait_texture_name` = '',
-  `blood_level` = 1,
-  `blood_id` = 0,
-  `npc_sound_id` = 114,
-  `praticle_color_id` = 0,
-  `creature_geoset_data` = 0,
-  `obj_effect_package_id` = 0;
-
 -- f220_mountedknight_mountedknightblue_02_male_look: model/sound of stock display 1664
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900529;
 INSERT INTO `creaturedisplayinfo` SET

@@ -27,3 +27,6 @@ DELETE FROM creature_model_info WHERE DisplayID = 900525;
 
 -- 900531 (Rend exists as display 16664)
 DELETE FROM creature_model_info WHERE DisplayID = 900531;
+
+-- 900527 (demon knight, kept fused)
+DELETE FROM creature_model_info WHERE DisplayID = 900527;

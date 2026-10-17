@@ -2073,7 +2073,7 @@ def flag_unique(dep: 'Deployer', assets: List[dict], log: Callable = print) -> N
 def add_outfits(dep: 'Deployer', assets: List[dict], cat: List[dict], log: Callable = print) -> None:
     """pane['outfit'] (lib/npc_outfit): a character-model display's items from its bake row (exact),
     or, on a STOCK pane of a character clone baked into a creature model, the items its skin matches."""
-    from lib.npc_outfit import Outfits, FUSED, race_sex
+    from lib.npc_outfit import Outfits, FUSED, F220_DROPPED, race_sex
     from lib.skin_fill import texture_table
     from lib.geoset_fix import mesh_geosets
     from PIL import Image
@@ -2122,7 +2122,7 @@ def add_outfits(dep: 'Deployer', assets: List[dict], cat: List[dict], log: Calla
                         rows = out.exact(x)
                         if rows:
                             put(p, rows); n_exact += 1
-                elif path.rsplit('/', 1)[-1] in FUSED and 'stock' in (p.get('sources') or []):
+                elif path.rsplit('/', 1)[-1] in FUSED and path.rsplit('/', 1)[-1] not in F220_DROPPED and 'stock' in (p.get('sources') or []):
                     # F-220: the rider baked into a mount model - its skin, hair and 3D pieces
                     f = dep.ix.stock.get(path)
                     if f is None:

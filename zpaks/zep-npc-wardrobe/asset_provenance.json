@@ -438,20 +438,6 @@
    "sha256": "eaf9b173b7a40c7f0cdc707266544534a65b13f72189e3fa51613b475d509f07"
   },
   {
-   "path": "Item/TextureComponents/ArmLowerTexture/plate_horde_c_02black_glove_al_u.blp",
-   "fdid": 150368,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "75aaa91ac9c2b84df72ce0020657dcd36e185428a9a4486e3e507b61abf59c37"
-  },
-  {
-   "path": "Item/TextureComponents/ArmLowerTexture/plate_horde_c_02brown_bracer_al_u.blp",
-   "fdid": 150369,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "fdbdf14a40d1d79cc69e6aec4116db18700baff49b1ee9a29ad0687d6e412bd8"
-  },
-  {
    "path": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknight_l_01_glove_al_u.blp",
    "fdid": 642742,
    "build": "12.1.0.69875",
@@ -513,13 +499,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "883a9d66ee8958c738503cd490f62a86f3f23e6c40a8d31fdbb872cfb9b589cc"
-  },
-  {
-   "path": "Item/TextureComponents/ArmUpperTexture/plate_horde_c_02brown_sleeve_au_u.blp",
-   "fdid": 152125,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "4a8651d24cf7b32619932a8f61290f351898497648a1d47a4490c66c7fe2da8a"
   },
   {
    "path": "Item/TextureComponents/ArmUpperTexture/plate_warfrontshorde_d_01maroon_sleeve_au_u.blp",
@@ -592,13 +571,6 @@
    "sha256": "aa51af23ce6ba121ff4cbddfddd18195d8b078f19a64b917c44286386ac8f719"
   },
   {
-   "path": "Item/TextureComponents/FootTexture/plate_horde_c_02brown_boot_fo_u.blp",
-   "fdid": 153419,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "be9b6731a20d479d7659838b3789462f626eaa174997a2b9714b9b87cafae8d0"
-  },
-  {
    "path": "Item/TextureComponents/FootTexture/plate_warfrontshorde_d_01maroon_boot_fo_u.blp",
    "fdid": 1780817,
    "build": "12.1.0.69875",
@@ -653,13 +625,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "a0731b596bf26b6dde901ebbdcd31a5761764519348f026b9cb717d740c7d149"
-  },
-  {
-   "path": "Item/TextureComponents/HandTexture/plate_horde_c_02black_glove_ha_u.blp",
-   "fdid": 154477,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "91dcd2a3d4d4286d645befeddbad3184d87737c0efd5401841e66ee2396901d4"
   },
   {
    "path": "Item/TextureComponents/HandTexture/plate_raiddeathknight_l_01_glove_ha_u.blp",
@@ -809,27 +774,6 @@
    "sha256": "4922ca058671fc9654488ad221be191002ff8f0bd41676aae5697f9226af7801"
   },
   {
-   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_f.blp",
-   "fdid": 156443,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "51ee46e8f6cec2f10d00fa322989de807d1bb77392135b5b4723cca18926465a"
-  },
-  {
-   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_m.blp",
-   "fdid": 156444,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "0b4d0ec67f004526a80e4d1946348ad50127d6cb6d561496db2fc99fbfa33068"
-  },
-  {
-   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02brown_boot_ll_u.blp",
-   "fdid": 156445,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "adb5c5322e15b6854e7393e15b7a8f2322f2b832a7bd2e693368e043db7df6ec"
-  },
-  {
    "path": "Item/TextureComponents/LegLowerTexture/plate_warfrontshorde_d_01maroon_boot_ll_u.blp",
    "fdid": 1780818,
    "build": "12.1.0.69875",
@@ -940,27 +884,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "1d9052925e04153d6b4ef748580d6769a3aeda7028f5e9829680086e7bc19eaf"
-  },
-  {
-   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_f.blp",
-   "fdid": 159029,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "a2daf472710202653087121e234a450891f6f2791d47cb5808a3d83f52b0af50"
-  },
-  {
-   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_m.blp",
-   "fdid": 159030,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "560bc141c38de28194484bc261acd1edea6816969cfa41222ea241e6a549dc95"
-  },
-  {
-   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02brown_belt_lu_u.blp",
-   "fdid": 159031,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "b4afaecc9ad2231f99bec2789a2572e06f4cbce27be5a4dcee0f4ee6fd73afbf"
   },
   {
    "path": "Item/TextureComponents/LegUpperTexture/plate_pvpdeathknight_d_01frost_belt_lu_u.blp",
@@ -1094,20 +1017,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "b431b5de1ed9b7a8d8c8205d41a6dbd6f9b5b9b7cd9c09c017b9ed473f96817a"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoLowerTexture/plate_horde_c_02brown_chest_tl_f.blp",
-   "fdid": 161668,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "cbecab3587541d8eb0901747f47a72256952639b7d9ac5e0744905cfac7628aa"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoLowerTexture/plate_horde_c_02brown_chest_tl_m.blp",
-   "fdid": 161669,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "1658412aba61865453c206c5de348276319aef4653dfda7cf518e0d0575a0bcb"
   },
   {
    "path": "Item/TextureComponents/TorsoLowerTexture/plate_northrend_b_02blue_chest_tl_f.blp",
@@ -1248,20 +1157,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "fb10762c41aecd254073298c394605d9c734da33b116955e89a2083a295c70fd"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoUpperTexture/plate_horde_c_02brown_chest_tu_f.blp",
-   "fdid": 164348,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "47baa4720352795db10c778d63b63718ee3b787ed10131254ba8120f3f27b845"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoUpperTexture/plate_horde_c_02brown_chest_tu_m.blp",
-   "fdid": 164349,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "70dee6df2d25e71c2e352cacd8a458ded0c66b6da67f7b54a3194cd849c1e869"
   },
   {
    "path": "Item/TextureComponents/TorsoUpperTexture/plate_northrend_b_02blue_chest_tu_f.blp",
@@ -1460,18 +1355,6 @@
    "kind": "bake",
    "display": 900513,
    "sha256": "12828a8d9f680e7ce718b85cd18a08721d55504ca1c48aa2218cc6997550b03c"
-  },
-  {
-   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900527_HD.blp",
-   "kind": "bake",
-   "display": 900527,
-   "sha256": "8c88cf40e7b326dd43c4ac6364b54fe0e7d757ef3edaa7f83bc9fc8d7b375839"
-  },
-  {
-   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900527_fake.blp",
-   "kind": "bake",
-   "display": 900527,
-   "sha256": "c2bdbaecb259d30dfc222a82e7828683769a0a0164f78acf93f1a3be6f61c928"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900529_HD.blp",
