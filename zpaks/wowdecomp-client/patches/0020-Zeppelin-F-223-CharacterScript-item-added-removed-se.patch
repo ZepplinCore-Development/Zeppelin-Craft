@@ -1,0 +1,183 @@
+From a786ad263558ec90f10fb3cb8f2ac3e2bf5e1ccf Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 10:15:20 +0000
+Subject: [PATCH] Zeppelin F-223: CharacterScript item added/removed seams
+
+- OnCharacterItemAdded at the end of CCharacterComponent::AddItem (0x004F2640)
+- OnCharacterItemRemoved at the start of CCharacterComponent::RemoveItem (0x004EE460)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Common/CMakeLists.txt                     |  5 ++++
+ .../ComponentCore/CharacterComponent.cpp      |  7 +++++
+ WoW/Source/Extension/ExtensionMgr.cpp         |  1 +
+ WoW/Source/Extension/ExtensionMgr.h           |  6 ++++
+ .../ScriptDefines/AllScriptsObjects.h         |  1 +
+ .../ScriptDefines/CharacterScript.cpp         | 16 ++++++++++
+ .../Extension/ScriptDefines/CharacterScript.h | 30 +++++++++++++++++++
+ 7 files changed, 66 insertions(+)
+ create mode 100644 WoW/Source/Extension/ScriptDefines/CharacterScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/CharacterScript.h
+
+diff --git a/WoW/Common/CMakeLists.txt b/WoW/Common/CMakeLists.txt
+index 752e8bc..b352d30 100644
+--- a/WoW/Common/CMakeLists.txt
++++ b/WoW/Common/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(WoWCommon
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(WoWCommon
++    PRIVATE
++        Extension
++)
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.cpp b/WoW/Common/ComponentCore/CharacterComponent.cpp
+index e3036d5..7aeeefd 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.cpp
++++ b/WoW/Common/ComponentCore/CharacterComponent.cpp
+@@ -48,6 +48,7 @@
+ #include "WoW/Source/DB/Rec/ItemVisualsRec.h"
+ #include "WoW/Source/DB/Rec/ParticleColorRec.h"
+ #include "WoW/Source/Object/ObjectClient/Player_C.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x009F6A00
+ static int32_t s_itemPriority[NUM_ITEM_SLOTS][NUM_COMPONENT_SECTIONS] = {
+@@ -3699,6 +3700,9 @@ void CCharacterComponent::RemoveItem(ITEM_SLOT itemSlot) {
+         return;
+     }
+ 
++    // Not in the original: the slot is still occupied.
++    sExtensionMgr->OnCharacterItemRemoved(this, itemSlot);
++
+     this->m_flags |= 0x4;
+ 
+     switch (itemSlot) {
+@@ -5613,6 +5617,9 @@ void CCharacterComponent::AddItem(ITEM_SLOT itemSlot, const ItemDisplayInfoRec*
+ 
+             break;
+     }
++
++    // Not in the original: the slot is dressed.
++    sExtensionMgr->OnCharacterItemAdded(this, itemSlot, displayRec);
+ }
+ 
+ // VERIFY: 1692162c auto
+diff --git a/WoW/Source/Extension/ExtensionMgr.cpp b/WoW/Source/Extension/ExtensionMgr.cpp
+index 9908f51..254611e 100644
+--- a/WoW/Source/Extension/ExtensionMgr.cpp
++++ b/WoW/Source/Extension/ExtensionMgr.cpp
+@@ -63,6 +63,7 @@ void ExtensionMgr::Unload() {
+     }
+ 
+     ScriptRegistry<AssetScript>::Clear();
++    ScriptRegistry<CharacterScript>::Clear();
+     ScriptRegistry<ClientDBScript>::Clear();
+     ScriptRegistry<ClientScript>::Clear();
+     ScriptRegistry<ConsoleScript>::Clear();
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 679c478..76927de 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -6,6 +6,7 @@
+ #include "WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h"
+ 
+ class AuraData;
++class CCharacterComponent;
+ class C3Vector;
+ class CDataStore;
+ class CGObject_C;
+@@ -13,6 +14,7 @@ class CGUnit_C;
+ class CM2Model;
+ class CM2Shared;
+ class CMapArea;
++class ItemDisplayInfoRec;
+ class M2Data;
+ class M2SkinProfile;
+ class CMapChunk;
+@@ -123,6 +125,10 @@ class ExtensionMgr {
+     bool DispatchRegisteredMessage(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg, int32_t& result);
+     void OnMessageSent(CDataStore* msg);
+ 
++    public: /* CharacterScript */
++    void OnCharacterItemAdded(CCharacterComponent* component, uint32_t itemSlot, const ItemDisplayInfoRec* displayRec);
++    void OnCharacterItemRemoved(CCharacterComponent* component, uint32_t itemSlot);
++
+     public: /* ModelScript */
+     void OnModelFileRead(CM2Shared* shared, M2Data*& data, uint32_t& size);
+     void OnModelSkinRead(CM2Shared* shared, M2SkinProfile*& skin, uint32_t& size);
+diff --git a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+index 6f7d543..f424aa2 100644
+--- a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
++++ b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+@@ -3,6 +3,7 @@
+ 
+ // Every script type an extension can derive from, one header per context.
+ #include "WoW/Source/Extension/ScriptDefines/AssetScript.h"
++#include "WoW/Source/Extension/ScriptDefines/CharacterScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ClientDBScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ClientScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ConsoleScript.h"
+diff --git a/WoW/Source/Extension/ScriptDefines/CharacterScript.cpp b/WoW/Source/Extension/ScriptDefines/CharacterScript.cpp
+new file mode 100644
+index 0000000..9ae44ac
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/CharacterScript.cpp
+@@ -0,0 +1,16 @@
++#include "WoW/Source/Extension/ScriptDefines/CharacterScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnCharacterItemAdded(CCharacterComponent* component, uint32_t itemSlot, const ItemDisplayInfoRec* displayRec) {
++    CALL_HOOKS(CharacterScript, script->OnCharacterItemAdded(*component, itemSlot, *displayRec));
++}
++
++void ExtensionMgr::OnCharacterItemRemoved(CCharacterComponent* component, uint32_t itemSlot) {
++    CALL_HOOKS(CharacterScript, script->OnCharacterItemRemoved(*component, itemSlot));
++}
++
++CharacterScript::CharacterScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<CharacterScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered CharacterScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/CharacterScript.h b/WoW/Source/Extension/ScriptDefines/CharacterScript.h
+new file mode 100644
+index 0000000..bc6c54d
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/CharacterScript.h
+@@ -0,0 +1,30 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_CHARACTERSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_CHARACTERSCRIPT_H
++
++#include <cstdint>
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class CCharacterComponent;
++class ItemDisplayInfoRec;
++
++// The character dressing pipeline (WoW/Common/ComponentCore): one CCharacterComponent dresses one
++// character model (component.m_data.m_model) for players, character-display NPCs, the character
++// select and create screens and the dressing room. Items are added and removed per ITEM_SLOT (0 head
++// ... 10 cape, 11 quiver); the stock client attaches models only for the head, shoulders, quiver and
++// hand items, and turns every other slot into texture layers and geosets.
++class CharacterScript : public ScriptObject {
++    protected:
++    explicit CharacterScript(const char* name);
++
++    public:
++    // End of CCharacterComponent::AddItem(ITEM_SLOT, const ItemDisplayInfoRec*, int32_t): the stock
++    // models, textures and geosets of the slot are set up; component.m_itemDisplayID[itemSlot] is
++    // displayRec.m_id. itemSlot is an ITEM_SLOT value.
++    virtual void OnCharacterItemAdded(CCharacterComponent& component, uint32_t itemSlot, const ItemDisplayInfoRec& displayRec) {}
++
++    // Start of CCharacterComponent::RemoveItem for an occupied slot, before the stock client clears it
++    // (component.m_itemDisplayID[itemSlot] is still the item being removed).
++    virtual void OnCharacterItemRemoved(CCharacterComponent& component, uint32_t itemSlot) {}
++};
++
++#endif
+-- 
+2.34.1
+

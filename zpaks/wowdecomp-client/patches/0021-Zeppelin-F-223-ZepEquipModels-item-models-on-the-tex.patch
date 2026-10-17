@@ -1,0 +1,618 @@
+From e53080c7684a4265b783fa652a2c0592959732b6 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 10:15:20 +0000
+Subject: [PATCH] Zeppelin F-223: ZepEquipModels - item models on the textured
+ slots (F-211)
+
+Source port of the wxl-equip-extension fork, same ItemDisplayInfo data model
+(Model:geosets, Icon2 attach1:attach2:flags:folder). Collections attach with
+attachToRoot, filter geosets per instance and copy matched character bones
+after the scene animates. Verified on the Orgrimmar gate grunts (3296).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ .../ZepEquipModels/src/ZepEquipModels.cpp     | 591 ++++++++++++++++++
+ 1 file changed, 591 insertions(+)
+ create mode 100644 Extensions/ZepEquipModels/src/ZepEquipModels.cpp
+
+diff --git a/Extensions/ZepEquipModels/src/ZepEquipModels.cpp b/Extensions/ZepEquipModels/src/ZepEquipModels.cpp
+new file mode 100644
+index 0000000..1cf2109
+--- /dev/null
++++ b/Extensions/ZepEquipModels/src/ZepEquipModels.cpp
+@@ -0,0 +1,591 @@
++// ZepEquipModels: item models on the character slots the stock client only textures (Zeppelin F-211:
++// 3D belt buckles and retail collection meshes - harness straps, gauntlet flares, boot armour - on
++// players and character-display NPCs). Source counterpart of the WarcraftXL wxl-equip-extension fork,
++// with the same data model so the zep wardrobe output works unchanged:
++//
++//   ItemDisplayInfo.Model1/Model2   model file stem, optionally ":<geoset>[,<geoset>...]". A geoset list
++//                                   marks a collection: a mesh skinned to the character's own skeleton.
++//   ItemDisplayInfo.Icon2           "<attach1>:<attach2>:<flags>:<folder>", every field optional.
++//                                   flags 0x2 no gender, 0x4 no race (model name), 0x8/0x10 race/gender
++//                                   on the texture name, 0x20 model in a subfolder named after its stem,
++//                                   0x40 "_<race>_<gender>" instead of "_<race><gender>".
++//   ItemDisplayInfo.ModelTexture1/2 texture for the model's object-skin slot (type 2).
++//
++// Paths: Item\ObjectComponents\<folder>\[<stem>\]<stem>[_<race>[_]<gender>].mdx, the folder being the
++// Icon2 one, else "Collections" for a collection, else the slot's own. Head, shoulders and the quiver
++// are left to the stock client, which already attaches those.
++//
++// In source the WXL machinery reduces to the engine's own calls:
++//   - the models are children of the character model (CM2Scene::CreateModel + CM2Model::AttachToParent,
++//     as CCharacterComponent::AddLink does); a collection attaches with attachToRoot, which is the
++//     0x40000 instance flag WXL keys on;
++//   - a collection's geoset filter is per-instance visibility (CM2Model::SetGeometryVisible, the call
++//     the character's own geosets use), so no per-filter copy of the model file is needed;
++//   - a collection's bones follow the character: after every root model of the scene is animated
++//     (ModelScript::OnModelAnimated, the last write before lighting and draw) the matched character
++//     bone matrices are copied over the collection's. Matching is WXL's: bone name CRC, then key bone
++//     id, then the character's key-bone lookup, then parent-chain propagation.
++// Slot state follows CharacterScript::OnCharacterItemAdded / OnCharacterItemRemoved and is keyed by the
++// character model, released in ModelScript::OnModelDestroy.
++
++#include <algorithm>
++#include <cstdio>
++#include <cstring>
++#include <string>
++#include <unordered_map>
++#include <vector>
++#include "Engine/Source/Base/Handle.h"
++#include "Engine/Source/Base/Status.h"
++#include "Engine/Source/BlizzardCore/SFile2-Core.h"
++#include "Engine/Source/Model2/M2Data.h"
++#include "Engine/Source/Model2/M2Model.h"
++#include "Engine/Source/Model2/M2Scene.h"
++#include "Engine/Source/Model2/M2Shared.h"
++#include "WoW/Common/ComponentCore/CharacterComponent.h"
++#include "WoW/Source/DB/DBClient/DBClient.h"
++#include "WoW/Source/DB/Rec/ChrRacesRec.h"
++#include "WoW/Source/DB/Rec/ItemDisplayInfoRec.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++struct SlotConfig {
++    const char* folder;
++    uint32_t attach1;
++    uint32_t attach2;
++};
++
++// Indexed by ITEM_SLOT; null = left to the stock client.
++const SlotConfig kSlots[NUM_ITEM_SLOTS] = {
++    { nullptr, 0, 0 },       // HEAD (stock helm)
++    { nullptr, 0, 0 },       // SHOULDER (stock shoulders)
++    { "Shirt", 34, 34 },     // SHIRT
++    { "Chest", 34, 34 },     // CHEST
++    { "Waist", 53, 53 },     // BELT (53 = BeltBuckle)
++    { "Leg", 9, 10 },        // PANTS
++    { "Foot", 47, 48 },      // BOOTS
++    { "Bracer", 3, 4 },      // BRACERS
++    { "Glove", 1, 2 },       // GLOVES
++    { "Tabard", 34, 34 },    // TABARD
++    { "Cape", 12, 12 },      // CAPE
++    { nullptr, 0, 0 },       // QUIVER (stock)
++};
++
++struct Piece {
++    std::string model;
++    std::string texture;
++    uint32_t attach = 0;
++    std::vector<uint16_t> geosets; // empty = plain model, else a collection
++};
++
++struct Attached {
++    CM2Model* model = nullptr; // our reference; the parent holds its own while attached
++    std::string model_path;
++    std::string texture;
++    uint32_t attach = 0;
++    std::vector<uint16_t> geosets;
++    std::vector<uint8_t> remap; // collection bone -> character bone, 0xFF unmatched; empty = not built
++};
++
++struct CharState {
++    std::vector<Piece> slots[NUM_ITEM_SLOTS];
++    std::vector<Attached> attached;
++};
++
++std::unordered_map<CM2Model*, CharState> s_chars;
++std::unordered_map<std::string, bool> s_exists;
++std::unordered_map<CM2Scene*, uint32_t> s_copiedStamp;
++uint32_t s_attachCount = 0;
++
++bool FileExists(const std::string& mdxPath) {
++    std::string path = mdxPath;
++    size_t dot = path.find_last_of('.');
++
++    if (dot != std::string::npos && (path.compare(dot, 4, ".mdx") == 0 || path.compare(dot, 4, ".MDX") == 0)) {
++        path.replace(dot, std::string::npos, ".m2");
++    }
++
++    auto it = s_exists.find(path);
++
++    if (it != s_exists.end()) {
++        return it->second;
++    }
++
++    SFileImpl* file = nullptr;
++    bool ok = SFileOpenFile(path.c_str(), &file) && file;
++
++    if (file) {
++        SFileCloseFile(file);
++    }
++
++    s_exists.emplace(path, ok);
++    return ok;
++}
++
++void ParseAttach(const char* begin, const char* end, uint32_t& value) {
++    if (begin == end) {
++        return;
++    }
++
++    uint32_t v = 0;
++
++    for (const char* p = begin; p < end && *p >= '0' && *p <= '9'; p++) {
++        v = v * 10 + static_cast<uint32_t>(*p - '0');
++    }
++
++    value = v;
++}
++
++// "<attach1>:<attach2>:<flags>:<folder>", each field optional. Only strings starting with ':' or a digit
++// are configuration; anything else is a real icon name.
++void ParseIcon2(const char* icon2, uint32_t& attach1, uint32_t& attach2, uint32_t& flags, std::string& folder) {
++    flags = 0;
++
++    if (!icon2 || !*icon2 || !(*icon2 == ':' || (*icon2 >= '0' && *icon2 <= '9'))) {
++        return;
++    }
++
++    const char* fields[4] = { icon2, nullptr, nullptr, nullptr };
++    int32_t count = 1;
++
++    for (const char* p = icon2; *p && count < 4; p++) {
++        if (*p == ':') {
++            fields[count++] = p + 1;
++        }
++    }
++
++    auto fieldEnd = [&](int32_t i) {
++        const char* e = fields[i];
++
++        while (*e && *e != ':') {
++            e++;
++        }
++
++        return e;
++    };
++
++    ParseAttach(fields[0], fieldEnd(0), attach1);
++
++    if (count > 1) {
++        ParseAttach(fields[1], fieldEnd(1), attach2);
++    }
++
++    if (count > 2) {
++        uint32_t v = 0;
++
++        for (const char* p = fields[2]; p < fieldEnd(2); p++) {
++            v = v * 10 + static_cast<uint32_t>(*p - '0');
++        }
++
++        flags = v;
++    }
++
++    if (count > 3) {
++        folder = fields[3];
++    }
++}
++
++std::string Stem(const std::string& name) {
++    size_t dot = name.find_last_of('.');
++    return dot == std::string::npos ? name : name.substr(0, dot);
++}
++
++std::string Decorate(const std::string& base, bool race, bool gender, bool underscore, const char* raceCode, const char* genderCode) {
++    if (!race && !gender) {
++        return base;
++    }
++
++    std::string out = base + "_";
++
++    if (race) {
++        out += raceCode;
++    }
++
++    if (underscore && race && gender) {
++        out += "_";
++    }
++
++    if (gender) {
++        out += genderCode;
++    }
++
++    return out;
++}
++
++bool BuildPiece(const char* modelField, const char* textureField, uint32_t attach, uint32_t flags, const std::string& customFolder, const SlotConfig& slot, const char* raceCode, const char* genderCode, Piece& out) {
++    if (!modelField || !*modelField) {
++        return false;
++    }
++
++    std::string name = modelField;
++    size_t colon = name.find(':');
++
++    if (colon != std::string::npos) {
++        for (const char* p = modelField + colon + 1; *p;) {
++            uint32_t v = 0;
++
++            while (*p >= '0' && *p <= '9') {
++                v = v * 10 + static_cast<uint32_t>(*p++ - '0');
++            }
++
++            if (out.geosets.size() < 16) {
++                out.geosets.push_back(static_cast<uint16_t>(v));
++            }
++
++            if (*p != ',') {
++                break;
++            }
++
++            p++;
++        }
++
++        name.resize(colon);
++    }
++
++    bool collection = !out.geosets.empty();
++    // A plain slot model carries no race or gender unless Icon2 asks for none to be dropped; a
++    // collection is per race and gender (wxl-equip-extension's effective flags).
++    uint32_t modelFlags = collection ? flags : (flags | 0x6);
++    std::string folder = !customFolder.empty() ? customFolder : (collection ? "Collections" : slot.folder);
++    std::string stem = Stem(name);
++    std::string dir = "Item\\ObjectComponents\\" + folder + "\\";
++
++    if (flags & 0x20) {
++        dir += stem + "\\";
++    }
++
++    out.model = dir + Decorate(stem, !(modelFlags & 0x4), !(modelFlags & 0x2), (flags & 0x40) != 0, raceCode, genderCode) + ".mdx";
++
++    if (textureField && *textureField) {
++        out.texture = dir + Decorate(Stem(textureField), (flags & 0x8) != 0, (flags & 0x10) != 0, (flags & 0x40) != 0, raceCode, genderCode) + ".blp";
++    }
++
++    out.attach = attach;
++
++    if (!FileExists(out.model)) {
++        sExtensionMgr->Log("ZepEquipModels: no %s, slot model skipped", out.model.c_str());
++        return false;
++    }
++
++    return true;
++}
++
++void Release(Attached& a) {
++    if (!a.model) {
++        return;
++    }
++
++    if (a.model->m_attachParent) {
++        a.model->DetachFromParent();
++    }
++
++    a.model->Release();
++    a.model = nullptr;
++}
++
++// WXL's three-pass match plus parent propagation.
++void BuildRemap(CM2Model* character, Attached& a) {
++    M2Data* coll = a.model->m_shared->m_data;
++    M2Data* chr = character->m_shared->m_data;
++    uint32_t collCount = coll->m_bones.m_count;
++    uint32_t charCount = chr->m_bones.m_count < 255 ? chr->m_bones.m_count : 255;
++    std::vector<uint8_t> map(collCount, 0xFF);
++
++    for (uint32_t i = 0; i < collCount; i++) {
++        uint32_t crc = coll->m_bones[i].m_boneNameCRC;
++
++        for (uint32_t j = 0; crc && j < charCount; j++) {
++            if (chr->m_bones[j].m_boneNameCRC == crc) {
++                map[i] = static_cast<uint8_t>(j);
++                break;
++            }
++        }
++    }
++
++    for (uint32_t i = 0; i < collCount; i++) {
++        int32_t key = static_cast<int32_t>(coll->m_bones[i].m_boneId);
++
++        for (uint32_t j = 0; key >= 0 && j < charCount; j++) {
++            if (static_cast<int32_t>(chr->m_bones[j].m_boneId) == key) {
++                map[i] = static_cast<uint8_t>(j);
++                break;
++            }
++        }
++    }
++
++    for (uint32_t i = 0; i < collCount; i++) {
++        int32_t key = static_cast<int32_t>(coll->m_bones[i].m_boneId);
++
++        if (map[i] == 0xFF && key >= 0 && static_cast<uint32_t>(key) < chr->m_boneIndicesById.m_count) {
++            uint16_t index = chr->m_boneIndicesById[key];
++
++            if (index < charCount) {
++                map[i] = static_cast<uint8_t>(index);
++            }
++        }
++    }
++
++    for (int32_t pass = 0; pass < 8; pass++) {
++        bool changed = false;
++
++        for (uint32_t i = 0; i < collCount; i++) {
++            uint16_t parent = coll->m_bones[i].m_parentIndex;
++
++            if (map[i] == 0xFF && parent < collCount && map[parent] != 0xFF) {
++                map[i] = map[parent];
++                changed = true;
++            }
++        }
++
++        if (!changed) {
++            break;
++        }
++    }
++
++    uint32_t matched = 0;
++
++    for (uint8_t m : map) {
++        matched += m != 0xFF;
++    }
++
++    a.remap = std::move(map);
++    sExtensionMgr->Log("ZepEquipModels: %s bones %u matched %u of %u", a.model_path.c_str(), static_cast<uint32_t>(a.remap.size()), matched, collCount);
++}
++
++// Recreates the character's attached models from its slot pieces: pieces sharing a model, texture
++// and attachment become one instance showing the union of their geosets (a collection is shared by
++// the chest, gloves, boots... of one set).
++void Rebuild(CM2Model* character, CharState& state) {
++    std::vector<Attached> wanted;
++
++    for (const auto& slot : state.slots) {
++        for (const Piece& piece : slot) {
++            Attached* match = nullptr;
++
++            for (Attached& w : wanted) {
++                if (w.model_path == piece.model && w.texture == piece.texture && w.attach == piece.attach && w.geosets.empty() == piece.geosets.empty()) {
++                    match = &w;
++                }
++            }
++
++            if (!match) {
++                wanted.emplace_back();
++                match = &wanted.back();
++                match->model_path = piece.model;
++                match->texture = piece.texture;
++                match->attach = piece.attach;
++            }
++
++            for (uint16_t g : piece.geosets) {
++                if (std::find(match->geosets.begin(), match->geosets.end(), g) == match->geosets.end()) {
++                    match->geosets.push_back(g);
++                }
++            }
++        }
++    }
++
++    // Keep instances that are unchanged (same model, texture, attachment and geosets) and still attached.
++    std::vector<Attached> kept;
++
++    for (Attached& a : state.attached) {
++        bool keep = false;
++
++        for (Attached& w : wanted) {
++            if (!w.model && a.model && a.model->m_attachParent == character && w.model_path == a.model_path && w.texture == a.texture && w.attach == a.attach && w.geosets == a.geosets) {
++                w.model = a.model;
++                w.remap = std::move(a.remap);
++                a.model = nullptr;
++                keep = true;
++                break;
++            }
++        }
++
++        if (!keep) {
++            Release(a);
++        }
++    }
++
++    for (Attached& w : wanted) {
++        if (w.model) {
++            continue;
++        }
++
++        CM2Model* model = character->m_scene->CreateModel(w.model_path.c_str(), 0);
++
++        if (!model) {
++            continue;
++        }
++
++        if (!w.texture.empty()) {
++            CTexture* texture = CreateTexture(w.texture.c_str(), &GetGlobalStatusObj());
++
++            if (texture) {
++                model->ReplaceTexture(2, texture);
++                HandleClose(reinterpret_cast<HOBJECT>(texture));
++            }
++        }
++
++        bool collection = !w.geosets.empty();
++
++        if (collection) {
++            model->SetGeometryVisible(0, 0xFFFFFFFF, 0);
++            model->SetGeometryVisible(0, 0, 1);
++
++            for (uint16_t g : w.geosets) {
++                model->SetGeometryVisible(g, g, 1);
++            }
++        }
++
++        // attachToRoot: the attachment need not exist on the character (a collection's 19 Ground_Base);
++        // it also marks the instance 0x40000, which keeps it on the character's root transform.
++        model->AttachToParent(character, w.attach, nullptr, collection ? 1 : 0);
++        w.model = model;
++
++        if (++s_attachCount <= 64 || (s_attachCount & 255) == 0) {
++            sExtensionMgr->Log("ZepEquipModels: attached %s at %u (%s%u geoset(s), %u attach(es) so far)", w.model_path.c_str(), w.attach, collection ? "collection, " : "", static_cast<uint32_t>(w.geosets.size()), s_attachCount);
++        }
++    }
++
++    state.attached = std::move(wanted);
++}
++
++class ZepEquipModelsCharacterScript : public CharacterScript {
++    public:
++    ZepEquipModelsCharacterScript() : CharacterScript("ZepEquipModelsCharacterScript") {}
++
++    void OnCharacterItemAdded(CCharacterComponent& component, uint32_t itemSlot, const ItemDisplayInfoRec& displayRec) override {
++        CM2Model* character = component.m_data.m_model;
++
++        if (!character || itemSlot >= NUM_ITEM_SLOTS || !kSlots[itemSlot].folder) {
++            return;
++        }
++
++        const SlotConfig& slot = kSlots[itemSlot];
++        bool any = (displayRec.m_modelName[0] && *displayRec.m_modelName[0]) || (displayRec.m_modelName[1] && *displayRec.m_modelName[1]);
++        auto it = s_chars.find(character);
++
++        if (!any) {
++            // A texture-only item replaces whatever model the slot had.
++            if (it != s_chars.end() && !it->second.slots[itemSlot].empty()) {
++                it->second.slots[itemSlot].clear();
++                Rebuild(character, it->second);
++            }
++
++            return;
++        }
++
++        ChrRacesRec* raceRec = g_chrRacesDB.GetRecord(component.m_data.m_preferences.m_raceID);
++
++        if (!raceRec || !raceRec->m_clientPrefix) {
++            return;
++        }
++
++        const char* genderCode = component.m_data.m_preferences.m_sexID ? "F" : "M";
++        uint32_t attach1 = slot.attach1;
++        uint32_t attach2 = slot.attach2;
++        uint32_t flags = 0;
++        std::string folder;
++        ParseIcon2(displayRec.m_inventoryIcon[1], attach1, attach2, flags, folder);
++
++        std::vector<Piece> pieces;
++        Piece piece;
++
++        if (BuildPiece(displayRec.m_modelName[0], displayRec.m_modelTexture[0], attach1, flags, folder, slot, raceRec->m_clientPrefix, genderCode, piece)) {
++            pieces.push_back(piece);
++        }
++
++        piece = Piece();
++
++        if (BuildPiece(displayRec.m_modelName[1], displayRec.m_modelTexture[1], attach2, flags, folder, slot, raceRec->m_clientPrefix, genderCode, piece)) {
++            pieces.push_back(piece);
++        }
++
++        if (pieces.empty() && it == s_chars.end()) {
++            return;
++        }
++
++        CharState& state = s_chars[character];
++        state.slots[itemSlot] = std::move(pieces);
++        Rebuild(character, state);
++    }
++
++    void OnCharacterItemRemoved(CCharacterComponent& component, uint32_t itemSlot) override {
++        auto it = s_chars.find(component.m_data.m_model);
++
++        if (it == s_chars.end() || itemSlot >= NUM_ITEM_SLOTS || it->second.slots[itemSlot].empty()) {
++            return;
++        }
++
++        it->second.slots[itemSlot].clear();
++        Rebuild(it->first, it->second);
++    }
++};
++
++class ZepEquipModelsModelScript : public ModelScript {
++    public:
++    ZepEquipModelsModelScript() : ModelScript("ZepEquipModelsModelScript") {}
++
++    // Every root of the scene has animated when the first of these fires, so the collections of every
++    // character animated this frame are driven once, on the first call per scene frame.
++    void OnModelAnimated(CM2Model& root) override {
++        if (s_chars.empty()) {
++            return;
++        }
++
++        CM2Scene* scene = root.m_scene;
++        uint32_t& done = s_copiedStamp[scene];
++
++        if (done == scene->m_frameStamp) {
++            return;
++        }
++
++        done = scene->m_frameStamp;
++
++        for (auto& [character, state] : s_chars) {
++            if (character->m_scene != scene || character->m_frameStamp != scene->m_frameStamp || !(character->m_fFlags & 1) || !character->m_boneMatrices) {
++                continue;
++            }
++
++            uint32_t charBones = character->m_shared->m_data->m_bones.m_count;
++
++            for (Attached& a : state.attached) {
++                if (a.geosets.empty() || !a.model || !(a.model->m_fFlags & 1) || !a.model->m_boneMatrices || a.model->m_attachParent != character) {
++                    continue;
++                }
++
++                if (a.remap.empty()) {
++                    BuildRemap(character, a);
++                }
++
++                uint32_t count = a.model->m_shared->m_data->m_bones.m_count;
++
++                for (uint32_t i = 0; i < count && i < a.remap.size(); i++) {
++                    if (a.remap[i] != 0xFF && a.remap[i] < charBones) {
++                        a.model->m_boneMatrices[i] = character->m_boneMatrices[a.remap[i]];
++                    }
++                }
++            }
++        }
++    }
++
++    void OnModelDestroy(CM2Model& model) override {
++        auto it = s_chars.find(&model);
++
++        if (it == s_chars.end()) {
++            return;
++        }
++
++        for (Attached& a : it->second.attached) {
++            Release(a);
++        }
++
++        s_chars.erase(it);
++    }
++};
++
++}
++
++void AddZepEquipModelsExtension() {
++    new ZepEquipModelsCharacterScript();
++    new ZepEquipModelsModelScript();
++}
+-- 
+2.34.1
+
