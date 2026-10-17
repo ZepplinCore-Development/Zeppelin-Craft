@@ -34,6 +34,7 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M2 12h20M12 2l-3 3M12 2l3 3M12 22l-3-3M12 22l3-3M2 12l3-3M2 12l3 3M22 12l-3-3M22 12l-3 3"/></svg>
   </button>
 </div>
+<script src="glcache.js?v=__GLC_V__"></script>
 <script>
 // One WebWowViewerCpp instance per iframe (the emscripten Module is global).
 // ?src=<source>&model=<path.m2>&skins=<id,id,id>
@@ -50,47 +51,21 @@ let pending = 0;
 // compile waits, texture/buffer uploads, engine frames, our M2/BLP fix-ups - and report it.
 const DIAG = q.has('diag')
   ? { t0: performance.now(), init: 0, shader: 0, links: 0, shared: 0, lastLink: 0, upload: 0, frame: 0, frameMax: 0, fix: 0, fixMax: 0, files: 0, bytes: 0, done: 0 } : null;
-if (DIAG) {
-  const P = WebGL2RenderingContext.prototype, wrap = (n, k, cnt) => { const o = P[n];
-    P[n] = function (...a) { const t = performance.now(); try { return o.apply(this, a); } finally { DIAG[k] += performance.now() - t; if (cnt) DIAG[cnt]++; } }; };
-  ['compileShader', 'getShaderParameter', 'getProgramParameter', 'getShaderInfoLog', 'getProgramInfoLog'].forEach(n => wrap(n, 'shader'));
-  wrap('linkProgram', 'shader', 'links');
-  ['texImage2D', 'texSubImage2D', 'compressedTexImage2D', 'compressedTexSubImage2D', 'bufferData', 'bufferSubData', 'generateMipmap'].forEach(n => wrap(n, 'upload'));
-  setInterval(() => { if (!DIAG.done) parent.postMessage({ type: 'pane-diag', src: SRC, d: DIAG }, '*'); }, 500);
-}
+if (DIAG) setInterval(() => { if (!DIAG.done) parent.postMessage({ type: 'pane-diag', src: SRC, d: DIAG }, '*'); }, 500);
 
-// Program cache (I-401). Every link waits for the driver (~200-300 ms each on Windows Firefox,
-// ANGLE -> D3D), and the engine links one program per M2 material variant, often the same one
-// twice: BONEINFLUENCES is a #define the shader never reads, and retail panes rebuild their
-// whole set once the model's skin arrives. Identical sources link once; later programs alias it.
-// ?noprogcache turns it off.
-if (!q.has('noprogcache')) {
-  const P = WebGL2RenderingContext.prototype, o = {}, info = new WeakMap(), alias = new WeakMap(), byKey = new Map(), keep = new WeakSet();
-  const real = (p) => (p && alias.get(p)) || p;
-  const rec = (p) => { let r = info.get(p); if (!r) info.set(p, r = { sh: [], extra: [] }); return r; };
-  for (const n of ['shaderSource', 'attachShader', 'linkProgram', 'deleteProgram', 'bindAttribLocation', 'transformFeedbackVaryings']) o[n] = P[n];
-  P.shaderSource = function (s, src) {
-    if (src.split('BONEINFLUENCES').length === 2) src = src.replace(/#define BONEINFLUENCES \d+/, '#define BONEINFLUENCES 4');
-    s.__src = src; return o.shaderSource.call(this, s, src);
-  };
-  P.attachShader = function (p, s) { rec(p).sh.push(s); return o.attachShader.call(this, p, s); };
-  P.bindAttribLocation = function (p, i, name) { rec(p).extra.push('a' + i + name); return o.bindAttribLocation.call(this, p, i, name); };
-  P.transformFeedbackVaryings = function (p, v, m) { rec(p).extra.push('t' + m + v.join()); return o.transformFeedbackVaryings.call(this, p, v, m); };
-  P.linkProgram = function (p) {
-    const r = rec(p), key = r.sh.map(s => s.__src).sort().join('\0') + '\0' + r.extra.join();
-    const hit = byKey.get(key);
-    if (hit && hit !== p) { alias.set(p, hit); if (DIAG) DIAG.shared++; return; }
-    byKey.set(key, p); keep.add(p);
-    o.linkProgram.call(this, p);
-    if (DIAG) DIAG.lastLink = Date.now();
-  };
-  // a cached program stays alive for the pane's life (a handful); the engine may drop it and ask again
-  P.deleteProgram = function (p) { if (!alias.has(p) && !keep.has(p)) return o.deleteProgram.call(this, p); };
-  for (const n of ['useProgram', 'getProgramParameter', 'getProgramInfoLog', 'getActiveUniform', 'getActiveAttrib', 'getUniformLocation',
-    'getAttribLocation', 'getUniform', 'getUniformBlockIndex', 'uniformBlockBinding', 'getActiveUniformBlockParameter', 'getActiveUniformBlockName',
-    'getUniformIndices', 'getActiveUniforms', 'getFragDataLocation', 'getTransformFeedbackVarying', 'validateProgram']) {
-    const f = P[n]; if (f) P[n] = function (p, ...a) { return f.call(this, real(p), ...a); };
-  }
+// GL context (I-401): borrowed from the picker's glkeep.html frame (same origin, never reloaded),
+// so the shader programs earlier panes built are already in it; returned on pagehide. Without a
+// keeper the pane makes its own. Either way glcache.js links each distinct program once
+// (?noprogcache: every link is real) and times GL work for ?diag.
+const KEEPER = (() => { try { const k = parent.frames.mvglkeep; return k && typeof k.lend === 'function' ? k : null; } catch (e) { return null; } })();
+let LENT = null;
+if (KEEPER) try { LENT = KEEPER.lend(); } catch (e) {}
+if (LENT) { LENT.id = 'wowcanvas'; document.getElementById('wowcanvas').replaceWith(LENT); }
+else mvGlHooks(WebGL2RenderingContext.prototype);
+{
+  const gl = document.getElementById('wowcanvas').getContext('webgl2', { antialias: false, alpha: true, depth: true, stencil: true });
+  if (gl) { gl.__diag = DIAG; gl.__nocache = q.has('noprogcache'); }
+  if (DIAG) DIAG.lent = LENT ? 1 : 0;
 }
 
 // The engine requests "<prefix><name as spelled in the M2>". Files are staged
@@ -1207,6 +1182,7 @@ function startScene_() {
 let gone = false;
 addEventListener('pagehide', () => {
   gone = true;
+  if (LENT) { try { KEEPER.give(LENT); } catch (e) {} return; }   // the keeper frees and resets it
   try {
     const c = Module.canvas, gl = c.getContext('webgl2') || c.getContext('webgl');
     const x = gl && gl.getExtension('WEBGL_lose_context');

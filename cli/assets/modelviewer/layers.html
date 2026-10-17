@@ -3158,6 +3158,10 @@ function unshare(cu) {
     fetch('data/v2/mounts.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
   ]);
   await paneHostReady;
+  // glkeep.html (I-401): a hidden frame on the pane host that is never reloaded; it lends each
+  // pane a WebGL context still holding the shaders earlier cards built (?noglkeep: none)
+  if (!/[?&]noglkeep\b/.test(location.search)) { const k = document.createElement('iframe'); k.name = 'mvglkeep'; k.hidden = true;
+    k.src = PANE_BASE + 'glkeep.html?pv=' + PANE_V; document.body.append(k); }
   assets = a.assets; texIndex = t; customList = unshare(cu);
   if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {} };
   repairRetailCollisions();

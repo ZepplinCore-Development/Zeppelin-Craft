@@ -762,7 +762,7 @@ def _model_viewer_run(ctx, rebuild_index, reuse_index):
                       mount_riders=_mount_riders())
     from lib.model_viewer_deploy import publish_page
     # ONE picker: the layered page is /modelviewer/ itself (the old display-based page is retired)
-    for f in ('layers.html', 'pane.html', 'blp.js'):
+    for f in ('layers.html', 'pane.html', 'glkeep.html', 'glcache.js', 'blp.js'):
         publish_page(f, out)
     # animation names for the picker's animation menu (AnimationData.dbc)
     try:

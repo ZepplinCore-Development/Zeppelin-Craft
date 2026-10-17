@@ -35,13 +35,16 @@ def _dbc_path(name: str) -> Path:
 
 
 def publish_page(name: str, out_root: Path) -> None:
-    """Copy a picker page; pages that embed panes get __PANE_V__ = pane.html's content hash,
-    so browsers fetch the new pane after every deploy instead of a cached one."""
+    """Copy a picker page; pages that embed panes get __PANE_V__ = the content hash of pane.html
+    and the GL files it loads, so browsers fetch the new pane after every deploy instead of a cached one."""
     import hashlib
     src = ASSET_DIR / name
-    if name.endswith('.html') and name != 'pane.html':
-        pv = hashlib.sha1((ASSET_DIR / 'pane.html').read_bytes()).hexdigest()[:10]
-        (out_root / name).write_text(src.read_text().replace('__PANE_V__', pv))
+    h = lambda *fs: hashlib.sha1(b''.join((ASSET_DIR / f).read_bytes() for f in fs if (ASSET_DIR / f).exists())).hexdigest()[:10]
+    if name in ('pane.html', 'glkeep.html'):
+        # they load glcache.js?v=__GLC_V__ (I-401)
+        (out_root / name).write_text(src.read_text().replace('__GLC_V__', h('glcache.js')))
+    elif name.endswith('.html'):
+        (out_root / name).write_text(src.read_text().replace('__PANE_V__', h('pane.html', 'glcache.js', 'glkeep.html')))
     else:
         shutil.copy2(src, out_root / name)
 

@@ -1,0 +1,46 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>gl keeper</title></head>
+<body>
+<script src="glcache.js?v=__GLC_V__"></script>
+<script>
+// F-216 picker (I-401): one hidden, never-reloaded frame per pane host. It lends each new pane a
+// canvas whose WebGL context already holds the programs earlier panes built, and takes it back
+// (freed and reset) when the pane goes. Firefox has no program cache shared between contexts,
+// so without this every card rebuilt every shader from scratch.
+// Only panes from this frame's own origin can borrow (they share its realm's objects).
+mvGlHooks(WebGL2RenderingContext.prototype);
+const ATTRS = { antialias: false, alpha: true, depth: true, stencil: true };   // what the engine asks for
+const POOL_MAX = 16;
+const pool = [], lent = new Set();
+let made = 0, lends = 0, reused = 0;
+const addEv = EventTarget.prototype.addEventListener, rmEv = EventTarget.prototype.removeEventListener;
+window.lend = function () {
+  let c;
+  while ((c = pool.pop()) && c.__gl.isContextLost()) {}
+  if (c) reused++;
+  else { c = document.createElement('canvas'); c.__gl = c.getContext('webgl2', ATTRS); c.__n = ++made; if (!c.__gl) return null; }
+  lends++;
+  lent.add(c);
+  c.__gl.__objs = [];
+  // every listener the pane's engine adds is removed on return (its realm is gone by then)
+  c.__ev = [];
+  c.addEventListener = function (t, f, o) { this.__ev.push([t, f, o]); return addEv.call(this, t, f, o); };
+  return c;
+};
+window.give = function (c) {
+  if (!c || !lent.delete(c)) return;
+  for (const [t, f, o] of c.__ev) rmEv.call(c, t, f, o);
+  const gl = c.__gl;
+  for (const k of Object.keys(c)) if (!k.startsWith('__')) delete c[k];   // emscripten's getContext, GLctxObject, ...
+  delete c.addEventListener;
+  for (const a of [...c.attributes]) c.removeAttribute(a.name);
+  document.body.append(c);
+  if (gl.isContextLost() || pool.length >= POOL_MAX) { const x = gl.getExtension('WEBGL_lose_context'); if (x) x.loseContext(); return; }
+  try { gl.__diag = null; gl.__nocache = false; mvGlReset(gl); } catch (e) { const x = gl.getExtension('WEBGL_lose_context'); if (x) x.loseContext(); return; }
+  c.width = c.height = 1;   // free the drawing buffer while idle
+  pool.push(c);
+};
+window.stats = () => ({ made, lends, reused, idle: pool.length, lent: lent.size,
+  programs: [...pool, ...lent].reduce((n, c) => n + (c.__gl.__pc ? c.__gl.__pc.keep.size : 0), 0) });
+</script>
+</body></html>
