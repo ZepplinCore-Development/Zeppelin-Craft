@@ -85,7 +85,7 @@
   .pane > .actions .row { display: flex; gap: 6px; flex: 1 1 100%; }
   .grpbox { font-size: 12px; color: var(--muted); display: flex; gap: 5px; align-items: center; }
   #ctxbar .sep { opacity: .5; }
-  #ctxbar { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding: 2px 2px 0; }
+  #ctxbar { order: -10; grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding: 2px 2px 0; }
   #ctxbar a { color: var(--good); }
   body:not(.showhelp) #help { display: none; }
   .pane > .ptitle .dettog { margin-left: auto; font-size: 11px; padding: 2px 8px; background: none; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); cursor: pointer; }
@@ -2217,7 +2217,7 @@ async function riderCards(e, riders, mount) {
     if (!r || cur !== e || run !== _riderRun) continue;
     const chosen = pk.option === 'opt:' + name;
     const div = document.createElement('div');
-    div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.rider = vid;
+    div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.rider = vid; div.style.order = -2;
     div.innerHTML = `<iframe src="${paneUrl({ ...r.p, display: e.display })}" loading="lazy" title="${esc(name)}"></iframe>
       <div class="info"><div class="h"><b>${esc(OPT_LABEL[name] || name)}</b><span class="chip" title="${esc(OPT_TIP[name] || '')}">option of ${e.display}</span>${r.classic ? '<span class="chip warn" title="Its bake is painted for the classic character model: it ships only with the classic model file">classic model</span>' : ''}</div>
       <div class="stats">model: ${esc(r.sp.model)}${r.file ? '' : ' (classic)'}</div>
@@ -2236,9 +2236,12 @@ async function riderCards(e, riders, mount) {
         <div class="stats">model: ${esc(sp.model)} · <a href="?layer=display&display=${mount}">mount display ${mount}</a></div>
         <button class="use" title="Keep the stock fused rider + mount model: this rider is not split off">${pk.option === 'fused' ? 'Chosen' : 'Use this'}</button></div>`;
       if (pk.option === 'fused') div.classList.add('chosen');
+      div.style.order = -3;                     // the cards: stock fused, fake stock, proposed
+      // back to the mount: its model card (where the mount model is picked)
+      const bar = $('ctxbar');
+      if (bar && !$('tomount')) bar.insertAdjacentHTML('afterbegin', `<a id="tomount" class="btn" href="?layer=creature&path=${encodeURIComponent(sp.model)}" title="The mount model ${esc(sp.model)}: pick the mount there">← mount ${esc(sp.model.split('/').pop())}</a><span class="sep">·</span>`);
       div.querySelector('.use').onclick = () => save('display', String(e.display), e, 'fused');
-      const bar = $('ctxbar');                  // first card, after the context bar (before it, it took a row of its own)
-      if (bar) bar.after(div); else $('panes').prepend(div);
+      if (bar) bar.after(div); else $('panes').prepend(div);   // after the context bar (before it, it took a row of its own)
     }
   }
   for (const [did, name] of riders) {

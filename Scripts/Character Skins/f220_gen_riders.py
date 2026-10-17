@@ -85,8 +85,15 @@ WEAPONS = {}
 riders = json.load(open('../zpaks/zep-npc-wardrobe/f220_riders.json'))
 out_dir = Path('../zpaks/zep-npc-wardrobe/outfits'); did = 900500
 names = {}
+# riders kept FUSED (not split): the death knights' fused bodies match no character model (bespoke plate,
+# helms and pauldrons no item reproduces), so the stock fused model stays (user, 2026-10-17). Their ids
+# stay reserved so the riders after them keep theirs
+KEEP_FUSED = ('creature/mounteddeathknight/',)
 for path, race, sex, displays in riders:
     if path not in ix.stock: continue
+    if path.startswith(KEEP_FUSED):
+        did += 2
+        continue
     g = 0 if sex == 'male' else 1
     stem = path.rsplit('/', 1)[-1][:-4]; folder = path.split('/')[1]
     name = re.sub(r'[^a-z0-9]+', '_', f'{folder}_{stem}_{sex}')

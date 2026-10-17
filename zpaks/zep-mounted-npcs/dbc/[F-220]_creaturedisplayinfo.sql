@@ -34,3 +34,12 @@ UPDATE creaturedisplayinfo SET
   texture_variation_1 = 'GnomeMechaStriderSkinRed',
   texture_variation_2 = 'GnomeMechaStriderSkinRed2'
 WHERE id IN (6978, 6979);
+
+-- 22351 (Creature\HeadlessHorsemanMount, the Horseman fused on his horse) -> the horse alone (model 2647
+-- Creature\HeadlessHorsemanHorse, as stock display 22653). The rider is the Horseman's own HD display 22352.
+UPDATE creaturedisplayinfo SET
+  model_id = 2647,
+  sound_id = 428,
+  creature_model_scale = 1,
+  blood_id = 3
+WHERE id = 22351;

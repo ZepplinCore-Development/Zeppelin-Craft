@@ -5,7 +5,8 @@
 -- (zep-npc-wardrobe/display_options.json), picked on the display's page. Never spawned.
 -- 902236+ = riders that already exist as their own HD model (no rider built): the existing display on
 -- the riderless mount.
--- Retired: the former "Fake" previews (one display per look, never spawned).
+-- Retired: the former "Fake" previews (one display per look, never spawned), and the death knight
+-- riders' previews (902217-902227 odd: the death knights stay fused, 2026-10-17).
 
 DELETE FROM creature_template WHERE entry = 902202;
 DELETE FROM creature_template_model WHERE CreatureID = 902202;
@@ -76,6 +77,30 @@ DELETE FROM creature_template_model WHERE CreatureID = 902238;
 DELETE FROM creature_template_addon WHERE entry = 902238;
 DELETE FROM creature_equip_template WHERE CreatureID = 902238;
 
+DELETE FROM creature_template WHERE entry = 902217;
+DELETE FROM creature_template_model WHERE CreatureID = 902217;
+DELETE FROM creature_template_addon WHERE entry = 902217;
+DELETE FROM creature_equip_template WHERE CreatureID = 902217;
+DELETE FROM creature_template WHERE entry = 902219;
+DELETE FROM creature_template_model WHERE CreatureID = 902219;
+DELETE FROM creature_template_addon WHERE entry = 902219;
+DELETE FROM creature_equip_template WHERE CreatureID = 902219;
+DELETE FROM creature_template WHERE entry = 902221;
+DELETE FROM creature_template_model WHERE CreatureID = 902221;
+DELETE FROM creature_template_addon WHERE entry = 902221;
+DELETE FROM creature_equip_template WHERE CreatureID = 902221;
+DELETE FROM creature_template WHERE entry = 902223;
+DELETE FROM creature_template_model WHERE CreatureID = 902223;
+DELETE FROM creature_template_addon WHERE entry = 902223;
+DELETE FROM creature_equip_template WHERE CreatureID = 902223;
+DELETE FROM creature_template WHERE entry = 902225;
+DELETE FROM creature_template_model WHERE CreatureID = 902225;
+DELETE FROM creature_template_addon WHERE entry = 902225;
+DELETE FROM creature_equip_template WHERE CreatureID = 902225;
+DELETE FROM creature_template WHERE entry = 902227;
+DELETE FROM creature_template_model WHERE CreatureID = 902227;
+DELETE FROM creature_template_addon WHERE entry = 902227;
+DELETE FROM creature_equip_template WHERE CreatureID = 902227;
 DELETE FROM creature_template WHERE entry = 902203;
 INSERT INTO creature_template SET
   `entry` = 902203,
@@ -251,156 +276,6 @@ INSERT INTO creature_template_addon SET
   mount = 17203,
   bytes2 = 1;
 
-DELETE FROM creature_template WHERE entry = 902217;
-INSERT INTO creature_template SET
-  `entry` = 902217,
-  `name` = 'F-220 Death Knight Rider (black)',
-  `subname` = 'rider preview, display 900515',
-  `minlevel` = 60,
-  `maxlevel` = 60,
-  `faction` = 35,
-  `unit_class` = 1,
-  `type` = 7,
-  `type_flags` = 2048;
-DELETE FROM creature_template_model WHERE CreatureID = 902217;
-INSERT INTO creature_template_model SET
-  CreatureID = 902217,
-  Idx = 0,
-  CreatureDisplayID = 900515,
-  DisplayScale = 1,
-  Probability = 1,
-  VerifiedBuild = 0;
-DELETE FROM creature_template_addon WHERE entry = 902217;
-INSERT INTO creature_template_addon SET
-  entry = 902217,
-  mount = 6380,
-  bytes2 = 1;
-
-DELETE FROM creature_template WHERE entry = 902219;
-INSERT INTO creature_template SET
-  `entry` = 902219,
-  `name` = 'F-220 Lady Blaumeux',
-  `subname` = 'rider preview, display 900517',
-  `minlevel` = 60,
-  `maxlevel` = 60,
-  `faction` = 35,
-  `unit_class` = 1,
-  `type` = 7,
-  `type_flags` = 2048;
-DELETE FROM creature_template_model WHERE CreatureID = 902219;
-INSERT INTO creature_template_model SET
-  CreatureID = 902219,
-  Idx = 0,
-  CreatureDisplayID = 900517,
-  DisplayScale = 1,
-  Probability = 1,
-  VerifiedBuild = 0;
-DELETE FROM creature_template_addon WHERE entry = 902219;
-INSERT INTO creature_template_addon SET
-  entry = 902219,
-  mount = 16153,
-  bytes2 = 1;
-
-DELETE FROM creature_template WHERE entry = 902221;
-INSERT INTO creature_template SET
-  `entry` = 902221,
-  `name` = 'F-220 Death Knight Rider (gold-red, female)',
-  `subname` = 'rider preview, display 900519',
-  `minlevel` = 60,
-  `maxlevel` = 60,
-  `faction` = 35,
-  `unit_class` = 1,
-  `type` = 7,
-  `type_flags` = 2048;
-DELETE FROM creature_template_model WHERE CreatureID = 902221;
-INSERT INTO creature_template_model SET
-  CreatureID = 902221,
-  Idx = 0,
-  CreatureDisplayID = 900519,
-  DisplayScale = 1,
-  Probability = 1,
-  VerifiedBuild = 0;
-DELETE FROM creature_template_addon WHERE entry = 902221;
-INSERT INTO creature_template_addon SET
-  entry = 902221,
-  mount = 25116,
-  bytes2 = 1;
-
-DELETE FROM creature_template WHERE entry = 902223;
-INSERT INTO creature_template SET
-  `entry` = 902223,
-  `name` = 'F-220 Highlord Mograine',
-  `subname` = 'rider preview, display 900521',
-  `minlevel` = 60,
-  `maxlevel` = 60,
-  `faction` = 35,
-  `unit_class` = 1,
-  `type` = 7,
-  `type_flags` = 2048;
-DELETE FROM creature_template_model WHERE CreatureID = 902223;
-INSERT INTO creature_template_model SET
-  CreatureID = 902223,
-  Idx = 0,
-  CreatureDisplayID = 900521,
-  DisplayScale = 1,
-  Probability = 1,
-  VerifiedBuild = 0;
-DELETE FROM creature_template_addon WHERE entry = 902223;
-INSERT INTO creature_template_addon SET
-  entry = 902223,
-  mount = 16139,
-  bytes2 = 1;
-
-DELETE FROM creature_template WHERE entry = 902225;
-INSERT INTO creature_template SET
-  `entry` = 902225,
-  `name` = 'F-220 Thane Korthazz',
-  `subname` = 'rider preview, display 900523',
-  `minlevel` = 60,
-  `maxlevel` = 60,
-  `faction` = 35,
-  `unit_class` = 1,
-  `type` = 7,
-  `type_flags` = 2048;
-DELETE FROM creature_template_model WHERE CreatureID = 902225;
-INSERT INTO creature_template_model SET
-  CreatureID = 902225,
-  Idx = 0,
-  CreatureDisplayID = 900523,
-  DisplayScale = 1,
-  Probability = 1,
-  VerifiedBuild = 0;
-DELETE FROM creature_template_addon WHERE entry = 902225;
-INSERT INTO creature_template_addon SET
-  entry = 902225,
-  mount = 16155,
-  bytes2 = 1;
-
-DELETE FROM creature_template WHERE entry = 902227;
-INSERT INTO creature_template SET
-  `entry` = 902227,
-  `name` = 'F-220 Sir Zeliek',
-  `subname` = 'rider preview, display 900525',
-  `minlevel` = 60,
-  `maxlevel` = 60,
-  `faction` = 35,
-  `unit_class` = 1,
-  `type` = 7,
-  `type_flags` = 2048;
-DELETE FROM creature_template_model WHERE CreatureID = 902227;
-INSERT INTO creature_template_model SET
-  CreatureID = 902227,
-  Idx = 0,
-  CreatureDisplayID = 900525,
-  DisplayScale = 1,
-  Probability = 1,
-  VerifiedBuild = 0;
-DELETE FROM creature_template_addon WHERE entry = 902227;
-INSERT INTO creature_template_addon SET
-  entry = 902227,
-  mount = 16154,
-  bytes2 = 1;
-
 DELETE FROM creature_template WHERE entry = 902229;
 INSERT INTO creature_template SET
   `entry` = 902229,
@@ -523,7 +398,7 @@ INSERT INTO creature_template_model SET
 DELETE FROM creature_template_addon WHERE entry = 902237;
 INSERT INTO creature_template_addon SET
   entry = 902237,
-  mount = 22653,
+  mount = 22351,
   bytes2 = 1;
 
 -- retired: Teron's built fake / look pair (an HD rider exists)
@@ -578,12 +453,6 @@ INSERT INTO creature_equip_template SET
   ItemID2 = 0,
   ItemID3 = 0,
   VerifiedBuild = 0;
-DELETE FROM creature_equip_template WHERE CreatureID = 902217;
-DELETE FROM creature_equip_template WHERE CreatureID = 902219;
-DELETE FROM creature_equip_template WHERE CreatureID = 902221;
-DELETE FROM creature_equip_template WHERE CreatureID = 902223;
-DELETE FROM creature_equip_template WHERE CreatureID = 902225;
-DELETE FROM creature_equip_template WHERE CreatureID = 902227;
 DELETE FROM creature_equip_template WHERE CreatureID = 902229;
 DELETE FROM creature_equip_template WHERE CreatureID = 902231;
 DELETE FROM creature_equip_template WHERE CreatureID = 902233;

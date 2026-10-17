@@ -63,60 +63,6 @@ INSERT INTO creature_model_info SET
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
 
-DELETE FROM creature_model_info WHERE DisplayID = 900515;
-INSERT INTO creature_model_info SET
-  DisplayID = 900515,
-  BoundingRadius = 0.4131,
-  CombatReach = 2.025,
-  Gender = 0,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
-DELETE FROM creature_model_info WHERE DisplayID = 900517;
-INSERT INTO creature_model_info SET
-  DisplayID = 900517,
-  BoundingRadius = 0.2496,
-  CombatReach = 1.8,
-  Gender = 1,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
-DELETE FROM creature_model_info WHERE DisplayID = 900519;
-INSERT INTO creature_model_info SET
-  DisplayID = 900519,
-  BoundingRadius = 0.2288,
-  CombatReach = 1.65,
-  Gender = 1,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
-DELETE FROM creature_model_info WHERE DisplayID = 900521;
-INSERT INTO creature_model_info SET
-  DisplayID = 900521,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
-  Gender = 0,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
-DELETE FROM creature_model_info WHERE DisplayID = 900523;
-INSERT INTO creature_model_info SET
-  DisplayID = 900523,
-  BoundingRadius = 0.4131,
-  CombatReach = 2.025,
-  Gender = 0,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
-DELETE FROM creature_model_info WHERE DisplayID = 900525;
-INSERT INTO creature_model_info SET
-  DisplayID = 900525,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
-  Gender = 0,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
 DELETE FROM creature_model_info WHERE DisplayID = 900527;
 INSERT INTO creature_model_info SET
   DisplayID = 900527,

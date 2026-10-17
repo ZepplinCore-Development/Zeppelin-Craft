@@ -16,3 +16,11 @@ DELETE FROM creature_model_info WHERE DisplayID = 900524;
 DELETE FROM creature_model_info WHERE DisplayID = 900526;
 DELETE FROM creature_model_info WHERE DisplayID = 900528;
 DELETE FROM creature_model_info WHERE DisplayID = 900530;
+
+-- the death knight riders (kept fused, 2026-10-17)
+DELETE FROM creature_model_info WHERE DisplayID = 900515;
+DELETE FROM creature_model_info WHERE DisplayID = 900517;
+DELETE FROM creature_model_info WHERE DisplayID = 900519;
+DELETE FROM creature_model_info WHERE DisplayID = 900521;
+DELETE FROM creature_model_info WHERE DisplayID = 900523;
+DELETE FROM creature_model_info WHERE DisplayID = 900525;
