@@ -87,6 +87,35 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
+-- Duty-Bound Harbinger's Stompers (retail item 182519, display 188531)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210196;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210196,
+  `left_model` = 'collections_plate_maldraxxus_d_01.mdx:501,2001',
+  `right_model` = '',
+  `left_model_texture` = 'collections_plate_maldraxxus_d_01_necrolordprestige',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '19::64',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'plate_maldraxxus_d_01_necrolordprestige_boot_ll',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
 -- Netherwalker's Eternal Gloves (retail item 225126, display 687209)
 DELETE FROM `itemdisplayinfo` WHERE `id` = 210100;
 INSERT INTO `itemdisplayinfo` SET
@@ -145,10 +174,10 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Artisan Member's Shirt (retail item 89193, display 113816)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210194;
+-- Warlord's Chain Chestpiece (retail item 16565, display 32122)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210032;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210194,
+  `id` = 210032,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -163,40 +192,11 @@ INSERT INTO `itemdisplayinfo` SET
   `group_sound_index` = 0,
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'cloth_gilneasclothes_a_01peasent_sleeve_au',
+  `upper_arm_texture` = 'mail_pvphorde_c_01green_sleeve_au',
   `lower_arm_texture` = '',
   `hands_texture` = '',
-  `upper_torso_texture` = 'cloth_gilneasclothes_a_01peasent_chest_tu',
-  `lower_torso_texture` = 'cloth_gilneasclothes_a_01peasent_chest_tl',
-  `upper_leg_texture` = '',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Soldier's Armor (retail item 6545, display 12165)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210195;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210195,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'mail_a_02gold_sleeve_au',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = 'mail_a_02gold_chest_tu',
-  `lower_torso_texture` = 'mail_a_02gold_chest_tl',
+  `upper_torso_texture` = 'mail_pvphorde_c_01green_chest_tu',
+  `lower_torso_texture` = 'mail_pvphorde_c_01green_chest_tl',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
@@ -319,35 +319,6 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Apprentice's Shirt (retail item 6096, display 2163)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210037;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210037,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = 'cloth_a_01brown_chest_tu',
-  `lower_torso_texture` = 'cloth_a_01brown_chest_tl',
-  `upper_leg_texture` = '',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
 -- Lumberjack Jerkin (retail item 2112, display 13929)
 DELETE FROM `itemdisplayinfo` WHERE `id` = 210038;
 INSERT INTO `itemdisplayinfo` SET
@@ -377,10 +348,10 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Frontier Britches (retail item 1436, display 16733)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210124;
+-- Recruit's Pants (retail item 39, display 6050)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210039;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210124,
+  `id` = 210039,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -400,16 +371,16 @@ INSERT INTO `itemdisplayinfo` SET
   `hands_texture` = '',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
-  `upper_leg_texture` = 'leather_a_05green_pant_lu',
-  `lower_leg_texture` = 'leather_a_05green_pant_ll',
+  `upper_leg_texture` = 'leather_a_05yellow_pant_lu',
+  `lower_leg_texture` = 'leather_a_05yellow_pant_ll',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Haal'eshi Boots (retail item 24702, display 687532)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210125;
+-- Recruit's Boots (retail item 40, display 6051)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210040;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210125,
+  `id` = 210040,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -430,22 +401,22 @@ INSERT INTO `itemdisplayinfo` SET
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
-  `lower_leg_texture` = 'leather_a_05green_boot_ll',
-  `foot_texture` = 'leather_a_05green_boot_fo',
+  `lower_leg_texture` = 'leather_a_05yellow_boot_ll',
+  `foot_texture` = 'leather_a_05yellow_boot_fo',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Haal'eshi Gloves (retail item 24704, display 687528)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210103;
+-- Darkshade Gloves (retail item 14543, display 28703)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210197;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210103,
+  `id` = 210197,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 1,
+  `geoset_group_1` = 3,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
   `flags` = 0,
@@ -454,10 +425,39 @@ INSERT INTO `itemdisplayinfo` SET
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
   `upper_arm_texture` = '',
-  `lower_arm_texture` = 'leather_a_05green_glove_al',
-  `hands_texture` = 'leather_a_05green_glove_ha',
+  `lower_arm_texture` = 'cloth_c_05black_sleeve_al',
+  `hands_texture` = 'leather_a_05yellow_glove_ha',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Conqueror's Breastplate (retail item 25008, display 687704)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210043;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210043,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'plate_a_05_gold_sleeve_au',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'plate_a_05_gold_chest_tu',
+  `lower_torso_texture` = 'plate_a_05_gold_chest_tl',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
@@ -580,35 +580,6 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Conqueror's Breastplate (retail item 25008, display 687704)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210043;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210043,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'plate_a_05_gold_sleeve_au',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = 'plate_a_05_gold_chest_tu',
-  `lower_torso_texture` = 'plate_a_05_gold_chest_tl',
-  `upper_leg_texture` = '',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
 -- Lambent Scale Pauldrons (retail item 4705, display 25783)
 DELETE FROM `itemdisplayinfo` WHERE `id` = 210154;
 INSERT INTO `itemdisplayinfo` SET
@@ -642,6 +613,35 @@ INSERT INTO `itemdisplayinfo` SET
 DELETE FROM `itemdisplayinfo` WHERE `id` = 210049;
 INSERT INTO `itemdisplayinfo` SET
   `id` = 210049,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'leather_horde_a_02brown_sleeve_au',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'leather_horde_a_02brown_chest_tu',
+  `lower_torso_texture` = 'leather_horde_a_02brown_chest_tl',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Brawler's Vest (retail item 58245, display 147116)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210198;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210198,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -1827,10 +1827,10 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Braies of the Cinderwolf (retail item 202469, display 665916)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210149;
+-- Painted Plate Leggings (retail item 10635, display 23390)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210084;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210149,
+  `id` = 210084,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -1850,23 +1850,23 @@ INSERT INTO `itemdisplayinfo` SET
   `hands_texture` = '',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
-  `upper_leg_texture` = 'pant_mail_raidshamandragon_d_01_lu_u',
-  `lower_leg_texture` = 'pant_mail_raidshamandragon_d_01_ll_u',
+  `upper_leg_texture` = 'mail_horde_a_01_red_pant_lu',
+  `lower_leg_texture` = 'mail_horde_a_01_red_pant_ll',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Ravager's Armguards (retail item 14770, display 22438)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210150;
+-- Pads of the Dread Wolf (retail item 13210, display 22434)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210120;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210150,
+  `id` = 210120,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 0,
+  `geoset_group_1` = 3,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
   `flags` = 0,
@@ -1875,27 +1875,27 @@ INSERT INTO `itemdisplayinfo` SET
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
   `upper_arm_texture` = '',
-  `lower_arm_texture` = 'plate_horde_a_04red_bracer_al',
+  `lower_arm_texture` = '',
   `hands_texture` = '',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
+  `lower_leg_texture` = 'leather_horde_b_03redblack_boot_ll',
+  `foot_texture` = 'leather_horde_b_03redblack_boot_fo',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Talhide Lined-Gloves (retail item 24905, display 10357)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210151;
+-- Peerless Gloves (retail item 15429, display 22435)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210121;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210151,
+  `id` = 210121,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 1,
+  `geoset_group_1` = 3,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
   `flags` = 0,
@@ -1904,8 +1904,8 @@ INSERT INTO `itemdisplayinfo` SET
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
   `upper_arm_texture` = '',
-  `lower_arm_texture` = 'cloth_b_07brown_glove_al',
-  `hands_texture` = 'cloth_b_07brown_glove_ha',
+  `lower_arm_texture` = 'leather_horde_b_03redblack_glove_al',
+  `hands_texture` = 'leather_horde_b_03redblack_glove_ha',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',

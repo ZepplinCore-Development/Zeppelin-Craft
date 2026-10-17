@@ -1,5 +1,5 @@
 # Run from Zeppelin-Craft/cli: python3 '../Scripts/Character Skins/f220_gen_riders.py'
-# Inputs: zpaks/zep-npc-wardrobe/f220_riders.json (fused rider skins -> displays), f220_pins.json (approved slots).
+# Inputs: zpaks/zep-npc-wardrobe/f220_riders.json (fused rider skins -> displays).
 # Then: zep wardrobe build; zep dbc db apply --changed; zep model viewer.
 # F-220: two wardrobe manifests per fused rider skin - "fake" (its own skin as the bake) and "look" (look-alike items)
 import sys, pickle, json, re, subprocess, numpy as np
@@ -10,7 +10,6 @@ from lib.npc_outfit import Outfits, _lab
 from lib import skin_fill as sf
 ix = pickle.loads(Path('../../logs/asset_index.pkl').read_bytes())
 o = Outfits(ix.stock, ix._meta_cache(), lambda *a: None)
-PINS = json.load(open('../zpaks/zep-npc-wardrobe/f220_pins.json'))
 RACE = {'human': 1, 'orc': 2, 'dwarf': 3, 'nightelf': 4, 'scourge': 5, 'tauren': 6, 'gnome': 7, 'troll': 8}
 HD = {p.name.lower() for p in Path('../zpaks/patch-hd-everything/mpq/source-assets/Textures/BakedNPCTextures').glob('*')}
 from commands.dbc import ENV_PATH
@@ -235,14 +234,6 @@ for path, race, sex, displays in riders:
             print('   shoulders: D_02 variant', best_v[2], best_v[1])
     if did in DK_HELM:
         pieces['helm'] = {'display': DK_HELM[did]}          # the fake wears it too: compare like with like
-    # approved slots (zep-npc-wardrobe/f220_pins.json) win over the matcher: null = the slot stays empty
-    for k, v in PINS.get(path, {}).items():
-        if k.startswith('_'):
-            continue
-        if v is None:
-            items.pop(k, None)
-        else:
-            items[k] = v
     for k, v in pieces.items():
         items.setdefault(k, v)
     WEAPONS[did] = WEAPONS[did + 1] = weapon

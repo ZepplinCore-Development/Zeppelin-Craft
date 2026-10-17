@@ -14,11 +14,17 @@
         "mod": 0
       },
       "legs": {
-        "item": 202469,
-        "mod": 1
+        "item": 10635,
+        "mod": 0
       },
-      "wrists": 14770,
-      "gloves": 24905
+      "boots": {
+        "item": 13210,
+        "mod": 0
+      },
+      "gloves": {
+        "item": 15429,
+        "mod": 0
+      }
     }
   },
   "appearance": {

@@ -12,6 +12,10 @@
       "shirt": {
         "display": 7849
       },
+      "chest": {
+        "item": 25008,
+        "mod": 0
+      },
       "legs": {
         "item": 21667,
         "mod": 0
@@ -24,11 +28,7 @@
         "item": 18824,
         "mod": 0
       },
-      "gloves": 19143,
-      "chest": {
-        "item": 25008,
-        "mod": 0
-      }
+      "gloves": 19143
     }
   },
   "appearance": {

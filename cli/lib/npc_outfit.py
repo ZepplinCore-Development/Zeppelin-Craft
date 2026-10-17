@@ -75,7 +75,8 @@ RACES = ['bloodelf', 'draenei', 'dwarf', 'gnome', 'goblin', 'human', 'nightelf',
 # a pixel within SKIN_DIST (Lab) of the matched bare skin is skin; with at least SKIN_MIN_PX of them, a
 # shirt / chest / tabard may cover at most SKIN_COVER_MAX of them
 UPPER_64 = (0, 32)
-SKIN_DIST, SKIN_MIN_PX, SKIN_COVER_MAX = 16.0, 48, 0.25
+SKIN_DIST, SKIN_MIN_PX, SKIN_COVER_MAX = 16.0, 200, 0.25   # 200 px: real bare skin (bat rider 576), not armour pixels of a skin tone (armoured gnome 79)
+ANCHOR_ABS, ANCHOR_GAP = 6.0, 2.0       # lookalike anchors: an exact region match fixes its slot
 ORDER = ['Shirt', 'Chest', 'Legs', 'Belt', 'Boots', 'Wrists', 'Gloves', 'Tabard']   # bake order (belt after legs)
 
 
@@ -413,7 +414,7 @@ class Outfits:
         look = [r for r in self.lookalike(skin_file, race, sex, klass) if r[0] not in have]
         return [r for r in rows if r[1] or not look] + look
 
-    LOOK_VERSION = 6         # bump when the rules change: cached results are recomputed
+    LOOK_VERSION = 8         # bump when the rules change: cached results are recomputed
 
     def lookalike(self, skin_file, race: str, sex: str, klass: Optional[int] = None,
                   only_items: Optional[frozenset] = None) -> List[list]:
@@ -683,6 +684,34 @@ class Outfits:
             return img
         bare = cur.copy()
 
+        # anchors: a region the rider was plainly painted from one item's texture (the bat rider's torso =
+        # Basaltscale Armor at 2.5 Lab, the next texture 13.5) fixes that slot to the items wearing it. Scored
+        # whole, such an item lost to ones average everywhere (Hulking Leggings: exact upper leg, poor lower
+        # leg), and every rule change flipped the near-tie. ANCHOR_ABS: the texture's mean error where it
+        # paints; ANCHOR_GAP: the next DIFFERENT texture (not a byte-identical copy) is that many times worse
+        anchors: Dict[str, np.ndarray] = {}
+        self._last_anchors = {}
+        for f, ((x, y, w, h), keys, lab, cov) in stk.items():
+            t = tgt[y:y + h, x:x + w]
+            full = (cov > 0.5) & body[y:y + h, x:x + w][None]
+            npx = full.reshape(len(cov), -1).sum(1)
+            share = npx / max(int(body[y:y + h, x:x + w].sum()), 1)
+            e = (np.linalg.norm(lab - t[None], axis=-1) * full).reshape(len(cov), -1).sum(1) / np.maximum(npx, 1)
+            e = np.where(share > 0.6, e, np.inf)
+            i0 = int(e.argmin())
+            if not np.isfinite(e[i0]) or e[i0] > ANCHOR_ABS:
+                continue
+            same = e <= e[i0] + 0.25                          # copies of the same art under other names
+            rest = np.where(same, np.inf, e)
+            if np.isfinite(rest.min()) and rest.min() < ANCHOR_GAP * e[i0]:
+                continue
+            for slot, idx in arr.items():
+                if f in idx:
+                    hit = np.isin(idx[f], np.nonzero(same)[0])
+                    if hit.any():
+                        anchors[slot] = hit if slot not in anchors else (anchors[slot] | hit)
+                        self._last_anchors.setdefault(slot, []).append((f, round(float(e[i0]), 2), round(float(rest.min()), 2)))
+
         def greedy(klass):
             chosen: Dict[str, Tuple[int, list]] = {}
             for _pass in range(2):
@@ -714,6 +743,7 @@ class Outfits:
                             new = np.linalg.norm(comp - t[None], axis=-1)
                             dl[u_] = ((new - b_err[None]) * m).reshape(len(u_), -1).sum(1) + G * (grad_err(comp, mb, t) - b_g)
                         d += np.where(idx >= 0, dl[np.maximum(idx, 0)], 0.0)
+                    d_all = d.copy()                           # before any filter (anchors bypass them)
                     # one armour class per outfit: other classes' armour is out (shirts / tabards / cosmetic stay)
                     c_ = cls[slot]
                     free = slot in ('Shirt', 'Tabard')        # cosmetic / classless only there
@@ -729,12 +759,14 @@ class Outfits:
                         d_set = np.where(np.isin(ids_[slot], list(only_items)), d, np.inf)
                         if np.isfinite(d_set).any() and d_set.min() < 0:
                             d = d_set
+                    if slot in anchors:
+                        d = np.where(anchors[slot], d_all, np.inf)
                     j = int(d.argmin())
                     # kept only if it removes at least 2% of the slot-free composite's error; a tabard
                     # 10%: it covers the chest, so a near-tie would hide a chest piece under cloth
                     need = 0.0 if (forced and slot == 'Chest') else (0.10 if slot == 'Tabard' else 0.02)
                     need = 0.0 if only_items else need             # a shared-set piece needs only to help
-                    must = forced and slot == 'Chest'              # a plate rider always wears a chest piece
+                    must = (forced and slot == 'Chest') or slot in anchors   # a plate rider always wears a chest; an anchor always
                     if np.isfinite(d[j]) and (must or d[j] < -need * err(base)):
                         chosen[slot] = (cands[j][0], cands[j][1], float(-d[j]))
                     else:
