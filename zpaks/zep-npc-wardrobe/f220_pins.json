@@ -1,0 +1,24 @@
+{
+  "_comment": "F-220 rider look-alike pins: slots the user approved, per fused rider skin. The rider generator wears these as they are and matches only the other slots, so a matcher rule change can never undo an approved piece. null = the slot stays empty. Add a slot here whenever the user approves it.",
+  "creature/felbat/trollbatriderskin.blp": {
+    "_approved": "2026-10-17: chest Basaltscale Armor (dd94e56d) + legs Hulking Leggings (e52ac349); no shirt",
+    "chest": {"item": 12108, "mod": 0},
+    "legs": {"item": 14748, "mod": 0},
+    "shirt": null
+  },
+  "creature/gnomerocketcar/gnomepounderpilotskin_yellow_01.blp": {
+    "_approved": "2026-10-16: gnomes spot on (e52ac349)",
+    "shirt": 6096, "chest": {"item": 2112, "mod": 0}, "legs": {"item": 1436, "mod": 0},
+    "boots": {"item": 24702, "mod": 0}, "gloves": {"item": 24704, "mod": 0}
+  },
+  "creature/gnomespidertank/pilotarmor_yellow_01.blp": {
+    "_approved": "2026-10-16: gnomes spot on (e52ac349)",
+    "shirt": {"display": 7849}, "chest": {"item": 25008, "mod": 0}, "legs": {"item": 21667, "mod": 0},
+    "belt": {"item": 10387, "mod": 0}, "boots": {"item": 18824, "mod": 0}, "gloves": 19143
+  },
+  "creature/gnomespidertank/pilotskin_yellow_01.blp": {
+    "_approved": "2026-10-16: gnomes spot on (e52ac349)",
+    "shirt": 6096, "chest": {"item": 2112, "mod": 0}, "legs": {"item": 1436, "mod": 0},
+    "boots": {"item": 24702, "mod": 0}, "gloves": {"item": 24704, "mod": 0}
+  }
+}

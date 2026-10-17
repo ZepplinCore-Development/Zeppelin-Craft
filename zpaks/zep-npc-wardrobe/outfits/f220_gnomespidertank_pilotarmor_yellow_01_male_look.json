@@ -24,7 +24,11 @@
         "item": 18824,
         "mod": 0
       },
-      "gloves": 19143
+      "gloves": 19143,
+      "chest": {
+        "item": 25008,
+        "mod": 0
+      }
     }
   },
   "appearance": {
