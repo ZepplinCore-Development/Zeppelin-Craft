@@ -67,6 +67,7 @@ SPELL_COLUMNS = [
     "effect_base_points_1", "effect_base_points_2", "effect_base_points_3",
     "effect_die_sides_1", "effect_die_sides_2", "effect_die_sides_3",
     "effect_real_points_per_level_1", "effect_real_points_per_level_2", "effect_real_points_per_level_3",
+    "effect_amplitude_1", "effect_amplitude_2", "effect_amplitude_3",
     "base_level", "max_level", "spell_level",
     "power_cost", "power_cost_percentage", "recovery_time", "category_recovery_time",
     "damage_class", "attributes", "spell_desc_variable_id",
@@ -196,7 +197,8 @@ def weapon_effects(row: Dict) -> List[Dict]:
 
 def spell_effects(row: Dict) -> List[Dict]:
     """Per-effect numbers the engine needs: effect type, aura type, base points,
-    die_sides, and per-level scaling. Empty effects (type 0 & aura 0) are skipped."""
+    die_sides, per-level scaling and the periodic tick interval (ms, for $o = tick x ticks).
+    Empty effects (type 0 & aura 0) are skipped."""
     out = []
     for i in (1, 2, 3):
         etype = _i(row, f"effect_{i}")
@@ -208,6 +210,7 @@ def spell_effects(row: Dict) -> List[Dict]:
             "base": _i(row, f"effect_base_points_{i}"),
             "die": _i(row, f"effect_die_sides_{i}"),
             "ppl": _f(row, f"effect_real_points_per_level_{i}"),
+            "amp": _i(row, f"effect_amplitude_{i}"),
         })
     return out
 
@@ -423,8 +426,9 @@ def emit_lua(records: List[Dict]) -> str:
 
         lv = r["levels"]
         eff = "{" + ",".join(
-            "{i=%d,t=%d,a=%d,b=%d,d=%d,p=%s}" % (e["i"], e["type"], e["aura"], e["base"],
-                                                 e["die"], _num(e["ppl"]))
+            "{i=%d,t=%d,a=%d,b=%d,d=%d,p=%s%s}" % (e["i"], e["type"], e["aura"], e["base"],
+                                                   e["die"], _num(e["ppl"]),
+                                                   (",m=%d" % e["amp"]) if e.get("amp") else "")
             for e in r["effects"]) + "}"
         sp = r["sp_ap"]
         sp_lua = ("{d=%s,o=%s,ap=%s,apo=%s}" % (_num(sp["d"]), _num(sp["o"]),

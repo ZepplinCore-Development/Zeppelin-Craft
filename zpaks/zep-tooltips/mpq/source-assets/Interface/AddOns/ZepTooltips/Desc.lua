@@ -5,7 +5,7 @@
 
   Supported tokens (the set our custom content uses):
     $sN $SN      self effect N value (min / max)         -> ZepCompute.effectValues(rec)[N]
-    $oN          self effect N periodic value
+    $oN          self effect N total over the duration (per tick x ticks)
     $<id>sN ...  cross-spell: spell <id>'s effect N       -> effectValues(Data[id])[N]
     $?sN[A][B]   if the player KNOWS spell N -> A else B  (nested tokens interpreted)
     $?aN[A][B]   if the player HAS aura N    -> A else B
@@ -28,11 +28,26 @@ end
 
 -- Display string for a record's effect N. mode "range" ($s/$o) shows "lo to hi" for a die
 -- spread (matches the client) and a single number when there's none; "lo" ($m) / "hi" ($S/$M).
-local function effectRange(ctx, rec, n, mode)
+-- Tick count of a periodic effect: duration / tick interval (eff.m, ms). nil if not periodic.
+local function tickCount(rec, n)
+    if not rec or not rec.eff or not rec.dur or rec.dur <= 0 then return nil end
+    for _, e in ipairs(rec.eff) do
+        if e.i == n and e.m and e.m > 0 then return floor(rec.dur * 1000 / e.m) end
+    end
+    return nil
+end
+
+-- total -> $o/$O: the per-tick value (rounded, as the server deals it) times the tick count.
+local function effectRange(ctx, rec, n, mode, total)
     if not rec then return nil end
     local v = ZepCompute.effectValues(rec, ctx)[n]
     if not v then return nil end
     local lo, hi = round(abs(v.lo)), round(abs(v.hi))
+    if total then
+        local ticks = tickCount(rec, n)
+        if not ticks then return nil end
+        lo, hi = lo * ticks, hi * ticks
+    end
     if mode == "hi" then return tostring(hi) end
     if mode == "lo" then return tostring(lo) end
     if lo ~= hi then return lo .. " to " .. hi end
@@ -162,7 +177,7 @@ local function token(s, i, rec, ctx, getRec)
         if vk then
             local nextp = i + 1 + #xid + 2
             local mode = (vk == "s" or vk == "o") and "range" or (vk == "m" and "lo" or "hi")
-            local txt = effectRange(ctx, rec2, tonumber(vn), mode)
+            local txt = effectRange(ctx, rec2, tonumber(vn), mode, vk == "o" or vk == "O")
             if txt then return txt, nextp end
             return s:sub(i, nextp - 1), nextp, true
         end
@@ -180,7 +195,7 @@ local function token(s, i, rec, ctx, getRec)
     local sk, sn = r:match("^%$([sSoOmM])(%d)")
     if sk then
         local mode = (sk == "s" or sk == "o") and "range" or (sk == "m" and "lo" or "hi")
-        local txt = effectRange(ctx, rec, tonumber(sn), mode)
+        local txt = effectRange(ctx, rec, tonumber(sn), mode, sk == "o" or sk == "O")
         if txt then return txt, i + 3 end
         return s:sub(i, i + 2), i + 3, true
     end
