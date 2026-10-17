@@ -1,0 +1,454 @@
+From d2255b0569c85eeee7dd63c715b59c7996c80c34 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 17 Oct 2026 02:40:11 +0000
+Subject: [PATCH] Zeppelin F-223: extension seams for the WXL ports
+
+- ItemScript::OnScalingStatArmor at the end of GetScalingStatArmor (0x0061A6B0)
+- TerrainScript::OnTerrainTileFile in CMap::LoadArea (tile ADT path rewrite)
+- WorldScript::OnMinimapTileDirectory in MinimapBuildSource, base-tile fallback
+- MinimapForceTileReload() and CMap::RequestAreaReload(x, y): reload through
+  the engine's own paths instead of re-running CMap::Load
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Source/Extension/ExtensionMgr.cpp         |  1 +
+ WoW/Source/Extension/ExtensionMgr.h           |  7 ++++
+ .../ScriptDefines/AllScriptsObjects.h         |  1 +
+ .../Extension/ScriptDefines/ItemScript.cpp    | 13 ++++++++
+ .../Extension/ScriptDefines/ItemScript.h      | 25 ++++++++++++++
+ .../Extension/ScriptDefines/TerrainScript.cpp |  4 +++
+ .../Extension/ScriptDefines/TerrainScript.h   |  8 +++++
+ .../Extension/ScriptDefines/WorldScript.cpp   |  4 +++
+ .../Extension/ScriptDefines/WorldScript.h     |  8 +++++
+ WoW/Source/UIUtil/CMakeLists.txt              |  5 +++
+ WoW/Source/UIUtil/Tooltip.cpp                 | 33 +++++++++++++------
+ WoW/Source/Ui/MinimapFrame.cpp                | 29 +++++++++++++++-
+ WoW/Source/Ui/MinimapFrame.h                  |  1 +
+ WoW/Source/WorldClient/Map.cpp                | 20 ++++++++++-
+ WoW/Source/WorldClient/Map.h                  |  3 ++
+ 15 files changed, 150 insertions(+), 12 deletions(-)
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ItemScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ItemScript.h
+
+diff --git a/WoW/Source/Extension/ExtensionMgr.cpp b/WoW/Source/Extension/ExtensionMgr.cpp
+index d44513a..9908f51 100644
+--- a/WoW/Source/Extension/ExtensionMgr.cpp
++++ b/WoW/Source/Extension/ExtensionMgr.cpp
+@@ -66,6 +66,7 @@ void ExtensionMgr::Unload() {
+     ScriptRegistry<ClientDBScript>::Clear();
+     ScriptRegistry<ClientScript>::Clear();
+     ScriptRegistry<ConsoleScript>::Clear();
++    ScriptRegistry<ItemScript>::Clear();
+     ScriptRegistry<LuaScript>::Clear();
+     ScriptRegistry<MapObjectScript>::Clear();
+     ScriptRegistry<ModelScript>::Clear();
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 5e33792..82301ab 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -20,6 +20,7 @@ class CSimpleFrame;
+ class CTexture;
+ class NetClient;
+ class PlaySpellVisuaKitData;
++class ScalingStatValuesRec;
+ class SFileImpl;
+ class WowClientDB_Base;
+ class XMLNode;
+@@ -87,6 +88,7 @@ class ExtensionMgr {
+     void OnMapLoaded(uint32_t mapId, const char* mapName);
+     void OnMapUnload();
+     void OnWorldUpdate(float elapsedSec);
++    void OnMinimapTileDirectory(int32_t tileX, int32_t tileY, const char*& directory);
+ 
+     public: /* RenderScript */
+     void OnFrameBegin(float elapsedSec);
+@@ -166,6 +168,7 @@ class ExtensionMgr {
+     void OnTerrainTileUnload(CMapArea* area);
+     void OnTerrainChunkCreated(CMapChunk* chunk);
+     void OnTerrainChunkPurge(CMapChunk* chunk);
++    void OnTerrainTileFile(CMapArea* area, char* fileName, uint32_t fileNameSize);
+ 
+     public: /* MapObjectScript */
+     void OnMapObjLoaded(CMapObj* mapObj);
+@@ -185,6 +188,10 @@ class ExtensionMgr {
+     void OnClientDBInitialize();
+     void OnClientDBShutdown();
+ 
++    public: /* ItemScript */
++    // Returns armor as adjusted by every ItemScript (unchanged when none is registered).
++    int32_t OnScalingStatArmor(const ScalingStatValuesRec* values, uint32_t flags, int32_t armor);
++
+     public: /* LuaScript */
+     // Registration API. A function registered here is a global in every FrameScript state of the
+     // contexts in the mask (FrameScriptContexts), registered through FrameScript_RegisterFunction
+diff --git a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+index cdb6127..6f7d543 100644
+--- a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
++++ b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+@@ -6,6 +6,7 @@
+ #include "WoW/Source/Extension/ScriptDefines/ClientDBScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ClientScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ConsoleScript.h"
++#include "WoW/Source/Extension/ScriptDefines/ItemScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/LuaScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/MapObjectScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ModelScript.h"
+diff --git a/WoW/Source/Extension/ScriptDefines/ItemScript.cpp b/WoW/Source/Extension/ScriptDefines/ItemScript.cpp
+new file mode 100644
+index 0000000..7f1e544
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ItemScript.cpp
+@@ -0,0 +1,13 @@
++#include "WoW/Source/Extension/ScriptDefines/ItemScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++int32_t ExtensionMgr::OnScalingStatArmor(const ScalingStatValuesRec* values, uint32_t flags, int32_t armor) {
++    CALL_HOOKS(ItemScript, script->OnScalingStatArmor(*values, flags, armor));
++    return armor;
++}
++
++ItemScript::ItemScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<ItemScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered ItemScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/ItemScript.h b/WoW/Source/Extension/ScriptDefines/ItemScript.h
+new file mode 100644
+index 0000000..28d4da9
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ItemScript.h
+@@ -0,0 +1,25 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_ITEMSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_ITEMSCRIPT_H
++
++#include <cstdint>
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class ScalingStatValuesRec;
++
++// Item values the client computes itself rather than reading from the server (WoW/Source/UIUtil/
++// Tooltip.cpp): the scaling ("heirloom") stat getters behind item tooltips and the character pane's
++// item comparisons. The server computes the same values for the real stats, so a script that changes
++// one must match the server's formula or the tooltip and the applied value disagree.
++class ItemScript : public ScriptObject {
++    protected:
++    explicit ItemScript(const char* name);
++
++    public:
++    // End of GetScalingStatArmor: values is the ScalingStatValues row for the item's level, flags the
++    // item's ScalingStatValue mask, armor the stock result (the curve picked by flags & 0xF801E0, 0 for
++    // none). The stock switch ignores every other bit, so a script may give unused bits a meaning.
++    // Scripts run in registration order, each seeing the previous one's armor.
++    virtual void OnScalingStatArmor(const ScalingStatValuesRec& values, uint32_t flags, int32_t& armor) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+index 5585edc..4d3d165 100644
+--- a/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+@@ -14,6 +14,10 @@ void ExtensionMgr::OnTerrainChunkCreated(CMapChunk* chunk) {
+     CALL_HOOKS(TerrainScript, script->OnTerrainChunkCreated(*chunk));
+ }
+ 
++void ExtensionMgr::OnTerrainTileFile(CMapArea* area, char* fileName, uint32_t fileNameSize) {
++    CALL_HOOKS(TerrainScript, script->OnTerrainTileFile(*area, fileName, fileNameSize));
++}
++
+ void ExtensionMgr::OnTerrainChunkPurge(CMapChunk* chunk) {
+     CALL_HOOKS(TerrainScript, script->OnTerrainChunkPurge(*chunk));
+ }
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.h b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+index c54bf5b..4875e7d 100644
+--- a/WoW/Source/Extension/ScriptDefines/TerrainScript.h
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+@@ -1,6 +1,7 @@
+ #ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_TERRAINSCRIPT_H
+ #define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_TERRAINSCRIPT_H
+ 
++#include <cstdint>
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
+ class CMapArea;
+@@ -38,6 +39,13 @@ class TerrainScript : public ScriptObject {
+     // Start of CMapChunk::Purge: the chunk's render data, detail doodads and liquid are about to
+     // be released (tile purge or chunk rebuild).
+     virtual void OnTerrainChunkPurge(CMapChunk& chunk) {}
++
++    // CMap::LoadArea, before CMapArea::Load: fileName holds the tile's ADT path
++    // ("World\\Maps\\<map>\\<map>_<x>_<y>.adt", fileNameSize bytes) built from the loaded map's name and
++    // area.m_index. A script may rewrite it to serve this tile from another map directory (a terrain
++    // phase); the read, parse and chunk build then run on that file as if it were the map's own. The
++    // substitute must exist and be a 3.3.5 ADT. Scripts run in registration order on the main thread.
++    virtual void OnTerrainTileFile(CMapArea& area, char* fileName, uint32_t fileNameSize) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/Extension/ScriptDefines/WorldScript.cpp b/WoW/Source/Extension/ScriptDefines/WorldScript.cpp
+index b1cd5a3..c015ebb 100644
+--- a/WoW/Source/Extension/ScriptDefines/WorldScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/WorldScript.cpp
+@@ -18,6 +18,10 @@ void ExtensionMgr::OnMapUnload() {
+     CALL_HOOKS(WorldScript, script->OnMapUnload());
+ }
+ 
++void ExtensionMgr::OnMinimapTileDirectory(int32_t tileX, int32_t tileY, const char*& directory) {
++    CALL_HOOKS(WorldScript, script->OnMinimapTileDirectory(tileX, tileY, directory));
++}
++
+ void ExtensionMgr::OnWorldUpdate(float elapsedSec) {
+     CALL_HOOKS(WorldScript, script->OnWorldUpdate(elapsedSec));
+ }
+diff --git a/WoW/Source/Extension/ScriptDefines/WorldScript.h b/WoW/Source/Extension/ScriptDefines/WorldScript.h
+index b6cba6a..ff4a745 100644
+--- a/WoW/Source/Extension/ScriptDefines/WorldScript.h
++++ b/WoW/Source/Extension/ScriptDefines/WorldScript.h
+@@ -43,6 +43,14 @@ class WorldScript : public ScriptObject {
+     // this frame and the world is about to be rendered. elapsedSec is the world frame's time.
+     // Fires only while the world frame is active (in the world, not in the glue).
+     virtual void OnWorldUpdate(float elapsedSec) {}
++
++    // MinimapBuildSource (WoW/Source/Ui/MinimapFrame.cpp), before the md5translate lookup of one
++    // minimap tile: directory is the Map.dbc directory of the minimap's map, used to form the key
++    // "<directory>\\map<x>_<yy>.blp". A script may point it at another directory (a terrain phase's
++    // art); when that key has no md5translate row the client falls back to the map's own directory,
++    // so a phase without minimap art keeps the base tile. directory must stay valid until the call
++    // returns. Call MinimapForceTileReload after changing the answer for tiles already shown.
++    virtual void OnMinimapTileDirectory(int32_t tileX, int32_t tileY, const char*& directory) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/UIUtil/CMakeLists.txt b/WoW/Source/UIUtil/CMakeLists.txt
+index 3cad7a4..12f3d72 100644
+--- a/WoW/Source/UIUtil/CMakeLists.txt
++++ b/WoW/Source/UIUtil/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(UIUtil
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(UIUtil
++    PRIVATE
++        Extension
++)
+diff --git a/WoW/Source/UIUtil/Tooltip.cpp b/WoW/Source/UIUtil/Tooltip.cpp
+index 425f1bb..a5352ac 100644
+--- a/WoW/Source/UIUtil/Tooltip.cpp
++++ b/WoW/Source/UIUtil/Tooltip.cpp
+@@ -14,6 +14,7 @@
+ #include "Engine/Source/lua-5.1/src/lauxlib.h"
+ #include "Engine/Source/lua-5.1/src/lua.h"
+ #include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Object/GameObject.h"
+ #include "WoW/Source/Object/ObjectClient/GameObject_C.h"
+ #include "WoW/Source/Object/ObjectClient/Unit_C.h"
+@@ -3444,36 +3445,48 @@ int32_t GetScalingStatArmor(const ScalingStatValuesRec* values, uint32_t flags)
+         return 0;
+     }
+ 
++    int32_t armor = 0;
++
+     switch (flags & 0xF801E0) {
+         case 0x20:
+-            return values->m_clothShoulderArmor;
++            armor = values->m_clothShoulderArmor;
++            break;
+ 
+         case 0x40:
+-            return values->m_leatherShoulderArmor;
++            armor = values->m_leatherShoulderArmor;
++            break;
+ 
+         case 0x80:
+-            return values->m_mailShoulderArmor;
++            armor = values->m_mailShoulderArmor;
++            break;
+ 
+         case 0x100:
+-            return values->m_plateShoulderArmor;
++            armor = values->m_plateShoulderArmor;
++            break;
+ 
+         case 0x80000:
+-            return values->m_clothCloakArmor;
++            armor = values->m_clothCloakArmor;
++            break;
+ 
+         case 0x100000:
+-            return values->m_clothChestArmor;
++            armor = values->m_clothChestArmor;
++            break;
+ 
+         case 0x200000:
+-            return values->m_leatherChestArmor;
++            armor = values->m_leatherChestArmor;
++            break;
+ 
+         case 0x400000:
+-            return values->m_mailChestArmor;
++            armor = values->m_mailChestArmor;
++            break;
+ 
+         case 0x800000:
+-            return values->m_plateChestArmor;
++            armor = values->m_plateChestArmor;
++            break;
+     }
+ 
+-    return 0;
++    // Not in the original: extensions may adjust the armour (the stock switch ignores the other bits).
++    return sExtensionMgr->OnScalingStatArmor(values, flags, armor);
+ }
+ 
+ // VERIFY: 716dc312 auto
+diff --git a/WoW/Source/Ui/MinimapFrame.cpp b/WoW/Source/Ui/MinimapFrame.cpp
+index 926f30b..681ca82 100644
+--- a/WoW/Source/Ui/MinimapFrame.cpp
++++ b/WoW/Source/Ui/MinimapFrame.cpp
+@@ -56,6 +56,7 @@
+ #include "WoW/Source/DB/DBClient/DBCacheInstances.h"
+ #include "WoW/Source/DB/Rec/AreaTableRec.h"
+ #include "WoW/Source/Object/ObjectClient/GameObject_C.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "Engine/Source/Gxu/Gxu.h"
+ #include "Engine/Source/Gx/CGxMatrixStack.h"
+ #include "Engine/Source/Event/CMouseEvent.h"
+@@ -1222,9 +1223,19 @@ static int32_t MinimapBuildSource(const int32_t* tile, char* path, uint32_t size
+         return 0;
+     }
+ 
+-    SStrPrintf(path, size, s_minimapTileFormat, map->m_directory, tile[0], tile[1]);
++    // Not in the original: an extension may take this tile's art from another directory; a key
++    // without an md5translate row falls back to the map's own directory.
++    const char* directory = map->m_directory;
++    sExtensionMgr->OnMinimapTileDirectory(tile[0], tile[1], directory);
++
++    SStrPrintf(path, size, s_minimapTileFormat, directory, tile[0], tile[1]);
+     MINIMAPMD5NAME* name = s_md5Names.Ptr(path);
+ 
++    if (!name && directory != map->m_directory) {
++        SStrPrintf(path, size, s_minimapTileFormat, map->m_directory, tile[0], tile[1]);
++        name = s_md5Names.Ptr(path);
++    }
++
+     if (!name) {
+         SysMsgPrintf(STATUS_ERROR, 2, "No minimap texture: \"%s\"", path);
+         *path = 0;
+@@ -1235,6 +1246,15 @@ static int32_t MinimapBuildSource(const int32_t* tile, char* path, uint32_t size
+     return 1;
+ }
+ 
++// Not in the original: set by MinimapForceTileReload, consumed by the next MinimapUpdatePosition.
++static bool s_forceTileReload;
++
++// Not in the original: the next minimap update re-resolves every tile, as on a map change. For an
++// extension that changed the art a tile resolves to without the map id changing (a terrain phase).
++void MinimapForceTileReload() {
++    s_forceTileReload = true;
++}
++
+ // VERIFY: dd828e8c manual
+ // OFFSET: 0x007F5760
+ static void SetupTextureHandles(const int32_t* tile, int32_t reset, MINIMAPTILE* tiles) {
+@@ -1300,6 +1320,13 @@ static void SetupTextureHandles(const int32_t* tile, int32_t reset, MINIMAPTILE*
+ // OFFSET: 0x007F5930
+ static int32_t MinimapUpdatePosition(int32_t mapId, const C3Vector* position, C2Vector* center, float* scale, MINIMAPTILE* tiles) {
+     int32_t mapChanged = mapId != s_minimapMapId;
++
++    // Not in the original: MinimapForceTileReload makes this update rebuild every tile.
++    if (s_forceTileReload) {
++        s_forceTileReload = false;
++        mapChanged = 1;
++        s_updateFlags |= 1;
++    }
+     s_playerPosition = *position;
+     s_minimapMapId = mapId;
+     UpdatePointsOfInterest();
+diff --git a/WoW/Source/Ui/MinimapFrame.h b/WoW/Source/Ui/MinimapFrame.h
+index 346ef25..590bfa6 100644
+--- a/WoW/Source/Ui/MinimapFrame.h
++++ b/WoW/Source/Ui/MinimapFrame.h
+@@ -222,6 +222,7 @@ TSGrowableArray<AreaPOIRec*>* MinimapGetPOI(int32_t* changed);
+ float MinimapGetViewRadius();
+ AreaPOIRec* MinimapGetGossipPoi();
+ void UpdatePointsOfInterest();
++void MinimapForceTileReload();
+ void RefreshWorldStatePOIs(uint32_t state);
+ void MinimapShutdown();
+ void MinimapSetDynamicPOI(int32_t index, int32_t flags, float x, float y, int32_t icon, int32_t importance, const char* name);
+diff --git a/WoW/Source/WorldClient/Map.cpp b/WoW/Source/WorldClient/Map.cpp
+index 2761afb..3aff808 100644
+--- a/WoW/Source/WorldClient/Map.cpp
++++ b/WoW/Source/WorldClient/Map.cpp
+@@ -83,6 +83,7 @@
+ #include "Engine/Source/ConsoleBase/ConsoleVar.h"
+ #include "WoW/Source/Game/GameClient/ProjectTex.h"
+ #include "WoW/Source/DB/Rec/TerrainTypeRec.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00CF4938
+ TSGrowableArray<CGxVertexPC> CMap::debugVertexArray;
+@@ -1988,6 +1989,15 @@ void CMap::PrepareMapDoodadDefs() {
+     }
+ }
+ 
++// Not in the original: tiles RequestAreaReload marked for the next PreUpdateAreas, [y][x].
++static uint8_t s_areaReload[64 * 64];
++
++void CMap::RequestAreaReload(int32_t x, int32_t y) {
++    if (x >= 0 && x < 64 && y >= 0 && y < 64 && CMap::m_areaTable[64 * y + x]) {
++        s_areaReload[64 * y + x] = 1;
++    }
++}
++
+ // VERIFY: d6c4755a manual
+ // OFFSET: 0x007B5950
+ void CMap::PreUpdateAreas(bool addToScene) {
+@@ -2010,12 +2020,16 @@ void CMap::PreUpdateAreas(bool addToScene) {
+         CMapArea* area = static_cast<CMapArea*>(link->m_owner);
+         CMapBaseObjLink* next = CMap::s_unk_ADFBEC.Next(link);
+ 
+-        if (area->m_index.x >= minX && area->m_index.x <= maxX && area->m_index.y >= minY && area->m_index.y <= maxY) {
++        // Not in the original: a tile marked by RequestAreaReload takes the out-of-range purge below.
++        int32_t reload = s_areaReload[64 * area->m_index.y + area->m_index.x];
++
++        if (!reload && area->m_index.x >= minX && area->m_index.x <= maxX && area->m_index.y >= minY && area->m_index.y <= maxY) {
+             C2Vector pos(World::s_currentWorldPos.x, World::s_currentWorldPos.y);
+             entries[entryCount].m_dist = NTempest::DistanceSquared(area->m_bounds, pos);
+             entries[entryCount].m_area = area;
+             entryCount++;
+         } else if (!area->m_asyncObject || !area->m_asyncObject->m_isCurrent) {
++            s_areaReload[64 * area->m_index.y + area->m_index.x] = 0;
+             CMap::FreeBaseObjLink(link);
+             CMap::PurgeArea(area);
+         }
+@@ -4157,6 +4171,10 @@ CTexture* CMap::LoadTexture(const char* fileName) {
+ void CMap::LoadArea(CMapArea* area) {
+     char fileName[256];
+     SStrPrintf(fileName, sizeof(fileName), "%s\\%s_%d_%d.adt", CMap::mapPath, CMap::mapName, area->m_index.x, area->m_index.y);
++
++    // Not in the original: an extension may serve this tile from another map directory.
++    sExtensionMgr->OnTerrainTileFile(area, fileName, sizeof(fileName));
++
+     area->Load(fileName);
+ }
+ 
+diff --git a/WoW/Source/WorldClient/Map.h b/WoW/Source/WorldClient/Map.h
+index fe8cd31..2aa0344 100644
+--- a/WoW/Source/WorldClient/Map.h
++++ b/WoW/Source/WorldClient/Map.h
+@@ -290,6 +290,9 @@ class CMap {
+     static void FreeDoodadDef(CMapDoodadDef* doodadDef);
+     static void FreeMapObjDef(CMapObjDef* mapObjDef);
+     static void PurgeArea(CMapArea* area);
++    // Not in the original: the next PreUpdateAreas purges this tile as if it had left the area of
++    // interest, and re-prepares it if it is still in range (its file re-read through LoadArea).
++    static void RequestAreaReload(int32_t x, int32_t y);
+     static void PurgeMapObjDef(CMapObjDef* mapObjDef);
+     static void PurgeMapObjDefGroup(CMapObjDefGroup* mapObjDefGroup);
+     static void DestroyLight(CMapLight* light);
+-- 
+2.34.1
+

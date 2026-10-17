@@ -1,0 +1,1564 @@
+From c15751d97db99468efe947dc80d6c7ee280c9b97 Mon Sep 17 00:00:00 2001
+From: iThorgrim <contact@warlog.dev>
+Date: Fri, 16 Oct 2026 13:50:38 +0200
+Subject: [PATCH] feat(new hook): Adding more hooks and rewrite some part of
+ the Extensions loader
+
+---
+ CMakeLists.txt                                |   1 +
+ Engine/Source/Scrn/CMakeLists.txt             |   1 +
+ Engine/Source/Scrn/Layer.cpp                  |   5 +
+ Extensions/CMakeLists.txt                     |   2 +-
+ Extensions/ExtensionsLoader.cpp.in            |   9 ++
+ Extensions/HelloWorld/src/HelloWorld.cpp      |  56 +++-----
+ .../HelloWorld/src/HelloWorldClient.cpp       |  49 +++++++
+ Extensions/HelloWorld/src/HelloWorldLua.cpp   |  43 ++++++
+ Extensions/HelloWorld/src/HelloWorldNet.cpp   |  39 ++++++
+ .../HelloWorld/src/HelloWorldRender.cpp       |  47 +++++++
+ Extensions/HelloWorld/src/HelloWorldWorld.cpp |  34 +++++
+ WoW/Source/Client.cpp                         |  22 ++-
+ WoW/Source/Extension/CMakeLists.txt           |   4 +-
+ WoW/Source/Extension/ExtensionLoader.h        |  10 +-
+ WoW/Source/Extension/ExtensionMgr.cpp         |  86 ++++--------
+ WoW/Source/Extension/ExtensionMgr.h           | 129 ++++++++++++++----
+ WoW/Source/Extension/ExtensionMgrMacros.h     |  12 ++
+ .../ScriptDefines/AllScriptsObjects.h         |  11 ++
+ .../Extension/ScriptDefines/ClientScript.cpp  |  52 +++++++
+ .../Extension/ScriptDefines/ClientScript.h    |  52 +++++++
+ .../Extension/ScriptDefines/LuaScript.cpp     |  56 ++++++++
+ .../Extension/ScriptDefines/LuaScript.h       |  42 ++++++
+ .../Extension/ScriptDefines/NetScript.cpp     |  42 ++++++
+ .../Extension/ScriptDefines/NetScript.h       |  34 +++++
+ .../Extension/ScriptDefines/RenderScript.cpp  |  20 +++
+ .../Extension/ScriptDefines/RenderScript.h    |  35 +++++
+ .../Extension/ScriptDefines/WorldScript.cpp   |  20 +++
+ .../Extension/ScriptDefines/WorldScript.h     |  33 +++++
+ WoW/Source/Extension/ScriptObject.h           |  33 +++++
+ WoW/Source/Glue/CGlueMgr.cpp                  |   5 +-
+ WoW/Source/Glue/CMakeLists.txt                |   5 +
+ WoW/Source/Net/CMakeLists.txt                 |   1 +
+ WoW/Source/Net/NetClient/NetClient.cpp        |   7 +
+ WoW/Source/Ui/CMakeLists.txt                  |   5 +
+ WoW/Source/Ui/GameUI.cpp                      |   5 +-
+ WoW/Source/Ui/WorldFrame.cpp                  |   7 +
+ WoW/Source/WorldClient/CMakeLists.txt         |   5 +
+ WoW/Source/WorldClient/World.cpp              |   7 +
+ 38 files changed, 892 insertions(+), 134 deletions(-)
+ create mode 100644 Extensions/ExtensionsLoader.cpp.in
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldClient.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldLua.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldNet.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldRender.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldWorld.cpp
+ create mode 100644 WoW/Source/Extension/ExtensionMgrMacros.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ClientScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ClientScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/LuaScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/LuaScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/NetScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/NetScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/RenderScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/RenderScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/WorldScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/WorldScript.h
+ create mode 100644 WoW/Source/Extension/ScriptObject.h
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 734e437..2f8724f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -106,6 +106,7 @@ add_subdirectory(WoW/Source/WorldClient)
+ add_subdirectory(WoW/Source/WowServices)
+ add_subdirectory(WoW/Source/WowSvcs)
+ add_subdirectory(WoW/Source)
++# Compiled-in extensions (Extensions/<Name>/src/), discovered by their own CMakeLists.
+ add_subdirectory(Extensions)
+ if (WIN32)
+     add_subdirectory(Tools/WowClient)
+diff --git a/Engine/Source/Scrn/CMakeLists.txt b/Engine/Source/Scrn/CMakeLists.txt
+index cb173a2..e7b72df 100644
+--- a/Engine/Source/Scrn/CMakeLists.txt
++++ b/Engine/Source/Scrn/CMakeLists.txt
+@@ -12,4 +12,5 @@ target_include_directories(Scrn
+ target_link_libraries(Scrn
+     PRIVATE
+         freetype
++        Extension
+ )
+diff --git a/Engine/Source/Scrn/Layer.cpp b/Engine/Source/Scrn/Layer.cpp
+index 96a4a52..a58c4a7 100644
+--- a/Engine/Source/Scrn/Layer.cpp
++++ b/Engine/Source/Scrn/Layer.cpp
+@@ -18,6 +18,7 @@
+ #include "Engine/Source/SoundEngine/SoundEngine.h"
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "Engine/Source/Tempest/C44Matrix.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x009EDCB8
+ static const RECTF s_defaultRect = { 0.0f, 0.0f, 1.0f, 1.0f };
+@@ -155,6 +156,8 @@ static int32_t CaptureScreen() {
+ // OFFSET: 0x004A8720
+ static int32_t OnPaint(const void* data, void* param) {
+     if (GxHasContext() && GxIsWindowVisible()) {
++        sExtensionMgr->OnFrameBegin(s_elapsedSec);
++
+         HSRGN rgn;
+         SRgnCreate(&rgn, 0);
+ 
+@@ -211,6 +214,8 @@ static int32_t OnPaint(const void* data, void* param) {
+         GxXformSetViewport(minX, maxX, minY, maxY, minZ, maxZ);
+         GxuFontUpdate();
+ 
++        sExtensionMgr->OnFrameEnd();
++
+         if (!s_noPresent) {
+             if (s_screenshotCallback) {
+                 g_theGxDevicePtr->DeviceTakeScreenShot();
+diff --git a/Extensions/CMakeLists.txt b/Extensions/CMakeLists.txt
+index 649541e..d1dbc1f 100644
+--- a/Extensions/CMakeLists.txt
++++ b/Extensions/CMakeLists.txt
+@@ -54,4 +54,4 @@ target_include_directories(WowExtensions
+ target_link_libraries(WowExtensions
+     PUBLIC
+         Extension
+-)
+\ No newline at end of file
++)
+diff --git a/Extensions/ExtensionsLoader.cpp.in b/Extensions/ExtensionsLoader.cpp.in
+new file mode 100644
+index 0000000..43c69e1
+--- /dev/null
++++ b/Extensions/ExtensionsLoader.cpp.in
+@@ -0,0 +1,9 @@
++#include "WoW/Source/Extension/ExtensionLoader.h"
++
++// Entry points, one per compiled-in extension
++@EXTENSION_FORWARD_DECL@
++const EXTENSIONENTRY g_extensionEntries[] = {
++@EXTENSION_ENTRIES@    { nullptr, nullptr },
++};
++
++const uint32_t g_extensionCount = @EXTENSION_COUNT@;
+diff --git a/Extensions/HelloWorld/src/HelloWorld.cpp b/Extensions/HelloWorld/src/HelloWorld.cpp
+index ff898bf..afbefbc 100644
+--- a/Extensions/HelloWorld/src/HelloWorld.cpp
++++ b/Extensions/HelloWorld/src/HelloWorld.cpp
+@@ -1,36 +1,22 @@
+-#include "WoW/Source/Extension/ExtensionMgr.h"
+-
+-namespace {
+-
+-class HelloWorldScript : public ClientScript
+-{
+-    public:
+-    HelloWorldScript() : ClientScript("HelloWorldScript") {}
+-
+-    void OnStartup() override
+-    {
+-        ExtensionMgr::Log("HelloWorld: OnStartup");
+-    }
+-
+-    void OnShutdown() override
+-    {
+-        ExtensionMgr::Log("HelloWorld: OnShutdown");
+-    }
+-
+-    void OnEnterWorld(uint32_t mapId) override
+-    {
+-        ExtensionMgr::Log("HelloWorld: OnEnterWorld (map %u)", mapId);
+-    }
+-
+-    void OnLeaveWorld() override
+-    {
+-        ExtensionMgr::Log("HelloWorld: OnLeaveWorld");
+-    }
+-};
+-
++// HelloWorld: the smallest possible extension. It registers one script of every type and logs the
++// hooks it receives, so the discovery -> registration -> dispatch chain of each context can be
++// checked end to end in Logs\Extensions.log. It is the template for a real extension; it does
++// nothing else on purpose. Per-frame hooks log their first call and a count afterwards, never
++// every frame.
++
++void AddHelloWorldClientScripts();
++void AddHelloWorldWorldScripts();
++void AddHelloWorldRenderScripts();
++void AddHelloWorldNetScripts();
++void AddHelloWorldLuaScripts();
++
++// The entry point the generated loader calls: Add<DirectoryName>Extension(). Instantiate every
++// script of the extension from here; a script registers itself in its constructor and the registry
++// owns it from then on.
++void AddHelloWorldExtension() {
++    AddHelloWorldClientScripts();
++    AddHelloWorldWorldScripts();
++    AddHelloWorldRenderScripts();
++    AddHelloWorldNetScripts();
++    AddHelloWorldLuaScripts();
+ }
+-
+-void AddHelloWorldExtension()
+-{
+-    ExtensionMgr::Add(new HelloWorldScript());
+-}
+\ No newline at end of file
+diff --git a/Extensions/HelloWorld/src/HelloWorldClient.cpp b/Extensions/HelloWorld/src/HelloWorldClient.cpp
+new file mode 100644
+index 0000000..53658ad
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldClient.cpp
+@@ -0,0 +1,49 @@
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++class HelloWorldClientScript : public ClientScript {
++    public:
++    HelloWorldClientScript() : ClientScript("HelloWorldClientScript") {}
++
++    void OnStartup() override {
++        sExtensionMgr->Log("HelloWorld: OnStartup");
++    }
++
++    void OnClientInitialized() override {
++        sExtensionMgr->Log("HelloWorld: OnClientInitialized");
++    }
++
++    void OnUpdate(float elapsedSec) override {
++        m_updates++;
++
++        if (m_updates == 1) {
++            sExtensionMgr->Log("HelloWorld: OnUpdate (first, %.4f s)", elapsedSec);
++        }
++    }
++
++    void OnClientDestroy() override {
++        sExtensionMgr->Log("HelloWorld: OnClientDestroy after %u update(s)", m_updates);
++    }
++
++    void OnEnterWorld(uint32_t mapId) override {
++        sExtensionMgr->Log("HelloWorld: OnEnterWorld (map %u)", mapId);
++    }
++
++    void OnLeaveWorld() override {
++        sExtensionMgr->Log("HelloWorld: OnLeaveWorld");
++    }
++
++    void OnShutdown() override {
++        sExtensionMgr->Log("HelloWorld: OnShutdown");
++    }
++
++    private:
++    uint32_t m_updates = 0;
++};
++
++}
++
++void AddHelloWorldClientScripts() {
++    new HelloWorldClientScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldLua.cpp b/Extensions/HelloWorld/src/HelloWorldLua.cpp
+new file mode 100644
+index 0000000..7ee4686
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldLua.cpp
+@@ -0,0 +1,43 @@
++#include "Engine/Source/FrameScript/FrameScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// The index of HELLO_WORLD_PING in the current FrameScript state's event array. It is renewed at
++// every OnFrameScriptInitialized, because every rebuild of the state gets a new array.
++uint32_t s_pingEventIndex = UINT32_MAX;
++uint32_t s_pingCount;
++
++// HelloWorld_Ping(): a global the extension adds to both Lua states. It signals HELLO_WORLD_PING
++// with the call count to every frame that registered for it, and returns the count. From the UI:
++//   /run local f = CreateFrame("Frame") f:RegisterEvent("HELLO_WORLD_PING") f:SetScript("OnEvent", function(_, e, n) print(e, n) end)
++//   /run print(HelloWorld_Ping())
++int32_t Script_HelloWorld_Ping(lua_State* L) {
++    s_pingCount++;
++
++    if (s_pingEventIndex != UINT32_MAX) {
++        FrameScript_SignalEvent(s_pingEventIndex, "%d", s_pingCount);
++    }
++
++    lua_pushnumber(L, s_pingCount);
++
++    return 1;
++}
++
++class HelloWorldLuaScript : public LuaScript {
++    public:
++    HelloWorldLuaScript() : LuaScript("HelloWorldLuaScript") {}
++
++    void OnFrameScriptInitialized(lua_State* L, FrameScriptContext context) override {
++        FrameScript_RegisterFunction("HelloWorld_Ping", Script_HelloWorld_Ping);
++        s_pingEventIndex = sExtensionMgr->DeclareFrameScriptEvent("HELLO_WORLD_PING");
++
++        sExtensionMgr->Log("HelloWorld: OnFrameScriptInitialized (%s state), HELLO_WORLD_PING is event %u", context == FRAMESCRIPT_CONTEXT_GLUE ? "glue" : "game", s_pingEventIndex);
++    }
++};
++
++}
++
++void AddHelloWorldLuaScripts() {
++    new HelloWorldLuaScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldNet.cpp b/Extensions/HelloWorld/src/HelloWorldNet.cpp
+new file mode 100644
+index 0000000..afe087f
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldNet.cpp
+@@ -0,0 +1,39 @@
++#include "Engine/Source/Base/CDataStore.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// Logs the first few messages in each direction with their opcode and payload size, then only
++// counts. The sizes read the stream's own fields; nothing is consumed from it.
++class HelloWorldNetScript : public NetScript {
++    public:
++    HelloWorldNetScript() : NetScript("HelloWorldNetScript") {}
++
++    void OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CDataStore& msg) override {
++        m_received++;
++
++        if (m_received <= 5) {
++            sExtensionMgr->Log("HelloWorld: OnMessageReceived opcode 0x%03X, %u payload byte(s), t=%u", msgId, msg.m_size - msg.m_read, timeReceived);
++        } else if (m_received % 500 == 0) {
++            sExtensionMgr->Log("HelloWorld: %u message(s) received, %u sent", m_received, m_sent);
++        }
++    }
++
++    void OnMessageSent(NETMESSAGE msgId, CDataStore& msg) override {
++        m_sent++;
++
++        if (m_sent <= 5) {
++            sExtensionMgr->Log("HelloWorld: OnMessageSent opcode 0x%03X, %u byte(s)", msgId, msg.m_size - msg.m_read);
++        }
++    }
++
++    private:
++    uint32_t m_received = 0;
++    uint32_t m_sent = 0;
++};
++
++}
++
++void AddHelloWorldNetScripts() {
++    new HelloWorldNetScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldRender.cpp b/Extensions/HelloWorld/src/HelloWorldRender.cpp
+new file mode 100644
+index 0000000..8135f11
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldRender.cpp
+@@ -0,0 +1,47 @@
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// Logs the first call of each render hook and, every 1000 frames, the running counts, so the
++// relative frequencies (frames painted vs world renders) can be read off the log.
++class HelloWorldRenderScript : public RenderScript {
++    public:
++    HelloWorldRenderScript() : RenderScript("HelloWorldRenderScript") {}
++
++    void OnFrameBegin(float elapsedSec) override {
++        m_frames++;
++
++        if (m_frames == 1) {
++            sExtensionMgr->Log("HelloWorld: OnFrameBegin (first, %.4f s)", elapsedSec);
++        }
++    }
++
++    void OnWorldRendered() override {
++        m_worldRenders++;
++
++        if (m_worldRenders == 1) {
++            sExtensionMgr->Log("HelloWorld: OnWorldRendered (first)");
++        }
++    }
++
++    void OnFrameEnd() override {
++        m_frameEnds++;
++
++        if (m_frameEnds == 1) {
++            sExtensionMgr->Log("HelloWorld: OnFrameEnd (first)");
++        } else if (m_frameEnds % 1000 == 0) {
++            sExtensionMgr->Log("HelloWorld: %u frame(s) begun, %u ended, %u world render(s)", m_frames, m_frameEnds, m_worldRenders);
++        }
++    }
++
++    private:
++    uint32_t m_frames = 0;
++    uint32_t m_frameEnds = 0;
++    uint32_t m_worldRenders = 0;
++};
++
++}
++
++void AddHelloWorldRenderScripts() {
++    new HelloWorldRenderScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldWorld.cpp b/Extensions/HelloWorld/src/HelloWorldWorld.cpp
+new file mode 100644
+index 0000000..03c2356
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldWorld.cpp
+@@ -0,0 +1,34 @@
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++class HelloWorldWorldScript : public WorldScript {
++    public:
++    HelloWorldWorldScript() : WorldScript("HelloWorldWorldScript") {}
++
++    void OnMapLoaded(uint32_t mapId, const char* mapName) override {
++        m_worldUpdates = 0;
++        sExtensionMgr->Log("HelloWorld: OnMapLoaded (map %u, %s)", mapId, mapName);
++    }
++
++    void OnMapUnload() override {
++        sExtensionMgr->Log("HelloWorld: OnMapUnload after %u world update(s)", m_worldUpdates);
++    }
++
++    void OnWorldUpdate(float elapsedSec) override {
++        m_worldUpdates++;
++
++        if (m_worldUpdates == 1) {
++            sExtensionMgr->Log("HelloWorld: OnWorldUpdate (first, %.4f s)", elapsedSec);
++        }
++    }
++
++    private:
++    uint32_t m_worldUpdates = 0;
++};
++
++}
++
++void AddHelloWorldWorldScripts() {
++    new HelloWorldWorldScript();
++}
+diff --git a/WoW/Source/Client.cpp b/WoW/Source/Client.cpp
+index 89ef27c..293df85 100644
+--- a/WoW/Source/Client.cpp
++++ b/WoW/Source/Client.cpp
+@@ -508,6 +508,9 @@ void ZoneDebugDestroy() {
+ // VERIFY: a6d33d4d auto
+ // OFFSET: 0x00402910
+ static void WowClientDestroy() {
++    // Not in the original: mirror of OnClientInitialized, the update handler goes away here.
++    sExtensionMgr->OnClientDestroy();
++
+     ValidateNameDestroy();
+     DeclinedWordsDestroy();
+     SpellVisualsShutdown();
+@@ -1065,6 +1068,10 @@ static void InitializeClient() {
+     CGlueMgr::m_pendingTimerAlert = s_timeTestError;
+     SpellVisualsInitialize();
+     EventRegister(EVENT_ID_POLL, PollNet);
++
++    // Not in the original: every client system exists and the first frame has not run; the
++    // extension update handler is registered here, after the client's own.
++    sExtensionMgr->OnClientInitialized();
+ }
+ 
+ // VERIFY: 56a0f6b5 auto
+@@ -1347,7 +1354,8 @@ void ClientInitializeGame(uint32_t mapId, C3Vector position) {
+     BattlenetUI_EnterRealm();
+     s_gameInitialized = 1;
+ 
+-    ExtensionMgr::OnEnterWorld(mapId);
++    // Not in the original: the world is loaded and the game systems are up.
++    sExtensionMgr->OnEnterWorld(mapId);
+ }
+ 
+ // VERIFY: a768ccd6 manual
+@@ -1553,7 +1561,8 @@ void ClientDestroyGame(int32_t charSelect, int32_t resumeGlue, int32_t worldLogi
+         return;
+     }
+ 
+-    ExtensionMgr::OnLeaveWorld();
++    // Not in the original: extensions see the world go while everything game-side is still valid.
++    sExtensionMgr->OnLeaveWorld();
+ 
+     s_botCheckEnabled = 0;
+     EventUnregister(EVENT_ID_IDLE, ClientIdle);
+@@ -1771,7 +1780,9 @@ bool InitializeGlobal() {
+     g_rndSeed.SetSeed(OsGetAsyncTimeMs());
+     g_clientEventContext = EventCreateContextEx(1, InitializeEngineCallback, DestroyEngineCallback, 0, 0);
+ 
+-    ExtensionMgr::Initialize();
++    // Not in the original: compiled-in extensions come up once the engine services exist.
++    sExtensionMgr->Initialize();
++    sExtensionMgr->OnStartup();
+ 
+     return true;
+ }
+@@ -1779,8 +1790,9 @@ bool InitializeGlobal() {
+ // VERIFY: 87ba0ad5 manual
+ // OFFSET: 0x00406B70
+ void BeginCloseGame() {
+-
+-    ExtensionMgr::Shutdown();
++    // Not in the original: extensions go down first, while the CVars and the event system are alive.
++    sExtensionMgr->OnShutdown();
++    sExtensionMgr->Unload();
+ 
+     SMemSetDebugFlags(0, 8);
+     OsIMEDestroy();
+diff --git a/WoW/Source/Extension/CMakeLists.txt b/WoW/Source/Extension/CMakeLists.txt
+index f1d3f8d..8a8c48b 100644
+--- a/WoW/Source/Extension/CMakeLists.txt
++++ b/WoW/Source/Extension/CMakeLists.txt
+@@ -1,5 +1,7 @@
+ file(GLOB_RECURSE PRIVATE_SOURCES CONFIGURE_DEPENDS "*.cpp")
+ 
++# The extension core: script types, the registry and the hook dispatch. The extensions themselves are
++# collected by Extensions/CMakeLists.txt into the WowExtensions library.
+ add_library(Extension STATIC
+     ${PRIVATE_SOURCES}
+ )
+@@ -7,4 +9,4 @@ add_library(Extension STATIC
+ target_include_directories(Extension
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+-)
+\ No newline at end of file
++)
+diff --git a/WoW/Source/Extension/ExtensionLoader.h b/WoW/Source/Extension/ExtensionLoader.h
+index 76ede2e..e78c48e 100644
+--- a/WoW/Source/Extension/ExtensionLoader.h
++++ b/WoW/Source/Extension/ExtensionLoader.h
+@@ -3,8 +3,12 @@
+ 
+ #include <cstdint>
+ 
+-struct EXTENSIONENTRY
+-{
++// The table of compiled-in extensions. It is defined by Extensions/ExtensionsLoader.cpp, which
++// Extensions/CMakeLists.txt generates from Extensions/ExtensionsLoader.cpp.in at configure time:
++// one entry per Extensions/<Name>/src/ directory, in sorted directory order, naming the extension's
++// entry point Add<Name>Extension(). The table ends with a { nullptr, nullptr } sentinel so it is
++// never empty.
++struct EXTENSIONENTRY {
+     const char* m_name;
+     void (*m_add)();
+ };
+@@ -12,4 +16,4 @@ struct EXTENSIONENTRY
+ extern const EXTENSIONENTRY g_extensionEntries[];
+ extern const uint32_t g_extensionCount;
+ 
+-#endif
+\ No newline at end of file
++#endif
+diff --git a/WoW/Source/Extension/ExtensionMgr.cpp b/WoW/Source/Extension/ExtensionMgr.cpp
+index 1c16066..a508a99 100644
+--- a/WoW/Source/Extension/ExtensionMgr.cpp
++++ b/WoW/Source/Extension/ExtensionMgr.cpp
+@@ -7,8 +7,18 @@
+ static HSLOG s_log;
+ static bool s_initialized;
+ 
+-void ExtensionMgr::Log(const char* format, ...)
+-{
++ExtensionMgr::ExtensionMgr() : m_scriptCount(0) {
++}
++
++ExtensionMgr::~ExtensionMgr() {
++}
++
++ExtensionMgr* ExtensionMgr::instance() {
++    static ExtensionMgr instance;
++    return &instance;
++}
++
++void ExtensionMgr::Log(const char* format, ...) {
+     char buffer[1024];
+     va_list args;
+     va_start(args, format);
+@@ -20,89 +30,51 @@ void ExtensionMgr::Log(const char* format, ...)
+         SLogFlush(s_log);
+     }
+ 
++    // Dropped until the console screen is initialised (InitializeEngineCallback); see the header.
+     ConsolePrintf("%s", buffer);
+ }
+ 
+-void ExtensionMgr::Add(ClientScript* script)
+-{
+-    if (!script)
+-    {
+-        return;
+-    }
+-
+-    ExtensionRegistry<ClientScript>::Add(script);
+-    Log("Extensions: registered ClientScript %s", script->GetName());
+-}
+-
+-uint32_t ExtensionMgr::GetScriptCount()
+-{
+-    return static_cast<uint32_t>(ExtensionRegistry<ClientScript>::Scripts().size());
+-}
+-
+-void ExtensionMgr::Initialize()
+-{
+-    if (s_initialized)
+-    {
++void ExtensionMgr::Initialize() {
++    if (s_initialized) {
+         return;
+     }
+ 
+     s_initialized = true;
+ 
+-    if (!SLogCreate("Logs\\Extensions.log", SLOG_FLAG_OPENFILE, &s_log))
+-    {
++    // SLogCreate creates the Logs directory; the path is relative to the client directory set by
++    // SetPaths(), so this is bin/Win/Logs/Extensions.log for a tree build.
++    if (!SLogCreate("Logs\\Extensions.log", SLOG_FLAG_OPENFILE, &s_log)) {
+         s_log = nullptr;
+     }
+ 
+     Log("Extensions: %u compiled in", g_extensionCount);
+ 
+-    for (const EXTENSIONENTRY* entry = g_extensionEntries; entry->m_name; entry++)
+-    {
++    for (const EXTENSIONENTRY* entry = g_extensionEntries; entry->m_name; entry++) {
+         Log("Extensions: loading %s", entry->m_name);
+         entry->m_add();
+     }
+ 
+     Log("Extensions: %u script(s) registered", GetScriptCount());
+-
+-    for (ClientScript* script : ExtensionRegistry<ClientScript>::Scripts())
+-    {
+-        script->OnStartup();
+-    }
+ }
+ 
+-void ExtensionMgr::Shutdown()
+-{
+-    if (!s_initialized)
+-    {
++void ExtensionMgr::Unload() {
++    if (!s_initialized) {
+         return;
+     }
+ 
+-    for (ClientScript* script : ExtensionRegistry<ClientScript>::Scripts())
+-    {
+-        script->OnShutdown();
+-    }
++    ScriptRegistry<ClientScript>::Clear();
++    ScriptRegistry<WorldScript>::Clear();
++    ScriptRegistry<RenderScript>::Clear();
++    ScriptRegistry<NetScript>::Clear();
++    ScriptRegistry<LuaScript>::Clear();
++    m_scriptCount = 0;
+ 
+-    Log("Extensions: shutdown");
+-    ExtensionRegistry<ClientScript>::Clear();
++    Log("Extensions: unloaded");
+ 
+-    if (s_log)
+-    {
++    if (s_log) {
+         SLogClose(s_log);
+         s_log = nullptr;
+     }
+ 
+     s_initialized = false;
+ }
+-
+-void ExtensionMgr::OnEnterWorld(uint32_t mapId)
+-{
+-    for (ClientScript* script : ExtensionRegistry<ClientScript>::Scripts()) {
+-        script->OnEnterWorld(mapId);
+-    }
+-}
+-
+-void ExtensionMgr::OnLeaveWorld()
+-{
+-    for (ClientScript* script : ExtensionRegistry<ClientScript>::Scripts()) {
+-        script->OnLeaveWorld();
+-    }
+-}
+\ No newline at end of file
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 8f88e68..c18942a 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -3,47 +3,116 @@
+ 
+ #include <cstdint>
+ #include <vector>
+-#include "WoW/Source/Extension/ExtensionScript.h"
++#include "WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h"
+ 
+-template <class T>
+-class ExtensionRegistry {
+-    public:
+-    static std::vector<T*>& Scripts()
+-    {
+-        static std::vector<T*> scripts;
+-        return scripts;
+-    }
++class CDataStore;
++struct lua_State;
+ 
+-    static void Add(T* script)
+-    {
+-        Scripts().push_back(script);
+-    }
++// The central script manager: loads the compiled-in extensions, holds one ScriptRegistry<T> per
++// script type and exposes one OnXxx(...) dispatcher per hook. The client calls a dispatcher at the
++// matching seam; the dispatcher walks the registry of the hook's script type and calls the virtual
++// on every script. Extensions never call a dispatcher, only the services (Log,
++// DeclareFrameScriptEvent).
++class ExtensionMgr {
++    friend class ScriptObject;
+ 
+-    static void Clear()
+-    {
+-        for (T* script : Scripts())
+-        {
+-            delete script;
+-        }
++    private:
++    ExtensionMgr();
++    ~ExtensionMgr();
+ 
+-        Scripts().clear();
+-    }
++    public: /* Initialization */
++    static ExtensionMgr* instance();
++
++    // Opens Logs\Extensions.log and runs every compiled-in extension's entry point through the
++    // table generated by Extensions/CMakeLists.txt. Each entry point instantiates its scripts,
++    // whose constructors add them to their registry. No hook is fired here.
++    void Initialize();
++
++    // Deletes every registered script, empties the registries and closes the log.
++    void Unload();
++
++    void IncreaseScriptCount() { m_scriptCount++; }
++    uint32_t GetScriptCount() const { return m_scriptCount; }
++
++    // Writes one line to Logs\Extensions.log (flushed at once) and to the in-game console when the
++    // console screen exists. The file is the record: console output is dropped before the console
++    // font is loaded, which is the case for OnStartup.
++    void Log(const char* format, ...);
++
++    public: /* ClientScript */
++    void OnStartup();
++    void OnClientInitialized();
++    void OnUpdate(float elapsedSec);
++    void OnClientDestroy();
++    void OnEnterWorld(uint32_t mapId);
++    void OnLeaveWorld();
++    void OnShutdown();
++
++    public: /* WorldScript */
++    void OnMapLoaded(uint32_t mapId, const char* mapName);
++    void OnMapUnload();
++    void OnWorldUpdate(float elapsedSec);
++
++    public: /* RenderScript */
++    void OnFrameBegin(float elapsedSec);
++    void OnWorldRendered();
++    void OnFrameEnd();
++
++    public: /* NetScript */
++    void OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg);
++    void OnMessageSent(CDataStore* msg);
++
++    public: /* LuaScript */
++    // Replaces the client's FrameScript_CreateEvents(names, count) call at each FrameScript rebuild
++    // site. Fires LuaScript::OnFrameScriptInitialized for every script (where they declare their
++    // events), then creates the engine's names followed by the declared names in one
++    // FrameScript_CreateEvents call, so the engine's indices are unchanged and the declared
++    // events get the indices DeclareFrameScriptEvent returned.
++    void OnFrameScriptInitialized(FrameScriptContext context, const char** names, uint32_t count);
++
++    // Service for LuaScript::OnFrameScriptInitialized only: returns the index name will have in the
++    // event array being built, usable with FrameScript_SignalEvent once the hook has returned. An
++    // engine event name returns the engine's index; a name declared twice returns the same index.
++    // Outside the hook nothing is being built: the call is logged and returns UINT32_MAX.
++    uint32_t DeclareFrameScriptEvent(const char* name);
++
++    private:
++    uint32_t m_scriptCount;
+ };
+ 
+-class ExtensionMgr {
++#define sExtensionMgr ExtensionMgr::instance()
++
++// One registry per script type. The script type's constructor calls AddScript(this) (see
++// ScriptDefines/*.cpp), so an extension registers a script simply by instantiating it. The list is
++// filled while ExtensionMgr::Initialize() runs the entry points and is read-only afterwards; the
++// dispatchers iterate it in insertion order.
++template <class TScript>
++class ScriptRegistry {
+     public:
+-    static void Initialize();
++    typedef std::vector<TScript*> ScriptVector;
+ 
+-    static void Shutdown();
++    // The actual list of scripts, in registration order.
++    static ScriptVector ScriptPointerList;
+ 
+-    static void Add(ClientScript* script);
++    static void AddScript(TScript* const script) {
++        if (!script) {
++            return;
++        }
+ 
+-    static uint32_t GetScriptCount();
++        ScriptPointerList.push_back(script);
++        sExtensionMgr->IncreaseScriptCount();
++    }
+ 
+-    static void Log(const char* format, ...);
++    static void Clear() {
++        for (TScript* script : ScriptPointerList) {
++            delete script;
++        }
+ 
+-    static void OnEnterWorld(uint32_t mapId);
+-    static void OnLeaveWorld();
++        ScriptPointerList.clear();
++    }
+ };
+ 
+-#endif
+\ No newline at end of file
++template <class TScript>
++typename ScriptRegistry<TScript>::ScriptVector ScriptRegistry<TScript>::ScriptPointerList;
++
++#endif
+diff --git a/WoW/Source/Extension/ExtensionMgrMacros.h b/WoW/Source/Extension/ExtensionMgrMacros.h
+new file mode 100644
+index 0000000..6c43c89
+--- /dev/null
++++ b/WoW/Source/Extension/ExtensionMgrMacros.h
+@@ -0,0 +1,12 @@
++#ifndef WOW_SOURCE_EXTENSION_EXTENSIONMGRMACROS_H
++#define WOW_SOURCE_EXTENSION_EXTENSIONMGRMACROS_H
++
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++// The dispatch loop every ExtensionMgr::OnXxx uses: run action for each script of scriptType, in
++// registration order. action refers to the current script as `script`. Scripts are never added or
++// removed while a hook runs, so the plain range loop is safe.
++#define CALL_HOOKS(scriptType, action) \
++    for (scriptType* script : ScriptRegistry<scriptType>::ScriptPointerList) { action; }
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+new file mode 100644
+index 0000000..dc936ad
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+@@ -0,0 +1,11 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_ALLSCRIPTSOBJECTS_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_ALLSCRIPTSOBJECTS_H
++
++// Every script type an extension can derive from, one header per context.
++#include "WoW/Source/Extension/ScriptDefines/ClientScript.h"
++#include "WoW/Source/Extension/ScriptDefines/LuaScript.h"
++#include "WoW/Source/Extension/ScriptDefines/NetScript.h"
++#include "WoW/Source/Extension/ScriptDefines/RenderScript.h"
++#include "WoW/Source/Extension/ScriptDefines/WorldScript.h"
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/ClientScript.cpp b/WoW/Source/Extension/ScriptDefines/ClientScript.cpp
+new file mode 100644
+index 0000000..fd3a8b0
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ClientScript.cpp
+@@ -0,0 +1,52 @@
++#include "WoW/Source/Extension/ScriptDefines/ClientScript.h"
++#include "Engine/Source/Event/Event.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++// The core's EVENT_ID_UPDATE handler. One handler for all scripts: the client registers it at the
++// end of InitializeClient (after its own FrameTime update handler, so FrameTime is current when the
++// scripts run) and unregisters it at the start of WowClientDestroy. Returning 1 lets the remaining
++// handlers of the event run.
++static int32_t OnUpdateHandler(const void* data, void* param) {
++    const EVENT_DATA_UPDATE* update = static_cast<const EVENT_DATA_UPDATE*>(data);
++    sExtensionMgr->OnUpdate(update->m_elapsedSec);
++
++    return 1;
++}
++
++void ExtensionMgr::OnStartup() {
++    CALL_HOOKS(ClientScript, script->OnStartup());
++}
++
++void ExtensionMgr::OnClientInitialized() {
++    EventRegister(EVENT_ID_UPDATE, OnUpdateHandler);
++
++    CALL_HOOKS(ClientScript, script->OnClientInitialized());
++}
++
++void ExtensionMgr::OnUpdate(float elapsedSec) {
++    CALL_HOOKS(ClientScript, script->OnUpdate(elapsedSec));
++}
++
++void ExtensionMgr::OnClientDestroy() {
++    EventUnregister(EVENT_ID_UPDATE, OnUpdateHandler);
++
++    CALL_HOOKS(ClientScript, script->OnClientDestroy());
++}
++
++void ExtensionMgr::OnEnterWorld(uint32_t mapId) {
++    CALL_HOOKS(ClientScript, script->OnEnterWorld(mapId));
++}
++
++void ExtensionMgr::OnLeaveWorld() {
++    CALL_HOOKS(ClientScript, script->OnLeaveWorld());
++}
++
++void ExtensionMgr::OnShutdown() {
++    CALL_HOOKS(ClientScript, script->OnShutdown());
++}
++
++ClientScript::ClientScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<ClientScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered ClientScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/ClientScript.h b/WoW/Source/Extension/ScriptDefines/ClientScript.h
+new file mode 100644
+index 0000000..23a1151
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ClientScript.h
+@@ -0,0 +1,52 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_CLIENTSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_CLIENTSCRIPT_H
++
++#include <cstdint>
++#include "WoW/Source/Extension/ScriptObject.h"
++
++// The process lifecycle: engine services, client systems, the game session and the per-frame tick.
++// Every hook is fired from WoW/Source/Client.cpp except OnUpdate, which the core fans out from an
++// EVENT_ID_UPDATE handler it registers itself.
++class ClientScript : public ScriptObject {
++    protected:
++    explicit ClientScript(const char* name);
++
++    public:
++    // End of InitializeGlobal(): Config.wtf and the CVars are loaded, console commands can be
++    // registered, the event system, the window and the Gx device exist. No client system is up yet
++    // (no FrameScript, no world, no glue screen). Register CVars and console commands here.
++    virtual void OnStartup() {}
++
++    // End of InitializeClient(), inside the event context's initialize callback: FrameScript, the
++    // world, shadows, lighting, input and the glue manager exist and the first glue screen is set.
++    // The message loop has not run a frame yet. This is where the core registers its per-frame
++    // update handler, so OnUpdate starts after this hook.
++    virtual void OnClientInitialized() {}
++
++    // Every message-loop iteration, from an EVENT_ID_UPDATE handler the core registered at the end
++    // of InitializeClient(). It runs after FrameTime::Update (the client's own update handler was
++    // registered first and handlers of one event run in registration order), so FrameTime is
++    // current. elapsedSec is the frame time the event scheduler measured. Fires in the glue screens
++    // as well as in the world; use WorldScript::OnWorldUpdate for world-only work.
++    virtual void OnUpdate(float elapsedSec) {}
++
++    // Start of WowClientDestroy(), inside the event context's destroy callback: the game session
++    // is already gone (ClientDestroyGame ran), the glue, FrameScript state, world and client
++    // services still exist. Mirror of OnClientInitialized; OnUpdate stops before this hook.
++    virtual void OnClientDestroy() {}
++
++    // End of ClientInitializeGame(): the player entered the world, the object manager, the game UI
++    // and the map are loaded, s_gameInitialized is set. mapId is the Map.dbc id being played.
++    virtual void OnEnterWorld(uint32_t mapId) {}
++
++    // Start of ClientDestroyGame(), after its s_gameInitialized check: the player is leaving the
++    // world (logout, character select, disconnect). Everything game-side is still valid.
++    virtual void OnLeaveWorld() {}
++
++    // Start of BeginCloseGame(): the message loop has ended, the event context and the client are
++    // destroyed, the engine is about to go away. CVars, console commands and the event system
++    // still exist, so state can be saved.
++    virtual void OnShutdown() {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/LuaScript.cpp b/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
+new file mode 100644
+index 0000000..a2d1340
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
+@@ -0,0 +1,56 @@
++#include "WoW/Source/Extension/ScriptDefines/LuaScript.h"
++#include <vector>
++#include "Engine/Source/FrameScript/FrameScript.h"
++#include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++// The event array under construction, valid only while OnFrameScriptInitialized runs: the engine's
++// names first (their indices are the engine's enum values and must not move), the declared names
++// after them. The pointers are the callers' string literals, which outlive the array.
++static std::vector<const char*> s_eventNames;
++static bool s_declaring;
++
++uint32_t ExtensionMgr::DeclareFrameScriptEvent(const char* name) {
++    if (!s_declaring || !name) {
++        Log("Extensions: DeclareFrameScriptEvent(%s) outside LuaScript::OnFrameScriptInitialized, ignored", name ? name : "null");
++        return UINT32_MAX;
++    }
++
++    // FrameScript_CreateEvents maps equal names to one event object, so two indices for the same
++    // name would both work; one index per name keeps FrameScript_SignalEvent callers consistent.
++    for (uint32_t i = 0; i < s_eventNames.size(); i++) {
++        if (s_eventNames[i] && !SStrCmpI(s_eventNames[i], name, STORM_MAX_STR)) {
++            return i;
++        }
++    }
++
++    s_eventNames.push_back(name);
++
++    return static_cast<uint32_t>(s_eventNames.size() - 1);
++}
++
++void ExtensionMgr::OnFrameScriptInitialized(FrameScriptContext context, const char** names, uint32_t count) {
++    s_eventNames.assign(names, names + count);
++    s_declaring = true;
++
++    lua_State* L = FrameScript_GetContext();
++    CALL_HOOKS(LuaScript, script->OnFrameScriptInitialized(L, context));
++
++    s_declaring = false;
++
++    // One call for the engine's events and the declared ones: the array is replaced wholesale,
++    // so the two sets have to arrive together.
++    FrameScript_CreateEvents(s_eventNames.data(), static_cast<uint32_t>(s_eventNames.size()));
++
++    if (s_eventNames.size() > count) {
++        Log("Extensions: %u FrameScript event(s) declared in the %s state", static_cast<uint32_t>(s_eventNames.size() - count), context == FRAMESCRIPT_CONTEXT_GLUE ? "glue" : "game");
++    }
++
++    s_eventNames.clear();
++}
++
++LuaScript::LuaScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<LuaScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered LuaScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/LuaScript.h b/WoW/Source/Extension/ScriptDefines/LuaScript.h
+new file mode 100644
+index 0000000..3c2c550
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/LuaScript.h
+@@ -0,0 +1,42 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_LUASCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_LUASCRIPT_H
++
++#include <cstdint>
++#include "WoW/Source/Extension/ScriptObject.h"
++
++struct lua_State;
++
++// Which FrameScript state is being set up. The glue (login, realm list, character screens) and the
++// game UI run in different Lua states with different function tables and event arrays.
++enum FrameScriptContext {
++    FRAMESCRIPT_CONTEXT_GLUE = 0,
++    FRAMESCRIPT_CONTEXT_GAME = 1,
++};
++
++// The FrameScript (Lua) state. The client destroys and recreates its Lua state several times:
++// CGlueMgr::Resume rebuilds the glue state every time the glue comes up (first start, every return
++// from the game, glue reload), CGGameUI::InitializeFrameXML rebuilds the game state on every world
++// entry and on /reloadui. Each rebuild starts from an empty state, so everything a script
++// registered in the previous state is gone: functions, tables, references and event indices.
++// OnFrameScriptInitialized therefore fires at every rebuild and a script must redo its whole
++// registration in it, every time.
++//
++// Events are addressed by index into one array that FrameScript_CreateEvents replaces wholesale.
++// A script never calls FrameScript_CreateEvents itself (that would discard the engine's events);
++// it declares its event names through ExtensionMgr::DeclareFrameScriptEvent inside this hook, and
++// the core creates the engine's names and the declared names together in the one call.
++class LuaScript : public ScriptObject {
++    protected:
++    explicit LuaScript(const char* name);
++
++    public:
++    // The state L is created and the engine's own function table for this context is registered
++    // (CGlueMgr::Resume after CGVideoOptions::RegisterScriptFunctions, CGGameUI::InitializeFrameXML
++    // after LoadScriptFunctions). The event array has not been created yet: this is the only place
++    // ExtensionMgr::DeclareFrameScriptEvent may be called. Register functions with
++    // FrameScript_RegisterFunction (they run as engine code, untainted) and build Lua tables with
++    // the lua_* API on L. No FrameXML or addon file has been loaded yet in this state.
++    virtual void OnFrameScriptInitialized(lua_State* L, FrameScriptContext context) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/NetScript.cpp b/WoW/Source/Extension/ScriptDefines/NetScript.cpp
+new file mode 100644
+index 0000000..264ea44
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/NetScript.cpp
+@@ -0,0 +1,42 @@
++#include "WoW/Source/Extension/ScriptDefines/NetScript.h"
++#include "Engine/Source/Base/CDataStore.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg) {
++    if (ScriptRegistry<NetScript>::ScriptPointerList.empty()) {
++        return;
++    }
++
++    // The cursor is at the payload. Each script gets it there, and the handler the client
++    // dispatches to afterwards gets it there too, whatever the scripts read.
++    uint32_t read = msg->m_read;
++
++    CALL_HOOKS(NetScript, (msg->m_read = read, script->OnMessageReceived(msgId, timeReceived, *msg)));
++
++    msg->m_read = read;
++}
++
++void ExtensionMgr::OnMessageSent(CDataStore* msg) {
++    if (ScriptRegistry<NetScript>::ScriptPointerList.empty()) {
++        return;
++    }
++
++    // Outgoing messages start with the opcode as a 32-bit value (every sender does
++    // msg.Put(static_cast<uint32_t>(CMSG_...))); the connection serialises it from the cursor.
++    uint32_t read = msg->m_read;
++    uint32_t opcode = 0;
++
++    if (msg->m_size - read >= sizeof(opcode)) {
++        msg->Get(opcode);
++    }
++
++    CALL_HOOKS(NetScript, (msg->m_read = read, script->OnMessageSent(static_cast<NETMESSAGE>(opcode), *msg)));
++
++    msg->m_read = read;
++}
++
++NetScript::NetScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<NetScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered NetScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/NetScript.h b/WoW/Source/Extension/ScriptDefines/NetScript.h
+new file mode 100644
+index 0000000..f8c8aeb
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/NetScript.h
+@@ -0,0 +1,34 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_NETSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_NETSCRIPT_H
++
++#include <cstdint>
++#include "WoW/Source/Extension/ScriptObject.h"
++#include "WoW/Source/Net/Types.h"
++
++class CDataStore;
++
++// The world-server connection, at the two points every message passes through
++// (WoW/Source/Net/NetClient/NetClient.cpp). Both hooks observe: they cannot drop or rewrite a
++// message, and the core restores the stream's read cursor after the hooks so the engine's own
++// handler sees the message exactly as if no script had looked at it. A script may therefore read
++// from msg freely with CDataStore::Get. Do not keep a pointer to msg past the hook.
++class NetScript : public ScriptObject {
++    protected:
++    explicit NetScript(const char* name);
++
++    public:
++    // NetClient::ProcessMessage, after the 16-bit opcode is read and before the message is
++    // dispatched to the handler registered for it (or dropped if there is none). The read cursor
++    // is at the payload, where a handler starts reading. Fires for every message of a connected
++    // session, including opcodes nothing handles; msgId may be outside NETMESSAGE if the server
++    // sent one. timeReceived is the receive timestamp the connection stamped the packet with.
++    virtual void OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CDataStore& msg) {}
++
++    // NetClient::Send, right before the message goes to the connection's SendPacket. The read
++    // cursor is at the 32-bit opcode (what the connection serialises); msgId is that opcode. Fires
++    // once per message actually handed to the connection: messages held while the client is
++    // suspended (realm redirect) fire when the held queue is flushed, not when they were queued.
++    virtual void OnMessageSent(NETMESSAGE msgId, CDataStore& msg) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/RenderScript.cpp b/WoW/Source/Extension/ScriptDefines/RenderScript.cpp
+new file mode 100644
+index 0000000..15e4f29
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/RenderScript.cpp
+@@ -0,0 +1,20 @@
++#include "WoW/Source/Extension/ScriptDefines/RenderScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnFrameBegin(float elapsedSec) {
++    CALL_HOOKS(RenderScript, script->OnFrameBegin(elapsedSec));
++}
++
++void ExtensionMgr::OnWorldRendered() {
++    CALL_HOOKS(RenderScript, script->OnWorldRendered());
++}
++
++void ExtensionMgr::OnFrameEnd() {
++    CALL_HOOKS(RenderScript, script->OnFrameEnd());
++}
++
++RenderScript::RenderScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<RenderScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered RenderScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/RenderScript.h b/WoW/Source/Extension/ScriptDefines/RenderScript.h
+new file mode 100644
+index 0000000..1afd0ec
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/RenderScript.h
+@@ -0,0 +1,35 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_RENDERSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_RENDERSCRIPT_H
++
++#include "WoW/Source/Extension/ScriptObject.h"
++
++// Frame rendering. The frame is painted by the screen layer system (Engine/Source/Scrn/Layer.cpp,
++// the EVENT_ID_PAINT handler): every layer (world frame and UI, console, loading screen, system
++// messages, fades) paints in z-order, then the scene is presented. The world itself is drawn by one
++// of those layers through CGWorldFrame::RenderWorld (WoW/Source/Ui/WorldFrame.cpp). All three hooks
++// run with the current CGxDevice (g_theGxDevicePtr) and may draw with it.
++class RenderScript : public ScriptObject {
++    protected:
++    explicit RenderScript(const char* name);
++
++    public:
++    // Start of the paint handler, once the Gx context exists and the window is visible, before any
++    // layer paints. The viewport is whatever the previous frame left; nothing of this frame is
++    // drawn yet. elapsedSec is the time accumulated since the last paint. Not fired for a hidden
++    // window (the handler only presents and sleeps in that case).
++    virtual void OnFrameBegin(float elapsedSec) {}
++
++    // CGWorldFrame::RenderWorld, after CGWorldFrame::OnWorldRender and the world text batch: the
++    // terrain, models, liquids, effects and world text are drawn into the world frame's viewport
++    // and the device still holds the world camera's view and projection (they are restored right
++    // after this hook). Draw world-space geometry here. Fires only while the world frame renders.
++    virtual void OnWorldRendered() {}
++
++    // End of the paint handler: every layer has painted, the full-screen viewport is restored and
++    // the font system flushed, the scene has not been presented yet. Draw screen-space overlays on
++    // top of the UI here. Fires once per painted frame, whether or not the frame is presented
++    // (the no-present debug mode skips the present only).
++    virtual void OnFrameEnd() {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/WorldScript.cpp b/WoW/Source/Extension/ScriptDefines/WorldScript.cpp
+new file mode 100644
+index 0000000..502353c
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/WorldScript.cpp
+@@ -0,0 +1,20 @@
++#include "WoW/Source/Extension/ScriptDefines/WorldScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnMapLoaded(uint32_t mapId, const char* mapName) {
++    CALL_HOOKS(WorldScript, script->OnMapLoaded(mapId, mapName));
++}
++
++void ExtensionMgr::OnMapUnload() {
++    CALL_HOOKS(WorldScript, script->OnMapUnload());
++}
++
++void ExtensionMgr::OnWorldUpdate(float elapsedSec) {
++    CALL_HOOKS(WorldScript, script->OnWorldUpdate(elapsedSec));
++}
++
++WorldScript::WorldScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<WorldScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered WorldScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/WorldScript.h b/WoW/Source/Extension/ScriptDefines/WorldScript.h
+new file mode 100644
+index 0000000..d9a485d
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/WorldScript.h
+@@ -0,0 +1,33 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_WORLDSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_WORLDSCRIPT_H
++
++#include <cstdint>
++#include "WoW/Source/Extension/ScriptObject.h"
++
++// The world scene: map boundaries and the world tick. Map hooks fire from
++// WoW/Source/WorldClient/World.cpp, the tick from WoW/Source/Ui/WorldFrame.cpp. These are map
++// boundaries as opposed to ClientScript::OnEnterWorld/OnLeaveWorld, which are session boundaries:
++// a server transfer (SMSG_NEW_WORLD) unloads and loads a map without leaving the game.
++class WorldScript : public ScriptObject {
++    protected:
++    explicit WorldScript(const char* name);
++
++    public:
++    // End of CWorld::LoadMap(): the map (CMap::Load), its area of interest, the liquid material
++    // settings and the clip planes are set up. mapId is the Map.dbc id, mapName its directory
++    // name (Map.dbc m_directory). Fires on world entry and on every map transfer.
++    virtual void OnMapLoaded(uint32_t mapId, const char* mapName) {}
++
++    // World::UnloadMap(), before CMap::Unload(): the fade-out list is already cleared, the map and
++    // its objects are still loaded. Fires only when a map was active (the call from a session that
++    // never loaded one does not reach it).
++    virtual void OnMapUnload() {}
++
++    // End of CGWorldFrame::OnWorldUpdate(): the camera, the active mover, the visible objects,
++    // CWorld::Update (area of interest, day/night, fog) and the sound listener are updated for
++    // this frame and the world is about to be rendered. elapsedSec is the world frame's time.
++    // Fires only while the world frame is active (in the world, not in the glue).
++    virtual void OnWorldUpdate(float elapsedSec) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptObject.h b/WoW/Source/Extension/ScriptObject.h
+new file mode 100644
+index 0000000..23e0f16
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptObject.h
+@@ -0,0 +1,33 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTOBJECT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTOBJECT_H
++
++#include <cstdint>
++
++// Base of every script an extension can register. A script is a plain object with one virtual per
++// hook: an extension derives from one of the script types under ScriptDefines/ (ClientScript,
++// WorldScript, RenderScript, NetScript, LuaScript), overrides the hooks it needs and instantiates it
++// with new from its Add<Name>Extension() entry point. The script type's constructor adds the
++// instance to ScriptRegistry<T>, which owns it from then on and deletes it in ExtensionMgr::Unload().
++//
++// Hooks are called on the main thread, in registration order (the order the generated loader called
++// the extensions in, which is the sorted directory order, then the order of the new expressions
++// inside an entry point).
++//
++// Only hooks that the client actually fires are declared. A planned hook is listed in
++// docs/extensions.md until its call site exists, so an override can never compile and then
++// silently do nothing.
++class ScriptObject {
++    friend class ExtensionMgr;
++
++    public:
++    const char* GetName() const { return m_name; }
++
++    protected:
++    explicit ScriptObject(const char* name) : m_name(name) {}
++    virtual ~ScriptObject() = default;
++
++    private:
++    const char* m_name;
++};
++
++#endif
+diff --git a/WoW/Source/Glue/CGlueMgr.cpp b/WoW/Source/Glue/CGlueMgr.cpp
+index 4524455..ae140c5 100644
+--- a/WoW/Source/Glue/CGlueMgr.cpp
++++ b/WoW/Source/Glue/CGlueMgr.cpp
+@@ -42,6 +42,7 @@
+ #include "WoW/Source/DB/Rec/ChrClassesRec.h"
+ #include "WoW/Source/DB/Rec/ChrRacesRec.h"
+ #include "WoW/Source/DB/Rec/GameTipsRec.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Game/GameClient/FFXEffects.h"
+ #include "WoW/Source/Game/ValidateName.h"
+ #include "WoW/Source/Glue/CharacterCreation.h"
+@@ -714,7 +715,9 @@ void CGlueMgr::Resume() {
+     AccountMsg_RegisterScriptFunctions();
+     CGVideoOptions::RegisterScriptFunctions();
+     CGlueMgr::s_scriptFunctionsLoaded = 1;
+-    FrameScript_CreateEvents(g_glueScriptEvents, sizeof(g_glueScriptEvents) / sizeof(g_glueScriptEvents[0]));
++    // Not in the original: extensions register in the new glue state, then the glue events and the
++    // declared events are created together (FrameScript_CreateEvents replaces the whole array).
++    sExtensionMgr->OnFrameScriptInitialized(FRAMESCRIPT_CONTEXT_GLUE, g_glueScriptEvents, sizeof(g_glueScriptEvents) / sizeof(g_glueScriptEvents[0]));
+ 
+     CCharacterSelection::Initialize();
+     CCharacterCreation::Initialize();
+diff --git a/WoW/Source/Glue/CMakeLists.txt b/WoW/Source/Glue/CMakeLists.txt
+index 511c48a..3a6e2f2 100644
+--- a/WoW/Source/Glue/CMakeLists.txt
++++ b/WoW/Source/Glue/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(Glue
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(Glue
++    PRIVATE
++        Extension
++)
+diff --git a/WoW/Source/Net/CMakeLists.txt b/WoW/Source/Net/CMakeLists.txt
+index 50f6723..8a5f769 100644
+--- a/WoW/Source/Net/CMakeLists.txt
++++ b/WoW/Source/Net/CMakeLists.txt
+@@ -13,4 +13,5 @@ target_link_libraries(Net
+     PUBLIC
+         ws2_32
+         wsock32
++        Extension
+ )
+diff --git a/WoW/Source/Net/NetClient/NetClient.cpp b/WoW/Source/Net/NetClient/NetClient.cpp
+index 9e4dd9c..e9bbf69 100644
+--- a/WoW/Source/Net/NetClient/NetClient.cpp
++++ b/WoW/Source/Net/NetClient/NetClient.cpp
+@@ -8,6 +8,7 @@
+ #include "Engine/Source/Event/Types.h"
+ #include "Engine/Source/Os/TimeManager.h"
+ #include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Glue/CGlueMgr.h"
+ #include "WoW/Source/WowServices/HMAC.h"
+ 
+@@ -277,6 +278,9 @@ int32_t NetClient::ProcessMessage(uint32_t timeReceived, CDataStore* msg, int32_
+     msg->Get(msgId);
+     this->ValidateMessageId(msgId);
+ 
++    // Not in the original: every incoming message passes here with the cursor at its payload.
++    sExtensionMgr->OnMessageReceived(static_cast<NETMESSAGE>(msgId), timeReceived, msg);
++
+     if (msgId < NUM_MSG_TYPES && this->m_handlers[msgId]) {
+         return this->m_handlers[msgId](this->m_handlerParams[msgId], static_cast<NETMESSAGE>(msgId), timeReceived, msg);
+     }
+@@ -594,6 +598,9 @@ void NetClient::Send(CDataStore* msg) {
+         return;
+     }
+ 
++    // Not in the original: every message handed to the connection passes here, held ones included.
++    sExtensionMgr->OnMessageSent(msg);
++
+     this->m_serverConnection->SendPacket(msg, 0);
+     WowConnection* connection = this->m_serverConnection;
+     s_stats[0] += size;
+diff --git a/WoW/Source/Ui/CMakeLists.txt b/WoW/Source/Ui/CMakeLists.txt
+index f6010f5..010453c 100644
+--- a/WoW/Source/Ui/CMakeLists.txt
++++ b/WoW/Source/Ui/CMakeLists.txt
+@@ -13,6 +13,11 @@ target_include_directories(Ui
+         ${CMAKE_SOURCE_DIR}
+ )
+ 
++target_link_libraries(Ui
++    PRIVATE
++        Extension
++)
++
+ if (WIN32)
+     target_link_libraries(Ui
+         PRIVATE
+diff --git a/WoW/Source/Ui/GameUI.cpp b/WoW/Source/Ui/GameUI.cpp
+index f09e290..a7d3122 100644
+--- a/WoW/Source/Ui/GameUI.cpp
++++ b/WoW/Source/Ui/GameUI.cpp
+@@ -44,6 +44,7 @@
+ #include "WoW/Source/DB/Rec/MapRec.h"
+ #include "WoW/Source/DB/Rec/SpellItemEnchantmentRec.h"
+ #include "WoW/Source/DB/Rec/VehicleSeatRec.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Game/GameClient/ComSatClient.h"
+ #include "WoW/Source/Game/GameClient/PlayerName.h"
+ #include "WoW/Source/Glue/CGlueMgr.h"
+@@ -1714,7 +1715,9 @@ void CGGameUI::InitializeFrameXML() {
+     FrameScript_Destroy();
+     FrameScript_Initialize(g_scriptProfileCVar->m_intValue);
+     LoadScriptFunctions();
+-    FrameScript_CreateEvents(g_scriptEvents, NUM_SCRIPT_EVENTS);
++    // Not in the original: extensions register in the new game state, then the game events and the
++    // declared events are created together (FrameScript_CreateEvents replaces the whole array).
++    sExtensionMgr->OnFrameScriptInitialized(FRAMESCRIPT_CONTEXT_GAME, g_scriptEvents, NUM_SCRIPT_EVENTS);
+     CGGameUI::RegisterGameCVars();
+     CGUIBindings::Initialize();
+     CGWorldFrame::RegisterFrames();
+diff --git a/WoW/Source/Ui/WorldFrame.cpp b/WoW/Source/Ui/WorldFrame.cpp
+index 94c4881..475c9a2 100644
+--- a/WoW/Source/Ui/WorldFrame.cpp
++++ b/WoW/Source/Ui/WorldFrame.cpp
+@@ -35,6 +35,7 @@
+ #include "WoW/Source/DB/Rec/MapRec.h"
+ #include "WoW/Source/DB/Rec/ScreenEffectRec.h"
+ #include "WoW/Source/DB/Rec/SpellRec.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Game/GameClient/FFXEffects.h"
+ #include "WoW/Source/Game/GameClient/PassFogSeed.h"
+ #include "WoW/Source/Game/GameClient/PlayerName.h"
+@@ -2086,6 +2087,9 @@ void CGWorldFrame::OnWorldUpdate() {
+ 
+     CGUnit_C::UpdateAllSmoothFacing();
+     CheckEventWorldStateUITimerUpdate();
++
++    // Not in the original: the world is updated for this frame and about to be rendered.
++    sExtensionMgr->OnWorldUpdate(elapsedSec);
+ }
+ 
+ // VERIFY: 09c5961f manual
+@@ -2102,6 +2106,9 @@ void CGWorldFrame::RenderWorld(void* param) {
+     worldFrame->OnWorldRender();
+     WorldTextRenderBatch();
+ 
++    // Not in the original: the world is drawn and the device still holds the world camera.
++    sExtensionMgr->OnWorldRendered();
++
+     g_theGxDevicePtr->XformSetProjection(projection);
+     g_theGxDevicePtr->XformSetView(view);
+     CShaderEffect::UpdateProjMatrix();
+diff --git a/WoW/Source/WorldClient/CMakeLists.txt b/WoW/Source/WorldClient/CMakeLists.txt
+index a1a97b0..e92fb9f 100644
+--- a/WoW/Source/WorldClient/CMakeLists.txt
++++ b/WoW/Source/WorldClient/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(WorldClient
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(WorldClient
++    PRIVATE
++        Extension
++)
+diff --git a/WoW/Source/WorldClient/World.cpp b/WoW/Source/WorldClient/World.cpp
+index 6a497eb..49a18f7 100644
+--- a/WoW/Source/WorldClient/World.cpp
++++ b/WoW/Source/WorldClient/World.cpp
+@@ -54,6 +54,7 @@
+ #include "WoW/Source/DB/Rec/LiquidTypeRec.h"
+ #include "WoW/Source/DB/Rec/MapRec.h"
+ #include "WoW/Source/DB/Rec/WMOAreaTableRec.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/LiquidSystem/Liquid.h"
+ #include "WoW/Source/LoadingScreen.h"
+ #include "WoW/Source/Object/ObjectClient/Movement_C.h"
+@@ -1377,6 +1378,9 @@ void CWorld::LoadMap(const char* mapName, C3Vector* position, int32_t zoneID, in
+     Liquid::SetShadersEnabled(shaders);
+     Liquid::SetSpecularEnabled(CMap::enableSpecular);
+     Liquid::CMaterialBank::Destroy();
++
++    // Not in the original: the map is loaded; zoneID is the Map.dbc id.
++    sExtensionMgr->OnMapLoaded(zoneID, mapName);
+ }
+ 
+ // VERIFY: 5c8f2417 manual
+@@ -1473,6 +1477,9 @@ void World::UnloadMap() {
+     CWorldScene::ClearObjectFadeoutList();
+ 
+     if (CMap::bActive) {
++        // Not in the original: the map is still loaded here.
++        sExtensionMgr->OnMapUnload();
++
+         CMap::Unload();
+     }
+ 
+-- 
+2.34.1
+

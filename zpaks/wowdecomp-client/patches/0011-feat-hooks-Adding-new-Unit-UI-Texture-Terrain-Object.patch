@@ -1,0 +1,1134 @@
+From ab02044f30a51ff2f771d2a1a984b52f5e0a8bf5 Mon Sep 17 00:00:00 2001
+From: iThorgrim <contact@warlog.dev>
+Date: Fri, 16 Oct 2026 15:22:59 +0200
+Subject: [PATCH] feat(hooks): Adding new Unit, UI, Texture, Terrain, Object,
+ Lua, Console hooks
+
+---
+ Engine/Source/Frame/CMakeLists.txt            |  1 +
+ Engine/Source/Frame/CSimpleFrame.cpp          |  4 ++
+ Engine/Source/Services/Texture.cpp            |  3 +
+ Extensions/HelloWorld/src/HelloWorld.cpp      |  2 +
+ Extensions/HelloWorld/src/HelloWorldAsset.cpp |  2 +-
+ .../HelloWorld/src/HelloWorldConsole.cpp      | 37 ++++++++++
+ .../HelloWorld/src/HelloWorldObject.cpp       | 11 ++-
+ .../HelloWorld/src/HelloWorldTerrain.cpp      | 18 +++++
+ .../HelloWorld/src/HelloWorldTexture.cpp      |  9 +++
+ Extensions/HelloWorld/src/HelloWorldUI.cpp    | 71 +++++++++++++++---
+ Extensions/HelloWorld/src/HelloWorldUnit.cpp  | 23 ++++++
+ WoW/Source/Console/CMakeLists.txt             |  1 +
+ WoW/Source/Console/ConsoleClient.cpp          |  5 ++
+ WoW/Source/Extension/ExtensionMgr.cpp         |  2 +
+ WoW/Source/Extension/ExtensionMgr.h           | 36 ++++++++++
+ .../ScriptDefines/AllScriptsObjects.h         |  1 +
+ .../Extension/ScriptDefines/ConsoleScript.cpp | 72 +++++++++++++++++++
+ .../Extension/ScriptDefines/ConsoleScript.h   | 34 +++++++++
+ .../Extension/ScriptDefines/LuaScript.cpp     | 56 ++++++++++++++-
+ .../Extension/ScriptDefines/ObjectScript.cpp  |  4 ++
+ .../Extension/ScriptDefines/ObjectScript.h    |  8 +++
+ .../Extension/ScriptDefines/TerrainScript.cpp |  8 +++
+ .../Extension/ScriptDefines/TerrainScript.h   | 11 +++
+ .../Extension/ScriptDefines/TextureScript.cpp |  4 ++
+ .../Extension/ScriptDefines/TextureScript.h   |  8 +++
+ .../Extension/ScriptDefines/UIScript.cpp      |  4 ++
+ WoW/Source/Extension/ScriptDefines/UIScript.h |  6 ++
+ .../Extension/ScriptDefines/UnitScript.cpp    | 12 ++++
+ .../Extension/ScriptDefines/UnitScript.h      | 17 +++++
+ WoW/Source/Object/ObjectClient/Object_C.cpp   |  4 ++
+ WoW/Source/Object/ObjectClient/Unit_C.cpp     | 10 +++
+ WoW/Source/WorldClient/MapArea.cpp            |  3 +
+ WoW/Source/WorldClient/MapChunk.cpp           |  4 ++
+ 33 files changed, 478 insertions(+), 13 deletions(-)
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldConsole.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ConsoleScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ConsoleScript.h
+
+diff --git a/Engine/Source/Frame/CMakeLists.txt b/Engine/Source/Frame/CMakeLists.txt
+index 780c623..6889b70 100644
+--- a/Engine/Source/Frame/CMakeLists.txt
++++ b/Engine/Source/Frame/CMakeLists.txt
+@@ -13,4 +13,5 @@ target_link_libraries(Frame
+     PUBLIC
+         DivxDecoder
+         freetype
++        Extension
+ )
+diff --git a/Engine/Source/Frame/CSimpleFrame.cpp b/Engine/Source/Frame/CSimpleFrame.cpp
+index 76dfc64..c2b450b 100644
+--- a/Engine/Source/Frame/CSimpleFrame.cpp
++++ b/Engine/Source/Frame/CSimpleFrame.cpp
+@@ -30,6 +30,7 @@
+ #include "Engine/Source/Tempest/CRect.h"
+ #include "Engine/Source/lua-5.1/src/lauxlib.h"
+ #include "Engine/Source/lua-5.1/src/lua.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00AC154C
+ int32_t CSimpleFrame::s_metatable = LUA_NOREF;
+@@ -234,6 +235,9 @@ CSimpleFrame::CSimpleFrame(CSimpleFrame* parent) {
+ // VERIFY: e1a5b71b manual
+ // OFFSET: [0x00492770, 0x004926B0, 0x00492E40]
+ CSimpleFrame::~CSimpleFrame() {
++    // Not in the original: the frame is still whole here.
++    sExtensionMgr->OnFrameDestroyed(this);
++
+     this->m_lifecycleState = 3;
+     this->m_simpleTop->UnregisterFrame(this);
+     this->m_simpleTop->ValidateDeletedFrame(this);
+diff --git a/Engine/Source/Services/Texture.cpp b/Engine/Source/Services/Texture.cpp
+index 57458a3..6ff2077 100644
+--- a/Engine/Source/Services/Texture.cpp
++++ b/Engine/Source/Services/Texture.cpp
+@@ -1850,6 +1850,9 @@ int32_t PumpBlpTextureAsync(CTexture* texture, void* data) {
+ 
+     s_pumping = 0;
+ 
++    // Not in the original: the BLP's pixel data is in the Gx texture (both load paths end here).
++    sExtensionMgr->OnTextureLoaded(texture);
++
+     return 1;
+ }
+ 
+diff --git a/Extensions/HelloWorld/src/HelloWorld.cpp b/Extensions/HelloWorld/src/HelloWorld.cpp
+index 1aa6f55..d22bf2d 100644
+--- a/Extensions/HelloWorld/src/HelloWorld.cpp
++++ b/Extensions/HelloWorld/src/HelloWorld.cpp
+@@ -8,6 +8,7 @@
+ void AddHelloWorldAssetScripts();
+ void AddHelloWorldClientDBScripts();
+ void AddHelloWorldClientScripts();
++void AddHelloWorldConsoleScripts();
+ void AddHelloWorldLuaScripts();
+ void AddHelloWorldMapObjectScripts();
+ void AddHelloWorldModelScripts();
+@@ -27,6 +28,7 @@ void AddHelloWorldExtension() {
+     AddHelloWorldAssetScripts();
+     AddHelloWorldClientDBScripts();
+     AddHelloWorldClientScripts();
++    AddHelloWorldConsoleScripts();
+     AddHelloWorldLuaScripts();
+     AddHelloWorldMapObjectScripts();
+     AddHelloWorldModelScripts();
+diff --git a/Extensions/HelloWorld/src/HelloWorldAsset.cpp b/Extensions/HelloWorld/src/HelloWorldAsset.cpp
+index 2ad0d85..3c46cae 100644
+--- a/Extensions/HelloWorld/src/HelloWorldAsset.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldAsset.cpp
+@@ -19,7 +19,7 @@ class HelloWorldAssetStartup : public ClientScript {
+     HelloWorldAssetStartup() : ClientScript("HelloWorldAssetStartup") {}
+ 
+     void OnStartup() override {
+-        s_redirectCursor = CVar::Register("helloWorldRedirectCursor", "HelloWorld: open Interface\\Cursor\\Attack.blp in place of Point.blp", 0, "0", nullptr, 0, false, nullptr, false);
++        s_redirectCursor = sExtensionMgr->RegisterCVar("helloWorldRedirectCursor", "HelloWorld: open Interface\\Cursor\\Attack.blp in place of Point.blp", 0, "0", nullptr, CATEGORY_DEBUG);
+     }
+ };
+ 
+diff --git a/Extensions/HelloWorld/src/HelloWorldConsole.cpp b/Extensions/HelloWorld/src/HelloWorldConsole.cpp
+new file mode 100644
+index 0000000..7fb491a
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldConsole.cpp
+@@ -0,0 +1,37 @@
++#include "Engine/Source/ConsoleBase/IConsole.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// The console command the extension adds: "helloWorld [text]" (console window or
++// "/console helloWorld text") echoes its arguments to the console and the log.
++int32_t CCommand_HelloWorld(const char* command, const char* arguments) {
++    sExtensionMgr->Log("HelloWorld: command %s \"%s\"", command, arguments ? arguments : "");
++    ConsolePrintf("HelloWorld says: %s", arguments && *arguments ? arguments : "hello");
++
++    return 1;
++}
++
++// Counts every registered command that runs and logs the first few.
++class HelloWorldConsoleScript : public ConsoleScript {
++    public:
++    HelloWorldConsoleScript() : ConsoleScript("HelloWorldConsoleScript") {}
++
++    void OnConsoleCommand(const char* command, const char* arguments) override {
++        m_commands++;
++
++        if (m_commands <= 5) {
++            sExtensionMgr->Log("HelloWorld: OnConsoleCommand %s %s", command, arguments ? arguments : "");
++        }
++    }
++
++    private:
++    uint32_t m_commands = 0;
++};
++
++}
++
++void AddHelloWorldConsoleScripts() {
++    sExtensionMgr->RegisterConsoleCommand("helloWorld", CCommand_HelloWorld, CATEGORY_DEBUG, "HelloWorld: echo the arguments");
++    new HelloWorldConsoleScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldObject.cpp b/Extensions/HelloWorld/src/HelloWorldObject.cpp
+index 7103825..234e24f 100644
+--- a/Extensions/HelloWorld/src/HelloWorldObject.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldObject.cpp
+@@ -33,7 +33,15 @@ class HelloWorldObjectScript : public ObjectScript {
+         m_destroyed++;
+ 
+         if (m_destroyed % 100 == 0) {
+-            sExtensionMgr->Log("HelloWorld: objects %u created, %u removed, %u destroyed, %u update(s)", m_created, m_removed, m_destroyed, m_updates);
++            sExtensionMgr->Log("HelloWorld: objects %u created, %u removed, %u destroyed, %u update(s), %u spell visual kit(s)", m_created, m_removed, m_destroyed, m_updates, m_visualKits);
++        }
++    }
++
++    void OnObjectSpellVisualKit(CGObject_C& object, const PlaySpellVisuaKitData& data) override {
++        m_visualKits++;
++
++        if (m_visualKits <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnObjectSpellVisualKit (%u so far)", m_visualKits);
+         }
+     }
+ 
+@@ -42,6 +50,7 @@ class HelloWorldObjectScript : public ObjectScript {
+     uint32_t m_updates = 0;
+     uint32_t m_removed = 0;
+     uint32_t m_destroyed = 0;
++    uint32_t m_visualKits = 0;
+ };
+ 
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldTerrain.cpp b/Extensions/HelloWorld/src/HelloWorldTerrain.cpp
+index 49ac1bf..b6d7d68 100644
+--- a/Extensions/HelloWorld/src/HelloWorldTerrain.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldTerrain.cpp
+@@ -25,9 +25,27 @@ class HelloWorldTerrainScript : public TerrainScript {
+         }
+     }
+ 
++    void OnTerrainChunkCreated(CMapChunk& chunk) override {
++        m_chunks++;
++
++        if (m_chunks == 1) {
++            sExtensionMgr->Log("HelloWorld: OnTerrainChunkCreated (first)");
++        }
++    }
++
++    void OnTerrainChunkPurge(CMapChunk& chunk) override {
++        m_chunksPurged++;
++
++        if (m_chunksPurged % 256 == 0) {
++            sExtensionMgr->Log("HelloWorld: %u chunk(s) created, %u purged", m_chunks, m_chunksPurged);
++        }
++    }
++
+     private:
+     uint32_t m_loaded = 0;
+     uint32_t m_unloaded = 0;
++    uint32_t m_chunks = 0;
++    uint32_t m_chunksPurged = 0;
+ };
+ 
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldTexture.cpp b/Extensions/HelloWorld/src/HelloWorldTexture.cpp
+index 2402cb1..f74e7ec 100644
+--- a/Extensions/HelloWorld/src/HelloWorldTexture.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldTexture.cpp
+@@ -18,8 +18,17 @@ class HelloWorldTextureScript : public TextureScript {
+         }
+     }
+ 
++    void OnTextureLoaded(CTexture& texture) override {
++        m_loaded++;
++
++        if (m_loaded <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnTextureLoaded %s", texture.GetObjectName());
++        }
++    }
++
+     private:
+     uint32_t m_created = 0;
++    uint32_t m_loaded = 0;
+ };
+ 
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldUI.cpp b/Extensions/HelloWorld/src/HelloWorldUI.cpp
+index a0b4c5d..a900f9b 100644
+--- a/Extensions/HelloWorld/src/HelloWorldUI.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldUI.cpp
+@@ -2,22 +2,27 @@
+ #include <typeinfo>
+ #include "Engine/Source/Base/CDataAllocator.h"
+ #include "Engine/Source/Base/Status.h"
++#include "Engine/Source/Frame/CScriptObject.h"
+ #include "Engine/Source/Frame/CSimpleFrame.h"
+ #include "Engine/Source/FrameScript/FrameScript_Object.h"
+ #include "Engine/Source/FrameXML/XMLTree.h"
+ #include "Engine/Source/Storm/H/storm.h"
++#include "Engine/Source/lua-5.1/src/lauxlib.h"
++#include "Engine/Source/lua-5.1/src/lua.h"
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ namespace {
+ 
+ // A new UI element type, <HelloWorldFrame>, usable from XML and from CreateFrame("HelloWorldFrame").
+-// It is a Frame with one extra attribute, greeting="...", and its own object type so Lua's
+-// GetObjectType() / IsObjectType("HelloWorldFrame") recognise it. It inherits the Frame script
+-// methods (no metatable of its own). Frames are destroyed through the virtual destructor and the
+-// static operator delete of their class, so the type owns its allocator like CGCooldown does.
++// It is a Frame with one extra attribute, greeting="...", two Lua methods of its own
++// (SetGreeting / GetGreeting, through a script metatable the core creates in every state) and its
++// own object type so Lua's GetObjectType() / IsObjectType("HelloWorldFrame") recognise it. Frames
++// are destroyed through the virtual destructor and the static operator delete of their class, so
++// the type owns its allocator like CGCooldown does.
+ class CHelloWorldFrame : public CSimpleFrame {
+     public:
+     static CDataAllocator s_allocator;
++    static int32_t s_metatable;
+     static int32_t s_objectType;
+     static const char* s_objectTypeName;
+ 
+@@ -40,7 +45,9 @@ class CHelloWorldFrame : public CSimpleFrame {
+         return CHelloWorldFrame::s_objectType;
+     }
+ 
+-    explicit CHelloWorldFrame(CSimpleFrame* parent) : CSimpleFrame(parent) {}
++    explicit CHelloWorldFrame(CSimpleFrame* parent) : CSimpleFrame(parent) {
++        this->m_greeting[0] = '\0';
++    }
+ 
+     bool IsA(int32_t type) override {
+         return type == CHelloWorldFrame::GetObjectType() || CSimpleFrame::IsA(type);
+@@ -54,21 +61,59 @@ class CHelloWorldFrame : public CSimpleFrame {
+         return CHelloWorldFrame::s_objectTypeName;
+     }
+ 
++    // The type's own method table when the core has built it for this state, the plain Frame
++    // table otherwise.
++    int32_t GetScriptMetaTable() override {
++        return CHelloWorldFrame::s_metatable != LUA_NOREF ? CHelloWorldFrame::s_metatable : CSimpleFrame::GetScriptMetaTable();
++    }
++
+     // The Frame attributes and children first, then the type's own attribute.
+     void LoadXML(XMLNode* node, CStatus* status) override {
+         CSimpleFrame::LoadXML(node, status);
+ 
+         const char* greeting = node->GetAttributeByName("greeting");
+         const char* name = node->GetAttributeByName("name");
+-        sExtensionMgr->Log("HelloWorld: <HelloWorldFrame> %s created, greeting=\"%s\"", name && *name ? name : "(unnamed)", greeting ? greeting : "");
++        SStrCopy(this->m_greeting, greeting ? greeting : "", sizeof(this->m_greeting));
++        sExtensionMgr->Log("HelloWorld: <HelloWorldFrame> %s created, greeting=\"%s\"", name && *name ? name : "(unnamed)", this->m_greeting);
+     }
++
++    char m_greeting[64];
+ };
+ 
+ CDataAllocator CHelloWorldFrame::s_allocator(sizeof(CHelloWorldFrame), 16);
++int32_t CHelloWorldFrame::s_metatable = LUA_NOREF;
+ int32_t CHelloWorldFrame::s_objectType;
+ const char* CHelloWorldFrame::s_objectTypeName = "HelloWorldFrame";
+ 
+-// Counts every frame the UI builds and reports element types nothing knows.
++// frame:SetGreeting("text") / frame:GetGreeting(): the type's Lua methods, in the shape of every
++// engine frame method (FrameScript_GetObjectThis checks the object type).
++int32_t Script_SetGreeting(lua_State* L) {
++    CHelloWorldFrame* frame = static_cast<CHelloWorldFrame*>(FrameScript_GetObjectThis(L, CHelloWorldFrame::GetObjectType()));
++    const char* greeting = lua_tolstring(L, 2, nullptr);
++    SStrCopy(frame->m_greeting, greeting ? greeting : "", sizeof(frame->m_greeting));
++
++    return 0;
++}
++
++int32_t Script_GetGreeting(lua_State* L) {
++    CHelloWorldFrame* frame = static_cast<CHelloWorldFrame*>(FrameScript_GetObjectThis(L, CHelloWorldFrame::GetObjectType()));
++    lua_pushstring(L, frame->m_greeting);
++
++    return 1;
++}
++
++FrameScript_Method s_helloWorldFrameMethods[] = {
++    { "SetGreeting", &Script_SetGreeting },
++    { "GetGreeting", &Script_GetGreeting },
++};
++
++// Fills the type's method table: the Frame methods, then its own.
++void RegisterHelloWorldFrameMethods(lua_State* L) {
++    CSimpleFrame::RegisterScriptMethods(L);
++    FrameScript_Object::FillScriptMethodTable(L, s_helloWorldFrameMethods, sizeof(s_helloWorldFrameMethods) / sizeof(s_helloWorldFrameMethods[0]));
++}
++
++// Counts every frame the UI builds and destroys and reports element types nothing knows.
+ class HelloWorldUIScript : public UIScript {
+     public:
+     HelloWorldUIScript() : UIScript("HelloWorldUIScript") {}
+@@ -77,7 +122,15 @@ class HelloWorldUIScript : public UIScript {
+         m_created++;
+ 
+         if (m_created <= 3 || m_created % 1000 == 0) {
+-            sExtensionMgr->Log("HelloWorld: OnFrameCreated <%s> (%u frame(s) so far)", node.m_name.m_str, m_created);
++            sExtensionMgr->Log("HelloWorld: OnFrameCreated <%s> (%u frame(s) created, %u destroyed)", node.m_name.m_str, m_created, m_destroyed);
++        }
++    }
++
++    void OnFrameDestroyed(CSimpleFrame& frame) override {
++        m_destroyed++;
++
++        if (m_destroyed <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnFrameDestroyed %s", frame.GetObjectTypeName());
+         }
+     }
+ 
+@@ -87,11 +140,13 @@ class HelloWorldUIScript : public UIScript {
+ 
+     private:
+     uint32_t m_created = 0;
++    uint32_t m_destroyed = 0;
+ };
+ 
+ }
+ 
+ void AddHelloWorldUIScripts() {
+     sExtensionMgr->RegisterXmlElement("HelloWorldFrame", CHelloWorldFrame::Create);
++    sExtensionMgr->RegisterScriptMetaTable(&CHelloWorldFrame::s_metatable, RegisterHelloWorldFrameMethods);
+     new HelloWorldUIScript();
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldUnit.cpp b/Extensions/HelloWorld/src/HelloWorldUnit.cpp
+index 861a09b..d7434e0 100644
+--- a/Extensions/HelloWorld/src/HelloWorldUnit.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldUnit.cpp
+@@ -42,6 +42,26 @@ class HelloWorldUnitScript : public UnitScript {
+         }
+     }
+ 
++    void OnUnitAuraEffectMaskUpdated(CGUnit_C& unit) override {
++        m_masks++;
++    }
++
++    void OnUnitWorldTransformUpdated(CGUnit_C& unit, float elapsed) override {
++        m_transforms++;
++
++        if (m_transforms == 1) {
++            sExtensionMgr->Log("HelloWorld: OnUnitWorldTransformUpdated (first, %.4f s)", elapsed);
++        }
++    }
++
++    void OnUnitMovementMessage(CGUnit_C& unit, uint32_t msgId, CDataStore& msg) override {
++        m_movementMessages++;
++
++        if (m_movementMessages <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnUnitMovementMessage opcode 0x%03X (%u aura mask update(s), %u transform(s) so far)", msgId, m_masks, m_transforms);
++        }
++    }
++
+     private:
+     static bool IsLocalPlayer(CGUnit_C& unit) {
+         return unit.m_obj->m_guid == ClntObjMgrGetActivePlayer();
+@@ -50,6 +70,9 @@ class HelloWorldUnitScript : public UnitScript {
+     uint32_t m_moves = 0;
+     uint32_t m_displays = 0;
+     uint32_t m_deaths = 0;
++    uint32_t m_masks = 0;
++    uint32_t m_transforms = 0;
++    uint32_t m_movementMessages = 0;
+ };
+ 
+ }
+diff --git a/WoW/Source/Console/CMakeLists.txt b/WoW/Source/Console/CMakeLists.txt
+index 0ae7151..c2b0777 100644
+--- a/WoW/Source/Console/CMakeLists.txt
++++ b/WoW/Source/Console/CMakeLists.txt
+@@ -12,4 +12,5 @@ target_include_directories(Console
+ target_link_libraries(Console
+     PRIVATE
+         freetype
++        Extension
+ )
+diff --git a/WoW/Source/Console/ConsoleClient.cpp b/WoW/Source/Console/ConsoleClient.cpp
+index 3703dc2..3c7b19f 100644
+--- a/WoW/Source/Console/ConsoleClient.cpp
++++ b/WoW/Source/Console/ConsoleClient.cpp
+@@ -23,6 +23,7 @@
+ #include "Engine/Source/Tempest/CImVector.h"
+ #include "Engine/Source/Tempest/CRect.h"
+ #include "WoW/Source/ConsoleDevice/ConsoleDevice.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00ADBAB4
+ static RECTF s_rect = { 0.0f, 1.0f, 1.0f, 1.0f };
+@@ -961,6 +962,10 @@ void ConsoleCommandExecute(const char* commandLine, int32_t addToHistory) {
+     }
+ 
+     OsValidateFunctionPointer(reinterpret_cast<const void*>(entry->m_handler));
++
++    // Not in the original: the line resolved to a registered command, about to run.
++    sExtensionMgr->OnConsoleCommand(command, arguments);
++
+     entry->m_handler(command, arguments);
+ 
+ done:
+diff --git a/WoW/Source/Extension/ExtensionMgr.cpp b/WoW/Source/Extension/ExtensionMgr.cpp
+index 950e81d..d44513a 100644
+--- a/WoW/Source/Extension/ExtensionMgr.cpp
++++ b/WoW/Source/Extension/ExtensionMgr.cpp
+@@ -65,6 +65,7 @@ void ExtensionMgr::Unload() {
+     ScriptRegistry<AssetScript>::Clear();
+     ScriptRegistry<ClientDBScript>::Clear();
+     ScriptRegistry<ClientScript>::Clear();
++    ScriptRegistry<ConsoleScript>::Clear();
+     ScriptRegistry<LuaScript>::Clear();
+     ScriptRegistry<MapObjectScript>::Clear();
+     ScriptRegistry<ModelScript>::Clear();
+@@ -81,6 +82,7 @@ void ExtensionMgr::Unload() {
+     ClearMessageHandlers();
+     ClearLuaRegistrations();
+     ClearXmlElements();
++    ClearConsoleRegistrations();
+ 
+     Log("Extensions: unloaded");
+ 
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 9d3ab21..c237d51 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -13,11 +13,14 @@ class CGUnit_C;
+ class CM2Model;
+ class CM2Shared;
+ class CMapArea;
++class CMapChunk;
+ class CMapObj;
+ class CMapObjGroup;
+ class CSimpleFrame;
+ class CTexture;
++class CVar;
+ class NetClient;
++class PlaySpellVisuaKitData;
+ class SFileImpl;
+ class WowClientDB_Base;
+ class XMLNode;
+@@ -55,6 +58,20 @@ class ExtensionMgr {
+     // font is loaded, which is the case for OnStartup.
+     void Log(const char* format, ...);
+ 
++    public: /* ConsoleScript */
++    // Registration API. A console command (ConsoleCommandRegister; refused and logged when the
++    // engine owns the name) usable from the console window and "/console <name> ..."; the
++    // extension's commands are unregistered at Unload. A CVar (CVar::Register with the given
++    // default, change callback, category and user pointer): the returned CVar* is the extension's
++    // handle (m_intValue, m_floatValue, m_stringValue); Config.wtf values already loaded attach
++    // to it. Both tables exist before the extensions load, so these apply at once from the entry
++    // point or OnStartup.
++    bool RegisterConsoleCommand(const char* name, COMMANDHANDLER handler, CATEGORY category, const char* help);
++    void UnregisterConsoleCommand(const char* name);
++    CVar* RegisterCVar(const char* name, const char* help, uint32_t flags, const char* defaultValue, ExtensionCVarCallback callback, CATEGORY category, void* arg = nullptr);
++
++    void OnConsoleCommand(const char* command, const char* arguments);
++
+     public: /* ClientScript */
+     void OnStartup();
+     void OnClientInitialized();
+@@ -119,6 +136,9 @@ class ExtensionMgr {
+     void OnUnitDeath(CGUnit_C* unit);
+     void OnUnitAuraAdded(CGUnit_C* unit, uint32_t index, AuraData* aura, int32_t spellId);
+     void OnUnitAuraRemoved(CGUnit_C* unit, uint32_t index, AuraData* aura, int32_t spellId);
++    void OnUnitAuraEffectMaskUpdated(CGUnit_C* unit);
++    void OnUnitWorldTransformUpdated(CGUnit_C* unit, float elapsed);
++    void OnUnitMovementMessage(CGUnit_C* unit, uint32_t msgId, CDataStore* msg);
+ 
+     public: /* UIScript */
+     // Registration API: adds an XML element type (and CreateFrame type) backed by factory. Takes
+@@ -132,16 +152,20 @@ class ExtensionMgr {
+ 
+     void OnFrameCreated(CSimpleFrame* frame, XMLNode* node);
+     void OnUnknownFrameType(const char* name, XMLNode* node);
++    void OnFrameDestroyed(CSimpleFrame* frame);
+ 
+     public: /* ObjectScript */
+     void OnObjectCreated(CGObject_C* object);
+     void OnObjectUpdate(CGObject_C* object, uint32_t time);
+     void OnObjectRemoved(CGObject_C* object);
+     void OnObjectDestroy(CGObject_C* object);
++    void OnObjectSpellVisualKit(CGObject_C* object, const PlaySpellVisuaKitData* data);
+ 
+     public: /* TerrainScript */
+     void OnTerrainTileLoaded(CMapArea* area);
+     void OnTerrainTileUnload(CMapArea* area);
++    void OnTerrainChunkCreated(CMapChunk* chunk);
++    void OnTerrainChunkPurge(CMapChunk* chunk);
+ 
+     public: /* MapObjectScript */
+     void OnMapObjLoaded(CMapObj* mapObj);
+@@ -149,6 +173,7 @@ class ExtensionMgr {
+ 
+     public: /* TextureScript */
+     void OnTextureCreated(CTexture* texture, const char* fileName);
++    void OnTextureLoaded(CTexture* texture);
+ 
+     public: /* AssetScript */
+     // True when a script redirected the open: redirect then holds the substitute path.
+@@ -174,6 +199,16 @@ class ExtensionMgr {
+     uint32_t GetFrameScriptEventIndex(const char* name);
+     FrameScriptContext GetFrameScriptContext();
+ 
++    // Registration API for a frame type's Lua methods (the piece a RegisterXmlElement type needs
++    // to expose methods of its own). metatable is the type's static metatable reference, the one
++    // its GetScriptMetaTable() override returns; registerMethods fills the method table the way
++    // CGCooldown::RegisterScriptMethods does (the base type's RegisterScriptMethods first, then
++    // FrameScript_Object::FillScriptMethodTable with its own FrameScript_Method array). The core
++    // creates the table with FrameScript_Object::CreateScriptMetaTable in every state of the mask
++    // (after the engine's own tables, before the LuaScript hooks) and resets the reference to
++    // LUA_NOREF when the state is destroyed.
++    void RegisterScriptMetaTable(int32_t* metatable, void (*registerMethods)(lua_State*), uint32_t contexts = FRAMESCRIPT_CONTEXTS_ALL);
++
+     // Replaces the client's FrameScript_CreateEvents(names, count) call at each FrameScript rebuild
+     // site. Registers the recorded functions and events for the context, fires
+     // LuaScript::OnFrameScriptInitialized for every script (where they may declare more), then
+@@ -193,6 +228,7 @@ class ExtensionMgr {
+     void ClearMessageHandlers();
+     void ClearLuaRegistrations();
+     void ClearXmlElements();
++    void ClearConsoleRegistrations();
+ 
+     uint32_t m_scriptCount;
+ };
+diff --git a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+index 7d6aab1..cdb6127 100644
+--- a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
++++ b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+@@ -5,6 +5,7 @@
+ #include "WoW/Source/Extension/ScriptDefines/AssetScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ClientDBScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ClientScript.h"
++#include "WoW/Source/Extension/ScriptDefines/ConsoleScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/LuaScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/MapObjectScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ModelScript.h"
+diff --git a/WoW/Source/Extension/ScriptDefines/ConsoleScript.cpp b/WoW/Source/Extension/ScriptDefines/ConsoleScript.cpp
+new file mode 100644
+index 0000000..af18af5
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ConsoleScript.cpp
+@@ -0,0 +1,72 @@
++#include "WoW/Source/Extension/ScriptDefines/ConsoleScript.h"
++#include <vector>
++#include "Engine/Source/ConsoleBase/ConsoleVar.h"
++#include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++// Console commands registered by extensions, so they can be taken out again at unload (the
++// engine's own table outlives the extensions by a few calls in BeginCloseGame).
++static std::vector<const char*> s_consoleCommands;
++
++bool ExtensionMgr::RegisterConsoleCommand(const char* name, COMMANDHANDLER handler, CATEGORY category, const char* help) {
++    if (!name || !handler) {
++        return false;
++    }
++
++    // ConsoleCommandRegister refuses a name already in the table (the engine's commands are in
++    // first), so a collision leaves the stock command in place.
++    if (!ConsoleCommandRegister(name, handler, category, help)) {
++        Log("Extensions: console command %s not registered, the name is taken", name);
++        return false;
++    }
++
++    s_consoleCommands.push_back(name);
++    Log("Extensions: console command %s registered", name);
++
++    return true;
++}
++
++void ExtensionMgr::UnregisterConsoleCommand(const char* name) {
++    for (size_t i = 0; i < s_consoleCommands.size(); i++) {
++        if (!SStrCmpI(s_consoleCommands[i], name, STORM_MAX_STR)) {
++            ConsoleCommandUnregister(name);
++            s_consoleCommands.erase(s_consoleCommands.begin() + i);
++            return;
++        }
++    }
++}
++
++CVar* ExtensionMgr::RegisterCVar(const char* name, const char* help, uint32_t flags, const char* defaultValue, ExtensionCVarCallback callback, CATEGORY category, void* arg) {
++    if (!name) {
++        return nullptr;
++    }
++
++    // CVar::Register returns the existing variable when the name is known (Config.wtf values are
++    // loaded before any registration and attached when the owner registers), so the default only
++    // applies the first time the client ever sees the variable.
++    CVar* cvar = CVar::Register(name, help, flags, defaultValue ? defaultValue : "", callback, category, false, arg, false);
++
++    if (cvar) {
++        Log("Extensions: CVar %s registered (value \"%s\")", name, cvar->m_stringValue.m_str);
++    }
++
++    return cvar;
++}
++
++void ExtensionMgr::ClearConsoleRegistrations() {
++    for (const char* name : s_consoleCommands) {
++        ConsoleCommandUnregister(name);
++    }
++
++    s_consoleCommands.clear();
++}
++
++void ExtensionMgr::OnConsoleCommand(const char* command, const char* arguments) {
++    CALL_HOOKS(ConsoleScript, script->OnConsoleCommand(command, arguments));
++}
++
++ConsoleScript::ConsoleScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<ConsoleScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered ConsoleScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/ConsoleScript.h b/WoW/Source/Extension/ScriptDefines/ConsoleScript.h
+new file mode 100644
+index 0000000..2b3b3d3
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ConsoleScript.h
+@@ -0,0 +1,34 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_CONSOLESCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_CONSOLESCRIPT_H
++
++#include <cstdint>
++#include "Engine/Source/ConsoleBase/ConsoleCommand.h"
++#include "Engine/Source/ConsoleBase/Types.h"
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class CVar;
++
++// A CVar change callback for ExtensionMgr::RegisterCVar, the shape CVar::Register takes: the
++// variable, its previous and new string values, and the registration's user pointer. Return true
++// to accept the new value.
++typedef bool (*ExtensionCVarCallback)(CVar* cvar, const char* oldValue, const char* newValue, void* arg);
++
++// The console: commands (ConsoleCommandRegister, Engine/Source/ConsoleBase/ConsoleCommand.cpp, one
++// name-keyed table alive from ConsoleInitializeClientCommand in InitializeGlobal to
++// ConsoleCommandDestroy in BeginCloseGame) and CVars (CVar::Register, alive from CVar::Initialize to
++// CVar::Destroy over the same span). Both exist before the extensions are loaded, so the
++// registration services on ExtensionMgr apply at once. Commands run through
++// ConsoleCommandExecute (WoW/Source/Console/ConsoleClient.cpp) for the console window, the
++// "/console" chat command, Config.wtf exec files and the repeat buffer.
++class ConsoleScript : public ScriptObject {
++    protected:
++    explicit ConsoleScript(const char* name);
++
++    public:
++    // ConsoleCommandExecute once the line is resolved to a registered command, right before its
++    // handler runs: command is the registered name as typed, arguments the rest of the line.
++    // Lines that match no command (handed to the default command or to "run") do not come here.
++    virtual void OnConsoleCommand(const char* command, const char* arguments) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/LuaScript.cpp b/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
+index 5abd0db..4fd2713 100644
+--- a/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
+@@ -1,13 +1,15 @@
+ #include "WoW/Source/Extension/ScriptDefines/LuaScript.h"
+ #include <vector>
+ #include "Engine/Source/FrameScript/FrameScript.h"
++#include "Engine/Source/FrameScript/FrameScript_Object.h"
+ #include "Engine/Source/Storm/H/storm.h"
++#include "Engine/Source/lua-5.1/src/lauxlib.h"
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Extension/ExtensionMgrMacros.h"
+ 
+-// Functions and events registered once by extensions and applied to every FrameScript state the
+-// client creates for the contexts in their mask. The name pointers are the callers' string
+-// literals, which outlive the tables.
++// Functions, events and script metatables registered once by extensions and applied to every
++// FrameScript state the client creates for the contexts in their mask. The name pointers are the
++// callers' string literals, which outlive the tables.
+ struct EXTENSIONLUAFUNCTION {
+     const char* m_name;
+     lua_CFunction m_function;
+@@ -19,8 +21,15 @@ struct EXTENSIONLUAEVENT {
+     uint32_t m_contexts;
+ };
+ 
++struct EXTENSIONSCRIPTMETATABLE {
++    int32_t* m_metatable;
++    void (*m_registerMethods)(lua_State*);
++    uint32_t m_contexts;
++};
++
+ static std::vector<EXTENSIONLUAFUNCTION> s_luaFunctions;
+ static std::vector<EXTENSIONLUAEVENT> s_luaEvents;
++static std::vector<EXTENSIONSCRIPTMETATABLE> s_scriptMetaTables;
+ 
+ // The event array of the current state: the engine's names first (their indices are the
+ // engine's enum values and must not move), the declared names after them. Built while
+@@ -79,6 +88,27 @@ void ExtensionMgr::RegisterFrameScriptEvent(const char* name, uint32_t contexts)
+     s_luaEvents.push_back({ name, contexts });
+ }
+ 
++void ExtensionMgr::RegisterScriptMetaTable(int32_t* metatable, void (*registerMethods)(lua_State*), uint32_t contexts) {
++    if (!metatable || !registerMethods || !(contexts & FRAMESCRIPT_CONTEXTS_ALL)) {
++        return;
++    }
++
++    for (const EXTENSIONSCRIPTMETATABLE& entry : s_scriptMetaTables) {
++        if (entry.m_metatable == metatable) {
++            return;
++        }
++    }
++
++    s_scriptMetaTables.push_back({ metatable, registerMethods, contexts });
++    *metatable = LUA_NOREF;
++
++    // A matching live state gets its table now; the base types' tables it builds on
++    // (CSimpleFrame::RegisterScriptMethods and the like) already exist in such a state.
++    if (!s_eventNames.empty() && (contexts & (1u << GetFrameScriptContext()))) {
++        *metatable = FrameScript_Object::CreateScriptMetaTable(FrameScript_GetContext(), registerMethods);
++    }
++}
++
+ uint32_t ExtensionMgr::GetFrameScriptEventIndex(const char* name) {
+     return name ? FindEventName(name) : UINT32_MAX;
+ }
+@@ -128,6 +158,16 @@ void ExtensionMgr::OnFrameScriptInitialized(FrameScriptContext context, const ch
+     }
+ 
+     lua_State* L = FrameScript_GetContext();
++
++    // The engine's own metatables for this context are built before this call (LoadScriptFunctions
++    // in the game, RegisterSimpleFrameScriptMethods in the glue), so a registerMethods that starts
++    // from CSimpleFrame::RegisterScriptMethods finds them.
++    for (const EXTENSIONSCRIPTMETATABLE& entry : s_scriptMetaTables) {
++        if (entry.m_contexts & mask) {
++            *entry.m_metatable = FrameScript_Object::CreateScriptMetaTable(L, entry.m_registerMethods);
++        }
++    }
++
+     CALL_HOOKS(LuaScript, script->OnFrameScriptInitialized(L, context));
+ 
+     s_declaring = false;
+@@ -144,12 +184,22 @@ void ExtensionMgr::OnFrameScriptInitialized(FrameScriptContext context, const ch
+ void ExtensionMgr::OnFrameScriptDestroy(lua_State* L) {
+     CALL_HOOKS(LuaScript, script->OnFrameScriptDestroy(L));
+ 
++    // The registry references die with the state; the owners' variables go back to "none" so a
++    // GetScriptMetaTable between states returns LUA_NOREF rather than a stale reference.
++    for (const EXTENSIONSCRIPTMETATABLE& entry : s_scriptMetaTables) {
++        if (*entry.m_metatable != LUA_NOREF) {
++            luaL_unref(L, LUA_REGISTRYINDEX, *entry.m_metatable);
++            *entry.m_metatable = LUA_NOREF;
++        }
++    }
++
+     s_eventNames.clear();
+ }
+ 
+ void ExtensionMgr::ClearLuaRegistrations() {
+     s_luaFunctions.clear();
+     s_luaEvents.clear();
++    s_scriptMetaTables.clear();
+     s_eventNames.clear();
+ }
+ 
+diff --git a/WoW/Source/Extension/ScriptDefines/ObjectScript.cpp b/WoW/Source/Extension/ScriptDefines/ObjectScript.cpp
+index 43b255e..f500703 100644
+--- a/WoW/Source/Extension/ScriptDefines/ObjectScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/ObjectScript.cpp
+@@ -18,6 +18,10 @@ void ExtensionMgr::OnObjectDestroy(CGObject_C* object) {
+     CALL_HOOKS(ObjectScript, script->OnObjectDestroy(*object));
+ }
+ 
++void ExtensionMgr::OnObjectSpellVisualKit(CGObject_C* object, const PlaySpellVisuaKitData* data) {
++    CALL_HOOKS(ObjectScript, script->OnObjectSpellVisualKit(*object, *data));
++}
++
+ ObjectScript::ObjectScript(const char* name) : ScriptObject(name) {
+     ScriptRegistry<ObjectScript>::AddScript(this);
+     sExtensionMgr->Log("Extensions: registered ObjectScript %s", name);
+diff --git a/WoW/Source/Extension/ScriptDefines/ObjectScript.h b/WoW/Source/Extension/ScriptDefines/ObjectScript.h
+index 8395d88..628949f 100644
+--- a/WoW/Source/Extension/ScriptDefines/ObjectScript.h
++++ b/WoW/Source/Extension/ScriptDefines/ObjectScript.h
+@@ -5,6 +5,7 @@
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
+ class CGObject_C;
++class PlaySpellVisuaKitData;
+ 
+ // The client object manager (WoW/Source/ObjectMgrClient) and its objects: every unit, player,
+ // game object, dynamic object, corpse, item and container the server describes through
+@@ -42,6 +43,13 @@ class ObjectScript : public ScriptObject {
+     // about to be freed, from lazy-cleanup expiry or from the manager's own shutdown. Release
+     // anything keyed by this object's address here.
+     virtual void OnObjectDestroy(CGObject_C& object) {}
++
++    // CGObject_C::PlaySpellVisualKit once the request has a kit to play (requests without an
++    // impact kit return before this): data carries the spell record, the SpellVisualKit record,
++    // the kit type, an optional world position (transformed to the transport's frame by the
++    // engine afterwards) and the caster/target guids. The effects, animations, sounds and
++    // weapon trails of the kit are started after the hook.
++    virtual void OnObjectSpellVisualKit(CGObject_C& object, const PlaySpellVisuaKitData& data) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+index 97e60a3..5585edc 100644
+--- a/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+@@ -10,6 +10,14 @@ void ExtensionMgr::OnTerrainTileUnload(CMapArea* area) {
+     CALL_HOOKS(TerrainScript, script->OnTerrainTileUnload(*area));
+ }
+ 
++void ExtensionMgr::OnTerrainChunkCreated(CMapChunk* chunk) {
++    CALL_HOOKS(TerrainScript, script->OnTerrainChunkCreated(*chunk));
++}
++
++void ExtensionMgr::OnTerrainChunkPurge(CMapChunk* chunk) {
++    CALL_HOOKS(TerrainScript, script->OnTerrainChunkPurge(*chunk));
++}
++
+ TerrainScript::TerrainScript(const char* name) : ScriptObject(name) {
+     ScriptRegistry<TerrainScript>::AddScript(this);
+     sExtensionMgr->Log("Extensions: registered TerrainScript %s", name);
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.h b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+index 0d5972d..c54bf5b 100644
+--- a/WoW/Source/Extension/ScriptDefines/TerrainScript.h
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+@@ -4,6 +4,7 @@
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
+ class CMapArea;
++class CMapChunk;
+ 
+ // Terrain tiles (WoW/Source/WorldClient/MapArea.cpp). A CMapArea is one ADT tile of the current
+ // map: CMap::PrepareUpdate creates the tiles of the area of interest and CMapArea::Load issues
+@@ -27,6 +28,16 @@ class TerrainScript : public ScriptObject {
+     // unloaded); its chunks and file buffer are about to be released. A pending read is
+     // cancelled, so a tile may be purged without ever having fired OnTerrainTileLoaded.
+     virtual void OnTerrainTileUnload(CMapArea& area) {}
++
++    // CMapArea::PrepareChunk after CMapChunk::Create: one of the tile's 16x16 chunks is built
++    // from its MCNK data (heights, normals, layers, shadow map, liquid; the detail doodads are
++    // loaded later on demand). chunk.m_aIndex is the chunk's position in the tile, m_cOffset its
++    // position on the map. Chunks are built as the area of interest reaches them.
++    virtual void OnTerrainChunkCreated(CMapChunk& chunk) {}
++
++    // Start of CMapChunk::Purge: the chunk's render data, detail doodads and liquid are about to
++    // be released (tile purge or chunk rebuild).
++    virtual void OnTerrainChunkPurge(CMapChunk& chunk) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/Extension/ScriptDefines/TextureScript.cpp b/WoW/Source/Extension/ScriptDefines/TextureScript.cpp
+index 3c11228..44e2b24 100644
+--- a/WoW/Source/Extension/ScriptDefines/TextureScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/TextureScript.cpp
+@@ -6,6 +6,10 @@ void ExtensionMgr::OnTextureCreated(CTexture* texture, const char* fileName) {
+     CALL_HOOKS(TextureScript, script->OnTextureCreated(*texture, fileName));
+ }
+ 
++void ExtensionMgr::OnTextureLoaded(CTexture* texture) {
++    CALL_HOOKS(TextureScript, script->OnTextureLoaded(*texture));
++}
++
+ TextureScript::TextureScript(const char* name) : ScriptObject(name) {
+     ScriptRegistry<TextureScript>::AddScript(this);
+     sExtensionMgr->Log("Extensions: registered TextureScript %s", name);
+diff --git a/WoW/Source/Extension/ScriptDefines/TextureScript.h b/WoW/Source/Extension/ScriptDefines/TextureScript.h
+index 909dd8d..0d750da 100644
+--- a/WoW/Source/Extension/ScriptDefines/TextureScript.h
++++ b/WoW/Source/Extension/ScriptDefines/TextureScript.h
+@@ -20,6 +20,14 @@ class TextureScript : public ScriptObject {
+     // loading. fileName is the path as requested (before the .blp/.tga extension retry).
+     // Cache hits do not fire: this is once per distinct file and flag set, not once per use.
+     virtual void OnTextureCreated(CTexture& texture, const char* fileName) {}
++
++    // PumpBlpTextureAsync on success: a BLP texture's pixel data is decoded and uploaded
++    // (texture.m_gxTex allocated with TextureAllocGxTex and filled with GxTexUpdate). Both load
++    // paths end here, the synchronous one inside TextureCreate and the asynchronous one from
++    // AsyncTextureSuccessCallback when the file read completes. texture.m_filename is the path.
++    // Not fired for a BLP whose data failed to decode (the engine fills it with the default
++    // colour instead) nor for TGA or procedural textures.
++    virtual void OnTextureLoaded(CTexture& texture) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/Extension/ScriptDefines/UIScript.cpp b/WoW/Source/Extension/ScriptDefines/UIScript.cpp
+index 4ad52e1..75984e9 100644
+--- a/WoW/Source/Extension/ScriptDefines/UIScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/UIScript.cpp
+@@ -67,6 +67,10 @@ void ExtensionMgr::OnUnknownFrameType(const char* name, XMLNode* node) {
+     CALL_HOOKS(UIScript, script->OnUnknownFrameType(name, *node));
+ }
+ 
++void ExtensionMgr::OnFrameDestroyed(CSimpleFrame* frame) {
++    CALL_HOOKS(UIScript, script->OnFrameDestroyed(*frame));
++}
++
+ UIScript::UIScript(const char* name) : ScriptObject(name) {
+     ScriptRegistry<UIScript>::AddScript(this);
+     sExtensionMgr->Log("Extensions: registered UIScript %s", name);
+diff --git a/WoW/Source/Extension/ScriptDefines/UIScript.h b/WoW/Source/Extension/ScriptDefines/UIScript.h
+index 0f46390..0a55488 100644
+--- a/WoW/Source/Extension/ScriptDefines/UIScript.h
++++ b/WoW/Source/Extension/ScriptDefines/UIScript.h
+@@ -45,6 +45,12 @@ class UIScript : public ScriptObject {
+     // cannot supply the frame here (register the type with RegisterXmlElement instead), it can
+     // record or report the miss.
+     virtual void OnUnknownFrameType(const char* name, XMLNode& node) {}
++
++    // Start of CSimpleFrame::~CSimpleFrame: the frame is leaving (its lifecycle state is being
++    // set to destroyed), still complete, about to unregister from its CSimpleTop and free its
++    // regions, batches and children links. Every frame type derives from CSimpleFrame, so this
++    // pairs with OnFrameCreated for any per-frame state an extension keeps.
++    virtual void OnFrameDestroyed(CSimpleFrame& frame) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/Extension/ScriptDefines/UnitScript.cpp b/WoW/Source/Extension/ScriptDefines/UnitScript.cpp
+index 001e508..4f55268 100644
+--- a/WoW/Source/Extension/ScriptDefines/UnitScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/UnitScript.cpp
+@@ -22,6 +22,18 @@ void ExtensionMgr::OnUnitAuraRemoved(CGUnit_C* unit, uint32_t index, AuraData* a
+     CALL_HOOKS(UnitScript, script->OnUnitAuraRemoved(*unit, index, *aura, spellId));
+ }
+ 
++void ExtensionMgr::OnUnitAuraEffectMaskUpdated(CGUnit_C* unit) {
++    CALL_HOOKS(UnitScript, script->OnUnitAuraEffectMaskUpdated(*unit));
++}
++
++void ExtensionMgr::OnUnitWorldTransformUpdated(CGUnit_C* unit, float elapsed) {
++    CALL_HOOKS(UnitScript, script->OnUnitWorldTransformUpdated(*unit, elapsed));
++}
++
++void ExtensionMgr::OnUnitMovementMessage(CGUnit_C* unit, uint32_t msgId, CDataStore* msg) {
++    CALL_HOOKS(UnitScript, script->OnUnitMovementMessage(*unit, msgId, *msg));
++}
++
+ UnitScript::UnitScript(const char* name) : ScriptObject(name) {
+     ScriptRegistry<UnitScript>::AddScript(this);
+     sExtensionMgr->Log("Extensions: registered UnitScript %s", name);
+diff --git a/WoW/Source/Extension/ScriptDefines/UnitScript.h b/WoW/Source/Extension/ScriptDefines/UnitScript.h
+index 8e6462d..0f8997e 100644
+--- a/WoW/Source/Extension/ScriptDefines/UnitScript.h
++++ b/WoW/Source/Extension/ScriptDefines/UnitScript.h
+@@ -5,6 +5,7 @@
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
+ class AuraData;
++class CDataStore;
+ class CGUnit_C;
+ 
+ // Units and players (CGUnit_C, WoW/Source/Object/ObjectClient/Unit_C.cpp): the method-level
+@@ -40,6 +41,22 @@ class UnitScript : public ScriptObject {
+     // Start of CGUnit_C::OnAuraRemoved: the aura is still applied; RemoveAuraEffect and the local
+     // player side effects follow.
+     virtual void OnUnitAuraRemoved(CGUnit_C& unit, uint32_t index, AuraData& aura, int32_t spellId) {}
++
++    // End of CGUnit_C::UpdateAuraEffectMask: unit.m_auraEffectMask is rebuilt from the unit's
++    // auras (one bit per SpellAura effect type present). Fires whenever the aura set changes.
++    virtual void OnUnitAuraEffectMaskUpdated(CGUnit_C& unit) {}
++
++    // End of CGUnit_C::UpdateWorldTransform: the smoothed ground normal is updated and the unit's
++    // model received its world transform (position, render facing, true scale, ground normal).
++    // Per frame per displayed unit: keep it cheap.
++    virtual void OnUnitWorldTransformUpdated(CGUnit_C& unit, float elapsed) {}
++
++    // CGUnit_C::SendMovementUpdate right before the message goes to the connection: the local
++    // player's (or controlled unit's) movement message is complete and finalized (cursor at the
++    // 32-bit opcode: MSG_MOVE_*, CMSG_MOVE_*_ACK, CMSG_CHANGE_SEATS_ON_CONTROLLED_VEHICLE). Fires
++    // only for messages the unit is allowed to send. Observe only; NetScript::OnMessageSent sees
++    // the same message a step later.
++    virtual void OnUnitMovementMessage(CGUnit_C& unit, uint32_t msgId, CDataStore& msg) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/Object/ObjectClient/Object_C.cpp b/WoW/Source/Object/ObjectClient/Object_C.cpp
+index 9e8f6c6..ed09d38 100644
+--- a/WoW/Source/Object/ObjectClient/Object_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Object_C.cpp
+@@ -48,6 +48,7 @@
+ #include "WoW/Source/DB/Rec/SpellVisualEffectNameRec.h"
+ #include "WoW/Source/DB/Rec/SpellVisualKitModelAttachRec.h"
+ #include "WoW/Source/DB/Rec/SpellRec.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00ADAC98
+ CGObject_C::InteractIcon CGObject_C::s_interactIcons[12] = {
+@@ -1543,6 +1544,9 @@ void CGObject_C::PlaySpellVisualKit(const PlaySpellVisuaKitData& data) {
+         return;
+     }
+ 
++    // Not in the original: a kit is about to play on this object.
++    sExtensionMgr->OnObjectSpellVisualKit(this, &data);
++
+     C3Vector transformed = { 0.0f, 0.0f, 0.0f };
+     const C3Vector* position = nullptr;
+ 
+diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+index 8011290..324940d 100644
+--- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+@@ -8649,6 +8649,9 @@ void CGUnit_C::UpdateAuraEffectMask() {
+             }
+         }
+     }
++
++    // Not in the original: the mask reflects the current aura set.
++    sExtensionMgr->OnUnitAuraEffectMaskUpdated(this);
+ }
+ 
+ // VERIFY: 49281665 manual
+@@ -9190,6 +9193,9 @@ void CGUnit_C::UpdateWorldTransform(float elapsed) {
+         float facing = this->GetRenderFacing();
+         model->SetWorldTransform(this->GetPosition(), facing, scale, this->m_groundNormal, 0xFFFFFFFF);
+     }
++
++    // Not in the original: ground normal smoothed and the model placed for this frame.
++    sExtensionMgr->OnUnitWorldTransformUpdated(this, elapsed);
+ }
+ 
+ // VERIFY: 315f8bea manual
+@@ -11052,6 +11058,10 @@ int32_t CGUnit_C::SendMovementUpdate(uint32_t time, uint32_t msgId, float value,
+     }
+ 
+     msg.Finalize();
++
++    // Not in the original: the movement message is complete and about to be sent.
++    sExtensionMgr->OnUnitMovementMessage(this, msgId, &msg);
++
+     ClientServices::Send2(&msg);
+     this->m_movementData.UpdateHeartbeatTimerA(time);
+     return 1;
+diff --git a/WoW/Source/WorldClient/MapArea.cpp b/WoW/Source/WorldClient/MapArea.cpp
+index 79a4143..f0f995c 100644
+--- a/WoW/Source/WorldClient/MapArea.cpp
++++ b/WoW/Source/WorldClient/MapArea.cpp
+@@ -238,6 +238,9 @@ CMapChunk* CMapArea::PrepareChunk(int32_t chunkX, int32_t chunkY) {
+     chunk->m_sOffset.y = 8 * (chunkY + this->m_tileChunkIndex.y);
+     chunk->Create(reinterpret_cast<SIffChunk*>(static_cast<uint8_t*>(this->m_fileBuffer) + this->m_chunkInfo[index].m_offset), firstUse);
+ 
++    // Not in the original: the chunk is built from its MCNK data.
++    sExtensionMgr->OnTerrainChunkCreated(chunk);
++
+     return chunk;
+ }
+ 
+diff --git a/WoW/Source/WorldClient/MapChunk.cpp b/WoW/Source/WorldClient/MapChunk.cpp
+index c934e8f..b0c60d8 100644
+--- a/WoW/Source/WorldClient/MapChunk.cpp
++++ b/WoW/Source/WorldClient/MapChunk.cpp
+@@ -24,6 +24,7 @@
+ #include "Engine/Source/Tempest/CMath.h"
+ #include "Engine/Source/Tempest/CiRect.h"
+ #include "WoW/Source/DB/DBClient/DBClient.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/DB/Rec/LiquidMaterialRec.h"
+ #include "WoW/Source/DB/Rec/LiquidTypeRec.h"
+ #include "WoW/Source/LiquidSystem/Liquid.h"
+@@ -83,6 +84,9 @@ void CMapChunk::GetVertexPosition(int32_t index, C3Vector* pos) {
+ // VERIFY: d0968beb manual
+ // OFFSET: 0x007C3370
+ void CMapChunk::Purge() {
++    // Not in the original: the chunk's data is still in place here.
++    sExtensionMgr->OnTerrainChunkPurge(this);
++
+     if (this->m_renderChunk) {
+         CMap::FreeRenderChunk(this->m_renderChunk);
+         this->m_renderChunk = nullptr;
+-- 
+2.34.1
+

@@ -1,0 +1,1256 @@
+From 576c5b7253b4b706bf3c836d34ead9bdde2e73eb Mon Sep 17 00:00:00 2001
+From: iThorgrim <contact@warlog.dev>
+Date: Fri, 16 Oct 2026 14:57:49 +0200
+Subject: [PATCH] feat(hook): adding hooks for custom opcode, xml nodes, unit
+
+---
+ Engine/Source/FrameXML/CMakeLists.txt         |   1 +
+ Engine/Source/FrameXML/FrameXML.cpp           |   7 ++
+ Extensions/HelloWorld/src/HelloWorld.cpp      |  13 +-
+ Extensions/HelloWorld/src/HelloWorldLua.cpp   |  32 +++--
+ Extensions/HelloWorld/src/HelloWorldNet.cpp   |  44 +++++++
+ Extensions/HelloWorld/src/HelloWorldUI.cpp    |  97 +++++++++++++++
+ Extensions/HelloWorld/src/HelloWorldUnit.cpp  |  59 +++++++++
+ WoW/Source/Client.cpp                         |   4 +
+ WoW/Source/Extension/ExtensionMgr.cpp         |   6 +
+ WoW/Source/Extension/ExtensionMgr.h           |  73 ++++++++++-
+ .../ScriptDefines/AllScriptsObjects.h         |   2 +
+ .../Extension/ScriptDefines/LuaScript.cpp     | 117 ++++++++++++++++--
+ .../Extension/ScriptDefines/LuaScript.h       |  16 +++
+ .../Extension/ScriptDefines/NetScript.cpp     | 105 ++++++++++++++++
+ .../Extension/ScriptDefines/NetScript.h       |   6 +
+ .../Extension/ScriptDefines/UIScript.cpp      |  73 +++++++++++
+ WoW/Source/Extension/ScriptDefines/UIScript.h |  50 ++++++++
+ .../Extension/ScriptDefines/UnitScript.cpp    |  28 +++++
+ .../Extension/ScriptDefines/UnitScript.h      |  45 +++++++
+ WoW/Source/Net/NetClient/NetClient.cpp        |   8 ++
+ WoW/Source/Object/CMakeLists.txt              |   5 +
+ WoW/Source/Object/ObjectClient/Unit_C.cpp     |  16 +++
+ 22 files changed, 776 insertions(+), 31 deletions(-)
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldUI.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldUnit.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/UIScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/UIScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/UnitScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/UnitScript.h
+
+diff --git a/Engine/Source/FrameXML/CMakeLists.txt b/Engine/Source/FrameXML/CMakeLists.txt
+index b769cee..ff76ed9 100644
+--- a/Engine/Source/FrameXML/CMakeLists.txt
++++ b/Engine/Source/FrameXML/CMakeLists.txt
+@@ -12,4 +12,5 @@ target_include_directories(FrameXML
+ target_link_libraries(FrameXML
+     PUBLIC
+         expat
++        Extension
+ )
+diff --git a/Engine/Source/FrameXML/FrameXML.cpp b/Engine/Source/FrameXML/FrameXML.cpp
+index 7bf0813..14228d7 100644
+--- a/Engine/Source/FrameXML/FrameXML.cpp
++++ b/Engine/Source/FrameXML/FrameXML.cpp
+@@ -26,6 +26,7 @@
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "Engine/Source/Storm/Source/MD5.h"
+ #include "Engine/Source/lua-5.1/src/lua.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00AF5718
+ static CFrameXMLStatus s_frameXMLStatus;
+@@ -284,6 +285,9 @@ CSimpleFrame* FrameXML_CreateFrame(XMLNode* node, CSimpleFrame* parent, CStatus*
+     FrameFactoryNode* factory = s_factories.Ptr(node->m_name.m_str);
+ 
+     if (!factory) {
++        // Not in the original: the element type is in no factory table.
++        sExtensionMgr->OnUnknownFrameType(node->m_name.m_str, node);
++
+         status->Add(STATUS_WARNING, "Unknown frame type: %s", node->m_name.m_str);
+         return nullptr;
+     }
+@@ -358,6 +362,9 @@ CSimpleFrame* FrameXML_CreateFrame(XMLNode* node, CSimpleFrame* parent, CStatus*
+     frame->LoadXML(node, status);
+     frame->PostLoadXML(node, status);
+ 
++    // Not in the original: the frame is built from its element.
++    sExtensionMgr->OnFrameCreated(frame, node);
++
+     return frame;
+ }
+ 
+diff --git a/Extensions/HelloWorld/src/HelloWorld.cpp b/Extensions/HelloWorld/src/HelloWorld.cpp
+index 545ae1b..1aa6f55 100644
+--- a/Extensions/HelloWorld/src/HelloWorld.cpp
++++ b/Extensions/HelloWorld/src/HelloWorld.cpp
+@@ -1,8 +1,9 @@
+ // HelloWorld: the smallest possible extension. It registers one script of every type and logs the
+ // hooks it receives, so the discovery -> registration -> dispatch chain of each context can be
+-// checked end to end in Logs\Extensions.log. It is the template for a real extension; it does
+-// nothing else on purpose. Per-frame and per-object hooks log their first calls and counts
+-// afterwards, never every call.
++// checked end to end in Logs\Extensions.log, and it uses each registration API once (a Lua
++// function and event, a message handler and a send, an XML element type). It is the template for
++// a real extension; it does nothing else on purpose. Per-frame and per-object hooks log their
++// first calls and counts afterwards, never every call.
+ 
+ void AddHelloWorldAssetScripts();
+ void AddHelloWorldClientDBScripts();
+@@ -15,11 +16,13 @@ void AddHelloWorldObjectScripts();
+ void AddHelloWorldRenderScripts();
+ void AddHelloWorldTerrainScripts();
+ void AddHelloWorldTextureScripts();
++void AddHelloWorldUIScripts();
++void AddHelloWorldUnitScripts();
+ void AddHelloWorldWorldScripts();
+ 
+ // The entry point the generated loader calls: Add<DirectoryName>Extension(). Instantiate every
+ // script of the extension from here; a script registers itself in its constructor and the registry
+-// owns it from then on.
++// owns it from then on. Registrations (functions, events, handlers, element types) go here too.
+ void AddHelloWorldExtension() {
+     AddHelloWorldAssetScripts();
+     AddHelloWorldClientDBScripts();
+@@ -32,5 +35,7 @@ void AddHelloWorldExtension() {
+     AddHelloWorldRenderScripts();
+     AddHelloWorldTerrainScripts();
+     AddHelloWorldTextureScripts();
++    AddHelloWorldUIScripts();
++    AddHelloWorldUnitScripts();
+     AddHelloWorldWorldScripts();
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldLua.cpp b/Extensions/HelloWorld/src/HelloWorldLua.cpp
+index 6fd8d58..a66aa87 100644
+--- a/Extensions/HelloWorld/src/HelloWorldLua.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldLua.cpp
+@@ -3,20 +3,21 @@
+ 
+ namespace {
+ 
+-// The index of HELLO_WORLD_PING in the current FrameScript state's event array. It is renewed at
+-// every OnFrameScriptInitialized, because every rebuild of the state gets a new array.
+-uint32_t s_pingEventIndex = UINT32_MAX;
+ uint32_t s_pingCount;
+ 
+-// HelloWorld_Ping(): a global the extension adds to both Lua states. It signals HELLO_WORLD_PING
+-// with the call count to every frame that registered for it, and returns the count. From the UI:
++// HelloWorld_Ping(): a global in both Lua states, registered once through the registration API
++// and re-registered by the core into every state. It signals HELLO_WORLD_PING with the call
++// count to every frame that registered for it, and returns the count. From the UI:
+ //   /run local f = CreateFrame("Frame") f:RegisterEvent("HELLO_WORLD_PING") f:SetScript("OnEvent", function(_, e, n) print(e, n) end)
+ //   /run print(HelloWorld_Ping())
+ int32_t Script_HelloWorld_Ping(lua_State* L) {
+     s_pingCount++;
+ 
+-    if (s_pingEventIndex != UINT32_MAX) {
+-        FrameScript_SignalEvent(s_pingEventIndex, "%d", s_pingCount);
++    // The event's index belongs to the current state; the core knows the array it built for it.
++    uint32_t index = sExtensionMgr->GetFrameScriptEventIndex("HELLO_WORLD_PING");
++
++    if (index != UINT32_MAX) {
++        FrameScript_SignalEvent(index, "%d", s_pingCount);
+     }
+ 
+     lua_pushnumber(L, s_pingCount);
+@@ -24,20 +25,25 @@ int32_t Script_HelloWorld_Ping(lua_State* L) {
+     return 1;
+ }
+ 
++// Observes the state lifecycle; the registrations above need no hook. Shows the per-hook
++// declaration path too: HELLO_WORLD_STATE is declared here, inside the hook, and gets an index
++// in the same array as the registered event.
+ class HelloWorldLuaScript : public LuaScript {
+     public:
+     HelloWorldLuaScript() : LuaScript("HelloWorldLuaScript") {}
+ 
+     void OnFrameScriptInitialized(lua_State* L, FrameScriptContext context) override {
+-        FrameScript_RegisterFunction("HelloWorld_Ping", Script_HelloWorld_Ping);
+-        s_pingEventIndex = sExtensionMgr->DeclareFrameScriptEvent("HELLO_WORLD_PING");
++        uint32_t stateEvent = sExtensionMgr->DeclareFrameScriptEvent("HELLO_WORLD_STATE");
++
++        // The registered function is already a global when the hook runs.
++        lua_getglobal(L, "HelloWorld_Ping");
++        const char* pingState = lua_isfunction(L, -1) ? "registered" : "missing";
++        lua_pop(L, 1);
+ 
+-        sExtensionMgr->Log("HelloWorld: OnFrameScriptInitialized (%s state), HELLO_WORLD_PING is event %u", context == FRAMESCRIPT_CONTEXT_GLUE ? "glue" : "game", s_pingEventIndex);
++        sExtensionMgr->Log("HelloWorld: OnFrameScriptInitialized (%s state), HELLO_WORLD_STATE is event %u, HelloWorld_Ping is %s", context == FRAMESCRIPT_CONTEXT_GLUE ? "glue" : "game", stateEvent, pingState);
+     }
+ 
+-    // The event index dies with the state; forget it so a ping between states signals nothing.
+     void OnFrameScriptDestroy(lua_State* L) override {
+-        s_pingEventIndex = UINT32_MAX;
+         sExtensionMgr->Log("HelloWorld: OnFrameScriptDestroy after %u ping(s)", s_pingCount);
+     }
+ };
+@@ -45,5 +51,7 @@ class HelloWorldLuaScript : public LuaScript {
+ }
+ 
+ void AddHelloWorldLuaScripts() {
++    sExtensionMgr->RegisterLuaFunction("HelloWorld_Ping", Script_HelloWorld_Ping);
++    sExtensionMgr->RegisterFrameScriptEvent("HELLO_WORLD_PING");
+     new HelloWorldLuaScript();
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldNet.cpp b/Extensions/HelloWorld/src/HelloWorldNet.cpp
+index f353a8b..aed5723 100644
+--- a/Extensions/HelloWorld/src/HelloWorldNet.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldNet.cpp
+@@ -1,8 +1,50 @@
+ #include "Engine/Source/Base/CDataStore.h"
++#include "Engine/Source/lua-5.1/src/lua.h"
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ namespace {
+ 
++// Two opcodes outside the stock protocol (NUM_MSG_TYPES is 0x51F): the server-to-client one the
++// extension handles, the client-to-server one it sends. A server has to implement both for the
++// round trip to happen; the stock server ignores or refuses them.
++const uint32_t SMSG_HELLO_WORLD = 0x5F0;
++const uint32_t CMSG_HELLO_WORLD = 0x5F1;
++
++uint32_t s_hellosSent;
++
++// The handler for SMSG_HELLO_WORLD: a uint32 counter followed by a string. Same shape as a stock
++// handler; the cursor is at the payload.
++int32_t HandleHelloWorld(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg) {
++    uint32_t counter = 0;
++    char text[256] = "";
++    msg->Get(counter);
++    msg->GetString(text, sizeof(text));
++    sExtensionMgr->Log("HelloWorld: SMSG_HELLO_WORLD #%u \"%s\" (t=%u)", counter, text, time);
++
++    return 1;
++}
++
++// HelloWorld_SendHello([text]): sends CMSG_HELLO_WORLD with a counter and the text, returns the
++// counter, or nil when there is no connection. Registered in the game state only.
++int32_t Script_HelloWorld_SendHello(lua_State* L) {
++    const char* text = lua_tolstring(L, 1, nullptr);
++    CDataStore payload;
++    payload.Put(++s_hellosSent);
++    payload.PutString(text ? text : "hello");
++    payload.Finalize();
++
++    if (!sExtensionMgr->SendClientMessage(CMSG_HELLO_WORLD, payload)) {
++        s_hellosSent--;
++        lua_pushnil(L);
++        return 1;
++    }
++
++    sExtensionMgr->Log("HelloWorld: CMSG_HELLO_WORLD #%u sent", s_hellosSent);
++    lua_pushnumber(L, s_hellosSent);
++
++    return 1;
++}
++
+ // Logs the first few messages in each direction with their opcode and payload size, then only
+ // counts. The sizes read the stream's own fields; nothing is consumed from it.
+ class HelloWorldNetScript : public NetScript {
+@@ -48,5 +90,7 @@ class HelloWorldNetScript : public NetScript {
+ }
+ 
+ void AddHelloWorldNetScripts() {
++    sExtensionMgr->RegisterMessageHandler(SMSG_HELLO_WORLD, HandleHelloWorld, nullptr);
++    sExtensionMgr->RegisterLuaFunction("HelloWorld_SendHello", Script_HelloWorld_SendHello, FRAMESCRIPT_CONTEXTS_GAME);
+     new HelloWorldNetScript();
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldUI.cpp b/Extensions/HelloWorld/src/HelloWorldUI.cpp
+new file mode 100644
+index 0000000..a0b4c5d
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldUI.cpp
+@@ -0,0 +1,97 @@
++#include <new>
++#include <typeinfo>
++#include "Engine/Source/Base/CDataAllocator.h"
++#include "Engine/Source/Base/Status.h"
++#include "Engine/Source/Frame/CSimpleFrame.h"
++#include "Engine/Source/FrameScript/FrameScript_Object.h"
++#include "Engine/Source/FrameXML/XMLTree.h"
++#include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// A new UI element type, <HelloWorldFrame>, usable from XML and from CreateFrame("HelloWorldFrame").
++// It is a Frame with one extra attribute, greeting="...", and its own object type so Lua's
++// GetObjectType() / IsObjectType("HelloWorldFrame") recognise it. It inherits the Frame script
++// methods (no metatable of its own). Frames are destroyed through the virtual destructor and the
++// static operator delete of their class, so the type owns its allocator like CGCooldown does.
++class CHelloWorldFrame : public CSimpleFrame {
++    public:
++    static CDataAllocator s_allocator;
++    static int32_t s_objectType;
++    static const char* s_objectTypeName;
++
++    static void operator delete(void* ptr) {
++        if (ptr) {
++            CHelloWorldFrame::s_allocator.PutData(ptr, nullptr, 0);
++        }
++    }
++
++    static CSimpleFrame* Create(CSimpleFrame* parent) {
++        void* data = CHelloWorldFrame::s_allocator.GetData(0, typeid(CHelloWorldFrame).raw_name(), SLOG_OBJECT);
++        return data ? new (data) CHelloWorldFrame(parent) : nullptr;
++    }
++
++    static int32_t GetObjectType() {
++        if (!CHelloWorldFrame::s_objectType) {
++            CHelloWorldFrame::s_objectType = ++FrameScript_Object::s_objectTypes;
++        }
++
++        return CHelloWorldFrame::s_objectType;
++    }
++
++    explicit CHelloWorldFrame(CSimpleFrame* parent) : CSimpleFrame(parent) {}
++
++    bool IsA(int32_t type) override {
++        return type == CHelloWorldFrame::GetObjectType() || CSimpleFrame::IsA(type);
++    }
++
++    bool IsA(const char* typeName) override {
++        return !SStrCmpI(typeName, CHelloWorldFrame::s_objectTypeName, STORM_MAX_STR) || CSimpleFrame::IsA(typeName);
++    }
++
++    const char* GetObjectTypeName() override {
++        return CHelloWorldFrame::s_objectTypeName;
++    }
++
++    // The Frame attributes and children first, then the type's own attribute.
++    void LoadXML(XMLNode* node, CStatus* status) override {
++        CSimpleFrame::LoadXML(node, status);
++
++        const char* greeting = node->GetAttributeByName("greeting");
++        const char* name = node->GetAttributeByName("name");
++        sExtensionMgr->Log("HelloWorld: <HelloWorldFrame> %s created, greeting=\"%s\"", name && *name ? name : "(unnamed)", greeting ? greeting : "");
++    }
++};
++
++CDataAllocator CHelloWorldFrame::s_allocator(sizeof(CHelloWorldFrame), 16);
++int32_t CHelloWorldFrame::s_objectType;
++const char* CHelloWorldFrame::s_objectTypeName = "HelloWorldFrame";
++
++// Counts every frame the UI builds and reports element types nothing knows.
++class HelloWorldUIScript : public UIScript {
++    public:
++    HelloWorldUIScript() : UIScript("HelloWorldUIScript") {}
++
++    void OnFrameCreated(CSimpleFrame& frame, XMLNode& node) override {
++        m_created++;
++
++        if (m_created <= 3 || m_created % 1000 == 0) {
++            sExtensionMgr->Log("HelloWorld: OnFrameCreated <%s> (%u frame(s) so far)", node.m_name.m_str, m_created);
++        }
++    }
++
++    void OnUnknownFrameType(const char* name, XMLNode& node) override {
++        sExtensionMgr->Log("HelloWorld: OnUnknownFrameType <%s>", name);
++    }
++
++    private:
++    uint32_t m_created = 0;
++};
++
++}
++
++void AddHelloWorldUIScripts() {
++    sExtensionMgr->RegisterXmlElement("HelloWorldFrame", CHelloWorldFrame::Create);
++    new HelloWorldUIScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldUnit.cpp b/Extensions/HelloWorld/src/HelloWorldUnit.cpp
+new file mode 100644
+index 0000000..861a09b
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldUnit.cpp
+@@ -0,0 +1,59 @@
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Object/ObjectClient/Unit_C.h"
++#include "WoW/Source/ObjectMgrClient/ObjectMgrClient.h"
++
++namespace {
++
++// Logs the local player's unit events (auras, display rebuilds, death) and counts the rest.
++class HelloWorldUnitScript : public UnitScript {
++    public:
++    HelloWorldUnitScript() : UnitScript("HelloWorldUnitScript") {}
++
++    void OnUnitMoveUpdate(CGUnit_C& unit, uint32_t time) override {
++        m_moves++;
++
++        if (m_moves == 1) {
++            sExtensionMgr->Log("HelloWorld: OnUnitMoveUpdate (first, t=%u)", time);
++        }
++    }
++
++    void OnUnitDisplayInfoUpdated(CGUnit_C& unit) override {
++        m_displays++;
++
++        if (IsLocalPlayer(unit)) {
++            sExtensionMgr->Log("HelloWorld: OnUnitDisplayInfoUpdated (local player, %u rebuild(s) in total)", m_displays);
++        }
++    }
++
++    void OnUnitDeath(CGUnit_C& unit) override {
++        m_deaths++;
++        sExtensionMgr->Log("HelloWorld: OnUnitDeath (%s, %u death(s))", IsLocalPlayer(unit) ? "local player" : "unit", m_deaths);
++    }
++
++    void OnUnitAuraAdded(CGUnit_C& unit, uint32_t index, AuraData& aura, int32_t spellId) override {
++        if (IsLocalPlayer(unit)) {
++            sExtensionMgr->Log("HelloWorld: OnUnitAuraAdded slot %u spell %d", index, spellId);
++        }
++    }
++
++    void OnUnitAuraRemoved(CGUnit_C& unit, uint32_t index, AuraData& aura, int32_t spellId) override {
++        if (IsLocalPlayer(unit)) {
++            sExtensionMgr->Log("HelloWorld: OnUnitAuraRemoved slot %u spell %d", index, spellId);
++        }
++    }
++
++    private:
++    static bool IsLocalPlayer(CGUnit_C& unit) {
++        return unit.m_obj->m_guid == ClntObjMgrGetActivePlayer();
++    }
++
++    uint32_t m_moves = 0;
++    uint32_t m_displays = 0;
++    uint32_t m_deaths = 0;
++};
++
++}
++
++void AddHelloWorldUnitScripts() {
++    new HelloWorldUnitScript();
++}
+diff --git a/WoW/Source/Client.cpp b/WoW/Source/Client.cpp
+index a2a968d..c41c256 100644
+--- a/WoW/Source/Client.cpp
++++ b/WoW/Source/Client.cpp
+@@ -1021,6 +1021,10 @@ static void InitializeClient() {
+     SI2::Init(0);
+     ObjectEffectSystem_Initialize();
+     FrameXML_RegisterDefault();
++
++    // Not in the original: extension element types join the factory table after the engine's.
++    sExtensionMgr->OnFrameXmlInitialized();
++
+     GlueScriptEventsInitialize();
+     ScriptEventsInitialize();
+     SpecialUnitEffectsInitialize();
+diff --git a/WoW/Source/Extension/ExtensionMgr.cpp b/WoW/Source/Extension/ExtensionMgr.cpp
+index b129826..950e81d 100644
+--- a/WoW/Source/Extension/ExtensionMgr.cpp
++++ b/WoW/Source/Extension/ExtensionMgr.cpp
+@@ -73,9 +73,15 @@ void ExtensionMgr::Unload() {
+     ScriptRegistry<RenderScript>::Clear();
+     ScriptRegistry<TerrainScript>::Clear();
+     ScriptRegistry<TextureScript>::Clear();
++    ScriptRegistry<UIScript>::Clear();
++    ScriptRegistry<UnitScript>::Clear();
+     ScriptRegistry<WorldScript>::Clear();
+     m_scriptCount = 0;
+ 
++    ClearMessageHandlers();
++    ClearLuaRegistrations();
++    ClearXmlElements();
++
+     Log("Extensions: unloaded");
+ 
+     if (s_log) {
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 3ea0202..9d3ab21 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -5,25 +5,30 @@
+ #include <vector>
+ #include "WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h"
+ 
++class AuraData;
+ class C3Vector;
+ class CDataStore;
+ class CGObject_C;
++class CGUnit_C;
+ class CM2Model;
+ class CM2Shared;
+ class CMapArea;
+ class CMapObj;
+ class CMapObjGroup;
++class CSimpleFrame;
+ class CTexture;
+ class NetClient;
+ class SFileImpl;
+ class WowClientDB_Base;
++class XMLNode;
+ struct lua_State;
+ 
+ // The central script manager: loads the compiled-in extensions, holds one ScriptRegistry<T> per
+ // script type and exposes one OnXxx(...) dispatcher per hook. The client calls a dispatcher at the
+ // matching seam; the dispatcher walks the registry of the hook's script type and calls the virtual
+-// on every script. Extensions never call a dispatcher, only the services (Log,
+-// DeclareFrameScriptEvent).
++// on every script. Extensions never call a dispatcher, only the services: Log and the
++// registration APIs (message handlers and sends, Lua functions and events, XML element types),
++// which record what an extension adds and feed it to the client at the right seam.
+ class ExtensionMgr {
+     friend class ScriptObject;
+ 
+@@ -72,11 +77,29 @@ class ExtensionMgr {
+     void OnFrameEnd();
+ 
+     public: /* NetScript */
++    // Registration API. A handler receives the server messages of one opcode that the stock
++    // client has no handler for (the stock table always wins): it is the way to give the client
++    // a new SMSG. opcode is the 16-bit wire opcode; it must not be one the stock client handles,
++    // and the server has to send it, so an extension and its server module agree on a range the
++    // stock protocol does not use (opcodes >= NUM_MSG_TYPES, 0x51F, are free of any stock
++    // meaning). One handler per opcode; registering again replaces it.
++    void RegisterMessageHandler(uint32_t opcode, ExtensionMessageHandler handler, void* param);
++    void UnregisterMessageHandler(uint32_t opcode);
++
++    // Builds a client message (32-bit opcode, then the payload bytes, the layout every stock
++    // sender uses) and hands it to the current realm connection's Send. Returns false when there
++    // is no connection to send on. The server has to know the opcode; a stock server drops or
++    // refuses what it does not expect.
++    bool SendClientMessage(uint32_t opcode, const void* payload, uint32_t bytes);
++    bool SendClientMessage(uint32_t opcode, CDataStore& payload);
++
+     void OnConnected(NetClient* client);
+     void OnDisconnected(NetClient* client);
+     void OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg);
+     // False when a script refused the message: the caller drops it instead of dispatching.
+     bool CanMessageReceive(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg);
++    // True when a registered handler took the message; result is then the handler's return.
++    bool DispatchRegisteredMessage(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg, int32_t& result);
+     void OnMessageSent(CDataStore* msg);
+ 
+     public: /* ModelScript */
+@@ -90,6 +113,26 @@ class ExtensionMgr {
+     void OnModelAnimated(CM2Model* model);
+     void OnModelDestroy(CM2Model* model);
+ 
++    public: /* UnitScript */
++    void OnUnitMoveUpdate(CGUnit_C* unit, uint32_t time);
++    void OnUnitDisplayInfoUpdated(CGUnit_C* unit);
++    void OnUnitDeath(CGUnit_C* unit);
++    void OnUnitAuraAdded(CGUnit_C* unit, uint32_t index, AuraData* aura, int32_t spellId);
++    void OnUnitAuraRemoved(CGUnit_C* unit, uint32_t index, AuraData* aura, int32_t spellId);
++
++    public: /* UIScript */
++    // Registration API: adds an XML element type (and CreateFrame type) backed by factory. Takes
++    // effect when FrameXML's table exists (right after the engine's own types, or at once when
++    // registered later); a name the engine already uses is refused and logged. unique makes the
++    // type usable once, like <WorldFrame>.
++    void RegisterXmlElement(const char* name, ExtensionFrameFactory factory, bool unique = false);
++
++    // Client call after FrameXML_RegisterDefault: registers the recorded element types.
++    void OnFrameXmlInitialized();
++
++    void OnFrameCreated(CSimpleFrame* frame, XMLNode* node);
++    void OnUnknownFrameType(const char* name, XMLNode* node);
++
+     public: /* ObjectScript */
+     void OnObjectCreated(CGObject_C* object);
+     void OnObjectUpdate(CGObject_C* object, uint32_t time);
+@@ -118,11 +161,25 @@ class ExtensionMgr {
+     void OnClientDBShutdown();
+ 
+     public: /* LuaScript */
++    // Registration API. A function registered here is a global in every FrameScript state of the
++    // contexts in the mask (FrameScriptContexts), registered through FrameScript_RegisterFunction
++    // each time such a state is created and at once if one exists; it runs as engine code,
++    // untainted, like every stock Script_* function. An event registered here is created in those
++    // states together with the engine's events; GetFrameScriptEventIndex gives its index in the
++    // current state for FrameScript_SignalEvent (UINT32_MAX when the current state does not have
++    // it or no state exists). Both are recorded for the life of the client; register from the
++    // extension's entry point or OnStartup.
++    void RegisterLuaFunction(const char* name, lua_CFunction function, uint32_t contexts = FRAMESCRIPT_CONTEXTS_ALL);
++    void RegisterFrameScriptEvent(const char* name, uint32_t contexts = FRAMESCRIPT_CONTEXTS_ALL);
++    uint32_t GetFrameScriptEventIndex(const char* name);
++    FrameScriptContext GetFrameScriptContext();
++
+     // Replaces the client's FrameScript_CreateEvents(names, count) call at each FrameScript rebuild
+-    // site. Fires LuaScript::OnFrameScriptInitialized for every script (where they declare their
+-    // events), then creates the engine's names followed by the declared names in one
+-    // FrameScript_CreateEvents call, so the engine's indices are unchanged and the declared
+-    // events get the indices DeclareFrameScriptEvent returned.
++    // site. Registers the recorded functions and events for the context, fires
++    // LuaScript::OnFrameScriptInitialized for every script (where they may declare more), then
++    // creates the engine's names followed by the declared names in one FrameScript_CreateEvents
++    // call, so the engine's indices are unchanged and the declared events get the indices
++    // DeclareFrameScriptEvent returned.
+     void OnFrameScriptInitialized(FrameScriptContext context, const char** names, uint32_t count);
+     void OnFrameScriptDestroy(lua_State* L);
+ 
+@@ -133,6 +190,10 @@ class ExtensionMgr {
+     uint32_t DeclareFrameScriptEvent(const char* name);
+ 
+     private:
++    void ClearMessageHandlers();
++    void ClearLuaRegistrations();
++    void ClearXmlElements();
++
+     uint32_t m_scriptCount;
+ };
+ 
+diff --git a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+index af31741..7d6aab1 100644
+--- a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
++++ b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+@@ -13,6 +13,8 @@
+ #include "WoW/Source/Extension/ScriptDefines/RenderScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/TerrainScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/TextureScript.h"
++#include "WoW/Source/Extension/ScriptDefines/UIScript.h"
++#include "WoW/Source/Extension/ScriptDefines/UnitScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/WorldScript.h"
+ 
+ #endif
+diff --git a/WoW/Source/Extension/ScriptDefines/LuaScript.cpp b/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
+index d7cb003..5abd0db 100644
+--- a/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
+@@ -5,12 +5,84 @@
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Extension/ExtensionMgrMacros.h"
+ 
+-// The event array under construction, valid only while OnFrameScriptInitialized runs: the engine's
+-// names first (their indices are the engine's enum values and must not move), the declared names
+-// after them. The pointers are the callers' string literals, which outlive the array.
++// Functions and events registered once by extensions and applied to every FrameScript state the
++// client creates for the contexts in their mask. The name pointers are the callers' string
++// literals, which outlive the tables.
++struct EXTENSIONLUAFUNCTION {
++    const char* m_name;
++    lua_CFunction m_function;
++    uint32_t m_contexts;
++};
++
++struct EXTENSIONLUAEVENT {
++    const char* m_name;
++    uint32_t m_contexts;
++};
++
++static std::vector<EXTENSIONLUAFUNCTION> s_luaFunctions;
++static std::vector<EXTENSIONLUAEVENT> s_luaEvents;
++
++// The event array of the current state: the engine's names first (their indices are the
++// engine's enum values and must not move), the declared names after them. Built while
++// OnFrameScriptInitialized runs (s_declaring), kept until the state is destroyed so
++// GetFrameScriptEventIndex can answer, and empty while no state exists.
+ static std::vector<const char*> s_eventNames;
+ static bool s_declaring;
+ 
++static uint32_t FindEventName(const char* name) {
++    for (uint32_t i = 0; i < s_eventNames.size(); i++) {
++        if (s_eventNames[i] && !SStrCmpI(s_eventNames[i], name, STORM_MAX_STR)) {
++            return i;
++        }
++    }
++
++    return UINT32_MAX;
++}
++
++void ExtensionMgr::RegisterLuaFunction(const char* name, lua_CFunction function, uint32_t contexts) {
++    if (!name || !function || !(contexts & FRAMESCRIPT_CONTEXTS_ALL)) {
++        return;
++    }
++
++    for (EXTENSIONLUAFUNCTION& entry : s_luaFunctions) {
++        if (!SStrCmp(entry.m_name, name, STORM_MAX_STR)) {
++            Log("Extensions: Lua function %s replaced", name);
++            entry.m_function = function;
++            entry.m_contexts = contexts;
++            return;
++        }
++    }
++
++    s_luaFunctions.push_back({ name, function, contexts });
++
++    // A state that already exists gets the function at once when it matches; the next
++    // OnFrameScriptInitialized covers every later state.
++    if (!s_eventNames.empty() && (contexts & (1u << GetFrameScriptContext()))) {
++        FrameScript_RegisterFunction(name, function);
++    }
++}
++
++void ExtensionMgr::RegisterFrameScriptEvent(const char* name, uint32_t contexts) {
++    if (!name || !(contexts & FRAMESCRIPT_CONTEXTS_ALL)) {
++        return;
++    }
++
++    for (EXTENSIONLUAEVENT& entry : s_luaEvents) {
++        if (!SStrCmpI(entry.m_name, name, STORM_MAX_STR)) {
++            entry.m_contexts |= contexts;
++            return;
++        }
++    }
++
++    // An event can only join the array when it is built; one registered while a state is live
++    // becomes addressable at the next state creation.
++    s_luaEvents.push_back({ name, contexts });
++}
++
++uint32_t ExtensionMgr::GetFrameScriptEventIndex(const char* name) {
++    return name ? FindEventName(name) : UINT32_MAX;
++}
++
+ uint32_t ExtensionMgr::DeclareFrameScriptEvent(const char* name) {
+     if (!s_declaring || !name) {
+         Log("Extensions: DeclareFrameScriptEvent(%s) outside LuaScript::OnFrameScriptInitialized, ignored", name ? name : "null");
+@@ -19,10 +91,10 @@ uint32_t ExtensionMgr::DeclareFrameScriptEvent(const char* name) {
+ 
+     // FrameScript_CreateEvents maps equal names to one event object, so two indices for the same
+     // name would both work; one index per name keeps FrameScript_SignalEvent callers consistent.
+-    for (uint32_t i = 0; i < s_eventNames.size(); i++) {
+-        if (s_eventNames[i] && !SStrCmpI(s_eventNames[i], name, STORM_MAX_STR)) {
+-            return i;
+-        }
++    uint32_t existing = FindEventName(name);
++
++    if (existing != UINT32_MAX) {
++        return existing;
+     }
+ 
+     s_eventNames.push_back(name);
+@@ -30,10 +102,31 @@ uint32_t ExtensionMgr::DeclareFrameScriptEvent(const char* name) {
+     return static_cast<uint32_t>(s_eventNames.size() - 1);
+ }
+ 
++static FrameScriptContext s_currentContext = FRAMESCRIPT_CONTEXT_GLUE;
++
++FrameScriptContext ExtensionMgr::GetFrameScriptContext() {
++    return s_currentContext;
++}
++
+ void ExtensionMgr::OnFrameScriptInitialized(FrameScriptContext context, const char** names, uint32_t count) {
++    uint32_t mask = 1u << context;
++    s_currentContext = context;
+     s_eventNames.assign(names, names + count);
+     s_declaring = true;
+ 
++    // Registered functions and events first, so a LuaScript hook can rely on them.
++    for (const EXTENSIONLUAFUNCTION& entry : s_luaFunctions) {
++        if (entry.m_contexts & mask) {
++            FrameScript_RegisterFunction(entry.m_name, entry.m_function);
++        }
++    }
++
++    for (const EXTENSIONLUAEVENT& entry : s_luaEvents) {
++        if (entry.m_contexts & mask) {
++            DeclareFrameScriptEvent(entry.m_name);
++        }
++    }
++
+     lua_State* L = FrameScript_GetContext();
+     CALL_HOOKS(LuaScript, script->OnFrameScriptInitialized(L, context));
+ 
+@@ -46,12 +139,18 @@ void ExtensionMgr::OnFrameScriptInitialized(FrameScriptContext context, const ch
+     if (s_eventNames.size() > count) {
+         Log("Extensions: %u FrameScript event(s) declared in the %s state", static_cast<uint32_t>(s_eventNames.size() - count), context == FRAMESCRIPT_CONTEXT_GLUE ? "glue" : "game");
+     }
+-
+-    s_eventNames.clear();
+ }
+ 
+ void ExtensionMgr::OnFrameScriptDestroy(lua_State* L) {
+     CALL_HOOKS(LuaScript, script->OnFrameScriptDestroy(L));
++
++    s_eventNames.clear();
++}
++
++void ExtensionMgr::ClearLuaRegistrations() {
++    s_luaFunctions.clear();
++    s_luaEvents.clear();
++    s_eventNames.clear();
+ }
+ 
+ LuaScript::LuaScript(const char* name) : ScriptObject(name) {
+diff --git a/WoW/Source/Extension/ScriptDefines/LuaScript.h b/WoW/Source/Extension/ScriptDefines/LuaScript.h
+index 7841be4..df87f2f 100644
+--- a/WoW/Source/Extension/ScriptDefines/LuaScript.h
++++ b/WoW/Source/Extension/ScriptDefines/LuaScript.h
+@@ -5,6 +5,7 @@
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
+ struct lua_State;
++typedef int (*lua_CFunction)(lua_State* L);
+ 
+ // Which FrameScript state is being set up. The glue (login, realm list, character screens) and the
+ // game UI run in different Lua states with different function tables and event arrays.
+@@ -13,6 +14,14 @@ enum FrameScriptContext {
+     FRAMESCRIPT_CONTEXT_GAME = 1,
+ };
+ 
++// Which states a registration (ExtensionMgr::RegisterLuaFunction, RegisterFrameScriptEvent)
++// applies to, as a mask.
++enum FrameScriptContexts {
++    FRAMESCRIPT_CONTEXTS_GLUE = 1 << FRAMESCRIPT_CONTEXT_GLUE,
++    FRAMESCRIPT_CONTEXTS_GAME = 1 << FRAMESCRIPT_CONTEXT_GAME,
++    FRAMESCRIPT_CONTEXTS_ALL = FRAMESCRIPT_CONTEXTS_GLUE | FRAMESCRIPT_CONTEXTS_GAME,
++};
++
+ // The FrameScript (Lua) state. The client destroys and recreates its Lua state several times:
+ // CGlueMgr::Resume rebuilds the glue state every time the glue comes up (first start, every return
+ // from the game, glue reload), CGGameUI::InitializeFrameXML rebuilds the game state on every world
+@@ -25,6 +34,13 @@ enum FrameScriptContext {
+ // A script never calls FrameScript_CreateEvents itself (that would discard the engine's events);
+ // it declares its event names through ExtensionMgr::DeclareFrameScriptEvent inside this hook, and
+ // the core creates the engine's names and the declared names together in the one call.
++//
++// Most extensions need no hook at all: ExtensionMgr::RegisterLuaFunction and
++// RegisterFrameScriptEvent record a function or an event once (from the entry point or
++// OnStartup) and the core re-registers them into every state it sets up, before this hook runs;
++// ExtensionMgr::GetFrameScriptEventIndex gives the event's index in the current state when it is
++// time to signal it. The hook is for registrations that need the lua_State (tables, closures,
++// upvalues) or the context.
+ class LuaScript : public ScriptObject {
+     protected:
+     explicit LuaScript(const char* name);
+diff --git a/WoW/Source/Extension/ScriptDefines/NetScript.cpp b/WoW/Source/Extension/ScriptDefines/NetScript.cpp
+index be02fa8..fe5d0a6 100644
+--- a/WoW/Source/Extension/ScriptDefines/NetScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/NetScript.cpp
+@@ -1,7 +1,112 @@
+ #include "WoW/Source/Extension/ScriptDefines/NetScript.h"
++#include <vector>
+ #include "Engine/Source/Base/CDataStore.h"
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Extension/ExtensionMgrMacros.h"
++#include "WoW/Source/WowSvcs/WowSvcsClient/ClientServices.h"
++
++// Handlers registered for opcodes the stock client does not handle. Consulted by
++// NetClient::ProcessMessage after the stock m_handlers table came up empty for the opcode, so a
++// registration never shadows a stock handler; one handler per opcode.
++struct EXTENSIONMESSAGEHANDLER {
++    uint32_t m_opcode;
++    ExtensionMessageHandler m_handler;
++    void* m_param;
++};
++
++static std::vector<EXTENSIONMESSAGEHANDLER> s_messageHandlers;
++
++static EXTENSIONMESSAGEHANDLER* FindMessageHandler(uint32_t opcode) {
++    for (EXTENSIONMESSAGEHANDLER& entry : s_messageHandlers) {
++        if (entry.m_opcode == opcode) {
++            return &entry;
++        }
++    }
++
++    return nullptr;
++}
++
++void ExtensionMgr::RegisterMessageHandler(uint32_t opcode, ExtensionMessageHandler handler, void* param) {
++    if (!handler) {
++        return;
++    }
++
++    // The wire opcode is 16 bits; anything above cannot arrive.
++    if (opcode > 0xFFFF) {
++        Log("Extensions: RegisterMessageHandler(0x%X) ignored, opcodes are 16-bit", opcode);
++        return;
++    }
++
++    if (EXTENSIONMESSAGEHANDLER* entry = FindMessageHandler(opcode)) {
++        Log("Extensions: message handler for opcode 0x%03X replaced", opcode);
++        entry->m_handler = handler;
++        entry->m_param = param;
++        return;
++    }
++
++    s_messageHandlers.push_back({ opcode, handler, param });
++    Log("Extensions: message handler registered for opcode 0x%03X", opcode);
++}
++
++void ExtensionMgr::UnregisterMessageHandler(uint32_t opcode) {
++    for (size_t i = 0; i < s_messageHandlers.size(); i++) {
++        if (s_messageHandlers[i].m_opcode == opcode) {
++            s_messageHandlers.erase(s_messageHandlers.begin() + i);
++            return;
++        }
++    }
++}
++
++bool ExtensionMgr::DispatchRegisteredMessage(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg, int32_t& result) {
++    EXTENSIONMESSAGEHANDLER* entry = FindMessageHandler(static_cast<uint32_t>(msgId));
++
++    if (!entry) {
++        return false;
++    }
++
++    result = entry->m_handler(entry->m_param, msgId, timeReceived, msg);
++
++    return true;
++}
++
++bool ExtensionMgr::SendClientMessage(uint32_t opcode, const void* payload, uint32_t bytes) {
++    // s_currentConnection is the realm connection of the current session; null in the login
++    // glue before a realm is joined and after a disconnect.
++    if (!ClientServices::s_currentConnection) {
++        Log("Extensions: SendClientMessage(0x%03X) with no connection, dropped", opcode);
++        return false;
++    }
++
++    // Same layout as every stock sender: a 32-bit opcode, then the payload; Finalize rewinds the
++    // cursor so Send serialises from the start. Send itself drops the message when the connection
++    // is not in the connected state, or holds it while the client is suspended for a redirect.
++    CDataStore msg;
++    msg.Put(opcode);
++
++    if (bytes && payload) {
++        msg.PutData(payload, bytes);
++    }
++
++    msg.Finalize();
++    ClientServices::s_currentConnection->Send(&msg);
++
++    return true;
++}
++
++bool ExtensionMgr::SendClientMessage(uint32_t opcode, CDataStore& payload) {
++    uint32_t bytes = payload.m_size - payload.m_read;
++    void* data = nullptr;
++
++    if (bytes) {
++        payload.GetDataInSitu(data, bytes);
++    }
++
++    return SendClientMessage(opcode, data, bytes);
++}
++
++void ExtensionMgr::ClearMessageHandlers() {
++    s_messageHandlers.clear();
++}
+ 
+ void ExtensionMgr::OnConnected(NetClient* client) {
+     CALL_HOOKS(NetScript, script->OnConnected(*client));
+diff --git a/WoW/Source/Extension/ScriptDefines/NetScript.h b/WoW/Source/Extension/ScriptDefines/NetScript.h
+index aedbf3d..1467e9d 100644
+--- a/WoW/Source/Extension/ScriptDefines/NetScript.h
++++ b/WoW/Source/Extension/ScriptDefines/NetScript.h
+@@ -8,6 +8,12 @@
+ class CDataStore;
+ class NetClient;
+ 
++// A message handler an extension registers with ExtensionMgr::RegisterMessageHandler. Same shape
++// as the client's own MESSAGE_HANDLER: param is the registration's user pointer, msgId the
++// opcode, time the receive timestamp, msg the stream with the cursor at the payload. The return
++// value is passed back to NetClient::ProcessMessage's caller like a stock handler's.
++typedef int32_t (*ExtensionMessageHandler)(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
++
+ // The world-server connection (WoW/Source/Net/NetClient/NetClient.cpp): its state changes and
+ // the two points every message passes through. The message hooks never rewrite a message, and
+ // the core restores the stream's read cursor after each hook so the engine's own handler sees
+diff --git a/WoW/Source/Extension/ScriptDefines/UIScript.cpp b/WoW/Source/Extension/ScriptDefines/UIScript.cpp
+new file mode 100644
+index 0000000..4ad52e1
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/UIScript.cpp
+@@ -0,0 +1,73 @@
++#include "WoW/Source/Extension/ScriptDefines/UIScript.h"
++#include <vector>
++#include "Engine/Source/FrameXML/FrameXML.h"
++#include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++// Element types registered by extensions. They enter FrameXML's factory table right after the
++// engine's own (OnFrameXmlInitialized, from InitializeClient); one registered later, while the
++// table exists, enters it at once. The table is cleared only when the client is destroyed.
++struct EXTENSIONXMLELEMENT {
++    const char* m_name;
++    ExtensionFrameFactory m_factory;
++    bool m_unique;
++};
++
++static std::vector<EXTENSIONXMLELEMENT> s_xmlElements;
++static bool s_frameXmlInitialized;
++
++static void RegisterElement(const EXTENSIONXMLELEMENT& element) {
++    // FrameXML_RegisterFactory refuses a name that is already in the table; the engine's names
++    // are in before any extension's, so a collision always means the stock type stays.
++    if (FrameXML_RegisterFactory(element.m_name, element.m_factory, element.m_unique)) {
++        sExtensionMgr->Log("Extensions: XML element <%s> registered", element.m_name);
++    } else {
++        sExtensionMgr->Log("Extensions: XML element <%s> not registered, the name is taken", element.m_name);
++    }
++}
++
++void ExtensionMgr::RegisterXmlElement(const char* name, ExtensionFrameFactory factory, bool unique) {
++    if (!name || !factory) {
++        return;
++    }
++
++    for (const EXTENSIONXMLELEMENT& element : s_xmlElements) {
++        if (!SStrCmpI(element.m_name, name, STORM_MAX_STR)) {
++            Log("Extensions: XML element <%s> already registered by an extension, ignored", name);
++            return;
++        }
++    }
++
++    s_xmlElements.push_back({ name, factory, unique });
++
++    if (s_frameXmlInitialized) {
++        RegisterElement(s_xmlElements.back());
++    }
++}
++
++void ExtensionMgr::OnFrameXmlInitialized() {
++    s_frameXmlInitialized = true;
++
++    for (const EXTENSIONXMLELEMENT& element : s_xmlElements) {
++        RegisterElement(element);
++    }
++}
++
++void ExtensionMgr::ClearXmlElements() {
++    s_xmlElements.clear();
++    s_frameXmlInitialized = false;
++}
++
++void ExtensionMgr::OnFrameCreated(CSimpleFrame* frame, XMLNode* node) {
++    CALL_HOOKS(UIScript, script->OnFrameCreated(*frame, *node));
++}
++
++void ExtensionMgr::OnUnknownFrameType(const char* name, XMLNode* node) {
++    CALL_HOOKS(UIScript, script->OnUnknownFrameType(name, *node));
++}
++
++UIScript::UIScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<UIScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered UIScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/UIScript.h b/WoW/Source/Extension/ScriptDefines/UIScript.h
+new file mode 100644
+index 0000000..0f46390
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/UIScript.h
+@@ -0,0 +1,50 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_UISCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_UISCRIPT_H
++
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class CSimpleFrame;
++class XMLNode;
++
++// A frame factory an extension registers with ExtensionMgr::RegisterXmlElement: the shape of the
++// engine's own Create_SimpleButton and of CGCooldown::Create. It allocates and constructs a
++// CSimpleFrame subclass under parent (which may be null) and returns it; FrameXML then runs
++// PreLoadXML / LoadXML / PostLoadXML on it with the element's XMLNode.
++typedef CSimpleFrame* (*ExtensionFrameFactory)(CSimpleFrame* parent);
++
++// FrameXML, the UI element layer (Engine/Source/FrameXML/FrameXML.cpp). An XML element name
++// (<Frame>, <Button>, <Cooldown>, ...) maps to a frame factory in one name-keyed table:
++// FrameXML_RegisterDefault fills it with the engine widgets at InitializeClient, the glue and the
++// game UI add theirs (ModelFFX, WorldFrame, GameTooltip, Cooldown, Minimap, ...), and the table
++// lives until WowClientDestroy. FrameXML_CreateFrame resolves an element through it, both for XML
++// files and for Lua's CreateFrame("Type", ...), which builds a one-element XMLNode and takes the
++// same path. ExtensionMgr::RegisterXmlElement adds an extension's element to that table.
++//
++// A new element type is a CSimpleFrame subclass: its own static object type
++// (++FrameScript_Object::s_objectTypes), GetObjectTypeName / IsA overrides so Lua's
++// GetObjectType() and IsObjectType() know it, a LoadXML override for its attributes and child
++// elements, an allocator with operator delete (frames are freed through the virtual destructor and
++// CSimpleFrame::operator delete returns memory to CSimpleFrame's own allocator, so a subclass
++// allocated elsewhere must define its own), and optionally a script metatable
++// (FrameScript_Object::CreateScriptMetaTable with a RegisterScriptMethods, created at each game
++// state like CGCooldown::CreateScriptMetaTable in LoadScriptFunctions) when it adds Lua methods;
++// without one it inherits the Frame methods.
++class UIScript : public ScriptObject {
++    protected:
++    explicit UIScript(const char* name);
++
++    public:
++    // FrameXML_CreateFrame on success, after PreLoadXML / LoadXML / PostLoadXML: frame is the new
++    // frame, node the element that described it (node.m_name is the element type, "name" /
++    // "parent" / "inherits" its attributes). Every frame from an XML file and every Lua
++    // CreateFrame comes through here, including the engine's and other extensions' types.
++    virtual void OnFrameCreated(CSimpleFrame& frame, XMLNode& node) {}
++
++    // FrameXML_CreateFrame when no factory is registered for the element: name is the element
++    // type, node the element. The engine logs "Unknown frame type" and creates nothing; a script
++    // cannot supply the frame here (register the type with RegisterXmlElement instead), it can
++    // record or report the miss.
++    virtual void OnUnknownFrameType(const char* name, XMLNode& node) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/UnitScript.cpp b/WoW/Source/Extension/ScriptDefines/UnitScript.cpp
+new file mode 100644
+index 0000000..001e508
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/UnitScript.cpp
+@@ -0,0 +1,28 @@
++#include "WoW/Source/Extension/ScriptDefines/UnitScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnUnitMoveUpdate(CGUnit_C* unit, uint32_t time) {
++    CALL_HOOKS(UnitScript, script->OnUnitMoveUpdate(*unit, time));
++}
++
++void ExtensionMgr::OnUnitDisplayInfoUpdated(CGUnit_C* unit) {
++    CALL_HOOKS(UnitScript, script->OnUnitDisplayInfoUpdated(*unit));
++}
++
++void ExtensionMgr::OnUnitDeath(CGUnit_C* unit) {
++    CALL_HOOKS(UnitScript, script->OnUnitDeath(*unit));
++}
++
++void ExtensionMgr::OnUnitAuraAdded(CGUnit_C* unit, uint32_t index, AuraData* aura, int32_t spellId) {
++    CALL_HOOKS(UnitScript, script->OnUnitAuraAdded(*unit, index, *aura, spellId));
++}
++
++void ExtensionMgr::OnUnitAuraRemoved(CGUnit_C* unit, uint32_t index, AuraData* aura, int32_t spellId) {
++    CALL_HOOKS(UnitScript, script->OnUnitAuraRemoved(*unit, index, *aura, spellId));
++}
++
++UnitScript::UnitScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<UnitScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered UnitScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/UnitScript.h b/WoW/Source/Extension/ScriptDefines/UnitScript.h
+new file mode 100644
+index 0000000..8e6462d
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/UnitScript.h
+@@ -0,0 +1,45 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_UNITSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_UNITSCRIPT_H
++
++#include <cstdint>
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class AuraData;
++class CGUnit_C;
++
++// Units and players (CGUnit_C, WoW/Source/Object/ObjectClient/Unit_C.cpp): the method-level
++// seams of a unit's life that ObjectScript's create/update/remove/destroy does not see. Every hook
++// passes the native unit by reference; unit.m_obj->m_type & TYPEMASK_PLAYER tells a player, and
++// unit.m_obj->m_guid == ClntObjMgrGetActivePlayer() the local player.
++class UnitScript : public ScriptObject {
++    protected:
++    explicit UnitScript(const char* name);
++
++    public:
++    // End of CGUnit_C::OnMoveUpdate: the unit's world object, vehicle matrix, ground terrain type
++    // (m_terrainTypeId), flight and swimming status are updated for a movement step. Fires for
++    // every unit that moved (server movement and the local player's own movement alike). time is
++    // the movement timestamp.
++    virtual void OnUnitMoveUpdate(CGUnit_C& unit, uint32_t time) {}
++
++    // End of CGUnit_C::UpdateDisplayInfo when it did rebuild the display (an early return skips
++    // the rebuild and this hook when nothing changed and force was 0): model, mount attachment,
++    // geosets, base animation, creature sounds and the object effect manager reflect the current
++    // display id, items and shapeshift. The right place to adjust or decorate a unit's model.
++    virtual void OnUnitDisplayInfoUpdated(CGUnit_C& unit) {}
++
++    // Start of CGUnit_C::OnDeath: the unit's health reached zero; its combat state is about to be
++    // cleared and the death animation started. Everything about the unit is still as alive.
++    virtual void OnUnitDeath(CGUnit_C& unit) {}
++
++    // End of CGUnit_C::OnAuraAdded: the aura's visual effect is applied (AddAuraEffect), the
++    // combat log line written and, for the local player, the action bar / tracking / shapeshift
++    // side effects run. index is the aura slot, spellId the Spell.dbc id.
++    virtual void OnUnitAuraAdded(CGUnit_C& unit, uint32_t index, AuraData& aura, int32_t spellId) {}
++
++    // Start of CGUnit_C::OnAuraRemoved: the aura is still applied; RemoveAuraEffect and the local
++    // player side effects follow.
++    virtual void OnUnitAuraRemoved(CGUnit_C& unit, uint32_t index, AuraData& aura, int32_t spellId) {}
++};
++
++#endif
+diff --git a/WoW/Source/Net/NetClient/NetClient.cpp b/WoW/Source/Net/NetClient/NetClient.cpp
+index eaf68ee..3305f9f 100644
+--- a/WoW/Source/Net/NetClient/NetClient.cpp
++++ b/WoW/Source/Net/NetClient/NetClient.cpp
+@@ -291,6 +291,14 @@ int32_t NetClient::ProcessMessage(uint32_t timeReceived, CDataStore* msg, int32_
+         return this->m_handlers[msgId](this->m_handlerParams[msgId], static_cast<NETMESSAGE>(msgId), timeReceived, msg);
+     }
+ 
++    // Not in the original: an opcode without a stock handler goes to the handler an extension
++    // registered for it, if any; the stock table above always wins.
++    int32_t result;
++
++    if (sExtensionMgr->DispatchRegisteredMessage(static_cast<NETMESSAGE>(msgId), timeReceived, msg, result)) {
++        return result;
++    }
++
+     msg->Reset();
+ 
+     return 0;
+diff --git a/WoW/Source/Object/CMakeLists.txt b/WoW/Source/Object/CMakeLists.txt
+index 7051128..34a1a32 100644
+--- a/WoW/Source/Object/CMakeLists.txt
++++ b/WoW/Source/Object/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(Object
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(Object
++    PRIVATE
++        Extension
++)
+diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+index 82fb5c9..8011290 100644
+--- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+@@ -140,6 +140,7 @@
+ #include "WoW/Source/UIUtil/InputControl.h"
+ #include "WoW/Source/UIUtil/SmartScreenRect.h"
+ #include "WoW/Source/UIUtil/Tooltip.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/WorldClient/FrameTime.h"
+ #include "WoW/Source/WorldClient/Map.h"
+ #include "WoW/Source/WowSvcs/WowSvcsClient/ClientServices.h"
+@@ -1193,6 +1194,9 @@ void CGUnit_C::UpdateDisplayInfo(int32_t force) {
+ 
+     this->CreateOrDestroyObjectEffectManager();
+     this->m_animationState &= ~0x8000000;
++
++    // Not in the original: the display was rebuilt (the early return above skips both).
++    sExtensionMgr->OnUnitDisplayInfoUpdated(this);
+ }
+ 
+ // VERIFY: 8b1cb3ff auto
+@@ -10002,6 +10006,9 @@ void CGUnit_C::OnMoveUpdate(uint32_t time, int32_t a3, int32_t a4) {
+ 
+     this->UpdateFlightStatus(time);
+     this->UpdateSwimmingStatus(time, a3);
++
++    // Not in the original: the unit's movement step is applied.
++    sExtensionMgr->OnUnitMoveUpdate(this, time);
+ }
+ 
+ // VERIFY: ac360cae auto
+@@ -10201,6 +10208,9 @@ void CGUnit_C::SetStorage(uint32_t* storage, uint32_t* saved) {
+ // VERIFY: 3ba2c3ae manual
+ // OFFSET: 0x00729220
+ void CGUnit_C::OnDeath() {
++    // Not in the original: the unit is still in its living state here.
++    sExtensionMgr->OnUnitDeath(this);
++
+     if (this->m_obj->m_type & TYPEMASK_PLAYER) {
+         static_cast<CGPlayer_C*>(this)->OnDeath();
+     }
+@@ -16399,6 +16409,9 @@ float CGUnit_C::GetSpellChanceToCrit() const {
+ // VERIFY: 8a2697bd auto
+ // OFFSET: 0x00722090
+ void CGUnit_C::OnAuraRemoved(uint32_t index, uint8_t a3, AuraData* aura, int32_t spellId) {
++    // Not in the original: the aura is still applied here.
++    sExtensionMgr->OnUnitAuraRemoved(this, index, aura, spellId);
++
+     SpellRec spell;
+     memset(&spell, 0, sizeof(spell));
+     g_spellDB.GetRecord(spellId, &spell);
+@@ -16439,6 +16452,9 @@ void CGUnit_C::OnAuraAdded(uint32_t index, uint8_t a3, AuraData* aura, int32_t s
+             FrameScript_SignalEvent(SCRIPT_EVENT_UPDATE_SHAPESHIFT_FORM, nullptr);
+         }
+     }
++
++    // Not in the original: the aura and its effect are applied.
++    sExtensionMgr->OnUnitAuraAdded(this, index, aura, spellId);
+ }
+ 
+ // VERIFY: 1f07a103 manual
+-- 
+2.34.1
+

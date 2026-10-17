@@ -1,0 +1,82 @@
+From 43ca13d24614dc4784ad6296a62dd50b2f4bc13b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 16 Oct 2026 10:56:22 +0000
+Subject: [PATCH] Zeppelin F-223: mingw link/startup portability
+
+- fmodex dsound: explicit IDirectSoundBuffer cast (mingw dsound.h has no IDirectSoundBuffer8 inheritance)
+- Wow/WowClient: MSVC link options only under MSVC; mingw uses -Wl,--entry=start
+- Win64 WinMain: under mingw rename main so CRT -> WinMain -> fiber -> main order matches MSVC
+---
+ .../SoundEngine/fmodex/win32/src/fmod_channel_dsound.cpp    | 2 +-
+ Tools/WowClient/CMakeLists.txt                              | 6 +++++-
+ WoW/Source/CMakeLists.txt                                   | 6 +++++-
+ WoW/Source/Win64/WinMain.cpp                                | 6 ++++++
+ 4 files changed, 17 insertions(+), 3 deletions(-)
+
+diff --git a/Engine/Source/SoundEngine/fmodex/win32/src/fmod_channel_dsound.cpp b/Engine/Source/SoundEngine/fmodex/win32/src/fmod_channel_dsound.cpp
+index a31b562..0424fd6 100644
+--- a/Engine/Source/SoundEngine/fmodex/win32/src/fmod_channel_dsound.cpp
++++ b/Engine/Source/SoundEngine/fmodex/win32/src/fmod_channel_dsound.cpp
+@@ -156,7 +156,7 @@ FMOD_RESULT ChannelDSound::alloc()
+     }
+ 	else
+ 	{
+-		hr = mOutputDSound->mDirectSound->DuplicateSoundBuffer(sampledsound->mBuffer, (IDirectSoundBuffer **)&mBuffer);
++		hr = mOutputDSound->mDirectSound->DuplicateSoundBuffer((LPDIRECTSOUNDBUFFER)sampledsound->mBuffer, (IDirectSoundBuffer **)&mBuffer);
+ 		if (hr != DS_OK)
+ 		{
+ 			return FMOD_ERR_OUTPUT_DRIVERCALL; 
+diff --git a/Tools/WowClient/CMakeLists.txt b/Tools/WowClient/CMakeLists.txt
+index 131001f..a86a5de 100644
+--- a/Tools/WowClient/CMakeLists.txt
++++ b/Tools/WowClient/CMakeLists.txt
+@@ -36,7 +36,11 @@ target_include_directories(WowClient
+         ${CMAKE_SOURCE_DIR}
+ )
+ 
+-target_link_options(WowClient PRIVATE "/INCREMENTAL:NO" "/ENTRY:start")
++if (MSVC)
++    target_link_options(WowClient PRIVATE "/INCREMENTAL:NO" "/ENTRY:start")
++else ()
++    target_link_options(WowClient PRIVATE "-Wl,--entry=start")
++endif ()
+ 
+ target_link_libraries(WowClient
+     PRIVATE
+diff --git a/WoW/Source/CMakeLists.txt b/WoW/Source/CMakeLists.txt
+index 1a4cb7b..30bfe51 100644
+--- a/WoW/Source/CMakeLists.txt
++++ b/WoW/Source/CMakeLists.txt
+@@ -29,7 +29,11 @@ target_include_directories(Wow
+         ${CMAKE_SOURCE_DIR}
+ )
+ 
+-target_link_options(Wow PRIVATE "/INCREMENTAL:NO" "/ENTRY:start")
++if (MSVC)
++    target_link_options(Wow PRIVATE "/INCREMENTAL:NO" "/ENTRY:start")
++else ()
++    target_link_options(Wow PRIVATE "-Wl,--entry=start")
++endif ()
+ 
+ target_link_libraries(Wow
+     PRIVATE
+diff --git a/WoW/Source/Win64/WinMain.cpp b/WoW/Source/Win64/WinMain.cpp
+index f5b3859..c29df27 100644
+--- a/WoW/Source/Win64/WinMain.cpp
++++ b/WoW/Source/Win64/WinMain.cpp
+@@ -6,6 +6,12 @@
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "WoW/Source/Client.h"
+ 
++#if defined(__MINGW32__)
++// mingw's WinMainCRTStartup calls a user-defined main() directly and only reaches WinMain through its own
++// main stub. Rename ours so the MSVC order (WinMain -> 8 MB fiber -> main) is kept.
++#define main WowClientMain
++#endif
++
+ // STATIC: 0x00B311E8
+ static LPVOID lpFiber;
+ 
+-- 
+2.34.1
+

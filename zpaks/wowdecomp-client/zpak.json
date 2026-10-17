@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wowdecomp-client",
+  "version": "0.1.0",
+  "description": "Source-built 3.3.5a client from the wowdecomp decompilation (F-223) - forge-tracked source (SatyPardus/wowdecomp) + Zeppelin patch set (llvm-mingw cross-compile port, upstream PR #10 extension system until it merges, WXL ports as compiled-in extensions)",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "wowdecomp",
+    "source": "https://github.com/SatyPardus/wowdecomp.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/wowdecomp-build/src",
+    "patch_mode": "granular"
+  },
+  "enabled": true,
+  "priority": 420,
+  "feature_id": "F-223"
+}

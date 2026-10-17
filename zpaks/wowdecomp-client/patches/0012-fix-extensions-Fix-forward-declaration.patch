@@ -1,0 +1,44 @@
+From e3f057b97f5c50f746ad7196aa87b9af16b858aa Mon Sep 17 00:00:00 2001
+From: iThorgrim <contact@warlog.dev>
+Date: Fri, 16 Oct 2026 15:26:30 +0200
+Subject: [PATCH] fix(extensions): Fix forward declaration
+
+---
+ WoW/Source/Extension/ExtensionMgr.h                | 2 +-
+ WoW/Source/Extension/ScriptDefines/ConsoleScript.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index c237d51..5e33792 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -18,12 +18,12 @@ class CMapObj;
+ class CMapObjGroup;
+ class CSimpleFrame;
+ class CTexture;
+-class CVar;
+ class NetClient;
+ class PlaySpellVisuaKitData;
+ class SFileImpl;
+ class WowClientDB_Base;
+ class XMLNode;
++struct CVar;
+ struct lua_State;
+ 
+ // The central script manager: loads the compiled-in extensions, holds one ScriptRegistry<T> per
+diff --git a/WoW/Source/Extension/ScriptDefines/ConsoleScript.h b/WoW/Source/Extension/ScriptDefines/ConsoleScript.h
+index 2b3b3d3..602684c 100644
+--- a/WoW/Source/Extension/ScriptDefines/ConsoleScript.h
++++ b/WoW/Source/Extension/ScriptDefines/ConsoleScript.h
+@@ -6,7 +6,7 @@
+ #include "Engine/Source/ConsoleBase/Types.h"
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
+-class CVar;
++struct CVar;
+ 
+ // A CVar change callback for ExtensionMgr::RegisterCVar, the shape CVar::Register takes: the
+ // variable, its previous and new string values, and the registration's user pointer. Return true
+-- 
+2.34.1
+

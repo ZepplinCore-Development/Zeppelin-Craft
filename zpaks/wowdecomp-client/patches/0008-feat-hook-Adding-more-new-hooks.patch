@@ -1,0 +1,1082 @@
+From d455b700058163dae489315c8f63dad0992bb978 Mon Sep 17 00:00:00 2001
+From: iThorgrim <contact@warlog.dev>
+Date: Fri, 16 Oct 2026 14:31:20 +0200
+Subject: [PATCH] feat(hook): Adding more new hooks
+
+---
+ Engine/Source/BlizzardCore/SFile2-Core.cpp    | 14 ++++++
+ Engine/Source/FrameScript/FrameScript.cpp     |  6 +++
+ Engine/Source/Model2/M2Scene.cpp              | 11 +++++
+ Engine/Source/Model2/M2Shared.cpp             |  6 +++
+ Engine/Source/Services/Texture.cpp            |  5 ++
+ WoW/Source/Client.cpp                         |  3 ++
+ WoW/Source/Extension/ExtensionMgr.cpp         |  4 ++
+ WoW/Source/Extension/ExtensionMgr.h           | 36 ++++++++++++++
+ .../ScriptDefines/AllScriptsObjects.h         |  4 ++
+ .../Extension/ScriptDefines/AssetScript.cpp   |  4 ++
+ .../Extension/ScriptDefines/AssetScript.h     | 11 ++++-
+ .../Extension/ScriptDefines/LuaScript.cpp     |  4 ++
+ .../Extension/ScriptDefines/LuaScript.h       |  7 +++
+ .../ScriptDefines/MapObjectScript.cpp         | 16 +++++++
+ .../Extension/ScriptDefines/MapObjectScript.h | 32 +++++++++++++
+ .../Extension/ScriptDefines/ModelScript.cpp   | 12 +++++
+ .../Extension/ScriptDefines/ModelScript.h     | 21 +++++++++
+ .../Extension/ScriptDefines/NetScript.cpp     | 31 ++++++++++++
+ .../Extension/ScriptDefines/NetScript.h       | 29 ++++++++++--
+ .../Extension/ScriptDefines/ObjectScript.cpp  | 24 ++++++++++
+ .../Extension/ScriptDefines/ObjectScript.h    | 47 +++++++++++++++++++
+ .../Extension/ScriptDefines/TerrainScript.cpp | 16 +++++++
+ .../Extension/ScriptDefines/TerrainScript.h   | 32 +++++++++++++
+ .../Extension/ScriptDefines/TextureScript.cpp | 12 +++++
+ .../Extension/ScriptDefines/TextureScript.h   | 25 ++++++++++
+ .../Extension/ScriptDefines/WorldScript.cpp   |  8 ++++
+ .../Extension/ScriptDefines/WorldScript.h     | 21 +++++++--
+ WoW/Source/Net/NetClient/NetClient.cpp        | 16 ++++++-
+ WoW/Source/ObjectMgrClient/CMakeLists.txt     |  5 ++
+ .../ObjectMgrClient/ObjectMgrClient.cpp       | 11 +++++
+ WoW/Source/Ui/WorldFrame.cpp                  |  3 ++
+ WoW/Source/WorldClient/MapArea.cpp            |  8 ++++
+ WoW/Source/WorldClient/MapObjRead.cpp         | 11 +++++
+ .../WowSvcs/WowSvcsClient/ClientServices.cpp  |  4 ++
+ 34 files changed, 489 insertions(+), 10 deletions(-)
+ create mode 100644 WoW/Source/Extension/ScriptDefines/MapObjectScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/MapObjectScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ObjectScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ObjectScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/TerrainScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/TextureScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/TextureScript.h
+
+diff --git a/Engine/Source/BlizzardCore/SFile2-Core.cpp b/Engine/Source/BlizzardCore/SFile2-Core.cpp
+index 6e6fa9e..815460d 100644
+--- a/Engine/Source/BlizzardCore/SFile2-Core.cpp
++++ b/Engine/Source/BlizzardCore/SFile2-Core.cpp
+@@ -1022,6 +1022,13 @@ int32_t STORMAPI SFile::FileExistsEx(const char* name, uint32_t flags) {
+     char path[260];
+     uint32_t type;
+ 
++    // Not in the original: an existence check follows the same redirect as an open.
++    char redirected[260];
++
++    if (sExtensionMgr->OnFileOpen(name, redirected, sizeof(redirected))) {
++        name = redirected;
++    }
++
+     return System_SFile2::FindFile(name, path, sizeof(path), flags, &type, nullptr);
+ }
+ 
+@@ -1145,6 +1152,13 @@ int32_t STORMAPI SFile::FileExists(const char* name) {
+     char path[260];
+     uint32_t type;
+ 
++    // Not in the original: an existence check follows the same redirect as an open.
++    char redirected[260];
++
++    if (sExtensionMgr->OnFileOpen(name, redirected, sizeof(redirected))) {
++        name = redirected;
++    }
++
+     return System_SFile2::FindFile(name, path, sizeof(path), 0, &type, nullptr);
+ }
+ 
+diff --git a/Engine/Source/FrameScript/FrameScript.cpp b/Engine/Source/FrameScript/FrameScript.cpp
+index a9db490..9705676 100644
+--- a/Engine/Source/FrameScript/FrameScript.cpp
++++ b/Engine/Source/FrameScript/FrameScript.cpp
+@@ -13,6 +13,7 @@
+ #include "Engine/Source/lua-5.1/src/lmemPool.h"
+ #include "Engine/Source/lua-5.1/src/lua.h"
+ #include "Engine/Source/lua-5.1/src/lualib.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00D3F780
+ double s_scriptTimeDivisor;
+@@ -1434,6 +1435,11 @@ void FrameScript_UnregisterScriptEvent(FrameScript_Object* object, FrameScript_E
+ // VERIFY: 29317daf manual
+ // OFFSET: 0x0081A9A0
+ void FrameScript_Destroy() {
++    // Not in the original: the state is still open here.
++    if (s_context) {
++        sExtensionMgr->OnFrameScriptDestroy(s_context);
++    }
++
+     lua_close(s_context);
+     s_context = nullptr;
+     luaM_freePool(s_mempool);
+diff --git a/Engine/Source/Model2/M2Scene.cpp b/Engine/Source/Model2/M2Scene.cpp
+index 3f2b9e1..922b118 100644
+--- a/Engine/Source/Model2/M2Scene.cpp
++++ b/Engine/Source/Model2/M2Scene.cpp
+@@ -21,6 +21,7 @@
+ #include "Engine/Source/Tempest/C33Matrix.h"
+ #include "Engine/Source/Tempest/C3Ray.h"
+ #include "Engine/Source/Tempest/NTempest.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00A45374
+ const uint32_t s_localLighting[7] = { 1, 1, 1, 1, 1, 0, 0 };
+@@ -1741,6 +1742,16 @@ int32_t CM2Scene::Animate(const C3Vector& cameraPos) {
+         }
+     }
+ 
++    // Not in the original: every root model animated this frame, on the main thread, before
++    // lighting setup; skipped entirely when no ModelScript is registered.
++    if (!ScriptRegistry<ModelScript>::ScriptPointerList.empty()) {
++        for (CM2Model* model = this->m_animateList; model; model = model->m_animateNext) {
++            if (!model->m_attachParent) {
++                sExtensionMgr->OnModelAnimated(model);
++            }
++        }
++    }
++
+     while (this->m_animateList) {
+         CM2Model* model = this->m_animateList;
+         this->m_animateList = model->m_animateNext;
+diff --git a/Engine/Source/Model2/M2Shared.cpp b/Engine/Source/Model2/M2Shared.cpp
+index 0c12025..df84de6 100644
+--- a/Engine/Source/Model2/M2Shared.cpp
++++ b/Engine/Source/Model2/M2Shared.cpp
+@@ -1570,6 +1570,9 @@ int32_t CM2Shared::FinishLoadingLowPrioritySequence(uint32_t sequenceIndex, uint
+ 
+     sequence->m_flags = (sequence->m_flags & ~0x30u) | 0x20;
+ 
++    // Not in the original: this sequence's .anim data is relocated and the sequence flagged loaded.
++    sExtensionMgr->OnModelSequenceLoaded(this, sequenceIndex);
++
+     return 1;
+ }
+ 
+@@ -1720,6 +1723,9 @@ int32_t CM2Shared::Initialize() {
+         }
+     }
+ 
++    // Not in the original: one CTexture per M2Texture exists now.
++    sExtensionMgr->OnModelTexturesCreated(this);
++
+     for (uint32_t i = 0; i < this->m_data->m_bones.m_count; i++) {
+         if (this->m_data->m_bones[i].m_flags & 0x2F8) {
+             this->m_billboardBoneCount++;
+diff --git a/Engine/Source/Services/Texture.cpp b/Engine/Source/Services/Texture.cpp
+index 00115b9..57458a3 100644
+--- a/Engine/Source/Services/Texture.cpp
++++ b/Engine/Source/Services/Texture.cpp
+@@ -18,6 +18,7 @@
+ #include "Engine/Source/Services/TextureInt.h"
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "Engine/Source/Tempest/C2Vector.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x009F1028
+ static const uint16_t s_pixelFormatBytesPerBlock[NUM_PIXEL_FORMATS] = { 8, 16, 0, 0, 0, 0, 0, 16, 0, 0 };
+@@ -2529,6 +2530,10 @@ CTexture* TextureCreate(const char* fileName, CGxTexFlags texFlags, CStatus* sta
+ 
+         if (texture) {
+             TextureCacheNewTexture(texture, requested);
++
++            // Not in the original: a file texture was created and cached (cache hits returned above).
++            sExtensionMgr->OnTextureCreated(texture, fileName);
++
+             return texture;
+         }
+ 
+diff --git a/WoW/Source/Client.cpp b/WoW/Source/Client.cpp
+index 293df85..a2a968d 100644
+--- a/WoW/Source/Client.cpp
++++ b/WoW/Source/Client.cpp
+@@ -984,6 +984,9 @@ static int32_t Packet_SMSG_LOGIN_VERIFY_WORLD(void* param, NETMESSAGE msgId, uin
+     msg->Get(position.z);
+     msg->Get(rotation);
+ 
++    // Not in the original: the server's world position, before the map-change decision.
++    sExtensionMgr->OnLoginVerifyWorld(zoneID, &position, rotation);
++
+     if (zoneID == ClntObjMgrGetMapID()) {
+         return 1;
+     }
+diff --git a/WoW/Source/Extension/ExtensionMgr.cpp b/WoW/Source/Extension/ExtensionMgr.cpp
+index 0b7b18e..b129826 100644
+--- a/WoW/Source/Extension/ExtensionMgr.cpp
++++ b/WoW/Source/Extension/ExtensionMgr.cpp
+@@ -66,9 +66,13 @@ void ExtensionMgr::Unload() {
+     ScriptRegistry<ClientDBScript>::Clear();
+     ScriptRegistry<ClientScript>::Clear();
+     ScriptRegistry<LuaScript>::Clear();
++    ScriptRegistry<MapObjectScript>::Clear();
+     ScriptRegistry<ModelScript>::Clear();
+     ScriptRegistry<NetScript>::Clear();
++    ScriptRegistry<ObjectScript>::Clear();
+     ScriptRegistry<RenderScript>::Clear();
++    ScriptRegistry<TerrainScript>::Clear();
++    ScriptRegistry<TextureScript>::Clear();
+     ScriptRegistry<WorldScript>::Clear();
+     m_scriptCount = 0;
+ 
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 4d69a29..3ea0202 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -5,9 +5,17 @@
+ #include <vector>
+ #include "WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h"
+ 
++class C3Vector;
+ class CDataStore;
++class CGObject_C;
+ class CM2Model;
+ class CM2Shared;
++class CMapArea;
++class CMapObj;
++class CMapObjGroup;
++class CTexture;
++class NetClient;
++class SFileImpl;
+ class WowClientDB_Base;
+ struct lua_State;
+ 
+@@ -52,6 +60,8 @@ class ExtensionMgr {
+     void OnShutdown();
+ 
+     public: /* WorldScript */
++    void OnLoginVerifyWorld(uint32_t mapId, const C3Vector* position, float facing);
++    void OnLogoutComplete();
+     void OnMapLoaded(uint32_t mapId, const char* mapName);
+     void OnMapUnload();
+     void OnWorldUpdate(float elapsedSec);
+@@ -62,20 +72,45 @@ class ExtensionMgr {
+     void OnFrameEnd();
+ 
+     public: /* NetScript */
++    void OnConnected(NetClient* client);
++    void OnDisconnected(NetClient* client);
+     void OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg);
++    // False when a script refused the message: the caller drops it instead of dispatching.
++    bool CanMessageReceive(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg);
+     void OnMessageSent(CDataStore* msg);
+ 
+     public: /* ModelScript */
+     void OnModelSharedLoaded(CM2Shared* shared);
+     void OnModelSkinLoaded(CM2Shared* shared);
++    void OnModelTexturesCreated(CM2Shared* shared);
++    void OnModelSequenceLoaded(CM2Shared* shared, uint32_t sequenceIndex);
+     void OnModelSharedDestroy(CM2Shared* shared);
+     void OnModelCreated(CM2Model* model);
+     void OnModelLoaded(CM2Model* model);
++    void OnModelAnimated(CM2Model* model);
+     void OnModelDestroy(CM2Model* model);
+ 
++    public: /* ObjectScript */
++    void OnObjectCreated(CGObject_C* object);
++    void OnObjectUpdate(CGObject_C* object, uint32_t time);
++    void OnObjectRemoved(CGObject_C* object);
++    void OnObjectDestroy(CGObject_C* object);
++
++    public: /* TerrainScript */
++    void OnTerrainTileLoaded(CMapArea* area);
++    void OnTerrainTileUnload(CMapArea* area);
++
++    public: /* MapObjectScript */
++    void OnMapObjLoaded(CMapObj* mapObj);
++    void OnMapObjGroupLoaded(CMapObjGroup* group);
++
++    public: /* TextureScript */
++    void OnTextureCreated(CTexture* texture, const char* fileName);
++
+     public: /* AssetScript */
+     // True when a script redirected the open: redirect then holds the substitute path.
+     bool OnFileOpen(const char* name, char* redirect, uint32_t redirectSize);
++    void OnFileOpened(const char* name, SFileImpl* file);
+ 
+     public: /* ClientDBScript */
+     void OnClientDBLoaded(WowClientDB_Base* db, const char* fileName);
+@@ -89,6 +124,7 @@ class ExtensionMgr {
+     // FrameScript_CreateEvents call, so the engine's indices are unchanged and the declared
+     // events get the indices DeclareFrameScriptEvent returned.
+     void OnFrameScriptInitialized(FrameScriptContext context, const char** names, uint32_t count);
++    void OnFrameScriptDestroy(lua_State* L);
+ 
+     // Service for LuaScript::OnFrameScriptInitialized only: returns the index name will have in the
+     // event array being built, usable with FrameScript_SignalEvent once the hook has returned. An
+diff --git a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+index 7553fd5..af31741 100644
+--- a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
++++ b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+@@ -6,9 +6,13 @@
+ #include "WoW/Source/Extension/ScriptDefines/ClientDBScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ClientScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/LuaScript.h"
++#include "WoW/Source/Extension/ScriptDefines/MapObjectScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ModelScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/NetScript.h"
++#include "WoW/Source/Extension/ScriptDefines/ObjectScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/RenderScript.h"
++#include "WoW/Source/Extension/ScriptDefines/TerrainScript.h"
++#include "WoW/Source/Extension/ScriptDefines/TextureScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/WorldScript.h"
+ 
+ #endif
+diff --git a/WoW/Source/Extension/ScriptDefines/AssetScript.cpp b/WoW/Source/Extension/ScriptDefines/AssetScript.cpp
+index 9543bca..1908b6e 100644
+--- a/WoW/Source/Extension/ScriptDefines/AssetScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/AssetScript.cpp
+@@ -9,6 +9,10 @@ bool ExtensionMgr::OnFileOpen(const char* name, char* redirect, uint32_t redirec
+     return false;
+ }
+ 
++void ExtensionMgr::OnFileOpened(const char* name, SFileImpl* file) {
++    CALL_HOOKS(AssetScript, script->OnFileOpened(name, *file));
++}
++
+ AssetScript::AssetScript(const char* name) : ScriptObject(name) {
+     ScriptRegistry<AssetScript>::AddScript(this);
+     sExtensionMgr->Log("Extensions: registered AssetScript %s", name);
+diff --git a/WoW/Source/Extension/ScriptDefines/AssetScript.h b/WoW/Source/Extension/ScriptDefines/AssetScript.h
+index 2f50283..68c8cc4 100644
+--- a/WoW/Source/Extension/ScriptDefines/AssetScript.h
++++ b/WoW/Source/Extension/ScriptDefines/AssetScript.h
+@@ -4,6 +4,8 @@
+ #include <cstdint>
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
++class SFileImpl;
++
+ // Data file access. Every file the client reads by name from the archives or the data directory
+ // (.dbc, .m2, .skin, .anim, .blp, .wmo, .adt, FrameXML, addons, sounds) goes through
+ // SFile::OpenEx(nullptr, name, ...) (Engine/Source/BlizzardCore/SFile2-Core.cpp), either directly
+@@ -25,8 +27,15 @@ class AssetScript : public ScriptObject {
+     // asked. Return false to leave the request alone. The substitute must itself exist in the
+     // archives or under the data path: this hook changes which file is opened, it does not
+     // supply bytes. Not consulted for opens that name an archive explicitly (SFile::OpenEx with
+-    // an SArchive) nor for SFile::FileExists checks.
++    // an SArchive). SFile::FileExists and FileExistsEx ask the same question, so an existence
++    // check follows the redirect too.
+     virtual bool OnFileOpen(const char* name, char* redirect, uint32_t redirectSize) { return false; }
++
++    // SFile::OpenEx on success, before the handle is returned to the caller: name is the path
++    // that was opened (after any redirect), file the open handle (file.m_type tells the source:
++    // 0 a file on disk, 3 an archive entry, 5 fully read into file.m_data for a 0x20000 open;
++    // file.m_name the resolved name). Observe only; the caller owns and closes the handle.
++    virtual void OnFileOpened(const char* name, SFileImpl& file) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/Extension/ScriptDefines/LuaScript.cpp b/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
+index a2d1340..d7cb003 100644
+--- a/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/LuaScript.cpp
+@@ -50,6 +50,10 @@ void ExtensionMgr::OnFrameScriptInitialized(FrameScriptContext context, const ch
+     s_eventNames.clear();
+ }
+ 
++void ExtensionMgr::OnFrameScriptDestroy(lua_State* L) {
++    CALL_HOOKS(LuaScript, script->OnFrameScriptDestroy(L));
++}
++
+ LuaScript::LuaScript(const char* name) : ScriptObject(name) {
+     ScriptRegistry<LuaScript>::AddScript(this);
+     sExtensionMgr->Log("Extensions: registered LuaScript %s", name);
+diff --git a/WoW/Source/Extension/ScriptDefines/LuaScript.h b/WoW/Source/Extension/ScriptDefines/LuaScript.h
+index 3c2c550..7841be4 100644
+--- a/WoW/Source/Extension/ScriptDefines/LuaScript.h
++++ b/WoW/Source/Extension/ScriptDefines/LuaScript.h
+@@ -37,6 +37,13 @@ class LuaScript : public ScriptObject {
+     // FrameScript_RegisterFunction (they run as engine code, untainted) and build Lua tables with
+     // the lua_* API on L. No FrameXML or addon file has been loaded yet in this state.
+     virtual void OnFrameScriptInitialized(lua_State* L, FrameScriptContext context) {}
++
++    // Start of FrameScript_Destroy (Engine/Source/FrameScript/FrameScript.cpp), before
++    // lua_close: the state L is about to go, with every function, table, reference and event
++    // registered in it. Fires for each rebuild (the Destroy half of CGlueMgr::Resume's flush,
++    // CGGameUI::InitializeFrameXML, /reloadui) and once at client shutdown. Drop anything that
++    // points into the state here; the next OnFrameScriptInitialized gets a fresh one.
++    virtual void OnFrameScriptDestroy(lua_State* L) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/Extension/ScriptDefines/MapObjectScript.cpp b/WoW/Source/Extension/ScriptDefines/MapObjectScript.cpp
+new file mode 100644
+index 0000000..88a6fb3
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/MapObjectScript.cpp
+@@ -0,0 +1,16 @@
++#include "WoW/Source/Extension/ScriptDefines/MapObjectScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnMapObjLoaded(CMapObj* mapObj) {
++    CALL_HOOKS(MapObjectScript, script->OnMapObjLoaded(*mapObj));
++}
++
++void ExtensionMgr::OnMapObjGroupLoaded(CMapObjGroup* group) {
++    CALL_HOOKS(MapObjectScript, script->OnMapObjGroupLoaded(*group));
++}
++
++MapObjectScript::MapObjectScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<MapObjectScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered MapObjectScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/MapObjectScript.h b/WoW/Source/Extension/ScriptDefines/MapObjectScript.h
+new file mode 100644
+index 0000000..f8b305c
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/MapObjectScript.h
+@@ -0,0 +1,32 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_MAPOBJECTSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_MAPOBJECTSCRIPT_H
++
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class CMapObj;
++class CMapObjGroup;
++
++// World map objects, the WMOs (WoW/Source/WorldClient/MapObj*.cpp). CMapObj::Create looks a
++// .wmo up in the shared cache or reads the root file asynchronously; its completion parses the
++// root (CMapObj::Load: header, materials, group info, portals, lights, doodad sets, fogs) and
++// allocates one CMapObjGroup per group. Groups (<name>_NNN.wmo) are read on demand by
++// CMapObj::ReadGroup, asynchronously or synchronously during a preload, and CMapObjGroup::Create
++// parses them (geometry, batches, BSP, liquid, lighting). Placements (CMapObjDef) reference the
++// shared CMapObj.
++class MapObjectScript : public ScriptObject {
++    protected:
++    explicit MapObjectScript(const char* name);
++
++    public:
++    // End of CMapObj::PostloadCallback: the root file is parsed, materials created, bounding box
++    // and ambient colour set, the group array allocated (mapObj.m_mapObjGroupCount entries, none
++    // loaded). mapObj.m_wmoName is the path. Runs from the async-read completion.
++    virtual void OnMapObjLoaded(CMapObj& mapObj) {}
++
++    // After CMapObjGroup::Create, in both paths that run it (CMapObjGroup::AsyncPostloadCallback
++    // for an asynchronous read, CMapObj::ReadGroup for a preload): the group's geometry,
++    // batches and optional data are parsed and it is linked into group.m_parent's group list.
++    virtual void OnMapObjGroupLoaded(CMapObjGroup& group) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/ModelScript.cpp b/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
+index 71e4e62..625a079 100644
+--- a/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
+@@ -10,6 +10,18 @@ void ExtensionMgr::OnModelSkinLoaded(CM2Shared* shared) {
+     CALL_HOOKS(ModelScript, script->OnModelSkinLoaded(*shared));
+ }
+ 
++void ExtensionMgr::OnModelTexturesCreated(CM2Shared* shared) {
++    CALL_HOOKS(ModelScript, script->OnModelTexturesCreated(*shared));
++}
++
++void ExtensionMgr::OnModelSequenceLoaded(CM2Shared* shared, uint32_t sequenceIndex) {
++    CALL_HOOKS(ModelScript, script->OnModelSequenceLoaded(*shared, sequenceIndex));
++}
++
++void ExtensionMgr::OnModelAnimated(CM2Model* model) {
++    CALL_HOOKS(ModelScript, script->OnModelAnimated(*model));
++}
++
+ void ExtensionMgr::OnModelSharedDestroy(CM2Shared* shared) {
+     CALL_HOOKS(ModelScript, script->OnModelSharedDestroy(*shared));
+ }
+diff --git a/WoW/Source/Extension/ScriptDefines/ModelScript.h b/WoW/Source/Extension/ScriptDefines/ModelScript.h
+index ae79778..5296baf 100644
+--- a/WoW/Source/Extension/ScriptDefines/ModelScript.h
++++ b/WoW/Source/Extension/ScriptDefines/ModelScript.h
+@@ -1,6 +1,7 @@
+ #ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_MODELSCRIPT_H
+ #define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_MODELSCRIPT_H
+ 
++#include <cstdint>
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
+ class CM2Model;
+@@ -31,6 +32,17 @@ class ModelScript : public ScriptObject {
+     // budget selected (the NN in <model>NN.skin).
+     virtual void OnModelSkinLoaded(CM2Shared& shared) {}
+ 
++    // CM2Shared::Initialize after the texture loop: shared.m_textures holds one CTexture per
++    // M2Texture of the model (a file texture for a named one, a white solid for a runtime
++    // replaceable one). Fires before OnModelSharedLoaded, while the skin read is being issued.
++    virtual void OnModelTexturesCreated(CM2Shared& shared) {}
++
++    // CM2Shared::FinishLoadingLowPrioritySequence once a .anim file's data is relocated into
++    // the model's sequence (M2Init with the sequence's buffer) and the sequence is flagged
++    // loaded. Fires once per sequence index the file satisfies, aliases included, from the
++    // async-read completion; sequenceIndex indexes shared.m_data->m_sequences.
++    virtual void OnModelSequenceLoaded(CM2Shared& shared, uint32_t sequenceIndex) {}
++
+     // Start of ~CM2Shared: the file data, skin, textures and buffers are still allocated. Fires
+     // when the cache evicts the shared or the last reference goes with no cache.
+     virtual void OnModelSharedDestroy(CM2Shared& shared) {}
+@@ -48,6 +60,15 @@ class ModelScript : public ScriptObject {
+     // rendered from here on.
+     virtual void OnModelLoaded(CM2Model& model) {}
+ 
++    // CM2Scene::Animate, in the single-threaded pass, right after a root model's AnimateST: the
++    // bone matrices, particle and ribbon emitters, lights and texture transforms of this model
++    // and of its attached children are computed for the frame (the multithreaded AnimateMT pass
++    // ran before), lighting not yet set up, nothing drawn. Only models that were queued for
++    // animation this frame (visible ones) come here, and only roots: children animate with
++    // their parent. Every visible model every frame, on the main thread: keep it cheap. The
++    // dispatcher skips the loop entirely when no ModelScript is registered.
++    virtual void OnModelAnimated(CM2Model& model) {}
++
+     // Start of ~CM2Model: the instance is about to release its shared and free its arrays;
+     // everything is still valid for reading.
+     virtual void OnModelDestroy(CM2Model& model) {}
+diff --git a/WoW/Source/Extension/ScriptDefines/NetScript.cpp b/WoW/Source/Extension/ScriptDefines/NetScript.cpp
+index 264ea44..be02fa8 100644
+--- a/WoW/Source/Extension/ScriptDefines/NetScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/NetScript.cpp
+@@ -3,6 +3,14 @@
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Extension/ExtensionMgrMacros.h"
+ 
++void ExtensionMgr::OnConnected(NetClient* client) {
++    CALL_HOOKS(NetScript, script->OnConnected(*client));
++}
++
++void ExtensionMgr::OnDisconnected(NetClient* client) {
++    CALL_HOOKS(NetScript, script->OnDisconnected(*client));
++}
++
+ void ExtensionMgr::OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg) {
+     if (ScriptRegistry<NetScript>::ScriptPointerList.empty()) {
+         return;
+@@ -17,6 +25,29 @@ void ExtensionMgr::OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CD
+     msg->m_read = read;
+ }
+ 
++bool ExtensionMgr::CanMessageReceive(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg) {
++    if (ScriptRegistry<NetScript>::ScriptPointerList.empty()) {
++        return true;
++    }
++
++    uint32_t read = msg->m_read;
++    bool allowed = true;
++
++    // First refusal ends the vote; the cursor is restored for the dispatch either way.
++    for (NetScript* script : ScriptRegistry<NetScript>::ScriptPointerList) {
++        msg->m_read = read;
++
++        if (!script->CanMessageReceive(msgId, timeReceived, *msg)) {
++            allowed = false;
++            break;
++        }
++    }
++
++    msg->m_read = read;
++
++    return allowed;
++}
++
+ void ExtensionMgr::OnMessageSent(CDataStore* msg) {
+     if (ScriptRegistry<NetScript>::ScriptPointerList.empty()) {
+         return;
+diff --git a/WoW/Source/Extension/ScriptDefines/NetScript.h b/WoW/Source/Extension/ScriptDefines/NetScript.h
+index f8c8aeb..aedbf3d 100644
+--- a/WoW/Source/Extension/ScriptDefines/NetScript.h
++++ b/WoW/Source/Extension/ScriptDefines/NetScript.h
+@@ -6,17 +6,36 @@
+ #include "WoW/Source/Net/Types.h"
+ 
+ class CDataStore;
++class NetClient;
+ 
+-// The world-server connection, at the two points every message passes through
+-// (WoW/Source/Net/NetClient/NetClient.cpp). Both hooks observe: they cannot drop or rewrite a
+-// message, and the core restores the stream's read cursor after the hooks so the engine's own
+-// handler sees the message exactly as if no script had looked at it. A script may therefore read
+-// from msg freely with CDataStore::Get. Do not keep a pointer to msg past the hook.
++// The world-server connection (WoW/Source/Net/NetClient/NetClient.cpp): its state changes and
++// the two points every message passes through. The message hooks never rewrite a message, and
++// the core restores the stream's read cursor after each hook so the engine's own handler sees
++// the message exactly as if no script had looked at it. A script may therefore read from msg
++// freely with CDataStore::Get. Do not keep a pointer to msg past the hook.
+ class NetScript : public ScriptObject {
+     protected:
+     explicit NetScript(const char* name);
+ 
+     public:
++    // NetClient::HandleConnect, once m_netState is NS_CONNECTED: the socket to the world server
++    // is up, nothing has been sent yet (the encryption handshake follows with the first
++    // messages). Fires for the realm connection and for a redirect connection alike.
++    virtual void OnConnected(NetClient& client) {}
++
++    // NetClient::HandleDisconnect, once m_netState is back to NS_INITIALIZED and before the glue
++    // is told (CGlueMgr::NetDisconnectHandler): the connection is gone, whatever the cause
++    // (server close, logout, network error).
++    virtual void OnDisconnected(NetClient& client) {}
++
++    // NetClient::ProcessMessage after OnMessageReceived ran for every script, before the
++    // handler dispatch. Return false to drop the message: it is then treated like an opcode with
++    // no handler (stream reset, ProcessMessage returns 0) and no engine handler sees it. The
++    // first script that returns false ends the vote. Dropping a message the engine relies on
++    // (SMSG_AUTH_CHALLENGE, movement, object updates) desynchronises the client; this is for
++    // messages the script owns or knowingly suppresses.
++    virtual bool CanMessageReceive(NETMESSAGE msgId, uint32_t timeReceived, CDataStore& msg) { return true; }
++
+     // NetClient::ProcessMessage, after the 16-bit opcode is read and before the message is
+     // dispatched to the handler registered for it (or dropped if there is none). The read cursor
+     // is at the payload, where a handler starts reading. Fires for every message of a connected
+diff --git a/WoW/Source/Extension/ScriptDefines/ObjectScript.cpp b/WoW/Source/Extension/ScriptDefines/ObjectScript.cpp
+new file mode 100644
+index 0000000..43b255e
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ObjectScript.cpp
+@@ -0,0 +1,24 @@
++#include "WoW/Source/Extension/ScriptDefines/ObjectScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnObjectCreated(CGObject_C* object) {
++    CALL_HOOKS(ObjectScript, script->OnObjectCreated(*object));
++}
++
++void ExtensionMgr::OnObjectUpdate(CGObject_C* object, uint32_t time) {
++    CALL_HOOKS(ObjectScript, script->OnObjectUpdate(*object, time));
++}
++
++void ExtensionMgr::OnObjectRemoved(CGObject_C* object) {
++    CALL_HOOKS(ObjectScript, script->OnObjectRemoved(*object));
++}
++
++void ExtensionMgr::OnObjectDestroy(CGObject_C* object) {
++    CALL_HOOKS(ObjectScript, script->OnObjectDestroy(*object));
++}
++
++ObjectScript::ObjectScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<ObjectScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered ObjectScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/ObjectScript.h b/WoW/Source/Extension/ScriptDefines/ObjectScript.h
+new file mode 100644
+index 0000000..8395d88
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ObjectScript.h
+@@ -0,0 +1,47 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_OBJECTSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_OBJECTSCRIPT_H
++
++#include <cstdint>
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class CGObject_C;
++
++// The client object manager (WoW/Source/ObjectMgrClient) and its objects: every unit, player,
++// game object, dynamic object, corpse, item and container the server describes through
++// SMSG_UPDATE_OBJECT is a CGObject_C subclass (CGUnit_C, CGPlayer_C, CGGameObject_C, ...). An
++// object is created from the first full update, lives in the active set (and in the visible list
++// while in range), is unlinked to a lazy-cleanup list when the server removes it or it goes out
++// of range, and is destroyed when that list expires it or the manager shuts down. Every hook
++// passes the native object by reference; object->m_obj->m_type tells the kind, and the usual
++// casts (static_cast<CGUnit_C*> after a TYPEMASK_UNIT check) apply.
++class ObjectScript : public ScriptObject {
++    protected:
++    explicit ObjectScript(const char* name);
++
++    public:
++    // CreateObject (ObjectMgrClient.cpp) once a new object is allocated, its descriptor storage
++    // set up, its fields filled from the update block, InitObject run (movement, position, type
++    // specific setup) and the object linked into the visible list. Does not fire for an object
++    // the server re-sends while it is still known (that path refreshes the fields and re-enables
++    // it). The active player's own object comes through here too.
++    virtual void OnObjectCreated(CGObject_C& object) {}
++
++    // UnitUpdateProc (WoW/Source/Ui/WorldFrame.cpp), the per-frame pass over the visible
++    // objects during CGWorldFrame::OnWorldUpdate, after the object's own UpdateDisplay (units,
++    // game objects and dynamic objects have one; other kinds pass straight through). time is
++    // FrameTime::s_curTimeMs. Once per visible object per world frame: keep it cheap.
++    virtual void OnObjectUpdate(CGObject_C& object, uint32_t time) {}
++
++    // ObjDelete (ObjectMgrClient.cpp): the object leaves the active set (out of range or
++    // destroyed by the server): its mirror lists are cleared and it moves to the lazy-cleanup
++    // list, still allocated and readable. OnObjectDestroy follows later, or OnObjectCreated
++    // again if the server re-sends it first (the reenable path recovers it from that list).
++    virtual void OnObjectRemoved(CGObject_C& object) {}
++
++    // DestroyRemovedObject (ObjectMgrClient.cpp) before the destructor runs: the object is
++    // about to be freed, from lazy-cleanup expiry or from the manager's own shutdown. Release
++    // anything keyed by this object's address here.
++    virtual void OnObjectDestroy(CGObject_C& object) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+new file mode 100644
+index 0000000..97e60a3
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+@@ -0,0 +1,16 @@
++#include "WoW/Source/Extension/ScriptDefines/TerrainScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnTerrainTileLoaded(CMapArea* area) {
++    CALL_HOOKS(TerrainScript, script->OnTerrainTileLoaded(*area));
++}
++
++void ExtensionMgr::OnTerrainTileUnload(CMapArea* area) {
++    CALL_HOOKS(TerrainScript, script->OnTerrainTileUnload(*area));
++}
++
++TerrainScript::TerrainScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<TerrainScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered TerrainScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.h b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+new file mode 100644
+index 0000000..0d5972d
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+@@ -0,0 +1,32 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_TERRAINSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_TERRAINSCRIPT_H
++
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class CMapArea;
++
++// Terrain tiles (WoW/Source/WorldClient/MapArea.cpp). A CMapArea is one ADT tile of the current
++// map: CMap::PrepareUpdate creates the tiles of the area of interest and CMapArea::Load issues
++// the asynchronous read of World\Maps\<map>\<map>_<x>_<y>.adt; the completion callback parses
++// the file (ProcessIffChunks: header, chunk table, texture names, doodad and WMO placements,
++// liquid data) and the 16x16 chunks are then built on demand (CMapArea::PrepareChunk). Tiles
++// that leave the area of interest are purged. The map itself is a WorldScript matter
++// (OnMapLoaded / OnMapUnload).
++class TerrainScript : public ScriptObject {
++    protected:
++    explicit TerrainScript(const char* name);
++
++    public:
++    // CMapArea::AsyncCallback after ProcessIffChunks: the ADT is parsed, area.m_index is the
++    // tile coordinate, m_doodadDef / m_mapObjDef with their counts list the placements, the
++    // terrain textures are requested, m_liquid holds the MH2O data when present. No chunk is
++    // built yet. Runs on the main thread from the async-read completion.
++    virtual void OnTerrainTileLoaded(CMapArea& area) {}
++
++    // Start of CMapArea::Purge: the tile is leaving the area of interest (or the map is being
++    // unloaded); its chunks and file buffer are about to be released. A pending read is
++    // cancelled, so a tile may be purged without ever having fired OnTerrainTileLoaded.
++    virtual void OnTerrainTileUnload(CMapArea& area) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/TextureScript.cpp b/WoW/Source/Extension/ScriptDefines/TextureScript.cpp
+new file mode 100644
+index 0000000..3c11228
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/TextureScript.cpp
+@@ -0,0 +1,12 @@
++#include "WoW/Source/Extension/ScriptDefines/TextureScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnTextureCreated(CTexture* texture, const char* fileName) {
++    CALL_HOOKS(TextureScript, script->OnTextureCreated(*texture, fileName));
++}
++
++TextureScript::TextureScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<TextureScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered TextureScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/TextureScript.h b/WoW/Source/Extension/ScriptDefines/TextureScript.h
+new file mode 100644
+index 0000000..909dd8d
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/TextureScript.h
+@@ -0,0 +1,25 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_TEXTURESCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_TEXTURESCRIPT_H
++
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class CTexture;
++
++// File textures (Engine/Source/Services/Texture.cpp). TextureCreate(fileName, ...) is the one
++// entry every BLP/TGA texture request goes through (models, terrain, WMOs, UI): it consults the
++// texture cache first and, on a miss, creates the CTexture (CreateBlpTexture / CreateTgaTexture,
++// the pixel data arriving asynchronously) and registers it in the cache. Procedural textures
++// (TextureCreate with dimensions, TextureCreateSolid, blobs) do not pass through this hook.
++class TextureScript : public ScriptObject {
++    protected:
++    explicit TextureScript(const char* name);
++
++    public:
++    // TextureCreate(const char* fileName, ...) right after the new texture is registered in the
++    // cache: the CTexture exists and will be handed to the caller; its image data may still be
++    // loading. fileName is the path as requested (before the .blp/.tga extension retry).
++    // Cache hits do not fire: this is once per distinct file and flag set, not once per use.
++    virtual void OnTextureCreated(CTexture& texture, const char* fileName) {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/WorldScript.cpp b/WoW/Source/Extension/ScriptDefines/WorldScript.cpp
+index 502353c..b1cd5a3 100644
+--- a/WoW/Source/Extension/ScriptDefines/WorldScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/WorldScript.cpp
+@@ -2,6 +2,14 @@
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Extension/ExtensionMgrMacros.h"
+ 
++void ExtensionMgr::OnLoginVerifyWorld(uint32_t mapId, const C3Vector* position, float facing) {
++    CALL_HOOKS(WorldScript, script->OnLoginVerifyWorld(mapId, *position, facing));
++}
++
++void ExtensionMgr::OnLogoutComplete() {
++    CALL_HOOKS(WorldScript, script->OnLogoutComplete());
++}
++
+ void ExtensionMgr::OnMapLoaded(uint32_t mapId, const char* mapName) {
+     CALL_HOOKS(WorldScript, script->OnMapLoaded(mapId, mapName));
+ }
+diff --git a/WoW/Source/Extension/ScriptDefines/WorldScript.h b/WoW/Source/Extension/ScriptDefines/WorldScript.h
+index d9a485d..b6cba6a 100644
+--- a/WoW/Source/Extension/ScriptDefines/WorldScript.h
++++ b/WoW/Source/Extension/ScriptDefines/WorldScript.h
+@@ -4,15 +4,30 @@
+ #include <cstdint>
+ #include "WoW/Source/Extension/ScriptObject.h"
+ 
+-// The world scene: map boundaries and the world tick. Map hooks fire from
+-// WoW/Source/WorldClient/World.cpp, the tick from WoW/Source/Ui/WorldFrame.cpp. These are map
+-// boundaries as opposed to ClientScript::OnEnterWorld/OnLeaveWorld, which are session boundaries:
++class C3Vector;
++
++// The world scene: the server's world-session messages, map boundaries and the world tick. Map
++// hooks fire from WoW/Source/WorldClient/World.cpp, the tick from WoW/Source/Ui/WorldFrame.cpp,
++// the session ones from WoW/Source/Client.cpp and WowSvcs/WowSvcsClient/ClientServices.cpp. Map
++// boundaries differ from ClientScript::OnEnterWorld/OnLeaveWorld, which are session boundaries:
+ // a server transfer (SMSG_NEW_WORLD) unloads and loads a map without leaving the game.
+ class WorldScript : public ScriptObject {
+     protected:
+     explicit WorldScript(const char* name);
+ 
+     public:
++    // Packet_SMSG_LOGIN_VERIFY_WORLD (Client.cpp) once the fields are read and before the
++    // client decides whether the map changed: the server states which map and where the
++    // character stands. Fires for the initial world login and for every transfer confirmation;
++    // when mapId is the current map the client does nothing further, otherwise it loads the
++    // new world (LoadNewWorld -> OnMapUnload / OnMapLoaded).
++    virtual void OnLoginVerifyWorld(uint32_t mapId, const C3Vector& position, float facing) {}
++
++    // Start of ClientConnection::HandleLogoutComplete (ClientServices.cpp): SMSG_LOGOUT_COMPLETE
++    // arrived; the character is still in the world for this call. For the current connection
++    // ClientDestroyGame follows immediately (OnLeaveWorld, OnMapUnload), then the glue resumes.
++    virtual void OnLogoutComplete() {}
++
+     // End of CWorld::LoadMap(): the map (CMap::Load), its area of interest, the liquid material
+     // settings and the clip planes are set up. mapId is the Map.dbc id, mapName its directory
+     // name (Map.dbc m_directory). Fires on world entry and on every map transfer.
+diff --git a/WoW/Source/Net/NetClient/NetClient.cpp b/WoW/Source/Net/NetClient/NetClient.cpp
+index e9bbf69..eaf68ee 100644
+--- a/WoW/Source/Net/NetClient/NetClient.cpp
++++ b/WoW/Source/Net/NetClient/NetClient.cpp
+@@ -278,9 +278,15 @@ int32_t NetClient::ProcessMessage(uint32_t timeReceived, CDataStore* msg, int32_
+     msg->Get(msgId);
+     this->ValidateMessageId(msgId);
+ 
+-    // Not in the original: every incoming message passes here with the cursor at its payload.
++    // Not in the original: every incoming message passes here with the cursor at its payload;
++    // a refused message takes the same exit as an opcode without a handler.
+     sExtensionMgr->OnMessageReceived(static_cast<NETMESSAGE>(msgId), timeReceived, msg);
+ 
++    if (!sExtensionMgr->CanMessageReceive(static_cast<NETMESSAGE>(msgId), timeReceived, msg)) {
++        msg->Reset();
++        return 0;
++    }
++
+     if (msgId < NUM_MSG_TYPES && this->m_handlers[msgId]) {
+         return this->m_handlers[msgId](this->m_handlerParams[msgId], static_cast<NETMESSAGE>(msgId), timeReceived, msg);
+     }
+@@ -401,6 +407,10 @@ int32_t NetClient::HandleConnect() {
+     }
+ 
+     this->m_netState = NS_CONNECTED;
++
++    // Not in the original: the connection is up, nothing sent yet.
++    sExtensionMgr->OnConnected(this);
++
+     NetClient::PopObjMgr();
+ 
+     return 1;
+@@ -415,6 +425,10 @@ int32_t NetClient::HandleDisconnect() {
+ 
+     this->m_netState = NS_INITIALIZED;
+     ConsolePrintf("NetClient::HandleDisconnect()");
++
++    // Not in the original: the connection is gone, the glue has not reacted yet.
++    sExtensionMgr->OnDisconnected(this);
++
+     CGlueMgr::NetDisconnectHandler(this);
+     NetClient::PopObjMgr();
+ 
+diff --git a/WoW/Source/ObjectMgrClient/CMakeLists.txt b/WoW/Source/ObjectMgrClient/CMakeLists.txt
+index 4ae3342..1f144ee 100644
+--- a/WoW/Source/ObjectMgrClient/CMakeLists.txt
++++ b/WoW/Source/ObjectMgrClient/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(ObjectMgrClient
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(ObjectMgrClient
++    PRIVATE
++        Extension
++)
+diff --git a/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp b/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp
+index 21fe8d1..54c5751 100644
+--- a/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp
++++ b/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp
+@@ -24,6 +24,7 @@
+ #include "WoW/Source/Object/ObjectClient/Player_C.h"
+ #include "WoW/Source/Object/ObjectClient/Unit_C.h"
+ #include "WoW/Source/Object/ObjectClient/VehiclePassenger_C.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Object/Player.h"
+ #include "WoW/Source/Object/Unit.h"
+ #include "WoW/Source/ObjectMgrClient/CClientObjCreate.h"
+@@ -590,6 +591,9 @@ static void InitObject(CGObject_C* object, const CClientObjCreate& create, uint3
+ // VERIFY: d78e827e manual
+ // OFFSET: 0x004D4090
+ static void DestroyRemovedObject(CGObject_C* object) {
++    // Not in the original: the object is whole until the destructor below.
++    sExtensionMgr->OnObjectDestroy(object);
++
+     int32_t activePlayer = object->m_obj->m_guid == ClntObjMgrGetActivePlayer();
+ 
+     switch (object->m_obj->m_type) {
+@@ -1349,6 +1353,10 @@ static int32_t CreateObject(CDataStore* msg, uint32_t time) {
+ 
+     InitObject(object, create, time);
+     s_curMgr->m_visibleObjects.LinkToTail(object);
++
++    // Not in the original: a new object is filled, initialised and visible.
++    sExtensionMgr->OnObjectCreated(object);
++
+     return 1;
+ }
+ 
+@@ -1431,6 +1439,9 @@ static void UpdateInRangeObjects(CDataStore* msg) {
+ // VERIFY: 9ca63081 manual
+ // OFFSET: 0x004D6FC0
+ static void ObjDelete(CGObject_C* object) {
++    // Not in the original: the object leaves the active set here, it is freed later.
++    sExtensionMgr->OnObjectRemoved(object);
++
+     ClearMirrorLists(object);
+ 
+     ObjectMgr* mgr = s_curMgr;
+diff --git a/WoW/Source/Ui/WorldFrame.cpp b/WoW/Source/Ui/WorldFrame.cpp
+index 475c9a2..0d3c375 100644
+--- a/WoW/Source/Ui/WorldFrame.cpp
++++ b/WoW/Source/Ui/WorldFrame.cpp
+@@ -1477,6 +1477,9 @@ static int32_t UnitUpdateProc(WOWGUID guid, void* param) {
+             break;
+     }
+ 
++    // Not in the original: every visible object, after its own display update.
++    sExtensionMgr->OnObjectUpdate(object, FrameTime::s_curTimeMs);
++
+     return 1;
+ }
+ 
+diff --git a/WoW/Source/WorldClient/MapArea.cpp b/WoW/Source/WorldClient/MapArea.cpp
+index 3d49259..79a4143 100644
+--- a/WoW/Source/WorldClient/MapArea.cpp
++++ b/WoW/Source/WorldClient/MapArea.cpp
+@@ -11,6 +11,7 @@
+ #include "WoW/Source/WorldClient/MapChunk.h"
+ #include "WoW/Source/WorldClient/MapRenderChunk.h"
+ #include "WoW/Source/WorldClient/Types.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/WorldClient/World.h"
+ #include <cmath>
+ #include "Engine/Source/Tempest/CMath.h"
+@@ -43,6 +44,9 @@ void CMapArea::PurgeChunk(CMapChunk* chunk) {
+ // VERIFY: 3489b6fa manual
+ // OFFSET: 0x007C35F0
+ void CMapArea::Purge() {
++    // Not in the original: the tile's chunks and buffer are still in place.
++    sExtensionMgr->OnTerrainTileUnload(this);
++
+     if (this->m_asyncObject) {
+         if (!AsyncFile::Cancel(this->m_asyncObject, CMapArea::FreeAsyncObject)) {
+             this->m_fileBuffer = nullptr;
+@@ -344,6 +348,10 @@ void CMapArea::AsyncCallback(void* param) {
+     CMapArea* area = static_cast<CMapArea*>(param);
+ 
+     area->ProcessIffChunks();
++
++    // Not in the original: the ADT is parsed, no chunk is built yet.
++    sExtensionMgr->OnTerrainTileLoaded(area);
++
+     AsyncFileReadDestroyObject(area->m_asyncObject);
+     area->m_asyncObject = nullptr;
+     area->m_file = nullptr;
+diff --git a/WoW/Source/WorldClient/MapObjRead.cpp b/WoW/Source/WorldClient/MapObjRead.cpp
+index 4913da5..5fd27bc 100644
+--- a/WoW/Source/WorldClient/MapObjRead.cpp
++++ b/WoW/Source/WorldClient/MapObjRead.cpp
+@@ -9,6 +9,7 @@
+ #include "WoW/Source/WorldClient/DayNight.h"
+ #include "Engine/Source/Services/AsyncFile.h"
+ #include "Engine/Source/BlizzardCore/SFile2-Core.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/WorldClient/Map.h"
+ #include "WoW/Source/WorldClient/MapObj.h"
+ #include "WoW/Source/WorldClient/MapObjGroup.h"
+@@ -427,6 +428,9 @@ void CMapObj::PostloadCallback(void* arg) {
+     }
+ 
+     mapObj->m_isGroupLoaded = 1;
++
++    // Not in the original: the root WMO is parsed and its groups allocated, none loaded.
++    sExtensionMgr->OnMapObjLoaded(mapObj);
+ }
+ 
+ // VERIFY: 737e6a62 manual
+@@ -600,6 +604,9 @@ void CMapObjGroup::AsyncPostloadCallback(void* arg) {
+     group->m_asyncObjPtr = nullptr;
+     group->m_asyncLoadLink.Unlink();
+     group->Create();
++
++    // Not in the original: the group is parsed (asynchronous read path).
++    sExtensionMgr->OnMapObjGroupLoaded(group);
+ }
+ 
+ // VERIFY: 1fdd96d9 manual
+@@ -622,6 +629,10 @@ void CMapObj::ReadGroup(uint32_t index, bool preLoad) {
+     if (preLoad) {
+         CMap::SafeRead(fileName, file, group->m_filePtr, group->m_fileSize);
+         group->Create();
++
++        // Not in the original: the group is parsed (synchronous preload path).
++        sExtensionMgr->OnMapObjGroupLoaded(group);
++
+         SFileCloseFile(file);
+         return;
+     }
+diff --git a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
+index f8778cc..ad67f8a 100644
+--- a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
++++ b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
+@@ -14,6 +14,7 @@
+ #include "WoW/Source/Client.h"
+ #include "WoW/Source/DB/DBClient/DBClient.h"
+ #include "WoW/Source/DB/Rec/ChrClassesRec.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/DB/Rec/ChrRacesRec.h"
+ #include "WoW/Source/DB/Rec/MapRec.h"
+ #include "WoW/Source/DB/Rec/SpellRec.h"
+@@ -1525,6 +1526,9 @@ void ClientConnection::CharacterAbortLogout() {
+ // VERIFY: d41a5153 auto
+ // OFFSET: 0x006B2180
+ void ClientConnection::HandleLogoutComplete() {
++    // Not in the original: the server confirmed the logout; the game is still up here.
++    sExtensionMgr->OnLogoutComplete();
++
+     if (this->m_inGame) {
+         this->CharacterSetInGame(0);
+     }
+-- 
+2.34.1
+

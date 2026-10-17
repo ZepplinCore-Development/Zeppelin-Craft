@@ -1,0 +1,285 @@
+From 96be73eabc2b10ad49d31f9a5b4d76c96cdd5be1 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 17 Oct 2026 02:40:12 +0000
+Subject: [PATCH] Zeppelin F-223: ZepHeirloomSlots (F-214) and ZepTerrainPhase
+ (F-196) extensions
+
+Source ports of wxl-heirloom-slots and WXL core terrain phasing. Same Lua API
+(WarcraftXL_SetTerrainPhase/ClearTerrainPhase/GetTerrainPhase). Phase changes
+reload only the affected tiles; no map re-enter, so none of I-355's leaks.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ .../ZepHeirloomSlots/src/ZepHeirloomSlots.cpp |  46 ++++
+ .../ZepTerrainPhase/src/ZepTerrainPhase.cpp   | 205 ++++++++++++++++++
+ 2 files changed, 251 insertions(+)
+ create mode 100644 Extensions/ZepHeirloomSlots/src/ZepHeirloomSlots.cpp
+ create mode 100644 Extensions/ZepTerrainPhase/src/ZepTerrainPhase.cpp
+
+diff --git a/Extensions/ZepHeirloomSlots/src/ZepHeirloomSlots.cpp b/Extensions/ZepHeirloomSlots/src/ZepHeirloomSlots.cpp
+new file mode 100644
+index 0000000..4eb45f7
+--- /dev/null
++++ b/Extensions/ZepHeirloomSlots/src/ZepHeirloomSlots.cpp
+@@ -0,0 +1,46 @@
++// ZepHeirloomSlots: per-slot heirloom armour for head/legs/feet/waist/hands/wrists and shields
++// (Zeppelin F-214). Source port of WarcraftXL's wxl-heirloom-slots, which detours the same getter
++// (GetScalingStatArmor, 0x0061A6B0) in the stock exe.
++//
++// 3.3.5a heirloom armour comes from ScalingStatValues.dbc, whose curves exist only for shoulder,
++// chest and cloak, and the client hard-checks that table's layout, so new curves cannot be added as
++// data. An item keeps its chest-material bit (0x100000 cloth .. 0x800000 plate) and adds ONE slot bit
++// in the unused high byte; the armour is the chest curve * n / 16 for that slot (Cataclysm's
++// per-slot ratios). The stock getter switches on flags & 0xF801E0, so it already returns the chest
++// curve for these items; this script only scales it.
++//
++// MUST stay identical to the server: Zeppelin-Core ScalingStatValuesEntry::getArmorMod
++// (src/server/shared/DataStores/DBCStructure.h). Integer math, truncating.
++
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// Armour as sixteenths of the chest curve for the slot bit in flags, or 0 if none.
++uint32_t SlotSixteenths(uint32_t flags) {
++    if (flags & 0x01000000) return 13;  // head
++    if (flags & 0x02000000) return 14;  // legs
++    if (flags & 0x04000000) return 11;  // feet
++    if (flags & 0x08000000) return 9;   // waist
++    if (flags & 0x10000000) return 10;  // hands
++    if (flags & 0x20000000) return 7;   // wrists
++    if (flags & 0x40000000) return 44;  // shield: 2.75 x the chest curve
++    return 0;
++}
++
++class ZepHeirloomSlotsItemScript : public ItemScript {
++    public:
++    ZepHeirloomSlotsItemScript() : ItemScript("ZepHeirloomSlotsItemScript") {}
++
++    void OnScalingStatArmor(const ScalingStatValuesRec& values, uint32_t flags, int32_t& armor) override {
++        if (uint32_t sixteenths = SlotSixteenths(flags)) {
++            armor = static_cast<int32_t>(static_cast<uint32_t>(armor) * sixteenths / 16);
++        }
++    }
++};
++
++}
++
++void AddZepHeirloomSlotsExtension() {
++    new ZepHeirloomSlotsItemScript();
++}
+diff --git a/Extensions/ZepTerrainPhase/src/ZepTerrainPhase.cpp b/Extensions/ZepTerrainPhase/src/ZepTerrainPhase.cpp
+new file mode 100644
+index 0000000..6bb8585
+--- /dev/null
++++ b/Extensions/ZepTerrainPhase/src/ZepTerrainPhase.cpp
+@@ -0,0 +1,205 @@
++// ZepTerrainPhase: terrain phasing (Zeppelin F-196). Source port of WarcraftXL's terrain-phase loader
++// (wxl-core src/client/CWorldScene/Phasing.cpp + PhasingLua.cpp), keeping its Lua API so the
++// ZepTerrain addon and the server's CSMH driver work unchanged:
++//   WarcraftXL_SetTerrainPhase("<mapDir>")  overlays the phase map's tiles on the loaded base map
++//   WarcraftXL_ClearTerrainPhase()          restores the base map
++//   WarcraftXL_GetTerrainPhase()            the active phase directory, or nil
++//
++// A phase is a map directory holding a WDT whose MAIN table lists the tiles it replaces, plus those
++// tiles as 3.3.5 ADTs at the base map's coordinates. The base map stays loaded; every tile the phase
++// has is read from the phase directory instead (TerrainScript::OnTerrainTileFile), the rest stay
++// base. The minimap takes "<phase>\mapX_YY.blp" art when md5translate has it, else the base tile.
++//
++// What the WXL detours needed and the source does not: no callback-pointer validator bypass (these
++// functions are in the client's own .text), no loader-global swap per tile (the file name is
++// rewritten at the one place it is built), and no map re-enter. WXL re-runs the map load (0x007BFCE0
++// = CMap::Load) to re-stream; that re-creates the map light, WDL and area lights on top of the live
++// ones (I-355's exit crash) and purges every tile while the world scene still lists their ground
++// clutter. Here only the phase's tiles are reloaded, through the streamer's own out-of-range purge.
++
++#include <cstdio>
++#include <cstring>
++#include <vector>
++#include "Engine/Source/BlizzardCore/SFile2-Core.h"
++#include "Engine/Source/lua-5.1/src/lua.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Ui/MinimapFrame.h"
++#include "WoW/Source/WorldClient/Map.h"
++#include "WoW/Source/WorldClient/MapArea.h"
++
++namespace {
++
++char s_phaseMap[64];       // active phase directory, empty when none
++char s_baseMap[64];        // the map the phase overlays
++uint8_t s_phaseTiles[64 * 64];  // 1 where the phase WDT has the tile
++
++void CopyName(char* dst, const char* src) {
++    std::snprintf(dst, 64, "%s", src ? src : "");
++}
++
++// Reads the phase WDT's MAIN table (64x64 entries of 8 bytes, bit 0 = tile present).
++bool LoadPhaseTiles(const char* dir) {
++    std::memset(s_phaseTiles, 0, sizeof(s_phaseTiles));
++
++    char path[260];
++    std::snprintf(path, sizeof(path), "World\\Maps\\%s\\%s.wdt", dir, dir);
++
++    SFileImpl* file = nullptr;
++
++    if (!SFileOpenFile(path, &file) || !file) {
++        sExtensionMgr->Log("ZepTerrainPhase: phase WDT %s not found", path);
++        return false;
++    }
++
++    std::vector<uint8_t> wdt(SFileGetFileSize(file, nullptr));
++    uint32_t read = 0;
++
++    if (!wdt.empty()) {
++        SFileReadFile(file, wdt.data(), static_cast<uint32_t>(wdt.size()), &read, nullptr, 0);
++    }
++
++    SFileCloseFile(file);
++    wdt.resize(read);
++
++    // Chunk ids are stored byte-reversed: MAIN is "NIAM" in the file.
++    for (size_t offset = 0; offset + 8 <= wdt.size();) {
++        uint32_t size;
++        std::memcpy(&size, &wdt[offset + 4], 4);
++
++        if (std::memcmp(&wdt[offset], "NIAM", 4) == 0) {
++            uint32_t tiles = 0;
++
++            for (uint32_t i = 0; i < 64 * 64 && offset + 8 + i * 8 < wdt.size() && i * 8 < size; i++) {
++                s_phaseTiles[i] = wdt[offset + 8 + i * 8] & 1;
++                tiles += s_phaseTiles[i];
++            }
++
++            sExtensionMgr->Log("ZepTerrainPhase: phase %s has %u tile(s)", dir, tiles);
++            return true;
++        }
++
++        offset += 8 + size;
++    }
++
++    sExtensionMgr->Log("ZepTerrainPhase: phase WDT %s has no MAIN chunk", path);
++    return false;
++}
++
++// x, y as in <map>_<x>_<y>.adt; the WDT is indexed [y][x], like CMap::m_areaTable.
++bool PhaseHasTile(int32_t x, int32_t y) {
++    return s_phaseMap[0] && x >= 0 && x < 64 && y >= 0 && y < 64 && s_phaseTiles[y * 64 + x];
++}
++
++// Reloads every loaded tile the old or the new phase covers, through the streamer's own purge path
++// (CMap::RequestAreaReload), and makes the minimap re-resolve its tiles. Nothing else is touched: the
++// map, its WDL, lights and objects stay as they are.
++void ReloadPhaseTiles(const uint8_t* oldTiles) {
++    for (int32_t y = 0; y < 64; y++) {
++        for (int32_t x = 0; x < 64; x++) {
++            if (oldTiles[y * 64 + x] || PhaseHasTile(x, y)) {
++                CMap::RequestAreaReload(x, y);
++            }
++        }
++    }
++
++    MinimapForceTileReload();
++}
++
++void SetTerrainPhase(const char* dir) {
++    uint8_t oldTiles[64 * 64];
++    std::memcpy(oldTiles, s_phaseTiles, sizeof(oldTiles));
++
++    if (!s_phaseMap[0]) {
++        std::memset(oldTiles, 0, sizeof(oldTiles));
++    }
++
++    if (!CMap::bActive || !dir || !dir[0] || !LoadPhaseTiles(dir)) {
++        return;
++    }
++
++    if (!s_baseMap[0]) {
++        CopyName(s_baseMap, CMap::mapName);
++    }
++
++    CopyName(s_phaseMap, dir);
++    ReloadPhaseTiles(oldTiles);
++    sExtensionMgr->Log("ZepTerrainPhase: phase %s active over base %s", s_phaseMap, s_baseMap);
++}
++
++void ClearTerrainPhase() {
++    if (!s_baseMap[0]) {
++        return;
++    }
++
++    s_phaseMap[0] = '\0';
++
++    if (CMap::bActive) {
++        ReloadPhaseTiles(s_phaseTiles);
++    }
++
++    sExtensionMgr->Log("ZepTerrainPhase: restored base %s", s_baseMap);
++    s_baseMap[0] = '\0';
++}
++
++int32_t Script_SetTerrainPhase(lua_State* L) {
++    SetTerrainPhase(lua_tolstring(L, 1, nullptr));
++    return 0;
++}
++
++int32_t Script_ClearTerrainPhase(lua_State* L) {
++    ClearTerrainPhase();
++    return 0;
++}
++
++int32_t Script_GetTerrainPhase(lua_State* L) {
++    if (s_phaseMap[0]) {
++        lua_pushstring(L, s_phaseMap);
++    } else {
++        lua_pushnil(L);
++    }
++
++    return 1;
++}
++
++class ZepTerrainPhaseTerrainScript : public TerrainScript {
++    public:
++    ZepTerrainPhaseTerrainScript() : TerrainScript("ZepTerrainPhaseTerrainScript") {}
++
++    void OnTerrainTileFile(CMapArea& area, char* fileName, uint32_t fileNameSize) override {
++        if (PhaseHasTile(area.m_index.x, area.m_index.y)) {
++            std::snprintf(fileName, fileNameSize, "World\\Maps\\%s\\%s_%d_%d.adt", s_phaseMap, s_phaseMap, area.m_index.x, area.m_index.y);
++        }
++    }
++};
++
++class ZepTerrainPhaseWorldScript : public WorldScript {
++    public:
++    ZepTerrainPhaseWorldScript() : WorldScript("ZepTerrainPhaseWorldScript") {}
++
++    void OnMinimapTileDirectory(int32_t tileX, int32_t tileY, const char*& directory) override {
++        if (PhaseHasTile(tileX, tileY)) {
++            directory = s_phaseMap;
++        }
++    }
++
++    // A real map change (teleport, instance, logout) ends the phase; the server re-sends it if the
++    // new place needs one.
++    void OnMapUnload() override {
++        if (s_phaseMap[0]) {
++            sExtensionMgr->Log("ZepTerrainPhase: map unloaded, phase %s dropped", s_phaseMap);
++        }
++
++        s_phaseMap[0] = '\0';
++        s_baseMap[0] = '\0';
++    }
++};
++
++}
++
++void AddZepTerrainPhaseExtension() {
++    sExtensionMgr->RegisterLuaFunction("WarcraftXL_SetTerrainPhase", Script_SetTerrainPhase, FRAMESCRIPT_CONTEXTS_GAME);
++    sExtensionMgr->RegisterLuaFunction("WarcraftXL_ClearTerrainPhase", Script_ClearTerrainPhase, FRAMESCRIPT_CONTEXTS_GAME);
++    sExtensionMgr->RegisterLuaFunction("WarcraftXL_GetTerrainPhase", Script_GetTerrainPhase, FRAMESCRIPT_CONTEXTS_GAME);
++    new ZepTerrainPhaseTerrainScript();
++    new ZepTerrainPhaseWorldScript();
++}
+-- 
+2.34.1
+

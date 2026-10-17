@@ -1,0 +1,442 @@
+From c3c7e7ab687c3ee3f82af918e492fcbab3d6cffd Mon Sep 17 00:00:00 2001
+From: iThorgrim <contact@warlog.dev>
+Date: Fri, 16 Oct 2026 14:37:11 +0200
+Subject: [PATCH] feat(extensions): update HelloWorld first example extension
+ for using new hook and fix some errors
+
+---
+ Engine/Source/BlizzardCore/SFile2-Core.cpp    |  6 +++
+ Engine/Source/FrameScript/CMakeLists.txt      |  5 ++
+ Engine/Source/Services/CMakeLists.txt         |  1 +
+ Extensions/HelloWorld/src/HelloWorld.cpp      |  8 +++
+ Extensions/HelloWorld/src/HelloWorldAsset.cpp | 10 ++++
+ Extensions/HelloWorld/src/HelloWorldLua.cpp   |  6 +++
+ .../HelloWorld/src/HelloWorldMapObject.cpp    | 39 ++++++++++++++
+ Extensions/HelloWorld/src/HelloWorldModel.cpp | 25 ++++++++-
+ Extensions/HelloWorld/src/HelloWorldNet.cpp   | 13 +++++
+ .../HelloWorld/src/HelloWorldObject.cpp       | 51 +++++++++++++++++++
+ .../HelloWorld/src/HelloWorldTerrain.cpp      | 37 ++++++++++++++
+ .../HelloWorld/src/HelloWorldTexture.cpp      | 29 +++++++++++
+ Extensions/HelloWorld/src/HelloWorldWorld.cpp |  9 ++++
+ WoW/Source/WowSvcs/CMakeLists.txt             |  5 ++
+ 14 files changed, 243 insertions(+), 1 deletion(-)
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldMapObject.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldObject.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldTerrain.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldTexture.cpp
+
+diff --git a/Engine/Source/BlizzardCore/SFile2-Core.cpp b/Engine/Source/BlizzardCore/SFile2-Core.cpp
+index 815460d..8b37cee 100644
+--- a/Engine/Source/BlizzardCore/SFile2-Core.cpp
++++ b/Engine/Source/BlizzardCore/SFile2-Core.cpp
+@@ -1121,6 +1121,9 @@ int32_t STORMAPI SFile::OpenEx(SArchive* archive, const char* name, uint32_t fla
+     }
+ 
+     if (!(flags & 0x20000)) {
++        // Not in the original: the handle is open and about to be handed out.
++        sExtensionMgr->OnFileOpened(name, *result);
++
+         return opened;
+     }
+ 
+@@ -1134,6 +1137,9 @@ int32_t STORMAPI SFile::OpenEx(SArchive* archive, const char* name, uint32_t fla
+     (*result)->m_type = 5;
+     (*result)->m_position = 0;
+ 
++    // Not in the original: the whole file is read into the handle and about to be handed out.
++    sExtensionMgr->OnFileOpened(name, *result);
++
+     return opened;
+ 
+ fail:
+diff --git a/Engine/Source/FrameScript/CMakeLists.txt b/Engine/Source/FrameScript/CMakeLists.txt
+index 97bf9c0..e4a81de 100644
+--- a/Engine/Source/FrameScript/CMakeLists.txt
++++ b/Engine/Source/FrameScript/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(FrameScript
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(FrameScript
++    PRIVATE
++        Extension
++)
+diff --git a/Engine/Source/Services/CMakeLists.txt b/Engine/Source/Services/CMakeLists.txt
+index be82da1..63ae3a2 100644
+--- a/Engine/Source/Services/CMakeLists.txt
++++ b/Engine/Source/Services/CMakeLists.txt
+@@ -12,4 +12,5 @@ target_include_directories(Services
+ target_link_libraries(Services
+     PUBLIC
+         freetype
++        Extension
+ )
+diff --git a/Extensions/HelloWorld/src/HelloWorld.cpp b/Extensions/HelloWorld/src/HelloWorld.cpp
+index ccaf610..545ae1b 100644
+--- a/Extensions/HelloWorld/src/HelloWorld.cpp
++++ b/Extensions/HelloWorld/src/HelloWorld.cpp
+@@ -8,9 +8,13 @@ void AddHelloWorldAssetScripts();
+ void AddHelloWorldClientDBScripts();
+ void AddHelloWorldClientScripts();
+ void AddHelloWorldLuaScripts();
++void AddHelloWorldMapObjectScripts();
+ void AddHelloWorldModelScripts();
+ void AddHelloWorldNetScripts();
++void AddHelloWorldObjectScripts();
+ void AddHelloWorldRenderScripts();
++void AddHelloWorldTerrainScripts();
++void AddHelloWorldTextureScripts();
+ void AddHelloWorldWorldScripts();
+ 
+ // The entry point the generated loader calls: Add<DirectoryName>Extension(). Instantiate every
+@@ -21,8 +25,12 @@ void AddHelloWorldExtension() {
+     AddHelloWorldClientDBScripts();
+     AddHelloWorldClientScripts();
+     AddHelloWorldLuaScripts();
++    AddHelloWorldMapObjectScripts();
+     AddHelloWorldModelScripts();
+     AddHelloWorldNetScripts();
++    AddHelloWorldObjectScripts();
+     AddHelloWorldRenderScripts();
++    AddHelloWorldTerrainScripts();
++    AddHelloWorldTextureScripts();
+     AddHelloWorldWorldScripts();
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldAsset.cpp b/Extensions/HelloWorld/src/HelloWorldAsset.cpp
+index 1df1abe..2ad0d85 100644
+--- a/Extensions/HelloWorld/src/HelloWorldAsset.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldAsset.cpp
+@@ -1,3 +1,4 @@
++#include "Engine/Source/BlizzardCore/SFile2-Core.h"
+ #include "Engine/Source/ConsoleBase/ConsoleVar.h"
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+@@ -42,8 +43,17 @@ class HelloWorldAssetScript : public AssetScript {
+         return false;
+     }
+ 
++    void OnFileOpened(const char* name, SFileImpl& file) override {
++        m_opened++;
++
++        if (m_opened <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnFileOpened %s (source type %u)", name, file.m_type);
++        }
++    }
++
+     private:
+     uint32_t m_opens = 0;
++    uint32_t m_opened = 0;
+ };
+ 
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldLua.cpp b/Extensions/HelloWorld/src/HelloWorldLua.cpp
+index 7ee4686..6fd8d58 100644
+--- a/Extensions/HelloWorld/src/HelloWorldLua.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldLua.cpp
+@@ -34,6 +34,12 @@ class HelloWorldLuaScript : public LuaScript {
+ 
+         sExtensionMgr->Log("HelloWorld: OnFrameScriptInitialized (%s state), HELLO_WORLD_PING is event %u", context == FRAMESCRIPT_CONTEXT_GLUE ? "glue" : "game", s_pingEventIndex);
+     }
++
++    // The event index dies with the state; forget it so a ping between states signals nothing.
++    void OnFrameScriptDestroy(lua_State* L) override {
++        s_pingEventIndex = UINT32_MAX;
++        sExtensionMgr->Log("HelloWorld: OnFrameScriptDestroy after %u ping(s)", s_pingCount);
++    }
+ };
+ 
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldMapObject.cpp b/Extensions/HelloWorld/src/HelloWorldMapObject.cpp
+new file mode 100644
+index 0000000..bf618d6
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldMapObject.cpp
+@@ -0,0 +1,39 @@
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/WorldClient/MapObj.h"
++#include "WoW/Source/WorldClient/MapObjGroup.h"
++
++namespace {
++
++// Logs the first WMO roots and groups as they are parsed, then counts.
++class HelloWorldMapObjectScript : public MapObjectScript {
++    public:
++    HelloWorldMapObjectScript() : MapObjectScript("HelloWorldMapObjectScript") {}
++
++    void OnMapObjLoaded(CMapObj& mapObj) override {
++        m_roots++;
++
++        if (m_roots <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnMapObjLoaded %s (%u group(s))", mapObj.m_wmoName, mapObj.m_mapObjGroupCount);
++        }
++    }
++
++    void OnMapObjGroupLoaded(CMapObjGroup& group) override {
++        m_groups++;
++
++        if (m_groups <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnMapObjGroupLoaded %s of %s", group.m_groupName ? group.m_groupName : "", group.m_parent->m_wmoName);
++        } else if (m_groups % 100 == 0) {
++            sExtensionMgr->Log("HelloWorld: %u wmo root(s), %u group(s) loaded", m_roots, m_groups);
++        }
++    }
++
++    private:
++    uint32_t m_roots = 0;
++    uint32_t m_groups = 0;
++};
++
++}
++
++void AddHelloWorldMapObjectScripts() {
++    new HelloWorldMapObjectScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldModel.cpp b/Extensions/HelloWorld/src/HelloWorldModel.cpp
+index cc7a2af..8de7c34 100644
+--- a/Extensions/HelloWorld/src/HelloWorldModel.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldModel.cpp
+@@ -27,6 +27,26 @@ class HelloWorldModelScript : public ModelScript {
+         }
+     }
+ 
++    void OnModelTexturesCreated(CM2Shared& shared) override {
++        m_texturesCreated++;
++    }
++
++    void OnModelSequenceLoaded(CM2Shared& shared, uint32_t sequenceIndex) override {
++        m_sequencesLoaded++;
++
++        if (m_sequencesLoaded <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnModelSequenceLoaded %s sequence %u", shared.m_fileName, sequenceIndex);
++        }
++    }
++
++    void OnModelAnimated(CM2Model& model) override {
++        m_animated++;
++
++        if (m_animated == 1) {
++            sExtensionMgr->Log("HelloWorld: OnModelAnimated (first)");
++        }
++    }
++
+     void OnModelSharedDestroy(CM2Shared& shared) override {
+         m_sharedDestroyed++;
+     }
+@@ -47,13 +67,16 @@ class HelloWorldModelScript : public ModelScript {
+         m_destroyed++;
+ 
+         if (m_destroyed % 500 == 0) {
+-            sExtensionMgr->Log("HelloWorld: models %u created, %u loaded, %u destroyed; files %u loaded, %u skins, %u freed", m_created, m_loaded, m_destroyed, m_sharedLoaded, m_skinsLoaded, m_sharedDestroyed);
++            sExtensionMgr->Log("HelloWorld: models %u created, %u loaded, %u destroyed, %u animated; files %u loaded, %u textured, %u skins, %u anim(s), %u freed", m_created, m_loaded, m_destroyed, m_animated, m_sharedLoaded, m_texturesCreated, m_skinsLoaded, m_sequencesLoaded, m_sharedDestroyed);
+         }
+     }
+ 
+     private:
+     uint32_t m_sharedLoaded = 0;
++    uint32_t m_texturesCreated = 0;
+     uint32_t m_skinsLoaded = 0;
++    uint32_t m_sequencesLoaded = 0;
++    uint32_t m_animated = 0;
+     uint32_t m_sharedDestroyed = 0;
+     uint32_t m_created = 0;
+     uint32_t m_loaded = 0;
+diff --git a/Extensions/HelloWorld/src/HelloWorldNet.cpp b/Extensions/HelloWorld/src/HelloWorldNet.cpp
+index afe087f..f353a8b 100644
+--- a/Extensions/HelloWorld/src/HelloWorldNet.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldNet.cpp
+@@ -9,6 +9,19 @@ class HelloWorldNetScript : public NetScript {
+     public:
+     HelloWorldNetScript() : NetScript("HelloWorldNetScript") {}
+ 
++    void OnConnected(NetClient& client) override {
++        sExtensionMgr->Log("HelloWorld: OnConnected");
++    }
++
++    void OnDisconnected(NetClient& client) override {
++        sExtensionMgr->Log("HelloWorld: OnDisconnected after %u received, %u sent", m_received, m_sent);
++    }
++
++    // Lets everything through; a real script would compare msgId against the opcodes it owns.
++    bool CanMessageReceive(NETMESSAGE msgId, uint32_t timeReceived, CDataStore& msg) override {
++        return true;
++    }
++
+     void OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CDataStore& msg) override {
+         m_received++;
+ 
+diff --git a/Extensions/HelloWorld/src/HelloWorldObject.cpp b/Extensions/HelloWorld/src/HelloWorldObject.cpp
+new file mode 100644
+index 0000000..7103825
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldObject.cpp
+@@ -0,0 +1,51 @@
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Object/ObjectClient/Object_C.h"
++
++namespace {
++
++// Logs the first few objects the server creates (kind and low guid), counts the per-frame
++// updates, and reports the create/remove/destroy balance when objects go away.
++class HelloWorldObjectScript : public ObjectScript {
++    public:
++    HelloWorldObjectScript() : ObjectScript("HelloWorldObjectScript") {}
++
++    void OnObjectCreated(CGObject_C& object) override {
++        m_created++;
++
++        if (m_created <= 5) {
++            sExtensionMgr->Log("HelloWorld: OnObjectCreated type 0x%02X guid 0x%08X%08X", object.m_obj->m_type, static_cast<uint32_t>(object.m_obj->m_guid.m_guid >> 32), static_cast<uint32_t>(object.m_obj->m_guid.m_guid));
++        }
++    }
++
++    void OnObjectUpdate(CGObject_C& object, uint32_t time) override {
++        m_updates++;
++
++        if (m_updates == 1) {
++            sExtensionMgr->Log("HelloWorld: OnObjectUpdate (first, t=%u)", time);
++        }
++    }
++
++    void OnObjectRemoved(CGObject_C& object) override {
++        m_removed++;
++    }
++
++    void OnObjectDestroy(CGObject_C& object) override {
++        m_destroyed++;
++
++        if (m_destroyed % 100 == 0) {
++            sExtensionMgr->Log("HelloWorld: objects %u created, %u removed, %u destroyed, %u update(s)", m_created, m_removed, m_destroyed, m_updates);
++        }
++    }
++
++    private:
++    uint32_t m_created = 0;
++    uint32_t m_updates = 0;
++    uint32_t m_removed = 0;
++    uint32_t m_destroyed = 0;
++};
++
++}
++
++void AddHelloWorldObjectScripts() {
++    new HelloWorldObjectScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldTerrain.cpp b/Extensions/HelloWorld/src/HelloWorldTerrain.cpp
+new file mode 100644
+index 0000000..49ac1bf
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldTerrain.cpp
+@@ -0,0 +1,37 @@
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/WorldClient/MapArea.h"
++
++namespace {
++
++// Logs the first tiles as their ADT is parsed, with the placement counts the tile carries, and
++// keeps the loaded/unloaded balance.
++class HelloWorldTerrainScript : public TerrainScript {
++    public:
++    HelloWorldTerrainScript() : TerrainScript("HelloWorldTerrainScript") {}
++
++    void OnTerrainTileLoaded(CMapArea& area) override {
++        m_loaded++;
++
++        if (m_loaded <= 5) {
++            sExtensionMgr->Log("HelloWorld: OnTerrainTileLoaded tile %d,%d (%u doodad(s), %u wmo(s))", area.m_index.x, area.m_index.y, area.m_doodadDefCount, area.m_mapObjDefCount);
++        }
++    }
++
++    void OnTerrainTileUnload(CMapArea& area) override {
++        m_unloaded++;
++
++        if (m_unloaded <= 3 || m_unloaded % 50 == 0) {
++            sExtensionMgr->Log("HelloWorld: OnTerrainTileUnload tile %d,%d (%u loaded, %u unloaded so far)", area.m_index.x, area.m_index.y, m_loaded, m_unloaded);
++        }
++    }
++
++    private:
++    uint32_t m_loaded = 0;
++    uint32_t m_unloaded = 0;
++};
++
++}
++
++void AddHelloWorldTerrainScripts() {
++    new HelloWorldTerrainScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldTexture.cpp b/Extensions/HelloWorld/src/HelloWorldTexture.cpp
+new file mode 100644
+index 0000000..2402cb1
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldTexture.cpp
+@@ -0,0 +1,29 @@
++#include "Engine/Source/Services/Texture.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// Logs the first file textures created and counts the rest (cache hits never reach the hook).
++class HelloWorldTextureScript : public TextureScript {
++    public:
++    HelloWorldTextureScript() : TextureScript("HelloWorldTextureScript") {}
++
++    void OnTextureCreated(CTexture& texture, const char* fileName) override {
++        m_created++;
++
++        if (m_created <= 5) {
++            sExtensionMgr->Log("HelloWorld: OnTextureCreated %s", fileName);
++        } else if (m_created % 500 == 0) {
++            sExtensionMgr->Log("HelloWorld: %u file texture(s) created", m_created);
++        }
++    }
++
++    private:
++    uint32_t m_created = 0;
++};
++
++}
++
++void AddHelloWorldTextureScripts() {
++    new HelloWorldTextureScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldWorld.cpp b/Extensions/HelloWorld/src/HelloWorldWorld.cpp
+index 03c2356..bb3f963 100644
+--- a/Extensions/HelloWorld/src/HelloWorldWorld.cpp
++++ b/Extensions/HelloWorld/src/HelloWorldWorld.cpp
+@@ -1,3 +1,4 @@
++#include "Engine/Source/Tempest/C3Vector.h"
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ namespace {
+@@ -6,6 +7,14 @@ class HelloWorldWorldScript : public WorldScript {
+     public:
+     HelloWorldWorldScript() : WorldScript("HelloWorldWorldScript") {}
+ 
++    void OnLoginVerifyWorld(uint32_t mapId, const C3Vector& position, float facing) override {
++        sExtensionMgr->Log("HelloWorld: OnLoginVerifyWorld map %u at %.1f %.1f %.1f facing %.2f", mapId, position.x, position.y, position.z, facing);
++    }
++
++    void OnLogoutComplete() override {
++        sExtensionMgr->Log("HelloWorld: OnLogoutComplete");
++    }
++
+     void OnMapLoaded(uint32_t mapId, const char* mapName) override {
+         m_worldUpdates = 0;
+         sExtensionMgr->Log("HelloWorld: OnMapLoaded (map %u, %s)", mapId, mapName);
+diff --git a/WoW/Source/WowSvcs/CMakeLists.txt b/WoW/Source/WowSvcs/CMakeLists.txt
+index db05247..bab6f80 100644
+--- a/WoW/Source/WowSvcs/CMakeLists.txt
++++ b/WoW/Source/WowSvcs/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(WowSvcs
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(WowSvcs
++    PRIVATE
++        Extension
++)
+-- 
+2.34.1
+

@@ -1,0 +1,515 @@
+From 3aed79182d34a3c12789a0ae436f4bbb4bffa14d Mon Sep 17 00:00:00 2001
+From: iThorgrim <contact@warlog.dev>
+Date: Fri, 16 Oct 2026 13:20:16 +0200
+Subject: [PATCH] feat(extensions): adding extensions/modules basic system
+
+---
+ CMakeLists.txt                                |   2 +
+ Extensions/.gitkeep                           |   0
+ Extensions/CMakeLists.txt                     |  57 +++++++++
+ .../ExtensionsLoader.cpp.in\342\200\216"      |   9 ++
+ Extensions/HelloWorld/src/HelloWorld.cpp      |  36 ++++++
+ Tools/WowClient/CMakeLists.txt                |   2 +
+ WoW/Source/CMakeLists.txt                     |   2 +
+ WoW/Source/Client.cpp                         |  10 ++
+ WoW/Source/Extension/CMakeLists.txt           |  10 ++
+ WoW/Source/Extension/ExtensionLoader.h        |  15 +++
+ WoW/Source/Extension/ExtensionMgr.cpp         | 108 ++++++++++++++++++
+ WoW/Source/Extension/ExtensionMgr.h           |  49 ++++++++
+ WoW/Source/Extension/ExtensionScript.h        |  34 ++++++
+ 13 files changed, 334 insertions(+)
+ create mode 100644 Extensions/.gitkeep
+ create mode 100644 Extensions/CMakeLists.txt
+ create mode 100644 "Extensions/ExtensionsLoader.cpp.in\342\200\216"
+ create mode 100644 Extensions/HelloWorld/src/HelloWorld.cpp
+ create mode 100644 WoW/Source/Extension/CMakeLists.txt
+ create mode 100644 WoW/Source/Extension/ExtensionLoader.h
+ create mode 100644 WoW/Source/Extension/ExtensionMgr.cpp
+ create mode 100644 WoW/Source/Extension/ExtensionMgr.h
+ create mode 100644 WoW/Source/Extension/ExtensionScript.h
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 468c8c4..734e437 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -89,6 +89,7 @@ add_subdirectory(WoW/Source/Battlenet)
+ add_subdirectory(WoW/Source/Console)
+ add_subdirectory(WoW/Source/ConsoleDevice)
+ add_subdirectory(WoW/Source/DB)
++add_subdirectory(WoW/Source/Extension)
+ add_subdirectory(WoW/Source/Game)
+ add_subdirectory(WoW/Source/Glue)
+ add_subdirectory(WoW/Source/Magic)
+@@ -105,6 +106,7 @@ add_subdirectory(WoW/Source/WorldClient)
+ add_subdirectory(WoW/Source/WowServices)
+ add_subdirectory(WoW/Source/WowSvcs)
+ add_subdirectory(WoW/Source)
++add_subdirectory(Extensions)
+ if (WIN32)
+     add_subdirectory(Tools/WowClient)
+ endif ()
+diff --git a/Extensions/.gitkeep b/Extensions/.gitkeep
+new file mode 100644
+index 0000000..e69de29
+diff --git a/Extensions/CMakeLists.txt b/Extensions/CMakeLists.txt
+new file mode 100644
+index 0000000..649541e
+--- /dev/null
++++ b/Extensions/CMakeLists.txt
+@@ -0,0 +1,57 @@
++file(GLOB EXTENSION_CANDIDATES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*")
++
++set(EXTENSION_NAMES "")
++foreach (candidate ${EXTENSION_CANDIDATES})
++    if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${candidate}/src")
++        list(APPEND EXTENSION_NAMES ${candidate})
++    endif ()
++endforeach ()
++list(SORT EXTENSION_NAMES)
++
++set(EXTENSION_SOURCES "")
++set(EXTENSION_FORWARD_DECL "")
++set(EXTENSION_ENTRIES "")
++set(EXTENSION_COUNT 0)
++
++message(STATUS "Extensions:")
++
++foreach (name ${EXTENSION_NAMES})
++    string(TOUPPER ${name} upper)
++    option(WOWDECOMP_EXTENSION_${upper} "Compile the ${name} extension into the client" ON)
++
++    if (NOT WOWDECOMP_EXTENSION_${upper})
++        message(STATUS "  - ${name} (disabled)")
++        continue()
++    endif ()
++
++    string(MAKE_C_IDENTIFIER ${name} ident)
++    file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${name}/src/*.cpp")
++    list(APPEND EXTENSION_SOURCES ${sources})
++
++    string(APPEND EXTENSION_FORWARD_DECL "void Add${ident}Extension();\n")
++    string(APPEND EXTENSION_ENTRIES "    { \"${name}\", Add${ident}Extension },\n")
++    math(EXPR EXTENSION_COUNT "${EXTENSION_COUNT} + 1")
++
++    # An extension may ship <Name>/<Name>.cmake for its own build needs (defines, third-party code).
++    include("${CMAKE_CURRENT_SOURCE_DIR}/${name}/${name}.cmake" OPTIONAL)
++
++    message(STATUS "  + ${name}")
++endforeach ()
++
++set(EXTENSION_LOADER ${CMAKE_CURRENT_BINARY_DIR}/ExtensionsLoader.cpp)
++configure_file(ExtensionsLoader.cpp.in ${EXTENSION_LOADER} @ONLY)
++
++add_library(WowExtensions STATIC
++    ${EXTENSION_LOADER}
++    ${EXTENSION_SOURCES}
++)
++
++target_include_directories(WowExtensions
++    PUBLIC
++        ${CMAKE_SOURCE_DIR}
++)
++
++target_link_libraries(WowExtensions
++    PUBLIC
++        Extension
++)
+\ No newline at end of file
+diff --git "a/Extensions/ExtensionsLoader.cpp.in\342\200\216" "b/Extensions/ExtensionsLoader.cpp.in\342\200\216"
+new file mode 100644
+index 0000000..9999154
+--- /dev/null
++++ "b/Extensions/ExtensionsLoader.cpp.in\342\200\216"
+@@ -0,0 +1,9 @@
++#include "WoW/Source/Extension/ExtensionLoader.h"
++
++// Entry points, one per compiled-in extension
++@EXTENSION_FORWARD_DECL@
++const EXTENSIONENTRY g_extensionEntries[] = {
++@EXTENSION_ENTRIES@    { nullptr, nullptr },
++};
++
++const uint32_t g_extensionCount = @EXTENSION_COUNT@;
+\ No newline at end of file
+diff --git a/Extensions/HelloWorld/src/HelloWorld.cpp b/Extensions/HelloWorld/src/HelloWorld.cpp
+new file mode 100644
+index 0000000..ff898bf
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorld.cpp
+@@ -0,0 +1,36 @@
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++class HelloWorldScript : public ClientScript
++{
++    public:
++    HelloWorldScript() : ClientScript("HelloWorldScript") {}
++
++    void OnStartup() override
++    {
++        ExtensionMgr::Log("HelloWorld: OnStartup");
++    }
++
++    void OnShutdown() override
++    {
++        ExtensionMgr::Log("HelloWorld: OnShutdown");
++    }
++
++    void OnEnterWorld(uint32_t mapId) override
++    {
++        ExtensionMgr::Log("HelloWorld: OnEnterWorld (map %u)", mapId);
++    }
++
++    void OnLeaveWorld() override
++    {
++        ExtensionMgr::Log("HelloWorld: OnLeaveWorld");
++    }
++};
++
++}
++
++void AddHelloWorldExtension()
++{
++    ExtensionMgr::Add(new HelloWorldScript());
++}
+\ No newline at end of file
+diff --git a/Tools/WowClient/CMakeLists.txt b/Tools/WowClient/CMakeLists.txt
+index a86a5de..834cec5 100644
+--- a/Tools/WowClient/CMakeLists.txt
++++ b/Tools/WowClient/CMakeLists.txt
+@@ -72,6 +72,7 @@ target_link_libraries(WowClient
+         Console
+         ConsoleDevice
+         DB
++        Extension
+         Game
+         Glue
+         Magic
+@@ -87,5 +88,6 @@ target_link_libraries(WowClient
+         LiquidSystem
+         WowServices
+         WowSvcs
++        WowExtensions
+         dbghelp
+ )
+diff --git a/WoW/Source/CMakeLists.txt b/WoW/Source/CMakeLists.txt
+index 30bfe51..192d75c 100644
+--- a/WoW/Source/CMakeLists.txt
++++ b/WoW/Source/CMakeLists.txt
+@@ -65,6 +65,7 @@ target_link_libraries(Wow
+         Console
+         ConsoleDevice
+         DB
++        Extension
+         Game
+         Glue
+         LiquidSystem
+@@ -80,4 +81,5 @@ target_link_libraries(Wow
+         WorldClient
+         WowServices
+         WowSvcs
++        WowExtensions
+ )
+diff --git a/WoW/Source/Client.cpp b/WoW/Source/Client.cpp
+index 1207fb9..89ef27c 100644
+--- a/WoW/Source/Client.cpp
++++ b/WoW/Source/Client.cpp
+@@ -51,6 +51,7 @@
+ #include "WoW/Source/DB/DBClient/DBClient.h"
+ #include "WoW/Source/DB/Rec/Cfg_ConfigsRec.h"
+ #include "WoW/Source/DB/Rec/MapRec.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Game/DeclinedWords.h"
+ #include "WoW/Source/Game/GameClient/ComSatClient.h"
+ #include "WoW/Source/Game/GameClient/PlayerName.h"
+@@ -1345,6 +1346,8 @@ void ClientInitializeGame(uint32_t mapId, C3Vector position) {
+     s_botCheckEnabled = 1;
+     BattlenetUI_EnterRealm();
+     s_gameInitialized = 1;
++
++    ExtensionMgr::OnEnterWorld(mapId);
+ }
+ 
+ // VERIFY: a768ccd6 manual
+@@ -1550,6 +1553,8 @@ void ClientDestroyGame(int32_t charSelect, int32_t resumeGlue, int32_t worldLogi
+         return;
+     }
+ 
++    ExtensionMgr::OnLeaveWorld();
++
+     s_botCheckEnabled = 0;
+     EventUnregister(EVENT_ID_IDLE, ClientIdle);
+     ClientServices::ClearMessageHandler(SMSG_NOTIFICATION);
+@@ -1766,12 +1771,17 @@ bool InitializeGlobal() {
+     g_rndSeed.SetSeed(OsGetAsyncTimeMs());
+     g_clientEventContext = EventCreateContextEx(1, InitializeEngineCallback, DestroyEngineCallback, 0, 0);
+ 
++    ExtensionMgr::Initialize();
++
+     return true;
+ }
+ 
+ // VERIFY: 87ba0ad5 manual
+ // OFFSET: 0x00406B70
+ void BeginCloseGame() {
++
++    ExtensionMgr::Shutdown();
++
+     SMemSetDebugFlags(0, 8);
+     OsIMEDestroy();
+     OsTimeShutdown();
+diff --git a/WoW/Source/Extension/CMakeLists.txt b/WoW/Source/Extension/CMakeLists.txt
+new file mode 100644
+index 0000000..f1d3f8d
+--- /dev/null
++++ b/WoW/Source/Extension/CMakeLists.txt
+@@ -0,0 +1,10 @@
++file(GLOB_RECURSE PRIVATE_SOURCES CONFIGURE_DEPENDS "*.cpp")
++
++add_library(Extension STATIC
++    ${PRIVATE_SOURCES}
++)
++
++target_include_directories(Extension
++    PUBLIC
++        ${CMAKE_SOURCE_DIR}
++)
+\ No newline at end of file
+diff --git a/WoW/Source/Extension/ExtensionLoader.h b/WoW/Source/Extension/ExtensionLoader.h
+new file mode 100644
+index 0000000..76ede2e
+--- /dev/null
++++ b/WoW/Source/Extension/ExtensionLoader.h
+@@ -0,0 +1,15 @@
++#ifndef WOW_SOURCE_EXTENSION_EXTENSIONLOADER_H
++#define WOW_SOURCE_EXTENSION_EXTENSIONLOADER_H
++
++#include <cstdint>
++
++struct EXTENSIONENTRY
++{
++    const char* m_name;
++    void (*m_add)();
++};
++
++extern const EXTENSIONENTRY g_extensionEntries[];
++extern const uint32_t g_extensionCount;
++
++#endif
+\ No newline at end of file
+diff --git a/WoW/Source/Extension/ExtensionMgr.cpp b/WoW/Source/Extension/ExtensionMgr.cpp
+new file mode 100644
+index 0000000..1c16066
+--- /dev/null
++++ b/WoW/Source/Extension/ExtensionMgr.cpp
+@@ -0,0 +1,108 @@
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include <cstdarg>
++#include "Engine/Source/ConsoleBase/IConsole.h"
++#include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/Extension/ExtensionLoader.h"
++
++static HSLOG s_log;
++static bool s_initialized;
++
++void ExtensionMgr::Log(const char* format, ...)
++{
++    char buffer[1024];
++    va_list args;
++    va_start(args, format);
++    SStrVPrintf(buffer, sizeof(buffer), format, args);
++    va_end(args);
++
++    if (s_log) {
++        SLogWrite(s_log, "%s", buffer);
++        SLogFlush(s_log);
++    }
++
++    ConsolePrintf("%s", buffer);
++}
++
++void ExtensionMgr::Add(ClientScript* script)
++{
++    if (!script)
++    {
++        return;
++    }
++
++    ExtensionRegistry<ClientScript>::Add(script);
++    Log("Extensions: registered ClientScript %s", script->GetName());
++}
++
++uint32_t ExtensionMgr::GetScriptCount()
++{
++    return static_cast<uint32_t>(ExtensionRegistry<ClientScript>::Scripts().size());
++}
++
++void ExtensionMgr::Initialize()
++{
++    if (s_initialized)
++    {
++        return;
++    }
++
++    s_initialized = true;
++
++    if (!SLogCreate("Logs\\Extensions.log", SLOG_FLAG_OPENFILE, &s_log))
++    {
++        s_log = nullptr;
++    }
++
++    Log("Extensions: %u compiled in", g_extensionCount);
++
++    for (const EXTENSIONENTRY* entry = g_extensionEntries; entry->m_name; entry++)
++    {
++        Log("Extensions: loading %s", entry->m_name);
++        entry->m_add();
++    }
++
++    Log("Extensions: %u script(s) registered", GetScriptCount());
++
++    for (ClientScript* script : ExtensionRegistry<ClientScript>::Scripts())
++    {
++        script->OnStartup();
++    }
++}
++
++void ExtensionMgr::Shutdown()
++{
++    if (!s_initialized)
++    {
++        return;
++    }
++
++    for (ClientScript* script : ExtensionRegistry<ClientScript>::Scripts())
++    {
++        script->OnShutdown();
++    }
++
++    Log("Extensions: shutdown");
++    ExtensionRegistry<ClientScript>::Clear();
++
++    if (s_log)
++    {
++        SLogClose(s_log);
++        s_log = nullptr;
++    }
++
++    s_initialized = false;
++}
++
++void ExtensionMgr::OnEnterWorld(uint32_t mapId)
++{
++    for (ClientScript* script : ExtensionRegistry<ClientScript>::Scripts()) {
++        script->OnEnterWorld(mapId);
++    }
++}
++
++void ExtensionMgr::OnLeaveWorld()
++{
++    for (ClientScript* script : ExtensionRegistry<ClientScript>::Scripts()) {
++        script->OnLeaveWorld();
++    }
++}
+\ No newline at end of file
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+new file mode 100644
+index 0000000..8f88e68
+--- /dev/null
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -0,0 +1,49 @@
++#ifndef WOW_SOURCE_EXTENSION_EXTENSIONMGR_H
++#define WOW_SOURCE_EXTENSION_EXTENSIONMGR_H
++
++#include <cstdint>
++#include <vector>
++#include "WoW/Source/Extension/ExtensionScript.h"
++
++template <class T>
++class ExtensionRegistry {
++    public:
++    static std::vector<T*>& Scripts()
++    {
++        static std::vector<T*> scripts;
++        return scripts;
++    }
++
++    static void Add(T* script)
++    {
++        Scripts().push_back(script);
++    }
++
++    static void Clear()
++    {
++        for (T* script : Scripts())
++        {
++            delete script;
++        }
++
++        Scripts().clear();
++    }
++};
++
++class ExtensionMgr {
++    public:
++    static void Initialize();
++
++    static void Shutdown();
++
++    static void Add(ClientScript* script);
++
++    static uint32_t GetScriptCount();
++
++    static void Log(const char* format, ...);
++
++    static void OnEnterWorld(uint32_t mapId);
++    static void OnLeaveWorld();
++};
++
++#endif
+\ No newline at end of file
+diff --git a/WoW/Source/Extension/ExtensionScript.h b/WoW/Source/Extension/ExtensionScript.h
+new file mode 100644
+index 0000000..0b1437b
+--- /dev/null
++++ b/WoW/Source/Extension/ExtensionScript.h
+@@ -0,0 +1,34 @@
++#ifndef WOW_SOURCE_EXTENSION_EXTENSIONSCRIPT_H
++#define WOW_SOURCE_EXTENSION_EXTENSIONSCRIPT_H
++
++#include <cstdint>
++
++class ExtensionScript {
++    public:
++    virtual ~ExtensionScript() = default;
++
++    const char* GetName() const { return m_name; }
++
++    protected:
++    explicit ExtensionScript(const char* name) : m_name(name) {}
++
++    private:
++    const char* m_name;
++};
++
++class ClientScript : public ExtensionScript {
++    protected:
++    explicit ClientScript(const char* name) : ExtensionScript(name) {}
++
++    public:
++    virtual void OnStartup() {}
++
++    virtual void OnShutdown() {}
++
++    virtual void OnEnterWorld(uint32_t mapId) {}
++
++
++    virtual void OnLeaveWorld() {}
++};
++
++#endif
+\ No newline at end of file
+-- 
+2.34.1
+

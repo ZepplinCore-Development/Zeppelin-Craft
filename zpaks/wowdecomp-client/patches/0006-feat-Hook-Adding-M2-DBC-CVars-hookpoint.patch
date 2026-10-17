@@ -1,0 +1,765 @@
+From 32b67629be03518a18dad82b1fc256e05bd08e58 Mon Sep 17 00:00:00 2001
+From: iThorgrim <contact@warlog.dev>
+Date: Fri, 16 Oct 2026 14:09:08 +0200
+Subject: [PATCH] feat(Hook): Adding M2, DBC, CVars hookpoint
+
+---
+ Engine/Source/BlizzardCore/CMakeLists.txt     |  1 +
+ Engine/Source/BlizzardCore/SFile2-Core.cpp    |  9 +++
+ Engine/Source/Model2/CMakeLists.txt           |  5 ++
+ Engine/Source/Model2/M2Model.cpp              | 11 +++
+ Engine/Source/Model2/M2Shared.cpp             | 10 +++
+ Extensions/HelloWorld/src/HelloWorld.cpp      | 22 +++---
+ Extensions/HelloWorld/src/HelloWorldAsset.cpp | 54 +++++++++++++++
+ .../HelloWorld/src/HelloWorldClientDB.cpp     | 37 ++++++++++
+ Extensions/HelloWorld/src/HelloWorldModel.cpp | 67 +++++++++++++++++++
+ WoW/Source/DB/CMakeLists.txt                  |  5 ++
+ WoW/Source/DB/DBClient/DBClient.cpp           |  6 ++
+ WoW/Source/DB/WowClientDB.h                   |  4 ++
+ WoW/Source/Extension/ExtensionMgr.cpp         |  9 ++-
+ WoW/Source/Extension/ExtensionMgr.h           | 20 ++++++
+ .../ScriptDefines/AllScriptsObjects.h         |  3 +
+ .../Extension/ScriptDefines/AssetScript.cpp   | 15 +++++
+ .../Extension/ScriptDefines/AssetScript.h     | 32 +++++++++
+ .../ScriptDefines/ClientDBScript.cpp          | 20 ++++++
+ .../Extension/ScriptDefines/ClientDBScript.h  | 44 ++++++++++++
+ .../Extension/ScriptDefines/ModelScript.cpp   | 32 +++++++++
+ .../Extension/ScriptDefines/ModelScript.h     | 56 ++++++++++++++++
+ 21 files changed, 451 insertions(+), 11 deletions(-)
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldAsset.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldClientDB.cpp
+ create mode 100644 Extensions/HelloWorld/src/HelloWorldModel.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/AssetScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/AssetScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ClientDBScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ClientDBScript.h
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ModelScript.cpp
+ create mode 100644 WoW/Source/Extension/ScriptDefines/ModelScript.h
+
+diff --git a/Engine/Source/BlizzardCore/CMakeLists.txt b/Engine/Source/BlizzardCore/CMakeLists.txt
+index 3888d66..0fa8a57 100644
+--- a/Engine/Source/BlizzardCore/CMakeLists.txt
++++ b/Engine/Source/BlizzardCore/CMakeLists.txt
+@@ -14,6 +14,7 @@ target_link_libraries(BlizzardCore
+         blast
+         lzma
+         zlib
++        Extension
+ )
+ 
+ if(WIN32)
+diff --git a/Engine/Source/BlizzardCore/SFile2-Core.cpp b/Engine/Source/BlizzardCore/SFile2-Core.cpp
+index 6e3c215..6e6fa9e 100644
+--- a/Engine/Source/BlizzardCore/SFile2-Core.cpp
++++ b/Engine/Source/BlizzardCore/SFile2-Core.cpp
+@@ -19,6 +19,7 @@
+ #include "Engine/Source/BlizzardCore/Source/Packages/Util/Hash.h"
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "Engine/Source/Storm/Source/MD5.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00B32038
+ static SFileStreamingStatus s_streamingStatus;
+@@ -1029,6 +1030,14 @@ int32_t STORMAPI SFile::FileExistsEx(const char* name, uint32_t flags) {
+ int32_t STORMAPI SFile::OpenEx(SArchive* archive, const char* name, uint32_t flags, SFileImpl** result) {
+     Blizzard::File::SetLastErrorStack(nullptr);
+ 
++    // Not in the original: a by-name open may be redirected to another path before the lookup;
++    // the rest of the function then opens, names and reads the substitute.
++    char redirected[260];
++
++    if (!archive && sExtensionMgr->OnFileOpen(name, redirected, sizeof(redirected))) {
++        name = redirected;
++    }
++
+     if (CheckIfStreamingAndTrial() && System_SFile2::s_soundCacheArchive && Blizzard::String::FindI(name, ".wav", 0x7FFFFFFF)) {
+         *result = new (0u, __FILE__, __LINE__) SFileImpl(3);
+ 
+diff --git a/Engine/Source/Model2/CMakeLists.txt b/Engine/Source/Model2/CMakeLists.txt
+index df12704..fc23e53 100644
+--- a/Engine/Source/Model2/CMakeLists.txt
++++ b/Engine/Source/Model2/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(Model2
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(Model2
++    PRIVATE
++        Extension
++)
+diff --git a/Engine/Source/Model2/M2Model.cpp b/Engine/Source/Model2/M2Model.cpp
+index 5928223..7c17869 100644
+--- a/Engine/Source/Model2/M2Model.cpp
++++ b/Engine/Source/Model2/M2Model.cpp
+@@ -36,6 +36,7 @@
+ #include "Engine/Source/Tempest/CImVector.h"
+ #include "Engine/Source/Tempest/CMath.h"
+ #include "WoW/Source/DB/DBClient/DBClient.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Object/ObjectClient/Types.h"
+ 
+ // STATIC: 0x00A45570
+@@ -6571,6 +6572,9 @@ void CM2Model::ProcessCallbacksRecursive() {
+ // VERIFY: d96ccadd manual
+ // OFFSET: 0x00832640
+ CM2Model::~CM2Model() {
++    // Not in the original: the instance is still complete here.
++    sExtensionMgr->OnModelDestroy(this);
++
+     CM2Model* model30 = this->m_model30;
+ 
+     if (model30 && model30->m_refCount-- == 1) {
+@@ -7643,6 +7647,10 @@ int32_t CM2Model::InitializeLoaded() {
+     this->m_scene->m_time = time;
+     this->UpdateLoaded();
+     this->m_fFlags &= ~0x800u;
++
++    // Not in the original: the instance is fully built and its queued calls are applied.
++    sExtensionMgr->OnModelLoaded(this);
++
+     return 1;
+ }
+ 
+@@ -7785,6 +7793,9 @@ int32_t CM2Model::Initialize(CM2Scene* scene, CM2Shared* shared, CM2Model* sourc
+         }
+     }
+ 
++    // Not in the original: the instance exists in its scene; loading may still be pending.
++    sExtensionMgr->OnModelCreated(this);
++
+     return this->m_shared->CallbackWhenLoaded(this);
+ }
+ 
+diff --git a/Engine/Source/Model2/M2Shared.cpp b/Engine/Source/Model2/M2Shared.cpp
+index a75e3d8..0c12025 100644
+--- a/Engine/Source/Model2/M2Shared.cpp
++++ b/Engine/Source/Model2/M2Shared.cpp
+@@ -24,6 +24,7 @@
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "Engine/Source/Tempest/CImVector.h"
+ #include "Engine/Source/Os/OsMemory.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ // STATIC: 0x00A45644
+ static const uint32_t s_skinProfileBoneCounts[4] = { 256, 64, 53, 21 };
+@@ -1322,6 +1323,9 @@ int32_t CM2Shared::FinishLoadingSkinProfile(uint32_t size) {
+ 
+     this->m_flags |= 2;
+ 
++    // Not in the original: the skin profile is usable, the waiting models are not initialised yet.
++    sExtensionMgr->OnModelSkinLoaded(this);
++
+     while (this->m_callbackList) {
+         CM2Model* model = this->m_callbackList;
+         model->UnlinkFromCallbackList();
+@@ -1756,6 +1760,9 @@ int32_t CM2Shared::FinishLoading() {
+     this->m_flags |= 1;
+     this->m_lowPrioritySequenceCount = 0;
+ 
++    // Not in the original: the .m2 data is relocated and initialised; the skin read is in flight.
++    sExtensionMgr->OnModelSharedLoaded(this);
++
+     return 1;
+ }
+ 
+@@ -1847,6 +1854,9 @@ void CM2Shared::CancelAllDeferredSequences() {
+ // VERIFY: 7f65a462 manual
+ // OFFSET: 0x0083D5B0
+ CM2Shared::~CM2Shared() {
++    // Not in the original: everything the shared owns is still allocated here.
++    sExtensionMgr->OnModelSharedDestroy(this);
++
+     this->CancelAllDeferredSequences();
+ 
+     int32_t pending = 0;
+diff --git a/Extensions/HelloWorld/src/HelloWorld.cpp b/Extensions/HelloWorld/src/HelloWorld.cpp
+index afbefbc..ccaf610 100644
+--- a/Extensions/HelloWorld/src/HelloWorld.cpp
++++ b/Extensions/HelloWorld/src/HelloWorld.cpp
+@@ -1,22 +1,28 @@
+ // HelloWorld: the smallest possible extension. It registers one script of every type and logs the
+ // hooks it receives, so the discovery -> registration -> dispatch chain of each context can be
+ // checked end to end in Logs\Extensions.log. It is the template for a real extension; it does
+-// nothing else on purpose. Per-frame hooks log their first call and a count afterwards, never
+-// every frame.
++// nothing else on purpose. Per-frame and per-object hooks log their first calls and counts
++// afterwards, never every call.
+ 
++void AddHelloWorldAssetScripts();
++void AddHelloWorldClientDBScripts();
+ void AddHelloWorldClientScripts();
+-void AddHelloWorldWorldScripts();
+-void AddHelloWorldRenderScripts();
+-void AddHelloWorldNetScripts();
+ void AddHelloWorldLuaScripts();
++void AddHelloWorldModelScripts();
++void AddHelloWorldNetScripts();
++void AddHelloWorldRenderScripts();
++void AddHelloWorldWorldScripts();
+ 
+ // The entry point the generated loader calls: Add<DirectoryName>Extension(). Instantiate every
+ // script of the extension from here; a script registers itself in its constructor and the registry
+ // owns it from then on.
+ void AddHelloWorldExtension() {
++    AddHelloWorldAssetScripts();
++    AddHelloWorldClientDBScripts();
+     AddHelloWorldClientScripts();
+-    AddHelloWorldWorldScripts();
+-    AddHelloWorldRenderScripts();
+-    AddHelloWorldNetScripts();
+     AddHelloWorldLuaScripts();
++    AddHelloWorldModelScripts();
++    AddHelloWorldNetScripts();
++    AddHelloWorldRenderScripts();
++    AddHelloWorldWorldScripts();
+ }
+diff --git a/Extensions/HelloWorld/src/HelloWorldAsset.cpp b/Extensions/HelloWorld/src/HelloWorldAsset.cpp
+new file mode 100644
+index 0000000..1df1abe
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldAsset.cpp
+@@ -0,0 +1,54 @@
++#include "Engine/Source/ConsoleBase/ConsoleVar.h"
++#include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// The CVar that turns the demonstration redirect on. It is read on every file open, from any
++// thread that opens files, so the pointer is cached once and only m_intValue is read.
++CVar* s_redirectCursor;
++
++// Registers the CVar (ClientScript::OnStartup is where CVars belong) and, when it is set,
++// redirects the pointer cursor texture to the attack cursor: with
++//   SET helloWorldRedirectCursor "1"
++// in Config.wtf the login screen shows the attack cursor, which proves the redirect took effect
++// at the SFile level without any other change. Every open is counted and the first few logged.
++class HelloWorldAssetStartup : public ClientScript {
++    public:
++    HelloWorldAssetStartup() : ClientScript("HelloWorldAssetStartup") {}
++
++    void OnStartup() override {
++        s_redirectCursor = CVar::Register("helloWorldRedirectCursor", "HelloWorld: open Interface\\Cursor\\Attack.blp in place of Point.blp", 0, "0", nullptr, 0, false, nullptr, false);
++    }
++};
++
++class HelloWorldAssetScript : public AssetScript {
++    public:
++    HelloWorldAssetScript() : AssetScript("HelloWorldAssetScript") {}
++
++    bool OnFileOpen(const char* name, char* redirect, uint32_t redirectSize) override {
++        m_opens++;
++
++        if (m_opens <= 5) {
++            sExtensionMgr->Log("HelloWorld: OnFileOpen %s", name);
++        }
++
++        if (s_redirectCursor && s_redirectCursor->m_intValue && !SStrCmpI(name, "Interface\\Cursor\\Point.blp", STORM_MAX_STR)) {
++            SStrCopy(redirect, "Interface\\Cursor\\Attack.blp", redirectSize);
++            sExtensionMgr->Log("HelloWorld: OnFileOpen redirected %s -> %s", name, redirect);
++            return true;
++        }
++
++        return false;
++    }
++
++    private:
++    uint32_t m_opens = 0;
++};
++
++}
++
++void AddHelloWorldAssetScripts() {
++    new HelloWorldAssetStartup();
++    new HelloWorldAssetScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldClientDB.cpp b/Extensions/HelloWorld/src/HelloWorldClientDB.cpp
+new file mode 100644
+index 0000000..8c78f4a
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldClientDB.cpp
+@@ -0,0 +1,37 @@
++#include "WoW/Source/DB/WowClientDB.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// Logs the first few stores as they load with their record counts, then the total when the
++// stock set is complete. An extension store would be a WowClientDB<MyRec> global loaded from
++// OnClientDBInitialize (see ClientDBScript.h for the record contract).
++class HelloWorldClientDBScript : public ClientDBScript {
++    public:
++    HelloWorldClientDBScript() : ClientDBScript("HelloWorldClientDBScript") {}
++
++    void OnClientDBLoaded(WowClientDB_Base& db, const char* fileName) override {
++        m_loaded++;
++
++        if (m_loaded <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnClientDBLoaded %s (%d record(s), ids %d..%d)", fileName, db.m_numRecords, db.m_minID, db.m_maxID);
++        }
++    }
++
++    void OnClientDBInitialize() override {
++        sExtensionMgr->Log("HelloWorld: OnClientDBInitialize, %u store(s) loaded so far", m_loaded);
++    }
++
++    void OnClientDBShutdown() override {
++        sExtensionMgr->Log("HelloWorld: OnClientDBShutdown, %u store(s) loaded in total", m_loaded);
++    }
++
++    private:
++    uint32_t m_loaded = 0;
++};
++
++}
++
++void AddHelloWorldClientDBScripts() {
++    new HelloWorldClientDBScript();
++}
+diff --git a/Extensions/HelloWorld/src/HelloWorldModel.cpp b/Extensions/HelloWorld/src/HelloWorldModel.cpp
+new file mode 100644
+index 0000000..cc7a2af
+--- /dev/null
++++ b/Extensions/HelloWorld/src/HelloWorldModel.cpp
+@@ -0,0 +1,67 @@
++#include "Engine/Source/Model2/M2Data.h"
++#include "Engine/Source/Model2/M2Shared.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++// Logs the first few model files as their .m2 and .skin arrive, with what the native objects
++// expose at that point, and keeps instance counts so the create/load/destroy balance can be read
++// in the log.
++class HelloWorldModelScript : public ModelScript {
++    public:
++    HelloWorldModelScript() : ModelScript("HelloWorldModelScript") {}
++
++    void OnModelSharedLoaded(CM2Shared& shared) override {
++        m_sharedLoaded++;
++
++        if (m_sharedLoaded <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnModelSharedLoaded %s (%u bytes, %u bone(s), %u sequence(s), %u texture(s))", shared.m_fileName, shared.m_fileSize, shared.m_data->m_bones.m_count, shared.m_data->m_sequences.m_count, shared.m_data->m_textures.m_count);
++        }
++    }
++
++    void OnModelSkinLoaded(CM2Shared& shared) override {
++        m_skinsLoaded++;
++
++        if (m_skinsLoaded <= 3) {
++            sExtensionMgr->Log("HelloWorld: OnModelSkinLoaded %s (%u section(s), %u batch(es))", shared.m_fileName, shared.m_skinData->m_skinSections.m_count, shared.m_skinData->m_batches.m_count);
++        }
++    }
++
++    void OnModelSharedDestroy(CM2Shared& shared) override {
++        m_sharedDestroyed++;
++    }
++
++    void OnModelCreated(CM2Model& model) override {
++        m_created++;
++    }
++
++    void OnModelLoaded(CM2Model& model) override {
++        m_loaded++;
++
++        if (m_loaded == 1) {
++            sExtensionMgr->Log("HelloWorld: OnModelLoaded (first instance)");
++        }
++    }
++
++    void OnModelDestroy(CM2Model& model) override {
++        m_destroyed++;
++
++        if (m_destroyed % 500 == 0) {
++            sExtensionMgr->Log("HelloWorld: models %u created, %u loaded, %u destroyed; files %u loaded, %u skins, %u freed", m_created, m_loaded, m_destroyed, m_sharedLoaded, m_skinsLoaded, m_sharedDestroyed);
++        }
++    }
++
++    private:
++    uint32_t m_sharedLoaded = 0;
++    uint32_t m_skinsLoaded = 0;
++    uint32_t m_sharedDestroyed = 0;
++    uint32_t m_created = 0;
++    uint32_t m_loaded = 0;
++    uint32_t m_destroyed = 0;
++};
++
++}
++
++void AddHelloWorldModelScripts() {
++    new HelloWorldModelScript();
++}
+diff --git a/WoW/Source/DB/CMakeLists.txt b/WoW/Source/DB/CMakeLists.txt
+index 39af929..0e306e8 100644
+--- a/WoW/Source/DB/CMakeLists.txt
++++ b/WoW/Source/DB/CMakeLists.txt
+@@ -8,3 +8,8 @@ target_include_directories(DB
+     PUBLIC
+         ${CMAKE_SOURCE_DIR}
+ )
++
++target_link_libraries(DB
++    PUBLIC
++        Extension
++)
+diff --git a/WoW/Source/DB/DBClient/DBClient.cpp b/WoW/Source/DB/DBClient/DBClient.cpp
+index 2500ef2..fc3ad4e 100644
+--- a/WoW/Source/DB/DBClient/DBClient.cpp
++++ b/WoW/Source/DB/DBClient/DBClient.cpp
+@@ -1085,6 +1085,9 @@ void InitTerrainTypeFlags() {
+ // VERIFY: ccd0205b manual
+ // OFFSET: 0x00634C60
+ void ClientDBShutdown() {
++    // Not in the original: mirror of OnClientDBInitialize, before the derived tables go.
++    sExtensionMgr->OnClientDBShutdown();
++
+     s_resistances.Clear();
+     s_terrainTypeSoundIDs.Clear();
+ }
+@@ -1147,6 +1150,9 @@ void ClientDBInitialize() {
+     InitWeaponSubclasses();
+     SDBItemSubclassInitialize();
+     InitLights(1);
++
++    // Not in the original: every stock store and derived table is ready; extension stores load here.
++    sExtensionMgr->OnClientDBInitialize();
+ }
+ 
+ // VERIFY: 144a65d1 auto
+diff --git a/WoW/Source/DB/WowClientDB.h b/WoW/Source/DB/WowClientDB.h
+index 5b39711..1353cc1 100644
+--- a/WoW/Source/DB/WowClientDB.h
++++ b/WoW/Source/DB/WowClientDB.h
+@@ -7,6 +7,7 @@
+ #include <new>
+ #include "Engine/Source/BlizzardCore/SFile2-Core.h"
+ #include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ 
+ extern int32_t g_clientDbPerformCompress;
+ 
+@@ -163,6 +164,9 @@ void WowClientDB_Common<T>::Load(const char* file, int32_t line) {
+ 
+     SFileCloseFile(f);
+     this->m_loaded = 1;
++
++    // Not in the original: records and strings are in memory for this store.
++    sExtensionMgr->OnClientDBLoaded(this, T::GetFilename());
+ }
+ 
+ template <class T>
+diff --git a/WoW/Source/Extension/ExtensionMgr.cpp b/WoW/Source/Extension/ExtensionMgr.cpp
+index a508a99..0b7b18e 100644
+--- a/WoW/Source/Extension/ExtensionMgr.cpp
++++ b/WoW/Source/Extension/ExtensionMgr.cpp
+@@ -62,11 +62,14 @@ void ExtensionMgr::Unload() {
+         return;
+     }
+ 
++    ScriptRegistry<AssetScript>::Clear();
++    ScriptRegistry<ClientDBScript>::Clear();
+     ScriptRegistry<ClientScript>::Clear();
+-    ScriptRegistry<WorldScript>::Clear();
+-    ScriptRegistry<RenderScript>::Clear();
+-    ScriptRegistry<NetScript>::Clear();
+     ScriptRegistry<LuaScript>::Clear();
++    ScriptRegistry<ModelScript>::Clear();
++    ScriptRegistry<NetScript>::Clear();
++    ScriptRegistry<RenderScript>::Clear();
++    ScriptRegistry<WorldScript>::Clear();
+     m_scriptCount = 0;
+ 
+     Log("Extensions: unloaded");
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index c18942a..4d69a29 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -6,6 +6,9 @@
+ #include "WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h"
+ 
+ class CDataStore;
++class CM2Model;
++class CM2Shared;
++class WowClientDB_Base;
+ struct lua_State;
+ 
+ // The central script manager: loads the compiled-in extensions, holds one ScriptRegistry<T> per
+@@ -62,6 +65,23 @@ class ExtensionMgr {
+     void OnMessageReceived(NETMESSAGE msgId, uint32_t timeReceived, CDataStore* msg);
+     void OnMessageSent(CDataStore* msg);
+ 
++    public: /* ModelScript */
++    void OnModelSharedLoaded(CM2Shared* shared);
++    void OnModelSkinLoaded(CM2Shared* shared);
++    void OnModelSharedDestroy(CM2Shared* shared);
++    void OnModelCreated(CM2Model* model);
++    void OnModelLoaded(CM2Model* model);
++    void OnModelDestroy(CM2Model* model);
++
++    public: /* AssetScript */
++    // True when a script redirected the open: redirect then holds the substitute path.
++    bool OnFileOpen(const char* name, char* redirect, uint32_t redirectSize);
++
++    public: /* ClientDBScript */
++    void OnClientDBLoaded(WowClientDB_Base* db, const char* fileName);
++    void OnClientDBInitialize();
++    void OnClientDBShutdown();
++
+     public: /* LuaScript */
+     // Replaces the client's FrameScript_CreateEvents(names, count) call at each FrameScript rebuild
+     // site. Fires LuaScript::OnFrameScriptInitialized for every script (where they declare their
+diff --git a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+index dc936ad..7553fd5 100644
+--- a/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
++++ b/WoW/Source/Extension/ScriptDefines/AllScriptsObjects.h
+@@ -2,8 +2,11 @@
+ #define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_ALLSCRIPTSOBJECTS_H
+ 
+ // Every script type an extension can derive from, one header per context.
++#include "WoW/Source/Extension/ScriptDefines/AssetScript.h"
++#include "WoW/Source/Extension/ScriptDefines/ClientDBScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/ClientScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/LuaScript.h"
++#include "WoW/Source/Extension/ScriptDefines/ModelScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/NetScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/RenderScript.h"
+ #include "WoW/Source/Extension/ScriptDefines/WorldScript.h"
+diff --git a/WoW/Source/Extension/ScriptDefines/AssetScript.cpp b/WoW/Source/Extension/ScriptDefines/AssetScript.cpp
+new file mode 100644
+index 0000000..9543bca
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/AssetScript.cpp
+@@ -0,0 +1,15 @@
++#include "WoW/Source/Extension/ScriptDefines/AssetScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++bool ExtensionMgr::OnFileOpen(const char* name, char* redirect, uint32_t redirectSize) {
++    // First script that redirects wins; the remaining scripts do not see the request.
++    CALL_HOOKS(AssetScript, if (script->OnFileOpen(name, redirect, redirectSize)) { return true; });
++
++    return false;
++}
++
++AssetScript::AssetScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<AssetScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered AssetScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/AssetScript.h b/WoW/Source/Extension/ScriptDefines/AssetScript.h
+new file mode 100644
+index 0000000..2f50283
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/AssetScript.h
+@@ -0,0 +1,32 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_ASSETSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_ASSETSCRIPT_H
++
++#include <cstdint>
++#include "WoW/Source/Extension/ScriptObject.h"
++
++// Data file access. Every file the client reads by name from the archives or the data directory
++// (.dbc, .m2, .skin, .anim, .blp, .wmo, .adt, FrameXML, addons, sounds) goes through
++// SFile::OpenEx(nullptr, name, ...) (Engine/Source/BlizzardCore/SFile2-Core.cpp), either directly
++// or through SFile::ReadFile / SFile::LoadFile. The hook runs in that function before the name is
++// looked up (System_SFile2::FindFile), so a script can substitute another name and the lookup,
++// the open and the read all happen on the substitute as if it had been asked for.
++//
++// SFile::OpenEx is called from whichever thread opens a file: the main thread for almost
++// everything, the streaming and data-preload threads in trial/streaming mode. A hook must not
++// touch engine state and must be reentrant; reading its own immutable tables is fine.
++class AssetScript : public ScriptObject {
++    protected:
++    explicit AssetScript(const char* name);
++
++    public:
++    // name is the path being opened, as the caller spelled it (archive paths use backslashes,
++    // case varies). To redirect, copy the substitute path into redirect (redirectSize bytes,
++    // 260) and return true; the first script that returns true wins and later scripts are not
++    // asked. Return false to leave the request alone. The substitute must itself exist in the
++    // archives or under the data path: this hook changes which file is opened, it does not
++    // supply bytes. Not consulted for opens that name an archive explicitly (SFile::OpenEx with
++    // an SArchive) nor for SFile::FileExists checks.
++    virtual bool OnFileOpen(const char* name, char* redirect, uint32_t redirectSize) { return false; }
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/ClientDBScript.cpp b/WoW/Source/Extension/ScriptDefines/ClientDBScript.cpp
+new file mode 100644
+index 0000000..1dd0aa6
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ClientDBScript.cpp
+@@ -0,0 +1,20 @@
++#include "WoW/Source/Extension/ScriptDefines/ClientDBScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnClientDBLoaded(WowClientDB_Base* db, const char* fileName) {
++    CALL_HOOKS(ClientDBScript, script->OnClientDBLoaded(*db, fileName));
++}
++
++void ExtensionMgr::OnClientDBInitialize() {
++    CALL_HOOKS(ClientDBScript, script->OnClientDBInitialize());
++}
++
++void ExtensionMgr::OnClientDBShutdown() {
++    CALL_HOOKS(ClientDBScript, script->OnClientDBShutdown());
++}
++
++ClientDBScript::ClientDBScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<ClientDBScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered ClientDBScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/ClientDBScript.h b/WoW/Source/Extension/ScriptDefines/ClientDBScript.h
+new file mode 100644
+index 0000000..ed9a9ae
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ClientDBScript.h
+@@ -0,0 +1,44 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_CLIENTDBSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_CLIENTDBSCRIPT_H
++
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class WowClientDB_Base;
++
++// The client databases (WoW/Source/DB): every DBFilesClient\*.dbc store is a WowClientDB<T> or
++// WowClientDB_RLE<T> global whose Load (WowClientDB_Common<T>::Load, WoW/Source/DB/WowClientDB.h)
++// opens T::GetFilename(), checks the WDBC header against T::s_numColumns / T::s_rowSize, reads
++// the records through T::Read and the string block. ClientDBInitialize (DBClient.cpp) loads the
++// stock stores in one batch (StaticDBLoadAll) and builds the derived tables; a few stores load
++// elsewhere through the same Load (Startup_Strings before the extensions exist, VideoHardware,
++// the Light* stores in InitLights).
++//
++// An extension adds a store of its own by defining a record type with the same contract as
++// WoW/Source/DB/Rec/*Rec.h (GetFilename, s_numColumns, s_rowSize, s_generatedID, m_id, Read) and
++// a WowClientDB<MyRec> global, then calling Load on it from OnClientDBInitialize. Load is fatal
++// when the file is missing or its header disagrees, so check SFile::FileExists first when the
++// file is optional.
++class ClientDBScript : public ScriptObject {
++    protected:
++    explicit ClientDBScript(const char* name);
++
++    public:
++    // End of WowClientDB_Common<T>::Load on success: the records and strings are in memory,
++    // db.m_numRecords / m_minID / m_maxID are set, db.m_loaded is 1. fileName is T::GetFilename()
++    // (the archive path of the .dbc). Not fired for a store whose file has zero records (Load
++    // returns early and leaves it unloaded) and, for the stores loaded before the extensions are
++    // initialised, nobody is registered yet to receive it.
++    virtual void OnClientDBLoaded(WowClientDB_Base& db, const char* fileName) {}
++
++    // End of ClientDBInitialize: every stock store is loaded and the derived tables (game tables,
++    // resistances, terrain type flags, weapon subclasses, item subclass table, lights) are built.
++    // Load extension stores here.
++    virtual void OnClientDBInitialize() {}
++
++    // Start of ClientDBShutdown (from WowClientDestroy): the derived tables are about to be
++    // cleared. Release what OnClientDBInitialize set up; the stores themselves free their
++    // records in their destructors.
++    virtual void OnClientDBShutdown() {}
++};
++
++#endif
+diff --git a/WoW/Source/Extension/ScriptDefines/ModelScript.cpp b/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
+new file mode 100644
+index 0000000..71e4e62
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
+@@ -0,0 +1,32 @@
++#include "WoW/Source/Extension/ScriptDefines/ModelScript.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Extension/ExtensionMgrMacros.h"
++
++void ExtensionMgr::OnModelSharedLoaded(CM2Shared* shared) {
++    CALL_HOOKS(ModelScript, script->OnModelSharedLoaded(*shared));
++}
++
++void ExtensionMgr::OnModelSkinLoaded(CM2Shared* shared) {
++    CALL_HOOKS(ModelScript, script->OnModelSkinLoaded(*shared));
++}
++
++void ExtensionMgr::OnModelSharedDestroy(CM2Shared* shared) {
++    CALL_HOOKS(ModelScript, script->OnModelSharedDestroy(*shared));
++}
++
++void ExtensionMgr::OnModelCreated(CM2Model* model) {
++    CALL_HOOKS(ModelScript, script->OnModelCreated(*model));
++}
++
++void ExtensionMgr::OnModelLoaded(CM2Model* model) {
++    CALL_HOOKS(ModelScript, script->OnModelLoaded(*model));
++}
++
++void ExtensionMgr::OnModelDestroy(CM2Model* model) {
++    CALL_HOOKS(ModelScript, script->OnModelDestroy(*model));
++}
++
++ModelScript::ModelScript(const char* name) : ScriptObject(name) {
++    ScriptRegistry<ModelScript>::AddScript(this);
++    sExtensionMgr->Log("Extensions: registered ModelScript %s", name);
++}
+diff --git a/WoW/Source/Extension/ScriptDefines/ModelScript.h b/WoW/Source/Extension/ScriptDefines/ModelScript.h
+new file mode 100644
+index 0000000..ae79778
+--- /dev/null
++++ b/WoW/Source/Extension/ScriptDefines/ModelScript.h
+@@ -0,0 +1,56 @@
++#ifndef WOW_SOURCE_EXTENSION_SCRIPTDEFINES_MODELSCRIPT_H
++#define WOW_SOURCE_EXTENSION_SCRIPTDEFINES_MODELSCRIPT_H
++
++#include "WoW/Source/Extension/ScriptObject.h"
++
++class CM2Model;
++class CM2Shared;
++
++// The M2 model pipeline (Engine/Source/Model2). One CM2Shared holds a model file: the relocated
++// M2Data (m_data), the chosen .skin profile (m_skinData), textures, GPU buffers and effects; it is
++// shared by every CM2Model instance of that file through CM2Cache. Loading is asynchronous: the .m2
++// read completes in CM2Shared::FinishLoading, which issues the .skin read, which completes in
++// CM2Shared::FinishLoadingSkinProfile; a CM2Model created before both are done waits on the
++// shared's callback list and is initialised when the skin arrives. Every hook passes the real
++// object by reference so a script can read extra data from it or attach its own state keyed by
++// the object's address (released in the matching Destroy hook).
++class ModelScript : public ScriptObject {
++    protected:
++    explicit ModelScript(const char* name);
++
++    public:
++    // End of CM2Shared::FinishLoading: the .m2 file is in memory and relocated (every M2Array of
++    // shared.m_data points into the buffer, shared.m_fileSize bytes), the materials are flagged,
++    // the textures created, the skin profile chosen and its read issued. shared.m_skinData is not
++    // usable yet. shared.m_fileName is the model path.
++    virtual void OnModelSharedLoaded(CM2Shared& shared) {}
++
++    // CM2Shared::FinishLoadingSkinProfile after the profile is relocated and initialised (vertex
++    // and index buffers, batches, shader effects) and before the models waiting on this shared
++    // are initialised. shared.m_skinData is the M2SkinProfile of the profile the device's bone
++    // budget selected (the NN in <model>NN.skin).
++    virtual void OnModelSkinLoaded(CM2Shared& shared) {}
++
++    // Start of ~CM2Shared: the file data, skin, textures and buffers are still allocated. Fires
++    // when the cache evicts the shared or the last reference goes with no cache.
++    virtual void OnModelSharedDestroy(CM2Shared& shared) {}
++
++    // End of CM2Model::Initialize, the one constructor path of CM2Scene::CreateModel and
++    // DuplicateModel: the instance is attached to its scene, holds its shared and its flags, and
++    // the attachments of a duplicated source are copied. Not loaded yet; the shared may still be
++    // reading. Always fires before OnModelLoaded for that instance.
++    virtual void OnModelCreated(CM2Model& model) {}
++
++    // End of CM2Model::InitializeLoaded: the shared has both its data and skin, the instance's
++    // bones, bone matrices, loops, textures, particle and ribbon emitters, lights, colors,
++    // texture transforms and cameras are allocated, attachments resolved and the model calls
++    // queued while it was loading (sequences, textures, lights...) replayed. The model can be
++    // rendered from here on.
++    virtual void OnModelLoaded(CM2Model& model) {}
++
++    // Start of ~CM2Model: the instance is about to release its shared and free its arrays;
++    // everything is still valid for reading.
++    virtual void OnModelDestroy(CM2Model& model) {}
++};
++
++#endif
+-- 
+2.34.1
+
