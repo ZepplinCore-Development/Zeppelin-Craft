@@ -269,6 +269,7 @@ SOURCE_KEY = 'WowClient64'                        # register bundle key
 SOURCE_MEMBERS = ['WowClient64.exe', 'XvidDecoder.dll']
 SOURCE_SERVE_DIR = 'EXE64'                        # nginx/wow/EXE64/
 SOURCE_ZPAK = 'wowdecomp-client'
+SOURCE_STAMP = 'build-source.json'               # written by `build`, checked by `ship`
 
 
 def _git(*args) -> str:
@@ -321,26 +322,26 @@ def exe_source():
 
 
 @exe_source.command('build')
-@click.option('--allow-uncaptured', is_flag=True, help='Build even if src has commits or edits not captured as forge patches.')
 @click.pass_context
-def exe_source_build(ctx, allow_uncaptured):
-    """Build WowClient64.exe from the forge-managed source.
+def exe_source_build(ctx):
+    """Build WowClient64.exe from the source tree as it is (uncommitted edits included, for testing).
 
-    Refuses when src has uncommitted edits or commits that are not captured as wowdecomp-client patches:
-    a shipped exe must be rebuildable from Zeppelin-Craft alone.
+    Writes bin/Win/build-source.json beside the output: the source revision, whether src had
+    uncommitted edits, and whether every commit is captured as a wowdecomp-client patch. `ship` reads
+    it and refuses a build that is not reproducible from Zeppelin-Craft.
     """
+    import json
     import subprocess
     state = _source_state(ctx.obj['craft_root'])
+    captured = not state['dirty'] and state['ours'] == state['patches']
     click.echo(f"source {state['head']} = upstream {state['upstream']} + {state['ours']} commit(s); "
-               f"{state['patches']} forge patch(es)")
-    if (state['dirty'] or state['ours'] != state['patches']) and not allow_uncaptured:
-        raise click.ClickException(
-            "src is not fully captured (uncommitted edits, or commits != patches). Commit in src, then "
-            f"`zep forge build-patch --name {SOURCE_ZPAK}` and commit the patches.")
+               f"{state['patches']} forge patch(es){'' if captured else ' - TEST BUILD (uncaptured source, not shippable)'}")
     rc = subprocess.call(['bash', str(SOURCE_BUILD_DIR / 'build.sh')])
     if rc != 0:
         raise click.ClickException(f"build.sh failed (exit {rc}); see {SOURCE_BUILD_DIR / 'build.log'}")
     meta = _source_members()
+    stamp = dict(state, captured=captured, files={n: meta[n]['checksum'] for n in SOURCE_MEMBERS})
+    (SOURCE_BUILD_DIR / 'src' / 'bin' / 'Win' / SOURCE_STAMP).write_text(json.dumps(stamp, indent=2))
     for name in SOURCE_MEMBERS:
         click.echo(f"  {name:18s} {meta[name]['size_mb']:6.2f} MB  md5={meta[name]['checksum']}")
     click.echo(f"  combined           md5={_combined(meta)}")
@@ -357,12 +358,24 @@ def exe_source_ship(ctx, activate, dry_run):
     The combined checksum of WowClient64.exe and XvidDecoder.dll is compared with the registered
     WowClient64 entry. Identical: nothing is staged and the version is not bumped. Changed: the members
     are copied to nginx/wow/EXE64/ and the entry that --activate would write (version + 1) is printed.
+    Refuses a test build (one made from uncommitted or uncaptured source).
     """
     from lib.env import NGINX_PATH
     from lib.patch_register import format_version, load_register, next_version, save_register
 
+    import json
     state = _source_state(ctx.obj['craft_root'])
     meta = _source_members()
+    stamp_path = SOURCE_BUILD_DIR / 'src' / 'bin' / 'Win' / SOURCE_STAMP
+    stamp = json.loads(stamp_path.read_text()) if stamp_path.is_file() else None
+    # Only a build of fully captured source ships: reproducible from Zeppelin-Craft, and the binaries
+    # on disk are the ones that build produced.
+    if not stamp or not stamp.get('captured'):
+        raise click.ClickException("the current build is a test build (uncaptured source) or has no stamp: "
+                                   f"commit in src, `zep forge build-patch --name {SOURCE_ZPAK}`, then "
+                                   "`zep build exe source build` again")
+    if stamp.get('head') != state['head'] or stamp.get('files') != {n: meta[n]['checksum'] for n in SOURCE_MEMBERS}:
+        raise click.ClickException("bin/Win does not match the stamped build (source moved or files changed): rebuild")
     combined = _combined(meta)
     register = load_register(NGINX_PATH)
     prev = register.get('patches', {}).get(SOURCE_KEY)
