@@ -870,6 +870,93 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
+-- Stormwind Leggings (retail item 117411, display 693915)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210207;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210207,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_allianceuprez_b_01_pant_lu',
+  `lower_leg_texture` = 'plate_allianceuprez_b_01_pant_ll',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Stormwind Belt (retail item 117410, display 693923)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210208;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210208,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = 'plate_allianceuprez_b_01_belt_tl',
+  `upper_leg_texture` = 'plate_allianceuprez_b_01_belt_lu',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Stormwind Boots (retail item 117412, display 693937)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210209;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210209,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'plate_allianceuprez_b_01_boot_ll',
+  `foot_texture` = 'plate_allianceuprez_b_01_boot_fo',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
 -- Stormwind Grips (retail item 117409, display 137995)
 DELETE FROM `itemdisplayinfo` WHERE `id` = 210205;
 INSERT INTO `itemdisplayinfo` SET

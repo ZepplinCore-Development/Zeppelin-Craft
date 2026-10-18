@@ -382,8 +382,8 @@
     "wrists_id": 0
    },
    "look": {
-    "belt_id": 7224,
-    "boots_id": 7255,
+    "belt_id": 210208,
+    "boots_id": 210209,
     "can_equip": 0,
     "cape_id": 0,
     "chest_id": 210206,
@@ -395,7 +395,7 @@
     "hair_style": 0,
     "helm_id": 210203,
     "id": 900529,
-    "legs_id": 7225,
+    "legs_id": 210207,
     "race": 1,
     "shirt_id": 7223,
     "shoulders_id": 210204,

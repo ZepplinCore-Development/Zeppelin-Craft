@@ -217,8 +217,9 @@ STYLE_COLS = {'helm': 'helm_id', 'shoulders': 'shoulders_id', 'shirt': 'shirt_id
 
 
 # retail items over the stock display's, per slot (the user's picks: the retail Stormwind set - helm, shoulder-
-# guards, chestguard, grips - wowhead 117406-117409, 2026-10-18)
-STYLE_RETAIL = {'mountedknight.m2': {'helm': 117406, 'shoulders': 117407, 'chest': 117408, 'gloves': 117409}}
+# guards, chestguard, grips, leggings, belt, boots - wowhead 117406-117412, 2026-10-18)
+STYLE_RETAIL = {'mountedknight.m2': {'helm': 117406, 'shoulders': 117407, 'chest': 117408, 'gloves': 117409,
+                                     'legs': 117411, 'belt': 117410, 'boots': 117412}}
 
 
 def style_outfit(mp):

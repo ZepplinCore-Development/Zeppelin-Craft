@@ -410,6 +410,13 @@
    "sha256": "4dabed3380db63be7ffe2d990a2d3def9a5fc8add44c42d0ef5a9c9bfecb3ebe"
   },
   {
+   "path": "Item/TextureComponents/FootTexture/plate_allianceuprez_b_01_boot_fo_u.blp",
+   "fdid": 1037115,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4d7c3e338b9d075584df3c21960dd24a56b495dc318708a44139d4c878fb9672"
+  },
+  {
    "path": "Item/TextureComponents/FootTexture/plate_warfrontshorde_d_01maroon_boot_fo_u.blp",
    "fdid": 1780817,
    "build": "12.1.0.69875",
@@ -487,6 +494,20 @@
    "sha256": "03e19d90ab19bda84868377e0ce724879ee300f648ed73984c5af2b896e7d46a"
   },
   {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_allianceuprez_b_01_boot_ll_u.blp",
+   "fdid": 1037117,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "bafa8359aa8df6d36d66bcf65408fe34d0cc8624cf25327d96709af564fa6a44"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_allianceuprez_b_01_pant_ll_u.blp",
+   "fdid": 1037118,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "27407f3aa2010a6fc2121e7536e63738b876612da5b32426afa2e99d85129d05"
+  },
+  {
    "path": "Item/TextureComponents/LegLowerTexture/plate_warfrontshorde_d_01maroon_boot_ll_u.blp",
    "fdid": 1780818,
    "build": "12.1.0.69875",
@@ -520,6 +541,20 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "69cf931dd91bf75d9c6da5f19842227e233ae4e5615bd4b006d14c63f522b780"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_allianceuprez_b_01_belt_lu_u.blp",
+   "fdid": 1037119,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "08f31149a85427530e6e55b66cdf82102cd924131bc57001259decc1a4efafd4"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_allianceuprez_b_01_pant_lu_u.blp",
+   "fdid": 1037120,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "6c6a080b75a0f8f548b763c211f48daa655fb3dc156b79c61d615d313438c458"
   },
   {
    "path": "Item/TextureComponents/LegUpperTexture/plate_warfrontshorde_d_01maroon_belt_lu_u.blp",
@@ -576,6 +611,13 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "bff9dfb8d4a8b8c4063186acca354f80c3930754de4a46cbd91d6286d6b25058"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/plate_allianceuprez_b_01_belt_tl_u.blp",
+   "fdid": 1037122,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "26c4ba5196e6cd1db11dd542ace05765ee5da6c38ea1fd3896be8c9526c6c481"
   },
   {
    "path": "Item/TextureComponents/TorsoLowerTexture/plate_allianceuprez_b_01_chest_tl_f.blp",
@@ -849,7 +891,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900529_HD.blp",
    "kind": "bake",
    "display": 900529,
-   "sha256": "844e31d64b8182e0d9f1f7d6ee17d427d49f8d7f84da6b1200d7d6db2c348df6"
+   "sha256": "68ce4750c019ff4f5102ffc6fd75461f4e8e5d41454045bd342028c6b9b3725c"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900529_fake.blp",

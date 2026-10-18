@@ -24,13 +24,16 @@
         "display": 6255
       },
       "legs": {
-        "display": 7225
+        "item": 117411,
+        "mod": 0
       },
       "belt": {
-        "display": 7224
+        "item": 117410,
+        "mod": 0
       },
       "boots": {
-        "display": 7255
+        "item": 117412,
+        "mod": 0
       },
       "gloves": {
         "item": 117409,
