@@ -111,6 +111,7 @@ class WardrobeBuilder:
         self.ids = json.loads(self.ids_path.read_text()) if self.ids_path.exists() else {'item_displays': {}}
         self.prov_path = self.zpak / 'asset_provenance.json'
         self.produced: Dict[str, Dict] = {}
+        self.skipped_existing: List[str] = []    # paths the client already ships (_write)
         self.options: Dict[int, Dict] = {}          # display -> {ship, options: {name: CDIExtra row}}
         self._case: Dict[str, str] = {}
         self.items: Dict[Tuple[int, int], ImportedItem] = {}
@@ -119,6 +120,14 @@ class WardrobeBuilder:
 
     # -- files ----------------------------------------------------------------------
     def _write(self, client_path: str, data: bytes, prov: Dict) -> None:
+        # NEVER at a path the client already has (stock, or an enabled zpak / HD pack): PATCH-Z outranks the
+        # packs, so a retail copy there replaces every NPC's file of that name - the classic-UV retail
+        # LShoulder_Leather_Horde_B_03 overrode the HD pack's mesh and broke the Orgrimmar Horde Guards'
+        # shoulders in game (2026-10-18). The existing file is used instead (same name = same item art);
+        # anything we must change ships under a new name (recolours: <base>_rc<hash>)
+        if self._client_file(client_path):
+            self.skipped_existing.append(client_path)
+            return
         # MPQ paths are case-insensitive: reuse a path already produced with different casing
         # (a model's inlined hardcoded texture often names the same file as its ItemDisplayInfo row)
         client_path = self._case.setdefault(client_path.lower(), client_path)

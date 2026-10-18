@@ -117,6 +117,8 @@ def wardrobe_build(zpak_name, retail_build):
     if removed:
         click.echo(f'Removed {len(removed)} stale asset(s): ' + ', '.join(removed))
     click.echo(f'Assets: {len(b.produced)} files (asset_provenance.json)')
+    if b.skipped_existing:
+        click.echo(f'Not shipped (the client already has them): {len(set(b.skipped_existing))} file(s)')
 
 
 @wardrobe.command('item')
