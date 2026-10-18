@@ -1382,6 +1382,7 @@ function riderParts(mount, own = mount) {
     const k = `rider/${riderCode}_i${n}`;
     ovr[k + '.m2'] = it.m2; ovr[k + '00.skin'] = it.skin;
     if (it.t) ovr[k + '.blp'] = it.t;
+    Object.entries(it.tex || {}).forEach(([path, cas]) => { ovr[path] = cas; });   // textures named inside the item model
     items.push({ a: sa, m: k + '.m2', t: it.t ? k + '.blp' : '', fit });
   });
   return { item: items[0], items, ovr };
@@ -2392,7 +2393,7 @@ const MOUNT_FAMILY = { 'batrider.m2': ['bat'], 'horderider.m2': ['wyvern'], 'all
   // Teron and the Horseman ride undead / spectral horses (their riders are their own displays)
   'terongorefiend_mounted.m2': ['undeadhorse', 'deathcharger', 'skeletalhorse', 'undeadwarhorse', 'deathknightmount', 'horse'],
   'headlesshorsemanmount.m2': ['headlesshorseman', 'undeadhorse', 'deathcharger', 'horse'] };
-const MOUNT_CARDS_FIRST = 12;
+const MOUNT_CARDS_FIRST = 6;     // the browser keeps ~16 live WebGL contexts per page: 12 options + the page's own cards left the last card blank
 let _mountRun = 0;
 // F-220: the other versions of our riderless mount model (zep-mounted-npcs-packs: a community pack's copy
 // with the rider cut out, e.g. the HD rocket car) as cards on the mount display page, beside our stock cut;

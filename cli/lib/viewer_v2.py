@@ -1198,7 +1198,17 @@ def riders(dep: 'Deployer', bd: Dict[str, dict], log: Callable = print) -> None:
                 except Exception as ex:
                     log(f'  rider {code} item {it["m"]}: skipped - {ex}')
                     continue
-            seated.append({'m2': ih['m2'], 'skin': ih['skin'], 't': m.get(it.get('t') or '') or ''})
+            # and the textures named INSIDE the item model (retail items: the Stormwind helm's are hardcoded,
+            # not the ItemDisplayInfo texture) - the mount pane's map never has them (the seated helm drew black)
+            from lib import skin_fill as _sf
+            own_tex = {}
+            try:
+                for _t, n_ in _sf.texture_table((cas_dir / ih['m2']).read_bytes()):
+                    if n_ and m.get(n_):
+                        own_tex[n_] = m[n_]
+            except Exception:
+                pass
+            seated.append({'m2': ih['m2'], 'skin': ih['skin'], 't': m.get(it.get('t') or '') or '', 'tex': own_tex})
         if seated:
             b['rider']['items'] = seated
     RIDER_CACHE.write_text(json.dumps(cache))
