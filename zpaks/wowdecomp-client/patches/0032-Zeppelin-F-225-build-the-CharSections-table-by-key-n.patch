@@ -1,0 +1,187 @@
+From e0a3a04292e70e8043673248e47bed3b19e1d30b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 18 Oct 2026 02:09:08 +0000
+Subject: [PATCH] Zeppelin F-225: build the CharSections table by key, not
+ record order
+
+The original sized each race/sex/section and colour list from runs of consecutive CharSections
+records. A key that reappeared later (custom rows appended after the stock block) reallocated its list
+from the second run and the colour pass wrote past it: heap corruption, #132 at character select.
+Counts are now maxima over all records, lists are allocated once, rows outside the race table are
+skipped, and duplicate keys resolve to the highest record id (what the grouped file chose).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Common/ComponentCore/ComponentUtils.cpp | 128 ++++++++------------
+ 1 file changed, 50 insertions(+), 78 deletions(-)
+
+diff --git a/WoW/Common/ComponentCore/ComponentUtils.cpp b/WoW/Common/ComponentCore/ComponentUtils.cpp
+index 5531cb2..1ade09a 100644
+--- a/WoW/Common/ComponentCore/ComponentUtils.cpp
++++ b/WoW/Common/ComponentCore/ComponentUtils.cpp
+@@ -245,111 +245,83 @@ int32_t BuildComponentArray(uint32_t count, st_race** lookupOut) {
+ 
+     st_race* lookup = new (__FILE__, __LINE__) st_race[count];
+ 
+-    int32_t variationIndex = 0;
+-    CharSectionsRec* first = (0 >= g_charSectionsDB.m_numRecords) ? nullptr : &g_charSectionsDB.m_records[0];
+-    int32_t raceID = first->m_raceID;
+-    int32_t sexID = first->m_sexID;
+-    int32_t baseSection = first->m_baseSection;
++    // Not in the original (F-225): the table is built by key, independent of record order.
++    // The original sized each race/sex/section (and each variation's colour list) from runs of
++    // consecutive records. A key that appeared again later in CharSections.dbc (custom rows appended
++    // after the stock block) reallocated its list from the second run alone, and the colour pass then
++    // indexed m_variation past that smaller allocation - a heap overwrite that surfaced as a #132.
++    // Rows whose race has no slot (race beyond ChrRaces' max ID) also wrote outside the table.
++    // Here every count is the maximum over all records of that key, each list is allocated once, and
++    // rows outside the table are skipped. Slots with no record stay nullptr, which every caller checks.
++    auto slot = [&](const CharSectionsRec* rec) -> CharVariationList* {
++        if (rec->m_baseSection < 0 || rec->m_baseSection >= NUM_COMPONENT_VARIATIONS || rec->m_raceID < 0 || rec->m_sexID < 0 || rec->m_sexID > 1 || rec->m_variationIndex < 0 || rec->m_colorIndex < 0) {
++            return nullptr;
++        }
++
++        uint32_t index = static_cast<uint32_t>(rec->m_raceID) * 2 + static_cast<uint32_t>(rec->m_sexID);
++        return index < count ? &lookup[index].m_variation[rec->m_baseSection] : nullptr;
++    };
+ 
++    // Pass 1: number of variations per race/sex/section.
+     for (int32_t i = 0; i < g_charSectionsDB.m_numRecords; i++) {
+-        CharSectionsRec* rec = (i < 0 || i >= g_charSectionsDB.m_numRecords) ? nullptr : &g_charSectionsDB.m_records[i];
++        const CharSectionsRec* rec = &g_charSectionsDB.m_records[i];
+ 
+-        if (rec->m_baseSection >= NUM_COMPONENT_VARIATIONS) {
+-            continue;
++        if (CharVariationList* list = slot(rec)) {
++            if (list->m_numVariations < rec->m_variationIndex + 1) {
++                list->m_numVariations = rec->m_variationIndex + 1;
++            }
+         }
++    }
+ 
+-        if (raceID != rec->m_raceID || sexID != rec->m_sexID || baseSection != rec->m_baseSection) {
+-            CharVariationList& list = lookup[raceID * 2 + sexID].m_variation[baseSection];
+-            list.m_numVariations = variationIndex + 1;
++    for (uint32_t r = 0; r < count; r++) {
++        for (int32_t v = 0; v < NUM_COMPONENT_VARIATIONS; v++) {
++            CharVariationList& list = lookup[r].m_variation[v];
+ 
+             if (list.m_numVariations > 0) {
+                 list.m_variation = new (__FILE__, __LINE__) CharColorList[list.m_numVariations];
+             }
+-
+-            variationIndex = 0;
+-        }
+-
+-        if (variationIndex <= rec->m_variationIndex) {
+-            variationIndex = rec->m_variationIndex;
+         }
+-
+-        raceID = rec->m_raceID;
+-        sexID = rec->m_sexID;
+-        baseSection = rec->m_baseSection;
+-    }
+-
+-    CharVariationList& lastList = lookup[raceID * 2 + sexID].m_variation[baseSection];
+-    lastList.m_numVariations = variationIndex + 1;
+-
+-    if (lastList.m_numVariations > 0) {
+-        lastList.m_variation = new (__FILE__, __LINE__) CharColorList[lastList.m_numVariations];
+     }
+ 
+-    sexID = 0;
+-    raceID = 1;
+-    baseSection = 0;
+-    variationIndex = 0;
+-    int32_t colorIndex = 0;
+-
++    // Pass 2: number of colours per variation.
+     for (int32_t i = 0; i < g_charSectionsDB.m_numRecords; i++) {
+-        CharSectionsRec* rec = (i < 0 || i >= g_charSectionsDB.m_numRecords) ? nullptr : &g_charSectionsDB.m_records[i];
+-
+-        if (rec->m_baseSection >= NUM_COMPONENT_VARIATIONS) {
+-            continue;
+-        }
++        const CharSectionsRec* rec = &g_charSectionsDB.m_records[i];
+ 
+-        if (raceID != rec->m_raceID || sexID != rec->m_sexID || baseSection != rec->m_baseSection || variationIndex != rec->m_variationIndex) {
+-            CharVariationList& list = lookup[raceID * 2 + sexID].m_variation[baseSection];
++        if (CharVariationList* list = slot(rec)) {
++            CharColorList& colors = list->m_variation[rec->m_variationIndex];
+ 
+-            if (list.m_numVariations > 0) {
+-                CharColorList& colors = list.m_variation[variationIndex];
+-                colors.m_numColors = colorIndex + 1;
+-
+-                if (colors.m_numColors > 0) {
+-                    colors.m_color = new (__FILE__, __LINE__) CharSectionsRec*[colorIndex + 1]();
+-                }
++            if (colors.m_numColors < rec->m_colorIndex + 1) {
++                colors.m_numColors = rec->m_colorIndex + 1;
+             }
+-
+-            colorIndex = 0;
+-        }
+-
+-        if (colorIndex <= rec->m_colorIndex) {
+-            colorIndex = rec->m_colorIndex;
+         }
+-
+-        raceID = rec->m_raceID;
+-        sexID = rec->m_sexID;
+-        baseSection = rec->m_baseSection;
+-        variationIndex = rec->m_variationIndex;
+     }
+ 
+-    CharVariationList& lastColors = lookup[raceID * 2 + sexID].m_variation[baseSection];
++    for (uint32_t r = 0; r < count; r++) {
++        for (int32_t v = 0; v < NUM_COMPONENT_VARIATIONS; v++) {
++            CharVariationList& list = lookup[r].m_variation[v];
+ 
+-    if (lastColors.m_numVariations > 0) {
+-        CharColorList& colors = lastColors.m_variation[variationIndex];
+-        colors.m_numColors = colorIndex + 1;
++            for (int32_t n = 0; n < list.m_numVariations; n++) {
++                CharColorList& colors = list.m_variation[n];
+ 
+-        if (colors.m_numColors > 0) {
+-            colors.m_color = new (__FILE__, __LINE__) CharSectionsRec*[colorIndex + 1]();
++                if (colors.m_numColors > 0) {
++                    colors.m_color = new (__FILE__, __LINE__) CharSectionsRec*[colors.m_numColors]();
++                }
++            }
+         }
+     }
+ 
++    // Pass 3: fill. When two records share a key (our custom goblin rows duplicate the stock NPC goblin
++    // rows), the higher record id wins: custom rows always take ids above the stock range, and in the
++    // grouped file they also came last, so this keeps what the original's "last record wins" chose
++    // without depending on order.
+     for (int32_t i = 0; i < g_charSectionsDB.m_numRecords; i++) {
+-        CharSectionsRec* rec = (i < 0 || i >= g_charSectionsDB.m_numRecords) ? nullptr : &g_charSectionsDB.m_records[i];
+-
+-        if (rec->m_baseSection >= NUM_COMPONENT_VARIATIONS) {
+-            continue;
+-        }
+-
+-        int32_t recVariation = rec->m_variationIndex;
+-        int32_t recColor = rec->m_colorIndex;
+-        CharVariationList& list = lookup[rec->m_raceID * 2 + rec->m_sexID].m_variation[rec->m_baseSection];
++        CharSectionsRec* rec = &g_charSectionsDB.m_records[i];
+ 
+-        if (list.m_numVariations > 0 && recVariation < list.m_numVariations) {
+-            CharColorList& colors = list.m_variation[recVariation];
++        if (CharVariationList* list = slot(rec)) {
++            CharSectionsRec*& entry = list->m_variation[rec->m_variationIndex].m_color[rec->m_colorIndex];
+ 
+-            if (colors.m_numColors > 0 && recColor < colors.m_numColors) {
+-                colors.m_color[recColor] = rec;
++            if (!entry || rec->m_id > entry->m_id) {
++                entry = rec;
+             }
+         }
+     }
+-- 
+2.34.1
+
