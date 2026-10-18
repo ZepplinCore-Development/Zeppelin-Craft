@@ -863,6 +863,64 @@ def import_rigid(data: bytearray, cfg: Dict[str, Any]) -> str:
             f'{len(out)} vertices -> {at}.., bound to bone {bind}')
 
 
+def _cap_loops(donor: bytes, tris, cap) -> List[tuple]:
+    """cfg "cap": {"max_size": 0.6}: triangles closing each open boundary loop of the piece smaller than
+    max_size across (the classic wing root's end, open where it sank into the classic body - hollow once
+    it stands proud of an HD back, I-392); the membrane's outer edge is far larger and stays open. A fan
+    from the loop's first vertex, wound to face away from the piece's centre."""
+    if not cap:
+        return []
+    dm = _Model(donor)
+    weld = lambda v: tuple(round(c, 4) for c in dm.pos[v])
+    rep, edges = {}, collections.Counter()
+    for t in tris:
+        for v in t:
+            rep.setdefault(weld(v), v)
+        for a, b in ((t[0], t[1]), (t[1], t[2]), (t[2], t[0])):
+            edges[frozenset((weld(a), weld(b)))] += 1
+    adj = collections.defaultdict(list)
+    for e, c in edges.items():
+        if c == 1 and len(e) == 2:
+            a, b = tuple(e)
+            adj[a].append(b)
+            adj[b].append(a)
+    allp = [dm.pos[v] for t in tris for v in t]
+    centre = [sum(p[i] for p in allp) / len(allp) for i in range(3)]
+    # walk unused boundary edges: two loops can share a vertex (a figure-eight on the classic root end)
+    used, out = set(), []
+    loops = []
+    for start in list(adj):
+        for first in adj[start]:
+            if frozenset((start, first)) in used:
+                continue
+            loop, cur = [start], first
+            used.add(frozenset((start, first)))
+            while cur != start:
+                loop.append(cur)
+                nxt = next((x for x in adj[cur] if frozenset((cur, x)) not in used), None)
+                if nxt is None:
+                    break
+                used.add(frozenset((cur, nxt)))
+                cur = nxt
+            if cur == start:
+                loops.append(loop)
+    for loop in loops:
+        size = max(max(p[i] for p in loop) - min(p[i] for p in loop) for i in range(3))
+        if len(loop) < 3 or size > float(cap.get('max_size', 0.6)):
+            continue
+        lc = [sum(p[i] for p in loop) / len(loop) for i in range(3)]
+        out_dir = [lc[i] - centre[i] for i in range(3)]
+        for k in range(1, len(loop) - 1):
+            a, b, c = loop[0], loop[k], loop[k + 1]
+            u = [b[i] - a[i] for i in range(3)]; w = [c[i] - a[i] for i in range(3)]
+            n = (u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0])
+            tri = (rep[a], rep[b], rep[c])
+            if sum(n[i] * out_dir[i] for i in range(3)) < 0:
+                tri = (tri[0], tri[2], tri[1])
+            out.append(tri)
+    return out
+
+
 def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     donor, tris, verts = _rigid_plan(cfg)
     flags, suv = _strut_split(donor, tris, cfg)
@@ -899,9 +957,10 @@ def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
         sk.props += props
     else:
         sk.props += bytes(4 * n * sides)
+    caps = _cap_loops(donor, tris, cfg.get('cap'))
     idx, sidx = [], []
-    for t, f in zip(tris, flags):
-        a, b, c = (nstart + (srank if f else rank)[v] for v in t)
+    for t, f in zip(tris + caps, flags + [True] * len(caps)):
+        a, b, c = (nstart + (srank if f and v in srank else rank)[v] for v in t)
         dst = sidx if f else idx
         dst += [a, b, c]
         if sides == 2:
