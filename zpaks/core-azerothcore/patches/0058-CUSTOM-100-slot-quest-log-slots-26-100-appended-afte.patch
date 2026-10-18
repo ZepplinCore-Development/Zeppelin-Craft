@@ -1,0 +1,503 @@
+From 2b3de72483191313c2b2e4253d442aa07ad6f37c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 18 Oct 2026 12:44:00 +0000
+Subject: [PATCH] CUSTOM: 100-slot quest log, slots 26-100 appended after
+ PLAYER_END (F-171)
+
+- 375 PRIVATE player fields after the stock block; QuestSlotField() maps slot -> field
+- MAX_QUEST_LOG_SIZE 100; only the Zeppelin x64 client reads this layout
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ .../Object/Updates/UpdateFieldFlags.cpp       | 375 ++++++++++++++++++
+ .../Entities/Object/Updates/UpdateFields.h    |   5 +-
+ src/server/game/Entities/Player/Player.h      |  42 +-
+ src/server/game/Quests/QuestDef.h             |   3 +-
+ 4 files changed, 405 insertions(+), 20 deletions(-)
+
+diff --git a/src/server/game/Entities/Object/Updates/UpdateFieldFlags.cpp b/src/server/game/Entities/Object/Updates/UpdateFieldFlags.cpp
+index 149ca6da4..63a43ff8b 100644
+--- a/src/server/game/Entities/Object/Updates/UpdateFieldFlags.cpp
++++ b/src/server/game/Entities/Object/Updates/UpdateFieldFlags.cpp
+@@ -1487,6 +1487,381 @@ uint32 UnitUpdateFieldFlags[PLAYER_END] =
+     UF_FLAG_PRIVATE,                                        // PLAYER_FIELD_GLYPHS_1+5
+     UF_FLAG_PRIVATE,                                        // PLAYER_GLYPHS_ENABLED
+     UF_FLAG_PRIVATE,                                        // PLAYER_PET_SPELL_POWER
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_26_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_26_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_26_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_26_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_26_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_27_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_27_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_27_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_27_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_27_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_28_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_28_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_28_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_28_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_28_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_29_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_29_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_29_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_29_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_29_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_30_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_30_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_30_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_30_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_30_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_31_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_31_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_31_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_31_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_31_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_32_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_32_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_32_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_32_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_32_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_33_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_33_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_33_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_33_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_33_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_34_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_34_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_34_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_34_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_34_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_35_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_35_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_35_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_35_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_35_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_36_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_36_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_36_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_36_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_36_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_37_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_37_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_37_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_37_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_37_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_38_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_38_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_38_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_38_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_38_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_39_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_39_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_39_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_39_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_39_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_40_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_40_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_40_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_40_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_40_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_41_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_41_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_41_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_41_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_41_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_42_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_42_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_42_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_42_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_42_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_43_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_43_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_43_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_43_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_43_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_44_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_44_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_44_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_44_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_44_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_45_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_45_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_45_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_45_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_45_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_46_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_46_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_46_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_46_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_46_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_47_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_47_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_47_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_47_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_47_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_48_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_48_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_48_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_48_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_48_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_49_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_49_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_49_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_49_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_49_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_50_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_50_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_50_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_50_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_50_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_51_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_51_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_51_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_51_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_51_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_52_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_52_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_52_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_52_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_52_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_53_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_53_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_53_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_53_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_53_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_54_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_54_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_54_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_54_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_54_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_55_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_55_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_55_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_55_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_55_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_56_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_56_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_56_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_56_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_56_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_57_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_57_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_57_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_57_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_57_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_58_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_58_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_58_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_58_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_58_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_59_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_59_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_59_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_59_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_59_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_60_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_60_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_60_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_60_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_60_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_61_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_61_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_61_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_61_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_61_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_62_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_62_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_62_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_62_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_62_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_63_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_63_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_63_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_63_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_63_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_64_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_64_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_64_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_64_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_64_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_65_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_65_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_65_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_65_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_65_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_66_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_66_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_66_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_66_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_66_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_67_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_67_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_67_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_67_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_67_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_68_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_68_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_68_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_68_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_68_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_69_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_69_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_69_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_69_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_69_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_70_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_70_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_70_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_70_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_70_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_71_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_71_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_71_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_71_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_71_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_72_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_72_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_72_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_72_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_72_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_73_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_73_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_73_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_73_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_73_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_74_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_74_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_74_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_74_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_74_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_75_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_75_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_75_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_75_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_75_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_76_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_76_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_76_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_76_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_76_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_77_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_77_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_77_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_77_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_77_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_78_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_78_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_78_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_78_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_78_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_79_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_79_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_79_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_79_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_79_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_80_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_80_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_80_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_80_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_80_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_81_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_81_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_81_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_81_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_81_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_82_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_82_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_82_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_82_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_82_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_83_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_83_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_83_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_83_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_83_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_84_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_84_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_84_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_84_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_84_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_85_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_85_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_85_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_85_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_85_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_86_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_86_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_86_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_86_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_86_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_87_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_87_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_87_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_87_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_87_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_88_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_88_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_88_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_88_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_88_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_89_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_89_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_89_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_89_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_89_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_90_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_90_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_90_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_90_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_90_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_91_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_91_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_91_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_91_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_91_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_92_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_92_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_92_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_92_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_92_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_93_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_93_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_93_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_93_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_93_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_94_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_94_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_94_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_94_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_94_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_95_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_95_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_95_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_95_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_95_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_96_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_96_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_96_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_96_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_96_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_97_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_97_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_97_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_97_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_97_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_98_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_98_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_98_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_98_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_98_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_99_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_99_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_99_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_99_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_99_4
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_100_1 (F-171: private; remote players store only 324 fields)
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_100_2
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_100_3
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_100_3+1
++    UF_FLAG_PRIVATE,                                        // PLAYER_ZEP_QUEST_LOG_100_4
+ };
+ 
+ uint32 GameObjectUpdateFieldFlags[GAMEOBJECT_END] =
+diff --git a/src/server/game/Entities/Object/Updates/UpdateFields.h b/src/server/game/Entities/Object/Updates/UpdateFields.h
+index 7f57183af..aa2c8c471 100644
+--- a/src/server/game/Entities/Object/Updates/UpdateFields.h
++++ b/src/server/game/Entities/Object/Updates/UpdateFields.h
+@@ -389,7 +389,10 @@ enum EUnitFields
+     PLAYER_FIELD_GLYPHS_1                     = UNIT_END + 0x0492, // Size: 6, Type: INT, Flags: PRIVATE
+     PLAYER_GLYPHS_ENABLED                     = UNIT_END + 0x0498, // Size: 1, Type: INT, Flags: PRIVATE
+     PLAYER_PET_SPELL_POWER                    = UNIT_END + 0x0499, // Size: 1, Type: INT, Flags: PRIVATE
+-    PLAYER_END                                = UNIT_END + 0x049A,
++    // CUSTOM (F-171): quest log slots 26-100 (75 x 5) appended after the stock block so no stock index moves.
++    // Only the Zeppelin x64 client reads this layout; the stock 3.3.5a exe is not supported.
++    PLAYER_ZEP_QUEST_LOG_26_1                 = UNIT_END + 0x049A, // Size: 375, Type: INT, Flags: PRIVATE
++    PLAYER_END                                = UNIT_END + 0x049A + 0x0177,
+ };
+ 
+ enum EGameObjectFields
+diff --git a/src/server/game/Entities/Player/Player.h b/src/server/game/Entities/Player/Player.h
+index 35d43e51d..e29add5a2 100644
+--- a/src/server/game/Entities/Player/Player.h
++++ b/src/server/game/Entities/Player/Player.h
+@@ -1505,37 +1505,43 @@ public:
+     void ResetSeasonalQuestStatus(uint16 event_id);
+ 
+     [[nodiscard]] uint16 FindQuestSlot(uint32 quest_id) const;
+-    [[nodiscard]] uint32 GetQuestSlotQuestId(uint16 slot) const { return GetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_ID_OFFSET); }
+-    [[nodiscard]] uint32 GetQuestSlotState(uint16 slot)   const { return GetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_STATE_OFFSET); }
+-    [[nodiscard]] uint16 GetQuestSlotCounter(uint16 slot, uint8 counter) const { return (uint16)(GetUInt64Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_COUNTS_OFFSET) >> (counter * 16)); }
+-    [[nodiscard]] uint32 GetQuestSlotTime(uint16 slot)    const { return GetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_TIME_OFFSET); }
++    // CUSTOM (F-171): first update field of a quest log slot: slots 0-24 in the stock block, 25-99 appended.
++    [[nodiscard]] static uint16 QuestSlotField(uint16 slot)
++    {
++        return slot < STOCK_QUEST_LOG_SIZE ? uint16(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET)
++            : uint16(PLAYER_ZEP_QUEST_LOG_26_1 + (slot - STOCK_QUEST_LOG_SIZE) * MAX_QUEST_OFFSET);
++    }
++    [[nodiscard]] uint32 GetQuestSlotQuestId(uint16 slot) const { return GetUInt32Value(QuestSlotField(slot) + QUEST_ID_OFFSET); }
++    [[nodiscard]] uint32 GetQuestSlotState(uint16 slot)   const { return GetUInt32Value(QuestSlotField(slot) + QUEST_STATE_OFFSET); }
++    [[nodiscard]] uint16 GetQuestSlotCounter(uint16 slot, uint8 counter) const { return (uint16)(GetUInt64Value(QuestSlotField(slot) + QUEST_COUNTS_OFFSET) >> (counter * 16)); }
++    [[nodiscard]] uint32 GetQuestSlotTime(uint16 slot)    const { return GetUInt32Value(QuestSlotField(slot) + QUEST_TIME_OFFSET); }
+     void SetQuestSlot(uint16 slot, uint32 quest_id, uint32 timer = 0)
+     {
+-        SetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_ID_OFFSET, quest_id);
+-        SetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_STATE_OFFSET, 0);
+-        SetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_COUNTS_OFFSET, 0);
+-        SetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_COUNTS_OFFSET + 1, 0);
+-        SetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_TIME_OFFSET, timer);
++        SetUInt32Value(QuestSlotField(slot) + QUEST_ID_OFFSET, quest_id);
++        SetUInt32Value(QuestSlotField(slot) + QUEST_STATE_OFFSET, 0);
++        SetUInt32Value(QuestSlotField(slot) + QUEST_COUNTS_OFFSET, 0);
++        SetUInt32Value(QuestSlotField(slot) + QUEST_COUNTS_OFFSET + 1, 0);
++        SetUInt32Value(QuestSlotField(slot) + QUEST_TIME_OFFSET, timer);
+     }
+     void SetQuestSlotCounter(uint16 slot, uint8 counter, uint16 count)
+     {
+-        uint64 val = GetUInt64Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_COUNTS_OFFSET);
++        uint64 val = GetUInt64Value(QuestSlotField(slot) + QUEST_COUNTS_OFFSET);
+         val &= ~((uint64)0xFFFF << (counter * 16));
+         val |= ((uint64)count << (counter * 16));
+-        SetUInt64Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_COUNTS_OFFSET, val);
++        SetUInt64Value(QuestSlotField(slot) + QUEST_COUNTS_OFFSET, val);
+     }
+-    void SetQuestSlotState(uint16 slot, uint32 state) { SetFlag(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_STATE_OFFSET, state); }
+-    void RemoveQuestSlotState(uint16 slot, uint32 state) { RemoveFlag(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_STATE_OFFSET, state); }
+-    void SetQuestSlotTimer(uint16 slot, uint32 timer) { SetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_TIME_OFFSET, timer); }
++    void SetQuestSlotState(uint16 slot, uint32 state) { SetFlag(QuestSlotField(slot) + QUEST_STATE_OFFSET, state); }
++    void RemoveQuestSlotState(uint16 slot, uint32 state) { RemoveFlag(QuestSlotField(slot) + QUEST_STATE_OFFSET, state); }
++    void SetQuestSlotTimer(uint16 slot, uint32 timer) { SetUInt32Value(QuestSlotField(slot) + QUEST_TIME_OFFSET, timer); }
+     void SwapQuestSlot(uint16 slot1, uint16 slot2)
+     {
+         for (int i = 0; i < MAX_QUEST_OFFSET; ++i)
+         {
+-            uint32 temp1 = GetUInt32Value(PLAYER_QUEST_LOG_1_1 + MAX_QUEST_OFFSET * slot1 + i);
+-            uint32 temp2 = GetUInt32Value(PLAYER_QUEST_LOG_1_1 + MAX_QUEST_OFFSET * slot2 + i);
++            uint32 temp1 = GetUInt32Value(QuestSlotField(slot1) + i);
++            uint32 temp2 = GetUInt32Value(QuestSlotField(slot2) + i);
+ 
+-            SetUInt32Value(PLAYER_QUEST_LOG_1_1 + MAX_QUEST_OFFSET * slot1 + i, temp2);
+-            SetUInt32Value(PLAYER_QUEST_LOG_1_1 + MAX_QUEST_OFFSET * slot2 + i, temp1);
++            SetUInt32Value(QuestSlotField(slot1) + i, temp2);
++            SetUInt32Value(QuestSlotField(slot2) + i, temp1);
+         }
+     }
+     uint16 GetReqKillOrCastCurrentCount(uint32 quest_id, int32 entry);
+diff --git a/src/server/game/Quests/QuestDef.h b/src/server/game/Quests/QuestDef.h
+index f074592c0..faa253513 100644
+--- a/src/server/game/Quests/QuestDef.h
++++ b/src/server/game/Quests/QuestDef.h
+@@ -30,7 +30,8 @@ class Player;
+ 
+ class ObjectMgr;
+ 
+-#define MAX_QUEST_LOG_SIZE 25
++#define MAX_QUEST_LOG_SIZE 100 // CUSTOM (F-171): stock 25; slots 26-100 live in PLAYER_ZEP_QUEST_LOG_26_1
++#define STOCK_QUEST_LOG_SIZE 25
+ 
+ #define QUEST_OBJECTIVES_COUNT 4
+ #define QUEST_ITEM_OBJECTIVES_COUNT 6
+-- 
+2.34.1
+

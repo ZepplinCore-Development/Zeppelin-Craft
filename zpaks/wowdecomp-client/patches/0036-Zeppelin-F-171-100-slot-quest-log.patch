@@ -1,0 +1,868 @@
+From 2b4bb41c0c48fa6d3a975592e706601e4f702060 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sun, 18 Oct 2026 12:43:50 +0000
+Subject: [PATCH] Zeppelin F-171: 100-slot quest log
+
+- Player fields: 75 quest slots x 5 appended after PLAYER_END (0x52E -> 1701 dwords), local data + mirror lists sized from it
+- Quest log UI arrays, POIs, sort types and Lua MAX_QUESTS/MAX_QUESTLOG_QUESTS raised to 100
+- Party member quest checks stay on the 25 stock slots (remote players carry only the stock fields)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ .../Object/ObjectClient/GameObject_C.cpp      |   4 +-
+ WoW/Source/Object/ObjectClient/Player_C.cpp   |  33 ++++--
+ WoW/Source/Object/Player.cpp                  |  48 +++++++-
+ WoW/Source/Object/Player.h                    |   9 +-
+ .../ObjectMgrClient/ObjectMgrClient.cpp       |  32 ++++--
+ WoW/Source/Ui/GameUI.cpp                      |   3 +
+ WoW/Source/Ui/QuestLog.cpp                    | 108 +++++++++---------
+ WoW/Source/Ui/QuestLog.h                      |  12 +-
+ WoW/Source/Ui/QuestLog_Scripts.cpp            |  20 ++--
+ 9 files changed, 175 insertions(+), 94 deletions(-)
+
+diff --git a/WoW/Source/Object/ObjectClient/GameObject_C.cpp b/WoW/Source/Object/ObjectClient/GameObject_C.cpp
+index c5f027a..867917b 100644
+--- a/WoW/Source/Object/ObjectClient/GameObject_C.cpp
++++ b/WoW/Source/Object/ObjectClient/GameObject_C.cpp
+@@ -3809,8 +3809,8 @@ int32_t CGGameObject_C::CanHighlight() const {
+         return 0;
+     }
+ 
+-    for (uint32_t i = 0; i < 25; i++) {
+-        if (player->GetQuestLogEntry(i)->m_questId == static_cast<uint32_t>(questId)) {
++    for (uint32_t i = 0; i < 100; i++) { // Not in the original (F-171): all 100 slots
++        if (player->GetLocalQuestLogEntry(i)->m_questId == static_cast<uint32_t>(questId)) {
+             return 1;
+         }
+     }
+diff --git a/WoW/Source/Object/ObjectClient/Player_C.cpp b/WoW/Source/Object/ObjectClient/Player_C.cpp
+index fcdf563..fd98084 100644
+--- a/WoW/Source/Object/ObjectClient/Player_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Player_C.cpp
+@@ -2799,7 +2799,7 @@ CGPlayer_C::CGPlayer_C(uint32_t time, const CClientObjCreate& create)
+     }
+ 
+     if (this->m_obj->m_guid == ClntObjMgrGetActivePlayer()) {
+-        for (uint32_t i = 0; i < 1002; i++) {
++        for (uint32_t i = 0; i < CGPlayer::ZEP_LOCAL_MIRROR_LISTS; i++) { // Not in the original (F-171): was 1002
+             new (&this->m_playerLocalMirrorLists[i]) TSList<void>();
+         }
+ 
+@@ -3798,8 +3798,8 @@ int32_t Packet_Group_17(void* param, NETMESSAGE msgId, uint32_t time, CDataStore
+             return 1;
+         }
+ 
+-        for (int32_t i = 0; i < 25; i++) {
+-            PlayerQuestLogEntry* entry = i >= 0 && i <= 25 ? &player->m_player->m_playerQuestLog[i] : nullptr;
++        for (int32_t i = 0; i < 100; i++) { // Not in the original (F-171): all 100 slots
++            PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(static_cast<uint32_t>(i));
+ 
+             if (entry && entry->m_questId == questId) {
+                 if (entry->m_state & 0x2) {
+@@ -7117,8 +7117,16 @@ int32_t OnUpdateQuest(WOWGUID guid, uint32_t offset, uint32_t count, const void*
+     }
+ 
+     CGQuestLog::Update(1);
+-    uint32_t slot = (offset - 0x28) / sizeof(PlayerQuestLogEntry);
+-    PlayerQuestLogEntry* entry = slot > 25 ? nullptr : &player->m_player->m_playerQuestLog[slot];
++    // Not in the original (F-171): slots 25-99 live in the appended block (CGPlayerLocalData::m_zepQuestLog)
++    uint32_t slot = offset >= offsetof(CGPlayerLocalData, m_zepQuestLog)
++        ? 25 + (offset - offsetof(CGPlayerLocalData, m_zepQuestLog)) / sizeof(PlayerQuestLogEntry)
++        : (offset - 0x28) / sizeof(PlayerQuestLogEntry);
++    PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(slot);
++
++    if (!entry) {
++        return 1;
++    }
++
+     const PlayerQuestLogEntry* old = static_cast<const PlayerQuestLogEntry*>(value);
+     uint32_t questId = entry->m_questId;
+     WOWGUID none = { 0 };
+@@ -7193,6 +7201,11 @@ void CGPlayer_C::SetActiveMirrorHandlers() {
+         ClntObjMgrSetObjMirrorHandler(this->m_obj->m_guid, ID_PLAYER, i, 20, OnUpdateQuest, nullptr, HANDLER_PRIORITY_NORMAL, 0);
+     }
+ 
++    // Not in the original (F-171): quest log slots 26-100
++    for (uint32_t i = offsetof(CGPlayerLocalData, m_zepQuestLog); i < offsetof(CGPlayerLocalData, m_zepQuestLog) + sizeof(CGPlayerLocalData::m_zepQuestLog); i += 20) {
++        ClntObjMgrSetObjMirrorHandler(this->m_obj->m_guid, ID_PLAYER, i, 20, OnUpdateQuest, nullptr, HANDLER_PRIORITY_NORMAL, 0);
++    }
++
+     for (uint32_t i = 0x11B0; i < 0x1214; i += 4) {
+         ClntObjMgrSetObjMirrorHandler(this->m_obj->m_guid, ID_PLAYER, i, 4, ReportDailyQuestsRemaining, nullptr, HANDLER_PRIORITY_NORMAL, 0);
+     }
+@@ -7288,6 +7301,10 @@ void CGPlayer_C::UnsetActiveMirrorHandlers() {
+         ClntObjMgrUnsetObjMirrorHandler(this->m_obj->m_guid, ID_PLAYER, i, OnUpdateQuest, nullptr);
+     }
+ 
++    for (uint32_t i = offsetof(CGPlayerLocalData, m_zepQuestLog); i < offsetof(CGPlayerLocalData, m_zepQuestLog) + sizeof(CGPlayerLocalData::m_zepQuestLog); i += 20) {
++        ClntObjMgrUnsetObjMirrorHandler(this->m_obj->m_guid, ID_PLAYER, i, OnUpdateQuest, nullptr); // Not in the original (F-171): slots 26-100
++    }
++
+     for (uint32_t i = 0x11B0; i < 0x1214; i += 4) {
+         ClntObjMgrUnsetObjMirrorHandler(this->m_obj->m_guid, ID_PLAYER, i, ReportDailyQuestsRemaining, nullptr);
+     }
+@@ -12500,8 +12517,8 @@ void CGPlayer_C::CheckForQuestItemLoot(uint32_t itemId, uint32_t count, uint32_t
+         return;
+     }
+ 
+-    for (uint32_t i = 0; i < 25; i++) {
+-        PlayerQuestLogEntry* entry = &this->m_player->m_playerQuestLog[i];
++    for (uint32_t i = 0; i < 100; i++) { // Not in the original (F-171): all 100 slots
++        PlayerQuestLogEntry* entry = this->GetLocalQuestLogEntry(i);
+ 
+         if (static_cast<int32_t>(entry->m_questId) <= 0 || CGQuestLog::IsQuestExpiredByID(entry->m_questId)) {
+             continue;
+@@ -13433,7 +13450,7 @@ void CGPlayer_C::DestructActivePlayer() {
+         CGGameUI::LeaveWorld();
+     }
+ 
+-    for (uint32_t i = 0; i < 1002; i++) {
++    for (uint32_t i = 0; i < CGPlayer::ZEP_LOCAL_MIRROR_LISTS; i++) { // Not in the original (F-171): was 1002
+         this->m_playerLocalMirrorLists[i].~TSList<void>();
+     }
+ 
+diff --git a/WoW/Source/Object/Player.cpp b/WoW/Source/Object/Player.cpp
+index a302dc7..3b58ade 100644
+--- a/WoW/Source/Object/Player.cpp
++++ b/WoW/Source/Object/Player.cpp
+@@ -17,7 +17,7 @@ const uint32_t CGPlayer::s_mirrorFields[173] = {
+ };
+ 
+ // STATIC: 0x00AC4E80
+-const uint32_t CGPlayer::s_localMirrorFields[870] = {
++const uint32_t CGPlayer::s_localMirrorFields[870 + 374] = {
+     0xB0, 0xB1, 0xB2, 0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD, 0xBE, 0xBF,
+     0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF,
+     0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0xD5, 0xD6, 0xD7, 0xD8, 0xD9, 0xDA, 0xDB, 0xDC, 0xDD, 0xDE, 0xDF,
+@@ -72,7 +72,32 @@ const uint32_t CGPlayer::s_localMirrorFields[870] = {
+     0x464, 0x465, 0x466, 0x467, 0x468, 0x469, 0x46A, 0x46C, 0x46D, 0x46E, 0x46F, 0x470, 0x471, 0x472, 0x473, 0x474,
+     0x475, 0x476, 0x477, 0x478, 0x479, 0x47A, 0x47B, 0x47C, 0x47D, 0x47E, 0x47F, 0x480, 0x481, 0x482, 0x483, 0x484,
+     0x485, 0x486, 0x487, 0x488, 0x489, 0x48A, 0x48B, 0x48C, 0x48D, 0x48E, 0x48F, 0x490, 0x491, 0x492, 0x493, 0x494,
+-    0x495, 0x496, 0x497, 0x498, 0x499, 0x49A
++    0x495, 0x496, 0x497, 0x498, 0x499, 0x49A,
++    // Not in the original (F-171): the appended quest log fields (0x49A, slot 26's first, was already listed)
++    0x49B, 0x49C, 0x49D, 0x49E, 0x49F, 0x4A0, 0x4A1, 0x4A2, 0x4A3, 0x4A4, 0x4A5, 0x4A6, 0x4A7, 0x4A8, 0x4A9, 0x4AA,
++    0x4AB, 0x4AC, 0x4AD, 0x4AE, 0x4AF, 0x4B0, 0x4B1, 0x4B2, 0x4B3, 0x4B4, 0x4B5, 0x4B6, 0x4B7, 0x4B8, 0x4B9, 0x4BA,
++    0x4BB, 0x4BC, 0x4BD, 0x4BE, 0x4BF, 0x4C0, 0x4C1, 0x4C2, 0x4C3, 0x4C4, 0x4C5, 0x4C6, 0x4C7, 0x4C8, 0x4C9, 0x4CA,
++    0x4CB, 0x4CC, 0x4CD, 0x4CE, 0x4CF, 0x4D0, 0x4D1, 0x4D2, 0x4D3, 0x4D4, 0x4D5, 0x4D6, 0x4D7, 0x4D8, 0x4D9, 0x4DA,
++    0x4DB, 0x4DC, 0x4DD, 0x4DE, 0x4DF, 0x4E0, 0x4E1, 0x4E2, 0x4E3, 0x4E4, 0x4E5, 0x4E6, 0x4E7, 0x4E8, 0x4E9, 0x4EA,
++    0x4EB, 0x4EC, 0x4ED, 0x4EE, 0x4EF, 0x4F0, 0x4F1, 0x4F2, 0x4F3, 0x4F4, 0x4F5, 0x4F6, 0x4F7, 0x4F8, 0x4F9, 0x4FA,
++    0x4FB, 0x4FC, 0x4FD, 0x4FE, 0x4FF, 0x500, 0x501, 0x502, 0x503, 0x504, 0x505, 0x506, 0x507, 0x508, 0x509, 0x50A,
++    0x50B, 0x50C, 0x50D, 0x50E, 0x50F, 0x510, 0x511, 0x512, 0x513, 0x514, 0x515, 0x516, 0x517, 0x518, 0x519, 0x51A,
++    0x51B, 0x51C, 0x51D, 0x51E, 0x51F, 0x520, 0x521, 0x522, 0x523, 0x524, 0x525, 0x526, 0x527, 0x528, 0x529, 0x52A,
++    0x52B, 0x52C, 0x52D, 0x52E, 0x52F, 0x530, 0x531, 0x532, 0x533, 0x534, 0x535, 0x536, 0x537, 0x538, 0x539, 0x53A,
++    0x53B, 0x53C, 0x53D, 0x53E, 0x53F, 0x540, 0x541, 0x542, 0x543, 0x544, 0x545, 0x546, 0x547, 0x548, 0x549, 0x54A,
++    0x54B, 0x54C, 0x54D, 0x54E, 0x54F, 0x550, 0x551, 0x552, 0x553, 0x554, 0x555, 0x556, 0x557, 0x558, 0x559, 0x55A,
++    0x55B, 0x55C, 0x55D, 0x55E, 0x55F, 0x560, 0x561, 0x562, 0x563, 0x564, 0x565, 0x566, 0x567, 0x568, 0x569, 0x56A,
++    0x56B, 0x56C, 0x56D, 0x56E, 0x56F, 0x570, 0x571, 0x572, 0x573, 0x574, 0x575, 0x576, 0x577, 0x578, 0x579, 0x57A,
++    0x57B, 0x57C, 0x57D, 0x57E, 0x57F, 0x580, 0x581, 0x582, 0x583, 0x584, 0x585, 0x586, 0x587, 0x588, 0x589, 0x58A,
++    0x58B, 0x58C, 0x58D, 0x58E, 0x58F, 0x590, 0x591, 0x592, 0x593, 0x594, 0x595, 0x596, 0x597, 0x598, 0x599, 0x59A,
++    0x59B, 0x59C, 0x59D, 0x59E, 0x59F, 0x5A0, 0x5A1, 0x5A2, 0x5A3, 0x5A4, 0x5A5, 0x5A6, 0x5A7, 0x5A8, 0x5A9, 0x5AA,
++    0x5AB, 0x5AC, 0x5AD, 0x5AE, 0x5AF, 0x5B0, 0x5B1, 0x5B2, 0x5B3, 0x5B4, 0x5B5, 0x5B6, 0x5B7, 0x5B8, 0x5B9, 0x5BA,
++    0x5BB, 0x5BC, 0x5BD, 0x5BE, 0x5BF, 0x5C0, 0x5C1, 0x5C2, 0x5C3, 0x5C4, 0x5C5, 0x5C6, 0x5C7, 0x5C8, 0x5C9, 0x5CA,
++    0x5CB, 0x5CC, 0x5CD, 0x5CE, 0x5CF, 0x5D0, 0x5D1, 0x5D2, 0x5D3, 0x5D4, 0x5D5, 0x5D6, 0x5D7, 0x5D8, 0x5D9, 0x5DA,
++    0x5DB, 0x5DC, 0x5DD, 0x5DE, 0x5DF, 0x5E0, 0x5E1, 0x5E2, 0x5E3, 0x5E4, 0x5E5, 0x5E6, 0x5E7, 0x5E8, 0x5E9, 0x5EA,
++    0x5EB, 0x5EC, 0x5ED, 0x5EE, 0x5EF, 0x5F0, 0x5F1, 0x5F2, 0x5F3, 0x5F4, 0x5F5, 0x5F6, 0x5F7, 0x5F8, 0x5F9, 0x5FA,
++    0x5FB, 0x5FC, 0x5FD, 0x5FE, 0x5FF, 0x600, 0x601, 0x602, 0x603, 0x604, 0x605, 0x606, 0x607, 0x608, 0x609, 0x60A,
++    0x60B, 0x60C, 0x60D, 0x60E, 0x60F, 0x610
+ };
+ 
+ // VERIFY: e6ab9c71 auto
+@@ -130,7 +155,8 @@ int32_t CGPlayer::HasZoneExplored(int32_t zone) {
+ // VERIFY: 89fd3c87 auto
+ // OFFSET: 0x004F5530
+ int32_t CGPlayer::TotalFields() {
+-    return CGUnit::TotalFields() + 1043;
++    // Not in the original (F-171): was "+ 1043" (173 + 870); counts the appended quest log fields too
++    return CGUnit::TotalFields() + sizeof(CGPlayer::s_mirrorFields) / sizeof(CGPlayer::s_mirrorFields[0]) + sizeof(CGPlayer::s_localMirrorFields) / sizeof(CGPlayer::s_localMirrorFields[0]);
+ }
+ 
+ // VERIFY: f3b17437 auto
+@@ -170,9 +196,23 @@ bool CGPlayer::HasAuraVision(uint8_t vision) {
+ // VERIFY: d70d997f manual
+ // OFFSET: 0x005E0870
+ PlayerQuestLogEntry* CGPlayer::GetQuestLogEntry(uint32_t slot) {
+-    if (slot > 25) {
++    if (slot >= 25) { // Not in the original (F-171): was "slot > 25", which returned the field after the array; remote players only have 25
+         return nullptr;
+     }
+ 
+     return &this->m_player->m_playerQuestLog[slot];
+ }
++
++// Not in the original (F-171): the active player's quest log: slots 0-24 in the stock block, 25-99 in the appended block. Remote
++// players store only the stock 324 fields, so never call this for them.
++PlayerQuestLogEntry* CGPlayer::GetLocalQuestLogEntry(uint32_t slot) {
++    if (slot < 25) {
++        return &this->m_player->m_playerQuestLog[slot];
++    }
++
++    if (slot < 100) {
++        return &static_cast<CGPlayerLocalData*>(this->m_player)->m_zepQuestLog[slot - 25];
++    }
++
++    return nullptr;
++}
+diff --git a/WoW/Source/Object/Player.h b/WoW/Source/Object/Player.h
+index dff9daf..72f6a09 100644
+--- a/WoW/Source/Object/Player.h
++++ b/WoW/Source/Object/Player.h
+@@ -27,11 +27,15 @@ struct PlayerSkillInfo {
+ class CGPlayer {
+     public:
+     PlayerQuestLogEntry* GetQuestLogEntry(uint32_t slot);
++    // Not in the original (F-171): the active player's mirror lists cover player field indices 176.. (stock 1002 lists, + the 375
++    // appended quest log fields). Used by the allocation, construction, destruction and ClearMirrorLists.
++    static constexpr uint32_t ZEP_LOCAL_MIRROR_LISTS = 1002 + 75 * 5;
++    PlayerQuestLogEntry* GetLocalQuestLogEntry(uint32_t slot); // Not in the original (F-171): active player only: slots 0-99
+     uint32_t GetBuybackPrice(uint32_t slot);
+     bool HasPvpMedal(uint32_t medal);
+     bool HasAuraVision(uint8_t vision);
+     static const uint32_t s_mirrorFields[173];
+-    static const uint32_t s_localMirrorFields[870];
++    static const uint32_t s_localMirrorFields[870 + 374]; // Not in the original (F-171): + the appended quest log fields
+ 
+     static uint32_t DescriptorToMirrorOffset(uint32_t offset, uint32_t size, int32_t local, uint32_t base);
+     static uint32_t GetSavedIndexFromDataIndex(uint32_t index, uint32_t count, int32_t local);
+@@ -128,6 +132,9 @@ class CGPlayerLocalData : public CGPlayerData {
+     /* 1248 */ uint32_t m_playerFieldGlyphs1 [6];
+     /* 1260 */ uint32_t m_playerGlyphsEnabled;
+     /* 1264 */ uint32_t m_playerPetSpellPower;
++    // Not in the original (F-171): quest log slots 26-100, appended after the stock PLAYER_END (0x52E) so no stock field
++    // moves. The server sends them only after CMSG_ZEP_CLIENT_CAPS (AzerothCore PLAYER_ZEP_QUEST_LOG_26_1).
++    /* 1268 */ PlayerQuestLogEntry m_zepQuestLog [75];
+ };
+ 
+ #endif
+diff --git a/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp b/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp
+index 893d342..008e574 100644
+--- a/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp
++++ b/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp
+@@ -40,8 +40,16 @@ static thread_local ObjectMgr* s_curMgr;
+ // STATIC: 0x00B4B014
+ static ObjectMgr* s_savedObjMgr;
+ 
++// Not in the original (F-171): the active player's field count grows from 0x52E (1326) by the 75 appended quest log slots
++// (5 fields each); remote players keep 324. ZEP_UPDATE_MASK_WORDS covers it (the original allowed 42 words).
++static constexpr uint32_t ZEP_PLAYER_DWORD_COUNT = 0x52E + 75 * 5;
++static constexpr uint32_t ZEP_UPDATE_MASK_WORDS = (ZEP_PLAYER_DWORD_COUNT + 31) / 32;
++// The data ends at the appended array; sizeof(CGPlayerLocalData) adds 4 bytes of padding for its 8-byte GUIDs.
++static_assert(CGPlayer::ZEP_LOCAL_MIRROR_LISTS == ZEP_PLAYER_DWORD_COUNT - 0x94 - 176, "local mirror lists cover every player field from index 176");
++static_assert((sizeof(CGObjectData) + sizeof(CGUnitData) + offsetof(CGPlayerLocalData, m_zepQuestLog) + sizeof(CGPlayerLocalData::m_zepQuestLog)) / sizeof(uint32_t) == ZEP_PLAYER_DWORD_COUNT, "player field layout");
++
+ // STATIC: 0x00B4B020
+-static TSList<CMirrorHandler, TSGetLink<CMirrorHandler> > s_typeMirrorHandlers[NUM_CLIENT_OBJECT_TYPES][1326];
++static TSList<CMirrorHandler, TSGetLink<CMirrorHandler> > s_typeMirrorHandlers[NUM_CLIENT_OBJECT_TYPES][ZEP_PLAYER_DWORD_COUNT]; // Not in the original (F-171): was 1326
+ 
+ // STATIC: 0x00B4AFF4
+ static uint32_t s_objHeapIds[NUM_CLIENT_OBJECT_TYPES];
+@@ -56,7 +64,7 @@ static const char* s_objNames[NUM_CLIENT_OBJECT_TYPES] = { "CGObject_C", "CGItem
+ static const uint32_t s_objHeapSize[NUM_CLIENT_OBJECT_TYPES] = { 0, 512, 32, 64, 64, 64, 32, 32 };
+ 
+ // STATIC: 0x00AC3D04
+-static const uint32_t s_objDwordCount[NUM_CLIENT_OBJECT_TYPES] = { 0x6, 0x40, 0x8A, 0x94, 0x52E, 0x12, 0xC, 0x24 };
++static const uint32_t s_objDwordCount[NUM_CLIENT_OBJECT_TYPES] = { 0x6, 0x40, 0x8A, 0x94, ZEP_PLAYER_DWORD_COUNT /* F-171: was 0x52E */, 0x12, 0xC, 0x24 };
+ 
+ // STATIC: 0x00B6A160
+ uint32_t s_objTotalSize[NUM_CLIENT_OBJECT_TYPES] = {
+@@ -477,7 +485,7 @@ static uint32_t GetNumDwordBlocks(uint32_t type, WOWGUID guid) {
+         }
+ 
+         case TYPEMASK_OBJECT | TYPEMASK_UNIT | TYPEMASK_PLAYER: {
+-            return guid == ClntObjMgrGetActivePlayer() ? 1326 : 324;
++            return guid == ClntObjMgrGetActivePlayer() ? ZEP_PLAYER_DWORD_COUNT : 324; // Not in the original (F-171): was 1326
+         }
+ 
+         case TYPEMASK_OBJECT | TYPEMASK_GAMEOBJECT: {
+@@ -505,7 +513,7 @@ static int32_t ExtractDirtyMasks(CDataStore* msg, uint8_t* blockCount, uint32_t*
+     msg->Get(count);
+     *blockCount = count;
+ 
+-    if (count > 42) {
++    if (count > ZEP_UPDATE_MASK_WORDS) { // Not in the original (F-171): was 42
+         return 0;
+     }
+ 
+@@ -515,8 +523,8 @@ static int32_t ExtractDirtyMasks(CDataStore* msg, uint8_t* blockCount, uint32_t*
+         msg->Get(masks[i]);
+     }
+ 
+-    if (i < 42) {
+-        memset(&masks[i], 0, sizeof(uint32_t) * (42 - i));
++    if (i < static_cast<int32_t>(ZEP_UPDATE_MASK_WORDS)) {
++        memset(&masks[i], 0, sizeof(uint32_t) * (ZEP_UPDATE_MASK_WORDS - i));
+     }
+ 
+     return 1;
+@@ -525,7 +533,7 @@ static int32_t ExtractDirtyMasks(CDataStore* msg, uint8_t* blockCount, uint32_t*
+ // VERIFY: 3918bd3a manual
+ // OFFSET: 0x004D3F80
+ static int32_t SkipPartialObjectUpdate(CDataStore* msg) {
+-    uint32_t masks[42];
++    uint32_t masks[ZEP_UPDATE_MASK_WORDS]; // Not in the original (F-171): was 42
+     uint8_t blockCount;
+ 
+     if (!ExtractDirtyMasks(msg, &blockCount, masks)) {
+@@ -803,7 +811,7 @@ static void ExpireOldObjects(uint32_t expireTime, OBJECT_TYPE_ID typeId) {
+ // OFFSET: 0x004D4930
+ CGObject_C* ClntObjMgrAllocObject(OBJECT_TYPE_ID typeId, WOWGUID guid) {
+     if (guid == ClntObjMgrGetActivePlayer()) {
+-        return static_cast<CGObject_C*>(SMemAlloc(sizeof(CGPlayer_C) + s_objDwordCount[ID_PLAYER] * sizeof(uint32_t) + CGPlayer::TotalFields() * sizeof(uint32_t) + 1002 * sizeof(TSList<void>), __FILE__, __LINE__, 0));
++        return static_cast<CGObject_C*>(SMemAlloc(sizeof(CGPlayer_C) + (sizeof(CGObjectData) + sizeof(CGUnitData) + sizeof(CGPlayerLocalData)) /* F-171: the layout below uses sizeof (padded), not the field count */ + CGPlayer::TotalFields() * sizeof(uint32_t) + CGPlayer::ZEP_LOCAL_MIRROR_LISTS * sizeof(TSList<void>) /* F-171: was 1002 */, __FILE__, __LINE__, 0));
+     }
+ 
+     ExpireOldObjects(10000, typeId);
+@@ -916,7 +924,7 @@ static int32_t LinkPendingNodes(TSExplicitList<CMirrorHandler, offsetof(CMirrorH
+ // VERIFY: 5cf2342e manual
+ // OFFSET: 0x004D53C0
+ static int32_t FillInPartialObjectData(CGObject_C* object, WOWGUID guid, CDataStore* msg, bool skipMirrorUpdate, bool zeroFillAbsent) {
+-    uint32_t masks[42];
++    uint32_t masks[ZEP_UPDATE_MASK_WORDS]; // Not in the original (F-171): was 42
+     uint8_t blockCount;
+ 
+     if (!ExtractDirtyMasks(msg, &blockCount, masks)) {
+@@ -981,7 +989,7 @@ static int32_t CallMirrorHandlers(CDataStore* msg, bool postInit, WOWGUID guid)
+         return SkipPartialObjectUpdate(msg);
+     }
+ 
+-    uint32_t masks[42];
++    uint32_t masks[ZEP_UPDATE_MASK_WORDS]; // Not in the original (F-171): was 42
+     uint8_t blockCount;
+ 
+     if (!ExtractDirtyMasks(msg, &blockCount, masks)) {
+@@ -1047,7 +1055,7 @@ static void ClearMirrorLists(CGObject_C* object) {
+             FreeMirrorHandlers(player->m_playerMirrorLists, 176);
+ 
+             if (player->IsActivePlayer()) {
+-                FreeMirrorHandlers(player->m_playerLocalMirrorLists, 1002);
++                FreeMirrorHandlers(player->m_playerLocalMirrorLists, CGPlayer::ZEP_LOCAL_MIRROR_LISTS); // Not in the original (F-171): was 1002
+             }
+         }
+ 
+@@ -1132,7 +1140,7 @@ void ClntObjMgrUnsetObjMirrorHandler(WOWGUID guid, OBJECT_TYPE_ID typeId, uint32
+ // OFFSET: 0x004D5C80
+ void ClntObjMgrDestroyShared() {
+     for (uint32_t typeId = 0; typeId < NUM_CLIENT_OBJECT_TYPES; typeId++) {
+-        for (uint32_t i = 0; i < 1326; i++) {
++        for (uint32_t i = 0; i < ZEP_PLAYER_DWORD_COUNT; i++) { // Not in the original (F-171): was 1326
+             TSList<CMirrorHandler, TSGetLink<CMirrorHandler> >* list = &s_typeMirrorHandlers[typeId][i];
+ 
+             for (CMirrorHandler* handler = list->Head(); handler; handler = list->Head()) {
+diff --git a/WoW/Source/Ui/GameUI.cpp b/WoW/Source/Ui/GameUI.cpp
+index d46ead2..9ca6809 100644
+--- a/WoW/Source/Ui/GameUI.cpp
++++ b/WoW/Source/Ui/GameUI.cpp
+@@ -1778,6 +1778,9 @@ void CGGameUI::InitializeFrameXML() {
+     FrameXML_RegisterLoadProgressCallback(LoadingScreenXMLCallback, nullptr, LoadAddOnFileCount() + numFiles);
+     FrameXML_FreeHashNodes();
+     FrameXML_CreateFrames("Interface\\FrameXML\\FrameXML.toc", nullptr, &md5, &status);
++    // Not in the original (F-171): QuestLogFrame.lua hard-codes the stock 25-quest limit in these globals (read at run
++    // time by the quest log, UIParent's shared-quest check and the quest timers); this client holds 100.
++    FrameScript_Execute("MAX_QUESTS = 100 MAX_QUESTLOG_QUESTS = 100", "ZepQuestLog", nullptr);
+ 
+     if (SFile::FileExistsEx("Interface\\FrameXML\\Bindings.xml", 1)) {
+         CGUIBindings::s_bindings->Load("Interface\\FrameXML\\Bindings.xml", &md5, &status);
+diff --git a/WoW/Source/Ui/QuestLog.cpp b/WoW/Source/Ui/QuestLog.cpp
+index db0bec8..304a6d9 100644
+--- a/WoW/Source/Ui/QuestLog.cpp
++++ b/WoW/Source/Ui/QuestLog.cpp
+@@ -39,7 +39,7 @@
+ #include "WoW/Source/DB/Rec/WorldMapAreaRec.h"
+ 
+ // STATIC: 0x00C23618
+-int32_t CGQuestLog::m_sortTypes[25];
++int32_t CGQuestLog::m_sortTypes[ZEP_QUEST_SORT_TYPES];
+ 
+ // STATIC: 0x00C23AD4
+ uint32_t CGQuestLog::m_numSortTypes;
+@@ -72,7 +72,7 @@ static const int32_t s_questGreenRange[20] = { 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 8,
+ QuestWatch CGQuestLog::m_questWatches[25];
+ 
+ // STATIC: 0x00C237B0
+-QuestLogEntry CGQuestLog::m_quests[50];
++QuestLogEntry CGQuestLog::m_quests[ZEP_QUEST_LOG_ENTRIES];
+ 
+ // STATIC: 0x00C23AE4
+ uint32_t CGQuestLog::m_numShownQuests;
+@@ -93,7 +93,7 @@ int32_t CGQuestLog::m_nextQuestUpdate;
+ static CVar* s_cvPOIShiftComplete;
+ 
+ // STATIC: 0x00C23B00
+-QuestPOIInfo CGQuestLog::m_questPOIs[25];
++QuestPOIInfo CGQuestLog::m_questPOIs[ZEP_QUEST_LOG_SLOTS];
+ 
+ // VERIFY: 45bd143e manual
+ // OFFSET: 0x005E6FA0
+@@ -147,7 +147,7 @@ void CGQuestLog::InitializeGame() {
+     CGQuestLog::m_timeOffset = 0;
+     CGQuestLog::m_nextQuestUpdate = 0;
+ 
+-    for (uint32_t i = 0; i < 25; i++) {
++    for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+         QuestPOIInfo* poi = &CGQuestLog::m_questPOIs[i];
+         poi->m_questId = 0;
+         poi->m_iconMapId = 0;
+@@ -300,7 +300,7 @@ int32_t CGQuestLog::IsQuestFailed(uint32_t index) {
+ // VERIFY: 1f30d3fb manual
+ // OFFSET: 0x005DEEB0
+ int32_t CGQuestLog::GetQuestIndex(int32_t questId) {
+-    for (int32_t i = 0; i < 50; i++) {
++    for (int32_t i = 0; i < static_cast<int32_t>(ZEP_QUEST_LOG_ENTRIES); i++) {
+         if (!CGQuestLog::m_quests[i].m_isHeader && CGQuestLog::m_quests[i].m_questId == questId) {
+             return i + 1;
+         }
+@@ -323,7 +323,7 @@ int32_t CGQuestLog::IsQuestCompleteEx(uint32_t index, int32_t a2) {
+     }
+ 
+     int32_t slot = CGQuestLog::m_quests[index].m_logSlot;
+-    PlayerQuestLogEntry* entry = slot >= 0 && slot <= 25 ? &player->m_player->m_playerQuestLog[slot] : nullptr;
++    PlayerQuestLogEntry* entry = slot >= 0 ? player->GetLocalQuestLogEntry(slot) : nullptr;
+     WOWGUID none = { 0 };
+     QuestCache* quest = g_questDBCache.GetRecord(CGQuestLog::m_quests[index].m_questId, none, QuestQueryCallback, nullptr, false);
+ 
+@@ -400,7 +400,7 @@ bool CGQuestLog::HasNoObjectives(uint32_t index) {
+     }
+ 
+     int32_t slot = CGQuestLog::m_quests[index].m_logSlot;
+-    PlayerQuestLogEntry* entry = static_cast<uint32_t>(slot) <= 25 ? &player->m_player->m_playerQuestLog[slot] : nullptr;
++    PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(static_cast<uint32_t>(slot));
+     WOWGUID none = { 0 };
+     QuestCache* quest = g_questDBCache.GetRecord(CGQuestLog::m_quests[index].m_questId, none, QuestQueryCallback, nullptr, false);
+ 
+@@ -447,7 +447,7 @@ void CGQuestLog::AbandonSelectedQuest() {
+         return;
+     }
+ 
+-    for (int32_t i = 0; i < 50; i++) {
++    for (int32_t i = 0; i < static_cast<int32_t>(ZEP_QUEST_LOG_ENTRIES); i++) {
+         if (!CGQuestLog::m_quests[i].m_isHeader && CGQuestLog::m_quests[i].m_questId == CGQuestLog::m_abandonQuest) {
+             CGPlayer_C::QuestLogRemoveQuest(static_cast<uint8_t>(CGQuestLog::m_quests[i].m_logSlot));
+             return;
+@@ -527,13 +527,13 @@ int32_t CGQuestLog::AddQuestWatch(int32_t questId, int32_t duration) {
+     int32_t now = static_cast<int32_t>(time(nullptr));
+     int32_t i;
+ 
+-    for (i = 0; i < 50; i++) {
++    for (i = 0; i < static_cast<int32_t>(ZEP_QUEST_LOG_ENTRIES); i++) {
+         if (!CGQuestLog::m_quests[i].m_isHeader && CGQuestLog::m_quests[i].m_questId == questId) {
+             break;
+         }
+     }
+ 
+-    if (i >= 50) {
++    if (i >= static_cast<int32_t>(ZEP_QUEST_LOG_ENTRIES)) {
+         return now;
+     }
+ 
+@@ -659,7 +659,7 @@ uint32_t IsDailyQuest(int32_t index) {
+ // VERIFY: d701767c manual
+ // OFFSET: 0x005DEEE0
+ bool CGQuestLog::GetQuestPOIIcon(int32_t questId, bool* complete, int32_t* mapId, uint32_t* mapFloor, int32_t* x, int32_t* y, int32_t* objective) {
+-    for (uint32_t i = 0; i < 25; i++) {
++    for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+         QuestPOIInfo* poi = &CGQuestLog::m_questPOIs[i];
+ 
+         if (poi->m_questId == questId) {
+@@ -835,36 +835,36 @@ static int32_t QSortQuestLogEntries(const void* a, const void* b) {
+     uint32_t i;
+ 
+     if (headerA) {
+-        for (i = 0; i < 25 && CGQuestLog::m_sortTypes[i] != idA; i++) {
++        for (i = 0; i < ZEP_QUEST_SORT_TYPES && CGQuestLog::m_sortTypes[i] != idA; i++) {
+         }
+     } else {
+         if (!questA) {
+             return 0;
+         }
+ 
+-        for (i = 0; i < 25 && CGQuestLog::m_sortTypes[i] != static_cast<int32_t>(questA->m_areaIdOrSortId); i++) {
++        for (i = 0; i < ZEP_QUEST_SORT_TYPES && CGQuestLog::m_sortTypes[i] != static_cast<int32_t>(questA->m_areaIdOrSortId); i++) {
+         }
+     }
+ 
+-    if (i < 25) {
++    if (i < ZEP_QUEST_SORT_TYPES) {
+         sortA = i;
+     }
+ 
+     if (headerB) {
+-        for (i = 0; i < 25 && CGQuestLog::m_sortTypes[i] != idB; i++) {
++        for (i = 0; i < ZEP_QUEST_SORT_TYPES && CGQuestLog::m_sortTypes[i] != idB; i++) {
+         }
+     } else {
+         if (!questB) {
+             return 0;
+         }
+ 
+-        for (i = 0; i < 25 && CGQuestLog::m_sortTypes[i] != static_cast<int32_t>(questB->m_areaIdOrSortId); i++) {
++        for (i = 0; i < ZEP_QUEST_SORT_TYPES && CGQuestLog::m_sortTypes[i] != static_cast<int32_t>(questB->m_areaIdOrSortId); i++) {
+         }
+     }
+ 
+-    sortB = i < 25 ? i : 0;
+-    int32_t hiddenA = !headerA && sortA < 25 && !((1 << sortA) & s_cvQuestLogCollapseFilter->m_intValue);
+-    int32_t hiddenB = !headerB && sortB < 25 && !((1 << sortB) & s_cvQuestLogCollapseFilter->m_intValue);
++    sortB = i < ZEP_QUEST_SORT_TYPES ? i : 0;
++    int32_t hiddenA = !headerA && sortA < ZEP_QUEST_COLLAPSE_BITS && !((1 << sortA) & s_cvQuestLogCollapseFilter->m_intValue);
++    int32_t hiddenB = !headerB && sortB < ZEP_QUEST_COLLAPSE_BITS && !((1 << sortB) & s_cvQuestLogCollapseFilter->m_intValue);
+ 
+     if (hiddenA) {
+         if (hiddenB) {
+@@ -924,7 +924,7 @@ void CGQuestLog::FilterAndSortQuests() {
+ 
+         uint32_t sortId = GetQuestSortId(i);
+ 
+-        if (sortId < 25 && !((1 << sortId) & s_cvQuestLogCollapseFilter->m_intValue)) {
++        if (sortId < ZEP_QUEST_COLLAPSE_BITS && !((1 << sortId) & s_cvQuestLogCollapseFilter->m_intValue)) {
+             CGQuestLog::m_numShownQuests--;
+         }
+     }
+@@ -1029,7 +1029,7 @@ bool CGQuestLog::HasQuestPOI(int32_t questId) {
+         return false;
+     }
+ 
+-    for (uint32_t i = 0; i < 25; i++) {
++    for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+         if (CGQuestLog::m_questPOIs[i].m_questId == questId) {
+             return true;
+         }
+@@ -1074,11 +1074,11 @@ void CGQuestLog::Update(int32_t a1) {
+     CGQuestLog::m_numSortTypes = 0;
+     s_questCallbackCount = 0;
+     int32_t numUnknown = 0;
+-    int32_t unknown[25] = { 0 };
++    int32_t unknown[ZEP_QUEST_LOG_SLOTS] = { 0 };
+     int32_t timeOffset = CGQuestLog::m_timeOffset;
+ 
+-    for (uint32_t slot = 0; slot < 25; slot++) {
+-        PlayerQuestLogEntry* entry = slot > 25 ? nullptr : &player->m_player->m_playerQuestLog[slot];
++    for (uint32_t slot = 0; slot < ZEP_QUEST_LOG_SLOTS; slot++) {
++        PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(slot);
+         int32_t questId = entry->m_questId;
+ 
+         if (questId <= 0) {
+@@ -1180,7 +1180,7 @@ void CGQuestLog::Update(int32_t a1) {
+         msg.Put(static_cast<uint32_t>(CMSG_QUEST_POI_QUERY));
+         msg.Put(static_cast<uint32_t>(numUnknown));
+ 
+-        for (uint32_t i = 0; i < 25; i++) {
++        for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+             if (unknown[i]) {
+                 msg.Put(static_cast<uint32_t>(unknown[i]));
+             }
+@@ -1312,8 +1312,8 @@ int32_t CGQuestLog::IsOnQuest(int32_t questId) {
+         return 0;
+     }
+ 
+-    for (uint32_t slot = 0; slot < 25; slot++) {
+-        PlayerQuestLogEntry* entry = slot > 25 ? nullptr : &player->m_player->m_playerQuestLog[slot];
++    for (uint32_t slot = 0; slot < ZEP_QUEST_LOG_SLOTS; slot++) {
++        PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(slot);
+ 
+         if (entry && entry->m_questId && static_cast<int32_t>(entry->m_questId) == questId) {
+             return 1;
+@@ -1366,7 +1366,7 @@ int32_t CGQuestLog::GetQuestLeaderBoardByID(int32_t questId, QuestLogLeaderBoard
+ 
+     WOWGUID none = { 0 };
+     QuestCache* quest = g_questDBCache.GetRecord(questId, none, params->m_questCallback, params->m_param, false);
+-    PlayerQuestLogEntry* entry = static_cast<uint32_t>(slot) > 25 ? nullptr : &player->m_player->m_playerQuestLog[slot];
++    PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(static_cast<uint32_t>(slot));
+ 
+     if (!quest || (params->m_requireLogEntry && !entry)) {
+         return 0;
+@@ -1637,7 +1637,7 @@ int32_t CGQuestLog::GetQuestLogItemDropByID(int32_t questId, QuestLogLeaderBoard
+ 
+     WOWGUID none = { 0 };
+     QuestCache* quest = g_questDBCache.GetRecord(questId, none, params->m_questCallback, params->m_param, false);
+-    PlayerQuestLogEntry* entry = static_cast<uint32_t>(slot) > 25 ? nullptr : &player->m_player->m_playerQuestLog[slot];
++    PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(static_cast<uint32_t>(slot));
+ 
+     if (!quest || (params->m_requireLogEntry && !entry)) {
+         return 0;
+@@ -1713,8 +1713,8 @@ int32_t CGQuestLog::GetQuestLeaderBoardForObject(int32_t questId, int32_t object
+     if (index >= 0 && index < CGQuestLog::m_numQuest && !CGQuestLog::m_quests[index].m_isHeader) {
+         uint32_t slot = CGQuestLog::m_quests[index].m_logSlot;
+ 
+-        if (slot <= 25) {
+-            entry = &player->m_player->m_playerQuestLog[slot];
++        if (slot < ZEP_QUEST_LOG_SLOTS) {
++            entry = player->GetLocalQuestLogEntry(slot);
+         }
+     }
+ 
+@@ -1784,7 +1784,7 @@ int32_t CGQuestLog::FindOrFreePOISlot(int32_t questId) {
+         return -1;
+     }
+ 
+-    for (int32_t i = 0; i < 25; i++) {
++    for (int32_t i = 0; i < static_cast<int32_t>(ZEP_QUEST_LOG_SLOTS); i++) {
+         QuestPOIInfo* poi = &CGQuestLog::m_questPOIs[i];
+ 
+         if (poi->m_questId == questId) {
+@@ -1822,7 +1822,7 @@ void CGQuestLog::HandlePOIQueryResponse(CDataStore* msg) {
+         uint32_t slot = CGQuestLog::FindOrFreePOISlot(questId);
+         QuestPOIInfo* poi = nullptr;
+ 
+-        if (!known && slot <= 24) {
++        if (!known && slot < ZEP_QUEST_LOG_SLOTS) {
+             poi = &CGQuestLog::m_questPOIs[slot];
+             poi->m_questId = questId;
+             poi->m_blobs.SetCount(numBlobs);
+@@ -2024,7 +2024,7 @@ int32_t CGQuestLog::GetQuestPOILeaderBoardByID(int32_t questId, QuestLogLeaderBo
+     }
+ 
+     int32_t slot = CGQuestLog::GetQuestLogSlot(logIndex);
+-    PlayerQuestLogEntry* entry = player->GetQuestLogEntry(slot);
++    PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(slot);
+ 
+     if (!entry || !quest->m_endText[0]) {
+         return 0;
+@@ -2061,7 +2061,7 @@ int32_t CGQuestLog::UpdateAllQuestPOI() {
+ 
+     int32_t visible = 0;
+ 
+-    for (uint32_t i = 0; i < 25; i++) {
++    for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+         QuestPOIInfo& poi = CGQuestLog::m_questPOIs[i];
+         poi.m_objectiveMask = CGQuestLog::ComputeBlobQuestObjectives(poi.m_questId);
+         poi.m_visible = 0;
+@@ -2105,7 +2105,7 @@ int32_t CGQuestLog::UpdateAllQuestPOI() {
+ void CGQuestLog::ShutdownGame() {
+     ClientServices::ClearMessageHandler(SMSG_QUERY_TIME_RESPONSE);
+ 
+-    for (uint32_t i = 0; i < 25; i++) {
++    for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+         QuestPOIInfo* poi = &CGQuestLog::m_questPOIs[i];
+         poi->m_questId = 0;
+         poi->m_blobs.Clear();
+@@ -2132,7 +2132,7 @@ uint32_t CGQuestLog::ComputeBlobQuestObjectives(int32_t questId) {
+     }
+ 
+     uint32_t slot = CGQuestLog::m_quests[index].m_logSlot;
+-    PlayerQuestLogEntry* entry = slot <= 25 ? &player->m_player->m_playerQuestLog[slot] : nullptr;
++    PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(slot);
+     WOWGUID none = { 0 };
+     QuestCache* quest = g_questDBCache.GetRecord(CGQuestLog::m_quests[index].m_questId, none, nullptr, nullptr, false);
+ 
+@@ -2264,14 +2264,14 @@ void CGQuestLog::UpdatePOIIcons() {
+     C3Vector position = player->GetPosition();
+     int32_t numActive = 0;
+     int32_t numComplete = 0;
+-    int32_t chain[25];
+-    int32_t completeList[25];
++    int32_t chain[ZEP_QUEST_LOG_SLOTS];
++    int32_t completeList[ZEP_QUEST_LOG_SLOTS];
+     memset(chain, 0, sizeof(chain));
+-    uint8_t movable[25];
++    uint8_t movable[ZEP_QUEST_LOG_SLOTS];
+     memset(movable, 0, sizeof(movable));
+-    int32_t activeList[25];
++    int32_t activeList[ZEP_QUEST_LOG_SLOTS];
+ 
+-    for (uint32_t i = 0; i < 25; i++) {
++    for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+         QuestPOIInfo* poi = &CGQuestLog::m_questPOIs[i];
+         float bestDistance = 3.4028235e38f;
+         int32_t best = -1;
+@@ -2331,7 +2331,7 @@ void CGQuestLog::UpdatePOIIcons() {
+ 
+         uint32_t logIndex = 0;
+ 
+-        for (uint32_t k = 0; k < 50; k++) {
++        for (uint32_t k = 0; k < ZEP_QUEST_LOG_ENTRIES; k++) {
+             if (!CGQuestLog::m_quests[k].m_isHeader && CGQuestLog::m_quests[k].m_questId == poi->m_questId) {
+                 logIndex = k + 1;
+                 break;
+@@ -2376,7 +2376,7 @@ void CGQuestLog::UpdatePOIIcons() {
+     }
+ 
+     for (int32_t iteration = 0; iteration < s_poiOverlapIterations; iteration++) {
+-        int32_t forces[25][2];
++        int32_t forces[ZEP_QUEST_LOG_SLOTS][2];
+         memset(forces, 0, sizeof(forces));
+ 
+         for (int32_t a = 0; a < numActive; a++) {
+@@ -2500,7 +2500,7 @@ int32_t CGQuestLog::GetQuestPOIIndex(int32_t questId) {
+         return -1;
+     }
+ 
+-    for (int32_t i = 0; i < 25; i++) {
++    for (int32_t i = 0; i < static_cast<int32_t>(ZEP_QUEST_LOG_SLOTS); i++) {
+         if (CGQuestLog::m_questPOIs[i].m_questId == questId) {
+             return i;
+         }
+@@ -2530,7 +2530,7 @@ int32_t CGQuestLog::GetPOIQuestIDByVisibleIndex(int32_t index) {
+ 
+     int32_t visible = 0;
+ 
+-    for (uint32_t i = 0; i < 25; i++) {
++    for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+         QuestPOIInfo* poi = &CGQuestLog::m_questPOIs[i];
+ 
+         if (!poi->m_visible) {
+@@ -2558,7 +2558,7 @@ int32_t CGQuestLog::GetPOIQuestIDByVisibleIndex(int32_t index) {
+         }
+     }
+ 
+-    for (uint32_t i = 0; i < 25; i++) {
++    for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+         QuestPOIInfo* poi = &CGQuestLog::m_questPOIs[i];
+ 
+         if (!poi->m_visible) {
+@@ -2609,8 +2609,8 @@ int32_t CGQuestLog::GetQuestLeaderBoardForItem(int32_t questId, int32_t itemId,
+     if (index >= 0 && index < CGQuestLog::m_numQuest && !CGQuestLog::m_quests[index].m_isHeader) {
+         uint32_t slot = CGQuestLog::m_quests[index].m_logSlot;
+ 
+-        if (slot <= 25) {
+-            entry = &player->m_player->m_playerQuestLog[slot];
++        if (slot < ZEP_QUEST_LOG_SLOTS) {
++            entry = player->GetLocalQuestLogEntry(slot);
+         }
+     }
+ 
+@@ -2662,10 +2662,10 @@ int32_t CGQuestLog::GetQuestWorldMapAreaID(int32_t questId, int32_t* floor) {
+     if (current) {
+         uint32_t index;
+ 
+-        for (index = 0; index < 25 && CGQuestLog::m_questPOIs[index].m_questId != questId; index++) {
++        for (index = 0; index < ZEP_QUEST_LOG_SLOTS && CGQuestLog::m_questPOIs[index].m_questId != questId; index++) {
+         }
+ 
+-        if (index < 25) {
++        if (index < ZEP_QUEST_LOG_SLOTS) {
+             QuestPOIInfo* poi = &CGQuestLog::m_questPOIs[index];
+             uint32_t objectives = CGQuestLog::ComputeBlobQuestObjectives(poi->m_questId);
+             float bestDistance = 3.4028235e38f;
+@@ -2725,7 +2725,7 @@ int32_t CGQuestLog::GetQuestWorldMapAreaID(int32_t questId, int32_t* floor) {
+     uint32_t header = 0;
+     uint32_t i;
+ 
+-    for (i = 0; i < 50; i++) {
++    for (i = 0; i < ZEP_QUEST_LOG_ENTRIES; i++) {
+         if (CGQuestLog::m_quests[i].m_isHeader) {
+             header = i;
+         } else if (CGQuestLog::m_quests[i].m_questId == questId) {
+@@ -2733,7 +2733,7 @@ int32_t CGQuestLog::GetQuestWorldMapAreaID(int32_t questId, int32_t* floor) {
+         }
+     }
+ 
+-    if (i >= 50) {
++    if (i >= ZEP_QUEST_LOG_ENTRIES) {
+         return 0;
+     }
+ 
+@@ -2896,7 +2896,7 @@ bool CGQuestLog::SortQuestWatches() {
+ // VERIFY: f8c30a89 manual
+ // OFFSET: 0x005E70D0
+ void CGQuestLog::UpdateQuestPOIFromUserServer() {
+-    for (uint32_t i = 0; i < 25; i++) {
++    for (uint32_t i = 0; i < ZEP_QUEST_LOG_SLOTS; i++) {
+         QuestPOIInfo* poi = &CGQuestLog::m_questPOIs[i];
+ 
+         for (uint32_t j = 0; j < poi->m_blobs.m_count; j++) {
+diff --git a/WoW/Source/Ui/QuestLog.h b/WoW/Source/Ui/QuestLog.h
+index 74b5ce5..82a85d2 100644
+--- a/WoW/Source/Ui/QuestLog.h
++++ b/WoW/Source/Ui/QuestLog.h
+@@ -73,6 +73,12 @@ int32_t CalculateExperience(int32_t questId, int32_t level);
+ int32_t GetNumQuestLeaderBoards(int32_t questId, void (*callback)(int32_t id, const WOWGUID& guid, void* param, bool success), void* param);
+ int32_t CountQuestItemDropsNeeded(int32_t questId, void (*callback)(int32_t id, const WOWGUID& guid, void* param, bool success), void* param);
+ 
++// Not in the original (F-171): the quest log holds 100 quests (25 stock update-field slots + 75 appended).
++static constexpr uint32_t ZEP_QUEST_LOG_SLOTS = 100;
++static constexpr uint32_t ZEP_QUEST_LOG_ENTRIES = 2 * ZEP_QUEST_LOG_SLOTS;   // quests + zone headers (was 50)
++static constexpr uint32_t ZEP_QUEST_SORT_TYPES = ZEP_QUEST_LOG_SLOTS;        // distinct zone headers (was 25)
++static constexpr uint32_t ZEP_QUEST_COLLAPSE_BITS = 32;                      // questLogCollapseFilter is a 32-bit mask
++
+ class CGQuestLog {
+     public:
+     static void LeaveWorld();
+@@ -86,7 +92,7 @@ class CGQuestLog {
+     static int32_t FindOrFreePOISlot(int32_t questId);
+     static int32_t GetQuestLeaderBoardByID(int32_t questId, QuestLogLeaderBoardParams* params);
+     static int32_t GetQuestLeaderBoardForObject(int32_t questId, int32_t objectId, QuestLogLeaderBoardParams* params);
+-    static int32_t m_sortTypes[25];
++    static int32_t m_sortTypes[ZEP_QUEST_SORT_TYPES]; // Not in the original (F-171): was 25
+     static uint32_t m_numSortTypes;
+     static int32_t m_questResetTime;
+     static uint8_t m_trackedQuestsLoaded;
+@@ -110,8 +116,8 @@ class CGQuestLog {
+     static int32_t IsQuestFailed(uint32_t index);
+     static bool HasNoObjectives(uint32_t index);
+     static int32_t IsQuestExpiredByID(int32_t questId);
+-    static QuestLogEntry m_quests[50];
+-    static QuestPOIInfo m_questPOIs[25];
++    static QuestLogEntry m_quests[ZEP_QUEST_LOG_ENTRIES]; // Not in the original (F-171): was 50
++    static QuestPOIInfo m_questPOIs[ZEP_QUEST_LOG_SLOTS]; // Not in the original (F-171): was 25
+     static int32_t m_abandonQuest;
+     static uint32_t m_numQuestWatches;
+     static int32_t m_timeOffset;
+diff --git a/WoW/Source/Ui/QuestLog_Scripts.cpp b/WoW/Source/Ui/QuestLog_Scripts.cpp
+index 4efd362..61fad68 100644
+--- a/WoW/Source/Ui/QuestLog_Scripts.cpp
++++ b/WoW/Source/Ui/QuestLog_Scripts.cpp
+@@ -266,11 +266,11 @@ static int32_t Script_GetQuestTimers(lua_State* L) {
+ 
+         int32_t slot = CGQuestLog::m_quests[i].m_logSlot;
+ 
+-        if (slot < 0 || slot > 25) {
++        if (slot < 0 || slot >= 100) {
+             continue;
+         }
+ 
+-        PlayerQuestLogEntry* entry = &player->m_player->m_playerQuestLog[slot];
++        PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(static_cast<uint32_t>(slot));
+ 
+         if (!entry || !entry->m_time || (entry->m_state & 2) || (i < CGQuestLog::m_numQuest && CGQuestLog::m_quests[i].m_expired)) {
+             continue;
+@@ -922,11 +922,11 @@ static int32_t Script_GetQuestIndexForTimer(lua_State* L) {
+ 
+             int32_t slot = CGQuestLog::m_quests[i].m_logSlot;
+ 
+-            if (slot < 0 || slot > 25) {
++            if (slot < 0 || slot >= 100) {
+                 continue;
+             }
+ 
+-            PlayerQuestLogEntry* entry = &player->m_player->m_playerQuestLog[slot];
++            PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(static_cast<uint32_t>(slot));
+ 
+             if (!entry || !entry->m_time || (entry->m_state & 2) || timeOffset - static_cast<int32_t>(time(nullptr)) + static_cast<int32_t>(entry->m_time) - 1 < 0) {
+                 continue;
+@@ -1108,8 +1108,8 @@ static int32_t Script_GetQuestLogTimeLeft(lua_State* L) {
+         int32_t index = CGQuestLog::GetSelectedLogEntry();
+         uint32_t slot = index < 0 ? 0 : CGQuestLog::m_quests[index].m_logSlot;
+ 
+-        if (slot <= 25) {
+-            PlayerQuestLogEntry* entry = &player->m_player->m_playerQuestLog[slot];
++        if (slot < 100) {
++            PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(slot);
+             int32_t timeOffset = CGQuestLog::m_timeOffset;
+ 
+             if (entry && entry->m_time && !(entry->m_state & 2) && timeOffset) {
+@@ -1138,8 +1138,8 @@ static int32_t Script_IsCurrentQuestFailed(lua_State* L) {
+         int32_t index = CGQuestLog::GetSelectedLogEntry();
+         uint32_t slot = index < 0 ? 0 : CGQuestLog::m_quests[index].m_logSlot;
+ 
+-        if (slot <= 25) {
+-            PlayerQuestLogEntry* entry = &player->m_player->m_playerQuestLog[slot];
++        if (slot < 100) {
++            PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(slot);
+ 
+             if (entry && ((entry->m_state & 2) || CGQuestLog::IsSelectedQuestExpired())) {
+                 lua_pushnumber(L, 1.0);
+@@ -1470,8 +1470,8 @@ static int32_t Script_GetQuestLogTitle(lua_State* L) {
+         if (index >= 0 && index < CGQuestLog::m_numQuest && !CGQuestLog::m_quests[index].m_isHeader) {
+             uint32_t slot = CGQuestLog::m_quests[index].m_logSlot;
+ 
+-            if (slot <= 25) {
+-                PlayerQuestLogEntry* entry = &player->m_player->m_playerQuestLog[slot];
++            if (slot < 100) {
++                PlayerQuestLogEntry* entry = player->GetLocalQuestLogEntry(slot);
+ 
+                 if (entry && (entry->m_state & 2)) {
+                     failed = true;
+-- 
+2.34.1
+
