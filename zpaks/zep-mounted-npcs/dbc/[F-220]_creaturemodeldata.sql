@@ -224,3 +224,11 @@ INSERT INTO creaturemodeldata SET
   missile_collision_radius = 0.0,
   missile_collision_push = 0.0,
   missile_collision_raise = 0.0;
+
+-- 900229 = GnomeSpiderTank02_Pilot: the stock empty Mechano-Tank (2788) with its seat (attachment 0) placed for the
+-- gnome pilot of the fused tank (Scripts/F-220/f220_seats.py)
+DELETE FROM creaturemodeldata WHERE id = 900229;
+INSERT INTO creaturemodeldata SET
+  2788 = ,
+  id = 900229,
+  model_path = 'Creature\\GnomeSpiderTank\\GnomeSpiderTank02_Pilot.mdx';

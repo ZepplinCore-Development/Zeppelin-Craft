@@ -1517,7 +1517,8 @@ function openAsset(e) {
   // shown wherever a card can seat one: a riderless mount option, or any option of a fused mount's page
   // (its retail remasters / our riderless mount are riderless; its fused cards just stay as they are)
   $('riderbox').hidden = (e.tab !== 'creature' && e.tab !== 'display') || !nRiders
-    || !(isFusedRider(e.path) || (e.panes || []).some(p => mountSet.has(p.model) && !isFusedRider(p.model)));
+    || !(isFusedRider(e.path) || (e.panes || []).some(p => mountSet.has(p.model) && !isFusedRider(p.model))
+         || (e.tab === 'display' && ((mountRiders.links || {})[e.display] || []).length));   // an F-220 mount display
   const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
   $('title').textContent = e.id;          // favourites: the star on the list row; edits: each card's Edit
   $('subtitle').textContent = [e.display ? `shown on display ${e.display}` : '', e.names.slice(0, 3).join(', '),
@@ -1833,7 +1834,7 @@ function openAsset(e) {
     const mount = Object.keys(links).find(m => links[m].some(l => l.display === e.display));
     if (mount) riderCards(e, links[mount].filter(l => l.display !== e.display && l.display >= 900000).map(l => [l.display, l.creature]), +mount);
     // F-220: a MOUNT display that lost its fused rider: every model of the mount's family as a card
-    if ((links[e.display] || []).length) mountCards(e);
+    if ((links[e.display] || []).length) { riderlessVersions(e); mountCards(e); }
   } else if (e.tab === 'creature' && inF220(e.path)) {
     // the fused model's page: the same mount options, picked for every split display of the model
     const links = mountRiders.links || {};
@@ -2356,6 +2357,29 @@ const MOUNT_FAMILY = { 'batrider.m2': ['bat'], 'horderider.m2': ['wyvern'], 'all
   'headlesshorsemanmount.m2': ['headlesshorseman', 'undeadhorse', 'deathcharger', 'horse'] };
 const MOUNT_CARDS_FIRST = 12;
 let _mountRun = 0;
+// F-220: the other versions of our riderless mount model (zep-mounted-npcs-packs: a community pack's copy
+// with the rider cut out, e.g. the HD rocket car) as cards on the mount display page, beside our stock cut;
+// "Use this" is the model pick on that riderless model (one file ships for every display of it)
+function riderlessVersions(e) {
+  document.querySelectorAll('#panes .pane[data-rlv]').forEach(x => x.remove());
+  const own = (e.panes || []).find(p => (p.sources || []).includes('zep-mounted-npcs'));
+  const M = own && assets.find(a => a.tab === 'creature' && a.path === own.model);
+  if (!M) return;
+  const groups = modelOptions(M), cur = (choices.mesh || {})[M.path] || {};
+  (M.panes || []).filter(p => !(p.sources || []).includes('zep-mounted-npcs')).forEach(pn => {
+    const g = groups.find(h => (h.file.sources || []).join() === (pn.sources || []).join()) || groups.find(h => h.key === pn.option);
+    const chosen = cur.option && g && cur.option === g.key;
+    const div = document.createElement('div');
+    div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.rlv = pn.option;
+    div.innerHTML = `<iframe src="${paneUrl({ ...pn, display: e.display })}" loading="lazy" title="${esc(label(pn.sources))}"></iframe>
+      <div class="info"><div class="h"><b>${esc(label(pn.sources))}</b><span class="chip" title="A community pack's copy of the fused model with the rider cut out: another version of our riderless ${esc(M.path.split('/').pop())}">riderless pack cut</span></div>
+      <div class="stats">model: <a href="?layer=creature&path=${encodeURIComponent(M.path)}">${esc(M.path)}</a></div>
+      <button class="use"${g ? '' : ' disabled'}>${chosen ? 'Chosen' : 'Use this'}</button></div>`;
+    if (g) div.querySelector('.use').onclick = () => saveModel(M, g).then(() => openDisplay(e.display));
+    const anchor = [...document.querySelectorAll('#panes .pane')].find(x => /zep-mounted-npcs/.test((x.querySelector('.h b, .ptitle') || {}).textContent || ''));
+    if (anchor) anchor.after(div); else $('panes').append(div);
+  });
+}
 async function mountCards(e, showAll = false, targets = null) {
   const run = ++_mountRun;
   const dids = targets || [e.display];                 // the displays a pick here applies to

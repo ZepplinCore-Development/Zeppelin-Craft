@@ -237,3 +237,91 @@ def strip_files(src_m2: Path, out_m2: Path, rider_textures: Set[str], slots: Set
         (out_m2.parent / (out_m2.stem + p.name[-7:].lower())).write_bytes(data)
     rep['skins'] = [p.name for p in skins_in]
     return rep
+
+
+def _skin_points(m2: bytes, skin: bytes, subs: Set[int]):
+    """Model-space positions of the vertices of the given submeshes (one .skin)."""
+    vn, vo = struct.unpack_from('<II', m2, 0x3C)
+    svn, svo = struct.unpack_from('<II', skin, 0x04)
+    sverts = struct.unpack_from(f'<{svn}H', skin, svo)
+    sm_n, sm_o = struct.unpack_from('<II', skin, 0x1C)
+    idx = set()
+    for i in subs:
+        if i < sm_n:
+            _s, _l, vst, vcnt = struct.unpack_from('<HHHH', skin, sm_o + 48 * i)
+            idx.update(sverts[vst:vst + vcnt])
+    return [struct.unpack_from('<3f', m2, vo + 48 * v) for v in sorted(idx)]
+
+
+def rider_points(m2: bytes, skin: bytes, rider_textures: Set[str], slots: Set[int] = frozenset()):
+    """The fused rider's own vertices (the submeshes drawn with its textures) as the model SHOWS them: skinned
+    at frame 0 of Stand. The rest pose can be anywhere - the Mechano-Tank's pilot rests at the origin and its
+    animation lifts it into the cockpit."""
+    tex = _textures(m2)
+    tl_n, tl_o = struct.unpack_from('<II', m2, 0x80)
+    tl = struct.unpack_from(f'<{tl_n}H', m2, tl_o)
+    subs = set()
+    for b in _batches(skin)[2]:
+        sub, combo = struct.unpack_from('<H', b, 4)[0], struct.unpack_from('<H', b, 16)[0]
+        typ, name = tex[tl[combo]]
+        if name.rsplit('/', 1)[-1][:-4] in rider_textures or typ in slots:
+            subs.add(sub)
+    return _posed(m2, skin, subs)
+
+
+def _posed(m2: bytes, skin: bytes, subs: Set[int]):
+    from lib import rider
+    mats = rider.bone_matrices(m2, 0)
+    vn, vo = struct.unpack_from('<II', m2, 0x3C)
+    svn, svo = struct.unpack_from('<II', skin, 0x04)
+    sverts = struct.unpack_from(f'<{svn}H', skin, svo)
+    sm_n, sm_o = struct.unpack_from('<II', skin, 0x1C)
+    idx = set()
+    for i in subs:
+        if i < sm_n:
+            _s, _l, vst, vcnt = struct.unpack_from('<HHHH', skin, sm_o + 48 * i)
+            idx.update(sverts[vst:vst + vcnt])
+    out = []
+    for v in sorted(idx):
+        p = struct.unpack_from('<3f', m2, vo + 48 * v)
+        w = struct.unpack_from('<4B', m2, vo + 48 * v + 12); bi = struct.unpack_from('<4B', m2, vo + 48 * v + 16)
+        tot = sum(w) or 1
+        P = [0.0, 0.0, 0.0]
+        for k in range(4):
+            if w[k] and bi[k] < len(mats):
+                M = mats[bi[k]]
+                for r in range(3):
+                    P[r] += w[k] / tot * (M[r][0] * p[0] + M[r][1] * p[1] + M[r][2] * p[2] + M[r][3])
+        out.append(P if any(w) else list(p))
+    return out
+
+
+def body_seat(fused_points, body_m2: bytes, body_skin: bytes) -> Tuple[float, float, float]:
+    """Where attachment 0 must sit so a rider of this body, in its Mount pose, overlays the fused rider:
+    a rider is placed by its ORIGIN, not its pelvis (the pelvis seat left the gnome driver low and forward
+    in the rocket car). = centre of the fused rider - centre of the posed body (both bounding-box centres)."""
+    from lib import rider
+    bm, bs = rider.bake(body_m2, body_skin, [1] * 20, {})
+    n_s = struct.unpack_from('<I', bs, 0x1C)[0]
+    pts = _skin_points(bm, bs, set(range(n_s)))
+    def centre(P):
+        return [(min(p[k] for p in P) + max(p[k] for p in P)) / 2 for k in range(3)]
+    cf, cb = centre(fused_points), centre(pts)
+    return tuple(cf[k] - cb[k] for k in range(3))
+
+
+def place_seat(m2: bytes, seat) -> bytes:
+    """Attachment 0 (the seat) put where it SHOWS at `seat` (a Stand-pose position): an attachment is stored
+    in rest space and moves with its bone, so the target is taken back through that bone's Stand matrix."""
+    import numpy as np
+    from lib import rider
+    mats = rider.bone_matrices(m2, 0)
+    m = bytearray(m2)
+    an, ao = struct.unpack_from('<II', m, 0xF0)
+    for i in range(an):
+        if struct.unpack_from('<I', m, ao + 40 * i)[0] == 0:
+            bone = struct.unpack_from('<H', m, ao + 40 * i + 4)[0]
+            M = np.array(mats[bone], dtype=float) if bone < len(mats) else np.eye(4)
+            rest = np.linalg.inv(M) @ np.array([*seat, 1.0])
+            struct.pack_into('<3f', m, ao + 40 * i + 8, *(float(v) for v in rest[:3]))
+    return bytes(m)

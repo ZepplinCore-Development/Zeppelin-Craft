@@ -59,9 +59,9 @@ UPDATE creaturedisplayinfo SET model_id = 900225 WHERE id = 2490;
 UPDATE creaturedisplayinfo SET model_id = 900227 WHERE id IN (17389, 18088, 26537);
 
 -- 5926 / 22700 (Creature\GnomeSpidertank\GnomeSpiderTank, the pilot fused in) -> the empty Mechano-Tank
--- (model 2788 GnomeSpiderTank02, stock: Disassembled / Ejector Mechano-Tank) in the same tank skin.
-UPDATE creaturedisplayinfo SET model_id = 2788, texture_variation_1 = 'GnomeSpiderTankSkinGreen', texture_variation_2 = '' WHERE id = 5926;
-UPDATE creaturedisplayinfo SET model_id = 2788, texture_variation_1 = 'GnomeSpiderTankSkinBlue', texture_variation_2 = '' WHERE id = 22700;
+-- (model 900229 = stock GnomeSpiderTank02 with its seat placed for the gnome pilot) in the same tank skin.
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinGreen', texture_variation_2 = '' WHERE id = 5926;
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinBlue', texture_variation_2 = '' WHERE id = 22700;
 
 -- 9723 (Creature\Drake\OrcDrakeRider, Rend fused on his drake) -> the stock classic drake (model 571
 -- Creature\Drake\Drake, unused by any display) in the same DrakeSkin1-3: the riderless chromatic drake,
