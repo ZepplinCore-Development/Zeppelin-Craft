@@ -812,11 +812,11 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Chestplate of the Glacial Crusader (retail item 43946, display 688978)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210160;
+-- Stormwind Helm (retail item 117406, display 693930)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210203;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210160,
-  `left_model` = '',
+  `id` = 210203,
+  `left_model` = 'helm_plate_allianceuprez_b.mdx',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
@@ -828,87 +828,29 @@ INSERT INTO `itemdisplayinfo` SET
   `flags` = 0,
   `spell_visual_id` = 0,
   `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
+  `helmet_geoset_male` = 248,
+  `helmet_geoset_female` = 306,
   `upper_arm_texture` = '',
   `lower_arm_texture` = '',
   `hands_texture` = '',
-  `upper_torso_texture` = 'plate_northrend_b_02blue_chest_tu',
-  `lower_torso_texture` = 'plate_northrend_b_02blue_chest_tl',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Protective Engineer's Leggings (retail item 33258, display 66764)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210118;
+-- Stormwind Shoulderguards (retail item 117407, display 185053)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210204;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210118,
-  `left_model` = '',
-  `right_model` = '',
+  `id` = 210204,
+  `left_model` = 'lshoulder_plate_allianceuprez_b_01.mdx',
+  `right_model` = 'rshoulder_plate_allianceuprez_b_01.mdx',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = '',
-  `upper_leg_texture` = 'plate_common_b_01green_pant_lu',
-  `lower_leg_texture` = 'plate_common_b_01green_pant_ll',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Cataclysmic Gladiator's Girdle of Cruelty (retail item 73555, display 101982)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210146;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210146,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = '',
-  `upper_leg_texture` = 'plate_pvpdeathknight_d_01frost_belt_lu',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Winterborn Sabatons (retail item 179917, display 181717)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210147;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210147,
-  `left_model` = 'collections_plate_ardenweald_d_01.mdx:501,2001',
-  `right_model` = '',
-  `left_model_texture` = 'collections_plate_ardenweald_d_01_winterborn',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '19::64',
   `geoset_group_1` = 0,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
@@ -923,22 +865,22 @@ INSERT INTO `itemdisplayinfo` SET
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
-  `lower_leg_texture` = 'plate_ardenweald_d_01_winterborn_boot_ll',
-  `foot_texture` = 'plate_ardenweald_d_01_winterborn_boot_fo',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Handguards of the Lost Catacomb (retail item 85317, display 112336)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210148;
+-- Stormwind Grips (retail item 117409, display 137995)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210205;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210148,
+  `id` = 210205,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 3,
+  `geoset_group_1` = 1,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
   `flags` = 0,
@@ -947,10 +889,39 @@ INSERT INTO `itemdisplayinfo` SET
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
   `upper_arm_texture` = '',
-  `lower_arm_texture` = 'plate_raiddeathknight_l_01_glove_al',
-  `hands_texture` = 'plate_raiddeathknight_l_01_glove_ha',
+  `lower_arm_texture` = 'plate_allianceuprez_b_01_glove_al',
+  `hands_texture` = 'plate_allianceuprez_b_01_glove_ha',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Stormwind Chestguard (retail item 117408, display 137990)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210206;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210206,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'plate_allianceuprez_b_01_sleeve_au',
+  `lower_arm_texture` = 'plate_allianceuprez_b_01_sleeve_al',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'plate_allianceuprez_b_01_chest_tu',
+  `lower_torso_texture` = 'plate_allianceuprez_b_01_chest_tl',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',

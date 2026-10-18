@@ -207,6 +207,33 @@ def rider_shoulders(mp, skin_path):
     return best[1] if best else None
 
 
+# outfit STYLE hints: a fused rider whose armour is bespoke geometry in one painted mesh (no item texture,
+# no helm / pauldron a model matches by shape) wears the outfit of the stock NPC display it was drawn
+# after, all of its item displays as they are: the mounted knight = the Stormwind City Guard (3167:
+# plumed helm 14964, shoulders 7541, tabard 6255, legs / belt / boots / gloves)
+OUTFIT_STYLE = {'mountedknight.m2': 3167}
+STYLE_COLS = {'helm': 'helm_id', 'shoulders': 'shoulders_id', 'shirt': 'shirt_id', 'chest': 'chest_id', 'tabard': 'tabard_id',
+              'legs': 'legs_id', 'belt': 'belt_id', 'boots': 'boots_id', 'gloves': 'gloves_id', 'wrists': 'wrists_id', 'cape': 'cape_id'}
+
+
+# retail items over the stock display's, per slot (the user's picks: the retail Stormwind set - helm, shoulder-
+# guards, chestguard, grips - wowhead 117406-117409, 2026-10-18)
+STYLE_RETAIL = {'mountedknight.m2': {'helm': 117406, 'shoulders': 117407, 'chest': 117408, 'gloves': 117409}}
+
+
+def style_outfit(mp):
+    m_ = (mp or '').rsplit('/', 1)[-1]
+    did = OUTFIT_STYLE.get(m_)
+    if not did:
+        return None
+    x = q(f"SELECT x.* FROM creaturedisplayinfo d JOIN creaturedisplayinfoextra x ON x.id = d.extended_display_info_id WHERE d.id = {did}")[0]
+    out = {slot: {'display': int(x[col])} for slot, col in STYLE_COLS.items() if int(x.get(col) or 0)}
+    for slot, iid in STYLE_RETAIL.get(m_, {}).items():
+        mods = [m for (i, a), m in IMA.items() if i == iid]
+        mod = 0 if 0 in mods or not mods else min(mods)   # the base appearance
+        out[slot] = {'item': iid, 'mod': mod}
+    return out
+
 HELM_MAX = 0.2      # shape score: the diver helm matched the mechastrider pilot's at 0.175, unrelated helms 0.21+
 
 from lib.npc_outfit import RIDER_CLASS as _RC
@@ -396,6 +423,13 @@ for path, race, sex, displays, *fixed in riders:
     # every fused model wearing this rider skin (the armoured pilot: the Mechano-Tank AND the mechastrider,
     # whose pilot wears a helm mesh)
     from lib.npc_outfit import RIDERS as _R
+    so_ = style_outfit(mp)
+    if so_:
+        items = dict(so_)                              # the whole outfit (body slots baked, helm / shoulders worn)
+        for k_ in ('helm', 'shoulders'):
+            if k_ in so_:
+                pieces[k_] = so_[k_]                   # the fake wears them too
+        print('   outfit: stock display', OUTFIT_STYLE[mp.rsplit('/', 1)[-1]], so_)
     hv_ = None
     for m_ in sorted(k for k in ix.stock if k.endswith('.m2') and k.rsplit('/', 1)[-1] in _R):
         if m_ == mp or any(n == path for _, n in sf.texture_table(ix.stock[m_].read_bytes())):

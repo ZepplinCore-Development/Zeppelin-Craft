@@ -1370,7 +1370,7 @@ function riderParts(mount, own = mount) {
   // option on a fused mount's page (a retail remaster, our own cut-down mount) does - seated on its own
   // seat, else the page mount's seat attachment (F-220: every mount + its rider comparable)
   const seat = mountSet.has(own) ? own : mountSet.has(mount) ? mount : null;
-  const rb = riderOn && !isFusedRider(own) && seat && riderBody(riderCode);
+  const rb = riderOn && !isFusedRider(own) && !String(own || '').startsWith('character/') && seat && riderBody(riderCode);
   if (!rb) return null;
   const [sa] = mountSet.get(seat), [, sx, sy, sz] = mountSet.get(own) || [0, 0, 0, 0];
   const ovr = { [`rider/${riderCode}.m2`]: rb.m2, [`rider/${riderCode}00.skin`]: rb.skin };
@@ -1524,6 +1524,7 @@ function openAsset(e) {
   // shown wherever a card can seat one: a riderless mount option, or any option of a fused mount's page
   // (its retail remasters / our riderless mount are riderless; its fused cards just stay as they are)
   $('riderbox').hidden = (e.tab !== 'creature' && e.tab !== 'display') || !nRiders
+    || (e.panes || []).some(p => String(p.model || '').startsWith('character/'))   // a rider's own page: no rider on a rider
     || !(isFusedRider(e.path) || (e.panes || []).some(p => mountSet.has(p.model) && !isFusedRider(p.model))
          || (e.tab === 'display' && ((mountRiders.links || {})[e.display] || []).length));   // an F-220 mount display
   const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
@@ -1847,7 +1848,7 @@ function openAsset(e) {
     const links = mountRiders.links || {};
     const targets = [...displaysOfModel(e.path.toLowerCase())].map(d => d.display !== undefined ? d.display : d)
       .concat([e.display, ...(e.panes || []).map(p => p.display)]).filter(d => d && (links[d] || []).length);
-    if (targets.length) mountCards(e, false, [...new Set(targets)]);
+    if (targets.length) { riderlessVersions(e); mountCards(e, false, [...new Set(targets)]); }
   }
   if ($('todisplays')) $('todisplays').onclick = () => showModelDisplays(e.path);
   if ($('toriders')) $('toriders').onclick = () => showModelRiders(e.path);
@@ -2399,19 +2400,24 @@ let _mountRun = 0;
 function riderlessVersions(e) {
   document.querySelectorAll('#panes .pane[data-rlv]').forEach(x => x.remove());
   const own = (e.panes || []).find(p => (p.sources || []).includes('zep-mounted-npcs'));
-  const M = own && assets.find(a => a.tab === 'creature' && a.path === own.model);
+  // a display page: the riderless model its zep-mounted-npcs card shows; the fused model's page: our
+  // riderless model in the same folder (gnomerocketcar.m2 -> gnomerocketcar_empty.m2)
+  const folder = e.tab === 'creature' ? e.path.slice(0, e.path.lastIndexOf('/')) : null;
+  const M = own ? assets.find(a => a.tab === 'creature' && a.path === own.model)
+    : folder && assets.find(a => a.tab === 'creature' && a.path !== e.path && a.path.startsWith(folder + '/')
+        && (a.panes || []).some(p => (p.sources || []).includes('zep-mounted-npcs')));
   if (!M) return;
   const groups = modelOptions(M), cur = (choices.mesh || {})[M.path] || {};
-  (M.panes || []).filter(p => !(p.sources || []).includes('zep-mounted-npcs')).forEach(pn => {
+  (M.panes || []).filter(p => !own || !(p.sources || []).includes('zep-mounted-npcs')).forEach(pn => {
     const g = groups.find(h => (h.file.sources || []).join() === (pn.sources || []).join()) || groups.find(h => h.key === pn.option);
     const chosen = cur.option && g && cur.option === g.key;
     const div = document.createElement('div');
     div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.rlv = pn.option;
     div.innerHTML = `<iframe src="${paneUrl({ ...pn, display: e.display })}" loading="lazy" title="${esc(label(pn.sources))}"></iframe>
-      <div class="info"><div class="h"><b>${esc(label(pn.sources))}</b><span class="chip" title="A community pack's copy of the fused model with the rider cut out: another version of our riderless ${esc(M.path.split('/').pop())}">riderless pack cut</span></div>
+      <div class="info"><div class="h"><b>${esc(M.path.split('/').pop())} · ${esc(label(pn.sources))}</b><span class="chip" title="${(pn.sources || []).includes('zep-mounted-npcs') ? 'The stock fused model with the rider cut out' : 'A community pack\'s copy of the fused model with the rider cut out'}: a version of our riderless ${esc(M.path.split('/').pop())}">${(pn.sources || []).includes('zep-mounted-npcs') ? 'riderless stock cut' : 'riderless pack cut'}</span></div>
       <div class="stats">model: <a href="?layer=creature&path=${encodeURIComponent(M.path)}">${esc(M.path)}</a></div>
       <button class="use"${g ? '' : ' disabled'}>${chosen ? 'Chosen' : 'Use this'}</button></div>`;
-    if (g) div.querySelector('.use').onclick = () => saveModel(M, g).then(() => openDisplay(e.display));
+    if (g) div.querySelector('.use').onclick = () => saveModel(M, g).then(() => (e.tab === 'display' ? openDisplay(e.display) : openItem(e)));
     const anchor = [...document.querySelectorAll('#panes .pane')].find(x => /zep-mounted-npcs/.test((x.querySelector('.h b, .ptitle') || {}).textContent || ''));
     if (anchor) anchor.after(div); else $('panes').append(div);
   });
@@ -2435,6 +2441,7 @@ async function mountCards(e, showAll = false, targets = null) {
     if (!ownFolder && !words.some(w => stem.includes(w))) return;
     // a model no display uses has no skins to show (pack-only HD horses drew black): ours only
     if (!ownFolder && !a.displays) return;
+    if (ownFolder && (a.panes || []).some(p => (p.sources || []).includes('zep-mounted-npcs'))) return;   // riderlessVersions
     const pn = (a.panes || []).find(x => x.option === a.current) || (a.panes || [])[0];
     if (!pn) return;
     seen.add(a.path);

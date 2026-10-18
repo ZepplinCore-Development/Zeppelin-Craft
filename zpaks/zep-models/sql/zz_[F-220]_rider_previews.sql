@@ -460,6 +460,13 @@ INSERT INTO creature_equip_template SET
   ItemID3 = 0,
   VerifiedBuild = 0;
 DELETE FROM creature_equip_template WHERE CreatureID = 902231;
+INSERT INTO creature_equip_template SET
+  CreatureID = 902231,
+  ID = 1,
+  ItemID1 = 12890,
+  ItemID2 = 0,
+  ItemID3 = 0,
+  VerifiedBuild = 0;
 DELETE FROM creature_equip_template WHERE CreatureID = 902233;
 DELETE FROM creature_equip_template WHERE CreatureID = 902236;
 DELETE FROM creature_equip_template WHERE CreatureID = 902237;
