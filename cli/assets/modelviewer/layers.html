@@ -256,6 +256,13 @@ const paneHostReady = (async () => {
     PANE_BASE = PANE_BASES[0] || '';
   } else PANE_BASE = await Promise.any(probes).catch(() => '');
 })();
+// a pane on another origin cannot read this page's blob: URLs (the editor's live bakes): send it the bytes
+addEventListener('message', (e) => {
+  const m = e.data || {};
+  if (m.type !== 'pane-blob' || typeof m.url !== 'string' || !m.url.startsWith('blob:' + location.origin + '/') || !e.source) return;
+  fetch(m.url).then(r => r.arrayBuffer()).then(buf => e.source.postMessage({ type: 'pane-blob', url: m.url, buf }, '*', [buf]),
+    () => e.source.postMessage({ type: 'pane-blob', url: m.url, buf: null }, '*'));
+});
 const paneSrc = (prm) => (PANE_BASES.length > 1 ? PANE_BASES[paneDeal++ % PANE_BASES.length] : PANE_BASE) + 'pane.html?' + prm + (MV_DIAG ? '&diag' : '') + (/[?&]noprogcache\b/.test(location.search) ? '&noprogcache' : '');
 // Layered asset selection (F-216): 1. 3D asset (mesh) -> 2. 2D asset (texture) -> 3. customise.
 // Choices: choices/layers.json {version: 2, mesh: {path: pick}, texture: {path: pick}, custom: {}}

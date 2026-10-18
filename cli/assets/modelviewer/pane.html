@@ -95,9 +95,25 @@ async function fetchMap() {
   try { ovr = JSON.parse(q.get('ovr') || '{}') || {}; } catch (e) {}
   const id = q.get('map');
   // no map (a retail pane): the overrides alone are the map, so a seated rider's files resolve (I-400)
-  if (!id) { if (Object.keys(ovr).length) FILEMAP = ovr; return; }
+  if (!id) { if (Object.keys(ovr).length) FILEMAP = ovr; return pullBlobs(); }
   FILEMAP = await xfetch('data/maps/' + encodeURIComponent(id) + '.json').then(r => r.ok ? r.json() : null).catch(() => null);
   Object.assign(FILEMAP || {}, ovr);
+  return pullBlobs();
+}
+// A texture the page made (the editor's live bake) is a blob: URL of the PAGE's origin. Panes load from
+// another origin (I-401) and may not read it, so the page sends the bytes and the pane makes its own URL.
+function pullBlobs() {
+  const own = 'blob:' + location.origin + '/';
+  const want = Object.entries(FILEMAP || {}).filter(([, v]) => typeof v === 'string' && v.startsWith('blob:') && !v.startsWith(own));
+  return Promise.all(want.map(([k, v]) => new Promise((done) => {
+    const t = setTimeout(done, 5000);
+    const on = (e) => { if (e.source !== parent || !e.data || e.data.type !== 'pane-blob' || e.data.url !== v) return;
+      removeEventListener('message', on); clearTimeout(t);
+      if (e.data.buf) FILEMAP[k] = URL.createObjectURL(new Blob([e.data.buf]));
+      done(); };
+    addEventListener('message', on);
+    parent.postMessage({ type: 'pane-blob', url: v }, '*');
+  })));
 }
 // ?retail=<fdid>&build=<retail build>: every file the engine asks for by id comes from wago.tools
 const RETAIL_FDID = +(q.get('retail') || 0);
