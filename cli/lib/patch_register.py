@@ -8,8 +8,11 @@ The register lives at the NGINX distribution path and is the source
 of truth for the launcher's update detection.
 """
 
+import copy
+import fcntl
 import hashlib
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -42,6 +45,7 @@ def load_register(nginx_path: Path = None) -> Dict[str, Any]:
         with open(register_path, 'r') as f:
             data = json.load(f)
         logger.info(f"Loaded patch register: build #{data.get('server_metadata', {}).get('build_number', '?')}")
+        data[_SNAPSHOT_KEY] = copy.deepcopy(data)  # what this writer saw; save_register merges against it
         return data
     except (json.JSONDecodeError, PermissionError) as e:
         logger.error(f"Failed to load patch register: {e}")
@@ -49,12 +53,18 @@ def load_register(nginx_path: Path = None) -> Dict[str, Any]:
 
 
 def save_register(register: Dict[str, Any], nginx_path: Path = None) -> bool:
-    """Save the patch register to NGINX path.
+    """Save the patch register to NGINX path, merging with anything written since it was loaded.
 
-    Updates the last_updated timestamp before saving.
+    Several sessions write this file (patch-mpq builds, exe and launcher ships), and a build holds its
+    copy for minutes. A plain overwrite reverted entries registered in between (2026-10-18: a PATCH-Z
+    build put WowClient64 back from v2 to v1). So under an exclusive lock the current file is re-read
+    and only what THIS writer changed relative to its load snapshot is applied: per entry for
+    `patches`, per key at the top level. If both changed the same entry, this writer wins. The write
+    is atomic (temp file + rename), and `register` is updated in place to the merged result, so a
+    caller that keeps editing and saves again does not revert the other writer either.
 
     Args:
-        register: Register data to save.
+        register: Register data to save (from load_register, or built from scratch).
         nginx_path: Path to NGINX root directory.
 
     Returns:
@@ -62,18 +72,68 @@ def save_register(register: Dict[str, Any], nginx_path: Path = None) -> bool:
     """
     nginx_path = nginx_path or DEFAULT_NGINX_PATH
     register_path = nginx_path / REGISTER_FILENAME
-
-    register['last_updated'] = _utc_timestamp()
+    snapshot = register.pop(_SNAPSHOT_KEY, None)
 
     try:
-        with open(register_path, 'w') as f:
-            json.dump(register, f, indent=2)
-            f.write('\n')
+        with open(register_path.with_name(REGISTER_FILENAME + '.lock'), 'w') as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            current = None
+            if snapshot is not None and register_path.exists():
+                try:
+                    with open(register_path, 'r') as f:
+                        current = json.load(f)
+                except (json.JSONDecodeError, OSError):
+                    current = None
+
+            merged = _merge_register(snapshot, register, current) if current is not None else register
+            merged['last_updated'] = _utc_timestamp()
+
+            tmp = register_path.with_name(f'.{REGISTER_FILENAME}.{os.getpid()}.tmp')
+            with open(tmp, 'w') as f:
+                json.dump(merged, f, indent=2)
+                f.write('\n')
+            os.replace(tmp, register_path)
+
+        if merged is not register:
+            register.clear()
+            register.update(merged)
+        register[_SNAPSHOT_KEY] = copy.deepcopy(merged)
         logger.info(f"Saved patch register to {register_path}")
         return True
     except (PermissionError, OSError) as e:
+        if snapshot is not None:
+            register[_SNAPSHOT_KEY] = snapshot
         logger.error(f"Failed to save patch register: {e}")
         return False
+
+
+_SNAPSHOT_KEY = '__loaded_snapshot__'  # in-memory only: popped before every write
+_MISSING = object()
+
+
+def _merge_register(snapshot: Dict[str, Any], ours: Dict[str, Any], current: Dict[str, Any]) -> Dict[str, Any]:
+    """Apply what `ours` changed relative to `snapshot` onto `current` (the file as it is now)."""
+    merged = copy.deepcopy(current)
+
+    def apply(target: Dict[str, Any], base: Dict[str, Any], mine: Dict[str, Any], label: str):
+        for key in set(base) | set(mine):
+            was, now = base.get(key, _MISSING), mine.get(key, _MISSING)
+            if was == now:
+                continue  # untouched by this writer: keep whatever the file has now
+            theirs = target.get(key, _MISSING)
+            if theirs != was and theirs != now:
+                logger.warning(f"Patch register: {label}{key} was also changed by another writer - keeping this writer's value")
+            if now is _MISSING:
+                target.pop(key, None)
+            else:
+                target[key] = copy.deepcopy(now)
+
+    top_base = {k: v for k, v in snapshot.items() if k not in ('patches', 'last_updated')}
+    top_mine = {k: v for k, v in ours.items() if k not in ('patches', 'last_updated')}
+    apply(merged, top_base, top_mine, '')
+    merged.setdefault('patches', {})
+    apply(merged['patches'], snapshot.get('patches', {}), ours.get('patches', {}), 'patches.')
+    return merged
 
 
 # Patch versions are stored as plain ints (every deployed launcher unmarshals `version` as an int and
