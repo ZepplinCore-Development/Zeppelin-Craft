@@ -1,0 +1,4 @@
+{
+ "LShoulder_Leather_Horde_B_03.m2": "patch-hd-buildings MD20 v256 (TBC) -> v264 via cli/lib/m2_tbc.convert; the 3.3.5 client drew nothing for the v256 file",
+ "RShoulder_Leather_Horde_B_03.m2": "patch-hd-buildings MD20 v256 (TBC) -> v264 via cli/lib/m2_tbc.convert; the 3.3.5 client drew nothing for the v256 file"
+}

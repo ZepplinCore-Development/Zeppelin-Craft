@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-hd-pack-fixes",
+  "version": "0.1.0",
+  "description": "Repairs to community HD pack files the client cannot use as shipped. Each file is the pack's own art converted or fixed, at the pack's path, so it overrides the broken copy (PATCH-Z outranks the packs).",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-Z",
+  "enabled": true,
+  "priority": 101,
+  "features": [
+    "F-220"
+  ],
+  "contents": {
+    "mpq": [
+      "mpq/**/*"
+    ]
+  }
+}
