@@ -397,6 +397,10 @@ end
 local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", function(_, event, name)
+    -- F-227: the x64 client renders all of this itself (spell numbers incl. modifiers and spell
+    -- power, speed/weapon/scales-with/crit lines, other casters' aura values). It registers
+    -- ZepNativeTooltips(), so stay dormant there; the 32-bit client keeps the addon.
+    if ZepNativeTooltips then return end
     if event == "ADDON_LOADED" and name == "ZepTooltips" then
         cfg()
         Data = rawget(_G, "ZepTooltipData") or Data

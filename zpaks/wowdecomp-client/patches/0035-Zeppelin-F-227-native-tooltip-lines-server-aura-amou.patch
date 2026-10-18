@@ -1,0 +1,465 @@
+From 08b68a81b74225b85d75f46fa4e05d50a3210bf7 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 18 Oct 2026 06:33:12 +0000
+Subject: [PATCH] Zeppelin F-227: native tooltip lines, server aura amounts,
+ ZepNativeTooltips()
+
+- spell tooltips: movement speed lines, weapon-damage hit, 'Scales with', crit chance + crit hit
+- buff/debuff tooltips use the server's effect amounts (SMSG_ZEP_AURA_AMOUNTS, reused 0x3A3) for
+  any caster instead of bare base values
+- Lua ZepNativeTooltips() lets the ZepTooltips addon go dormant on this client
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Source/Magic/MagicClient/Spell_C.cpp | 113 ++++++++++++-
+ WoW/Source/Magic/MagicClient/Spell_C.h   |   5 +
+ WoW/Source/Net/Types.h                   |   1 +
+ WoW/Source/UIUtil/Tooltip.cpp            | 195 +++++++++++++++++++++++
+ WoW/Source/Ui/GameUI_Scripts.cpp         |   8 +
+ 5 files changed, 321 insertions(+), 1 deletion(-)
+
+diff --git a/WoW/Source/Magic/MagicClient/Spell_C.cpp b/WoW/Source/Magic/MagicClient/Spell_C.cpp
+index 2a05388..e42c8d5 100644
+--- a/WoW/Source/Magic/MagicClient/Spell_C.cpp
++++ b/WoW/Source/Magic/MagicClient/Spell_C.cpp
+@@ -14,6 +14,7 @@
+ #include "WoW/Source/Object/ObjectClient/Bag_C.h"
+ #include "WoW/Source/Object/ObjectClient/Item_C.h"
+ #include <cstring>
++#include <map>
+ #include <unordered_map>
+ #include "WoW/Source/Object/ObjectClient/Player_C.h"
+ #include "Engine/Source/BlizzardCore/SFile2-Core.h" // Not in the original (F-227): ZepSpellBonusData.dbc
+@@ -162,6 +163,17 @@ static constexpr uint32_t ZEP_MOD_ALL_BITS = 96;
+ static int32_t s_zepFamilyFlatModifiers[ZEP_MOD_FAMILIES][ZEP_MOD_ALL_BITS + 1][31];
+ static int32_t s_zepFamilyPctModifiers[ZEP_MOD_FAMILIES][ZEP_MOD_ALL_BITS + 1][31];
+ 
++// Not in the original (F-227): server effect amounts per aura application (SMSG_ZEP_AURA_AMOUNTS, sent with every aura
++// update), so a buff/debuff tooltip shows the caster's real values (spell power, talents, ...) for any
++// caster. Keyed by (unit guid, aura slot); the spell id guards against a slot reused by another aura.
++struct ZepAuraAmounts {
++    int32_t spellId;
++    uint8_t mask;
++    int32_t amount[3];
++};
++
++static std::map<std::pair<uint64_t, uint8_t>, ZepAuraAmounts> s_zepAuraAmounts;
++
+ // STATIC: 0x00AF524C
+ static TSList<PendingSpellCast, TSGetLink<PendingSpellCast> > s_pendingSpellCasts;
+ 
+@@ -735,7 +747,8 @@ void Spell_C_Initialize() {
+     ClientServices::SetMessageHandler(SMSG_PLAY_SPELL_IMPACT, Packet_SMSG_PLAY_SPELL_IMPACT, nullptr);
+     ClientServices::SetMessageHandler(SMSG_SET_FLAT_SPELL_MODIFIER, Packet_Group_32, nullptr);
+     ClientServices::SetMessageHandler(SMSG_SET_PCT_SPELL_MODIFIER, Packet_Group_32, nullptr);
+-    ClientServices::SetMessageHandler(SMSG_ZEP_FAMILY_SPELL_MODIFIER, Packet_SMSG_ZEP_FAMILY_SPELL_MODIFIER, nullptr); // Not in the original (F-226): family-tagged spell modifiers
++    ClientServices::SetMessageHandler(SMSG_ZEP_FAMILY_SPELL_MODIFIER, Packet_SMSG_ZEP_FAMILY_SPELL_MODIFIER, nullptr);
++    ClientServices::SetMessageHandler(SMSG_ZEP_AURA_AMOUNTS, Packet_SMSG_ZEP_AURA_AMOUNTS, nullptr); // Not in the original (F-227): aura effect amounts // Not in the original (F-226): family-tagged spell modifiers
+     ClientServices::SetMessageHandler(SMSG_GAME_OBJECT_RESET_STATE, Packet_SMSG_GAMEOBJECT_RESET_STATE, nullptr);
+     ClientServices::SetMessageHandler(SMSG_FEIGN_DEATH_RESISTED, Packet_SMSG_FEIGN_DEATH_RESISTED, nullptr);
+     ClientServices::SetMessageHandler(SMSG_SPELL_UPDATE_CHAIN_TARGETS, Packet_SMSG_SPELL_UPDATE_CHAIN_TARGETS, nullptr);
+@@ -750,6 +763,7 @@ void Spell_C_Initialize() {
+     memset(s_spellPctModifiers, 0, sizeof(s_spellPctModifiers));
+     memset(s_zepFamilyFlatModifiers, 0, sizeof(s_zepFamilyFlatModifiers)); // Not in the original (F-226): family tables
+     memset(s_zepFamilyPctModifiers, 0, sizeof(s_zepFamilyPctModifiers));
++    s_zepAuraAmounts.clear(); // Not in the original (F-227): aura amounts
+     s_autoRepeatingSpell = 0;
+     s_autoRangedCombatSpell = 0;
+     s_lastAutoRangedCombatError = 187;
+@@ -3708,6 +3722,62 @@ void Spell_C_GetMinMaxRange(CGUnit_C* caster, const SpellRec* spell, float* minR
+ // (Unit::SpellDamageBonusDone / SpellHealingBonusDone, Spell::EffectSchoolDMG's F-188 stat scaling).
+ // Only the local player's own spells get it, and only the caster side: target-dependent bonuses
+ // (creature-type damage, the victim's auras) cannot be known in a tooltip.
++
++// While set, Spell_C_GetMinMaxPoints returns these values for the matching spell's effects.
++static struct {
++    int32_t spellId;
++    uint8_t mask;
++    float value[3];
++} s_zepAuraOverride = { 0, 0, { 0.0f, 0.0f, 0.0f } };
++
++bool Spell_C_ZepGetAuraAmounts(uint64_t guid, uint8_t slot, int32_t spellId, int32_t amounts[3], uint8_t* mask) {
++    auto it = s_zepAuraAmounts.find({ guid, slot });
++
++    if (it == s_zepAuraAmounts.end() || it->second.spellId != spellId) {
++        return false;
++    }
++
++    memcpy(amounts, it->second.amount, sizeof(it->second.amount));
++    *mask = it->second.mask;
++    return true;
++}
++
++void Spell_C_ZepSetAuraOverride(int32_t spellId, uint8_t mask, const float values[3]) {
++    s_zepAuraOverride.spellId = spellId;
++    s_zepAuraOverride.mask = mask;
++    memcpy(s_zepAuraOverride.value, values, sizeof(s_zepAuraOverride.value));
++}
++
++void Spell_C_ZepClearAuraOverride() {
++    s_zepAuraOverride.spellId = 0;
++    s_zepAuraOverride.mask = 0;
++}
++
++// SMSG_ZEP_AURA_AMOUNTS = packed target guid, uint8 slot, uint32 spell id, uint8 effect mask, 3 x int32 amount.
++int32_t Packet_SMSG_ZEP_AURA_AMOUNTS(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg) {
++    SmartGUID guid;
++    *msg >> guid;
++    uint8_t slot;
++    uint32_t spellId;
++    uint8_t mask;
++    msg->Get(slot);
++    msg->Get(spellId);
++    msg->Get(mask);
++
++    ZepAuraAmounts entry;
++    entry.spellId = static_cast<int32_t>(spellId);
++    entry.mask = mask;
++
++    for (int32_t i = 0; i < 3; i++) {
++        uint32_t value;
++        msg->Get(value);
++        entry.amount[i] = static_cast<int32_t>(value);
++    }
++
++    s_zepAuraAmounts[{ guid.m_guid, slot }] = entry;
++    return 1;
++}
++
+ struct ZepSpellBonus {
+     float direct;
+     float dot;
+@@ -3874,6 +3944,41 @@ static void ZepAddCasterBonus(const SpellRec* spell, uint32_t effectIndex, CSoft
+ }
+ 
+ 
++// Not in the original (F-227): what a spell's value scales with, for the tooltip's "Scales with" line. Same effect
++// classification and coefficient rules as ZepAddCasterBonus.
++uint32_t Spell_C_ZepScalingSources(const SpellRec* spell) {
++    uint32_t sources = 0;
++    const ZepSpellBonus* bonus = ZepGetSpellBonus(spell->m_id);
++
++    for (uint32_t i = 0; i < 3; i++) {
++        int32_t effect = spell->m_effect[i];
++        int32_t aura = spell->m_effectAura[i];
++        bool periodic = aura == 3 || aura == 53 || aura == 8;
++
++        if (!(effect == 2 || effect == 9 || effect == 10 || periodic)) {
++            continue;
++        }
++
++        if (effect == 2 && spell->m_effectMiscValueB[i] && spell->m_effectMiscValue[i] >= 1 && spell->m_effectMiscValue[i] <= 10) {
++            sources |= 1u << (2 + spell->m_effectMiscValue[i]);
++        }
++
++        if (bonus) {
++            if ((periodic ? bonus->dot : bonus->direct) > 0.0f) {
++                sources |= 1;
++            }
++
++            if ((periodic ? bonus->apDot : bonus->ap) > 0.0f) {
++                sources |= 2;
++            }
++        } else if (spell->m_defenseType != 0 && spell->m_effectBonusCoefficient[i] > 0.0f) {
++            sources |= 1;
++        }
++    }
++
++    return sources;
++}
++
+ // VERIFY: ac5e661b manual
+ // OFFSET: 0x007FF770
+ void Spell_C_GetMinMaxPoints(const SpellRec* spell, uint32_t effectIndex, float* minPoints, float* maxPoints, int32_t spellLevel, int32_t isPet, int32_t isUnit, int32_t noModifiers) {
+@@ -3884,6 +3989,12 @@ void Spell_C_GetMinMaxPoints(const SpellRec* spell, uint32_t effectIndex, float*
+         return;
+     }
+ 
++    if (s_zepAuraOverride.spellId && spell->m_id == s_zepAuraOverride.spellId && effectIndex < 3 && (s_zepAuraOverride.mask & (1 << effectIndex))) {
++        *minPoints = s_zepAuraOverride.value[effectIndex]; // Not in the original (F-227): server amount for this aura
++        *maxPoints = s_zepAuraOverride.value[effectIndex];
++        return;
++    }
++
+     bool periodic;
+     bool rounded;
+     bool damage = GetEffectModifierType(spell->m_effect[effectIndex], &periodic, spell->m_effectAura[effectIndex], &rounded);
+diff --git a/WoW/Source/Magic/MagicClient/Spell_C.h b/WoW/Source/Magic/MagicClient/Spell_C.h
+index 0def843..cd68dd8 100644
+--- a/WoW/Source/Magic/MagicClient/Spell_C.h
++++ b/WoW/Source/Magic/MagicClient/Spell_C.h
+@@ -161,6 +161,11 @@ int32_t Packet_SMSG_PLAY_SPELL_VISUAL(void* param, NETMESSAGE msgId, uint32_t ti
+ int32_t Packet_SMSG_PLAY_SPELL_IMPACT(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+ int32_t Packet_Group_32(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+ int32_t Packet_SMSG_ZEP_FAMILY_SPELL_MODIFIER(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg); // Not in the original (F-226)
++int32_t Packet_SMSG_ZEP_AURA_AMOUNTS(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg); // Not in the original (F-227)
++bool Spell_C_ZepGetAuraAmounts(uint64_t guid, uint8_t slot, int32_t spellId, int32_t amounts[3], uint8_t* mask); // Not in the original (F-227)
++void Spell_C_ZepSetAuraOverride(int32_t spellId, uint8_t mask, const float values[3]); // Not in the original (F-227)
++void Spell_C_ZepClearAuraOverride(); // Not in the original (F-227)
++uint32_t Spell_C_ZepScalingSources(const SpellRec* spell); // Not in the original (F-227): bit 0 SP, 1 AP, 2+n stat n (F-188 id)
+ int32_t Packet_SMSG_GAMEOBJECT_RESET_STATE(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+ int32_t Packet_SMSG_FEIGN_DEATH_RESISTED(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+ int32_t Packet_SMSG_SPELL_UPDATE_CHAIN_TARGETS(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+diff --git a/WoW/Source/Net/Types.h b/WoW/Source/Net/Types.h
+index ddd8955..5c663d3 100644
+--- a/WoW/Source/Net/Types.h
++++ b/WoW/Source/Net/Types.h
+@@ -937,6 +937,7 @@ enum NETMESSAGE {
+     CMSG_VOICE_SET_TALKER_MUTED_REQUEST = 0x3A1,
+     SMSG_VOICE_SET_TALKER_MUTED = 0x3A2,
+     SMSG_INIT_EXTRA_AURA_INFO_OBSOLETE = 0x3A3,
++    SMSG_ZEP_AURA_AMOUNTS = 0x3A3, // Not in the original (F-227): reuses the unused 0x3A3; an aura application's server effect amounts
+     SMSG_SET_EXTRA_AURA_INFO_OBSOLETE = 0x3A4,
+     SMSG_ZEP_FAMILY_SPELL_MODIFIER = 0x3A4, // Not in the original (F-226): reuses the unused 0x3A4; spell modifiers for one spell family (server Player::AddSpellMod)
+     SMSG_SET_EXTRA_AURA_INFO_NEED_UPDATE_OBSOLETE = 0x3A5,
+diff --git a/WoW/Source/UIUtil/Tooltip.cpp b/WoW/Source/UIUtil/Tooltip.cpp
+index 4605fb9..0461642 100644
+--- a/WoW/Source/UIUtil/Tooltip.cpp
++++ b/WoW/Source/UIUtil/Tooltip.cpp
+@@ -3144,6 +3144,178 @@ void CGTooltip::AddColoredItemStat(int32_t value, const char* name, int32_t* fir
+     this->AddLine(text, nullptr, textColor, textColor, 0);
+ }
+ 
++// Not in the original (F-227): the lines the ZepTooltips addon used to add under a spell's description, computed by the
++// client from the same values as $s (spell modifiers per family, spell/attack power, stat scaling):
++// movement speeds, weapon-damage hits, what the value scales with, and crit chance with the crit hit.
++static void ZepFormatRange(char* out, size_t size, float lo, float hi, const char* suffix) {
++    int32_t a = CMath::fint_(lo);
++    int32_t b = CMath::fint_(hi);
++
++    if (a == b) {
++        SStrPrintf(out, size, "%d%s", a, suffix);
++    } else {
++        SStrPrintf(out, size, "%d-%d%s", a, b, suffix);
++    }
++}
++
++static void ZepAddNativeSpellLines(CGTooltip* tooltip, const SpellRec* spell) {
++    CGPlayer_C* player = ClntObjMgrGetActivePlayerObj();
++
++    if (!player || !player->m_player || !player->m_unit) {
++        return;
++    }
++
++    const CImVector color(0xFF, 0xD5, 0x71, 0xFF);   // light blue
++    CGPlayerLocalData* data = static_cast<CGPlayerLocalData*>(player->m_player);
++    char line[256];
++    char range[64];
++    bool speed = false;
++
++    // Movement speeds: one line per speed aura (a flying mount grants Flight and Ground).
++    for (uint32_t i = 0; i < 3; i++) {
++        const char* label = nullptr;
++
++        switch (spell->m_effectAura[i]) {
++            case 31: case 32: case 129: case 130: label = "Ground"; break;
++            case 58: label = "Swim"; break;
++            case 206: case 207: case 208: case 209: case 210: case 211: label = "Flight"; break;
++            default: break;
++        }
++
++        if (label) {
++            float lo;
++            float hi;
++            Spell_C_GetMinMaxPoints(spell, i, &lo, &hi, 0, 0, 0, 0);
++            ZepFormatRange(range, sizeof(range), fabsf(lo), fabsf(hi), "%");
++            SStrPrintf(line, sizeof(line), "%s: %s", label, range);
++            tooltip->AddLine(line, nullptr, color, color, 1);
++            speed = true;
++        }
++    }
++
++    if (speed) {
++        return;
++    }
++
++    // Weapon-damage effects (17 NOSCHOOL, 31 PERCENT, 58 WEAPON, 121 NORMALIZED) on the hand the spell uses.
++    bool weapon = false;
++    float pct = 100.0f;
++    float flat = 0.0f;
++
++    for (uint32_t i = 0; i < 3; i++) {
++        int32_t effect = spell->m_effect[i];
++
++        if (effect == 17 || effect == 31 || effect == 58 || effect == 121) {
++            float lo;
++            float hi;
++            Spell_C_GetMinMaxPoints(spell, i, &lo, &hi, 0, 0, 0, 0);
++            weapon = true;
++
++            if (effect == 31) {
++                pct = lo;
++            } else {
++                flat += lo;
++            }
++        }
++    }
++
++    if (weapon) {
++        CGUnitData* unit = player->m_unit;
++        bool ranged = spell->m_defenseType == 3;
++        bool offhand = (spell->m_attributesExC & 0x01000000) != 0;   // SPELL_ATTR3_REQ_OFFHAND
++        float wlo = ranged ? unit->m_unitFieldMinrangeddamage : offhand ? unit->m_unitFieldMinoffhanddamage : unit->m_unitFieldMindamage;
++        float whi = ranged ? unit->m_unitFieldMaxrangeddamage : offhand ? unit->m_unitFieldMaxoffhanddamage : unit->m_unitFieldMaxdamage;
++
++        if (whi > 0.0f) {                                            // no line without a weapon in that hand
++            ZepFormatRange(range, sizeof(range), wlo * pct / 100.0f + flat, whi * pct / 100.0f + flat, "");
++            SStrPrintf(line, sizeof(line), "Weapon: %s", range);
++            tooltip->AddLine(line, nullptr, color, color, 1);
++        }
++    }
++
++    // What the value scales with.
++    static const char* const s_statNames[] = { "Spell Power", "Attack Power", "", "block value", "armor", "Attack Power",
++        "Spell Power", "Strength", "Agility", "Stamina", "Intellect", "Spirit", "maximum health" };
++    uint32_t sources = Spell_C_ZepScalingSources(spell);
++
++    if (sources) {
++        char names[160] = "";
++        const char* seen[13] = {};
++        uint32_t count = 0;
++
++        for (uint32_t bit = 0; bit < 13; bit++) {
++            const char* name = s_statNames[bit];
++            bool dup = false;
++
++            for (uint32_t k = 0; k < count; k++) {
++                dup = dup || !SStrCmp(seen[k], name, STORM_MAX_STR);
++            }
++
++            if ((sources & (1u << bit)) && *name && !dup) {
++                SStrPrintf(names + SStrLen(names), sizeof(names) - SStrLen(names), "%s%s", count ? ", " : "", name);
++                seen[count++] = name;
++            }
++        }
++
++        SStrPrintf(line, sizeof(line), "Scales with %s", names);
++        tooltip->AddLine(line, nullptr, color, color, 1);
++    }
++
++    // Crit chance for the spell's first damage/heal effect, plus the crit hit.
++    for (uint32_t i = 0; i < 3; i++) {
++        int32_t effect = spell->m_effect[i];
++        int32_t aura = spell->m_effectAura[i];
++
++        if (!(effect == 2 || effect == 10 || aura == 3 || aura == 8)) {
++            continue;
++        }
++
++        float crit;
++
++        if (spell->m_defenseType == 2) {
++            crit = data->m_playerCritPercentage;
++        } else if (spell->m_defenseType == 3) {
++            crit = data->m_playerRangedCritPercentage;
++        } else {
++            crit = 0.0f;
++
++            for (int32_t school = 0; school < 7; school++) {
++                if ((spell->m_schoolMask & (1 << school)) && data->m_playerSpellCritPercentage1[school] > crit) {
++                    crit = data->m_playerSpellCritPercentage1[school];
++                }
++            }
++        }
++
++        int32_t modFlat;
++        int32_t modPct;
++
++        if (Spell_C_GetSpellModifiers(spell, 7, modFlat, modPct)) {   // SPELLMOD_CRITICAL_CHANCE
++            crit += static_cast<float>(modFlat);
++        }
++
++        if (crit <= 0.0f) {
++            break;
++        }
++
++        float lo;
++        float hi;
++        Spell_C_GetMinMaxPoints(spell, i, &lo, &hi, 0, 0, 0, 0);
++        float bonus = (spell->m_defenseType == 2 || spell->m_defenseType == 3) ? 1.0f : 0.5f;
++        float extra = 0.0f;
++
++        if (Spell_C_GetSpellModifiers(spell, 15, modFlat, modPct)) {  // SPELLMOD_CRIT_DAMAGE_BONUS
++            extra = static_cast<float>(modFlat + modPct - 100);
++        }
++
++        float mult = 1.0f + bonus * (1.0f + extra / 100.0f);
++        ZepFormatRange(range, sizeof(range), fabsf(lo) * mult, fabsf(hi) * mult, "");
++        SStrPrintf(line, sizeof(line), "Crit: ~%d%% (%s)", CMath::fint_(crit), range);
++        tooltip->AddLine(line, nullptr, color, color, 1);
++        break;
++    }
++}
++
++
+ // VERIFY: 8edeac88 manual
+ // OFFSET: 0x006238A0
+ int32_t CGTooltip::SetSpell(int32_t spellId, int32_t brief, uint32_t cooldown, int32_t isPet, int32_t showRank, int32_t isInspect, int32_t a8, const TalentRec* talent, CGTalentGroup_C* talentGroup, int32_t append, int32_t usePreview, int32_t a13, int32_t rank, int32_t maxRank, int32_t showLearn) {
+@@ -3305,6 +3477,10 @@ int32_t CGTooltip::SetSpell(int32_t spellId, int32_t brief, uint32_t cooldown, i
+             this->AddLine(description, nullptr, titleColor, titleColor, 1);
+         }
+ 
++        if (!isPet && !isInspect) {
++            ZepAddNativeSpellLines(this, &spell); // Not in the original (F-227): speed / weapon / scales-with / crit lines
++        }
++
+         if (talent && !isInspect && showLearn) {
+             this->AddTalentLearnText(talent, talentGroup, prereqsMet, rank, maxRank, 0, a8, isPet, usePreview);
+         }
+@@ -3959,7 +4135,26 @@ int32_t SetTooltipUnitAura(CGTooltip* tooltip, ScriptAuraInfo* info) {
+             uint8_t flags = unit->GetAuraFlags(slot);
+             uint8_t stackCount = unit->GetAuraStackCount(slot);
+             uint8_t level = unit->GetAuraLevel(slot);
++            // Not in the original (F-227): the server's effect amounts for this aura (any caster), when it sent them
++            int32_t zepAmounts[3];
++            uint8_t zepMask = 0;
++            int32_t zepSpellId = unit->GetAuraSpellId(slot);
++
++            if (Spell_C_ZepGetAuraAmounts(unit->m_obj->m_guid.m_guid, static_cast<uint8_t>(slot), zepSpellId, zepAmounts, &zepMask)) {
++                SpellRec zepSpell;
++                // The amount already includes the stack count, which the parser multiplies in again.
++                float stacks = (g_spellDB.GetRecord(zepSpellId, &zepSpell) && zepSpell.m_cumulativeAura > 1 && stackCount > 1) ? static_cast<float>(stackCount) : 1.0f;
++                float values[3];
++
++                for (int32_t i = 0; i < 3; i++) {
++                    values[i] = static_cast<float>(abs(zepAmounts[i])) / stacks;
++                }
++
++                Spell_C_ZepSetAuraOverride(zepSpellId, zepMask, values);
++            }
++
+             tooltip->SetBuff(unit->GetAuraSpellId(slot), level, stackCount, flags, 0, 0);
++            Spell_C_ZepClearAuraOverride();
+             AuraData* aura = unit->GetAura(slot);
+ 
+             if (aura && aura->m_duration > 0) {
+diff --git a/WoW/Source/Ui/GameUI_Scripts.cpp b/WoW/Source/Ui/GameUI_Scripts.cpp
+index 3d85816..4de3290 100644
+--- a/WoW/Source/Ui/GameUI_Scripts.cpp
++++ b/WoW/Source/Ui/GameUI_Scripts.cpp
+@@ -6004,6 +6004,13 @@ static int32_t Script_AssistUnit(lua_State* L) {
+     CGGameUI::DisplayError(ERR_GENERIC_NO_TARGET);
+     return 0;
+ }
++// Not in the original (F-227): the x64 client renders spell numbers, modifiers and the extra tooltip lines itself, so the
++// ZepTooltips addon (F-190) checks for this function and stays out of the way when it exists.
++static int32_t Script_ZepNativeTooltips(lua_State* L) {
++    lua_pushboolean(L, 1);
++    return 1;
++}
++
+ 
+ // VERIFY: 818e9713 manual
+ // OFFSET: 0x00526050
+@@ -6433,6 +6440,7 @@ static FrameScript_Method s_ScriptFunctions[] = {
+     { "GetInstanceInfo", &Script_GetInstanceInfo },
+     { "GetDungeonDifficulty", &Script_GetDungeonDifficulty },
+     { "SetDungeonDifficulty", &Script_SetDungeonDifficulty },
++    { "ZepNativeTooltips", &Script_ZepNativeTooltips }, // Not in the original (F-227): lets the ZepTooltips addon go dormant
+     { "GetRaidDifficulty", &Script_GetRaidDifficulty },
+     { "SetRaidDifficulty", &Script_SetRaidDifficulty },
+     { "ReportBug", &Script_ReportBug },
+-- 
+2.34.1
+

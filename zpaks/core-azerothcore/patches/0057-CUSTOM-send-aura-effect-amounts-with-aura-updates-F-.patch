@@ -1,0 +1,65 @@
+From bd7c7cf0787218705dc5667b6fb5fdb5b0b5f076 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 18 Oct 2026 06:33:13 +0000
+Subject: [PATCH] CUSTOM: send aura effect amounts with aura updates (F-227)
+
+AuraApplication::ClientUpdate also sends SMSG_ZEP_AURA_AMOUNTS (unused 0x3A3): the aura's real
+effect amounts, so the Zeppelin x64 client's buff/debuff tooltips show caster-scaled values.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ src/server/game/Server/Protocol/Opcodes.h   |  2 ++
+ src/server/game/Spells/Auras/SpellAuras.cpp | 23 +++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
+
+diff --git a/src/server/game/Server/Protocol/Opcodes.h b/src/server/game/Server/Protocol/Opcodes.h
+index f4d69d253..a0138cbc7 100644
+--- a/src/server/game/Server/Protocol/Opcodes.h
++++ b/src/server/game/Server/Protocol/Opcodes.h
+@@ -960,6 +960,8 @@ enum Opcodes : uint16
+     SMSG_VOICE_SET_TALKER_MUTED                     = 0x3A2,
+     SMSG_INIT_EXTRA_AURA_INFO_OBSOLETE              = 0x3A3,
+     SMSG_SET_EXTRA_AURA_INFO_OBSOLETE               = 0x3A4,
++    // CUSTOM (F-227): reuses the unused 0x3A3 for an aura application's effect amounts (Zeppelin x64 client)
++    SMSG_ZEP_AURA_AMOUNTS                           = 0x3A3,
+     // CUSTOM (F-226): reuses the unused 0x3A4 for family-tagged spell modifiers (Zeppelin x64 client)
+     SMSG_ZEP_FAMILY_SPELL_MODIFIER                  = 0x3A4,
+     SMSG_SET_EXTRA_AURA_INFO_NEED_UPDATE_OBSOLETE   = 0x3A5,
+diff --git a/src/server/game/Spells/Auras/SpellAuras.cpp b/src/server/game/Spells/Auras/SpellAuras.cpp
+index c344dc66b..d20a34742 100644
+--- a/src/server/game/Spells/Auras/SpellAuras.cpp
++++ b/src/server/game/Spells/Auras/SpellAuras.cpp
+@@ -232,6 +232,29 @@ void AuraApplication::ClientUpdate(bool remove)
+                     ArenaSpectator::SendCommand_Aura(plr->FindMap(), plr->GetGUID(), "AUR", aura->GetCasterGUID(), aura->GetSpellInfo()->Id, aura->GetSpellInfo()->IsPositive(), aura->GetSpellInfo()->Dispel, aura->GetDuration(), aura->GetMaxDuration(), (aura->GetCharges() > 1 ? aura->GetCharges() : aura->GetStackAmount()), remove);
+ 
+     _target->SendMessageToSet(&data, true);
++
++    // CUSTOM (F-227): the aura's real effect amounts (caster spell power, talents, stacks included) for
++    // the Zeppelin x64 client's buff/debuff tooltips, which otherwise only know base values. Same
++    // recipients as the update. Payload: packed target guid, uint8 slot, uint32 spell, uint8 effect
++    // mask, 3 x int32 amount. Clients without a handler for 0x3A3 ignore it.
++    if (!remove && GetSlot() < MAX_AURAS)
++    {
++        if (Aura const* aura = GetBase())
++        {
++            WorldPacket amounts(SMSG_ZEP_AURA_AMOUNTS, 8 + 1 + 4 + 1 + 3 * 4);
++            amounts << GetTarget()->GetPackGUID();
++            amounts << uint8(GetSlot());
++            amounts << uint32(aura->GetId());
++            amounts << uint8(GetEffectMask());
++            for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
++            {
++                AuraEffect const* effect = aura->GetEffect(i);
++                amounts << int32(effect ? effect->GetAmount() : 0);
++            }
++
++            _target->SendMessageToSet(&amounts, true);
++        }
++    }
+ }
+ 
+ uint8 Aura::BuildEffectMaskForOwner(SpellInfo const* spellProto, uint8 avalibleEffectMask, WorldObject* owner)
+-- 
+2.34.1
+

@@ -79,4 +79,4 @@ end
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
-f:SetScript("OnEvent", function() ZepSelfTest.run(false) end)
+f:SetScript("OnEvent", function() if not ZepNativeTooltips then ZepSelfTest.run(false) end end) -- F-227: dormant on the x64 client
