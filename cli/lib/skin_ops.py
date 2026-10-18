@@ -958,8 +958,21 @@ def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     else:
         sk.props += bytes(4 * n * sides)
     caps = _cap_loops(donor, tris, cfg.get('cap'))
+    # placing / conforming can fold a triangle over (neighbours pushed out by different amounts):
+    # compare its facing as placed (side 0 in the model) with the donor's and re-wind a flipped one
+    dmd = _Model(donor)
+    nvm, ovm = _arr(model, 0x3C)
+    placed = lambda v: struct.unpack_from('<3f', model, ovm + 48 * (at + rank[v]))
+    def _n(a, b, c):
+        u = [b[i] - a[i] for i in range(3)]; w = [c[i] - a[i] for i in range(3)]
+        return (u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0])
+    fixed = []
+    for t in tris:
+        n0, n1 = _n(*[dmd.pos[v] for v in t]), _n(*[placed(v) for v in t])
+        fixed.append((t[0], t[2], t[1]) if sum(n0[i] * n1[i] for i in range(3)) < 0 else t)
+    rewound = sum(1 for a, b in zip(tris, fixed) if a != b)
     idx, sidx = [], []
-    for t, f in zip(tris + caps, flags + [True] * len(caps)):
+    for t, f in zip(fixed + caps, flags + [True] * len(caps)):
         a, b, c = (nstart + (srank if f and v in srank else rank)[v] for v in t)
         dst = sidx if f else idx
         dst += [a, b, c]
@@ -986,7 +999,8 @@ def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
         add(int(var['id']), istart, len(idx), var['texcombo'])
         if sidx:
             add(int(var['id']), istart + len(idx), len(sidx), st.get('texcombo', 0))   # strut: the body skin
-    return f'import_rigid: {len(idx) // 3} membrane + {len(sidx) // 3} strut tris as {[v["id"] for v in cfg["variants"]]}'
+    return (f'import_rigid: {len(idx) // 3} membrane + {len(sidx) // 3} strut tris as {[v["id"] for v in cfg["variants"]]}'
+            + (f', {rewound} folded triangle(s) re-wound' if rewound else ''))
 
 
 _BATCH = ('flags', 'priority', 'shader', 'skin', 'geoset', 'color', 'material', 'layer', 'textures', 'texcombo',
