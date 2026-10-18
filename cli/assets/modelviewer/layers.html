@@ -2229,27 +2229,56 @@ function addNewDisplays() {
   customList = customList.filter(c => !c.isNew);
   Object.entries(choices.custom || {}).forEach(([k, v]) => { if (v && v.new) { const c = newDisplayEntry(+k, v.path, v); if (c) customList.push(c); } });
 }
+// A character model has no plain "new display": its display draws a CreatureDisplayInfoExtra row (race, sex,
+// skin, face, hair, outfit, bake - a display without a bake crashes the client). So a new one starts as a copy
+// of one of that model's displays: the editor opens on it in "new display" mode and saves only as a new id
+// (Save as new display: its row and bake row are copied onto new ids at ship time).
+let pendingNew = null;   // { from: the display the new one copies } while the editor shows it
 function openCreator() {
   loadCreator().then(d => {
-    let q = '';
+    let q = '', charPath = null;
+    const charDisp = new Map();                      // character model -> its displays (the editor's list)
+    customList.forEach(c => { if (!c.isNew && c.char && String(c.path || '').startsWith('character/')) {
+      if (!charDisp.has(c.path)) charDisp.set(c.path, []); charDisp.get(c.path).push(c); } });
+    const charRows = [...charDisp.keys()].sort().map(p => [p, charDisp.get(p).length]);
     const ov = document.createElement('div'); ov.className = 'wardov';
-    ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b>New display ${nextDisplayId()}</b><input placeholder="search ${d.models.length.toLocaleString()} creature models (path or creature name)" data-cq>
+    ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b data-ch>New display ${nextDisplayId()}</b><input placeholder="search ${d.models.length.toLocaleString()} creature and ${charRows.length} character models (path or creature name)" data-cq>
       <button data-cx>close</button></div><div class="creatorlist"></div><div class="wardmore"></div></div>`;
     document.body.append(ov);
     const list = ov.querySelector('.creatorlist'), more = ov.querySelector('.wardmore');
     const draw = () => {
-      const ws = q.split(/\s+/).filter(Boolean);
-      const hit = d.models.filter(m => !ws.length || ws.every(w => (m[0] + ' ' + m[6].join(' ')).toLowerCase().includes(w)));
-      list.innerHTML = hit.slice(0, 300).map(m => `<button class="crow" data-cp="${esc(m[0])}"><b>${esc(m[0].split('/').pop())}</b>
+      const ws = q.split(/\s+/).filter(Boolean), has = (t) => !ws.length || ws.every(w => t.toLowerCase().includes(w));
+      if (charPath) {
+        // step 2 for a character model: which of its displays the new one copies
+        const all = charDisp.get(charPath), hit = all.filter(c => has(c.display + ' ' + c.names.join(' ')));
+        list.innerHTML = hit.slice(0, 300).map(c => `<button class="crow" data-ct="${c.display}"><b>display ${c.display}</b>
+          <span>${esc(c.names.slice(0, 4).join(', ') || 'no creature uses it')}</span><span>hair ${c.char.hair_style} · facial hair ${c.char.facial_hair}${c.char.cs ? ` · skin colour ${c.char.cs.color}` : ''}</span></button>`).join('');
+        more.textContent = (hit.length > 300 ? `300 of ${hit.length.toLocaleString()} - narrow the search` : `${hit.length.toLocaleString()} displays`) + ' · its race, skin, face and bake are copied; hair and outfit can be changed';
+        return;
+      }
+      const chars = charRows.filter(([p]) => has(p));
+      const hit = d.models.filter(m => has(m[0] + ' ' + m[6].join(' ')));
+      list.innerHTML = chars.map(([p, n]) => `<button class="crow" data-cc="${esc(p)}"><b>${esc(p.split('/').pop())}</b>
+        <span>${esc(p)}</span><span>character model · starts as a copy of one of its ${n.toLocaleString()} displays</span></button>`).join('')
+        + hit.slice(0, 300).map(m => `<button class="crow" data-cp="${esc(m[0])}"><b>${esc(m[0].split('/').pop())}</b>
         <span>${esc(m[0])}</span><span>${esc(m[6].join(', ') || 'no creature uses it')} · ${esc(m[1])}${(m[4] || []).length ? ` · ${m[4].length} skin slot${m[4].length > 1 ? 's' : ''}` : ''}</span></button>`).join('');
-      more.textContent = hit.length > 300 ? `300 of ${hit.length.toLocaleString()} - narrow the search` : `${hit.length.toLocaleString()} models`;
+      more.textContent = (hit.length > 300 ? `300 of ${hit.length.toLocaleString()} - narrow the search` : `${hit.length.toLocaleString()} models`) + (chars.length ? ` + ${chars.length} character models` : '');
     };
     let tq = null;
     ov.querySelector('[data-cq]').oninput = (ev) => { clearTimeout(tq); tq = setTimeout(() => { q = ev.target.value.trim().toLowerCase(); draw(); }, 150); };
     const close = () => ov.remove();
     ov.querySelector('[data-cx]').onclick = close;
     ov.addEventListener('click', (ev) => { if (ev.target === ov) close(); });
-    list.addEventListener('click', (ev) => { const b = ev.target.closest('[data-cp]'); if (!b) return;
+    list.addEventListener('click', (ev) => {
+      const cc = ev.target.closest('[data-cc]'), ct = ev.target.closest('[data-ct]');
+      if (cc) {
+        charPath = cc.dataset.cc; q = '';
+        ov.querySelector('[data-ch]').textContent = `New display ${nextDisplayId()} on ${charPath.split('/').pop()}: start from which display?`;
+        const inp = ov.querySelector('[data-cq]'); inp.value = ''; inp.placeholder = 'search its displays (id or creature name)'; inp.focus();
+        draw(); return;
+      }
+      if (ct) { close(); pendingNew = { from: +ct.dataset.ct }; openCustom_(+ct.dataset.ct); return; }
+      const b = ev.target.closest('[data-cp]'); if (!b) return;
       const c = newDisplayEntry(nextDisplayId(), b.dataset.cp);
       close();
       if (!c) return;
@@ -2587,6 +2616,11 @@ function openCustom(c) {
     ctl += `<label>Name<input id="cs-label" placeholder="what this display is for" value="${esc(saved.label || '')}"></label>
       <div class="note">New display ${c.display} (the highest display id + 1) on ${esc(c.path)}, ${c.clone_of ? 'a clone of' : 'copied from'} display ${base.src_display || '?'}'s row${c.from_names.length ? ` (${esc(c.from_names.join(', '))})` : ''}. It ships with the curated build; point a creature at it with its id.</div>`;
   }
+  const startNew = !c.isNew && !c.retail && pendingNew && pendingNew.from === c.display;
+  if (startNew) {
+    ctl += `<label>Name<input id="cs-label" placeholder="what this display is for" value=""></label>
+      <div class="note">New display ${nextDisplayId()} (the highest display id + 1): a copy of display ${c.display}'s row and bake${c.names.length ? ` (${esc(c.names.slice(0, 3).join(', '))})` : ''}. Change hair, facial hair or outfit, then Create. Display ${c.display} itself stays as it is.</div>`;
+  }
   const mi = c.retail ? models.findIndex(m => m.kind === 'retail' && m.ti === c.retail.ti)
     : Math.max(0, models.findIndex(m => m.kind === 'pane' && base && m.pane.option === base.option && m.pane.model === base.model));
   ctl += `<label>Model<select id="cs-model">${models.map((m, i) => `<option value="${i}"${i === mi ? ' selected' : ''}>${esc(m.label)}</option>`).join('')}</select></label>`;
@@ -2640,7 +2674,8 @@ function openCustom(c) {
       c._sets = sets;
     }
   }
-  ctl += groupBox(c.display) + `<div class="row"><button id="cs-save">${c.isNew ? 'Save' : 'Save edit'}</button>${c.retail ? '' : `<button id="cs-saveas" title="Keep display ${c.display} as it is and save this look on a new display id (the highest + 1): a clone with your changes">Save as new display</button>`}<button id="cs-clear">${c.isNew ? 'Delete' : 'Clear'}</button></div>`;
+  ctl += groupBox(c.display) + (startNew ? `<div class="row"><button id="cs-saveas">Create display ${nextDisplayId()}</button><button id="cs-cancelnew">Cancel</button></div>` :
+  `<div class="row"><button id="cs-save">${c.isNew ? 'Save' : 'Save edit'}</button>${c.retail ? '' : `<button id="cs-saveas" title="Keep display ${c.display} as it is and save this look on a new display id (the highest + 1): a clone with your changes">Save as new display</button>`}<button id="cs-clear">${c.isNew ? 'Delete' : 'Clear'}</button></div>`);
   $('panes').innerHTML = `
     <div class="pane cs-ref"><iframe id="cs-stockf" loading="lazy" title="Stock"></iframe><div class="info">
       <div class="h"><b>Stock display ${c.display}</b><span class="chip">the original · reference</span></div>
@@ -2651,7 +2686,7 @@ function openCustom(c) {
       <div class="stats">model: ${esc(c.path)}</div>
       ${base && base.display && base.display !== c.display ? `<div class="stats">textures previewed from display ${base.display}</div>` : ''}
       ${!c.retail && base ? outfitBox(base) + provBox(base) : ''}</div></div>
-    <div class="pane custctl"><div class="info"><div class="h"><b>Edit display ${c.display}</b>${c.isNew ? '' : `<button id="cs-back" title="Open display ${c.display} in the Displays tab (unsaved changes here are dropped)">← Back to display</button>`}</div><div class="ctl">${ctl}</div></div></div>`;
+    <div class="pane custctl"><div class="info"><div class="h"><b>${startNew ? `New display ${nextDisplayId()} · copy of ${c.display}` : `Edit display ${c.display}`}</b>${c.isNew ? '' : `<button id="cs-back" title="Open display ${c.display} in the Displays tab (unsaved changes here are dropped)">← Back to display</button>`}</div><div class="ctl">${ctl}</div></div></div>`;
   loadCustStock(c.display).then(sp => {
     if (cur !== c) return;
     if (sp && !$('cs-stockinfo')) return;            // already filled by an earlier load of this card
@@ -2755,7 +2790,7 @@ function openCustom(c) {
       cust: { groups: m.pane.model === ent.path ? ent.groups || {} : {}, slots: m.pane.model === ent.path ? ent.slots || [] : [] }, tex_key: m.pane.tex_key || ent.tex_key };
     openCustom_(c.display, false, v);
   };
-  $('cs-save').onclick = async () => {
+  if ($('cs-save')) $('cs-save').onclick = async () => {
     if (c.retail) {
       const t = namedFor(c.retail.model).targets[c.retail.ti], pk = rPick();
       const rp = { at: new Date().toISOString(), path: t[0], geosets: pk.geosets,
@@ -2811,10 +2846,12 @@ function openCustom(c) {
     }
     return pick;
   }
+  if ($('cs-cancelnew')) $('cs-cancelnew').onclick = () => { pendingNew = null; openCustom_(c.display, false); };
   if ($('cs-saveas')) $('cs-saveas').onclick = async () => {
     await loadCreator();
     const nid = nextDisplayId(), pick = buildPick(true);
     if (await saveCustom(nid, pick)) {
+      pendingNew = null;
       addNewDisplays();
       await save('display', String(nid), displayEntry(nid), 'custom', {}, false);
       await openDisplay(nid);
@@ -2822,7 +2859,7 @@ function openCustom(c) {
     }
   };
   if ($('cs-back')) $('cs-back').onclick = () => openDisplay(c.display);
-  $('cs-clear').onclick = () => saveCustom(c.display, null).then(ok => { if (ok && c.isNew) { addNewDisplays(); render(); openItem(view[0]); } });
+  if ($('cs-clear')) $('cs-clear').onclick = () => saveCustom(c.display, null).then(ok => { if (ok && c.isNew) { addNewDisplays(); render(); openItem(view[0]); } });
   preview();
   fitPanes();
   render();
@@ -2979,6 +3016,7 @@ async function openDisplay(did, push = true) {
   openItem(d); render(); closeDrawer();
 }
 function openCustom_(did, push = true, via = null) {
+  if (pendingNew && pendingNew.from !== +did) pendingNew = null;
   // links made since the last deploy: dress them first (retail from wago, 3.3.5 / pack from the creator catalogue)
   if (!_leadTried.has(+did) && (leadsMissing(did) || ((leadOf(did).models || []).length && (!creator || !custSets)))) {
     _leadTried.add(+did);                            // once: a link wago cannot serve must not loop
