@@ -1,0 +1,180 @@
+From d1d15d4cafbe979ea9a6f57b129f01c063e88c12 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 18 Oct 2026 04:06:36 +0000
+Subject: [PATCH] Zeppelin F-226: spell modifiers per spell family
+ (SMSG_ZEP_FAMILY_SPELL_MODIFIER)
+
+Stock keeps modifiers for the player's class family only, so tooltips of every other family
+(potions = 13, generic, ...) never showed their modifiers. A per-family table filled by the new
+server packet (reused opcode 0x3A4: family, bit|255, op, type, total) is added to every spell's
+lookup; family 0 applies to all spells, bit 255 to the whole family, as on the server.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Source/Magic/MagicClient/Spell_C.cpp | 82 +++++++++++++++++++++---
+ WoW/Source/Magic/MagicClient/Spell_C.h   |  1 +
+ WoW/Source/Net/Types.h                   |  1 +
+ 3 files changed, 75 insertions(+), 9 deletions(-)
+
+diff --git a/WoW/Source/Magic/MagicClient/Spell_C.cpp b/WoW/Source/Magic/MagicClient/Spell_C.cpp
+index 0494926..68fa452 100644
+--- a/WoW/Source/Magic/MagicClient/Spell_C.cpp
++++ b/WoW/Source/Magic/MagicClient/Spell_C.cpp
+@@ -148,6 +148,17 @@ static int32_t s_spellPctModifiers[96][31];
+ // STATIC: 0x00D3C658
+ static int32_t s_spellFlatModifiers[96][31];
+ 
++// Not in the original (F-226): spell modifiers for every spell family. The stock tables above hold only the player's
++// class family (the stock packets carry no family), so modifiers on potions (family 13), generic spells
++// and other families never reached a tooltip, and the server summed them into the class family's bits.
++// SMSG_ZEP_FAMILY_SPELL_MODIFIER fills these instead: [family][bit or ZEP_MOD_ALL_BITS][op]. Row
++// ZEP_MOD_ALL_BITS holds mask-0 modifiers (every spell of that family); family 0's row applies to every
++// spell of any family, as SpellInfo::IsAffected does on the server.
++static constexpr uint32_t ZEP_MOD_FAMILIES = 32;
++static constexpr uint32_t ZEP_MOD_ALL_BITS = 96;
++static int32_t s_zepFamilyFlatModifiers[ZEP_MOD_FAMILIES][ZEP_MOD_ALL_BITS + 1][31];
++static int32_t s_zepFamilyPctModifiers[ZEP_MOD_FAMILIES][ZEP_MOD_ALL_BITS + 1][31];
++
+ // STATIC: 0x00AF524C
+ static TSList<PendingSpellCast, TSGetLink<PendingSpellCast> > s_pendingSpellCasts;
+ 
+@@ -721,6 +732,7 @@ void Spell_C_Initialize() {
+     ClientServices::SetMessageHandler(SMSG_PLAY_SPELL_IMPACT, Packet_SMSG_PLAY_SPELL_IMPACT, nullptr);
+     ClientServices::SetMessageHandler(SMSG_SET_FLAT_SPELL_MODIFIER, Packet_Group_32, nullptr);
+     ClientServices::SetMessageHandler(SMSG_SET_PCT_SPELL_MODIFIER, Packet_Group_32, nullptr);
++    ClientServices::SetMessageHandler(SMSG_ZEP_FAMILY_SPELL_MODIFIER, Packet_SMSG_ZEP_FAMILY_SPELL_MODIFIER, nullptr); // Not in the original (F-226): family-tagged spell modifiers
+     ClientServices::SetMessageHandler(SMSG_GAME_OBJECT_RESET_STATE, Packet_SMSG_GAMEOBJECT_RESET_STATE, nullptr);
+     ClientServices::SetMessageHandler(SMSG_FEIGN_DEATH_RESISTED, Packet_SMSG_FEIGN_DEATH_RESISTED, nullptr);
+     ClientServices::SetMessageHandler(SMSG_SPELL_UPDATE_CHAIN_TARGETS, Packet_SMSG_SPELL_UPDATE_CHAIN_TARGETS, nullptr);
+@@ -733,6 +745,8 @@ void Spell_C_Initialize() {
+     s_targetingSpell = nullptr;
+     memset(s_spellFlatModifiers, 0, sizeof(s_spellFlatModifiers));
+     memset(s_spellPctModifiers, 0, sizeof(s_spellPctModifiers));
++    memset(s_zepFamilyFlatModifiers, 0, sizeof(s_zepFamilyFlatModifiers)); // Not in the original (F-226): family tables
++    memset(s_zepFamilyPctModifiers, 0, sizeof(s_zepFamilyPctModifiers));
+     s_autoRepeatingSpell = 0;
+     s_autoRangedCombatSpell = 0;
+     s_lastAutoRangedCombatError = 187;
+@@ -1174,28 +1188,48 @@ void CGUnit_C::ReleaseMissiles() {
+ // VERIFY: 936f6df8 manual
+ // OFFSET: 0x007FD970
+ bool Spell_C_GetSpellModifiers(const SpellRec* spell, int32_t modifier, int32_t& flat, int32_t& pct) {
+-    if (!spell->m_spellClassSet || spell->m_spellClassSet != s_spellClassSet) {
++    if (spell->m_attributesExC & 0x20000000) {
+         flat = 0;
+         pct = 100;
+         return false;
+     }
+ 
+-    if (spell->m_attributesExC & 0x20000000) {
+-        flat = 0;
++    pct = 0;
++    flat = 0;
++
++    if (modifier < 0 || modifier >= 31) {
+         pct = 100;
+         return false;
+     }
+ 
+-    pct = 0;
+-    flat = 0;
++    if (spell->m_spellClassSet && spell->m_spellClassSet == s_spellClassSet) {
++        for (uint32_t i = 0; i < sizeof(spell->m_spellClassMask) * 8; i++) {
++            if ((1 << (i & 31)) & spell->m_spellClassMask[i >> 5]) {
++                flat += s_spellFlatModifiers[i][modifier];
++                pct += s_spellPctModifiers[i][modifier];
++            }
++        }
++    }
++
++    // Not in the original (F-226): the spell's own family (any family, not only the class one), plus family-0 modifiers,
++    // which the server applies to every spell.
++    uint32_t family = static_cast<uint32_t>(spell->m_spellClassSet);
+ 
+-    for (uint32_t i = 0; i < sizeof(spell->m_spellClassMask) * 8; i++) {
+-        if ((1 << (i & 31)) & spell->m_spellClassMask[i >> 5]) {
+-            flat += s_spellFlatModifiers[i][modifier];
+-            pct += s_spellPctModifiers[i][modifier];
++    if (family && family < ZEP_MOD_FAMILIES) {
++        for (uint32_t i = 0; i < sizeof(spell->m_spellClassMask) * 8; i++) {
++            if ((1 << (i & 31)) & spell->m_spellClassMask[i >> 5]) {
++                flat += s_zepFamilyFlatModifiers[family][i][modifier];
++                pct += s_zepFamilyPctModifiers[family][i][modifier];
++            }
+         }
++
++        flat += s_zepFamilyFlatModifiers[family][ZEP_MOD_ALL_BITS][modifier];
++        pct += s_zepFamilyPctModifiers[family][ZEP_MOD_ALL_BITS][modifier];
+     }
+ 
++    flat += s_zepFamilyFlatModifiers[0][ZEP_MOD_ALL_BITS][modifier];
++    pct += s_zepFamilyPctModifiers[0][ZEP_MOD_ALL_BITS][modifier];
++
+     if (!flat && !pct) {
+         return false;
+     }
+@@ -2908,6 +2942,36 @@ int32_t Packet_Group_32(void* param, NETMESSAGE msgId, uint32_t time, CDataStore
+     return 1;
+ }
+ 
++// Not in the original (F-226): SMSG_ZEP_FAMILY_SPELL_MODIFIER = uint8 family, uint8 bit (0-95, or 255 = every
++// spell of the family), uint8 op, uint8 type (0 flat, 1 pct), int32 total. Like the stock packets it
++// carries the new total for that slot, not a delta.
++int32_t Packet_SMSG_ZEP_FAMILY_SPELL_MODIFIER(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg) {
++    uint8_t family;
++    uint8_t bit;
++    uint8_t op;
++    uint8_t type;
++    uint32_t value;
++    msg->Get(family);
++    msg->Get(bit);
++    msg->Get(op);
++    msg->Get(type);
++    msg->Get(value);
++
++    uint32_t row = bit == 255 ? ZEP_MOD_ALL_BITS : bit;
++
++    if (family >= ZEP_MOD_FAMILIES || row > ZEP_MOD_ALL_BITS || op >= 31) {
++        return 1;
++    }
++
++    if (type == 1) {
++        s_zepFamilyPctModifiers[family][row][op] = static_cast<int32_t>(value);
++    } else {
++        s_zepFamilyFlatModifiers[family][row][op] = static_cast<int32_t>(value);
++    }
++
++    return 1;
++}
++
+ // VERIFY: 2541c8b3 manual
+ // OFFSET: 0x00805FC0
+ bool Spell_C_IsCurrentItem(int32_t itemId) {
+diff --git a/WoW/Source/Magic/MagicClient/Spell_C.h b/WoW/Source/Magic/MagicClient/Spell_C.h
+index 72aac92..0def843 100644
+--- a/WoW/Source/Magic/MagicClient/Spell_C.h
++++ b/WoW/Source/Magic/MagicClient/Spell_C.h
+@@ -160,6 +160,7 @@ int32_t Packet_MSG_CHANNEL_UPDATE(void* param, NETMESSAGE msgId, uint32_t time,
+ int32_t Packet_SMSG_PLAY_SPELL_VISUAL(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+ int32_t Packet_SMSG_PLAY_SPELL_IMPACT(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+ int32_t Packet_Group_32(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
++int32_t Packet_SMSG_ZEP_FAMILY_SPELL_MODIFIER(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg); // Not in the original (F-226)
+ int32_t Packet_SMSG_GAMEOBJECT_RESET_STATE(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+ int32_t Packet_SMSG_FEIGN_DEATH_RESISTED(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+ int32_t Packet_SMSG_SPELL_UPDATE_CHAIN_TARGETS(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+diff --git a/WoW/Source/Net/Types.h b/WoW/Source/Net/Types.h
+index 598c8b9..ddd8955 100644
+--- a/WoW/Source/Net/Types.h
++++ b/WoW/Source/Net/Types.h
+@@ -938,6 +938,7 @@ enum NETMESSAGE {
+     SMSG_VOICE_SET_TALKER_MUTED = 0x3A2,
+     SMSG_INIT_EXTRA_AURA_INFO_OBSOLETE = 0x3A3,
+     SMSG_SET_EXTRA_AURA_INFO_OBSOLETE = 0x3A4,
++    SMSG_ZEP_FAMILY_SPELL_MODIFIER = 0x3A4, // Not in the original (F-226): reuses the unused 0x3A4; spell modifiers for one spell family (server Player::AddSpellMod)
+     SMSG_SET_EXTRA_AURA_INFO_NEED_UPDATE_OBSOLETE = 0x3A5,
+     SMSG_CLEAR_EXTRA_AURA_INFO_OBSOLETE = 0x3A6,
+     MSG_MOVE_START_DESCEND = 0x3A7,
+-- 
+2.34.1
+

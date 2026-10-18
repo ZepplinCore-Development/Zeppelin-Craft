@@ -1,0 +1,143 @@
+From 26300f3a565b2d67b20aa59ad95ebbbbc71d126b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 18 Oct 2026 04:06:37 +0000
+Subject: [PATCH] CUSTOM: send spell modifiers per spell family (F-226)
+
+AddSpellMod summed the matching bits of every family into the family-less stock packet, so client
+tooltips added potion (family 13) modifiers to class spells and never saw other families. The stock
+packet now carries the class family only; other families, family 0 and mask 0 go in
+SMSG_ZEP_FAMILY_SPELL_MODIFIER (unused 0x3A4) for the Zeppelin x64 client.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ src/server/game/Entities/Player/Player.cpp | 93 +++++++++++++++++-----
+ src/server/game/Server/Protocol/Opcodes.h  |  2 +
+ 2 files changed, 77 insertions(+), 18 deletions(-)
+
+diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
+index 855da9641..9476d181b 100644
+--- a/src/server/game/Entities/Player/Player.cpp
++++ b/src/server/game/Entities/Player/Player.cpp
+@@ -9983,30 +9983,87 @@ template AC_GAME_API void Player::ApplySpellMod(uint32 spellId, SpellModOp op, f
+ void Player::AddSpellMod(SpellModifier* mod, bool apply)
+ {
+     LOG_DEBUG("spells.aura", "Player::AddSpellMod {}", mod->spellId);
+-    uint16 Opcode = (mod->type == SPELLMOD_FLAT) ? SMSG_SET_FLAT_SPELL_MODIFIER : SMSG_SET_PCT_SPELL_MODIFIER;
+ 
+-    int i = 0;
+-    flag96 _mask = 0;
+-    for (int eff = 0; eff < 96; ++eff)
++    // CUSTOM (F-226): spell modifiers are sent per spell family.
++    // Stock sent every modifier as (bit, op, total) with no family, summing the matching bits of every
++    // family, so the client added e.g. potion (family 13) modifiers to its own class spells' tooltips and
++    // never saw modifiers on any other family. Now the stock packet carries only the class family's
++    // modifiers; any other family, family 0 (affects every spell) and mask 0 (every spell of the family)
++    // go in SMSG_ZEP_FAMILY_SPELL_MODIFIER: uint8 family, uint8 bit (255 = all), uint8 op, uint8 type,
++    // int32 total. Clients without a handler for it ignore it.
++    auto familyOf = [](SpellModifier const* m) -> uint32
++    {
++        SpellInfo const* info = sSpellMgr->GetSpellInfo(m->spellId);
++        return info ? info->SpellFamilyName : 0;
++    };
++
++    ChrClassesEntry const* classEntry = sChrClassesStore.LookupEntry(getClass());
++    uint32 const classFamily = classEntry ? classEntry->spellfamily : 0;
++    uint32 const modFamily = familyOf(mod);
++    bool const allBits = !modFamily || !mod->mask;
++
++    // Total of this op/type for one slot: the modifiers already active (the one being removed is still in
++    // the container) plus or minus this one.
++    auto total = [&](auto matches) -> int32
+     {
+-        if (eff != 0 && eff % 32 == 0)
+-            _mask[i++] = 0;
++        int32 val = 0;
++        for (SpellModifier const* other : m_spellMods[mod->op])
++            if (other->type == mod->type && matches(other))
++                val += other->value;
++        return val + (apply ? mod->value : -mod->value);
++    };
+ 
+-        _mask[i] = uint32(1) << (eff - (32 * i));
+-        if (mod->mask & _mask)
++    if (allBits)
++    {
++        int32 const val = total([&](SpellModifier const* other)
++        {
++            uint32 const otherFamily = familyOf(other);
++            return modFamily ? (otherFamily == modFamily && !other->mask) : !otherFamily;
++        });
++
++        WorldPacket data(SMSG_ZEP_FAMILY_SPELL_MODIFIER, 1 + 1 + 1 + 1 + 4);
++        data << uint8(modFamily);
++        data << uint8(255);
++        data << uint8(mod->op);
++        data << uint8(mod->type == SPELLMOD_PCT ? 1 : 0);
++        data << int32(val);
++        SendDirectMessage(&data);
++    }
++    else
++    {
++        bool const classMod = modFamily == classFamily;
++        for (int eff = 0; eff < 96; ++eff)
+         {
+-            int32 val = 0;
+-            for (SpellModContainer::iterator itr = m_spellMods[mod->op].begin(); itr != m_spellMods[mod->op].end(); ++itr)
++            flag96 _mask;
++            _mask[eff / 32] = uint32(1) << (eff % 32);
++            if (!(mod->mask & _mask))
++                continue;
++
++            int32 const val = total([&](SpellModifier const* other)
+             {
+-                if ((*itr)->type == mod->type && (*itr)->mask & _mask)
+-                    val += (*itr)->value;
++                return familyOf(other) == modFamily && (other->mask & _mask);
++            });
++
++            if (classMod)
++            {
++                uint16 const opcode = mod->type == SPELLMOD_FLAT ? SMSG_SET_FLAT_SPELL_MODIFIER
++                    : SMSG_SET_PCT_SPELL_MODIFIER;
++                WorldPacket data(opcode, 1 + 1 + 4);
++                data << uint8(eff);
++                data << uint8(mod->op);
++                data << int32(val);
++                SendDirectMessage(&data);
++            }
++            else
++            {
++                WorldPacket data(SMSG_ZEP_FAMILY_SPELL_MODIFIER, 1 + 1 + 1 + 1 + 4);
++                data << uint8(modFamily);
++                data << uint8(eff);
++                data << uint8(mod->op);
++                data << uint8(mod->type == SPELLMOD_PCT ? 1 : 0);
++                data << int32(val);
++                SendDirectMessage(&data);
+             }
+-            val += apply ? mod->value : -(mod->value);
+-            WorldPacket data(Opcode, (1 + 1 + 4));
+-            data << uint8(eff);
+-            data << uint8(mod->op);
+-            data << int32(val);
+-            SendDirectMessage(&data);
+         }
+     }
+ 
+diff --git a/src/server/game/Server/Protocol/Opcodes.h b/src/server/game/Server/Protocol/Opcodes.h
+index cb994b3e8..f4d69d253 100644
+--- a/src/server/game/Server/Protocol/Opcodes.h
++++ b/src/server/game/Server/Protocol/Opcodes.h
+@@ -960,6 +960,8 @@ enum Opcodes : uint16
+     SMSG_VOICE_SET_TALKER_MUTED                     = 0x3A2,
+     SMSG_INIT_EXTRA_AURA_INFO_OBSOLETE              = 0x3A3,
+     SMSG_SET_EXTRA_AURA_INFO_OBSOLETE               = 0x3A4,
++    // CUSTOM (F-226): reuses the unused 0x3A4 for family-tagged spell modifiers (Zeppelin x64 client)
++    SMSG_ZEP_FAMILY_SPELL_MODIFIER                  = 0x3A4,
+     SMSG_SET_EXTRA_AURA_INFO_NEED_UPDATE_OBSOLETE   = 0x3A5,
+     SMSG_CLEAR_EXTRA_AURA_INFO_OBSOLETE             = 0x3A6,
+     MSG_MOVE_START_DESCEND                          = 0x3A7,
+-- 
+2.34.1
+

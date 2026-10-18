@@ -874,12 +874,14 @@ def _quest_reward_spells(quests: List[int]) -> List[int]:
               help='Equip the class heirloom set (shoulders, chest, weapons, trinket)')
 @click.option('--equip', 'equip', type=int, multiple=True,
               help='Extra item entry to equip (repeatable); overrides a heirloom in the same slot')
+@click.option('--bag', 'bag', type=int, multiple=True,
+              help='Item entry to put in the backpack (repeatable), e.g. a profession tool whose aura works from bags')
 @click.option('--spells/--no-spells', default=True, show_default=True,
               help='Learn every class-trainer spell up to --level')
 @click.option('--replace', is_flag=True, help='Rebuild an existing offline character of this name')
 @click.option('--dry-run', is_flag=True, help='Print the SQL without executing')
 def char_test_setup(name, race, cls, gender, level, account, before, done, take, pos,
-                    map_id, near_creature, money, heirlooms, equip, spells, replace, dry_run):
+                    map_id, near_creature, money, heirlooms, equip, bag, spells, replace, dry_run):
     """Build a ready-to-test character directly in the database (F-213).
 
     The character logs in at the chosen spot with its starting abilities
@@ -1046,6 +1048,25 @@ def char_test_setup(name, race, cls, gender, level, account, before, done, take,
     if kit and (insignia := _insignia(race_id)):
         kit.append(insignia)
     ids = list(equip) + kit
+    if bag:   # backpack items (F-226): first free backpack slots, INVENTORY_SLOT_ITEM_START (23) onward
+        rows = {int(r['entry']): r for r in _q(_run_world_query,
+                "SELECT entry, name, MaxDurability FROM item_template "
+                f"WHERE entry IN ({','.join(map(str, bag))})")}
+        bag_item_guid = _alloc_id('item_instance', 'guid', ITEM_GUID_OFFSET) + 1000
+        for pack_slot, entry in enumerate(bag[:16], start=23):
+            it = rows.get(entry)
+            if not it:
+                click.echo(f"  warning: item {entry} not in item_template, skipped")
+                continue
+            stmts.append(
+                "INSERT INTO item_instance (guid, itemEntry, owner_guid, creatorGuid, giftCreatorGuid, "
+                "count, duration, charges, flags, enchantments, randomPropertyId, durability, playedTime, text) "
+                f"VALUES ({bag_item_guid}, {entry}, {guid}, 0, 0, 1, 0, '0 0 0 0 0 ', 0, "
+                f"'{ENCHANTMENTS_BLANK}', 0, {int(it['MaxDurability'])}, 0, NULL);")
+            stmts.append(f"INSERT INTO character_inventory (guid, bag, slot, item) "
+                         f"VALUES ({guid}, 0, {pack_slot}, {bag_item_guid});")
+            click.echo(f"  backpack: {it['name']} ({entry}) in slot {pack_slot}")
+            bag_item_guid += 1
     if ids:
         items = {int(r['entry']): r for r in _q(_run_world_query,
                  "SELECT entry, name, class, subclass, InventoryType, MaxDurability FROM item_template "
