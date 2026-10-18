@@ -257,6 +257,22 @@ class Asset:
         return next((o for o in self.options if source in o.sources), None)
 
 
+_DERIVED: Dict[str, Dict[str, str]] = {}
+
+
+def derived_from(source: str, path: str) -> Optional[str]:
+    """The pack `source`'s file at `path` was converted from (zpaks/<source>/fixes.json "from"), or None."""
+    if source not in _DERIVED:
+        f = Path(__file__).resolve().parents[2] / 'zpaks' / source / 'fixes.json'
+        try:
+            import json
+            _DERIVED[source] = {k.lower(): v['from'] for k, v in json.loads(f.read_text()).items()
+                                if isinstance(v, dict) and v.get('from')}
+        except (OSError, ValueError):
+            _DERIVED[source] = {}
+    return _DERIVED[source].get(path)
+
+
 class AssetIndex:
     """Built from the model-sources scan result (its Source list) + the stock index."""
 
@@ -575,9 +591,25 @@ class AssetIndex:
             memo[k] = True if a is None or b is None else _corr(a, b) >= 0.5
         return memo[k]
 
+    def mesh_sources(self, mesh: str, mopt: Option) -> Set[str]:
+        """mopt's sources plus the pack each one's file of `mesh` was converted from: a zpak that
+        reships a pack's mesh in a format the client reads (zep-hd-pack-fixes, fixes.json "from")
+        keeps that pack's UV layout, so it wears that pack's textures (the patch-hd-buildings
+        Horde leather shoulders drew the stock texture on the converted mesh: scrambled)."""
+        out = set(mopt.sources)
+        for s in mopt.sources:
+            parent = derived_from(s, mesh)
+            if parent:
+                out.add(parent)
+                # a library release that supersedes the parent zpak is its source now (patch-hd-buildings ->
+                # appletrey-2026-07, model_sources.discover_sources)
+                out.update(x.name for x in self.sources if getattr(x, 'superseded', None) == parent)
+        return out
+
     def compatible(self, tex: str, topt: Option, mesh: str, mopt: Option) -> bool:
         """Is texture option topt painted for mesh option mopt's UV layout?"""
-        if set(topt.sources) & set(mopt.sources):
+        msrc = self.mesh_sources(mesh, mopt)
+        if set(topt.sources) & msrc:
             return True                                   # the same source serves both
         refs = getattr(self, '_pack_refs', None)
         if refs is not None and tex in self._stock_skins and all(
@@ -589,7 +621,7 @@ class AssetIndex:
         # Draenei helm, a variant he no longer ships, renders as teal corruption).
         users = [m for k, m in self.tex_refs.get(tex, set()) if k == 'mesh'] or [mesh]
         own_mesh = any(s != 'stock' and any(self.ships_mesh(s, u) for u in users) for s in topt.sources)
-        mesh_ships_tex = any(tex in self._src_files(s) for s in mopt.sources if s != 'stock')
+        mesh_ships_tex = any(tex in self._src_files(s) for s in msrc if s != 'stock')
         return not own_mesh and not mesh_ships_tex
 
     def default_texture(self, tex: str, mesh_choices: Dict[str, Option]) -> Tuple[Optional[Option], List[str]]:

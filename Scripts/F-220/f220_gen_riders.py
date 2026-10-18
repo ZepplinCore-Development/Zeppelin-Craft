@@ -219,16 +219,22 @@ STYLE_COLS = {'helm': 'helm_id', 'shoulders': 'shoulders_id', 'shirt': 'shirt_id
 # retail items over the stock display's, per slot (the user's picks: the retail Stormwind set - helm, shoulder-
 # guards, chestguard, grips, leggings, belt, boots - wowhead 117406-117412, 2026-10-18)
 STYLE_RETAIL = {'mountedknight.m2': {'helm': 117406, 'shoulders': 117407, 'chest': 117408, 'gloves': 117409,
-                                     'legs': 117411, 'belt': 117410, 'boots': 117412}}
+                                     'legs': 117411, 'belt': 117410, 'boots': 117412},
+                # the Wildhammer gryphon rider: wowhead outfit 255928 "Wildhammer Shaman" (the user's pick,
+                # 2026-10-18), first item of each slot - the others share its appearance
+                'alliancerider.m2': {'shoulders': 134472, 'wrists': 165938, 'gloves': 129326, 'belt': 165935,
+                                     'legs': 165936, 'boots': 129152}}
 
 
 def style_outfit(mp):
     m_ = (mp or '').rsplit('/', 1)[-1]
     did = OUTFIT_STYLE.get(m_)
-    if not did:
+    if not did and m_ not in STYLE_RETAIL:
         return None
-    x = q(f"SELECT x.* FROM creaturedisplayinfo d JOIN creaturedisplayinfoextra x ON x.id = d.extended_display_info_id WHERE d.id = {did}")[0]
-    out = {slot: {'display': int(x[col])} for slot, col in STYLE_COLS.items() if int(x.get(col) or 0)}
+    out = {}
+    if did:
+        x = q(f"SELECT x.* FROM creaturedisplayinfo d JOIN creaturedisplayinfoextra x ON x.id = d.extended_display_info_id WHERE d.id = {did}")[0]
+        out = {slot: {'display': int(x[col])} for slot, col in STYLE_COLS.items() if int(x.get(col) or 0)}
     for slot, iid in STYLE_RETAIL.get(m_, {}).items():
         mods = [m for (i, a), m in IMA.items() if i == iid]
         mod = 0 if 0 in mods or not mods else min(mods)   # the base appearance
@@ -428,9 +434,10 @@ for path, race, sex, displays, *fixed in riders:
     if so_:
         items = dict(so_)                              # the whole outfit (body slots baked, helm / shoulders worn)
         for k_ in ('helm', 'shoulders'):
-            if k_ in so_:
-                pieces[k_] = so_[k_]                   # the fake wears them too
-        print('   outfit: stock display', OUTFIT_STYLE[mp.rsplit('/', 1)[-1]], so_)
+            if k_ in so_ and k_ not in pieces:
+                pieces[k_] = so_[k_]                   # the fake wears them too, unless the fused model has its own
+                                                       # item piece (the gryphon rider's stock Horde leather pauldron)
+        print('   outfit: stock display', OUTFIT_STYLE.get(mp.rsplit('/', 1)[-1]), 'retail', so_)
     hv_ = None
     for m_ in sorted(k for k in ix.stock if k.endswith('.m2') and k.rsplit('/', 1)[-1] in _R):
         if m_ == mp or any(n == path for _, n in sf.texture_table(ix.stock[m_].read_bytes())):

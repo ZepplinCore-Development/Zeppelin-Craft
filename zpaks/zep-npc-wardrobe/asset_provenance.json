@@ -151,6 +151,20 @@
    "sha256": "1c58e68075a711b9b46f2b403919a29f221eaf48d4b8e94ff1a03f384c93760d"
   },
   {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_mail_legiondungeon_c_01.m2",
+   "fdid": 1127594,
+   "build": "12.1.0.69875",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
+   "sha256": "26cddfccfc54453d4936740e637294ea6b0681a51cd9aae400238435c142c106"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_mail_legiondungeon_c_0100.skin",
+   "fdid": 1127762,
+   "build": "12.1.0.69875",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
+   "sha256": "df6b2c7cf2fb8929d4dffb4a3a90ba41a22f13640791dae2337aa24e104e181d"
+  },
+  {
    "path": "Item/ObjectComponents/Shoulder/lshoulder_plate_allianceuprez_b_01.m2",
    "fdid": 1036842,
    "build": "12.1.0.69875",
@@ -179,6 +193,20 @@
    "sha256": "ac349b8ec2a9d65f10f7569d84dc7220e9bfae25d77068c39821d98dd5f263fa"
   },
   {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_mail_legiondungeon_c_01.m2",
+   "fdid": 1127595,
+   "build": "12.1.0.69875",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
+   "sha256": "52b58f4ecd4cfad7cc1a9883a588dd6f6764241121f607b9d2b7db7018ecd065"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_mail_legiondungeon_c_0100.skin",
+   "fdid": 1127764,
+   "build": "12.1.0.69875",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
+   "sha256": "0315d5639217dd4ede96d5141d48ba0cc436fac307911dde54251f178d75d2e2"
+  },
+  {
    "path": "Item/ObjectComponents/Shoulder/rshoulder_plate_allianceuprez_b_01.m2",
    "fdid": 1036843,
    "build": "12.1.0.69875",
@@ -198,6 +226,13 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "30537ed2fa69207d70425b5bf60b8624a21f456c73dce90e7acdc8696d5ae282"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/shoulder_mail_legiondungeon_c_01_blue.blp",
+   "fdid": 1127596,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4d6a630bf5b804724a3a9f6b18cd73565702c87edcf4c5d630c52642397f18a4"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_plate_warfrontshorde_d_01_l.m2",
@@ -298,6 +333,20 @@
    "sha256": "09a3227728b225ae4a96b9eba5b5f8d92f74adc92e04d080b5149b5a60d9c7a7"
   },
   {
+   "path": "Item/TextureComponents/ArmLowerTexture/armor_dwarf_d_01_bracer_al_f.blp",
+   "fdid": 2429740,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c92a9cbd5d6da80ffc92b542b410111b52356e2f482d4dea465613909c631b29"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/armor_dwarf_d_01_bracer_al_m.blp",
+   "fdid": 2429742,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "8441fe73bd38db6c9fa79747063f044115505fce0aa2ad788669e5a343a4f3e2"
+  },
+  {
    "path": "Item/TextureComponents/ArmLowerTexture/armor_orcclan_d_01_bracer_al_u.blp",
    "fdid": 1623818,
    "build": "12.1.0.69875",
@@ -324,6 +373,13 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "cbf30aee07a90d286e8bc5d1d3edd045641de73f0408c2558148e4c96c62971d"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/mail_legionquest100_b_01_silver_glove_al_u.blp",
+   "fdid": 1116980,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "5ff8819e4f641115456db479e6b52844afffbfe7b872f3e4e4df8851105f8544"
   },
   {
    "path": "Item/TextureComponents/ArmLowerTexture/plate_allianceuprez_b_01_glove_al_u.blp",
@@ -410,6 +466,13 @@
    "sha256": "4dabed3380db63be7ffe2d990a2d3def9a5fc8add44c42d0ef5a9c9bfecb3ebe"
   },
   {
+   "path": "Item/TextureComponents/FootTexture/mail_legionquest100_b_01_silver_boot_fo_u.blp",
+   "fdid": 1116989,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e54ede7013add6c2beaa6427109e120650766c4768d80a82d210acd9921dffee"
+  },
+  {
    "path": "Item/TextureComponents/FootTexture/plate_allianceuprez_b_01_boot_fo_u.blp",
    "fdid": 1037115,
    "build": "12.1.0.69875",
@@ -445,6 +508,13 @@
    "sha256": "1796b68d849a6ce8c7947bca702a70991da517484639f0c79fb02723b771994f"
   },
   {
+   "path": "Item/TextureComponents/HandTexture/mail_legionquest100_b_01_silver_glove_ha_u.blp",
+   "fdid": 1116993,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "025c1fa1894dfdefcc5239aee470cdb965fb2ab695e23a1efc8e0f896c8dcea4"
+  },
+  {
    "path": "Item/TextureComponents/HandTexture/plate_allianceuprez_b_01_glove_ha_u.blp",
    "fdid": 1037116,
    "build": "12.1.0.69875",
@@ -464,6 +534,20 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "539294cf58fbe830ac0596ddf3d77b7c5910ff3f18fce752e71681ca0a79951e"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/armor_dwarf_d_01_pant_ll_f.blp",
+   "fdid": 2429751,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "7d1e386c70b1eb0ae86cb56129f527fb8bc1b51237f3fe1e88cea9235560dcb3"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/armor_dwarf_d_01_pant_ll_m.blp",
+   "fdid": 2429752,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0ea6d57f689ea4fe9c7d9d45ffba82a56ba731f5877aa0d9578b632bdaabd030"
   },
   {
    "path": "Item/TextureComponents/LegLowerTexture/armor_orcclan_d_01_boot_ll_u.blp",
@@ -494,6 +578,13 @@
    "sha256": "03e19d90ab19bda84868377e0ce724879ee300f648ed73984c5af2b896e7d46a"
   },
   {
+   "path": "Item/TextureComponents/LegLowerTexture/mail_legionquest100_b_01_silver_boot_ll_u.blp",
+   "fdid": 1117001,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d3f5a8f0f3d716f2f35105643038d982d85bf3dfdb34f604847870ce54e4339f"
+  },
+  {
    "path": "Item/TextureComponents/LegLowerTexture/plate_allianceuprez_b_01_boot_ll_u.blp",
    "fdid": 1037117,
    "build": "12.1.0.69875",
@@ -520,6 +611,27 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "8ebb6cd744d8059c277c707ba375e968449e0ae901e0458ca3025217fe054658"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/armor_dwarf_d_01_belt_lu_u.blp",
+   "fdid": 2429736,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e3c87bd86f8ff04f7e49f434b7ca3e8d1418499493384befb5cc16f47424b544"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/armor_dwarf_d_01_pant_lu_f.blp",
+   "fdid": 2429753,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "7aa56616ae74d0bda445a553dd639be54d64039623e7cc3d5122a0013505763c"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/armor_dwarf_d_01_pant_lu_m.blp",
+   "fdid": 2429754,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "cd9b9829ab57fa521ab190cd83896ad2348f9ee9a552e5a98d0e00c1b7e0363f"
   },
   {
    "path": "Item/TextureComponents/LegUpperTexture/armor_orcclan_d_01_pant_lu_u.blp",
@@ -576,6 +688,13 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "7933927929d07c96ae8496c310289e320cb52bb27e65fd9afe8e42e73cdab954"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/armor_dwarf_d_01_belt_tl_u.blp",
+   "fdid": 2429737,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "50b2fc75a4adf1969f2555f87bb7806b36fdf5998aa7d7dceee50ee56649a70e"
   },
   {
    "path": "Item/TextureComponents/TorsoLowerTexture/armor_orcclan_d_01_chest_tl_f.blp",
@@ -903,7 +1022,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900541_HD.blp",
    "kind": "bake",
    "display": 900541,
-   "sha256": "9548e6a4bf5752da4eb19e9ebecbc1d338fd768a83765747d02cea4ccbab7950"
+   "sha256": "49c3fe1099e9f57a788f0ba422fc724859272df31463b1f89c38e8776d9bc5bd"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900541_fake.blp",

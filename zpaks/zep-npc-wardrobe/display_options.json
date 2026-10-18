@@ -433,27 +433,27 @@
     "wrists_id": 0
    },
    "look": {
-    "belt_id": 0,
-    "boots_id": 0,
+    "belt_id": 210213,
+    "boots_id": 210215,
     "can_equip": 0,
     "cape_id": 0,
     "chest_id": 0,
     "face_type": 2,
     "facial_hair": 6,
     "gender": 0,
-    "gloves_id": 0,
+    "gloves_id": 210212,
     "hair_color": 0,
     "hair_style": 5,
     "helm_id": 0,
     "id": 900541,
-    "legs_id": 0,
+    "legs_id": 210214,
     "race": 3,
     "shirt_id": 0,
-    "shoulders_id": 210202,
+    "shoulders_id": 210210,
     "skin_color": 1,
     "tabard_id": 0,
     "texture": "CreatureDisplayExtra-900541_HD.blp",
-    "wrists_id": 0
+    "wrists_id": 210211
    }
   },
   "ship": "look"

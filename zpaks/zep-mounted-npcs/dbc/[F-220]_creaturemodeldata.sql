@@ -257,3 +257,36 @@ INSERT INTO creaturemodeldata SET
   missile_collision_radius = 0.0,
   missile_collision_push = 0.0,
   missile_collision_raise = 0.0;
+
+-- 900230 = GnomePounderVehicle_Pilot: the stock empty pounder (2977, Assault Bot) with its seat (attachment 0)
+-- placed for the gnome pilot of the fused pounder (Thermaplugg / Steamrigger; same model space, identical bounds)
+DELETE FROM creaturemodeldata WHERE id = 900230;
+INSERT INTO creaturemodeldata SET
+  id = 900230,
+  flags = 2,
+  model_path = 'Creature\\GnomeSpiderTank\\GnomePounderVehicle_Pilot.mdx',
+  size_class = 2,
+  model_scale = 1.0,
+  blood_id = 3,
+  footprint_texture_id = 4,
+  footprint_texture_length = 18.0,
+  footprint_texture_width = 12.0,
+  footprint_particle_scale = 1.0,
+  foley_material_id = 0,
+  footstep_shake_size = 0,
+  death_thud_shake_size = 10,
+  sound_data = 2856,
+  collision_width = 0.6111000180244446,
+  collision_height = 2.0309998989105225,
+  mount_height = 3.2505578994750977,
+  geo_box_min_x = -1.5741380453109741,
+  geo_box_min_y = -2.8251590728759766,
+  geo_box_min_z = -0.184238001704216,
+  geo_box_max_x = 4.1398491859436035,
+  geo_box_max_y = 3.209484100341797,
+  geo_box_max_z = 4.74327278137207,
+  world_effect_scale = 1.0,
+  attached_effect_scale = 1.0,
+  missile_collision_radius = 0.0,
+  missile_collision_push = 0.0,
+  missile_collision_raise = 0.0;

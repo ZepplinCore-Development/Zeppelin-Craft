@@ -29,6 +29,180 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
+-- Arcane Exterminator's Shoulderguards (retail item 134472, display 145340)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210210;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210210,
+  `left_model` = 'lshoulder_mail_legiondungeon_c_01.mdx',
+  `right_model` = 'rshoulder_mail_legiondungeon_c_01.mdx',
+  `left_model_texture` = 'shoulder_mail_legiondungeon_c_01_blue',
+  `right_model_texture` = 'shoulder_mail_legiondungeon_c_01_blue',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Bronzebeard Wristclamps (retail item 165938, display 176536)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210211;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210211,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'armor_dwarf_d_01_bracer_al',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Marauding Grips of Hrafsir (retail item 129326, display 144576)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210212;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210212,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 3,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'mail_legionquest100_b_01_silver_glove_al',
+  `hands_texture` = 'mail_legionquest100_b_01_silver_glove_ha',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Bronzebeard Cinch (retail item 165935, display 185204)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210213;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210213,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = 'armor_dwarf_d_01_belt_tl',
+  `upper_leg_texture` = 'armor_dwarf_d_01_belt_lu',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Bronzebeard Leggings (retail item 165936, display 176533)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210214;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210214,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'armor_dwarf_d_01_pant_lu',
+  `lower_leg_texture` = 'armor_dwarf_d_01_pant_ll',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Boulderfall Stompers (retail item 129152, display 144583)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210215;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210215,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'mail_legionquest100_b_01_silver_boot_ll',
+  `foot_texture` = 'mail_legionquest100_b_01_silver_boot_fo',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
 -- Basaltscale Armor (retail item 12108, display 23187)
 DELETE FROM `itemdisplayinfo` WHERE `id` = 210026;
 INSERT INTO `itemdisplayinfo` SET

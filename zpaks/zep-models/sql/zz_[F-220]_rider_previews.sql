@@ -479,3 +479,56 @@ INSERT INTO creature_equip_template SET
   ItemID2 = 0,
   ItemID3 = 0,
   VerifiedBuild = 0;
+
+-- the pounder pilots (Thermaplugg's pounder 6980, Shake-n-Quake 23383): the gnome tank pilots on the empty
+-- pounder (model 900230, GnomePounderVehicle_Pilot)
+
+DELETE FROM creature_template WHERE entry = 902241;
+INSERT INTO creature_template SET
+  `entry` = 902241,
+  `name` = 'F-220 Gnome Pounder Pilot',
+  `subname` = 'rider preview, display 900511',
+  `minlevel` = 60,
+  `maxlevel` = 60,
+  `faction` = 35,
+  `unit_class` = 1,
+  `type` = 7,
+  `type_flags` = 2048;
+DELETE FROM creature_template_model WHERE CreatureID = 902241;
+INSERT INTO creature_template_model SET
+  CreatureID = 902241,
+  Idx = 0,
+  CreatureDisplayID = 900511,
+  DisplayScale = 1,
+  Probability = 1,
+  VerifiedBuild = 0;
+DELETE FROM creature_template_addon WHERE entry = 902241;
+INSERT INTO creature_template_addon SET
+  entry = 902241,
+  mount = 6980,
+  bytes2 = 1;
+
+DELETE FROM creature_template WHERE entry = 902242;
+INSERT INTO creature_template SET
+  `entry` = 902242,
+  `name` = 'F-220 Gnome Pounder Pilot (armour)',
+  `subname` = 'rider preview, display 900509',
+  `minlevel` = 60,
+  `maxlevel` = 60,
+  `faction` = 35,
+  `unit_class` = 1,
+  `type` = 7,
+  `type_flags` = 2048;
+DELETE FROM creature_template_model WHERE CreatureID = 902242;
+INSERT INTO creature_template_model SET
+  CreatureID = 902242,
+  Idx = 0,
+  CreatureDisplayID = 900509,
+  DisplayScale = 1,
+  Probability = 1,
+  VerifiedBuild = 0;
+DELETE FROM creature_template_addon WHERE entry = 902242;
+INSERT INTO creature_template_addon SET
+  entry = 902242,
+  mount = 23383,
+  bytes2 = 1;

@@ -9,7 +9,30 @@
   "_comment": "F-220 look-alike rider for creature/alliancerider/wildhammerheavy.blp (displays [17202]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "shoulders": 7532
+      "shoulders": {
+        "item": 134472,
+        "mod": 0
+      },
+      "wrists": {
+        "item": 165938,
+        "mod": 0
+      },
+      "gloves": {
+        "item": 129326,
+        "mod": 0
+      },
+      "belt": {
+        "item": 165935,
+        "mod": 0
+      },
+      "legs": {
+        "item": 165936,
+        "mod": 0
+      },
+      "boots": {
+        "item": 129152,
+        "mod": 0
+      }
     }
   },
   "appearance": {

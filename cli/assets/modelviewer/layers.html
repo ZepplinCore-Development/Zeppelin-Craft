@@ -627,6 +627,11 @@ const F220_DROPPED = new Set(['mounteddeathknight.m2', 'mounteddeathknight_blaum
   // the demon knight: no character-model body and no standalone creature (2026-10-17)
   'mounteddemonknight.m2']);
 const inF220 = (path) => isFusedRider(path) && !F220_DROPPED.has((path || '').split('/').pop());
+// searchable F-220 tag: an in-scope fused model, or anything our mounted-NPC zpaks ship (riderless cuts, pack
+// cuts, the seated tank) or repoint (their displays) - the preview creatures' "F-220" names reached only some
+const f220Tagged = (e) => { const ps = [...(e.panes || []), ...(e.compare || [])];
+  return [e.path, ...(e.members || []), ...ps.map(p => p.model)].some(inF220) ||
+    ps.some(p => (p.sources || []).some(s => String(s).startsWith('zep-mounted-npcs'))); };
 const F220 = 'Fused rider/driver: the rider is part of the mount model. F-220 replaces these with an NPC on a mount or vehicle.';
 // a creature/character model no creature shows (no display, or only unused displays)
 const unusedModel = (e) => (e.tab === 'creature' || e.tab === 'character') && !e.retailOnly &&
@@ -829,7 +834,7 @@ function retailNamedPanel(path, only, scale) {
 // a display pick saved before a path was split per file (option = the bare path) means the card of
 // that path whose sources include the pick's first source
 function splitKey(c, entry) {
-  if (c && entry && entry.tab === 'creature' && c.option && c.displays) return modelSplitKey(c, entry);
+  if (c && entry && entry.tab === 'creature' && c.option) return modelSplitKey(c, entry);   // picks without displays too ('+r' renames)
   if (!c || !entry || entry.tab !== 'display' || !c.option || String(c.option).includes('#')) return c && c.option;
   const p = (entry.panes || []).find(x => x.option.startsWith(c.option + '#') && (c.sources || []).some(z => x.sources.includes(z)));
   return p ? p.option : c.option;
@@ -840,6 +845,11 @@ function splitKey(c, entry) {
 function modelSplitKey(c, e) {
   const gs = modelOptions(e);
   if (gs.some(g => g.key === c.option)) return c.option;
+  // a pick saved before its option gained a '+r' key (a display of the model got a second card of the SAME
+  // model file - F-220's repoint split display 2490 per file - so the pack's file group is now
+  // 'df0ba29cabf1+r...'): the one group of that file with the pick's sources
+  const plusR = gs.filter(g => g.key.startsWith(c.option + '+r') && (c.sources || []).every(z => g.sources.includes(z)));
+  if (plusR.length === 1) return plusR[0].key;
   const base = (o) => String(o || '').split('#')[0], ds = c.displays || {};
   const moved = Object.keys(ds).filter(id => base(ds[id].option) !== e.path && !String(ds[id].option).startsWith(e.current || '\0'));
   if (!moved.length) return c.option;
@@ -859,18 +869,21 @@ function reviewReason(kind, key, entry) {
   (entry.panes || []).forEach(p => (p.same_look || []).forEach(k => merged.set(k, p.option)));
   const c = { ...c0, option: merged.get(c0.option) || splitKey(c0, entry) };
   const now = optionsOf(entry);
+  // F-220's riderless repoint (zep-mounted-npcs / -packs) appearing on a model is not a new choice to review:
+  // the rider split ships with F-220 (a pick OF such an option still counts as offered)
+  const f220 = (k) => (now[k] || []).length && now[k].every(z => String(z).startsWith('zep-mounted-npcs'));
   // picks saved before retail remasters got their own key ('retail:<path>') recorded them under the bare path
   const was = (k, opts) => k in opts || (String(k).startsWith('retail:') && k.slice(7) in opts);
   if (c.option !== c0.option) {                      // same choice, renamed by the split: compare its sources
     // renamed cards whose sources were all offered before are not new
     const had = new Set(Object.values(c0.options).flat());
-    const added0 = Object.keys(now).filter(k => !was(k, c0.options) && !k.startsWith(c0.option + '#') && !(now[k] || []).every(z => had.has(z)));
+    const added0 = Object.keys(now).filter(k => !was(k, c0.options) && !k.startsWith(c0.option + '#') && !(now[k] || []).every(z => had.has(z)) && !f220(k));
     return added0.length ? `new option: ${added0.map(k => label(now[k])).join(', ')}` : null;
   }
   // a card split per file is not new when its sources were already offered on that path
   const renamed = (k) => { const [base] = String(k).split('#'); return k.includes('#') && base in c.options &&
     (now[k] || []).every(z => (c.options[base] || []).includes(z)); };
-  const added = Object.keys(now).filter(k => !was(k, c.options) && !renamed(k));
+  const added = Object.keys(now).filter(k => !was(k, c.options) && !renamed(k) && !f220(k));
   const gone = Object.keys(c.options).filter(k => !(k in now) && !merged.has(k) && !Object.keys(now).some(n => n.startsWith(k + '#')) &&
     !((c.options[k] || []).includes('retail') && ('retail:' + k) in now));
   if (gone.includes(c.option)) return 'picked option no longer offered';
@@ -1195,7 +1208,7 @@ function assetMatches(e) {
   if (filter === 'remaster' && !(e.tab === 'creature' && !e.retailOnly && (namedFor(e.path) || (retailIdx.models || {})[e.path]))) return false;
   if (search) {
     // every word must match the path, display, names or keywords (a word also matches its synonyms)
-    const hay = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + (e.kw || '') + ' ' + dispModels(e) + ' ' + foldedNames(e)).toLowerCase();
+    const hay = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + (e.kw || '') + ' ' + dispModels(e) + ' ' + foldedNames(e) + (f220Tagged(e) ? ' f-220 f220' : '')).toLowerCase();
     if (!searchWords().every(alts => alts.some(w => hay.includes(w)))) return false;
   }
   return true;
@@ -2388,7 +2401,8 @@ async function riderCards(e, riders, mount) {
 const MOUNT_FAMILY = { 'batrider.m2': ['bat'], 'horderider.m2': ['wyvern'], 'alliancerider.m2': ['gryphon'],
   'alliancerider2.m2': ['gryphon'], 'felorcnetherdrakemounted.m2': ['netherdrake', 'netherdragon'],
   'orcdrakerider.m2': ['drake'], 'tauren_mountedcanoe.m2': ['canoe'], 'gnomerocketcar.m2': ['rocketcar'],
-  'gnomespidertank.m2': ['spidertank'], 'gnomemechastrider.m2': ['mechastrider', 'mechanostrider'],
+  'gnomespidertank.m2': ['spidertank', 'poundervehicle'], 'gnomepounder.m2': ['poundervehicle', 'spidertank'],
+  'gnomemechastrider.m2': ['mechastrider', 'mechanostrider'],
   'mountedknight.m2': ['horse', 'charger'],
   // Teron and the Horseman ride undead / spectral horses (their riders are their own displays)
   'terongorefiend_mounted.m2': ['undeadhorse', 'deathcharger', 'skeletalhorse', 'undeadwarhorse', 'deathknightmount', 'horse'],
@@ -2404,9 +2418,13 @@ function riderlessVersions(e) {
   // a display page: the riderless model its zep-mounted-npcs card shows; the fused model's page: our
   // riderless model in the same folder (gnomerocketcar.m2 -> gnomerocketcar_empty.m2)
   const folder = e.tab === 'creature' ? e.path.slice(0, e.path.lastIndexOf('/')) : null;
+  // (two cuts share creature/gnomespidertank/: the one named after the fused model first -
+  // gnomepounder.m2 -> gnomepoundervehicle_pilot.m2, not the spider tank's gnomespidertank02_pilot.m2)
+  const stem = e.path.split('/').pop().replace(/\.m2$/, '');
+  const cuts = folder ? assets.filter(a => a.tab === 'creature' && a.path !== e.path && a.path.startsWith(folder + '/')
+    && (a.panes || []).some(p => (p.sources || []).includes('zep-mounted-npcs'))) : [];
   const M = own ? assets.find(a => a.tab === 'creature' && a.path === own.model)
-    : folder && assets.find(a => a.tab === 'creature' && a.path !== e.path && a.path.startsWith(folder + '/')
-        && (a.panes || []).some(p => (p.sources || []).includes('zep-mounted-npcs')));
+    : cuts.find(a => a.path.split('/').pop().startsWith(stem)) || cuts[0];
   if (!M) return;
   const groups = modelOptions(M), cur = (choices.mesh || {})[M.path] || {};
   (M.panes || []).filter(p => !own || !(p.sources || []).includes('zep-mounted-npcs')).forEach(pn => {

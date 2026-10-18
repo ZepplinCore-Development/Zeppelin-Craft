@@ -62,6 +62,26 @@ UPDATE creaturedisplayinfo SET model_id = 900227 WHERE id IN (17389, 18088, 2653
 -- (model 900229 = stock GnomeSpiderTank02 with its seat placed for the gnome pilot) in the same tank skin.
 UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinGreen', texture_variation_2 = '' WHERE id = 5926;
 UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinBlue', texture_variation_2 = '' WHERE id = 22700;
+-- the other fused-pilot Mechano-Tanks, same empty tank in their own tank skin: Flamewalker, Frostwalker,
+-- Electrocutioner 6000, Crashin' Thrashin' Robot (16970, 21732-21734), and the unused 23363 / 23406
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinRed', texture_variation_2 = '' WHERE id = 6890;
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinBlue', texture_variation_2 = '' WHERE id = 6891;
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinBlack', texture_variation_2 = '' WHERE id = 6915;
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinGreen', texture_variation_2 = '' WHERE id = 16970;
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinBlack', texture_variation_2 = '' WHERE id = 21732;
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinRed', texture_variation_2 = '' WHERE id = 21733;
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinBlue', texture_variation_2 = '' WHERE id = 21734;
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinBlue', texture_variation_2 = '' WHERE id = 23363;
+UPDATE creaturedisplayinfo SET model_id = 900229, texture_variation_1 = 'GnomeSpiderTankSkinBlue', texture_variation_2 = '' WHERE id = 23406;
+
+-- Creature\GnomeSpidertank\GnomePounder (the pilot fused in) -> the empty pounder (model 900230 = stock
+-- GnomePounderVehicle with its seat placed for the gnome pilot) in the same tank skin: Mekgineer Thermaplugg
+-- (6980), Mekgineer Steamrigger (18638), Shake-n-Quake 5000 (23383), and the unused 23382 / 23405
+UPDATE creaturedisplayinfo SET model_id = 900230, texture_variation_1 = 'GnomeSpiderTankSkinRed', texture_variation_2 = '' WHERE id = 6980;
+UPDATE creaturedisplayinfo SET model_id = 900230, texture_variation_1 = 'GnomeSpiderTankSkinRed', texture_variation_2 = '' WHERE id = 18638;
+UPDATE creaturedisplayinfo SET model_id = 900230, texture_variation_1 = 'GnomeSpiderTankSkinBlack', texture_variation_2 = '' WHERE id = 23382;
+UPDATE creaturedisplayinfo SET model_id = 900230, texture_variation_1 = 'GnomeSpiderTankSkinBlack', texture_variation_2 = '' WHERE id = 23383;
+UPDATE creaturedisplayinfo SET model_id = 900230, texture_variation_1 = 'GnomeSpiderTankSkinBlack', texture_variation_2 = '' WHERE id = 23405;
 
 -- 9723 (Creature\Drake\OrcDrakeRider, Rend fused on his drake) -> the stock classic drake (model 571
 -- Creature\Drake\Drake, unused by any display) in the same DrakeSkin1-3: the riderless chromatic drake,

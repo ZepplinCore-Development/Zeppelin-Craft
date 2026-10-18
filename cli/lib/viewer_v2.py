@@ -184,7 +184,7 @@ class Finder:
             mo = self.override.get(m) or (self.picks.mesh(m) if m in ix.meshes else None)
             a = ix.textures.get(p)
             if mo is not None and a is not None:
-                same = [x for x in a.options if set(x.sources) & set(mo.sources)]
+                same = [x for x in a.options if set(x.sources) & ix.mesh_sources(m, mo)]
                 ok = same or [x for x in a.options if ix.compatible(p, x, m, mo)]
                 if ok:
                     return max(ok, key=lambda x: (x.size, x.sources[0] == 'stock')).files.get(p)
@@ -364,8 +364,13 @@ class Deployer:
             return _sized(copy.deepcopy(hit['pane']), opt)
         if hit is not None:
             f = Finder(self.picks, {path: opt})
-            ok = True
-            for p, fs in hit['deps']:
+            # re-resolve as the build did: an attached item's texture follows its item mesh (Finder.item_tex).
+            # Without it the check resolved the gryphon rider's shoulder texture the generic way, matched
+            # the stale map and kept it (zep-hd-pack-fixes mesh + stock texture). A pane cached before
+            # item_tex was stored, wearing item textures, is rebuilt once.
+            f.item_tex = hit.get('item_tex') or {}
+            ok = 'item_tex' in hit or not any(p.startswith('item/') and p.endswith('.blp') for p, _ in hit['deps'])
+            for p, fs in (hit['deps'] if ok else ()):
                 r = f._resolve(p)
                 if _dep_sig(r) != fs:
                     ok = False
@@ -923,7 +928,7 @@ class Deployer:
             pane['skins_filled'] = [x for x in own_sk if x]
         import copy
         self.used[key] = {'pane': copy.deepcopy(pane), 'map': fmap, 'prov': pv_saved,
-                          'deps': [(p, _dep_sig(f)) for p, f in finder.log]}
+                          'deps': [(p, _dep_sig(f)) for p, f in finder.log], 'item_tex': dict(finder.item_tex)}
         return pane
 
     def _item_group(self, path: str) -> Optional[str]:

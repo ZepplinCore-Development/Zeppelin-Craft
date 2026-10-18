@@ -1,7 +1,7 @@
 # F-220: run from Zeppelin-Craft/cli AFTER f220_cut_mounts_stock.py / _packs.py write. Places the seat
 # (attachment 0) of every riderless mount so its rider - placed by its ORIGIN in the Mount pose - overlays
 # the fused rider (lib/strip_rider.body_seat), with the rider race's picked (HD) body. Also writes the seated
-# copy of the empty Mechano-Tank (GnomeSpiderTank02_Pilot) for 5926 / 22700.
+# copies of the empty Mechano-Tank (GnomeSpiderTank02_Pilot) and pounder (GnomePounderVehicle_Pilot).
 import sys, pickle, shutil
 sys.path.insert(0, '.')
 from pathlib import Path
@@ -35,20 +35,28 @@ SEATS = [
 for out, fused, tex, slots, race in SEATS:
     pts = sr.rider_points(ix.stock[fused].read_bytes(), skin00(fused), tex, slots)
     seat = sr.body_seat(pts, *body(race))
+    # on the mount's centreline: a fused rider leaning over the side (the canoe's tauren paddling, y -0.39)
+    # put ours beside the boat; every other fused rider sat within 0.05 of y = 0
+    seat = (seat[0], 0.0, seat[2])
     for root in (Z, ZP):
         f = root / out
         if f.exists():
             f.write_bytes(sr.place_seat(f.read_bytes(), seat))
             print(f'{root.parent.parent.name:24} {out}: seat {tuple(round(v, 3) for v in seat)}')
 
-# the empty Mechano-Tank, seated for the gnome pilot of the fused tank (same model space)
-src = ix.stock['creature/gnomespidertank/gnomespidertank02.m2']
-pts = sr.rider_points(ix.stock['creature/gnomespidertank/gnomespidertank.m2'].read_bytes(), skin00('creature/gnomespidertank/gnomespidertank.m2'), set(), {12})
-seat = sr.body_seat(pts, *body('gnome'))
+# the empty vehicles, seated for the gnome pilot of the fused tank (same model space): the Mechano-Tank
+# (GnomeSpiderTank02 -> _Pilot, model 900229) and Thermaplugg's pounder (GnomePounderVehicle -> _Pilot, 900230)
+EMPTY = [('gnomespidertank02', 'GnomeSpiderTank02', 'creature/gnomespidertank/gnomespidertank.m2'),
+         ('gnomepoundervehicle', 'GnomePounderVehicle', 'creature/gnomespidertank/gnomepounder.m2')]
 d = Z / 'Creature/GnomeSpiderTank'; d.mkdir(parents=True, exist_ok=True)
-(d / 'GnomeSpiderTank02_Pilot.m2').write_bytes(sr.place_seat(src.read_bytes(), seat))
-for k, p in sorted(ix.stock.items()):
-    n = k.rsplit('/', 1)[-1]
-    if k.startswith('creature/gnomespidertank/gnomespidertank02') and n.endswith(('.skin', '.anim')):
-        shutil.copyfile(p, d / ('GnomeSpiderTank02_Pilot' + n[len('gnomespidertank02'):]))
-print(f'zep-mounted-npcs          GnomeSpiderTank02_Pilot.m2: seat {tuple(round(v, 3) for v in seat)}')
+for stem, name, fused in EMPTY:
+    src = ix.stock[f'creature/gnomespidertank/{stem}.m2']
+    pts = sr.rider_points(ix.stock[fused].read_bytes(), skin00(fused), set(), {12})
+    seat = sr.body_seat(pts, *body('gnome'))
+    seat = (seat[0], 0.0, seat[2])                    # on the centreline, as above
+    (d / f'{name}_Pilot.m2').write_bytes(sr.place_seat(src.read_bytes(), seat))
+    for k, p in sorted(ix.stock.items()):
+        n = k.rsplit('/', 1)[-1]
+        if k.startswith(f'creature/gnomespidertank/{stem}') and n[len(stem):len(stem) + 1].isdigit() and n.endswith(('.skin', '.anim')):
+            shutil.copyfile(p, d / (f'{name}_Pilot' + n[len(stem):]))
+    print(f'zep-mounted-npcs          {name}_Pilot.m2: seat {tuple(round(v, 3) for v in seat)}')
