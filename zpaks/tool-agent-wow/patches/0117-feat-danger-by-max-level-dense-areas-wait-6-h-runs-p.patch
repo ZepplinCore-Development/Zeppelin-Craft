@@ -1,0 +1,171 @@
+From f372d216e31ea72e8ed1e24eda8d6edabe219987 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 18 Oct 2026 03:33:44 +0000
+Subject: [PATCH] feat: danger by max level, dense areas wait, 6 h runs;
+ priest/mage caster tuning (F-219)
+
+Universal:
+- threats, camp and group levels use creature_template.maxlevel: a spawn
+  rolls anywhere in the range (a level 8-9 Rotlimb counted as 8 and the
+  route past it was allowed at 7)
+- dense areas (5+ hostile spawns within 40 yd of the target or quest
+  object: caves, mines, packed camps) wait until we are 2 levels above
+  their toughest mob (the priest died 22x at 8 in Fargodeep among level-7
+  kobolds)
+- runs are 6 h (360 min) for the single-leg areas
+Classes:
+- priest: three Smites a target (one then a staff ran 80 fights past the
+  budget); Power Word: Shield also as a second mob joins
+- mage: Frostbolt/Fireball uncapped per target, floor 25 % mana (four bolts
+  left a level-7 mob alive and the staff finished it at 10-50 health)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/fleet.py      | 16 ++++++------
+ zeppelin/tests/start_area.py | 48 ++++++++++++++++++++++++++++++------
+ 2 files changed, 48 insertions(+), 16 deletions(-)
+
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index d5f3344..9989341 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -47,14 +47,14 @@ def box(x, y, half=450):
+ # holiday/event, profession and battleground quests. zone = AreaTable id (logged). Eversong and
+ # Azuremyst sit on maps 0/1 here. No death knight runs; worgen once Gilneas content is ready.
+ AREAS = [
+-    ("elwynn", "human", "priest", 1, [(0, (-10254, -1935, -7940, 1535), 240, 12)]),
+-    ("durotar", "orc", "warlock", 2, [(1, (-1717, -7250, 1808, -1962), 240, 14)]),
+-    ("dunmorogh", "dwarf", "paladin", 3, [(0, (-7160, -3123, -3877, 1802), 240, 1)]),
+-    ("teldrassil", "night-elf", "hunter", 4, [(1, (8437, -1277, 11831, 3815), 240, 141)]),
+-    ("tirisfal", "undead", "mage", 5, [(0, (825, -1485, 3837, 3033), 240, 85)]),
+-    ("mulgore", "tauren", "druid", 6, [(1, (-3698, -3090, -273, 2048), 240, 215)]),
+-    ("eversong", "blood-elf", "rogue", 7, [(0, (5625, -7279, 8908, -2354), 240, 3430)]),
+-    ("azuremyst", "draenei", "shaman", 8, [(1, (4092, 3563, 6806, 7633), 240, 3524)]),
++    ("elwynn", "human", "priest", 1, [(0, (-10254, -1935, -7940, 1535), 360, 12)]),
++    ("durotar", "orc", "warlock", 2, [(1, (-1717, -7250, 1808, -1962), 360, 14)]),
++    ("dunmorogh", "dwarf", "paladin", 3, [(0, (-7160, -3123, -3877, 1802), 360, 1)]),
++    ("teldrassil", "night-elf", "hunter", 4, [(1, (8437, -1277, 11831, 3815), 360, 141)]),
++    ("tirisfal", "undead", "mage", 5, [(0, (825, -1485, 3837, 3033), 360, 85)]),
++    ("mulgore", "tauren", "druid", 6, [(1, (-3698, -3090, -273, 2048), 360, 215)]),
++    ("eversong", "blood-elf", "rogue", 7, [(0, (5625, -7279, 8908, -2354), 360, 3430)]),
++    ("azuremyst", "draenei", "shaman", 8, [(1, (4092, 3563, 6806, 7633), 360, 3524)]),
+     # zone 0: Kezan and the Lost Isles are custom islands (custom area ids; summoned quest NPCs found
+     # beside hosts the zone filter dropped) - each box is already one island
+     ("goblin", "goblin", "warrior", 9, [(1, (-9120, -11680, -8230, -10750), 240, 0),      # Kezan
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index fcc1471..70b19bc 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -91,12 +91,15 @@ CLASS_ABILITIES = {
+         {"spell_id": 139, "every_ms": 3000, "min_power": 30, "on_self": True, "buff": True,
+          "below_health_pct": 70},                                                             # Renew (level 8): cheaper than a heal
+         {"spell_id": 103246, "every_ms": 15000, "interrupt": True},                          # Devout Silence (custom interrupt)
++        {"spell_id": 17, "every_ms": 16000, "min_power": 45, "on_self": True, "min_attackers": 2},   # Shield as a 2nd mob joins
+         {"spell_id": 17, "every_ms": 16000, "min_power": 45, "on_self": True, "below_health_pct": 50},   # Power Word: Shield - defensive only (mana-hungry): below half health. 16 s: Weakened Soul lasts 15
+         {"spell_id": 1243, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Power Word: Fortitude
+         # open with Smite while it runs in (the cast is never pushed back), then Pain for the whole fight,
+         # then the stick - Pain is the mana-efficient part, so its floor is lower
+         {"spell_id": 8092, "every_ms": 8000, "min_power": 50, "max_per_target": 1, "min_power_pct": 35},  # Mind Blast (level 10) opener
+-        {"spell_id": 585, "every_ms": 0, "min_power": 20, "max_per_target": 1, "min_power_pct": 35},     # Smite
++        # three Smites, not one: one then a staff ran 80 fights past the 25 s budget and long fights draw
++        # adds (20 waters at the start pay for it)
++        {"spell_id": 585, "every_ms": 0, "min_power": 20, "max_per_target": 3, "min_power_pct": 30},     # Smite
+         {"spell_id": 589, "every_ms": 18000, "min_power": 25, "per_target": True, "min_power_pct": 20},  # Shadow Word: Pain
+     ],
+     7: [  # shaman - Earth Shock doubles as the interrupt
+@@ -122,8 +125,10 @@ CLASS_ABILITIES = {
+         # arrives), Fire Blast (instant, 20 yd) as it closes, then wand or staff
+         # Frost Nova (level 10) when it reaches us: roots it, and the kite steps back out of melee
+         {"spell_id": 122, "every_ms": 25000, "min_power": 30, "on_self": True, "max_range": 8},  # Frost Nova
+-        {"spell_id": 116, "every_ms": 0, "min_power": 25, "max_per_target": 4, "min_power_pct": 20},     # Frostbolt (the mage's damage; it drinks conjured water)
+-        {"spell_id": 133, "every_ms": 0, "min_power": 30, "max_per_target": 2, "min_power_pct": 30},     # Fireball (before Frostbolt is known)
++        # no per-target cap: a mage does not melee - four bolts left a level-7 mob alive and the staff
++        # finished the fight at 10-50 health; it casts down to 25 % mana and drinks (20 + conjured water)
++        {"spell_id": 116, "every_ms": 0, "min_power": 25, "min_power_pct": 25},                          # Frostbolt
++        {"spell_id": 133, "every_ms": 0, "min_power": 30, "min_power_pct": 25},                          # Fireball (before Frostbolt is known)
+         {"spell_id": 2136, "every_ms": 8000, "min_power": 40, "max_per_target": 1, "min_power_pct": 35},  # Fire Blast
+     ],
+     9: [  # warlock
+@@ -1791,8 +1796,9 @@ class Runner:
+                 and math.dist((o["x"], o.get("y", 0)), spot[:2]) < radius]
+         if not mobs:
+             return False
+-        info = {int(r["entry"]): (int(r["minlevel"]), int(r["type"]), int(r["uf"])) for r in sql(
+-            f"SELECT entry,minlevel,type,unit_flags uf FROM creature_template WHERE entry IN ({inlist({o['entry'] for o in mobs})})")}
++        # danger is judged by the TOP of a mob's level range (a level 8-9 Rotlimb counted as 8)
++        info = {int(r["entry"]): (int(r["maxlevel"]), int(r["type"]), int(r["uf"])) for r in sql(
++            f"SELECT entry,maxlevel,type,unit_flags uf FROM creature_template WHERE entry IN ({inlist({o['entry'] for o in mobs})})")}
+         level = call("interact.self").get("level", 1)
+         mobs = [o for o in mobs if info.get(o["entry"], (99, 0, 0))[1] != 8  # no critters (type 8)
+                 and self.hostile(o["entry"])                             # nor friendly/neutral bystanders
+@@ -1805,6 +1811,14 @@ class Runner:
+         # level+1 still lost 1v1 (a level-3 draenei vs a lone Mutated Owlkin 16537): only even or lower
+         key = (round(spot[0] / 20), round(spot[1] / 20))
+         top = max(info.get(o["entry"], (99, 0))[0] for o in mobs)
++        dense = self.dense_level(spot)
++        if dense and level < dense:
++            # a quest object in a cave or packed camp waits until we out-level its mobs
++            q = getattr(self, "current_qid", None)
++            if q:
++                self.defer_until[q] = max(self.defer_until.get(q, 0), dense)
++            print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}) is dense - back at level {dense}", flush=True)
++            return "later"
+         # a camp that already killed us twice waits until we are 2 levels above its mobs (Coldridge:
+         # 15 deaths at one Frostmane camp - level-3 whelps converge on a level-4 bot before it swings)
+         # ...and whatever the mob levels, 3 deaths around this camp at our CURRENT level park it until
+@@ -2039,8 +2053,8 @@ class Runner:
+                        math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 18)
+         s = call("interact.self")
+         level = s.get("level", 1)
+-        lvl = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+-            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist({m['entry'] for m in mobs})})")}
++        lvl = {int(r["entry"]): int(r["maxlevel"]) for r in sql(  # the top of the range: danger, not targets
++            f"SELECT entry,maxlevel FROM creature_template WHERE entry IN ({inlist({m['entry'] for m in mobs})})")}
+         lv = lambda o: lvl.get(o["entry"], level)
+         hostiles = [m for m in mobs if self.hostile(m["entry"])]
+         ranked = sorted(cands, key=lambda o: (crowd(o), o.get("distance", 999)))
+@@ -2055,6 +2069,13 @@ class Runner:
+             print(f"  every way to {entry} passes other mobs - taking the least crowded", flush=True)
+         group = [m for m in mobs if math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 18
+                  and (m is t or self.hostile(m["entry"]))]
++        dense = self.dense_level((t["x"], t.get("y", 0)))
++        if dense and level < dense:
++            q = getattr(self, "current_qid", None)
++            if q:
++                self.defer_until[q] = max(self.defer_until.get(q, 0), dense)
++            print(f"  {entry} stands in a dense area - back at level {dense}", flush=True)
++            return {"reason": "camp too tight"}
+         dry = (self.w.cls in MANA_CLASSES and s.get("powerType", 0) == 0 and s.get("maxPower")
+                and s.get("power", 0) * 100 < s["maxPower"] * 60)
+         if dry or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 85):
+@@ -2423,7 +2444,9 @@ class Runner:
+             side = 2 if self.w.race in (1, 3, 4, 7, 11, 12) else 4
+             x1, y1, x2, y2 = self.w.box
+             m = 500
+-            rows = sql("SELECT c.guid g,c.id e,c.position_x x,c.position_y y,t.faction f,t.minlevel l,"
++            # maxlevel: a spawn rolls anywhere in min..max - the guards must assume the top (a level 8-9
++            # Rotlimb Marauder counted as 8 and the route past it was allowed at 7)
++            rows = sql("SELECT c.guid g,c.id e,c.position_x x,c.position_y y,t.faction f,t.maxlevel l,"
+                        "c.MovementType mt,c.wander_distance wd,a.path_id p,c.phaseMask pm FROM creature c "
+                        "LEFT JOIN creature_addon a ON a.guid=c.guid "
+                        "JOIN creature_template t ON t.entry=c.id WHERE t.type<>8 AND t.npcflag=0 "
+@@ -2476,6 +2499,15 @@ class Runner:
+                 return
+             time.sleep(1.5)
+ 
++    def dense_level(self, p, radius=40, count=5):
++        """A cave, mine or packed camp: `count`+ hostile spawns within `radius` yd of p (phase-filtered,
++        their max levels). Returns the level to wait for - TWO above the toughest of them (the priest
++        died there at 8 against level-7 kobolds, one above was not enough) - or 0 when
++        the spot is not dense. Elwynn's priest died 22 times at level 8 in Fargodeep Mine among level
++        5-7 kobolds: in tunnels there is no detour and every pull brings two or three."""
++        near = [t for t in self.threats() if math.dist(t[:2], p[:2]) < radius]
++        return max(t[2] for t in near) + 2 if len(near) >= count else 0
++
+     def route_guard(self, x, y, z, level):
+         """Raise StepFailed (and park the current quest) when the planned path passes within reach of a
+         mob 3+ levels above us. Reach = its aggro radius at that level gap + its wander radius. The
+-- 
+2.34.1
+
