@@ -1,6 +1,8 @@
 """TBC-format (MD20 v256-263) M2 -> WotLK v264 M2 + .skin, for the F-216 model viewer.
 
-The 3.3.5 client loads both formats; the viewer engine reads only v264. TBC differs in:
+NOT both formats load in game: the 3.3.5 client drew NOTHING for patch-hd-buildings' v256
+L/RShoulder_Leather_Horde_B_03 (I-408, verified in F-219) - an HD-pack M2 still at v256-263 must be
+converted with convert() before it ships. The viewer engine reads only v264 too. TBC differs in:
   - header: extra playableAnimationLookup (0x2C) and textureFlipbooks (0x6C) arrays,
     and `views` is an M2Array of INLINE skin profiles (v264: a count, skins in NN.skin)
   - sequences: start/end on one shared timeline (68 bytes) vs a duration (64 bytes)
