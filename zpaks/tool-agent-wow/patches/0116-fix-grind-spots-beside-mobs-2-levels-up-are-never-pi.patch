@@ -1,0 +1,36 @@
+From fca1f36e9b843a34007f3cdc5016d7054f7af7bf Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 18 Oct 2026 02:03:04 +0000
+Subject: [PATCH] fix: grind spots beside mobs 2+ levels up are never picked
+ (F-219)
+
+The destination guard refused Dun Morogh's paladin's grind spot (level-12
+mobs nearby) on every try, the other candidates were the same pack's
+spawns, and the run ended at level 7 after 105 min. walk_to_grind now
+filters guarded spots out before choosing.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index df89bf7..fcc1471 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1746,7 +1746,11 @@ class Runner:
+             if now - t > 300:
+                 del tried[p]
+         # strict, unlike in_phase(): its "nothing matches - take them all" fallback is the very bug here
++        # never a spot the destination guard will refuse (mobs 2+ levels up within 35 yd): Dun Morogh's
++        # paladin picked spawns beside level-12 mobs six times over and ended its run at level 7
++        guarded = [t[:2] for t in self.threats() if t[2] >= level + 2]
+         pts_of = {e: [p for p in self.w.cspawn.get(e, []) if (not mask or self.w.spawn_phase.get(p, 1) & mask)
++                      and not any(math.dist(g, p[:2]) < 35 for g in guarded)
+                       and p not in self.w.beyond and p not in tried
+                       and math.dist(p[:2], (me["x"], me["y"])) > 25] for e in lv}
+         # never across the whole map: Camp Narache walked 1243 yd to grind (and died on the way)
+-- 
+2.34.1
+
