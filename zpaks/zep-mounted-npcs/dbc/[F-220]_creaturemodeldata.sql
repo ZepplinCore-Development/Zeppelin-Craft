@@ -229,6 +229,31 @@ INSERT INTO creaturemodeldata SET
 -- gnome pilot of the fused tank (Scripts/F-220/f220_seats.py)
 DELETE FROM creaturemodeldata WHERE id = 900229;
 INSERT INTO creaturemodeldata SET
-  2788 = ,
   id = 900229,
-  model_path = 'Creature\\GnomeSpiderTank\\GnomeSpiderTank02_Pilot.mdx';
+  flags = 0,
+  model_path = 'Creature\\GnomeSpiderTank\\GnomeSpiderTank02_Pilot.mdx',
+  size_class = 2,
+  model_scale = 1.0,
+  blood_id = 3,
+  footprint_texture_id = 4,
+  footprint_texture_length = 1.0,
+  footprint_texture_width = 1.0,
+  footprint_particle_scale = 1.0,
+  foley_material_id = 0,
+  footstep_shake_size = 0,
+  death_thud_shake_size = 10,
+  sound_data = 2638,
+  collision_width = 0.6111000180244446,
+  collision_height = 2.0309998989105225,
+  mount_height = 1.1822669506072998,
+  geo_box_min_x = -1.592257022857666,
+  geo_box_min_y = -1.4770100116729736,
+  geo_box_min_z = 0.017467999830842,
+  geo_box_max_x = 1.0108009576797485,
+  geo_box_max_y = 1.47576904296875,
+  geo_box_max_z = 2.6524739265441895,
+  world_effect_scale = 1.0,
+  attached_effect_scale = 1.0,
+  missile_collision_radius = 0.0,
+  missile_collision_push = 0.0,
+  missile_collision_raise = 0.0;
