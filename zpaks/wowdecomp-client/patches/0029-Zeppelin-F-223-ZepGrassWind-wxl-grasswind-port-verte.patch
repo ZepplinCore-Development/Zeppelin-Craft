@@ -1,4 +1,4 @@
-From 7782d7564dc9661911ab81851ac86bafc25e69f2 Mon Sep 17 00:00:00 2001
+From cadca89c7d7796c6fda7ea9800b08204a969fb96 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 17 Oct 2026 15:30:28 +0000
 Subject: [PATCH] Zeppelin F-223: ZepGrassWind (wxl-grasswind port) +
@@ -24,7 +24,7 @@ Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
  create mode 100644 Extensions/ZepGrassWind/src/ZepGrassWind.cpp
 
 diff --git a/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp b/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp
-index 3b31bb2..cfef3ad 100644
+index 440ec74..ee905d7 100644
 --- a/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp
 +++ b/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp
 @@ -12,6 +12,7 @@
@@ -50,7 +50,7 @@ index 3b31bb2..cfef3ad 100644
          shader->m_valid = 1;
      }
 diff --git a/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp b/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp
-index 10a24bc..6f3d5de 100644
+index 291b108..86041b1 100644
 --- a/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp
 +++ b/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp
 @@ -13,6 +13,7 @@

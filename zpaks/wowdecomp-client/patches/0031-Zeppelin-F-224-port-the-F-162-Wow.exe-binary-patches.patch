@@ -1,4 +1,4 @@
-From 50038011ac09dc2815bc84d5e2ae3d50007c05c3 Mon Sep 17 00:00:00 2001
+From 0edac9eb4a42d1580021c549f425d3019b1cef52 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 17 Oct 2026 15:30:29 +0000
 Subject: [PATCH] Zeppelin F-224: port the F-162 Wow.exe binary patches into
@@ -80,7 +80,7 @@ index 644f346..cd19a18 100644
      GetCacheDirectory(cacheDirectory);
  
 diff --git a/WoW/Source/Object/ObjectClient/Item_C.cpp b/WoW/Source/Object/ObjectClient/Item_C.cpp
-index c87f8f9..4718e78 100644
+index 3b7d0e3..ec1817d 100644
 --- a/WoW/Source/Object/ObjectClient/Item_C.cpp
 +++ b/WoW/Source/Object/ObjectClient/Item_C.cpp
 @@ -48,6 +48,7 @@
@@ -160,7 +160,7 @@ index c87f8f9..4718e78 100644
  
  // VERIFY: 61c58006 manual
 diff --git a/WoW/Source/Object/ObjectClient/Player_C.cpp b/WoW/Source/Object/ObjectClient/Player_C.cpp
-index 6fc1f2a..affcf3d 100644
+index 583d3ad..fcdf563 100644
 --- a/WoW/Source/Object/ObjectClient/Player_C.cpp
 +++ b/WoW/Source/Object/ObjectClient/Player_C.cpp
 @@ -8324,7 +8324,7 @@ void CGPlayer_C::MeleeModeEnter(const WOWGUID& target) {
@@ -182,7 +182,7 @@ index 6fc1f2a..affcf3d 100644
  
      if (!player || player->m_unit->m_unitFieldHealth <= 0) {
 diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
-index 324940d..12f22be 100644
+index ba0faa8..1e956be 100644
 --- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
 +++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
 @@ -1596,7 +1596,7 @@ void CGUnit_C::PreAnimate(CGWorldFrame* frame) {
@@ -194,7 +194,7 @@ index 324940d..12f22be 100644
          if (sequence != wanted) {
              this->CanPlayTurnAnim();
          }
-@@ -11644,7 +11644,8 @@ bool CGUnit_C::CanAutoDismount() const {
+@@ -11651,7 +11651,8 @@ bool CGUnit_C::CanAutoDismount() const {
  void CGUnit_C::UpdateSpellCastBars(uint32_t time) {
      CGNamePlateFrame* namePlate = this->m_namePlateFrame;
  
@@ -204,7 +204,7 @@ index 324940d..12f22be 100644
          return;
      }
  
-@@ -16892,7 +16893,7 @@ void CGUnit_C::OnChannelSpellChanged(int32_t oldSpell) {
+@@ -16899,7 +16900,7 @@ void CGUnit_C::OnChannelSpellChanged(int32_t oldSpell) {
          this->m_fishingLineEffect = nullptr;
      }
  
@@ -213,7 +213,7 @@ index 324940d..12f22be 100644
  }
  
  // VERIFY: 47ba34f4 auto
-@@ -22638,8 +22639,8 @@ bool CGUnit_C::SetTrackingTarget(const WOWGUID& target, int32_t type) {
+@@ -22645,8 +22646,8 @@ bool CGUnit_C::SetTrackingTarget(const WOWGUID& target, int32_t type) {
              break;
  
          case 3:
@@ -353,7 +353,7 @@ index a3f6bec..9659063 100644
      if (CheckDataFilesExist()) {
          SStrPrintf(directory, sizeof(directory), "Cache/%s/%s", "WDB", s_localeCode);
 diff --git a/WoW/Source/UIUtil/Tooltip.cpp b/WoW/Source/UIUtil/Tooltip.cpp
-index a5352ac..c47f9ec 100644
+index 30acee3..4605fb9 100644
 --- a/WoW/Source/UIUtil/Tooltip.cpp
 +++ b/WoW/Source/UIUtil/Tooltip.cpp
 @@ -4154,6 +4154,8 @@ static void AddItemNameLines(CGTooltip* tooltip, const ItemStats_C* stats, int32
@@ -366,7 +366,7 @@ index a5352ac..c47f9ec 100644
          tooltip->AddLine(FrameScript_GetText("ITEM_HEROIC", -1, GENDER_NOT_APPLICABLE), nullptr, greenColor, greenColor, 0);
      }
 diff --git a/WoW/Source/Ui/ActionBarFrame.cpp b/WoW/Source/Ui/ActionBarFrame.cpp
-index 07d84c7..5baf518 100644
+index b2bd408..96f9fbc 100644
 --- a/WoW/Source/Ui/ActionBarFrame.cpp
 +++ b/WoW/Source/Ui/ActionBarFrame.cpp
 @@ -28,6 +28,7 @@
@@ -393,9 +393,9 @@ index 07d84c7..5baf518 100644
  
          if (CGActionBar::IsItem(slot)) {
 -            ItemRec* rec = g_itemDB.GetRecord(CGActionBar::GetItem(slot));
--            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), rec ? rec->m_displayInfoID : 0, slot, 7, 0);
+-            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), rec ? rec->m_displayInfoID : 0, slot, UICURSOR_ACTIONBAR, 0);
 +            // Not in the original (F-162 item-load-fix): display id from the server item cache first, Item.dbc as fallback.
-+            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), VisibleItem_C::ForItem(CGActionBar::GetItem(slot)).GetDisplayID(), slot, 7, 0);
++            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), VisibleItem_C::ForItem(CGActionBar::GetItem(slot)).GetDisplayID(), slot, UICURSOR_ACTIONBAR, 0);
          } else if (CGActionBar::IsSpell(slot)) {
              int32_t spellId = CGActionBar::GetSpell(slot, petSpell);
  
@@ -423,9 +423,9 @@ index 07d84c7..5baf518 100644
              }
  
 -            ItemRec* rec = g_itemDB.GetRecord(slotItem);
--            CGGameUI::SetCursorVirtualItem(slotItem, rec ? rec->m_displayInfoID : 0, slot, 7, 0);
+-            CGGameUI::SetCursorVirtualItem(slotItem, rec ? rec->m_displayInfoID : 0, slot, UICURSOR_ACTIONBAR, 0);
 +            // Not in the original (F-162 item-load-fix): display id from the server item cache first, Item.dbc as fallback.
-+            CGGameUI::SetCursorVirtualItem(slotItem, VisibleItem_C::ForItem(slotItem).GetDisplayID(), slot, 7, 0);
++            CGGameUI::SetCursorVirtualItem(slotItem, VisibleItem_C::ForItem(slotItem).GetDisplayID(), slot, UICURSOR_ACTIONBAR, 0);
          } else if (CGActionBar::IsSpell(slot)) {
              CGGameUI::SetCursorSpell(CGActionBar::GetSpell(slot, petSpell));
          } else if (CGActionBar::IsMacro(slot) && CGActionBar::HasMacro(slot)) {
@@ -434,9 +434,9 @@ index 07d84c7..5baf518 100644
      } else if (cursorMacro) {
          if (CGActionBar::IsItem(slot)) {
 -            ItemRec* rec = g_itemDB.GetRecord(CGActionBar::GetItem(slot));
--            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), rec ? rec->m_displayInfoID : 0, slot, 7, 0);
+-            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), rec ? rec->m_displayInfoID : 0, slot, UICURSOR_ACTIONBAR, 0);
 +            // Not in the original (F-162 item-load-fix): display id from the server item cache first, Item.dbc as fallback.
-+            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), VisibleItem_C::ForItem(CGActionBar::GetItem(slot)).GetDisplayID(), slot, 7, 0);
++            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), VisibleItem_C::ForItem(CGActionBar::GetItem(slot)).GetDisplayID(), slot, UICURSOR_ACTIONBAR, 0);
          } else if (CGActionBar::IsSpell(slot)) {
              CGGameUI::SetCursorSpell(CGActionBar::GetSpell(slot, petSpell));
          } else if (CGActionBar::IsMacro(slot) && CGActionBar::HasMacro(slot)) {
@@ -445,9 +445,9 @@ index 07d84c7..5baf518 100644
  
          if (CGActionBar::IsItem(slot)) {
 -            ItemRec* rec = g_itemDB.GetRecord(CGActionBar::GetItem(slot));
--            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), rec ? rec->m_displayInfoID : 0, slot, 7, 0);
+-            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), rec ? rec->m_displayInfoID : 0, slot, UICURSOR_ACTIONBAR, 0);
 +            // Not in the original (F-162 item-load-fix): display id from the server item cache first, Item.dbc as fallback.
-+            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), VisibleItem_C::ForItem(CGActionBar::GetItem(slot)).GetDisplayID(), slot, 7, 0);
++            CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), VisibleItem_C::ForItem(CGActionBar::GetItem(slot)).GetDisplayID(), slot, UICURSOR_ACTIONBAR, 0);
          } else if (CGActionBar::IsSpell(slot)) {
              CGGameUI::SetCursorSpell(CGActionBar::GetSpell(slot, petSpell));
          } else if (CGActionBar::IsMacro(slot) && CGActionBar::HasMacro(slot)) {
@@ -493,7 +493,7 @@ index 07d84c7..5baf518 100644
 -        int32_t displayId = rec ? rec->m_displayInfoID : 0;
 +        // Not in the original (F-162 item-load-fix): display id from the server item cache first, Item.dbc as fallback.
 +        int32_t displayId = VisibleItem_C::ForItem(CGActionBar::GetItem(slot)).GetDisplayID();
-         CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), displayId, slot, 7, 0);
+         CGGameUI::SetCursorVirtualItem(CGActionBar::GetItem(slot), displayId, slot, UICURSOR_ACTIONBAR, 0);
          CGActionBar::RemoveAction(slot);
      } else if (CGActionBar::IsSpell(slot)) {
 diff --git a/WoW/Source/Ui/ChatFrame_Scripts.cpp b/WoW/Source/Ui/ChatFrame_Scripts.cpp
@@ -511,10 +511,10 @@ index c18fa5b..85a09e0 100644
          return 0;
      }
 diff --git a/WoW/Source/Ui/GameUI.cpp b/WoW/Source/Ui/GameUI.cpp
-index a7d3122..3d4e6d2 100644
+index 846ea73..d46ead2 100644
 --- a/WoW/Source/Ui/GameUI.cpp
 +++ b/WoW/Source/Ui/GameUI.cpp
-@@ -2687,7 +2687,7 @@ void CGGameUI::ClearTarget(WOWGUID guid, int32_t a2) {
+@@ -2693,7 +2693,7 @@ void CGGameUI::ClearTarget(WOWGUID guid, int32_t a2) {
                  CGUnit_C* unit = static_cast<CGUnit_C*>(object);
                  PlayerNameTriggerColorUpdate(unit->m_nameDesc);
                  unit->UnregisterScript(0x1000);
@@ -523,7 +523,7 @@ index a7d3122..3d4e6d2 100644
              }
          }
      }
-@@ -2817,7 +2817,7 @@ void CGGameUI::Target(WOWGUID guid) {
+@@ -2823,7 +2823,7 @@ void CGGameUI::Target(WOWGUID guid) {
                  unit->ProcessCastNotInterruptible(&spell);
              }
  
@@ -532,7 +532,7 @@ index a7d3122..3d4e6d2 100644
  
              if (player) {
                  if (player->CanAttackNow(unit)) {
-@@ -8147,7 +8147,7 @@ void CGGameUI::LeaveWorld() {
+@@ -8153,7 +8153,7 @@ void CGGameUI::LeaveWorld() {
      CGTradeSkillInfo::ClearItemCallbacks();
      CGPetInfo::LeaveWorld();
      CGWorldMap::LeaveWorld();
@@ -559,7 +559,7 @@ index 2b34076..16cefb9 100644
      g_profanityFilterCVar = CVar::Register("profanityFilter", "Whether to enable mature language filtering", 0x10, "1", nullptr, CATEGORY_GAME, false, nullptr, false);
      g_spamFilterCVar = CVar::Register("spamFilter", "Whether to enable spam filtering", 0x10, "1", nullptr, CATEGORY_GAME, false, nullptr, false);
 diff --git a/WoW/Source/Ui/GameUI_Scripts.cpp b/WoW/Source/Ui/GameUI_Scripts.cpp
-index 06899cf..a068b7c 100644
+index b6f3a81..3d85816 100644
 --- a/WoW/Source/Ui/GameUI_Scripts.cpp
 +++ b/WoW/Source/Ui/GameUI_Scripts.cpp
 @@ -166,6 +166,7 @@
@@ -599,7 +599,7 @@ index 06899cf..a068b7c 100644
 -    int32_t displayId = rec ? rec->m_displayInfoID : 0;
 +    // Not in the original (F-162 item-load-fix): display id from the server item cache first, Item.dbc as fallback.
 +    int32_t displayId = VisibleItem_C::ForItem(itemId).GetDisplayID();
-     CGGameUI::SetCursorVirtualItem(itemId, displayId, 0, 7, 0);
+     CGGameUI::SetCursorVirtualItem(itemId, displayId, 0, UICURSOR_ACTIONBAR, 0);
      return 0;
  }
 @@ -6013,7 +6015,7 @@ static int32_t Script_SetDungeonDifficulty(lua_State* L) {
@@ -612,7 +612,7 @@ index 06899cf..a068b7c 100644
      }
  
 diff --git a/WoW/Source/Ui/GuildBankFrame_Scripts.cpp b/WoW/Source/Ui/GuildBankFrame_Scripts.cpp
-index 9f56c27..bec6a00 100644
+index e2f4608..01c3a27 100644
 --- a/WoW/Source/Ui/GuildBankFrame_Scripts.cpp
 +++ b/WoW/Source/Ui/GuildBankFrame_Scripts.cpp
 @@ -29,6 +29,7 @@
@@ -653,8 +653,8 @@ index 9f56c27..bec6a00 100644
          uint32_t bankSlot = slot + 98 * tab;
  
          if (!CGGameUI::VirtualItemIsLocked(info->m_itemID, bankSlot, 0)) {
--            CGGameUI::SetCursorVirtualItem(info->m_itemID, rec->m_displayInfoID, bankSlot, 11, 0);
-+            CGGameUI::SetCursorVirtualItem(info->m_itemID, displayId, bankSlot, 11, 0);
+-            CGGameUI::SetCursorVirtualItem(info->m_itemID, rec->m_displayInfoID, bankSlot, UICURSOR_GUILDBANK_ITEM, 0);
++            CGGameUI::SetCursorVirtualItem(info->m_itemID, displayId, bankSlot, UICURSOR_GUILDBANK_ITEM, 0);
              CGGameUI::LockVirtualItem(info->m_itemID, bankSlot, 0);
          }
      }
@@ -823,7 +823,7 @@ index 500a2a7..41d4e20 100644
  DayNight::DNSunGlare DayNight::g_sunGlare;
  
 diff --git a/WoW/Source/WorldClient/World.cpp b/WoW/Source/WorldClient/World.cpp
-index 49a18f7..d0e1116 100644
+index eef9ce4..bc78b0e 100644
 --- a/WoW/Source/WorldClient/World.cpp
 +++ b/WoW/Source/WorldClient/World.cpp
 @@ -1318,14 +1318,14 @@ void World::SetDetailDoodadDist(float dist) {

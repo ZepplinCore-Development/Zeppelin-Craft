@@ -1,4 +1,4 @@
-From 89d306692fb27c055497c41b0eef81cbf74312f1 Mon Sep 17 00:00:00 2001
+From ab719720585e0589f9cbbbe2324a4e3a4b0d8337 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 17 Oct 2026 02:40:11 +0000
 Subject: [PATCH] Zeppelin F-223: extension seams for the WXL ports
@@ -233,7 +233,7 @@ index 3cad7a4..12f3d72 100644
 +        Extension
 +)
 diff --git a/WoW/Source/UIUtil/Tooltip.cpp b/WoW/Source/UIUtil/Tooltip.cpp
-index 425f1bb..a5352ac 100644
+index ee42699..30acee3 100644
 --- a/WoW/Source/UIUtil/Tooltip.cpp
 +++ b/WoW/Source/UIUtil/Tooltip.cpp
 @@ -14,6 +14,7 @@
@@ -304,7 +304,7 @@ index 425f1bb..a5352ac 100644
  
  // VERIFY: 716dc312 auto
 diff --git a/WoW/Source/Ui/MinimapFrame.cpp b/WoW/Source/Ui/MinimapFrame.cpp
-index 926f30b..681ca82 100644
+index a0eba8c..469d28f 100644
 --- a/WoW/Source/Ui/MinimapFrame.cpp
 +++ b/WoW/Source/Ui/MinimapFrame.cpp
 @@ -56,6 +56,7 @@

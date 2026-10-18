@@ -1,4 +1,4 @@
-From 024e070fba85441cb12cb2e8d3f57854f11202ed Mon Sep 17 00:00:00 2001
+From 30d005b0ec9aece3b9e4f916c71e457d88205eb1 Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 14:37:11 +0200
 Subject: [PATCH] feat(extensions): update HelloWorld first example extension
@@ -26,7 +26,7 @@ Subject: [PATCH] feat(extensions): update HelloWorld first example extension
  create mode 100644 Extensions/HelloWorld/src/HelloWorldTexture.cpp
 
 diff --git a/Engine/Source/BlizzardCore/SFile2-Core.cpp b/Engine/Source/BlizzardCore/SFile2-Core.cpp
-index 815460d..8b37cee 100644
+index 9d1aca8..838e2e4 100644
 --- a/Engine/Source/BlizzardCore/SFile2-Core.cpp
 +++ b/Engine/Source/BlizzardCore/SFile2-Core.cpp
 @@ -1121,6 +1121,9 @@ int32_t STORMAPI SFile::OpenEx(SArchive* archive, const char* name, uint32_t fla
@@ -40,7 +40,7 @@ index 815460d..8b37cee 100644
      }
  
 @@ -1134,6 +1137,9 @@ int32_t STORMAPI SFile::OpenEx(SArchive* archive, const char* name, uint32_t fla
-     (*result)->m_type = 5;
+     (*result)->m_type = SFILE_MEMORY;
      (*result)->m_position = 0;
  
 +    // Not in the original: the whole file is read into the handle and about to be handed out.

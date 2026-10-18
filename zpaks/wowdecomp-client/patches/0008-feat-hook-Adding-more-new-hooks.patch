@@ -1,4 +1,4 @@
-From 6669604b7648eb93fea7b1bb9b25ebe9af9fb301 Mon Sep 17 00:00:00 2001
+From f2449c21eead1fd9512a10513c10a8f3e368feb8 Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 14:31:20 +0200
 Subject: [PATCH] feat(hook): Adding more new hooks
@@ -49,12 +49,12 @@ Subject: [PATCH] feat(hook): Adding more new hooks
  create mode 100644 WoW/Source/Extension/ScriptDefines/TextureScript.h
 
 diff --git a/Engine/Source/BlizzardCore/SFile2-Core.cpp b/Engine/Source/BlizzardCore/SFile2-Core.cpp
-index 6e6fa9e..815460d 100644
+index c10730e..9d1aca8 100644
 --- a/Engine/Source/BlizzardCore/SFile2-Core.cpp
 +++ b/Engine/Source/BlizzardCore/SFile2-Core.cpp
 @@ -1022,6 +1022,13 @@ int32_t STORMAPI SFile::FileExistsEx(const char* name, uint32_t flags) {
      char path[260];
-     uint32_t type;
+     SFILE_TYPE type;
  
 +    // Not in the original: an existence check follows the same redirect as an open.
 +    char redirected[260];
@@ -68,7 +68,7 @@ index 6e6fa9e..815460d 100644
  
 @@ -1145,6 +1152,13 @@ int32_t STORMAPI SFile::FileExists(const char* name) {
      char path[260];
-     uint32_t type;
+     SFILE_TYPE type;
  
 +    // Not in the original: an existence check follows the same redirect as an open.
 +    char redirected[260];
@@ -923,7 +923,7 @@ index 4ae3342..1f144ee 100644
 +        Extension
 +)
 diff --git a/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp b/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp
-index 21fe8d1..54c5751 100644
+index 2019fa9..893d342 100644
 --- a/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp
 +++ b/WoW/Source/ObjectMgrClient/ObjectMgrClient.cpp
 @@ -24,6 +24,7 @@
@@ -966,7 +966,7 @@ index 21fe8d1..54c5751 100644
  
      ObjectMgr* mgr = s_curMgr;
 diff --git a/WoW/Source/Ui/WorldFrame.cpp b/WoW/Source/Ui/WorldFrame.cpp
-index 475c9a2..0d3c375 100644
+index b52f89f..380902f 100644
 --- a/WoW/Source/Ui/WorldFrame.cpp
 +++ b/WoW/Source/Ui/WorldFrame.cpp
 @@ -1477,6 +1477,9 @@ static int32_t UnitUpdateProc(WOWGUID guid, void* param) {
@@ -1056,7 +1056,7 @@ index 4913da5..5fd27bc 100644
          return;
      }
 diff --git a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
-index f8778cc..ad67f8a 100644
+index ad08abe..50b6056 100644
 --- a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
 +++ b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
 @@ -14,6 +14,7 @@

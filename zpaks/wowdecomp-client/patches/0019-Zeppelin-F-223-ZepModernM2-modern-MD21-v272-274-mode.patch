@@ -1,4 +1,4 @@
-From b2e31354d5815a6b1655f156e766bb50b66027fb Mon Sep 17 00:00:00 2001
+From 601dcccaf82825f58e58f4cfd43a400b510570ec Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 17 Oct 2026 09:32:18 +0000
 Subject: [PATCH] Zeppelin F-223: ZepModernM2 - modern MD21/v272-274 models in

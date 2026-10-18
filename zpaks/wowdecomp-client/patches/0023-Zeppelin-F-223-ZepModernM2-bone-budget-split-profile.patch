@@ -1,4 +1,4 @@
-From dd9a3b3b6b3bdab9d2a401d89d4e74ed51910414 Mon Sep 17 00:00:00 2001
+From 2c2e63e77f938a387954292bcec2e28531a703a8 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 17 Oct 2026 11:10:34 +0000
 Subject: [PATCH] Zeppelin F-223: ZepModernM2 bone-budget split, profile clamp,

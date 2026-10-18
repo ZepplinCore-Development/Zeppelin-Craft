@@ -1,4 +1,4 @@
-From 53940219dbe9a609563ea5f259d7065c5ebc33de Mon Sep 17 00:00:00 2001
+From 6b7a239b72095fb5e7f547de342dcdfc54eb2253 Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 15:22:59 +0200
 Subject: [PATCH] feat(hooks): Adding new Unit, UI, Texture, Terrain, Object,
@@ -1037,7 +1037,7 @@ index 8e6462d..0f8997e 100644
  
  #endif
 diff --git a/WoW/Source/Object/ObjectClient/Object_C.cpp b/WoW/Source/Object/ObjectClient/Object_C.cpp
-index 9e8f6c6..ed09d38 100644
+index 8216049..23081be 100644
 --- a/WoW/Source/Object/ObjectClient/Object_C.cpp
 +++ b/WoW/Source/Object/ObjectClient/Object_C.cpp
 @@ -48,6 +48,7 @@
@@ -1059,10 +1059,10 @@ index 9e8f6c6..ed09d38 100644
      const C3Vector* position = nullptr;
  
 diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
-index 8011290..324940d 100644
+index ac8685b..ba0faa8 100644
 --- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
 +++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
-@@ -8649,6 +8649,9 @@ void CGUnit_C::UpdateAuraEffectMask() {
+@@ -8656,6 +8656,9 @@ void CGUnit_C::UpdateAuraEffectMask() {
              }
          }
      }
@@ -1072,7 +1072,7 @@ index 8011290..324940d 100644
  }
  
  // VERIFY: 49281665 manual
-@@ -9190,6 +9193,9 @@ void CGUnit_C::UpdateWorldTransform(float elapsed) {
+@@ -9197,6 +9200,9 @@ void CGUnit_C::UpdateWorldTransform(float elapsed) {
          float facing = this->GetRenderFacing();
          model->SetWorldTransform(this->GetPosition(), facing, scale, this->m_groundNormal, 0xFFFFFFFF);
      }
@@ -1082,7 +1082,7 @@ index 8011290..324940d 100644
  }
  
  // VERIFY: 315f8bea manual
-@@ -11052,6 +11058,10 @@ int32_t CGUnit_C::SendMovementUpdate(uint32_t time, uint32_t msgId, float value,
+@@ -11059,6 +11065,10 @@ int32_t CGUnit_C::SendMovementUpdate(uint32_t time, uint32_t msgId, float value,
      }
  
      msg.Finalize();

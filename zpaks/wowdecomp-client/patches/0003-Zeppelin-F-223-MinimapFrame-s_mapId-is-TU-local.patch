@@ -1,4 +1,4 @@
-From cf76709ab0de3bb3a51b1f3b5eb62547824e88ec Mon Sep 17 00:00:00 2001
+From 217b4c5da9af7f625cde054d89de7fa3e309dbd3 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 16 Oct 2026 11:04:25 +0000
 Subject: [PATCH] Zeppelin F-223: MinimapFrame s_mapId is TU-local
@@ -10,7 +10,7 @@ clang -fms-extensions keeps external linkage and the link fails on a duplicate. 
  1 file changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/WoW/Source/Ui/MinimapFrame.cpp b/WoW/Source/Ui/MinimapFrame.cpp
-index decaca2..926f30b 100644
+index 5a6cac4..a0eba8c 100644
 --- a/WoW/Source/Ui/MinimapFrame.cpp
 +++ b/WoW/Source/Ui/MinimapFrame.cpp
 @@ -197,7 +197,7 @@ static const uint32_t s_outdoorZoomTiles[6] = { 14, 12, 10, 8, 6, 4 };

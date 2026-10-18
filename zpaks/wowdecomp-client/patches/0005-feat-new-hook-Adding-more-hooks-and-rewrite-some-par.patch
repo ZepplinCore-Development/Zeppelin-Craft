@@ -1,4 +1,4 @@
-From e5b0fd99bd0d204066ff6bbd77358db253afbce4 Mon Sep 17 00:00:00 2001
+From 07663d69133a3944bf812b7446679e495766b589 Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 13:50:38 +0200
 Subject: [PATCH] feat(new hook): Adding more hooks and rewrite some part of
@@ -1460,7 +1460,7 @@ index f6010f5..010453c 100644
      target_link_libraries(Ui
          PRIVATE
 diff --git a/WoW/Source/Ui/GameUI.cpp b/WoW/Source/Ui/GameUI.cpp
-index f09e290..a7d3122 100644
+index e89e0bd..846ea73 100644
 --- a/WoW/Source/Ui/GameUI.cpp
 +++ b/WoW/Source/Ui/GameUI.cpp
 @@ -44,6 +44,7 @@
@@ -1471,7 +1471,7 @@ index f09e290..a7d3122 100644
  #include "WoW/Source/Game/GameClient/ComSatClient.h"
  #include "WoW/Source/Game/GameClient/PlayerName.h"
  #include "WoW/Source/Glue/CGlueMgr.h"
-@@ -1714,7 +1715,9 @@ void CGGameUI::InitializeFrameXML() {
+@@ -1720,7 +1721,9 @@ void CGGameUI::InitializeFrameXML() {
      FrameScript_Destroy();
      FrameScript_Initialize(g_scriptProfileCVar->m_intValue);
      LoadScriptFunctions();
@@ -1483,7 +1483,7 @@ index f09e290..a7d3122 100644
      CGUIBindings::Initialize();
      CGWorldFrame::RegisterFrames();
 diff --git a/WoW/Source/Ui/WorldFrame.cpp b/WoW/Source/Ui/WorldFrame.cpp
-index 94c4881..475c9a2 100644
+index e02fdc2..b52f89f 100644
 --- a/WoW/Source/Ui/WorldFrame.cpp
 +++ b/WoW/Source/Ui/WorldFrame.cpp
 @@ -35,6 +35,7 @@
@@ -1528,7 +1528,7 @@ index a1a97b0..e92fb9f 100644
 +        Extension
 +)
 diff --git a/WoW/Source/WorldClient/World.cpp b/WoW/Source/WorldClient/World.cpp
-index 6a497eb..49a18f7 100644
+index 751945d..eef9ce4 100644
 --- a/WoW/Source/WorldClient/World.cpp
 +++ b/WoW/Source/WorldClient/World.cpp
 @@ -54,6 +54,7 @@

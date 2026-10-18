@@ -1,4 +1,4 @@
-From 535cb9f2c94f83c4d47952ea9f7c339a83525736 Mon Sep 17 00:00:00 2001
+From 49e33a4fe84663d03c4f7b35c2cd7c353638deca Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 17 Oct 2026 09:32:18 +0000
 Subject: [PATCH] Zeppelin F-223: ModelScript file/skin/sequence read seams,

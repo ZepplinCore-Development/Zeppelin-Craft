@@ -1,4 +1,4 @@
-From bdffc8ebbb92883a45d34b8b97cbef287a28b5e0 Mon Sep 17 00:00:00 2001
+From b93067d6cc66564d26bc87acb3b041c618a09544 Mon Sep 17 00:00:00 2001
 From: iThorgrim <contact@warlog.dev>
 Date: Fri, 16 Oct 2026 14:57:49 +0200
 Subject: [PATCH] feat(hook): adding hooks for custom opcode, xml nodes, unit
@@ -1190,7 +1190,7 @@ index 7051128..34a1a32 100644
 +        Extension
 +)
 diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
-index 82fb5c9..8011290 100644
+index 5808b79..ac8685b 100644
 --- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
 +++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
 @@ -140,6 +140,7 @@
@@ -1211,7 +1211,7 @@ index 82fb5c9..8011290 100644
  }
  
  // VERIFY: 8b1cb3ff auto
-@@ -10002,6 +10006,9 @@ void CGUnit_C::OnMoveUpdate(uint32_t time, int32_t a3, int32_t a4) {
+@@ -10009,6 +10013,9 @@ void CGUnit_C::OnMoveUpdate(uint32_t time, int32_t a3, int32_t a4) {
  
      this->UpdateFlightStatus(time);
      this->UpdateSwimmingStatus(time, a3);
@@ -1221,7 +1221,7 @@ index 82fb5c9..8011290 100644
  }
  
  // VERIFY: ac360cae auto
-@@ -10201,6 +10208,9 @@ void CGUnit_C::SetStorage(uint32_t* storage, uint32_t* saved) {
+@@ -10208,6 +10215,9 @@ void CGUnit_C::SetStorage(uint32_t* storage, uint32_t* saved) {
  // VERIFY: 3ba2c3ae manual
  // OFFSET: 0x00729220
  void CGUnit_C::OnDeath() {
@@ -1231,7 +1231,7 @@ index 82fb5c9..8011290 100644
      if (this->m_obj->m_type & TYPEMASK_PLAYER) {
          static_cast<CGPlayer_C*>(this)->OnDeath();
      }
-@@ -16399,6 +16409,9 @@ float CGUnit_C::GetSpellChanceToCrit() const {
+@@ -16406,6 +16416,9 @@ float CGUnit_C::GetSpellChanceToCrit() const {
  // VERIFY: 8a2697bd auto
  // OFFSET: 0x00722090
  void CGUnit_C::OnAuraRemoved(uint32_t index, uint8_t a3, AuraData* aura, int32_t spellId) {
@@ -1241,7 +1241,7 @@ index 82fb5c9..8011290 100644
      SpellRec spell;
      memset(&spell, 0, sizeof(spell));
      g_spellDB.GetRecord(spellId, &spell);
-@@ -16439,6 +16452,9 @@ void CGUnit_C::OnAuraAdded(uint32_t index, uint8_t a3, AuraData* aura, int32_t s
+@@ -16446,6 +16459,9 @@ void CGUnit_C::OnAuraAdded(uint32_t index, uint8_t a3, AuraData* aura, int32_t s
              FrameScript_SignalEvent(SCRIPT_EVENT_UPDATE_SHAPESHIFT_FORM, nullptr);
          }
      }

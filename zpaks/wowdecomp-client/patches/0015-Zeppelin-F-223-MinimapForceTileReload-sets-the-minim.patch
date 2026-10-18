@@ -1,4 +1,4 @@
-From bc6a3cc502293ec31fd360cc169908f3704feb4a Mon Sep 17 00:00:00 2001
+From 3a22b35e6aaddf965e5b861c3c4e5a20321c7ed4 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 17 Oct 2026 03:47:38 +0000
 Subject: [PATCH] Zeppelin F-223: MinimapForceTileReload sets the minimap dirty
@@ -15,7 +15,7 @@ Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
  1 file changed, 2 insertions(+)
 
 diff --git a/WoW/Source/Ui/MinimapFrame.cpp b/WoW/Source/Ui/MinimapFrame.cpp
-index 681ca82..4afb2de 100644
+index 469d28f..7805e44 100644
 --- a/WoW/Source/Ui/MinimapFrame.cpp
 +++ b/WoW/Source/Ui/MinimapFrame.cpp
 @@ -1253,6 +1253,8 @@ static bool s_forceTileReload;

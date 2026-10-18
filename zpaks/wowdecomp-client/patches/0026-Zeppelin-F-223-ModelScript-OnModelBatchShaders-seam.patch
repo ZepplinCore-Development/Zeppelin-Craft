@@ -1,4 +1,4 @@
-From 19c0197a92d5d50cf7637a508c6409cfcdc06bdc Mon Sep 17 00:00:00 2001
+From 4c4b8ac73fea7e60b4012849c864b62448b73aef Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 17 Oct 2026 12:02:22 +0000
 Subject: [PATCH] Zeppelin F-223: ModelScript::OnModelBatchShaders seam

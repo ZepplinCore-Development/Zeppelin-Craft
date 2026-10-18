@@ -1,4 +1,4 @@
-From 39eb70d5baa21a987693c7894a67040be5fafdb1 Mon Sep 17 00:00:00 2001
+From 8ec799c6b77edf967249d5bd02cb3f34a5ae64bc Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 17 Oct 2026 12:02:23 +0000
 Subject: [PATCH] Zeppelin F-223: ZepModernM2 additive-overlay combiner
