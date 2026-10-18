@@ -811,54 +811,28 @@ def _preprocess_atlasloot(zpak: Dict[str, Any]) -> bool:
 
 
 def _preprocess_tooltip_data(zpak: Dict[str, Any]) -> bool:
-    """Regenerate the F-190 ZepTooltips addon data (Generated.lua + GeneratedDesc.lua) from
-    the live DBC, then sync into parsed-assets so it ships in the MPQ (F-190 Phase 3).
+    """Write DBFilesClient/ZepSpellBonusData.dbc from acore_world spell_bonus_data (F-227).
 
-    The addon reads a PRE-GENERATED spellmod/talent table — it does not match family/mask
-    live — so without this step the shipped table silently drifts whenever a spell is
-    redesigned. Running it here, in the same --parse-build that packs the patch, keeps the
-    addon in lockstep with the DBC the rest of the build ships. Reuses the exact load+emit
-    pipeline behind `zep build tooltip-data` (lib.tooltip_gen) so output is byte-identical.
+    The x64 client folds spell power / attack power into its own tooltip values with these
+    coefficients (the DBC EffectBonusMultiplier covers spells without a row). Written to both
+    source- and parsed-assets on every --parse-build of the zpak's patch, so the shipped table
+    follows the world DB. (The F-190 ZepTooltips addon this step used to generate was retired:
+    the x64 client renders everything it did natively.)
     """
     zpak_path = Path(zpak['path'])
-    source_addon_dir = zpak_path / 'mpq' / 'source-assets' / 'Interface' / 'AddOns'
-    out_path = source_addon_dir / 'ZepTooltips' / 'Generated.lua'
-    if not source_addon_dir.exists():
-        print(f"    AddOns directory not found in source-assets")
-        return False
-
-    print(f"    Regenerating ZepTooltips data from live DBC...")
     try:
         from lib import tooltip_gen as tg
-        craft_root = zpak_path.parent.parent
-        config = DBCConfig.from_env(craft_root / 'cli' / '.env')
 
-        gen = tg.load(config, config.live, echo=lambda m="": print(f"    {m}" if m else ""))
-        result = gen.emit()
-        tg.write_outputs(out_path, result['lua'], result['desc'])
-        print(f"    Wrote {result['n_emit']} of {result['n_total']} records "
-              f"(dropped {result['n_total'] - result['n_emit']} inert)")
-
-        # F-227: spell_bonus_data for the x64 client's native tooltip numbers (source + parsed copy).
+        spell_bonus, _base_mana = tg._load_world_scaling()
         n_bonus = 0
         for dbc_path in (zpak_path / 'mpq' / 'source-assets' / 'DBFilesClient' / 'ZepSpellBonusData.dbc',
                          zpak_path / 'mpq' / 'parsed-assets' / 'DBFILESCLIENT' / 'ZEPSPELLBONUSDATA.DBC'):
-            n_bonus = tg.write_bonus_dbc(dbc_path, gen.spell_bonus)
+            n_bonus = tg.write_bonus_dbc(dbc_path, spell_bonus)
         print(f"    Wrote ZepSpellBonusData.dbc ({n_bonus} spell_bonus_data rows)")
-
-        # Re-copy source-assets AddOns to parsed-assets so the regenerated Lua ships in the
-        # MPQ (the resource parser already ran on the stale copy). Mirrors atlasloot-generator.
-        parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'INTERFACE' / 'ADDONS'
-        if not parsed_addon_dir.exists():
-            parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'Interface' / 'AddOns'
-        if parsed_addon_dir.exists():
-            shutil.rmtree(parsed_addon_dir)
-        shutil.copytree(source_addon_dir, parsed_addon_dir)
-        print(f"    Synced regenerated AddOns to parsed-assets")
         return True
     except Exception as e:
-        print(f"    ZepTooltips generator error: {e}")
-        logger.error(f"ZepTooltips generator failed: {e}")
+        print(f"    ZepSpellBonusData generator error: {e}")
+        logger.error(f"ZepSpellBonusData generator failed: {e}")
         return False
 
 

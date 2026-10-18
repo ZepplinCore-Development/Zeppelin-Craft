@@ -1,14 +1,16 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
   "name": "zep-tooltips",
-  "version": "0.1.0",
-  "description": "F-190 addon-driven spell tooltip/description engine (Layer 2)",
+  "version": "0.2.0",
+  "description": "F-227 native tooltip data for the x64 client: DBFilesClient/ZepSpellBonusData.dbc (spell_bonus_data). Was the F-190 ZepTooltips addon (retired).",
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-A",
   "enabled": true,
   "priority": 550,
   "build": {
-    "preprocessors": ["tooltip-data"]
+    "preprocessors": [
+      "tooltip-data"
+    ]
   }
 }
