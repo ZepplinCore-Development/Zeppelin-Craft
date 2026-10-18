@@ -1,0 +1,223 @@
+From 28f690f55b238e48427e29a12578e59c12cdf608 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 18 Oct 2026 04:49:05 +0000
+Subject: [PATCH] Zeppelin F-227: spell power, attack power and stat scaling in
+ spell tooltip values
+
+Spell_C_GetMinMaxPoints adds the local player's caster share to $s/$m/$o like the server
+(SpellDamageBonusDone / SpellHealingBonusDone, F-188 stat scaling): spell_bonus_data coefficients
+from DBFilesClient\ZepSpellBonusData.dbc (else DBC EffectBonusMultiplier), BONUS_MULTIPLIER mods,
+low-level penalty, AP coefficients, x damage-done %, all before the DAMAGE/DOT modifiers.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Source/Magic/MagicClient/Spell_C.cpp | 177 +++++++++++++++++++++++
+ 1 file changed, 177 insertions(+)
+
+diff --git a/WoW/Source/Magic/MagicClient/Spell_C.cpp b/WoW/Source/Magic/MagicClient/Spell_C.cpp
+index 68fa452..2a05388 100644
+--- a/WoW/Source/Magic/MagicClient/Spell_C.cpp
++++ b/WoW/Source/Magic/MagicClient/Spell_C.cpp
+@@ -13,7 +13,10 @@
+ #include "WoW/Source/Object/ItemStats.h"
+ #include "WoW/Source/Object/ObjectClient/Bag_C.h"
+ #include "WoW/Source/Object/ObjectClient/Item_C.h"
++#include <cstring>
++#include <unordered_map>
+ #include "WoW/Source/Object/ObjectClient/Player_C.h"
++#include "Engine/Source/BlizzardCore/SFile2-Core.h" // Not in the original (F-227): ZepSpellBonusData.dbc
+ #include "WoW/Source/Object/ObjectClient/Unit_C.h"
+ #include "WoW/Source/ObjectMgrClient/ObjectMgrClient.h"
+ #include "WoW/Source/Ui/ActionBarFrame.h"
+@@ -3701,6 +3704,176 @@ void Spell_C_GetMinMaxRange(CGUnit_C* caster, const SpellRec* spell, float* minR
+     *maxRange = *maxRange + bonus;
+ }
+ 
++// Not in the original (F-227): native spell power / attack power / stat scaling in spell tooltips, mirroring the server
++// (Unit::SpellDamageBonusDone / SpellHealingBonusDone, Spell::EffectSchoolDMG's F-188 stat scaling).
++// Only the local player's own spells get it, and only the caster side: target-dependent bonuses
++// (creature-type damage, the victim's auras) cannot be known in a tooltip.
++struct ZepSpellBonus {
++    float direct;
++    float dot;
++    float ap;
++    float apDot;
++};
++
++// DBFilesClient\ZepSpellBonusData.dbc (zpak zep-tooltips, tooltip-data preprocessor): acore_world
++// spell_bonus_data. Spells without a row use the DBC EffectBonusMultiplier, as on the server.
++static const ZepSpellBonus* ZepGetSpellBonus(int32_t spellId) {
++    static std::unordered_map<int32_t, ZepSpellBonus>* table = nullptr;
++
++    if (!table) {
++        table = new std::unordered_map<int32_t, ZepSpellBonus>();
++        void* data = nullptr;
++        uint32_t size = 0;
++
++        if (SFile::LoadFile("DBFilesClient\\ZepSpellBonusData.dbc", &data, &size, 0, nullptr) && data) {
++            const uint8_t* bytes = static_cast<const uint8_t*>(data);
++            uint32_t header[5];
++
++            if (size >= sizeof(header)) {
++                memcpy(header, bytes, sizeof(header));
++
++                if (header[0] == 0x43424457 && header[3] == 20 && sizeof(header) + uint64_t(header[1]) * 20 <= size) {
++                    for (uint32_t i = 0; i < header[1]; i++) {
++                        int32_t id;
++                        ZepSpellBonus bonus;
++                        memcpy(&id, bytes + sizeof(header) + i * 20, 4);
++                        memcpy(&bonus, bytes + sizeof(header) + i * 20 + 4, 16);
++                        (*table)[id] = bonus;
++                    }
++                }
++            }
++
++            SFile::Unload(data);
++        }
++    }
++
++    auto it = table->find(spellId);
++    return it == table->end() ? nullptr : &it->second;
++}
++
++static float ZepSoftToFloat(const CSoftFloat& value) {
++    float f;
++    memcpy(&f, &value.m_bits, sizeof(f));
++    return f;
++}
++
++static CSoftFloat ZepFloatToSoft(float f) {
++    CSoftFloat value;
++    memcpy(&value.m_bits, &f, sizeof(f));
++    return value;
++}
++
++// Unit::CalculateLevelPenalty for a player caster.
++static float ZepLevelPenalty(const SpellRec* spell, int32_t level) {
++    if (spell->m_spellLevel <= 0 || spell->m_spellLevel >= spell->m_maxLevel || level <= 0) {
++        return 1.0f;
++    }
++
++    float penalty = spell->m_spellLevel < 20 ? (20.0f - spell->m_spellLevel) * 3.75f : 0.0f;
++    float factor = (static_cast<float>(spell->m_spellLevel) + 6.0f) / static_cast<float>(level);
++
++    if (factor > 1.0f) {
++        factor = 1.0f;
++    }
++
++    return factor * (100.0f - penalty) / 100.0f;
++}
++
++// Adds the caster's share to one effect's min/max, in place, at the point the server adds it: after
++// the EFFECT/ALL_EFFECTS modifiers, before the DAMAGE/DOT modifiers.
++static void ZepAddCasterBonus(const SpellRec* spell, uint32_t effectIndex, CSoftFloat& minValue, CSoftFloat& maxValue) {
++    CGPlayer_C* player = ClntObjMgrGetActivePlayerObj();
++
++    if (!player || !player->m_player || !player->m_unit || (spell->m_attributesExC & 0x20000000)) {
++        return;
++    }
++
++    int32_t effect = spell->m_effect[effectIndex];
++    int32_t aura = spell->m_effectAura[effectIndex];
++    bool direct = effect == 2 || effect == 9;                    // SCHOOL_DAMAGE, HEALTH_LEECH
++    bool directHeal = effect == 10;                              // HEAL
++    bool dot = aura == 3 || aura == 53;                          // PERIODIC_DAMAGE, PERIODIC_LEECH
++    bool hot = aura == 8;                                        // PERIODIC_HEAL
++
++    if (!direct && !directHeal && !dot && !hot) {
++        return;
++    }
++
++    bool heal = directHeal || hot;
++    bool periodic = dot || hot;
++    CGUnitData* unit = player->m_unit;
++    CGPlayerLocalData* data = static_cast<CGPlayerLocalData*>(player->m_player); // the active player always carries the local block
++    bool ranged = spell->m_equippedItemClass == 2 && (spell->m_equippedItemSubclass & 0xD000C) && spell->m_defenseType != 2;
++    float attackPower = ranged
++        ? (unit->m_unitFieldRangedAttackPower + unit->m_unitFieldRangedAttackPowerMods[0] + unit->m_unitFieldRangedAttackPowerMods[1]) * (1.0f + unit->m_unitFieldRangedAttackPowerMultiplier)
++        : (unit->m_unitFieldAttackPower + unit->m_unitFieldAttackPowerMods[0] + unit->m_unitFieldAttackPowerMods[1]) * (1.0f + unit->m_unitFieldAttackPowerMultiplier);
++
++    float spellPower = 0.0f;
++    float damagePct = 1.0f;
++
++    for (int32_t school = 0; school < 7; school++) {
++        if (spell->m_schoolMask & (1 << school)) {
++            float pct;
++            memcpy(&pct, &data->m_playerFieldModDamageDonePct[school], sizeof(pct));
++            float schoolPower = static_cast<float>(data->m_playerFieldModDamageDonePos[school]);
++            spellPower = schoolPower > spellPower ? schoolPower : spellPower;  // multi-school spells: the best school
++            damagePct = pct > damagePct ? pct : damagePct;
++        }
++    }
++
++    float add = 0.0f;
++
++    // F-188 stat scaling: SCHOOL_DAMAGE with MiscValueB = coefficient %, MiscValue = ZepStatScalingStat.
++    if (effect == 2 && spell->m_effectMiscValueB[effectIndex]) {
++        float stat = 0.0f;
++
++        switch (spell->m_effectMiscValue[effectIndex]) {
++            case 1: stat = static_cast<float>(data->m_playerShieldBlock); break;
++            case 2: stat = static_cast<float>(unit->m_unitFieldResistances[0]); break;
++            case 3: stat = attackPower; break;
++            case 4: stat = spellPower; break;
++            case 5: case 6: case 7: case 8: case 9: stat = static_cast<float>(unit->m_unitFieldStat[spell->m_effectMiscValue[effectIndex] - 5]); break;
++            case 10: stat = static_cast<float>(unit->m_unitFieldMaxhealth); break;
++            default: break;
++        }
++
++        add += static_cast<float>(static_cast<int32_t>(stat * (spell->m_effectMiscValueB[effectIndex] / 100.0f)));
++    }
++
++    float coeff = spell->m_effectBonusCoefficient[effectIndex];
++    const ZepSpellBonus* bonus = ZepGetSpellBonus(spell->m_id);
++
++    if (bonus) {
++        coeff = periodic ? bonus->dot : bonus->direct;
++        float apCoeff = periodic ? bonus->apDot : bonus->ap;
++
++        if (apCoeff > 0.0f) {
++            add += static_cast<float>(static_cast<int32_t>(apCoeff * attackPower));
++        }
++    } else if (spell->m_defenseType == 0) {
++        coeff = 0.0f;                                            // DMG_CLASS_NONE gets no bonus by default
++    }
++
++    float benefit = heal ? static_cast<float>(data->m_playerFieldModHealingDonePos) : spellPower;
++
++    if (coeff != 0.0f && benefit != 0.0f) {
++        int32_t flat;
++        int32_t pct;
++        float coeff100 = coeff * 100.0f;
++
++        if (Spell_C_GetSpellModifiers(spell, 24, flat, pct)) {   // SPELLMOD_BONUS_MULTIPLIER
++            coeff100 = (coeff100 + flat) * pct / 100.0f;
++        }
++
++        add += static_cast<float>(static_cast<int32_t>(benefit * (coeff100 / 100.0f) * ZepLevelPenalty(spell, static_cast<int32_t>(unit->m_unitFieldLevel))));
++    }
++
++    float mul = heal ? 1.0f : damagePct;
++    minValue = ZepFloatToSoft((ZepSoftToFloat(minValue) + add) * mul);
++    maxValue = ZepFloatToSoft((ZepSoftToFloat(maxValue) + add) * mul);
++}
++
++
+ // VERIFY: ac5e661b manual
+ // OFFSET: 0x007FF770
+ void Spell_C_GetMinMaxPoints(const SpellRec* spell, uint32_t effectIndex, float* minPoints, float* maxPoints, int32_t spellLevel, int32_t isPet, int32_t isUnit, int32_t noModifiers) {
+@@ -3747,6 +3920,10 @@ void Spell_C_GetMinMaxPoints(const SpellRec* spell, uint32_t effectIndex, float*
+             Spell_C_ModifySpellValue(spell, maxValue, 23);
+         }
+ 
++        if (!isPet && !isUnit) {
++            ZepAddCasterBonus(spell, effectIndex, minValue, maxValue); // Not in the original (F-227): SP/AP/stat, before DAMAGE/DOT mods
++        }
++
+         if (damage) {
+             if (periodic) {
+                 Spell_C_ModifySpellValue(spell, minValue, 22);
+-- 
+2.34.1
+

@@ -809,6 +809,25 @@ def load(config, db_name: str, echo=None) -> GeneratorContext:
                             base_mana, equip_map, bag_map)
 
 
+def write_bonus_dbc(path, spell_bonus: Dict[int, Dict]) -> int:
+    """F-227: ship spell_bonus_data to the x64 client as DBFilesClient\\ZepSpellBonusData.dbc.
+
+    WDBC with 5 fields per record: int32 spell id, float direct, dot, ap, ap_dot coefficients (the
+    acore_world columns). The client folds spell power / attack power into $s like
+    Unit::SpellDamageBonusDone; spells without a row use the DBC EffectBonusMultiplier, which the
+    client already has. Returns the record count.
+    """
+    import struct
+    rows = sorted(spell_bonus.items())
+    body = b"".join(struct.pack("<i4f", sid, *(float(r.get(c) or 0.0) for c in SP_AP_COLUMNS))
+                    for sid, r in rows)
+    data = struct.pack("<4s4I", b"WDBC", len(rows), 5, 20, 1) + body + b"\0"
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(data)
+    return len(rows)
+
+
 def write_outputs(out_path, lua: str, desc: str) -> Optional[Path]:
     """Write the hot ``Generated.lua`` to ``out_path``. When that path lives in a ``ZepTooltips``
     addon dir, also write the lazy ``ZepTooltipsDesc/GeneratedDesc.lua`` sibling and return its

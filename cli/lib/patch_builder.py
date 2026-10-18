@@ -839,6 +839,13 @@ def _preprocess_tooltip_data(zpak: Dict[str, Any]) -> bool:
         print(f"    Wrote {result['n_emit']} of {result['n_total']} records "
               f"(dropped {result['n_total'] - result['n_emit']} inert)")
 
+        # F-227: spell_bonus_data for the x64 client's native tooltip numbers (source + parsed copy).
+        n_bonus = 0
+        for dbc_path in (zpak_path / 'mpq' / 'source-assets' / 'DBFilesClient' / 'ZepSpellBonusData.dbc',
+                         zpak_path / 'mpq' / 'parsed-assets' / 'DBFILESCLIENT' / 'ZEPSPELLBONUSDATA.DBC'):
+            n_bonus = tg.write_bonus_dbc(dbc_path, gen.spell_bonus)
+        print(f"    Wrote ZepSpellBonusData.dbc ({n_bonus} spell_bonus_data rows)")
+
         # Re-copy source-assets AddOns to parsed-assets so the regenerated Lua ships in the
         # MPQ (the resource parser already ran on the stale copy). Mirrors atlasloot-generator.
         parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'INTERFACE' / 'ADDONS'
