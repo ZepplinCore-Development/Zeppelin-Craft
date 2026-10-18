@@ -798,6 +798,37 @@ def import_rigid(data: bytearray, cfg: Dict[str, Any]) -> str:
             out.append(bytes(r))
     if at + len(out) > 0x10000 or ov + 48 * (at + len(out)) > len(data):
         raise ValueError(f'm2.import_rigid: no room for {len(out)} vertices at {at}')
+    conf = cfg.get('conform')
+    if conf:
+        # pieces on `bones` that land inside this model's body (vertices 0..`until`) are pushed out along
+        # the nearest body vertex's normal to `margin` above the skin: a classic wing root runs down a
+        # bulkier HD back (I-392: the user's stock comparison - the root goes into the lower back)
+        nvb = int(conf.get('until', at))
+        body = [struct.unpack_from('<3f', data, ov + 48 * i) + struct.unpack_from('<3f', data, ov + 48 * i + 20)
+                for i in range(nvb)]
+        cb = set(conf['bones'])
+        _, order_ = _rig_plan(donor, {'bones': conf['bones']})
+        cb = set(order_)
+        dmm = _Model(donor)
+        margin = float(conf.get('margin', 0.03))
+        half_ = len(verts) + len(svs)
+        moved = 0
+        for i, r in enumerate(out):
+            v = (verts + svs)[i % half_]
+            if dmm.dom[v] not in cb:
+                continue
+            x, y, z = struct.unpack_from('<3f', r, 0)
+            p = min(body, key=lambda b: (b[0] - x) ** 2 + (b[1] - y) ** 2 + (b[2] - z) ** 2)
+            nx, ny, nz = p[3:]
+            ln = (nx * nx + ny * ny + nz * nz) ** 0.5 or 1.0
+            nx, ny, nz = nx / ln, ny / ln, nz / ln
+            dpt = (x - p[0]) * nx + (y - p[1]) * ny + (z - p[2]) * nz
+            if dpt < margin:
+                k = margin - dpt
+                rb = bytearray(r)
+                struct.pack_into('<3f', rb, 0, x + nx * k, y + ny * k, z + nz * k)
+                out[i] = bytes(rb)
+                moved += 1
     extra = [bind]
     if cfg.get('rig'):
         # re-rig on copies of the donor's own bones (both sides), animated from the donor's sequences
