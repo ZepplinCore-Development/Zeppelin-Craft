@@ -14,7 +14,7 @@ SET @_has := (SELECT COUNT(*) FROM information_schema.COLUMNS
               WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'creature_addon'
                 AND COLUMN_NAME = 'Comment');
 SET @_sql := IF(@_has = 0,
-  'ALTER TABLE `creature_addon` ADD COLUMN `Comment` VARCHAR(255) NULL DEFAULT NULL', 'DO 0');
+  'ALTER TABLE `creature_addon` ADD COLUMN `Comment` VARCHAR(255) NULL DEFAULT NULL INVISIBLE', 'DO 0');
 PREPARE _stmt FROM @_sql; EXECUTE _stmt; DEALLOCATE PREPARE _stmt;
 
 DELETE FROM creature_addon WHERE Comment LIKE '[gen F-011 Lost Isles]%';

@@ -414,6 +414,47 @@ def emit(ctx):
                 direct.add((spell, cred))
                 sc_added += 1
 
+    # I-383: relink past dropped tails. A head whose `link` row was dropped (the
+    # 151xxx remove-aura tails on 34668 row 6 and GO 201736 row 1) logs
+    # "Link Event N not found, skipped" to Errors.log every time it fires. Follow the
+    # DONOR chain through the dropped ids to the next surviving row, else unlink.
+    relinked = []
+    for (st, e), rws in rows_by_key.items():
+        ids = {_num(r["id"]) for r in rws}
+        dangling = [r for r in rws if _num(r["link"]) and _num(r["link"]) not in ids]
+        if not dangling:
+            continue
+        donor = {_num(x["id"]): _num(x["link"]) for x in fetch(st, e)}
+        for r in dangling:
+            nxt, seen = _num(r["link"]), set()
+            while nxt and nxt not in ids and nxt not in seen:
+                seen.add(nxt)
+                nxt = donor.get(nxt, 0)
+            relinked.append((st, e, _num(r["id"]), _num(r["link"]), nxt))
+            r["link"] = nxt
+
+    # I-383: SMART_EVENT_OOC_LOS / IC_LOS fire for ANY unit that comes into view. When
+    # the chain TALKs at the invoker (target 7), a creature invoker becomes the talker
+    # (SmartScript.cpp SMART_ACTION_TALK) and has no such text group — Gallywix 36403
+    # and Evol Fingers 36519 tried to speak through shore crabs and pterrordaxes, Sister
+    # Goldskimmer 34692 through Kezan Partygoers. AC has event_param5 playerOnly for
+    # exactly this; the donor core lacks the field, so every such row needs it set.
+    LOS_EVENTS, TALK, INVOKER = {10, 26}, 1, 7
+    los_player_only = []
+    for (st, e), rws in rows_by_key.items():
+        by_id = {_num(r["id"]): r for r in rws}
+        for r in rws:
+            if _num(r["event_type"]) not in LOS_EVENTS:
+                continue
+            chain, cur = [r], r
+            while _num(cur["link"]) in by_id and by_id[_num(cur["link"])] not in chain:
+                cur = by_id[_num(cur["link"])]
+                chain.append(cur)
+            if any(_num(c["action_type"]) == TALK and _num(c["target_type"]) == INVOKER
+                   for c in chain):
+                r["event_param5"] = 1
+                los_player_only.append((st, e, _num(r["id"])))
+
     cre = sorted(set(e for (st, e) in rows_by_key if st == 0))
     go = sorted(set(e for (st, e) in rows_by_key if st == 1))
 
@@ -429,8 +470,9 @@ def emit(ctx):
         for r in rws:
             # values pass through as source-string literals (Raw) to match the
             # original dump rendering exactly (ints/floats/quoted strings)
+            cols = COLS[:12] + ["event_param5"] + COLS[12:] if "event_param5" in r else COLS
             ctx.col.add("smart_scripts",
-                        {c2: ctx.col.Raw(_esc(r[c2])) for c2 in COLS})
+                        {c2: ctx.col.Raw(_esc(r[c2])) for c2 in cols})
     tal = sorted(set(e for (st, e) in rows_by_key if st == 9))
 
     # --- dropped-row report (I-274) ------------------------------------------
@@ -506,6 +548,14 @@ def emit(ctx):
                     "    WARN %s %d row %d links to %d which does not exist — chain "
                     "stops here" % ("GO" if st == 1 else "creature" if st == 0
                                     else "actionlist", e, int(float(_val(r["id"]))), link))
+
+    kind = {0: "creature", 1: "GO", 9: "actionlist"}
+    for (st, e, rid, was, now) in relinked:
+        drop_lines.append("    relinked %s %d row %d: link %d (dropped) -> %d"
+                          % (kind.get(st, st), e, rid, was, now))
+    for (st, e, rid) in los_player_only:
+        drop_lines.append("    LOS talk-at-invoker %s %d row %d -> playerOnly"
+                          % (kind.get(st, st), e, rid))
 
     return ("scope cre=%d go=%d (excluded cre=%d go=%d) -> blocks=%d rows=%d "
             "[cre=%d go=%d tal=%d] skipped(type)=%d skipped(spell)=%d "

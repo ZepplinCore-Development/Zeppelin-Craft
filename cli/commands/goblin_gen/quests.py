@@ -207,6 +207,19 @@ def emit(ctx):
                 if r["id"] is not None and r["quest"] is not None and int(r["id"]) in LI_CRE and int(r["quest"]) in QIDS]
     enders = [(int(r["id"]), int(r["quest"])) for r in ctx.q("SELECT id, quest FROM creature_involvedrelation")
               if r["id"] is not None and r["quest"] is not None and int(r["id"]) in LI_CRE and int(r["quest"]) in QIDS]
+    # I-383: AC logs every relation whose creature lacks UNIT_NPC_FLAG_QUESTGIVER (2)
+    # to Errors.log at startup (ObjectMgr LoadCreatureQuestStarters/Enders). The
+    # summon closure (I-285) widened LI_CRE to vehicles like 35486 First Bank of Kezan
+    # Vault, which the donor lists as a 14122 starter but which can never offer it.
+    def _questgiver(e):
+        row = ctx.col.get("creature_template", e)
+        return row is None or int(row.get("npcflag") or 0) & 2
+    not_givers = sorted({(i, q2) for i, q2 in starters + enders if not _questgiver(i)})
+    starters = [(i, q2) for i, q2 in starters if _questgiver(i)]
+    enders = [(i, q2) for i, q2 in enders if _questgiver(i)]
+    if not_givers:
+        print("quest relations dropped, creature not a questgiver: %s"
+              % ", ".join("%d/%d" % p for p in not_givers))
     if starters:
         ctx.col.delete("creature_queststarter", "quest IN (%s)" % ",".join(str(q) for q in sorted(QIDS)))
         for i, q2 in sorted(set(starters)):

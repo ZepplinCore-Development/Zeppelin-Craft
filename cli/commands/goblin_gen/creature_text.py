@@ -53,7 +53,10 @@ def emit(ctx):
         "WHERE TRIM(zone) IN ('%s','%s')"
         " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)})  # no dev/leet NPCs (I-233)
     # Summon-only creatures have no spawn row -> invisible to the sweep (I-288).
-    gob = sorted(set(gob) | set(_sibling("_summons").summoned_entries(ctx)))
+    # Plus the summons the closure cannot derive (GO data-field spells, I-277) —
+    # 34748 Goblin Survivor's actionlist 3474800 TALKs group 0 (I-383).
+    gob = sorted(set(gob) | set(_sibling("_summons").summoned_entries(ctx))
+                 | _sibling("creature_addon").SUMMON_ONLY_EXTRA)
     gset = ",".join(str(e) for e in gob)
     rows = ctx.q(
         "SELECT * FROM creature_text WHERE CAST(TRIM(entry) AS SIGNED) IN (%s) "
