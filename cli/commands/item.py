@@ -212,6 +212,40 @@ def item_scale_existing(ctx, tier, difficulty, seed, quiet):
     click.echo(f"Wrote {total_items} items across {len(difficulties)} files.")
 
 
+@item.command('stack-sizes')
+@click.option('--dry-run', is_flag=True, help='Report without writing files')
+@click.pass_context
+def item_stack_sizes(ctx, dry_run):
+    """F-067: regenerate by-entry stack-size SQL from the stock dump.
+
+    Resolves the blanket tier rules (100->1000, 20->200, 10->100, 5->50)
+    against AzerothCore's stock item_template dump once and emits explicit
+    by-entry UPDATEs, so the file is idempotent and safe to replay under the
+    universal downstream cascade. Hand-authored exceptions live in
+    cli/lib/item/data/f067_stacks_overrides.json — edit that, not the SQL.
+    """
+    from lib.item.stacks import run
+
+    craft_root = ctx.obj['craft_root']
+    try:
+        out_path, summary = run(craft_root, dry_run=dry_run)
+    except Exception as e:
+        raise click.ClickException(f"Failed: {e}")
+
+    click.echo("F-067 Stack Sizes")
+    click.echo(f"  Stock rows read:      {summary['stock_rows']}")
+    click.echo(f"  Blanket roster:       {summary['roster']} items")
+    for value, n in summary['tiers'].items():
+        click.echo(f"      -> {value}: {n}")
+    click.echo(f"  Hand overrides:       {summary['overrides']}")
+    click.echo(f"  Emitted:              {summary['emitted_blanket']} blanket "
+               f"+ {summary['emitted_overrides']} override statement(s)")
+    click.echo(click.style(
+        f"  {'would write' if dry_run else '✓'} {out_path}", fg='green'))
+    if not dry_run:
+        click.echo("Apply with: zep world sql changed")
+
+
 @item.command('purge-whites')
 @click.option('--dry-run', is_flag=True, help='Report without writing files or roster')
 @click.pass_context

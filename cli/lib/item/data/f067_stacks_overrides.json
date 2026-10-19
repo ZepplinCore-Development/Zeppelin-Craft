@@ -1,0 +1,46 @@
+{
+  "_comment": [
+    "F-067 hand-authored by-entry overrides. These are AUTHORED data, not derived:",
+    "the generator merges them over the blanket roster, and an entry listed here",
+    "always wins. Edit this file to change an override, then re-run",
+    "`zep world item stack-sizes`. Do NOT hand-edit the emitted SQL.",
+    "'stackable' and 'maxcount' are both optional per entry - omit one to leave it alone.",
+    "'_exclude' lists entries F-067 must not touch at all, because another file owns",
+    "the row outright. Excluding keeps single-file ownership intact instead of",
+    "restating another feature's value here and having two files fight over it."
+  ],
+  "_exclude": {
+    "9437": "Untested Basilisk Sample - zep-legacy zz_[F-097]_tanaris_field_sampling_fix.sql DELETE+INSERTs this row with stackable 20 (quest 654 needs 8)",
+    "9439": "Untested Hyena Sample - same, F-097",
+    "9442": "Untested Scorpid Sample - same, F-097"
+  },
+  "librams": {
+    "_comment": "Stack to 20 and make non-unique. Must beat the blanket 20 -> 200 rule.",
+    "entries": {
+      "11732": {"stackable": 20, "maxcount": 0, "name": "Libram of Rumination"},
+      "11733": {"stackable": 20, "maxcount": 0, "name": "Libram of Constitution"},
+      "11734": {"stackable": 20, "maxcount": 0, "name": "Libram of Tenacity"},
+      "11736": {"stackable": 20, "maxcount": 0, "name": "Libram of Resilience"},
+      "11737": {"stackable": 20, "maxcount": 0, "name": "Libram of Voracity"},
+      "18332": {"stackable": 20, "maxcount": 0, "name": "Libram of Rapidity"},
+      "18333": {"stackable": 20, "maxcount": 0, "name": "Libram of Focus"},
+      "18334": {"stackable": 20, "maxcount": 0, "name": "Libram of Protection"}
+    }
+  },
+  "non_unique": {
+    "_comment": "maxcount only - stack size left to the blanket roster.",
+    "entries": {
+      "26043": {"maxcount": 0, "name": "Oshu'gun Crystal Powder Sample (added to Item Vault, mod-item-vault)"}
+    }
+  },
+  "forced_2000": {
+    "_comment": "Reputation turn-ins. Override any blanket result.",
+    "entries": {
+      "24401": {"stackable": 2000, "name": "Unidentified Plant Parts"},
+      "18945": {"stackable": 2000, "name": "Dark Iron Residue"},
+      "22528": {"stackable": 2000, "name": "Dark Iron Scraps"},
+      "22525": {"stackable": 2000, "name": "Cryptfiend Parts"},
+      "22526": {"stackable": 2000, "name": "Bone Fragments"}
+    }
+  }
+}
