@@ -1,8 +1,12 @@
 """gen domain: phase (F-194, not F-011).
 
 Generate the phase_definitions table + rows + phase conditions for the goblin zone.
-- phase_definitions: rows for zones 4720 (Lost Isles) + 4737 (Kezan). terrainswapmap /
-  phaseId / originmap ZEROED (terrain swaps deferred; PhaseMgr uses phasemask only).
+- phase_definitions: rows for zones 4720 (Lost Isles) + 4737 (Kezan). phaseId is ZEROED
+  (client-side Cata phase ids, meaningless on 3.3.5a). originmap / terrainswapmap are now
+  carried through from the donor: PhaseMgr loads but IGNORES both (PhaseMgr.h), so they are
+  inert server-side, and F-196's terrain-swap driver reads terrainswapmap as its single
+  source of truth for which child map a phasemask wants (659 = LostIslesPhase1 = the burning
+  island, 661 = LostIslesPhase2 = the Town-In-A-Box town).
 - conditions: the Neltharion source-type-25 (PHASE_DEFINITION) quest conditions for those
   zones, emitted as AC CONDITION_SOURCE_TYPE_PHASE (26). Condition type numbers are identical
   (QUESTREWARDED=8, QUESTTAKEN=9, QUEST_NONE=14, QUEST_COMPLETE=28).
@@ -124,7 +128,7 @@ def _parse_values(s):
 
 
 def _load_phase_definitions():
-    """(zoneId, entry, phaseMask, flags, comment) for ZONES, in dump order."""
+    """(zoneId, entry, phaseMask, originmap, terrainswapmap, flags, comment), dump order."""
     if not os.path.exists(_DEFAULT_WORLD_ZIP):
         raise RuntimeError("Neltharion world dump not found: %s "
                            "(set NELTHARION_WORLD_ZIP)" % _DEFAULT_WORLD_ZIP)
@@ -144,6 +148,7 @@ def _load_phase_definitions():
                 if z not in ZONES:
                     continue
                 out.append((z, int(r[idx["entry"]]), int(r[idx["phaseMask"]]),
+                            int(r[idx["originmap"]]), int(r[idx["terrainswapmap"]]),
                             int(r[idx["flags"]]), (r[idx["comment"]] or "").strip()))
     finally:
         fh.close()
@@ -189,10 +194,10 @@ def emit(ctx):
         "  PRIMARY KEY (`zoneId`,`entry`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\n",
     ]))
     ctx.col.delete("phase_definitions", "zoneId IN (%s)" % ",".join(map(str, ZONES)))
-    for z, e, pm, fl, cm in defs:
+    for z, e, pm, om, tsm, fl, cm in defs:
         ctx.col.add("phase_definitions", {
             "zoneId": z, "entry": e, "phaseMask": pm, "phaseId": 0,
-            "originmap": 0, "terrainswapmap": 0, "flags": fl, "comment": cm,
+            "originmap": om, "terrainswapmap": tsm, "flags": fl, "comment": cm,
         })
 
     # phase conditions (CONDITION_SOURCE_TYPE_PHASE = 26; SourceGroup=zoneId)
