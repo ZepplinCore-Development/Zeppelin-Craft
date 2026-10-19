@@ -1,0 +1,31 @@
+From 47e28375256ce05b06011b0bbaf5e7de27a1ab9d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 19 Oct 2026 02:26:54 +0000
+Subject: [PATCH] fix: zepnav reads MMAP_VERSION 20 tiles (F-219)
+
+- the core sync to upstream 77f88f75c (#25720) bumped MMAP_VERSION 19 -> 20;
+  zepnav rejected every regenerated tile ("start not on navmesh")
+- header layout is unchanged, only the version constant
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_011NfjmyxZEoemFwhjfsA3Lf
+---
+ zeppelin/nav/zepnav.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/zeppelin/nav/zepnav.cpp b/zeppelin/nav/zepnav.cpp
+index d71e2ad..e86797b 100644
+--- a/zeppelin/nav/zepnav.cpp
++++ b/zeppelin/nav/zepnav.cpp
+@@ -29,7 +29,7 @@
+ namespace {
+ 
+ constexpr uint32_t MMAP_MAGIC = 0x4d4d4150; // 'MMAP'
+-constexpr uint32_t MMAP_VERSION = 19;
++constexpr uint32_t MMAP_VERSION = 20; // must track MapDefines.h (upstream #25720 bumped 19 -> 20)
+ constexpr float GRID_SIZE = 533.3333f;
+ constexpr int MAX_POLYS = 4096;
+ constexpr int MAX_POINTS = 1024;
+-- 
+2.34.1
+
