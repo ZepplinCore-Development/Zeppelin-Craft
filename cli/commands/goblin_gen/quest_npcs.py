@@ -8,6 +8,9 @@ from the main creature import). Template-only, stock display, no DBC/PATCH-Z —
 quest objective refs valid. Emits creatures_05_quest_npcs (creature_template +
 creature_template_model). Per-zone (uses ctx.sfx to pick the item_scope fixture).
 """
+import importlib.util
+import os
+
 NAME = "quest_npcs"
 TABLES = ["creature_template", "creature_template_model"]
 TIER = "base"
@@ -25,6 +28,15 @@ def _n(v, d):
     the default. In typed neltharion a numeric 0 is falsy, so a plain `v or d` would
     wrongly substitute d for a real 0 (e.g. Mana_mod=0). Fall back only on NULL."""
     return d if v is None else v
+
+
+def _sibling(modname):
+    """Load a sibling gen module (domains are file-loaded, not a package)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), modname + ".py")
+    spec = importlib.util.spec_from_file_location("goblin_gen_" + modname, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def _esc(v):
@@ -47,6 +59,12 @@ def emit(ctx):
     # creature_template ownership (Bilgewater Buccaneer 37179 lost its VehicleId
     # and display exactly this way).
     imported |= {int(r["entry"]) for r in ctx.fixture("manual_spawns" + sfx)}
+    # Same rule for summon-only creatures (I-285): creatures.py gives them a full
+    # template off the port's summon closure, and a quest-target proxy row here
+    # would fight it for ownership (38644 Oomlot Shaman, 37561 Overloaded Generator
+    # are both a quest target AND a spell summon). Zone-independent set, so exclude
+    # on both passes.
+    imported |= set(_sibling("_summons").summoned_entries(ctx))
 
     # unremapped Cata factions with no 3.3.5a DBC row would crash the server
     try:

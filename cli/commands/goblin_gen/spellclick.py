@@ -121,10 +121,21 @@ def emit(ctx):
     # ride-vehicle spellclick that boards the shredder for quest 24502.
     zone_ids |= _sibling("_manual").manual_entries(ctx)
 
+    # An entry can land in BOTH passes' scope — manual_spawns is per-pass while the
+    # summon closure is zone-independent, and `present` widens between passes because
+    # the derived spell set grows with the collected templates. Kind-B rows are
+    # appended, not merged, so a second visit is a duplicate-PK crash on apply
+    # (I-285: 37179 Bilgewater Buccaneer / spellclick 70016). Keyed on (npc, spell)
+    # rather than npc so the later pass can still contribute a click the earlier one
+    # had to skip, without re-adding what is already collected.
+    seen = getattr(ctx.col, "_spellclick_seen", None)
+    if seen is None:
+        seen = ctx.col._spellclick_seen = set()
+
     clicks, skipped = [], 0
     for r in ctx.q("SELECT npc_entry,spell_id,cast_flags,user_type FROM npc_spellclick_spells"):
         npc, spell = int(r["npc_entry"]), int(r["spell_id"])
-        if npc not in zone_ids:
+        if npc not in zone_ids or (npc, spell) in seen:
             continue
         if spell not in present:
             skipped += 1                     # spell absent from 3.3.5a DBC -> click would be broken
@@ -132,6 +143,7 @@ def emit(ctx):
         clicks.append((npc, spell, int(r["cast_flags"] or 0), int(r["user_type"] or 0)))
     clicks.sort()
     clicks, selfcast_fixed = _fix_clicker_selfcast(ctx, clicks)
+    seen |= {(c[0], c[1]) for c in clicks}
     npcs = sorted({c[0] for c in clicks})
 
     conds = []
@@ -139,8 +151,15 @@ def emit(ctx):
         ph = ",".join(["%s"] * len(npcs))
         rows = ctx.q("SELECT * FROM conditions WHERE SourceTypeOrReferenceId=18 "
                      "AND SourceGroup IN (%s) ORDER BY SourceGroup,ElseGroup,ConditionValue1" % ph, npcs)
+        cseen = getattr(ctx.col, "_spellclick_cond_seen", None)
+        if cseen is None:
+            cseen = ctx.col._spellclick_cond_seen = set()
         for r in rows:
-            conds.append(tuple(r[c] for c in _COND_COLS))
+            row = tuple(r[c] for c in _COND_COLS)
+            if row in cseen:      # same npc visited on both passes -> one row, not two
+                continue
+            cseen.add(row)
+            conds.append(row)
 
     nlist = ",".join(str(n) for n in npcs) or "0"
     ctx.col.delete("npc_spellclick_spells", "npc_entry IN (%s)" % nlist)

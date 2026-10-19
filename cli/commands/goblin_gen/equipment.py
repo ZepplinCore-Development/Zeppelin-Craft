@@ -13,6 +13,7 @@ Note: the `npc_equip_missing` fixture does not correspond to this weapon-item
 set (zero overlap; it is item-recovery bookkeeping), so -- like the standalone
 migrate_equipment.py -- presence is resolved against the live world item_template.
 """
+import importlib.util
 import os
 import sys
 import subprocess
@@ -24,6 +25,15 @@ TIER = "overlay"
 ZONES = ("4720", "4737")   # Lost Isles + Kezan (one combined file)
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))))
+
+
+def _sibling(modname):
+    """Load a sibling gen module (domains are file-loaded, not a package)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), modname + ".py")
+    spec = importlib.util.spec_from_file_location("goblin_gen_" + modname, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def _i(v, d=0):
@@ -56,7 +66,12 @@ def emit(ctx):
         "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS id FROM creature "
         "WHERE TRIM(zone) IN ('%s','%s')"
         " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)}  # no dev/leet NPCs (I-233)
-    gset = ",".join(map(str, gob))
+    # Summon-only creatures have no spawn row -> invisible to the sweep (I-290).
+    # 35813 Frightened Miner's source equip set is item 1910 "Monster - Item, Pick";
+    # without it he mines bare-handed. Spawn-driven scoping dropped the whole set,
+    # the same hole I-277 hit for creature_addon and I-288 for creature_text.
+    gob |= set(_sibling("_summons").summoned_entries(ctx))
+    gset = ",".join(map(str, sorted(gob)))
     rows = [(_i(r["entry"]), _i(r["itemEntry1"]), _i(r["itemEntry2"]), _i(r["itemEntry3"]))
             for r in ctx.q("SELECT entry,itemEntry1,itemEntry2,itemEntry3 "
                            "FROM creature_equip_template WHERE CAST(TRIM(entry) AS SIGNED) IN (%s)"
