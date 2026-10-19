@@ -1,0 +1,227 @@
+From a204299bc00a0db69a42e42ab094be65da3db40a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 19 Oct 2026 01:44:39 +0000
+Subject: [PATCH] WIP: F-219 - grinding always finds a spot; skip unhittable
+ targets; re-guard after detours
+
+- walk_to_grind/grind: any hostile kind counts, not only quest targets; skip guarded,
+  dense and died-twice spots; up to 12 tries per tier; refused walks park no quest
+- fight_log: a fight with nothing dealt skips that guid (10 min after a budget time-out)
+- combat: end as "no damage (line of sight)" after 8 s on top of a target with nothing landing
+- route_guard: re-run after detours; refuse roads past a spot we died twice at this level
+- scorecard --compare: baseline = last finished run, not a killed stub
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/main.go |  9 ++++
+ zeppelin/tests/scorecard.py     |  4 +-
+ zeppelin/tests/start_area.py    | 95 ++++++++++++++++++++++++---------
+ 3 files changed, 81 insertions(+), 27 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 86f7565..9e842da 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -757,6 +757,15 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			} else if time.Since(stuckSince) > 5*time.Second && d > meleeTrigger {
+ 				rng, stuckSince = 0, time.Now() // nothing lands from here (line of sight, range): go to it
+ 				continue
++			} else if time.Since(stuckSince) > 8*time.Second {
++				// on top of it and still nothing lands or swings (a floor between us: Deathknell's mage
++				// cast 50 LINE_OF_SIGHT Fireballs a fight at one Rattlecage Skeleton for 4 hours)
++				s.mu.Lock()
++				landed := s.swings != swings0
++				s.mu.Unlock()
++				if !landed {
++					return finish("no damage (line of sight)", false)
++				}
+ 			}
+ 			var face movev1.Position
+ 			if err := s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face); err != nil {
+diff --git a/zeppelin/tests/scorecard.py b/zeppelin/tests/scorecard.py
+index d8abc01..8e5999a 100644
+--- a/zeppelin/tests/scorecard.py
++++ b/zeppelin/tests/scorecard.py
+@@ -148,8 +148,8 @@ def main():
+                       f"  quests {s['quests']:>3}  deaths {s['deaths']:>3}  {s['result']}")
+             continue
+         if a.compare:
+-            # the baseline is the last run that ran a while: restarts leave 5-20 min stubs behind
+-            full = [r for r in runs[:-1] if score(r)["minutes"] >= 60]
++            # the baseline is the last run that ran a while and finished: restarts leave killed stubs behind
++            full = [r for r in runs[:-1] if score(r)["minutes"] >= 60 and score(r)["result"] != "running"]
+             if not full:
+                 continue
+             p, c = score(full[-1]), score(runs[-1], mt)
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 70b19bc..6a4d99d 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1729,17 +1729,20 @@ class Runner:
+         return False
+ 
+     def walk_to_grind(self, level, cap):
+-        """Nothing easy in sight: walk to the best spawn of a quest-target creature we can farm. Relax
+-        step by step rather than give up (Camp Narache ended INCOMPLETE: after a grind death the level-2
+-        cap left nothing within 400 yd): cap within 400 yd, then cap anywhere in the area, then our own
+-        level anywhere."""
+-        if not self.w.objective_creatures:
++        """Nothing easy in sight: walk to the best spawn of a creature we can farm. Relax step by step
++        rather than give up (Camp Narache ended INCOMPLETE: after a grind death the level-2 cap left
++        nothing within 400 yd): cap within 400 yd, then cap anywhere in the area, then our own level
++        anywhere. A bot parked for a level has to be able to EARN it: any hostile kind in the area
++        counts, not only quest targets (Durotar's warlock and Mulgore's druid ended at level 4 and 6,
++        every quest-target spot behind a guarded road or inside a dense camp)."""
++        # quest targets first (they also fill objectives), then anything else that attacks us on sight
++        hostile = {t[3] for t in self.threats()}
++        pool = (set(self.w.objective_creatures) | (hostile & set(self.w.cspawn))) - self.grind_skip
++        if not pool:
+             return False
+         me = self.me()
+         lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+-            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(self.w.objective_creatures)}) "
+-            f"AND {GRINDABLE}")}
+-        lv = {e: m for e, m in lv.items() if e not in self.grind_skip}
++            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(pool)}) AND {GRINDABLE}")}
+         # I-394: the spawn table holds every phase's copies, and the spot we stand on is where grind()
+         # just found nothing easy - "walking" there moved nothing yet returned True, and Kezan's bot
+         # spun on it silently for an hour (out-of-phase Rebellious Trolls, a Training Dummy). Only
+@@ -1752,28 +1755,42 @@ class Runner:
+                 del tried[p]
+         # strict, unlike in_phase(): its "nothing matches - take them all" fallback is the very bug here
+         # never a spot the destination guard will refuse (mobs 2+ levels up within 35 yd): Dun Morogh's
+-        # paladin picked spawns beside level-12 mobs six times over and ended its run at level 7
++        # paladin picked spawns beside level-12 mobs six times over and ended its run at level 7 - nor
++        # one the dense-area rule would refuse, nor where we died twice at this level
+         guarded = [t[:2] for t in self.threats() if t[2] >= level + 2]
+         pts_of = {e: [p for p in self.w.cspawn.get(e, []) if (not mask or self.w.spawn_phase.get(p, 1) & mask)
+                       and not any(math.dist(g, p[:2]) < 35 for g in guarded)
+                       and p not in self.w.beyond and p not in tried
+-                      and math.dist(p[:2], (me["x"], me["y"])) > 25] for e in lv}
++                      and math.dist(p[:2], (me["x"], me["y"])) > 25
++                      and sum(1 for dx, dy, dl in self.death_spots if dl == level
++                              and math.dist((dx, dy), p[:2]) < 45) < 2] for e in lv}
++        quest = set(self.w.objective_creatures)
+         # never across the whole map: Camp Narache walked 1243 yd to grind (and died on the way)
+         for top, reach in ((cap, 400), (cap, 700), (level, 1000)):
+             # the toughest allowed mob pays the most XP (Deathknell: level-1 zombies gave a level-4
+-            # almost nothing while level-3/4 spiders stood nearby)
+-            spots = sorted(((-lv[e], math.dist(p[:2], (me["x"], me["y"])), p) for e in lv if lv[e] <= top
+-                            for p in pts_of[e] if math.dist(p[:2], (me["x"], me["y"])) < reach), key=lambda t: t[:2])
+-            # the nearest few, not just the first: the route guard refuses the walk past level+2 mobs, and
+-            # one refusal ended a paladin's run at level 7 with nothing parked it could still do
+-            for _, _, p in spots[:6]:
++            # almost nothing while level-3/4 spiders stood nearby); quest targets break ties
++            spots = sorted(((-lv[e], e not in quest, math.dist(p[:2], (me["x"], me["y"])), p) for e in lv
++                            if lv[e] <= top for p in pts_of[e] if math.dist(p[:2], (me["x"], me["y"])) < reach),
++                           key=lambda t: t[:3])
++            # the nearest dozen, not just the first: the route guard refuses the walk past level+2 mobs,
++            # and a refusal ended a paladin's run at level 7 with nothing parked it could still do
++            tries = 0
++            for _, _, _, p in spots:
++                if tries >= 12:
++                    break
+                 tried[p] = now
+-                try:
++                dense = self.dense_level(p)
++                if dense and level < dense:
++                    continue  # free to check: no walk, no try spent
++                tries += 1
++                q, self.current_qid = getattr(self, "current_qid", None), None  # a refused grind walk
++                try:                                                             # parks no quest
+                     self.travel(*p, within=15)
+                     return True
+-                except StepFailed as e:
+-                    if "back at level" not in str(e):
+-                        raise
++                except StepFailed as e:  # guarded road, too long a route: the next spot, not the end
++                    print(f"  ~ grind spot ({p[0]:.0f},{p[1]:.0f}): {str(e)[:90]}", flush=True)
++                finally:
++                    self.current_qid = q
+         return False
+ 
+     def clear_camp(self, spot, radius=25.0):
+@@ -1925,7 +1942,9 @@ class Runner:
+         mobs = [o for o in objs if o.get("health", 0) > 0 and not o.get("npcFlags")]
+         # never a guard or a critter, nor a friendly objective (Draenei Survivors 16483 are HEALED for
+         # Rescue the Survivors - the bot "ground" them 26 times for no damage)
+-        ents = ({o["entry"] for o in mobs} & self.w.objective_creatures) - self.grind_skip
++        # quest targets, and any other kind that attacks us on sight (a parked bot must earn its level)
++        hostile = {t[3] for t in self.threats()}
++        ents = ({o["entry"] for o in mobs} & (set(self.w.objective_creatures) | hostile)) - self.grind_skip
+         cap = level - 1 if self.grind_deaths else level
+         if not ents:
+             return self.walk_to_grind(level, cap)
+@@ -1955,9 +1974,12 @@ class Runner:
+             spots = sorted(((-better[e], math.dist(p[:2], (me["x"], me["y"])), p) for e in better
+                             for p in self.w.cspawn.get(e, []) if p not in self.w.beyond
+                             and math.dist(p[:2], (me["x"], me["y"])) < 400), key=lambda q: q[:2])
+-            if spots:
+-                self.travel(*spots[0][2], within=15)
+-                return True
++            for _, _, p in [q for q in spots[:8] if not self.dense_level(q[2]) or level >= self.dense_level(q[2])][:4]:
++                try:
++                    self.travel(*p, within=15)
++                    return True
++                except StepFailed as e:  # a guarded road there: fight what is here instead
++                    print(f"  ~ grind (better): {str(e)[:90]}", flush=True)
+         # the kill RPC will not chase far ("too far") - close in first; a ranged class only to its range
+         # (it walked to 4 yd and gave its whole range advantage away)
+         stand = self.fight_range() - 2 if CLASS_RANGE.get(self.w.cls) else 4
+@@ -2219,6 +2241,13 @@ class Runner:
+               f"{' kites ' + str(r['kites']) if r.get('kites') else ''}",
+               flush=True)
+         self.check_loot(r)
++        why = r.get("reason", "")
++        if r.get("guid") and not r.get("killed") and not r.get("damageDone") and (
++                why == "budget" or why.startswith(("no damage", "cannot attack"))):
++            # a whole fight and not a point of damage: leave THAT one alone a while, whoever picks the
++            # next target (Deathknell's mage re-picked one unseeable skeleton 542 times, 4 hours).
++            # immune is read as "skip for 2 min since"; a fight that ran its budget skips 10 min
++            self.immune[int(r["guid"])] = time.time() + (480 if why == "budget" else 0)
+         if r.get("reason") == "flee":
+             self.flee_to_guard()
+ 
+@@ -2516,7 +2545,12 @@ class Runner:
+         # level-9/10 Ether Fiends and the Spire's packs on roads the +3 rule let it take
+         gap = 2  # every class (was 3 for ranged: a level-5 druid walked into level-7/8 gnolls)
+         red = [t for t in self.threats() if t[2] >= level + gap]
+-        if not red:
++        # ...and where we died twice at this level in the last 15 min: whatever got us there will again
++        # (Teldrassil's hunter ran one road to the same grell ambush 10 times: the died-twice check only
++        # looked at the destination)
++        spots = [(dx, dy) for dx, dy, dl in self.death_spots if dl == level]
++        graves = [p for p in spots if sum(1 for q in spots if math.dist(p, q) < 45) >= 2]
++        if not red and not graves:
+             return
+         try:
+             pts = call("move.path", x=x, y=y, z=z).get("points", [])
+@@ -2535,6 +2569,13 @@ class Runner:
+                 p = (ax + (bx - ax) * i / n, ay + (by - ay) * i / n)
+                 if math.dist(p, start) < 30 or math.dist(p, end) < 30:
+                     continue
++                grave = next((g for g in graves if math.dist(g, p) < 30), None)
++                if grave:
++                    q = getattr(self, "current_qid", None)
++                    if q:
++                        self.defer_until[q] = max(self.defer_until.get(q, 0), level + 1)
++                    raise StepFailed(f"route to ({x:.0f},{y:.0f}) passes ({grave[0]:.0f},{grave[1]:.0f}) where we "
++                                     f"died twice at level {level} - back at level {level + 1}")
+                 hit = next((t for t in red if math.dist(t[:2], p) < reach(t)), None)
+                 if hit:
+                     # back at the first level where it no longer counts: hit - gap + 1 (melee: one below
+@@ -2658,6 +2699,10 @@ class Runner:
+                         break  # the flank is unwalkable after all: take the plain path
+             finally:
+                 self._detouring = False
++            if self._skirted and not self.reviving:
++                # the detours changed the road: guard the rest of it from here (Teldrassil: the hunter
++                # skirted a lone Nightsaber, walked on past the Vicious Grell camp and died there 25 times)
++                self.route_guard(x, y, z, call("interact.self").get("level", 1))
+         # walk in 6 s slices and turn to fight between them: one 25 s path_to let a mob that aggroed
+         # on the way hit our back the whole time (most early deaths were on the road, not in camps)
+         for _ in range(60):
+-- 
+2.34.1
+
