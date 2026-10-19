@@ -1,0 +1,123 @@
+From a2ba7e3ae7692fca88ab5a2c1d582793306ecfb2 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Mon, 19 Oct 2026 02:04:56 +0000
+Subject: [PATCH] Zeppelin F-200: play movies of any frame size
+
+- Sizes other than the six stock 1024/800 layouts use one non-power-of-two texture (layout 6) at the video's own aspect
+- Previously any other size failed silently in OpenVideo
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ Engine/Source/Frame/CSimpleMovieFrame.cpp | 67 +++++++++++++++++++++--
+ 1 file changed, 61 insertions(+), 6 deletions(-)
+
+diff --git a/Engine/Source/Frame/CSimpleMovieFrame.cpp b/Engine/Source/Frame/CSimpleMovieFrame.cpp
+index dd20c1d..855b679 100644
+--- a/Engine/Source/Frame/CSimpleMovieFrame.cpp
++++ b/Engine/Source/Frame/CSimpleMovieFrame.cpp
+@@ -216,6 +216,35 @@ static uint32_t s_frameOffset[6] = { 0x4B00, 0x18000, 0x19000, 0, 0x10680, 0x260
+ // STATIC: 0x00A24188
+ static uint16_t s_indices[4] = { 0, 1, 2, 3 };
+ 
++// Not in the original (F-200): any frame size other than the six stock ones plays as one non-power-of-two texture the
++// size of the video (layout 6), drawn at the video's own aspect ratio. Only one movie plays at a time, so the layout's
++// tables are filled per video in OpenVideo.
++static const uint32_t ZEP_LAYOUT_ANY = 6;
++static MOVIETEXTUREINFO s_zepTextureInfo;
++static MOVIEUPDATERECT s_zepUpdateRect;
++
++static uint32_t MovieTextureCount(uint32_t layout) {
++    return layout == ZEP_LAYOUT_ANY ? 1 : s_textureCount[layout];
++}
++
++static const MOVIEUPDATERECT& MovieUpdateRect(uint32_t layout, uint32_t i) {
++    return layout == ZEP_LAYOUT_ANY ? s_zepUpdateRect : s_updateRects[layout][i];
++}
++
++// Full width, height from the video's aspect ratio (y is later scaled by the screen's aspect compensation, which is 1.0
++// at 4:3); shrunk to fit when the video is taller than the screen allows.
++static MOVIETEXTURERECT MovieZepRect(uint32_t width, uint32_t height, float aspect) {
++    float halfHeight = (2.0f / 3.0f) * static_cast<float>(height) / static_cast<float>(width);
++    float scale = 1.0f;
++
++    if (halfHeight * aspect > 0.5f) {
++        scale = 0.5f / (halfHeight * aspect);
++    }
++
++    float left = (1.0f - scale) * 0.5f;
++    return { left, left + scale, halfHeight * scale, -halfHeight * scale };
++}
++
+ // VERIFY: 6f6bd4ac auto
+ // OFFSET: 0x0095DB20
+ static void MovieSoundFinished(SESound* sound, void* param) {
+@@ -490,7 +519,7 @@ bool CSimpleMovieFrame::DecodeFrame(bool render) {
+     this->m_videoPos += 4;
+ 
+     DivxDecodeFrame frame = {};
+-    frame.m_output = this->m_frameBuffer + s_frameOffset[this->m_layout];
++    frame.m_output = this->m_frameBuffer + (this->m_layout == ZEP_LAYOUT_ANY ? 0 : s_frameOffset[this->m_layout]);
+     frame.m_input = this->m_videoPos;
+     this->m_videoPos += size;
+     frame.m_inputSize = size;
+@@ -501,8 +530,8 @@ bool CSimpleMovieFrame::DecodeFrame(bool render) {
+     }
+ 
+     if (render) {
+-        for (uint32_t i = 0; i < s_textureCount[this->m_layout]; i++) {
+-            const MOVIEUPDATERECT& rect = s_updateRects[this->m_layout][i];
++        for (uint32_t i = 0; i < MovieTextureCount(this->m_layout); i++) {
++            const MOVIEUPDATERECT& rect = MovieUpdateRect(this->m_layout, i);
+             GxTexUpdate(this->m_textures[i], rect.m_minX, rect.m_minY, rect.m_maxX, rect.m_maxY, 1);
+         }
+     }
+@@ -542,7 +571,31 @@ int32_t CSimpleMovieFrame::OpenVideo(const char* fileName) {
+             layoutFound = 0;
+         }
+ 
+-        if (layoutFound) {
++        // Not in the original (F-200): every other size takes the generic layout instead of failing silently.
++        if (!layoutFound && this->m_width >= 8 && this->m_height >= 8) {
++            this->m_layout = ZEP_LAYOUT_ANY;
++            s_zepTextureInfo = { static_cast<uint32_t>(this->m_width), static_cast<uint32_t>(this->m_height), 0, 4 * static_cast<uint32_t>(this->m_width) };
++            s_zepUpdateRect = { 0, 0, this->m_width, this->m_height };
++            layoutFound = 1;
++        }
++
++        if (layoutFound && this->m_layout == ZEP_LAYOUT_ANY) {
++            uint32_t size = 4 * this->m_width * this->m_height;
++            this->m_frameBuffer = static_cast<uint8_t*>(SMemAlloc(size, __FILE__, __LINE__, 0));
++
++            if (this->m_frameBuffer) {
++                memset(this->m_frameBuffer, 0, size);
++
++                CGxTexFlags flags(GxTex_Linear, 0, 0, 0, 0, 0, 1);
++                this->m_textureData[0].m_info = &s_zepTextureInfo;
++                this->m_textureData[0].m_buffer = this->m_frameBuffer;
++
++                if (GxTexCreate(GxTex_NonPow2, this->m_width, this->m_height, 0, GxTex_Argb8888, GxTex_Argb8888, flags, &this->m_textureData[0], MovieTextureUpdate, "ZepMovie", this->m_textures[0])) {
++                    GxTexUpdate(this->m_textures[0], 0, 0, 0, 0, 1);
++                    result = 1;
++                }
++            }
++        } else if (layoutFound) {
+             this->m_frameBuffer = static_cast<uint8_t*>(SMemAlloc(4 * s_frameWidth[this->m_layout] * s_frameHeight[this->m_layout], __FILE__, __LINE__, 0));
+ 
+             if (this->m_frameBuffer) {
+@@ -892,8 +945,10 @@ void CSimpleMovieFrame::Render() {
+     GxRsSet(GxRs_BlendingMode, GxBlend_Opaque);
+     GxUpdateAlphaRef(GxRs_AlphaRef);
+ 
+-    for (uint32_t i = 0; i < s_textureCount[this->m_layout]; i++) {
+-        const MOVIETEXTURERECT& rect = s_textureRects[this->m_layout][i];
++    MOVIETEXTURERECT zepRect = MovieZepRect(this->m_width, this->m_height, aspect);
++
++    for (uint32_t i = 0; i < MovieTextureCount(this->m_layout); i++) {
++        const MOVIETEXTURERECT& rect = this->m_layout == ZEP_LAYOUT_ANY ? zepRect : s_textureRects[this->m_layout][i];
+ 
+         C3Vector positions[4] = {
+             C3Vector(rect.m_left, rect.m_bottom * aspect, 0.0f),
+-- 
+2.34.1
+

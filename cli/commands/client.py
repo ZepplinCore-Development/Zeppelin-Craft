@@ -731,6 +731,9 @@ def _latest_crash():
 def _start(timeout, opengl, wait):
     _require_setup()
     _xvfb_up()
+    # The x64 client drops gxResolution from Config.wtf when it saves; without it the window opens at its 1024x768
+    # default and no longer matches SCREEN (F-200 test, 2026-10-19).
+    _set_cfg('gxResolution', '1280x800')
     log_path = _new_run_log()
     log = open(log_path, 'w')
     cmd = ['timeout', str(timeout), str(WINE_DIR / 'bin/wine'), EXE_NAME] + (['-opengl'] if opengl else [])
