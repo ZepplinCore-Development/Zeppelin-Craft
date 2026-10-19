@@ -1,0 +1,34 @@
+From 4e6e80c1eae2de595d2e54029f30e7937650ef22 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Mon, 19 Oct 2026 08:35:55 +0000
+Subject: [PATCH] Zeppelin I-415: guard material layer above the batch's
+ material index
+
+FloatingCrate01 (HD/retroport skin, batch 1 material 0 layer 1) wrapped to
+m_materials[-1] on the 32-bit exe; on x64 the unsigned index ran 16 GB off
+the array and crashed CM2Scene::Animate on entering Ratchet.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ Engine/Source/Model2/M2Scene.cpp | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Engine/Source/Model2/M2Scene.cpp b/Engine/Source/Model2/M2Scene.cpp
+index 3ce1b45..80b096f 100644
+--- a/Engine/Source/Model2/M2Scene.cpp
++++ b/Engine/Source/Model2/M2Scene.cpp
+@@ -1850,7 +1850,9 @@ int32_t CM2Scene::Animate(const C3Vector& cameraPos) {
+ 
+             M2Material* material = &data->m_materials[batch->m_materialIndex];
+             int32_t projected = (batch->m_flags & 4) && this->m_projectTextureCallback;
+-            M2Material* baseMaterial = batch->m_materialLayer ? &data->m_materials[batch->m_materialIndex - batch->m_materialLayer] : material;
++            // Zeppelin I-415: some retail/HD skins give a layer above the batch's material index. The 32-bit
++            // exe wrapped that to m_materials[-1]; on x64 the unsigned index runs 16 GB off the array.
++            M2Material* baseMaterial = batch->m_materialLayer && batch->m_materialLayer <= batch->m_materialIndex ? &data->m_materials[batch->m_materialIndex - batch->m_materialLayer] : material;
+             int32_t transparent = baseMaterial->m_blendMode > 1 || alpha < 0.99998999f;
+             CShaderEffect* effect = optimized ? model->m_optGeo->m_effects[i] : model->m_shared->m_effects[i];
+ 
+-- 
+2.34.1
+
