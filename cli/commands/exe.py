@@ -410,6 +410,8 @@ def exe_source_ship(ctx, activate, dry_run):
         for name in SOURCE_MEMBERS:
             shutil.copy2(meta[name]['path'], dest / name)
             click.echo(f"  staged {SOURCE_SERVE_DIR}/{name}")
+        from commands.client import refresh_if_present
+        refresh_if_present()   # F-219: keep the offscreen test client on the staged exe (I-413)
 
     if activate and not dry_run:
         register.setdefault('patches', {})[SOURCE_KEY] = entry

@@ -1,10 +1,10 @@
 """zep client — offscreen test client (F-219 Track B).
 
-Runs the REAL patched client (nginx/wow exe + WarcraftXL + our PATCH MPQs over the stock
-3.3.5a MPQs) under Wine on a virtual X display with Mesa software GL, so a CC instance can
+Runs the REAL shipped client (nginx/wow/EXE64 WowClient64.exe, the x64 source build players run
+since F-224, + our PATCH MPQs over the stock 3.3.5a MPQs) under Wine on a virtual X display with Mesa software GL, so a CC instance can
 log in, move around and screenshot it without a GPU, root or a user round trip.
 
-    zep client setup              build/refresh everything (idempotent; re-run after an exe/WXL ship)
+    zep client setup              build/refresh everything (idempotent)
     zep client --slot N CMD       run CMD against client slot N (0 or 1)
     zep client account [NAME]     create a test account (default non-GM ZEPTEST; --gm N for a GM one)
     zep client chars [-a NAME]    an account's characters in character-select order
@@ -26,15 +26,15 @@ server reports online - a second login kicks the first client. Character choice 
 lastCharacterIndex written to the slot's Config.wtf before launch.
     zep client measure PNG...     colour sanity numbers for captures
     zep client selftest           prove the capture path isn't garbling colour (I-380)
-    zep client refresh            re-sync exe/WXL/patch links (setup minus the downloads)
+    zep client refresh            re-sync exe/patch links (setup minus the downloads)
 
-Kept current automatically: `zep build exe --deploy`, `zep wxl ship` and `zep build patch-mpq`
+Kept current automatically: `zep build exe source ship` and `zep build patch-mpq`
 call refresh_if_present() after writing to nginx. PATCH-*.MPQ are symlinks into nginx, so a
 rebuilt patch is live with no copy at all; the patch-mpq hook only matters for a NEW letter.
 
 Layout (none of it tracked except this file):
     ~/.local/xvfb/usr     Xvfb, xdotool, xkbcomp unpacked from Ubuntu jammy .debs (no root)
-    ~/wowtest             assembled client: Data/ symlinks, exe/WXL copies, WTF/, Logs/, account.txt
+    ~/wowtest             assembled client: Data/ symlinks, WowClient64.exe copy, WTF/, Logs/, account.txt
                           Logs/wine/wine-<time>.log per run (+seh on; last 20 kept), wine.log -> newest;
                           crash reports land in Errors/<time> Crash.txt
     ~/.wine-wowtest       Wine prefix
@@ -63,7 +63,7 @@ from lib.env import NGINX_PATH as NGINX
 
 _HOME = Path.home()
 # Slot 0 = the original single client. Slot N>0 = <dir>-N, display :77+N, <prefix>-N.
-# Two slots max: one client is ~0.75 GB (Wow.exe + Wine + Xvfb, measured 2026-10-04 in Hellfire)
+# Two slots max: one client is ~0.75 GB (client + Wine + Xvfb, measured 2026-10-04 in Hellfire)
 # and the container is capped at 12 GB shared with every session and its tools.
 MAX_SLOTS = 2
 BASE_DIR = Path(os.getenv('WOWTEST_DIR', _HOME / 'wowtest'))
@@ -108,6 +108,14 @@ XKB_DIR = Path('/tmp/xkb')   # same length as /usr/bin - see _patch_xvfb
 DEBS = ['xvfb', 'xserver-common', 'x11-xkb-utils', 'libunwind8', 'x11-apps', 'xdotool', 'libxdo3']
 SPEECH_MPQS = ['speech-enUS', 'expansion-speech-enUS', 'lichking-speech-enUS']
 WINDOW_NAME = 'World of Warcraft'
+# The client players run (F-224): the x64 source build staged by `zep build exe source ship`. The stock
+# 32-bit Wow.exe + WarcraftXL can no longer enter the world (F-171 player field layout, I-413).
+EXE_NAME = 'WowClient64.exe'
+EXE_FILES = ['WowClient64.exe', 'XvidDecoder.dll']
+EXE_SERVE_DIR = 'EXE64'
+# Left in a slot by the stock-exe era (Wow.exe, WarcraftXL, the stock 32-bit dlls); removed on
+# refresh so the x64 exe can't pick one up from its own directory.
+LEGACY_FILES = ['Wow.exe', 'wxl-assets']
 
 
 # -- environment ----------------------------------------------------------------------------------
@@ -118,13 +126,13 @@ def _xlib_env():
     return env
 
 
-def _wine_env(bypass_wxl=False):
+def _wine_env(bypass_wxl=True):
     env = dict(os.environ, DISPLAY=DISPLAY, WINEPREFIX=str(WINEPREFIX), LIBGL_ALWAYS_SOFTWARE='1')
     # +seh logs every exception dispatch (code + address). A #132 often reports only the CRT SEH
     # validator faulting while handling an EARLIER exception; that earlier one is only in this log.
     env.setdefault('WINEDEBUG', 'err+all,+seh')
-    # d3d9=n,b loads the WXL proxy shipped next to Wow.exe; builtin bypasses it.
-    env['WINEDLLOVERRIDES'] = f"d3d9={'b' if bypass_wxl else 'n,b'};mscoree,mshtml="
+    # Builtin d3d9 always: the x64 client has no proxy dll (bypass_wxl kept for old callers).
+    env['WINEDLLOVERRIDES'] = "d3d9=b;mscoree,mshtml="
     return env
 
 
@@ -134,7 +142,7 @@ def _xtool(*args, check=True):
 
 
 def _require_setup():
-    if not (XROOT / 'bin/Xvfb').exists() or not (CLIENT_DIR / 'Wow.exe').exists():
+    if not (XROOT / 'bin/Xvfb').exists() or not (CLIENT_DIR / EXE_NAME).exists():
         raise click.ClickException('test client not set up - run: zep client setup')
 
 
@@ -331,7 +339,7 @@ def _sync_tree(src, dst):
 
 
 def refresh_files():
-    """Bring the client's exe/WXL copies and PATCH links in line with nginx. Returns change count."""
+    """Bring the client's exe copies and PATCH links in line with nginx. Returns change count."""
     data = CLIENT_DIR / 'Data'
     changed = 0
     want = {f.name: f for f in (NGINX / 'MPQ').glob('PATCH-*.MPQ')}
@@ -342,16 +350,19 @@ def refresh_files():
         if not (data / name).is_symlink():
             _link(f, data)
             changed += 1
-    changed += _install(NGINX / 'EXE/Wow.exe', CLIENT_DIR / 'Wow.exe')
-    for f in (NGINX / 'WXL').glob('*.dll'):
-        changed += _install(f, CLIENT_DIR / f.name)
-    marker = NGINX / 'WXL/wxl-assets'
-    if marker.exists():
-        changed += _install(marker, CLIENT_DIR / 'wxl-assets')
-    elif (CLIENT_DIR / 'wxl-assets').exists():
-        (CLIENT_DIR / 'wxl-assets').unlink()
+    for name in EXE_FILES:
+        changed += _install(NGINX / EXE_SERVE_DIR / name, CLIENT_DIR / name)
+    for name in LEGACY_FILES:
+        if (CLIENT_DIR / name).exists() or (CLIENT_DIR / name).is_symlink():
+            (CLIENT_DIR / name).unlink()
+            changed += 1
+    for f in CLIENT_DIR.glob('*.dll'):
+        if f.name not in EXE_FILES:
+            f.unlink()
+            changed += 1
+    if (CLIENT_DIR / 'Extensions').is_dir():
+        shutil.rmtree(CLIENT_DIR / 'Extensions')
         changed += 1
-    changed += _sync_tree(NGINX / 'WXL/Extensions', CLIENT_DIR / 'Extensions')
     return changed
 
 
@@ -359,7 +370,7 @@ def refresh_if_present():
     """Build-hook entry point: refresh the test client if this machine has one. Never raises -
     a failed refresh must not fail the build that called it."""
     for slot in range(MAX_SLOTS):
-        if (_slot_paths(slot)[0] / 'Wow.exe').exists():
+        if (_slot_paths(slot)[0] / EXE_NAME).exists():
             _use_slot(slot)
             _refresh_one()
     _use_slot(0)
@@ -396,7 +407,7 @@ def client(ctx, slot):
 def client_setup(realm):
     """Build or refresh the test client environment. Idempotent.
 
-    One-time per machine. After that, exe deploys, WXL ships and patch builds refresh the client
+    One-time per machine. After that, exe ships and patch builds refresh the client
     themselves (refresh_if_present); PATCH-*.MPQ are symlinks into nginx so rebuilds need nothing.
     """
     if not (WINE_DIR / 'bin/wine').exists():
@@ -427,7 +438,7 @@ def client_setup(realm):
     for f in sorted((STOCK / 'MPQ/enUS').glob('*.MPQ')):
         _link(f, data / 'enUS')
 
-    # Our patches (symlinked) + exe/WXL (copied) = exactly what the launcher serves.
+    # Our patches (symlinked) + the x64 exe (copied) = exactly what the launcher serves.
     refresh_files()
     if SLOT:
         # Loose test addons (ZepMapTest) are shared with slot 0; the Wine prefix is cloned so the
@@ -438,9 +449,6 @@ def client_setup(realm):
         if not WINEPREFIX.exists() and BASE_PREFIX.exists():
             click.echo(f'   cloning {BASE_PREFIX} -> {WINEPREFIX}')
             shutil.copytree(BASE_PREFIX, WINEPREFIX, symlinks=True)
-    for f in (STOCK / 'files/enUS/base-enUS').glob('*.dll'):   # DivxDecoder etc.
-        if not (CLIENT_DIR / f.name).exists():                  # never overwrite WXL's d3d9.dll
-            shutil.copy2(f, CLIENT_DIR)
 
     (data / 'enUS/realmlist.wtf').write_text(f'set realmlist {realm}\n')
     cfg = CLIENT_DIR / 'WTF/Config.wtf'
@@ -458,7 +466,7 @@ def client_setup(realm):
 
 @client.command('refresh')
 def client_refresh():
-    """Re-sync exe/WXL copies and PATCH links from nginx (setup without the downloads).
+    """Re-sync the exe copies and PATCH links from nginx (setup without the downloads).
 
     Builds call this automatically; run it by hand after copying files into nginx another way.
     """
@@ -599,14 +607,14 @@ def _owner():
 
 
 def _client_running(prefix=None):
-    """A live (non-zombie) Wow.exe in this slot's Wine prefix, found via /proc - never pkill (it
+    """A live (non-zombie) client exe in this slot's Wine prefix, found via /proc - never pkill (it
     matches the calling shell)."""
     want = f'WINEPREFIX={prefix or WINEPREFIX}'.encode()
     for p in Path('/proc').iterdir():
         if not p.name.isdigit():
             continue
         try:
-            if b'Wow.exe' in (p / 'cmdline').read_bytes() and \
+            if EXE_NAME.encode() in (p / 'cmdline').read_bytes() and \
                     (p / 'stat').read_text().rsplit(')', 1)[1].split()[0] != 'Z' and \
                     want in (p / 'environ').read_bytes().split(b'\0'):
                 return True
@@ -636,7 +644,7 @@ def _default_slot(launching):
             return n
     if launching:
         for n, (lock, running) in enumerate(states):
-            if n and not (_slot_paths(n)[0] / 'Wow.exe').exists():
+            if n and not (_slot_paths(n)[0] / EXE_NAME).exists():
                 continue   # slot never set up: zep client --slot N setup
             if not running:
                 return n
@@ -720,18 +728,13 @@ def _latest_crash():
     return crashes[-1] if crashes else None
 
 
-def _start(timeout, opengl, no_wxl, wait):
+def _start(timeout, opengl, wait):
     _require_setup()
     _xvfb_up()
-    if opengl and not no_wxl:
-        # WXL's EnsureDeviceHooks reads the D3D9 device field of gx; in OpenGL mode that field is
-        # garbage (0x84F5) and WXL faults within seconds (#132 at WarcraftXL.dll RVA 0x47A5, I-381).
-        click.echo(click.style('  --opengl implies --no-wxl (WarcraftXL is D3D9-only)', fg='yellow'))
-        no_wxl = True
     log_path = _new_run_log()
     log = open(log_path, 'w')
-    cmd = ['timeout', str(timeout), str(WINE_DIR / 'bin/wine'), 'Wow.exe'] + (['-opengl'] if opengl else [])
-    subprocess.Popen(cmd, cwd=CLIENT_DIR, env=_wine_env(no_wxl), stdout=log, stderr=log,
+    cmd = ['timeout', str(timeout), str(WINE_DIR / 'bin/wine'), EXE_NAME] + (['-opengl'] if opengl else [])
+    subprocess.Popen(cmd, cwd=CLIENT_DIR, env=_wine_env(), stdout=log, stderr=log,
                      start_new_session=True)
     if wait and not _wait_window(wait):
         raise click.ClickException(f'no client window after {wait}s - see {log_path}')
@@ -744,8 +747,8 @@ def _stop():
 
 @client.command('start')
 @click.option('--timeout', default=3600, show_default=True, help='kill the client after N seconds')
-@click.option('--opengl', is_flag=True, help='client OpenGL mode instead of D3D9 (bypasses wined3d; implies --no-wxl)')
-@click.option('--no-wxl', is_flag=True, help='use Wine builtin d3d9, skipping the WarcraftXL proxy')
+@click.option('--opengl', is_flag=True, help='client OpenGL mode instead of D3D9 (bypasses wined3d)')
+@click.option('--no-wxl', is_flag=True, hidden=True, help='obsolete: the x64 client has no WarcraftXL')
 @click.option('--wait', default=0, help='block until the client window exists (max N seconds)')
 @click.option('--account', '-a', 'username', default=None, help='account the login screen is set up for')
 @click.option('--char', default=None, help='character to preselect (default: the first; see `zep client chars`)')
@@ -757,7 +760,7 @@ def client_start(timeout, opengl, no_wxl, wait, username, char, purpose, force, 
     _take_lock(purpose, force, username)
     _stop()
     picked = _select_char(username, char, keep_addons)
-    log_path = _start(timeout, opengl, no_wxl, wait)
+    log_path = _start(timeout, opengl, wait)
     click.echo(f'slot {SLOT}: client started on {DISPLAY}, {picked} preselected (log: {log_path})')
 
 
@@ -765,7 +768,7 @@ def client_start(timeout, opengl, no_wxl, wait, username, char, purpose, force, 
 def client_stop():
     """Kill the client (wineserver -k).
 
-    Don't use `pkill -f Wow.exe` from a shell: it matches and kills the calling shell.
+    Don't use `pkill -f WowClient64.exe` from a shell: it matches and kills the calling shell.
     """
     _stop()
     click.echo('client stopped')
@@ -776,7 +779,7 @@ def client_status():
     """Show whether the display and the client window are up."""
     for n in range(MAX_SLOTS):
         lock, running = _slot_state(n)
-        set_up = (_slot_paths(n)[0] / 'Wow.exe').exists()
+        set_up = (_slot_paths(n)[0] / EXE_NAME).exists()
         who = f"{lock.get('owner')}{' (this session)' if lock.get('owner') == _owner() else ''}, " \
               f"{lock.get('account', '?')}: {lock.get('purpose') or 'no purpose'}" if lock else 'unlocked'
         click.echo(f"slot {n}: {'not set up' if not set_up else ('RUNNING' if running else 'idle')} - {who}")
@@ -871,7 +874,7 @@ def client_drive(outdir, login_wait, charselect_wait, world_wait, username, char
     time.sleep(2)
     picked = _select_char(username, char, keep_addons)
     click.echo(f'slot {SLOT}: logging in {picked} on {(username or _creds()[0]).upper()}')
-    _start(3600, False, False, wait=120)
+    _start(3600, False, wait=120)
     stages = [('01-login', login_wait, None),
               ('02-charselect', charselect_wait, lambda: _login(False, 0, username)),
               ('03-world', world_wait, lambda: _xtool('xdotool', 'key', 'Return')),
