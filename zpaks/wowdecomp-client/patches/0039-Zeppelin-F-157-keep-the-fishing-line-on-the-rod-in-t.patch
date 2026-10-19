@@ -1,0 +1,109 @@
+From d2c5c6f20473b93d161fbc3599579f9cff126f04 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Mon, 19 Oct 2026 11:32:01 +0000
+Subject: [PATCH] Zeppelin F-157: keep the fishing line on the rod in the hand
+
+The cast and channel kits each attach a rod to attachment 1 and the second
+detaches the first. A line bound to the first rod stayed on a model that is
+never drawn, so the line was missing for the whole cast about half the time.
+PreAnimate now moves the line to the attached rod; the CEffect teardown only
+clears the rod's draw callback while it still owns it.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Source/Object/ObjectClient/Effect_C.cpp | 42 ++++++++++++++++++++-
+ WoW/Source/Object/ObjectClient/Effect_C.h   |  1 +
+ WoW/Source/Object/ObjectClient/Unit_C.cpp   |  4 ++
+ 3 files changed, 45 insertions(+), 2 deletions(-)
+
+diff --git a/WoW/Source/Object/ObjectClient/Effect_C.cpp b/WoW/Source/Object/ObjectClient/Effect_C.cpp
+index ad8d7f1..f74f044 100644
+--- a/WoW/Source/Object/ObjectClient/Effect_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Effect_C.cpp
+@@ -258,6 +258,39 @@ void CEffect::AddFishingLine(CGObject_C* object, const WOWGUID& target) {
+     this->m_targetGuid = target;
+ }
+ 
++// Zeppelin F-157: the fishing cast and channel kits each attach a rod to attachment 1, and the second
++// one detaches the first. A line that bound to the first rod stays on a model that is no longer drawn,
++// so the line vanished for the whole cast. Move it to the rod now in the hand.
++void CEffect::RebindFishingLine(CGObject_C* object) {
++    CM2Model* model = object->m_worldModel;
++
++    if (!model || !this->m_lineModel || this->m_lineModel->m_attachParent == model) {
++        return;
++    }
++
++    CM2Model* line = model->m_attachList;
++
++    while (line && !(line->m_attachmentId == 1 && line->HasEvent('HCC$'))) {
++        line = line->m_attachNext;
++    }
++
++    if (!line) {
++        return;
++    }
++
++    if (this->m_lineModel->m_drawArg == this) {
++        this->m_lineModel->m_drawCallback = nullptr;
++        this->m_lineModel->m_drawArg = nullptr;
++    }
++
++    this->m_lineModel->Release();
++    this->m_lineModel = line;
++    line->m_refCount++;
++    line->m_fFlags |= 0x20;
++    line->m_drawCallback = &CEffect::DrawFishingString;
++    line->m_drawArg = this;
++}
++
+ // VERIFY: 9ce5579d manual
+ // OFFSET: 0x006F9D70
+ CEffect::CEffect() {
+@@ -792,8 +825,13 @@ CEffect::~CEffect() {
+ 
+     if (this->m_lineModel) {
+         this->m_lineModel->m_fFlags |= 0x20;
+-        this->m_lineModel->m_drawCallback = nullptr;
+-        this->m_lineModel->m_drawArg = nullptr;
++
++        // Zeppelin F-157: effects are ref-counted, so a newer line may already own this rod.
++        if (this->m_lineModel->m_drawArg == this) {
++            this->m_lineModel->m_drawCallback = nullptr;
++            this->m_lineModel->m_drawArg = nullptr;
++        }
++
+         this->m_lineModel->Release();
+     }
+ 
+diff --git a/WoW/Source/Object/ObjectClient/Effect_C.h b/WoW/Source/Object/ObjectClient/Effect_C.h
+index 4754419..0374974 100644
+--- a/WoW/Source/Object/ObjectClient/Effect_C.h
++++ b/WoW/Source/Object/ObjectClient/Effect_C.h
+@@ -87,6 +87,7 @@ class CEffect {
+     CEffect();
+     ~CEffect();
+     void AddFishingLine(CGObject_C* object, const WOWGUID& target);
++    void RebindFishingLine(CGObject_C* object);
+     static void CreateModelFromEffect(CM2Model* model, void* arg);
+     void AddAnimKitEffect(int32_t spellId, const SpellVisualKitRec* kit, const WOWGUID* guid, uint32_t flags, uint32_t fadeTime);
+     void AddSoundEffect(int32_t soundId, int32_t expireTime, int32_t spellId, const C3Vector* position, CGObject_C* object, uint32_t fadeTime);
+diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+index 1e956be..9b6f170 100644
+--- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+@@ -1393,6 +1393,10 @@ void CGUnit_C::ModelLoaded(CM2Model* model) {
+ void CGUnit_C::PreAnimate(CGWorldFrame* frame) {
+     uint32_t time = FrameTime::s_curTimeMs;
+ 
++    if (this->m_fishingLineEffect) {
++        this->m_fishingLineEffect->RebindFishingLine(this);
++    }
++
+     if (this->m_vehiclePassenger) {
+         this->m_vehiclePassenger->CheckForVehicleTransitionAnimTimeout();
+     }
+-- 
+2.34.1
+
