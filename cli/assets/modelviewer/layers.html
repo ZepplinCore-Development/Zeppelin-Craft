@@ -1042,7 +1042,11 @@ function to335(pairs, mesh) {
   const vals = {}; (pairs || []).forEach(([i, v]) => { vals[i + 1] = v; });
   const out = [0, 0, 0, 0, 0, 0, 0, 0];
   Object.entries(mesh || {}).forEach(([g, vs]) => { g = +g; if (g < 1 || g > 8) return;
-    const v = vals[g] || 0; out[g - 1] = vs.includes(v) ? v : ([...Array(15).keys()].map(x => x + 1).find(x => !vs.includes(x)) || 0); });
+    const v = vals[g] || 0;
+    // as retail.to_335_nibbles: a display that sets some groups draws its unset ones at their first variant
+    // (dryad3); only a display with no data at all hides them (mountaingiant2's bare rock)
+    out[g - 1] = vs.includes(v) ? v : ((pairs || []).length && !v && vs.length) ? Math.min(...vs)
+      : ([...Array(15).keys()].map(x => x + 1).find(x => !vs.includes(x)) || 0); });
   return out;
 }
 // the retail.json target row of a linked retail model (viewer_v2.named_remaster_index's layout)

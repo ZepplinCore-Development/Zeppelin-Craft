@@ -653,6 +653,11 @@ def to_335_nibbles(pairs, mesh: Dict[int, List[int]]) -> List[int]:
         v = vals.get(g, 0)
         if v in vs:
             out[g - 1] = v
+        elif pairs and not v and vs:
+            # a display that SETS some groups draws the ones it leaves unset at their first variant (Wowhead's
+            # retail render of dryad3 876: only group 5 set, body groups 1-4 drawn) - only a display with no
+            # data at all hides them (mountaingiant2 100214: no tufts)
+            out[g - 1] = min(vs)
         else:
             out[g - 1] = next((x for x in range(1, 16) if x not in vs), 0)
     return out
