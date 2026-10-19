@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-locale-dbc",
+  "version": "0.1.0",
+  "description": "Locale-tree DBC overrides. Some DBCs (Movie/MovieVariation/MovieFileData) are shipped by Blizzard in LOCALE patch archives, which outrank a root Data/PATCH-*.MPQ, so our PATCH-Z copies are shadowed and never read (I-280). Those must be delivered as Data/<locale>/patch-<locale>-<N>.MPQ instead. DISABLED: the build pipeline can only emit Data/PATCH-<letter>.MPQ, so this package is packed manually with `mpq-tools pack -o` and placed by hand until locale delivery exists.",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-X",
+  "enabled": false,
+  "priority": 450
+}
