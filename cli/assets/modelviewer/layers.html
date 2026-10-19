@@ -1437,8 +1437,9 @@ function paneUrl(p, extra = {}) {
   if (p.tex) prm.set('tex', Object.entries(p.tex).map(([k, v]) => k + ':' + v).join(','));
   if (p.mesh) prm.set('mesh', p.mesh.join(','));
   if (p.mesh && !String(p.model || '').startsWith('character/')) prm.set('g0all', '1');   // creature: group 0 always drawn
-  if (p.retroport && !extra.packFile) {
-    // a pack's retroport of retail's model: drawn as what ships - retail's model, the pack's skins (its map)
+  if (p.retroport && !p.retroport.converted && !extra.packFile) {
+    // a pack's retroport of retail's model with no conversion of retail's model at hand: drawn live from retail
+    // (a converted one loads by path from its own map - our conversion, the pack's skins, attached items)
     prm.set('retail', p.retroport.fdid); prm.set('build', retailIdx.build || '');
     if (p.retroport.mesh) { prm.set('mesh', p.retroport.mesh.join(',')); prm.set('g0all', '1'); } else prm.delete('mesh');
   }
@@ -2348,6 +2349,10 @@ let _riderRun = 0;
 async function riderCards(e, riders, mount) {
   const run = ++_riderRun;                      // the page can draw twice: only the latest run adds cards
   document.querySelectorAll('#panes .pane[data-rider]').forEach(x => x.remove());
+  // only a FUSED mount (rider baked into its model) has a rider to split off: a gnoll on its motorcycle
+  // (display 374 on mount 25871, motorcyclevehicle) is a plain rider, not an F-220 page
+  const ms = await loadCustStock(mount);
+  if (!ms || !isFusedRider(ms.model) || cur !== e || run !== _riderRun) return;
   const pk = pickOf(e) || {};
   // this display's other looks (the fake rider): option cards, after the fused one
   const opts = ((dispOpts[e.display] || {}).options || []).filter(([n, vid]) => vid !== e.display);

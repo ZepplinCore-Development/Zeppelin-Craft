@@ -415,7 +415,7 @@ class Deployer:
         tmp = PANE_CACHE.with_suffix('.tmp')
         tmp.write_bytes(pickle.dumps(self.used))
         tmp.replace(PANE_CACHE)
-        keep = {r['pane']['map'] for r in self.used.values()}
+        keep = {r['pane']['map'] for r in self.used.values()} | set(getattr(self, 'extra_maps', ()))
         for f in self.maps_dir.glob('*.json'):
             if f.stem not in keep:
                 f.unlink()
@@ -1356,6 +1356,38 @@ def reuses_display(stock_path: str, path: str, ext, stock_paths: set) -> bool:
     return not (a in b or b in a or len(os.path.commonprefix([a, b])) >= 4)
 
 
+def _converted_map(dep, path: str, info: dict, base_mid: Optional[str], conv: dict) -> Optional[str]:
+    """A pane map: the pane's own (pack skins, items) with path's model / .skin / .anim replaced by our WXL
+    conversion of the retail model (lib/retail.convert, cached) and that conversion's textures added."""
+    from lib import retail
+    if not base_mid:
+        return None
+    if path not in conv:
+        try:
+            conv[path] = retail.convert(path, log=lambda *a: None, fdid=info['fdid'] if info.get('retail_path') else None)
+        except Exception:
+            conv[path] = None
+    files = conv[path]
+    if not files or path not in files:
+        return None
+    if retail.skin00_overflow(files, path):
+        return 'overflow'                            # it never replaces the pack file: the card stays the pack's
+    try:
+        base = dep.maps.get(base_mid) or json.loads((dep.maps_dir / f'{base_mid}.json').read_text())
+    except (OSError, ValueError):
+        return None
+    stem = path[:-3]
+    out = {k: v for k, v in base.items() if not (k == path or (k.startswith(stem) and k.endswith(('.skin', '.anim'))))}
+    for k, f in files.items():
+        out[k] = dep.store.put(Path(f))
+    mid = 'm' + hashlib.sha1(json.dumps(out, sort_keys=True).encode()).hexdigest()[:16]
+    mp = dep.maps_dir / f'{mid}.json'
+    if not mp.exists():
+        mp.write_text(json.dumps(out, separators=(',', ':')))
+    dep.__dict__.setdefault('extra_maps', set()).add(mid)
+    return mid
+
+
 def annotate_retroports(dep, assets: list, v2: Path, log=print) -> None:
     """lib/retroport: a pack pane whose model is a retroport of the current retail model is drawn as what
     curate ships - retail's model (pane 'retroport': its FileDataID; the pane fetches it as a retail pane and
@@ -1383,6 +1415,7 @@ def annotate_retroports(dep, assets: list, v2: Path, log=print) -> None:
         return sets_of[k]
 
     n = 0
+    conv: Dict[str, Optional[dict]] = {}
     for e in assets:
         for p in e.get('panes') or []:
             if p.get('model') and (p.get('sources') or [None])[0]:
@@ -1398,13 +1431,24 @@ def annotate_retroports(dep, assets: list, v2: Path, log=print) -> None:
             row = srcs[src].cdi.get(p.get('display')) if p.get('display') is not None and src in srcs else None
             cg = int((row or {}).get('creature_geoset_data') or 0)
             nib = rp.retroport_nibbles(cg, pm_cache[(src, path)], retail.mesh_geosets(info['fdid']))
+            # drawn from OUR conversion of retail's model (what curate ships, aliases included), by path: the
+            # pane's own map with the model / skins / anims swapped - attached items merge as on any pane
+            # (live retail mode is MD21 by FileDataID, which the item merge cannot touch: gnoll 374's torch)
+            mid = _converted_map(dep, path, info, p.get('map'), conv)
+            if mid == 'overflow':
+                continue                             # curate keeps the pack file (skin00 > 65,535 indices)
             p['retroport'] = {'fdid': info['fdid']}
+            if mid:
+                p['map'] = mid
+                p['retroport']['converted'] = True
             if info.get('extra_verts', {}).get(src):
                 p['retroport']['extra_verts'] = info['extra_verts'][src]     # a small piece the pack added (not shipped)
             if info.get('added_anims', {}).get(src):
                 p['retroport']['added_anims'] = info['added_anims'][src]     # the pack's own, covered by our aliases
             if any(nib):
                 p['retroport']['mesh'] = [0] + nib
+                if p['retroport'].get('converted'):
+                    p['mesh'] = [0] + nib
             n += 1
     # the Display editor's skin union for a retail model: every retroport pack's skin sets, staged
     # keyed by the RETAIL model's path (a renamed retroport's retail_path); approved donors (retroport.donors:

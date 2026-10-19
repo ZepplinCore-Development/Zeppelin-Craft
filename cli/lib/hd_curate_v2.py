@@ -710,6 +710,10 @@ def _retroport_swap(manifest: dict, wanted_rows: dict, base_cdi: dict, base_cmd:
         if not files or path not in files:
             report['retroport_failed'][path] = 'convert failed' if files is None else 'no model in conversion'
             continue
+        ov = retail.skin00_overflow(files, path)
+        if ov:
+            report['retroport_failed'][path] = f'conversion skin00 has {ov:,} indices > 65,535 (I-392: later parts empty in game); the pack file ships'
+            continue
         for k in [k for k in manifest if k.startswith(stem) and k.endswith(('.skin', '.anim'))
                   and k[len(stem):len(stem) + 1].isdigit() and k not in files]:
             manifest.pop(k)                            # the pack's LOD / anim files retail's conversion replaces

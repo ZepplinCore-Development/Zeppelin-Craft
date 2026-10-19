@@ -29,7 +29,7 @@ LISTFILE = Path('/workspace/project/Zeppelin-Tools/Retroport/retroport_tools/Mul
 CACHE = Path('/workspace/project/logs/retail_cache')
 DOWNPORT = Path('/workspace/project/Zeppelin-Tools/Retroport/zep_downport/zep_downport')
 WAGO = 'https://wago.tools/api'
-CONVERT_VERSION = 3     # 2: WXL skin rebuild (m2_skin_rebuild) applied after the downport; 3: classic animation aliases
+CONVERT_VERSION = 4     # 2: WXL skin rebuild (m2_skin_rebuild); 3: classic animation aliases; 4: one-view models trimmed to skin00
 _UA = {'User-Agent': 'Zeppelin-F216-model-viewer/1.0 (+curl compatible)'}
 
 
@@ -205,6 +205,21 @@ def convert(path: str, log=print, fdid: Optional[int] = None) -> Optional[Dict[s
                 + ', '.join(f'{x}<-{y}' for x, y in pairs[:12]))
     except Exception as ex:                            # the plain conversion still ships
         log(f'    retail {path}: animation aliases skipped - {ex}')
+    # one view (the client only ever loads skin00): retail's single vertex buffer also holds the LOD skins'
+    # vertices (gnollb: 67,697, skin00 uses 14,823). Trim the count to skin00's and drop the LOD skins - the
+    # client never reads them, and 65,536+ vertices leave no u16 room (the picker's item merge refused)
+    if len(m2b) > 0x48 and struct.unpack_from('<I', m2b, 0x44)[0] == 1 and skins and sks:
+        s0 = sks[0]
+        ni, oi = struct.unpack_from('<II', s0, 4)
+        nv = struct.unpack_from('<I', m2b, 0x3C)[0]
+        top = max(struct.unpack_from(f'<{ni}H', s0, oi)) + 1 if ni else nv
+        if top < nv:
+            m2b = bytearray(m2b)
+            struct.pack_into('<I', m2b, 0x3C, top)
+            m2b = bytes(m2b)
+        for k in skins[1:]:
+            files.pop(k, None)
+        skins, sks = skins[:1], sks[:1]
     work.write_bytes(m2b)
     for k, b in zip(skins, sks):
         files[k].write_bytes(b)
@@ -215,6 +230,22 @@ def convert(path: str, log=print, fdid: Optional[int] = None) -> Optional[Dict[s
 _cdi: Optional[Dict[int, Tuple[int, List[int]]]] = None
 _anim_fb: Optional[Dict[int, int]] = None
 CLIENT_MAX_ANIM = 505                                   # the 3.3.5 client resolves ids 0..505
+
+
+def skin00_overflow(files: Optional[Dict[str, Path]], path: str) -> int:
+    """Triangle indices of a conversion's skin00 when over 65,535, else 0: the 3.3.5 submesh indexStart is u16,
+    so every later submesh comes out EMPTY in game (I-392: dragonspawn2 lost its horns). Such a conversion must
+    not replace a pack file that works."""
+    sk = (files or {}).get(path[:-3] + '00.skin')
+    if not sk:
+        return 0
+    try:
+        with open(sk, 'rb') as fh:
+            h = fh.read(0x10)
+        n = struct.unpack_from('<I', h, 0xC)[0]
+    except (OSError, struct.error):
+        return 0
+    return n if n > 65535 else 0
 
 
 def anim_fallbacks() -> Dict[int, int]:
