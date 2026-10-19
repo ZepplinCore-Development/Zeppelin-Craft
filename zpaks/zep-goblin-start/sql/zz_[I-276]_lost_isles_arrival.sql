@@ -69,8 +69,8 @@ DELETE FROM `smart_scripts` WHERE `source_type` = 9 AND `entryorguid` = 3660800;
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 36608;
 
 -- id 0 -- the trigger. SMART_EVENT_MOVIE_COMPLETED (113, Zeppelin custom, round
--- 3): param1 = movie id 16, the goblin cinematic (shipped as movie 16 per
--- I-280). Fired on creatures within 150y of the player when the client sends
+-- 3): param1 = movie id 22, the goblin cinematic (F-200: its own movie id since
+-- 2026-10-19). Fired on creatures within 150y of the player when the client sends
 -- CMSG_COMPLETE_MOVIE -- i.e. when the cinematic has actually left the screen,
 -- whether it played through (~83s) or was skipped with Escape. Invoker = the
 -- player. Gated by the conditions rows below to a player who has finished Life
@@ -92,7 +92,7 @@ INSERT INTO `smart_scripts`
    `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`,
    `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`)
 VALUES
-  (36608, 0, 0, 0, 113, 0, 100, 0, 16, 0, 0, 0, 0,
+  (36608, 0, 0, 0, 113, 0, 100, 0, 22, 0, 0, 0, 0,
    80, 3660800, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
    'Doc Zapnozzle - On goblin cinematic completed - Run the revive scene');
 
@@ -335,17 +335,12 @@ DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` 
 -- Wrathgate correctly on hand-in, so the event, the invoker and
 -- Player::SendMovieStart all work.
 --
--- **Fires movie 16, not 22 (I-280, resolved 2026-07-31).** The client only
--- resolves the ids in its own stock Movie.dbc -- 1, 2, 14, 16. Our Movie.dbc
--- ships correctly in PATCH-Z but is shadowed at runtime, so row 22 never
--- resolved and SendMovieStart(22) was silently inert. That, not the AVI, is why
--- the cinematic never played: the file itself is fine and plays with audio.
---
--- Id 16 (WOW_FoTLK) is unused, so the goblin cinematic ships as
--- `WOW_FoTLK_1024.avi` in the zep-cinematics zpak (PATCH-X) and is triggered
--- here as movie 16. Movie.dbc row 22 is kept for server-side bookkeeping only.
--- Revert to 22 if the DBC override is ever fixed.
--- Client resolution ceiling tracked separately as I-279.
+-- **Fires movie 22 (F-200, 2026-10-19).** The client resolves a movie through
+-- MovieVariation -> MovieFileData + FileData, never Movie.movie_path; row 22 only
+-- failed because its FileData rows were missing. zep-cinematics now ships
+-- Goblin_1024.avi + Goblin_1280.avi with those rows, and the x64 client picks the
+-- 1280 file on screens 1280 wide or more. Movie 16 is the stock Fall of the
+-- Lich King film again (Dedication of Honor plays it).
 --
 -- Event **20 SMART_EVENT_REWARD_QUEST**, param1 = 14126. NOT event 50
 -- SMART_EVENT_QUEST_REWARDED, which takes no quest id and is absent from
@@ -359,8 +354,8 @@ INSERT INTO `smart_scripts`
    `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`,
    `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`)
 VALUES
-  (35222, 0, 1, 0, 20, 0, 100, 0, 14126, 0, 0, 0, 68, 16, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0,
-   'Trade Prince Gallywix - On Reward Quest Life Savings - Play the goblin cinematic, movie 16 (I-276/I-280)');
+  (35222, 0, 1, 0, 20, 0, 100, 0, 14126, 0, 0, 0, 68, 22, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0,
+   'Trade Prince Gallywix - On Reward Quest Life Savings - Play the goblin cinematic, movie 22 (I-276/F-200)');
 
 
 -- ---- 5b. Gallywix takes the Keys to the Hot Rod --------------------------
