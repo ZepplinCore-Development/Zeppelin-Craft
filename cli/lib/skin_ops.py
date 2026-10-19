@@ -586,6 +586,11 @@ def _rigid_plan(cfg: Dict[str, Any]):
     # a classic donor's header 0x2C is its boneCountMax, not a retail LOD vertex offset: lookups as they are
     tris = [tuple(dsk.lookup[x] for x in dsk.idx[t:t + 3]) for t in range(s['istart'], s['istart'] + s['icount'], 3)]
     tris = [t for t in tris if collections.Counter(dm.dom[v] for v in t).most_common(1)[0][0] in under]
+    if cfg.get('trim_flaps'):
+        # skin-bridge flaps: a triangle with a body-weighted tip no other kept triangle uses (the classic
+        # wing root's seam into the back; spikes across the spine once the root stands proud, I-392)
+        uses = collections.Counter(v for t in tris for v in t)
+        tris = [t for t in tris if not any(dm.dom[v] not in under and uses[v] == 1 for v in t)]
     verts = sorted({v for t in tris for v in t})
     return donor, tris, verts
 
@@ -886,10 +891,12 @@ def _cap_loops(donor: bytes, tris, cap) -> List[tuple]:
             adj[b].append(a)
     allp = [dm.pos[v] for t in tris for v in t]
     centre = [sum(p[i] for p in allp) / len(allp) for i in range(3)]
-    # walk unused boundary edges: two loops can share a vertex (a figure-eight on the classic root end)
+    # walk unused boundary edges: two loops can share a vertex (a figure-eight on the classic root end).
+    # Start at the shared vertex so each walk closes on it; started elsewhere, a walk ran through it
+    # into the other loop and fanned one self-crossing loop (spiky, half-open cap)
     used, out = set(), []
     loops = []
-    for start in list(adj):
+    for start in sorted(adj, key=lambda p: -len(adj[p])):
         for first in adj[start]:
             if frozenset((start, first)) in used:
                 continue
@@ -918,6 +925,36 @@ def _cap_loops(donor: bytes, tris, cap) -> List[tuple]:
             if sum(n[i] * out_dir[i] for i in range(3)) < 0:
                 tri = (tri[0], tri[2], tri[1])
             out.append(tri)
+    return out
+
+
+def _fill_tris(donor: bytes, tris, cap) -> List[tuple]:
+    """cfg "cap": {"fill": [[p, p, p], ...]}: extra membrane triangles between donor vertices given by
+    position (donor model space, nearest within 0.005), wound like the piece triangle sharing their
+    first edge. I-392: the classic wing's trailing-edge notch between the root and the first finger
+    sat inside the classic body; on the HD back it showed as a forked gap at the root."""
+    if not cap or not cap.get('fill'):
+        return []
+    dm = _Model(donor)
+    vs = {v for t in tris for v in t}
+    def find(p):
+        v = min(vs, key=lambda v: sum((dm.pos[v][i] - p[i]) ** 2 for i in range(3)))
+        if sum((dm.pos[v][i] - p[i]) ** 2 for i in range(3)) > 0.005 ** 2:
+            raise ValueError(f'skin.import_rigid: cap fill: no piece vertex at {p}')
+        return v
+    weld = lambda v: tuple(round(c, 4) for c in dm.pos[v])
+    out = []
+    for tri in cap['fill']:
+        a, b, c = (find(p) for p in tri)
+        wa, wb = weld(a), weld(b)
+        for t in tris:
+            w = [weld(v) for v in t]
+            if wa in w and wb in w:
+                # the neighbour runs a->b: this triangle must run b->a
+                if (w.index(wb) - w.index(wa)) % 3 == 1:
+                    a, b = b, a
+                break
+        out.append((a, b, c))
     return out
 
 
@@ -958,6 +995,7 @@ def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     else:
         sk.props += bytes(4 * n * sides)
     caps = _cap_loops(donor, tris, cfg.get('cap'))
+    fills = _fill_tris(donor, tris, cfg.get('cap'))
     # placing / conforming can fold a triangle over (neighbours pushed out by different amounts):
     # compare its facing as placed (side 0 in the model) with the donor's and re-wind a flipped one
     dmd = _Model(donor)
@@ -972,7 +1010,7 @@ def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
         fixed.append((t[0], t[2], t[1]) if sum(n0[i] * n1[i] for i in range(3)) < 0 else t)
     rewound = sum(1 for a, b in zip(tris, fixed) if a != b)
     idx, sidx = [], []
-    for t, f in zip(fixed + caps, flags + [True] * len(caps)):
+    for t, f in zip(fixed + caps + fills, flags + [True] * len(caps) + [False] * len(fills)):
         a, b, c = (nstart + (srank if f and v in srank else rank)[v] for v in t)
         dst = sidx if f else idx
         dst += [a, b, c]
