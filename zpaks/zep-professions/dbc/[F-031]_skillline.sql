@@ -1,4 +1,4 @@
--- [F-031] zep-legacy: skillline
+-- [F-031] zep-professions: skillline
 -- Lockpicking reclassified to secondary skills category
 
 -- skillline: 1 updates

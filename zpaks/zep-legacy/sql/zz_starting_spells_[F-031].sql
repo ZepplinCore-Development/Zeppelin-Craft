@@ -1,3 +1,5 @@
+-- Legacy starting-spells grab-bag (professions, hearthstone, mage extras, banking).
+-- Lockpicking (1804) moved to zep-professions/sql/zz_[F-031]_lockpicking_grant.sql.
 REPLACE INTO playercreateinfo_spell_custom (racemask,classmask,Spell,Note)
     VALUES
     (0,0,10768,'Skinning'),
@@ -12,7 +14,6 @@ REPLACE INTO playercreateinfo_spell_custom (racemask,classmask,Spell,Note)
     (0,0,25229,'jewelcrafting'),
     (0,0,45357,'inscription'),
     (0,0,8690,'Hearthstone'),
-    (0,0,1804,'Lockpicking'),
     (0,0,91049,'Find Minerals and Herbs'),
     (0,128,91056,'Magical Attunement'),
     (0,128,91058,'Mind Freak'),
