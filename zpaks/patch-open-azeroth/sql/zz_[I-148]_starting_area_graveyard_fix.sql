@@ -94,3 +94,55 @@
     DELETE FROM `graveyard_zone` WHERE `ID` = 93 AND `GhostZone` = 6450;
     INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`) VALUES
         (93, 6450, 469, 'Teldrassil, Shadowglen (OA parent)');
+
+-- ============================================================================
+-- Teldrassil zone fallback (zone 141) - GY 90 / 91 / 93
+--
+-- F-036 linked each Teldrassil graveyard only to the area that hosts it
+-- (91 -> 186 Dolanaar, 93 -> 256/188 Aldrassil/Shadowglen, 129 -> 702
+-- Rut'theran), and linked only GY 90 (Darnassus) to zone 141 itself.
+--
+-- GetClosestGraveyard (GameGraveyard.cpp) resolves area first, then falls back
+-- to zone. Every Teldrassil area WITHOUT its own link therefore fell through to
+-- zone 141, whose candidate list held exactly one entry - Darnassus. With a
+-- one-element list there is no "closest" to compute, so the whole outer ring of
+-- the zone was routed to Darnassus:
+--   257 Shadowthread Cave    258 Fel Rock            259 Lake Al'Ameth
+--   260 Starbreeze Village   261 Gnarlpine Hold      262 Ban'ethil Barrow Den
+--   263 The Cleft            264 The Oracle Glade    265 Wellspring River
+--   266 Wellspring Lake      478 Pools of Arlithrien 736 Ban'ethil Hollow
+--  4718 Wellspring Hovel    2322 The Veiled Sea
+-- e.g. from Starbreeze Village: Dolanaar 577yd, Aldrassil 692yd, Darnassus
+-- 1745yd - and Darnassus is what the player got.
+--
+-- Fix at the zone rather than per area: unlike the OA starting areas above,
+-- these areas' AreaTable.zone_id already points straight at 141, so the single
+-- level of zone lookup lands correctly. Two rows cover all fourteen areas and
+-- any area added later. Faction per graveyard is kept as F-036 set it
+-- (90/93 Alliance, 91 neutral). (90, 141) is F-036's row - not touched here.
+-- ============================================================================
+
+    DELETE FROM `graveyard_zone` WHERE `ID` IN (91, 93) AND `GhostZone` = 141;
+    INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`) VALUES
+        (91, 141, 0, 'Teldrassil, Dolanaar GY (zone fallback)'),
+        (93, 141, 469, 'Teldrassil, Aldrassil GY (zone fallback)');
+
+-- ============================================================================
+-- The Veiled Sea (2322) - the ocean around Teldrassil
+--
+-- The three inland graveyards all sit at z ~1300 on the tree; a death at sea
+-- level is ~1300yd away from every one of them on the z axis alone. Rut'theran
+-- Village (GY 129, z 13.27) is the only sea-level graveyard on Teldrassil, so
+-- the sea gets its own area row that includes it. Distance is measured in 3D
+-- (GameGraveyard.cpp:245), so listing all four lets the engine pick correctly.
+--
+-- This must be an AREA row, and it must list every candidate: an area link
+-- shadows the zone fallback entirely rather than adding to it.
+-- ============================================================================
+
+    DELETE FROM `graveyard_zone` WHERE `ID` IN (90, 91, 93, 129) AND `GhostZone` = 2322;
+    INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`) VALUES
+        (90, 2322, 469, 'Teldrassil, Darnassus GY - The Veiled Sea'),
+        (91, 2322, 0, 'Teldrassil, Dolanaar GY - The Veiled Sea'),
+        (93, 2322, 469, 'Teldrassil, Aldrassil GY - The Veiled Sea'),
+        (129, 2322, 0, 'Teldrassil, Rut''theran Village GY - The Veiled Sea');
