@@ -227,7 +227,15 @@
 
 -- LEVEL 1 - 15 CATACLYSM (F-011 goblin start)
 
-    -- Mechachicken (I-323) - Kezan, level 8, already type 9. lootid 0 -> vendor
-    -- trash in zz_[F-032]_no_loot_vendor_trash.sql so the corpse survives long
-    -- enough to be gathered.
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100030, `lootid` = 38224 WHERE (`entry` = 38224);
+    -- Mechachicken (38224) MOVED to zep-goblin-start/zz_[I-323]_mechachicken.sql.
+    --
+    -- It is an F-011 creature, so its base row is a DELETE+INSERT in that zpak's
+    -- zz_[AUTO,F-011]_10_creature_template.sql. Setting its gathering columns from
+    -- here (zep-professions, priority 999) did not survive `zep goblin gen`: the
+    -- I-244 ordering cascade only re-runs later-sorting files within the SAME zpak,
+    -- so this file was never re-applied and the live row silently reverted to
+    -- type_flags 0 / skinloot 0 / lootid 0.
+    --
+    -- Goblin-zone entries belong in the goblin zpak, as F-081 and F-174 already do
+    -- (zz_[I-243]_purge_whites.sql, zz_[I-271]_f174_skinning_compliance.sql). Add
+    -- future F-011 creatures there, not here.
