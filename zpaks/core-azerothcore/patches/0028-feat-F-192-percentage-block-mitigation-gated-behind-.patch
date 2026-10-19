@@ -1,4 +1,4 @@
-From c654b0e35fcd06f6bc097a22672eb33d1cd70466 Mon Sep 17 00:00:00 2001
+From ea4d909fee4ded034b6076e16f583c1f33de22b7 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 28 Jun 2026 01:11:41 +0000
 Subject: [PATCH] feat: F-192 percentage block mitigation (gated behind
@@ -22,10 +22,10 @@ Claude-Session: https://claude.ai/code/session_01K3Frjmskg8zE2Z5wUdzwd6
  2 files changed, 120 insertions(+), 4 deletions(-)
 
 diff --git a/src/server/apps/worldserver/worldserver.conf.dist b/src/server/apps/worldserver/worldserver.conf.dist
-index 956972d3c..b7895f3c9 100644
+index b1b96538b..9e1bc9536 100644
 --- a/src/server/apps/worldserver/worldserver.conf.dist
 +++ b/src/server/apps/worldserver/worldserver.conf.dist
-@@ -4838,6 +4838,31 @@ Respawn.ForceCompatibilityMode = 0
+@@ -4897,6 +4897,31 @@ Respawn.ForceCompatibilityMode = 0
  #
  ###################################################################################################
  
@@ -58,10 +58,10 @@ index 956972d3c..b7895f3c9 100644
  #                                                                                                 #
  # GAME SETTINGS END                                                                               #
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index af02b9c5a..51097527b 100644
+index 9fb5cb252..e68c5017c 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
-@@ -72,10 +72,78 @@
+@@ -73,10 +73,78 @@
  #include "Vehicle.h"
  #include "World.h"
  #include "WorldPacket.h"
@@ -140,7 +140,7 @@ index af02b9c5a..51097527b 100644
  float baseMoveSpeed[MAX_MOVE_TYPE] =
  {
      2.5f,                  // MOVE_WALK
-@@ -1597,10 +1665,16 @@ void Unit::CalculateSpellDamageTaken(SpellNonMeleeDamage* damageInfo, int32 dama
+@@ -1580,10 +1648,16 @@ void Unit::CalculateSpellDamageTaken(SpellNonMeleeDamage* damageInfo, int32 dama
                  // Spell weapon based damage CAN BE crit & blocked at same time
                  if (blocked)
                  {
@@ -161,7 +161,7 @@ index af02b9c5a..51097527b 100644
                      if (damage < int32(damageInfo->blocked))
                          damageInfo->blocked = uint32(damage);
  
-@@ -1898,6 +1972,23 @@ void Unit::CalculateMeleeDamage(Unit* victim, CalcDamageInfo* damageInfo, Weapon
+@@ -1881,6 +1955,23 @@ void Unit::CalculateMeleeDamage(Unit* victim, CalcDamageInfo* damageInfo, Weapon
          {
              damageInfo->TargetState = VICTIMSTATE_HIT;
              damageInfo->HitInfo |= HITINFO_BLOCK;

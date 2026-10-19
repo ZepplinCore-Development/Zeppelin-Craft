@@ -1,4 +1,4 @@
-From 5c27e16f6912b5f1d08fd9f332d534c4b3fc27cc Mon Sep 17 00:00:00 2001
+From b731db8b801a882736b7440634b3ef1c5a38ae26 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 8 Aug 2026 11:45:45 +0000
 Subject: [PATCH] fix: Enforce loot conditions on auto-stored loot (I-314)
@@ -21,10 +21,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  2 files changed, 11 insertions(+)
 
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index e6f9a1e94..855da9641 100644
+index a0c44119c..5f9e08001 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -13704,6 +13704,14 @@ void Player::AutoStoreLoot(uint8 bag, uint8 slot, uint32 loot_id, LootStore cons
+@@ -13914,6 +13914,14 @@ void Player::AutoStoreLoot(uint8 bag, uint8 slot, uint32 loot_id, LootStore cons
      {
          LootItem* lootItem = loot.LootItemInSlot(i, this);
  
@@ -40,10 +40,10 @@ index e6f9a1e94..855da9641 100644
          InventoryResult msg = CanStoreNewItem(bag, slot, dest, lootItem->itemid, lootItem->count);
          if (msg != EQUIP_ERR_OK && slot != NULL_SLOT)
 diff --git a/src/server/game/Groups/Group.cpp b/src/server/game/Groups/Group.cpp
-index 6f45ac4ab..30c9eb39f 100644
+index e17cff50d..f1d336658 100644
 --- a/src/server/game/Groups/Group.cpp
 +++ b/src/server/game/Groups/Group.cpp
-@@ -1651,6 +1651,9 @@ void Group::CountTheRoll(Rolls::iterator rollI)
+@@ -1804,6 +1804,9 @@ void Group::CountTheRoll(Rolls::iterator rollI)
                              for(uint32 i = 0; i < max_slot; i++)
                              {
                                  LootItem* lootItem = loot.LootItemInSlot(i, player);

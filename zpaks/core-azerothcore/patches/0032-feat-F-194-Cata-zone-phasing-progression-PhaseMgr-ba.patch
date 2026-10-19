@@ -1,4 +1,4 @@
-From 5f228a9a515d0fc3f1a72700224d617f91be10f5 Mon Sep 17 00:00:00 2001
+From b3410366246aad2aa3b8b7dcf886e98864768ec7 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 7 Jul 2026 14:32:23 +0000
 Subject: [PATCH] feat: F-194 Cata zone phasing progression (PhaseMgr backport)
@@ -29,7 +29,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  create mode 100644 src/server/game/Maps/PhaseMgr.h
 
 diff --git a/src/server/game/Conditions/ConditionMgr.cpp b/src/server/game/Conditions/ConditionMgr.cpp
-index 32695a2e8..74f2d99ae 100644
+index 5747ddeda..bb3808b23 100644
 --- a/src/server/game/Conditions/ConditionMgr.cpp
 +++ b/src/server/game/Conditions/ConditionMgr.cpp
 @@ -985,7 +985,8 @@ bool ConditionMgr::CanHaveSourceGroupSet(ConditionSourceType sourceType) const
@@ -108,7 +108,7 @@ index 32695a2e8..74f2d99ae 100644
      for (std::list<Condition*>::const_iterator itr = AllocatedMemoryStore.begin(); itr != AllocatedMemoryStore.end(); ++itr) delete *itr;
  
 diff --git a/src/server/game/Conditions/ConditionMgr.h b/src/server/game/Conditions/ConditionMgr.h
-index 5cfd108fe..130e658bb 100644
+index ad65af59b..3e6d17f27 100644
 --- a/src/server/game/Conditions/ConditionMgr.h
 +++ b/src/server/game/Conditions/ConditionMgr.h
 @@ -267,6 +267,7 @@ public:
@@ -128,7 +128,7 @@ index 5cfd108fe..130e658bb 100644
  
  #define sConditionMgr ConditionMgr::instance()
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 6fd84e9cc..1fffe8b22 100644
+index ce1dc42ff..fa6138042 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
 @@ -164,6 +164,8 @@ Player::Player(WorldSession* session): Unit(), m_mover(this), _cinematicMgr(*thi
@@ -141,7 +141,7 @@ index 6fd84e9cc..1fffe8b22 100644
  
      m_session = session;
 diff --git a/src/server/game/Entities/Player/Player.h b/src/server/game/Entities/Player/Player.h
-index a8e744a1b..3ff5a86f9 100644
+index 5a29ac7b4..00b155309 100644
 --- a/src/server/game/Entities/Player/Player.h
 +++ b/src/server/game/Entities/Player/Player.h
 @@ -52,6 +52,7 @@ struct VendorItem;
@@ -152,7 +152,7 @@ index a8e744a1b..3ff5a86f9 100644
  class Channel;
  class CharacterCreateInfo;
  class Creature;
-@@ -1399,6 +1400,8 @@ public:
+@@ -1403,6 +1404,8 @@ public:
      CinematicMgr& GetCinematicMgr() { return _cinematicMgr; }
      CinematicMgr const& GetCinematicMgr() const { return _cinematicMgr; }
  
@@ -161,7 +161,7 @@ index a8e744a1b..3ff5a86f9 100644
      void UpdateEnchantTime(uint32 time);
      void UpdateSoulboundTradeItems();
      void AddTradeableItem(Item* item);
-@@ -2987,6 +2990,7 @@ private:
+@@ -3000,6 +3003,7 @@ private:
      Item* _LoadItem(CharacterDatabaseTransaction trans, uint32 zoneId, uint32 timeDiff, Field* fields);
  
      CinematicMgr _cinematicMgr;
@@ -170,7 +170,7 @@ index a8e744a1b..3ff5a86f9 100644
      typedef GuidSet RefundableItemsSet;
      RefundableItemsSet m_refundableItems;
 diff --git a/src/server/game/Entities/Player/PlayerQuest.cpp b/src/server/game/Entities/Player/PlayerQuest.cpp
-index 57735685e..3459554a4 100644
+index c36b8556b..d3983f161 100644
 --- a/src/server/game/Entities/Player/PlayerQuest.cpp
 +++ b/src/server/game/Entities/Player/PlayerQuest.cpp
 @@ -25,6 +25,7 @@
@@ -181,7 +181,7 @@ index 57735685e..3459554a4 100644
  #include "PoolMgr.h"
  #include "QuestPackets.h"
  #include "ReputationMgr.h"
-@@ -878,6 +879,9 @@ void Player::RewardQuest(Quest const* quest, uint32 reward, Object* questGiver,
+@@ -901,6 +902,9 @@ void Player::RewardQuest(Quest const* quest, uint32 reward, Object* questGiver,
      UpdateAreaDependentAuras(GetAreaId());
  
      sScriptMgr->OnPlayerCompleteQuest(this, quest);
@@ -191,7 +191,7 @@ index 57735685e..3459554a4 100644
  }
  
  void Player::SetRewardedQuest(uint32 quest_id)
-@@ -1526,6 +1530,9 @@ void Player::SetQuestStatus(uint32 questId, QuestStatus status, bool update /*=
+@@ -1564,6 +1568,9 @@ void Player::SetQuestStatus(uint32 questId, QuestStatus status, bool update /*=
  
      if (update)
          SendQuestUpdate(questId);
@@ -202,7 +202,7 @@ index 57735685e..3459554a4 100644
  
  void Player::RemoveActiveQuest(uint32 questId, bool update /*= true*/)
 diff --git a/src/server/game/Entities/Player/PlayerUpdates.cpp b/src/server/game/Entities/Player/PlayerUpdates.cpp
-index ab38650b0..ce84af5c2 100644
+index 67a30bebf..0d6f9757c 100644
 --- a/src/server/game/Entities/Player/PlayerUpdates.cpp
 +++ b/src/server/game/Entities/Player/PlayerUpdates.cpp
 @@ -30,6 +30,7 @@
@@ -213,7 +213,7 @@ index ab38650b0..ce84af5c2 100644
  #include "ScriptMgr.h"
  #include "SkillDiscovery.h"
  #include "SpellAuraEffects.h"
-@@ -1295,6 +1296,9 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea, bool force)
+@@ -1321,6 +1322,9 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea, bool force)
      m_zoneUpdateId    = newZone;
      m_zoneUpdateTimer = ZONE_UPDATE_INTERVAL;
  
@@ -224,10 +224,10 @@ index ab38650b0..ce84af5c2 100644
      UpdateArea(newArea);
  
 diff --git a/src/server/game/Globals/ObjectMgr.cpp b/src/server/game/Globals/ObjectMgr.cpp
-index 849ee2627..e4169ed36 100644
+index 1c76aa1bd..0eec76f1b 100644
 --- a/src/server/game/Globals/ObjectMgr.cpp
 +++ b/src/server/game/Globals/ObjectMgr.cpp
-@@ -8602,6 +8602,48 @@ void ObjectMgr::LoadPointsOfInterest()
+@@ -8507,6 +8507,48 @@ void ObjectMgr::LoadPointsOfInterest()
      LOG_INFO("server.loading", " ");
  }
  
@@ -277,7 +277,7 @@ index 849ee2627..e4169ed36 100644
  {
      if (!sWorld->getBoolConfig(CONFIG_QUEST_POI_ENABLED))
 diff --git a/src/server/game/Globals/ObjectMgr.h b/src/server/game/Globals/ObjectMgr.h
-index 8a89fc3fc..bdad7c187 100644
+index 271ea7cb0..426600d8d 100644
 --- a/src/server/game/Globals/ObjectMgr.h
 +++ b/src/server/game/Globals/ObjectMgr.h
 @@ -41,6 +41,7 @@
@@ -288,7 +288,7 @@ index 8a89fc3fc..bdad7c187 100644
  
  class Item;
  struct DungeonProgressionRequirements;
-@@ -1116,6 +1117,10 @@ public:
+@@ -1117,6 +1118,10 @@ public:
  
      void LoadVendors();
      void LoadTrainers();
@@ -299,7 +299,7 @@ index 8a89fc3fc..bdad7c187 100644
      void LoadCreatureDefaultTrainers();
  
      std::string GeneratePetName(uint32 entry);
-@@ -1696,6 +1701,8 @@ private:
+@@ -1695,6 +1700,8 @@ private:
      GossipMenuItemsLocaleContainer _gossipMenuItemsLocaleStore;
      PointOfInterestLocaleContainer _pointOfInterestLocaleStore;
  
@@ -433,10 +433,10 @@ index 000000000..1c4535b06
 +
 +#endif // ZEPPELIN_PHASEMGR_H
 diff --git a/src/server/game/World/World.cpp b/src/server/game/World/World.cpp
-index c21465612..d1469820f 100644
+index ab661b170..479c7f1c8 100644
 --- a/src/server/game/World/World.cpp
 +++ b/src/server/game/World/World.cpp
-@@ -809,6 +809,9 @@ void World::SetInitialWorldSettings()
+@@ -815,6 +815,9 @@ void World::SetInitialWorldSettings()
      LOG_INFO("server.loading", "Loading Conditions...");
      sConditionMgr->LoadConditions();
  

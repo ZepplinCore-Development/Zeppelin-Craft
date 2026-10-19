@@ -1,4 +1,4 @@
-From 557ad9bd23cf439c6c7c86158a941b129f90983c Mon Sep 17 00:00:00 2001
+From f735b237244a7bca2e4d95e90cec84db73782981 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Mon, 13 Jul 2026 11:28:14 +0000
 Subject: [PATCH] feat(Core/Spells): Allow disenchanting white-quality items
@@ -14,10 +14,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/src/server/game/Spells/Spell.cpp b/src/server/game/Spells/Spell.cpp
-index 68f028a95..b6545e8d2 100644
+index f3a4c8695..77e47e085 100644
 --- a/src/server/game/Spells/Spell.cpp
 +++ b/src/server/game/Spells/Spell.cpp
-@@ -7576,7 +7576,9 @@ SpellCastResult Spell::CheckItems(uint32* param1, uint32* param2)
+@@ -7866,7 +7866,9 @@ SpellCastResult Spell::CheckItems(uint32* param1, uint32* param2)
                          return SPELL_FAILED_CANT_BE_DISENCHANTED;
                      if (item_disenchantskilllevel > player->GetSkillValue(SKILL_ENCHANTING))
                          return SPELL_FAILED_LOW_CASTLEVEL;

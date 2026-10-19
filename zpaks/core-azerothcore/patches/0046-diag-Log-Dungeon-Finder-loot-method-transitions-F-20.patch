@@ -1,4 +1,4 @@
-From 455c721e71983a3d56f3d51bd19079e2c421b5c9 Mon Sep 17 00:00:00 2001
+From 853eebef52044ce27f69620177ea1768a7a6e945 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 9 Aug 2026 13:08:31 +0000
 Subject: [PATCH] diag: Log Dungeon Finder loot method transitions (F-204)
@@ -18,10 +18,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 14 insertions(+)
 
 diff --git a/src/server/game/Groups/Group.cpp b/src/server/game/Groups/Group.cpp
-index 30c9eb39f..2ba69bf18 100644
+index f1d336658..d5a7fbd2c 100644
 --- a/src/server/game/Groups/Group.cpp
 +++ b/src/server/game/Groups/Group.cpp
-@@ -296,6 +296,12 @@ void Group::ConvertToLFG(bool restricted /*= true*/)
+@@ -314,6 +314,12 @@ void Group::ConvertToLFG(bool restricted /*= true*/)
      m_groupType = GroupType(m_groupType | GROUPTYPE_LFG);
      if (restricted)
      {
@@ -34,7 +34,7 @@ index 30c9eb39f..2ba69bf18 100644
          m_groupType  = GroupType(m_groupType | GROUPTYPE_LFG_RESTRICTED);
          m_lootMethod = NEED_BEFORE_GREED;
      }
-@@ -2307,6 +2313,14 @@ void Group::ResetMaxEnchantingLevel()
+@@ -2463,6 +2469,14 @@ void Group::ResetMaxEnchantingLevel()
  
  void Group::SetLootMethod(LootMethod method)
  {

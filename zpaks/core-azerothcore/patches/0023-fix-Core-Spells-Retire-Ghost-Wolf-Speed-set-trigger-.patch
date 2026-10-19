@@ -1,4 +1,4 @@
-From 66049f4e70f5514437540912eab3df5197ef80ec Mon Sep 17 00:00:00 2001
+From 6bf5122b075c2dd5394afddd3e24460aa181586b Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 24 Jun 2026 08:14:23 +0000
 Subject: [PATCH] fix(Core/Spells): Retire Ghost Wolf Speed set trigger, now a
@@ -16,10 +16,10 @@ Claude-Session: https://claude.ai/code/session_015qmedFMHJQaq91UUAWKWL2
  1 file changed, 6 insertions(+), 11 deletions(-)
 
 diff --git a/src/server/game/Spells/Auras/SpellAuras.cpp b/src/server/game/Spells/Auras/SpellAuras.cpp
-index 5f2b887f0..c344dc66b 100644
+index c309ee315..7f0f1eaac 100644
 --- a/src/server/game/Spells/Auras/SpellAuras.cpp
 +++ b/src/server/game/Spells/Auras/SpellAuras.cpp
-@@ -1440,12 +1440,10 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
+@@ -1547,12 +1547,10 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                  break;
              case SPELLFAMILY_SHAMAN:
              {
@@ -36,7 +36,7 @@ index 5f2b887f0..c344dc66b 100644
                  break;
              }
              case SPELLFAMILY_DEATHKNIGHT:
-@@ -1753,11 +1751,8 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
+@@ -1860,11 +1858,8 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                  break;
              case SPELLFAMILY_SHAMAN:
              {

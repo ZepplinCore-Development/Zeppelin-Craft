@@ -1,4 +1,4 @@
-From b55d5f463baa12d194980e921210fa81cb8d0398 Mon Sep 17 00:00:00 2001
+From a43dffe998c2113297d90b075ce66464a8e86bf8 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 12:18:01 +0000
 Subject: [PATCH] I-088: Set Docker timezone to Australia/Perth
@@ -11,7 +11,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/apps/docker/Dockerfile b/apps/docker/Dockerfile
-index 0ad7080bf..adbcb4521 100644
+index d679c708f..4f6d2eeff 100644
 --- a/apps/docker/Dockerfile
 +++ b/apps/docker/Dockerfile
 @@ -6,7 +6,7 @@ FROM ubuntu:$UBUNTU_VERSION AS skeleton

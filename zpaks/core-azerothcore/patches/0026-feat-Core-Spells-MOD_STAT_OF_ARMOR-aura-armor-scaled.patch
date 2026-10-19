@@ -1,4 +1,4 @@
-From 06e77c53f0635f8af6f353e36c5ea87418fab274 Mon Sep 17 00:00:00 2001
+From e7164f6ae57e9757d395e9f0956f059c2c29b1cf Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 25 Jun 2026 15:50:53 +0000
 Subject: [PATCH] feat(Core/Spells): MOD_STAT_OF_ARMOR aura - armor-scaled base
@@ -54,10 +54,10 @@ index 24c025ac6..774d9aca7 100644
  }
  
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index 0614ebfec..af02b9c5a 100644
+index ff202f8e2..9fb5cb252 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
-@@ -12217,6 +12217,14 @@ float Unit::GetTotalStatValue(Stats stat, float additionalValue) const
+@@ -11820,6 +11820,14 @@ float Unit::GetTotalStatValue(Stats stat, float additionalValue) const
      value += GetFlatModifierValue(unitMod, TOTAL_VALUE) + additionalValue;
      value *= GetPctModifierValue(unitMod, TOTAL_PCT);
  
@@ -87,7 +87,7 @@ index 94b56501c..a2ce8a56d 100644
  
  enum AuraObjectType
 diff --git a/src/server/game/Spells/Auras/SpellAuraEffects.cpp b/src/server/game/Spells/Auras/SpellAuraEffects.cpp
-index 9c4fa8fe8..e3c289c42 100644
+index e3e36f820..d4f85719a 100644
 --- a/src/server/game/Spells/Auras/SpellAuraEffects.cpp
 +++ b/src/server/game/Spells/Auras/SpellAuraEffects.cpp
 @@ -379,6 +379,7 @@ pAuraEffectHandler AuraEffectHandler[TOTAL_AURAS] =
@@ -123,10 +123,10 @@ index 9c4fa8fe8..e3c289c42 100644
  /***        DAMAGE BONUS      ***/
  /********************************/
 diff --git a/src/server/game/Spells/Auras/SpellAuraEffects.h b/src/server/game/Spells/Auras/SpellAuraEffects.h
-index 5acdedda4..6aab6b7a1 100644
+index 0a419e5d4..807f528f3 100644
 --- a/src/server/game/Spells/Auras/SpellAuraEffects.h
 +++ b/src/server/game/Spells/Auras/SpellAuraEffects.h
-@@ -293,6 +293,7 @@ public:
+@@ -294,6 +294,7 @@ public:
      void HandleAuraModRangedAttackPowerOfStatPercent(AuraApplication const* aurApp, uint8 mode, bool apply) const;
      void HandleAuraModAttackPowerOfStatPercent(AuraApplication const* aurApp, uint8 mode, bool apply) const;
      void HandleAuraModAttackPowerOfArmor(AuraApplication const* aurApp, uint8 mode, bool apply) const;

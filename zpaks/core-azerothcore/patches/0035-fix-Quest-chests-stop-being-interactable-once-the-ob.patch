@@ -1,4 +1,4 @@
-From d2461afc8508775d2f82044ca6b1cc771381365d Mon Sep 17 00:00:00 2001
+From d5fbbede8068aef11c888ae6abac4e0506f46fee Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 31 Jul 2026 08:24:20 +0000
 Subject: [PATCH] fix: Quest chests stop being interactable once the objective
@@ -42,10 +42,10 @@ Claude-Session: https://claude.ai/code/session_01R3mVmezJCwwVP8EYZdfYUq
  5 files changed, 164 insertions(+), 1 deletion(-)
 
 diff --git a/src/server/game/Entities/GameObject/GameObject.cpp b/src/server/game/Entities/GameObject/GameObject.cpp
-index 523144f2c..ee65610a2 100644
+index a2c5986c7..1c432b03e 100644
 --- a/src/server/game/Entities/GameObject/GameObject.cpp
 +++ b/src/server/game/Entities/GameObject/GameObject.cpp
-@@ -1363,6 +1363,43 @@ bool GameObject::ActivateToQuest(Player* target) const
+@@ -1480,6 +1480,43 @@ bool GameObject::ActivateToQuest(Player* target) const
      return false;
  }
  
@@ -89,7 +89,7 @@ index 523144f2c..ee65610a2 100644
  void GameObject::TriggeringLinkedGameObject(uint32 trapEntry, Unit* target)
  {
      GameObjectTemplate const* trapInfo = sObjectMgr->GetGameObjectTemplate(trapEntry);
-@@ -2762,8 +2799,18 @@ void GameObject::BuildValuesUpdate(uint8 updateType, ByteBuffer* data, Player* t
+@@ -2830,8 +2867,18 @@ void GameObject::BuildValuesUpdate(uint8 updateType, ByteBuffer* data, Player* t
      if (!target)
          return;
  
@@ -109,7 +109,7 @@ index 523144f2c..ee65610a2 100644
  
      ByteBuffer fieldBuffer;
  
-@@ -2845,6 +2892,11 @@ void GameObject::BuildValuesUpdate(uint8 updateType, ByteBuffer* data, Player* t
+@@ -2913,6 +2960,11 @@ void GameObject::BuildValuesUpdate(uint8 updateType, ByteBuffer* data, Player* t
                      goFlags |= GO_FLAG_LOCKED | GO_FLAG_NOT_SELECTABLE;
                  }
  
@@ -122,10 +122,10 @@ index 523144f2c..ee65610a2 100644
              }
              else
 diff --git a/src/server/game/Entities/GameObject/GameObject.h b/src/server/game/Entities/GameObject/GameObject.h
-index 3cae54de9..98f18d9e3 100644
+index 998e83279..dd55961b2 100644
 --- a/src/server/game/Entities/GameObject/GameObject.h
 +++ b/src/server/game/Entities/GameObject/GameObject.h
-@@ -263,6 +263,8 @@ public:
+@@ -271,6 +271,8 @@ public:
      [[nodiscard]] bool hasQuest(uint32 quest_id) const override;
      [[nodiscard]] bool hasInvolvedQuest(uint32 quest_id) const override;
      bool ActivateToQuest(Player* target) const;
@@ -135,10 +135,10 @@ index 3cae54de9..98f18d9e3 100644
      // 0 = use `gameobject`.`spawntimesecs`
      void ResetDoorOrButton();
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 1fffe8b22..95a9dddbc 100644
+index fa6138042..c0e694546 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -7888,6 +7888,17 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
+@@ -8060,6 +8060,17 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
              return;
          }
  
@@ -157,7 +157,7 @@ index 1fffe8b22..95a9dddbc 100644
  
          // Xinef: loot was generated and respawntime has passed since then, allow to recreate loot
 diff --git a/src/server/game/Loot/LootMgr.cpp b/src/server/game/Loot/LootMgr.cpp
-index e661a71da..44323b86b 100644
+index fdf83f8e6..a40c4818f 100644
 --- a/src/server/game/Loot/LootMgr.cpp
 +++ b/src/server/game/Loot/LootMgr.cpp
 @@ -100,6 +100,7 @@ public:
@@ -283,7 +283,7 @@ index e661a71da..44323b86b 100644
  bool LootTemplate::HasQuestDropForPlayer(LootTemplateMap const& store, Player const* player) const
  {
 diff --git a/src/server/game/Loot/LootMgr.h b/src/server/game/Loot/LootMgr.h
-index 079eba002..cabf4cb5f 100644
+index e8e7800a7..959191d6e 100644
 --- a/src/server/game/Loot/LootMgr.h
 +++ b/src/server/game/Loot/LootMgr.h
 @@ -224,6 +224,8 @@ public:

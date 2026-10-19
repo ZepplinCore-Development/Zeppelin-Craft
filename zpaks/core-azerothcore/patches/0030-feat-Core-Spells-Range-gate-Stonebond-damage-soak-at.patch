@@ -1,4 +1,4 @@
-From 57431ee4bffae1ed578d2575605d757b23afa4c5 Mon Sep 17 00:00:00 2001
+From c97c2b6b8130945196e120108c0088c6a2f26e72 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 28 Jun 2026 13:01:19 +0000
 Subject: [PATCH] feat(Core/Spells): Range-gate Stonebond damage soak at 30 yds

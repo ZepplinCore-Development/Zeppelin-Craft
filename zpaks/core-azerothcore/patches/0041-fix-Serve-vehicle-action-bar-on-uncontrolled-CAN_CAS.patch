@@ -1,4 +1,4 @@
-From 0597732ee5a00685482c0b4d669d6ffb727ab3b3 Mon Sep 17 00:00:00 2001
+From ab41ab675cfd87b8aaa260a70285af20b6f892e1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 4 Aug 2026 12:42:41 +0000
 Subject: [PATCH] fix: Serve vehicle action bar on uncontrolled CAN_CAST seats
@@ -23,12 +23,12 @@ Claude-Session: https://claude.ai/code/session_019RL6TAghunf5VUF8xXxEKd
  3 files changed, 57 insertions(+), 2 deletions(-)
 
 diff --git a/src/server/game/Entities/Vehicle/Vehicle.cpp b/src/server/game/Entities/Vehicle/Vehicle.cpp
-index ca4b21f6d..07ee29484 100644
+index fb31c0c29..8b8c0e9d5 100644
 --- a/src/server/game/Entities/Vehicle/Vehicle.cpp
 +++ b/src/server/game/Entities/Vehicle/Vehicle.cpp
-@@ -28,6 +28,28 @@
- #include "Util.h"
- #include <algorithm>
+@@ -33,6 +33,28 @@ enum PowerDisplayIds
+     POWER_DISPLAY_PYRITE = 41
+ };
  
 +// Zeppelin (I-311): deferred vehicle-bar send for riders of uncontrolled CAN_CAST
 +// seats — see the comment at the AddPassenger call site. Runs on the passenger's
@@ -55,7 +55,7 @@ index ca4b21f6d..07ee29484 100644
  Vehicle::Vehicle(Unit* unit, VehicleEntry const* vehInfo, uint32 creatureEntry) :
      _me(unit), _vehicleInfo(vehInfo), _usableSeatNum(0), _creatureEntry(creatureEntry), _status(STATUS_NONE),
      _accessoriesInstalled(false)
-@@ -428,6 +450,18 @@ bool Vehicle::AddPassenger(Unit* unit, int8 seatId)
+@@ -442,6 +464,18 @@ bool Vehicle::AddPassenger(Unit* unit, int8 seatId)
              return false;
          }
      }
@@ -74,7 +74,7 @@ index ca4b21f6d..07ee29484 100644
  
      if (_me->IsInWorld())
      {
-@@ -506,6 +540,10 @@ void Vehicle::RemovePassenger(Unit* unit)
+@@ -520,6 +554,10 @@ void Vehicle::RemovePassenger(Unit* unit)
  
      if (_me->IsCreature() && unit->IsPlayer() && seat->second.SeatInfo->m_flags & VEHICLE_SEAT_FLAG_CAN_CONTROL)
          _me->RemoveCharmedBy(unit);
@@ -106,7 +106,7 @@ index 7ec78c19c..23f149132 100644
  
  void WorldSession::HandleSetTaxiBenchmarkOpcode(WorldPacket& recv_data)
 diff --git a/src/server/game/Handlers/PetHandler.cpp b/src/server/game/Handlers/PetHandler.cpp
-index 6433450a4..56934626c 100644
+index 34f307007..331468c8c 100644
 --- a/src/server/game/Handlers/PetHandler.cpp
 +++ b/src/server/game/Handlers/PetHandler.cpp
 @@ -32,6 +32,7 @@
@@ -117,7 +117,7 @@ index 6433450a4..56934626c 100644
  #include "World.h"
  #include "WorldPacket.h"
  #include "WorldSession.h"
-@@ -1001,12 +1002,19 @@ void WorldSession::HandlePetCastSpellOpcode(WorldPacket& recvPacket)
+@@ -1022,12 +1023,19 @@ void WorldSession::HandlePetCastSpellOpcode(WorldPacket& recvPacket)
      LOG_DEBUG("network", "WORLD: CMSG_PET_CAST_SPELL, guid: {}, castCount: {}, spellId {}, castFlags {}", guid.ToString(), castCount, spellId, castFlags);
  
      // This opcode is also sent from charmed and possessed units (players and creatures)

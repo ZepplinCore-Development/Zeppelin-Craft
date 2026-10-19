@@ -1,4 +1,4 @@
-From abd42a1766aa54925222db86416152211523ab9d Mon Sep 17 00:00:00 2001
+From 05ac3d75a50e43579fa6006f7a6d18b91e04bb92 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 1 Aug 2026 15:24:49 +0000
 Subject: [PATCH] fix: Mook disguise combat flicker and skinning drop (I-262)

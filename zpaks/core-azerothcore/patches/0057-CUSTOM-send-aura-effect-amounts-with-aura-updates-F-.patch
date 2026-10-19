@@ -1,4 +1,4 @@
-From bd7c7cf0787218705dc5667b6fb5fdb5b0b5f076 Mon Sep 17 00:00:00 2001
+From 6d78ab65c6d18147755a2115f002efcac1b1cdb7 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 18 Oct 2026 06:33:13 +0000
 Subject: [PATCH] CUSTOM: send aura effect amounts with aura updates (F-227)
@@ -14,7 +14,7 @@ Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
  2 files changed, 25 insertions(+)
 
 diff --git a/src/server/game/Server/Protocol/Opcodes.h b/src/server/game/Server/Protocol/Opcodes.h
-index f4d69d253..a0138cbc7 100644
+index 4158f160f..9ee30713a 100644
 --- a/src/server/game/Server/Protocol/Opcodes.h
 +++ b/src/server/game/Server/Protocol/Opcodes.h
 @@ -960,6 +960,8 @@ enum Opcodes : uint16
@@ -27,10 +27,10 @@ index f4d69d253..a0138cbc7 100644
      SMSG_ZEP_FAMILY_SPELL_MODIFIER                  = 0x3A4,
      SMSG_SET_EXTRA_AURA_INFO_NEED_UPDATE_OBSOLETE   = 0x3A5,
 diff --git a/src/server/game/Spells/Auras/SpellAuras.cpp b/src/server/game/Spells/Auras/SpellAuras.cpp
-index c344dc66b..d20a34742 100644
+index 7f0f1eaac..4a650a8bd 100644
 --- a/src/server/game/Spells/Auras/SpellAuras.cpp
 +++ b/src/server/game/Spells/Auras/SpellAuras.cpp
-@@ -232,6 +232,29 @@ void AuraApplication::ClientUpdate(bool remove)
+@@ -237,6 +237,29 @@ void AuraApplication::ClientUpdate(bool remove)
                      ArenaSpectator::SendCommand_Aura(plr->FindMap(), plr->GetGUID(), "AUR", aura->GetCasterGUID(), aura->GetSpellInfo()->Id, aura->GetSpellInfo()->IsPositive(), aura->GetSpellInfo()->Dispel, aura->GetDuration(), aura->GetMaxDuration(), (aura->GetCharges() > 1 ? aura->GetCharges() : aura->GetStackAmount()), remove);
  
      _target->SendMessageToSet(&data, true);

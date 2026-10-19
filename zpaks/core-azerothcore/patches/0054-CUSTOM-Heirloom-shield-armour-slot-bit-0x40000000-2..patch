@@ -1,4 +1,4 @@
-From 6b5d49b7356d0e604fad039863f7b6c9032abc74 Mon Sep 17 00:00:00 2001
+From 304c72ffc85dea6d69e48f023af83cf905a32cb5 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 6 Oct 2026 05:31:58 +0000
 Subject: [PATCH] CUSTOM: Heirloom shield armour slot bit 0x40000000 = 2.75 x
@@ -16,10 +16,10 @@ Claude-Session: https://claude.ai/code/session_01H4Ch7VpPResUX1y2oEkQEq
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/src/server/shared/DataStores/DBCStructure.h b/src/server/shared/DataStores/DBCStructure.h
-index 650194234..a92d49dc2 100644
+index 5fbca624b..6393c2987 100644
 --- a/src/server/shared/DataStores/DBCStructure.h
 +++ b/src/server/shared/DataStores/DBCStructure.h
-@@ -1515,13 +1515,14 @@ struct ScalingStatValuesEntry
+@@ -1551,13 +1551,14 @@ struct ScalingStatValuesEntry
          if (mask & 0x08000000) return 9;                    // waist
          if (mask & 0x10000000) return 10;                   // hands
          if (mask & 0x20000000) return 7;                    // wrists

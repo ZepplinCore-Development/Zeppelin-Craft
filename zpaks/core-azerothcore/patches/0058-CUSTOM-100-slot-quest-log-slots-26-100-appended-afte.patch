@@ -1,4 +1,4 @@
-From 2b3de72483191313c2b2e4253d442aa07ad6f37c Mon Sep 17 00:00:00 2001
+From ee520e0c2047cc51f89d4a980e71790634fb2263 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 18 Oct 2026 12:44:00 +0000
 Subject: [PATCH] CUSTOM: 100-slot quest log, slots 26-100 appended after
@@ -419,10 +419,10 @@ index 7f57183af..aa2c8c471 100644
  
  enum EGameObjectFields
 diff --git a/src/server/game/Entities/Player/Player.h b/src/server/game/Entities/Player/Player.h
-index 35d43e51d..e29add5a2 100644
+index d49d21ff1..f1b8dccd6 100644
 --- a/src/server/game/Entities/Player/Player.h
 +++ b/src/server/game/Entities/Player/Player.h
-@@ -1505,37 +1505,43 @@ public:
+@@ -1510,37 +1510,43 @@ public:
      void ResetSeasonalQuestStatus(uint16 event_id);
  
      [[nodiscard]] uint16 FindQuestSlot(uint32 quest_id) const;
@@ -485,7 +485,7 @@ index 35d43e51d..e29add5a2 100644
      }
      uint16 GetReqKillOrCastCurrentCount(uint32 quest_id, int32 entry);
 diff --git a/src/server/game/Quests/QuestDef.h b/src/server/game/Quests/QuestDef.h
-index f074592c0..faa253513 100644
+index 9f08d6b91..ebc18b08d 100644
 --- a/src/server/game/Quests/QuestDef.h
 +++ b/src/server/game/Quests/QuestDef.h
 @@ -30,7 +30,8 @@ class Player;

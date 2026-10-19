@@ -72,6 +72,8 @@ GEN_SPAN = 949999
 # MySQL 8 has no ADD COLUMN IF NOT EXISTS (that is MariaDB), hence the guarded form.
 # Both core loaders name their columns explicitly (ObjectMgr.cpp:1267 for the addon,
 # WorldDatabase.cpp:55 for the waypoint), so an extra trailing column is inert.
+# It is INVISIBLE because upstream migrations INSERT into both tables positionally
+# (ERROR 1136 on the 2026-10-18 core sync); every writer of ours names the column.
 def _comment_col_ddl(table):
     return "\n".join([
         "-- ownership stamp column (idempotent; MySQL 8 has no ADD COLUMN IF NOT EXISTS)",
@@ -79,7 +81,7 @@ def _comment_col_ddl(table):
         "              WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '%s'" % table,
         "                AND COLUMN_NAME = 'Comment');",
         "SET @_sql := IF(@_has = 0,",
-        "  'ALTER TABLE `%s` ADD COLUMN `Comment` VARCHAR(255) NULL DEFAULT NULL', 'DO 0');" % table,
+        "  'ALTER TABLE `%s` ADD COLUMN `Comment` VARCHAR(255) NULL DEFAULT NULL INVISIBLE', 'DO 0');" % table,
         "PREPARE _stmt FROM @_sql; EXECUTE _stmt; DEALLOCATE PREPARE _stmt;\n",
     ])
 NOISE = ("bunny", "invisible stalker", "generateur", "elm general", "wondi", "purpose bunny")

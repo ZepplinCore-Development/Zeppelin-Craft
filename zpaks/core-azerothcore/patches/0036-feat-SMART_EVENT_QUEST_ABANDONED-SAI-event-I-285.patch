@@ -1,4 +1,4 @@
-From 9d488d8cf9e1fd77c9f12786aa22dfe0b7a4566d Mon Sep 17 00:00:00 2001
+From c4073c90429636373c28b190004f53d3b201f527 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 1 Aug 2026 07:29:57 +0000
 Subject: [PATCH] feat: SMART_EVENT_QUEST_ABANDONED SAI event (I-285)
@@ -23,10 +23,10 @@ Claude-Session: https://claude.ai/code/session_01DaASnkBNWigBWmKxyaYuN8
  7 files changed, 60 insertions(+), 1 deletion(-)
 
 diff --git a/src/server/game/AI/CoreAI/UnitAI.h b/src/server/game/AI/CoreAI/UnitAI.h
-index a4c01dd47..dc6b75e48 100644
+index 3d2eb09c3..24ea6690c 100644
 --- a/src/server/game/AI/CoreAI/UnitAI.h
 +++ b/src/server/game/AI/CoreAI/UnitAI.h
-@@ -420,6 +420,8 @@ public:
+@@ -425,6 +425,8 @@ public:
      virtual void sQuestSelect(Player* /*player*/, Quest const* /*quest*/) {}
      virtual void sQuestComplete(Player* /*player*/, Quest const* /*quest*/) {}
      virtual void sQuestReward(Player* /*player*/, Quest const* /*quest*/, uint32 /*opt*/) {}
@@ -36,10 +36,10 @@ index a4c01dd47..dc6b75e48 100644
  
      virtual std::string GetDebugInfo() const;
 diff --git a/src/server/game/AI/SmartScripts/SmartAI.cpp b/src/server/game/AI/SmartScripts/SmartAI.cpp
-index eec86a422..c1dc0e49c 100644
+index e2bf14fcc..d642f447d 100644
 --- a/src/server/game/AI/SmartScripts/SmartAI.cpp
 +++ b/src/server/game/AI/SmartScripts/SmartAI.cpp
-@@ -1160,6 +1160,11 @@ void SmartAI::sQuestAccept(Player* player, Quest const* quest)
+@@ -1218,6 +1218,11 @@ void SmartAI::sQuestAccept(Player* player, Quest const* quest)
      GetScript()->ProcessEventsFor(SMART_EVENT_ACCEPTED_QUEST, player, quest->GetQuestId());
  }
  
@@ -52,7 +52,7 @@ index eec86a422..c1dc0e49c 100644
  {
      GetScript()->ProcessEventsFor(SMART_EVENT_REWARD_QUEST, player, quest->GetQuestId(), opt);
 diff --git a/src/server/game/AI/SmartScripts/SmartAI.h b/src/server/game/AI/SmartScripts/SmartAI.h
-index 5a8ec52bc..50fc5779e 100644
+index bb4b8f6ea..58cba313a 100644
 --- a/src/server/game/AI/SmartScripts/SmartAI.h
 +++ b/src/server/game/AI/SmartScripts/SmartAI.h
 @@ -195,6 +195,7 @@ public:
@@ -64,10 +64,10 @@ index 5a8ec52bc..50fc5779e 100644
  
      uint32 mEscortQuestID;
 diff --git a/src/server/game/AI/SmartScripts/SmartScript.cpp b/src/server/game/AI/SmartScripts/SmartScript.cpp
-index a5cf7b90c..f8b3b30c0 100644
+index 35a8896e7..0128c29e8 100644
 --- a/src/server/game/AI/SmartScripts/SmartScript.cpp
 +++ b/src/server/game/AI/SmartScripts/SmartScript.cpp
-@@ -4608,6 +4608,21 @@ void SmartScript::ProcessEvent(SmartScriptHolder& e, Unit* unit, uint32 var0, ui
+@@ -4733,6 +4733,21 @@ void SmartScript::ProcessEvent(SmartScriptHolder& e, Unit* unit, uint32 var0, ui
                  ProcessAction(e, unit, var0);
                  break;
              }
@@ -90,7 +90,7 @@ index a5cf7b90c..f8b3b30c0 100644
              {
                  if (e.event.transportAddCreature.creature && var0 != e.event.transportAddCreature.creature)
 diff --git a/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp b/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
-index ac0216405..a7339823d 100644
+index 42aa47cb6..90229f4dc 100644
 --- a/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
 +++ b/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
 @@ -418,6 +418,7 @@ void SmartAIMgr::CheckIfSmartAIInDatabaseExists()
@@ -101,7 +101,7 @@ index ac0216405..a7339823d 100644
          case SMART_EVENT_FOLLOW_COMPLETED:
          case SMART_EVENT_ON_SPELLCLICK:
          case SMART_EVENT_GO_STATE_CHANGED:
-@@ -615,6 +616,7 @@ bool SmartAIMgr::CheckUnusedEventParams(SmartScriptHolder const& e)
+@@ -634,6 +635,7 @@ bool SmartAIMgr::CheckUnusedEventParams(SmartScriptHolder const& e)
              case SMART_EVENT_TARGET_MANA_PCT: return sizeof(SmartEvent::minMaxRepeat);
              case SMART_EVENT_ACCEPTED_QUEST: return sizeof(SmartEvent::quest);
              case SMART_EVENT_REWARD_QUEST: return sizeof(SmartEvent::quest);
@@ -109,7 +109,7 @@ index ac0216405..a7339823d 100644
              case SMART_EVENT_REACHED_HOME: return NO_PARAMS;
              case SMART_EVENT_RECEIVE_EMOTE: return sizeof(SmartEvent::emote);
              case SMART_EVENT_HAS_AURA: return sizeof(SmartEvent::aura);
-@@ -1231,6 +1233,13 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
+@@ -1251,6 +1253,13 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
                  if (!IsMinMaxValid(e, e.event.quest.cooldownMin, e.event.quest.cooldownMax))
                      return false;
                  break;
@@ -124,7 +124,7 @@ index ac0216405..a7339823d 100644
                  {
                      if (e.event.emote.emote && !IsTextEmoteValid(e, e.event.emote.emote))
 diff --git a/src/server/game/AI/SmartScripts/SmartScriptMgr.h b/src/server/game/AI/SmartScripts/SmartScriptMgr.h
-index a8ae1cc9f..a30997cf3 100644
+index 04636a21b..79fd75567 100644
 --- a/src/server/game/AI/SmartScripts/SmartScriptMgr.h
 +++ b/src/server/game/AI/SmartScripts/SmartScriptMgr.h
 @@ -197,8 +197,9 @@ enum SMART_EVENT
@@ -151,7 +151,7 @@ index a8ae1cc9f..a30997cf3 100644
          struct
          {
              uint32 emote;
-@@ -1945,6 +1952,7 @@ const uint32 SmartAIEventMask[SMART_EVENT_AC_END][2] =
+@@ -1954,6 +1961,7 @@ const uint32 SmartAIEventMask[SMART_EVENT_AC_END][2] =
      {SMART_EVENT_WAYPOINT_REACHED,     SMART_SCRIPT_TYPE_MASK_CREATURE },
      {SMART_EVENT_WAYPOINT_ENDED,       SMART_SCRIPT_TYPE_MASK_CREATURE },
      {SMART_EVENT_IS_IN_MELEE_RANGE,         SMART_SCRIPT_TYPE_MASK_CREATURE },
@@ -160,7 +160,7 @@ index a8ae1cc9f..a30997cf3 100644
  
  enum SmartEventFlags
 diff --git a/src/server/game/Handlers/QuestHandler.cpp b/src/server/game/Handlers/QuestHandler.cpp
-index 89a0a84af..70d08fa64 100644
+index ed9699a93..7015fdb08 100644
 --- a/src/server/game/Handlers/QuestHandler.cpp
 +++ b/src/server/game/Handlers/QuestHandler.cpp
 @@ -17,8 +17,12 @@

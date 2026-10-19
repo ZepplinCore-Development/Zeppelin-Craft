@@ -1,4 +1,4 @@
-From d9f8408754bb21237b4c9dc7d3f3df7cf1510827 Mon Sep 17 00:00:00 2001
+From a8c1f52be04ff16bc6bad71d212d888d618cbc25 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 30 Aug 2026 12:58:25 +0000
 Subject: [PATCH] fix: Assistant Greely does not survive a restart or a death

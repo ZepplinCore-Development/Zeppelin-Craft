@@ -1,4 +1,4 @@
-From 25aa4767c4d9d181bf69a6a1d206f2f6d06edc0b Mon Sep 17 00:00:00 2001
+From f0529098e27df71fa81c68f642deeac416b64c05 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 1 Feb 2026 00:33:21 +0000
 Subject: [PATCH] F-041: Add dynamic patch scanning to map extractors
@@ -23,7 +23,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  3 files changed, 70 insertions(+), 10 deletions(-)
 
 diff --git a/.gitignore b/.gitignore
-index c2aea7a19..2bf9e80eb 100644
+index 8f26a9e16..10a4e1487 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -12,6 +12,7 @@
@@ -35,7 +35,7 @@ index c2aea7a19..2bf9e80eb 100644
  !/var/build/.gitkeep
  !/var/ccache/.gitkeep
 diff --git a/src/tools/map_extractor/System.cpp b/src/tools/map_extractor/System.cpp
-index 4fef9164e..4a45e1383 100644
+index 635f55b0d..470878030 100644
 --- a/src/tools/map_extractor/System.cpp
 +++ b/src/tools/map_extractor/System.cpp
 @@ -99,18 +99,13 @@ float CONF_float_to_int16_limit = 2048.0f;   // Max accuracy = val/65536
@@ -43,9 +43,9 @@ index 4fef9164e..4a45e1383 100644
  float CONF_flat_liquid_delta_limit = 0.001f; // If max - min less this value - liquid surface is flat
  
 -// List MPQ for extract from
--const char* CONF_mpq_list[] =
+-char const* CONF_mpq_list[] =
 +// Base MPQ archives (patches loaded dynamically)
-+const char* CONF_base_mpq_list[] =
++char const* CONF_base_mpq_list[] =
  {
      "common.MPQ",
      "common-2.MPQ",
@@ -58,7 +58,7 @@ index 4fef9164e..4a45e1383 100644
 -    "patch-5.MPQ",
  };
  
- static const char* const langs[] = {"enGB", "enUS", "deDE", "esES", "frFR", "koKR", "zhCN", "zhTW", "enCN", "enTW", "esMX", "ruRU" };
+ static char const* const langs[] = {"enGB", "enUS", "deDE", "esES", "frFR", "koKR", "zhCN", "zhTW", "enCN", "enTW", "esMX", "ruRU" };
 @@ -1163,10 +1158,44 @@ void LoadLocaleMPQFiles(int const locale)
  void LoadCommonMPQFiles()
  {
@@ -107,7 +107,7 @@ index 4fef9164e..4a45e1383 100644
              new MPQArchive(filename);
      }
 diff --git a/src/tools/vmap4_extractor/vmapexport.cpp b/src/tools/vmap4_extractor/vmapexport.cpp
-index 2b00673a3..f114dda63 100644
+index 3bd12de96..d2bde7f03 100644
 --- a/src/tools/vmap4_extractor/vmapexport.cpp
 +++ b/src/tools/vmap4_extractor/vmapexport.cpp
 @@ -246,6 +246,7 @@ bool scan_patches(char* scanmatch, std::vector<std::string>& pArchiveNames)

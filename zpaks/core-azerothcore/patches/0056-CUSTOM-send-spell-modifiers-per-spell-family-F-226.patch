@@ -1,4 +1,4 @@
-From 26300f3a565b2d67b20aa59ad95ebbbbc71d126b Mon Sep 17 00:00:00 2001
+From e811f1e459752c64d5531b4808f092da3ea10fcc Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 18 Oct 2026 04:06:37 +0000
 Subject: [PATCH] CUSTOM: send spell modifiers per spell family (F-226)
@@ -16,10 +16,10 @@ Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
  2 files changed, 77 insertions(+), 18 deletions(-)
 
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 855da9641..9476d181b 100644
+index 5f9e08001..b72260598 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -9983,30 +9983,87 @@ template AC_GAME_API void Player::ApplySpellMod(uint32 spellId, SpellModOp op, f
+@@ -10174,30 +10174,87 @@ template AC_GAME_API void Player::ApplySpellMod(uint32 spellId, SpellModOp op, f
  void Player::AddSpellMod(SpellModifier* mod, bool apply)
  {
      LOG_DEBUG("spells.aura", "Player::AddSpellMod {}", mod->spellId);
@@ -126,7 +126,7 @@ index 855da9641..9476d181b 100644
      }
  
 diff --git a/src/server/game/Server/Protocol/Opcodes.h b/src/server/game/Server/Protocol/Opcodes.h
-index cb994b3e8..f4d69d253 100644
+index 0b34344c4..4158f160f 100644
 --- a/src/server/game/Server/Protocol/Opcodes.h
 +++ b/src/server/game/Server/Protocol/Opcodes.h
 @@ -960,6 +960,8 @@ enum Opcodes : uint16

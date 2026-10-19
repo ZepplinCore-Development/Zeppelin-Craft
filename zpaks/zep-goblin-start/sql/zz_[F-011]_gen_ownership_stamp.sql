@@ -34,6 +34,13 @@ SET @_sql := IF(@_has = 0,
   'ALTER TABLE `waypoint_data` ADD COLUMN `Comment` VARCHAR(255) NULL DEFAULT NULL', 'DO 0');
 PREPARE _stmt FROM @_sql; EXECUTE _stmt; DEALLOCATE PREPARE _stmt;
 
+-- INVISIBLE, because upstream migrations INSERT into both tables positionally:
+-- a visible 14th column failed db_world/2026_07_21_00 with ERROR 1136 on the
+-- 2026-10-18 core sync. Positional INSERT and SELECT * skip an invisible column;
+-- everything of ours names it explicitly. Idempotent, metadata-only.
+ALTER TABLE `creature_addon` ALTER COLUMN `Comment` SET INVISIBLE;
+ALTER TABLE `waypoint_data` ALTER COLUMN `Comment` SET INVISIBLE;
+
 -- ---- creature: generated spawns --------------------------------------------
 UPDATE `creature` SET `Comment` = '[gen F-011 Lost Isles]' WHERE `Comment` = 'F-011 Lost Isles';
 UPDATE `creature` SET `Comment` = '[gen F-011 Kezan]'      WHERE `Comment` = 'F-011 Kezan';

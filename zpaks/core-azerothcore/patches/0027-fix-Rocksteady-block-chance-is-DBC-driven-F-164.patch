@@ -1,4 +1,4 @@
-From 83b7f651f331b1b1f4843c69992a78e430a32552 Mon Sep 17 00:00:00 2001
+From 30711344a49640c785471b0b875e2f5383d9f005 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 27 Jun 2026 14:32:36 +0000
 Subject: [PATCH] fix: Rocksteady block chance is DBC-driven (F-164)

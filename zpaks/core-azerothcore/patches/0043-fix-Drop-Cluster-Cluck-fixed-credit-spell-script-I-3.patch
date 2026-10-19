@@ -1,4 +1,4 @@
-From 1990a6d340434f5e218be15d68ee681959c57c08 Mon Sep 17 00:00:00 2001
+From f18afb873103ae8117075dd94bb34b973635cbac Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 6 Aug 2026 13:31:04 +0000
 Subject: [PATCH] fix: Drop Cluster Cluck fixed-credit spell script (I-318)

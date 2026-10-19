@@ -1,4 +1,4 @@
-From f702bebcaf23f3636bf964c21174a9d3a010fba2 Mon Sep 17 00:00:00 2001
+From bbadb50245dd1676d6307df5c2405b8924c4a88b Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 11 Apr 2026 12:35:01 +0000
 Subject: [PATCH] F-033: Add combo point persistence on target switch and death
@@ -8,19 +8,19 @@ Subject: [PATCH] F-033: Add combo point persistence on target switch and death
  1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index d8fe891f0..0614ebfec 100644
+index a5923b587..ff202f8e2 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
-@@ -11400,7 +11400,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
-     if (s != DeathState::Alive && s != DeathState::JustRespawned)
-     {
-         CombatStop();
+@@ -11153,7 +11153,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
+         if (wasAlive)
+             GetCombatManager().RestartPvPCombatTimers();
+         CombatStop(false, /*mutualPvP*/ true, /*keepPvPForOthers*/ true);
 -        ClearComboPointHolders();                           // any combo points pointed to unit lost at it death
 +        //ClearComboPointHolders();                           // prevents combo point loss on death
  
          if (IsNonMeleeSpellCast(false))
              InterruptNonMeleeSpells(false);
-@@ -13270,9 +13270,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
+@@ -12880,9 +12880,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
          {
              m_comboTarget->RemoveComboPointHolder(this);
          }

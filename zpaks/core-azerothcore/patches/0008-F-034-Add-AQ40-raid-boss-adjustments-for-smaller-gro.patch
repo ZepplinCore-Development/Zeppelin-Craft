@@ -1,4 +1,4 @@
-From e3881c8ed3f24aef6f2b7bda4af82c262c66d7f7 Mon Sep 17 00:00:00 2001
+From fbc48e6a2e9a9daf5def8eb8854ac63ad73bbcbc Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 12:17:02 +0000
 Subject: [PATCH] F-034: Add AQ40 raid boss adjustments for smaller groups
@@ -21,10 +21,10 @@ Viscidus:
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  .../Kalimdor/TempleOfAhnQiraj/boss_cthun.cpp  | 42 ++++++++++++++++---
- .../Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp   |  7 +++-
+ .../Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp   | 12 +++++-
  .../TempleOfAhnQiraj/boss_twinemperors.cpp    |  2 +-
  .../TempleOfAhnQiraj/boss_viscidus.cpp        | 12 +++---
- 4 files changed, 50 insertions(+), 13 deletions(-)
+ 4 files changed, 55 insertions(+), 13 deletions(-)
 
 diff --git a/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_cthun.cpp b/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_cthun.cpp
 index 782147459..d0039c3f8 100644
@@ -131,22 +131,27 @@ index 782147459..d0039c3f8 100644
          //Body Phase
          uint8 _fleshTentaclesKilled;
 diff --git a/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp b/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp
-index f5a82207f..00d40d1ab 100644
+index 5f75366d8..8aca32834 100644
 --- a/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp
 +++ b/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp
-@@ -131,7 +131,10 @@ struct boss_ouro : public BossAI
-                 })
-                 .Schedule(20s, [this](TaskContext context)
-                     {
--                        DoCastSelf(SPELL_SUMMON_OURO_MOUNDS, true);
+@@ -152,7 +152,15 @@ struct boss_ouro : public BossAI
+                         CastBoulderIfReady();
+ 
+                     context.Repeat();
+-                });
++                })
++                .Schedule(20s, [this](TaskContext context)
++                    {
 +                        if(_summonedMounds < 10){
 +                            DoCastSelf(SPELL_SUMMON_OURO_MOUNDS, true);
 +                            _summonedMounds++;
 +                        }
-                         context.Repeat();
-                     });
++                        context.Repeat();
++                    });
          }
-@@ -266,6 +269,7 @@ struct boss_ouro : public BossAI
+     }
+ 
+@@ -308,6 +316,7 @@ struct boss_ouro : public BossAI
          _submergeMelee = 0;
          _submerged = false;
          _enraged = false;
@@ -154,7 +159,7 @@ index f5a82207f..00d40d1ab 100644
      }
  
      void EnterEvadeMode(EvadeReason /*why*/) override
-@@ -298,6 +302,7 @@ protected:
+@@ -354,6 +363,7 @@ protected:
      bool _enraged;
      uint8 _submergeMelee;
      bool _submerged;
@@ -163,7 +168,7 @@ index f5a82207f..00d40d1ab 100644
      bool IsPlayerWithinMeleeRange() const
      {
 diff --git a/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_twinemperors.cpp b/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_twinemperors.cpp
-index 6b6fe638b..f66ff6b97 100644
+index 9aaff7fd9..79412e5da 100644
 --- a/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_twinemperors.cpp
 +++ b/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_twinemperors.cpp
 @@ -258,7 +258,7 @@ struct boss_twinemperorsAI : public BossAI

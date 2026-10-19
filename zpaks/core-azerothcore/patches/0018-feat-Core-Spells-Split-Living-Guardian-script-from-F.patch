@@ -1,4 +1,4 @@
-From 4edc2d90924584598390194e291cad4ded553100 Mon Sep 17 00:00:00 2001
+From 19c7e68e0044d2a3f3931fc13f205f69a277db67 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 27 Jun 2026 02:08:39 +0000
 Subject: [PATCH] feat(Core/Spells): Split Living Guardian script from F-164

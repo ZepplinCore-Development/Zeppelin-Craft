@@ -1,4 +1,4 @@
-From 777f77797c3b30d13395cdcabdd1f9545785c3f7 Mon Sep 17 00:00:00 2001
+From 78f2ea715b5cd276722703fbbe56bdaa3862924a Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 10:39:34 +0000
 Subject: [PATCH] feat(Core/Loot): Add Loot::AddNonNormalLootItemFor for AoE
@@ -19,7 +19,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  2 files changed, 34 insertions(+)
 
 diff --git a/src/server/game/Loot/LootMgr.cpp b/src/server/game/Loot/LootMgr.cpp
-index d65883255..e661a71da 100644
+index a103aab09..fdf83f8e6 100644
 --- a/src/server/game/Loot/LootMgr.cpp
 +++ b/src/server/game/Loot/LootMgr.cpp
 @@ -889,6 +889,33 @@ uint32 Loot::GetMaxSlotInLootFor(Player* player) const
@@ -57,7 +57,7 @@ index d65883255..e661a71da 100644
  {
      // Gold is always lootable
 diff --git a/src/server/game/Loot/LootMgr.h b/src/server/game/Loot/LootMgr.h
-index fd2b0e8b5..079eba002 100644
+index 62b2adc60..e8e7800a7 100644
 --- a/src/server/game/Loot/LootMgr.h
 +++ b/src/server/game/Loot/LootMgr.h
 @@ -386,6 +386,13 @@ struct Loot

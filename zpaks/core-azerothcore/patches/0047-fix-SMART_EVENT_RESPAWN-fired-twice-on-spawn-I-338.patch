@@ -1,4 +1,4 @@
-From a9b4d9845962a1e30450502e3d2bd45a5e34b6a9 Mon Sep 17 00:00:00 2001
+From b6a695505a4251de4658995e76c8101de0f1fe87 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 16 Aug 2026 13:30:39 +0000
 Subject: [PATCH] fix: SMART_EVENT_RESPAWN fired twice on spawn (I-338)
@@ -23,10 +23,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/src/server/game/AI/SmartScripts/SmartAI.cpp b/src/server/game/AI/SmartScripts/SmartAI.cpp
-index 7c6c24e02..244b30f93 100644
+index 0dbf9fc75..be39ef926 100644
 --- a/src/server/game/AI/SmartScripts/SmartAI.cpp
 +++ b/src/server/game/AI/SmartScripts/SmartAI.cpp
-@@ -1047,7 +1047,15 @@ void SmartAI::InitializeAI()
+@@ -1105,7 +1105,15 @@ void SmartAI::InitializeAI()
      {
          mJustReset = true;
          JustReachedHome();

@@ -1,0 +1,53 @@
+From 061961f7dff66643d791867485887a70ba87e490 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 19 Oct 2026 02:25:46 +0000
+Subject: [PATCH] fix: mmaps_generator skipped maps after 4-digit map 1469
+ (I-167)
+
+- discoverTiles() built its file filter in char filter[12]; "1469*.vmtile" is
+  13 bytes, so the sprintf overflowed the stack buffer (ASan-confirmed) and the
+  maps discovered after 1469 (631 632 649 650 658 668 723 724) came out with no
+  tiles and were skipped silently, in full runs and single-map runs alike
+- filter[16] + bounded snprintf; all 8 maps now regenerate (v20, same tile counts)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_011NfjmyxZEoemFwhjfsA3Lf
+---
+ src/tools/mmaps_generator/MapBuilder.cpp | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/src/tools/mmaps_generator/MapBuilder.cpp b/src/tools/mmaps_generator/MapBuilder.cpp
+index 2c1a0aed6..8287046ea 100644
+--- a/src/tools/mmaps_generator/MapBuilder.cpp
++++ b/src/tools/mmaps_generator/MapBuilder.cpp
+@@ -97,7 +97,8 @@ namespace MMAP
+     {
+         std::vector<std::string> files;
+         uint32 mapID, tileX, tileY, tileID, count = 0, fsize = 0;
+-        char filter[12];
++        // Room for 4-digit custom map ids: "1469*.vmtile" plus the terminator is 13 bytes.
++        char filter[16];
+ 
+         printf("Discovering maps... ");
+         getDirContents(files, m_config->MapsPath());
+@@ -131,7 +132,7 @@ namespace MMAP
+             std::set<uint32>* tiles = m_tile.m_tiles;
+             mapID = m_tile.m_mapId;
+ 
+-            sprintf(filter, "%03u*.vmtile", mapID);
++            snprintf(filter, sizeof(filter), "%03u*.vmtile", mapID);
+             files.clear();
+             getDirContents(files, m_config->VMapsPath(), filter);
+             for (auto & file : files)
+@@ -146,7 +147,7 @@ namespace MMAP
+                 count++;
+             }
+ 
+-            sprintf(filter, "%03u*", mapID);
++            snprintf(filter, sizeof(filter), "%03u*", mapID);
+             files.clear();
+             getDirContents(files, m_config->MapsPath(), filter);
+             for (auto & file : files)
+-- 
+2.34.1
+

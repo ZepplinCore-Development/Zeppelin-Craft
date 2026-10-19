@@ -1,4 +1,4 @@
-From c67a5cf9de54742b41313d50302eccb61c4a0d6e Mon Sep 17 00:00:00 2001
+From 5e0211baec6853f34d0beb4f40a0188fd5184f51 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 11:51:51 +0000
 Subject: [PATCH] F-032: Add engineering to gathering skill level ups
@@ -12,10 +12,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/src/server/game/Entities/Player/PlayerUpdates.cpp b/src/server/game/Entities/Player/PlayerUpdates.cpp
-index 7a1edbf82..ab38650b0 100644
+index b6e9cf289..67a30bebf 100644
 --- a/src/server/game/Entities/Player/PlayerUpdates.cpp
 +++ b/src/server/game/Entities/Player/PlayerUpdates.cpp
-@@ -786,6 +786,7 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue,
+@@ -815,6 +815,7 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue,
                          specialLockingBusiness);
          break;
      case SKILL_HERBALISM:

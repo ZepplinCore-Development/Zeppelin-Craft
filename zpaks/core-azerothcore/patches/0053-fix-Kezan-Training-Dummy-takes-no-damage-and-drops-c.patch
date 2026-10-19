@@ -1,4 +1,4 @@
-From b7e8839fdd28859830dc68983da5f24a80dce65f Mon Sep 17 00:00:00 2001
+From 5e8248a423642c763be88392fc89b365aed87056 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 4 Oct 2026 20:38:53 +0000
 Subject: [PATCH] fix: Kezan Training Dummy takes no damage and drops combat

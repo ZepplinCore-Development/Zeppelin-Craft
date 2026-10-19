@@ -1,4 +1,4 @@
-From 49a0f2975e79c1fc247c0c952b291411a81b2298 Mon Sep 17 00:00:00 2001
+From 3e41577bec2d6176abae121830349e90c4b6bdcd Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 04:40:37 +0000
 Subject: [PATCH] F-177: Remove stock npc_professions.cpp, superseded by
@@ -10,17 +10,17 @@ by the multi-spec system.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/server/scripts/World/npc_professions.cpp  | 1250 -----------------
+ src/server/scripts/World/npc_professions.cpp  | 1259 -----------------
  .../scripts/World/world_script_loader.cpp     |    2 -
- 2 files changed, 1252 deletions(-)
+ 2 files changed, 1261 deletions(-)
  delete mode 100644 src/server/scripts/World/npc_professions.cpp
 
 diff --git a/src/server/scripts/World/npc_professions.cpp b/src/server/scripts/World/npc_professions.cpp
 deleted file mode 100644
-index c4bf87629..000000000
+index dae6b13a1..000000000
 --- a/src/server/scripts/World/npc_professions.cpp
 +++ /dev/null
-@@ -1,1250 +0,0 @@
+@@ -1,1259 +0,0 @@
 -/*
 - * This file is part of the AzerothCore Project. See AUTHORS file for Copyright information
 - *
@@ -235,6 +235,12 @@ index c4bf87629..000000000
 -    Q_MASTER_TRANSMUTE      = 10899,
 -    Q_MASTER_ELIXIR         = 10902,
 -    Q_MASTER_POTION         = 10897,
+-
+-    /* Blacksmithing */
+-    Q_ARMORSMITH_ALLIANCE   = 5283, // The Art of the Armorsmith
+-    Q_WEAPONSMITH_ALLIANCE  = 5284, // The Way of the Weaponsmith
+-    Q_ARMORSMITH_HORDE      = 5301, // The Art of the Armorsmith
+-    Q_WEAPONSMITH_HORDE     = 5302, // The Way of the Weaponsmith
 -};
 -
 -// All referred to gossips (menu, menu_opt, actions)
@@ -668,7 +674,10 @@ index c4bf87629..000000000
 -        //WEAPONSMITH & ARMORSMITH
 -        if (player->GetBaseSkillValue(SKILL_BLACKSMITHING) >= 225)
 -        {
--            if (player->GetQuestRewardStatus(5284) || player->GetQuestRewardStatus(5302) || player->GetQuestRewardStatus(5283) || player->GetQuestStatus(5301))
+-            if (player->GetQuestRewardStatus(Q_ARMORSMITH_ALLIANCE) ||
+-                player->GetQuestRewardStatus(Q_WEAPONSMITH_ALLIANCE) ||
+-                player->GetQuestRewardStatus(Q_ARMORSMITH_HORDE) ||
+-                player->GetQuestRewardStatus(Q_WEAPONSMITH_HORDE))
 -            {
 -                switch (creatureId)
 -                {

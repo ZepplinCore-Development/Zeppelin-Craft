@@ -1,4 +1,4 @@
-From d5e4c89c8a2645de7b24937c453371e6fafc98aa Mon Sep 17 00:00:00 2001
+From 81e4167b19cc44a1d19ad570ccb744cf1cb80bcb Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 2 Aug 2026 07:43:09 +0000
 Subject: [PATCH] feat: SMART_EVENT_MOVIE_COMPLETED SAI event via
@@ -28,10 +28,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  11 files changed, 67 insertions(+), 2 deletions(-)
 
 diff --git a/src/server/game/AI/CoreAI/UnitAI.h b/src/server/game/AI/CoreAI/UnitAI.h
-index dc6b75e48..84b4c1479 100644
+index 24ea6690c..4e154b662 100644
 --- a/src/server/game/AI/CoreAI/UnitAI.h
 +++ b/src/server/game/AI/CoreAI/UnitAI.h
-@@ -422,6 +422,8 @@ public:
+@@ -427,6 +427,8 @@ public:
      virtual void sQuestReward(Player* /*player*/, Quest const* /*quest*/, uint32 /*opt*/) {}
      // Zeppelin: fired on creatures near a player who abandons a quest (SMART_EVENT_QUEST_ABANDONED)
      virtual void sQuestAbandon(Player* /*player*/, Quest const* /*quest*/) {}
@@ -41,10 +41,10 @@ index dc6b75e48..84b4c1479 100644
  
      virtual std::string GetDebugInfo() const;
 diff --git a/src/server/game/AI/SmartScripts/SmartAI.cpp b/src/server/game/AI/SmartScripts/SmartAI.cpp
-index 00a9d581b..7c6c24e02 100644
+index aba357395..0dbf9fc75 100644
 --- a/src/server/game/AI/SmartScripts/SmartAI.cpp
 +++ b/src/server/game/AI/SmartScripts/SmartAI.cpp
-@@ -1175,6 +1175,11 @@ void SmartAI::sQuestReward(Player* player, Quest const* quest, uint32 opt)
+@@ -1233,6 +1233,11 @@ void SmartAI::sQuestReward(Player* player, Quest const* quest, uint32 opt)
      GetScript()->ProcessEventsFor(SMART_EVENT_REWARD_QUEST, player, quest->GetQuestId(), opt);
  }
  
@@ -57,7 +57,7 @@ index 00a9d581b..7c6c24e02 100644
  {
      if (on)
 diff --git a/src/server/game/AI/SmartScripts/SmartAI.h b/src/server/game/AI/SmartScripts/SmartAI.h
-index b0ae7d5d5..bfc237d93 100644
+index 3bc726929..b3ca394bf 100644
 --- a/src/server/game/AI/SmartScripts/SmartAI.h
 +++ b/src/server/game/AI/SmartScripts/SmartAI.h
 @@ -196,6 +196,7 @@ public:
@@ -69,10 +69,10 @@ index b0ae7d5d5..bfc237d93 100644
  
      uint32 mEscortQuestID;
 diff --git a/src/server/game/AI/SmartScripts/SmartScript.cpp b/src/server/game/AI/SmartScripts/SmartScript.cpp
-index c10501168..23e7e4f97 100644
+index ba27e99ef..92414834e 100644
 --- a/src/server/game/AI/SmartScripts/SmartScript.cpp
 +++ b/src/server/game/AI/SmartScripts/SmartScript.cpp
-@@ -4624,6 +4624,15 @@ void SmartScript::ProcessEvent(SmartScriptHolder& e, Unit* unit, uint32 var0, ui
+@@ -4749,6 +4749,15 @@ void SmartScript::ProcessEvent(SmartScriptHolder& e, Unit* unit, uint32 var0, ui
                  ProcessAction(e, unit, var0);
                  break;
              }
@@ -89,7 +89,7 @@ index c10501168..23e7e4f97 100644
              {
                  if (e.event.transportAddCreature.creature && var0 != e.event.transportAddCreature.creature)
 diff --git a/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp b/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
-index 5a5811ff5..9cc1d61c2 100644
+index 2f8b1083a..e10179ad7 100644
 --- a/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
 +++ b/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
 @@ -420,6 +420,7 @@ void SmartAIMgr::CheckIfSmartAIInDatabaseExists()
@@ -100,7 +100,7 @@ index 5a5811ff5..9cc1d61c2 100644
          case SMART_EVENT_FOLLOW_COMPLETED:
          case SMART_EVENT_ON_SPELLCLICK:
          case SMART_EVENT_GO_STATE_CHANGED:
-@@ -619,6 +620,7 @@ bool SmartAIMgr::CheckUnusedEventParams(SmartScriptHolder const& e)
+@@ -638,6 +639,7 @@ bool SmartAIMgr::CheckUnusedEventParams(SmartScriptHolder const& e)
              case SMART_EVENT_REWARD_QUEST: return sizeof(SmartEvent::quest);
              case SMART_EVENT_QUEST_ABANDONED: return sizeof(SmartEvent::questAbandon);
              case SMART_EVENT_QUEST_COMPLETED: return sizeof(SmartEvent::questAbandon);
@@ -108,7 +108,7 @@ index 5a5811ff5..9cc1d61c2 100644
              case SMART_EVENT_REACHED_HOME: return NO_PARAMS;
              case SMART_EVENT_RECEIVE_EMOTE: return sizeof(SmartEvent::emote);
              case SMART_EVENT_HAS_AURA: return sizeof(SmartEvent::aura);
-@@ -1485,6 +1487,7 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
+@@ -1505,6 +1507,7 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
              case SMART_EVENT_ON_SPELLCLICK:
              case SMART_EVENT_WAYPOINT_REACHED:
              case SMART_EVENT_WAYPOINT_ENDED:
@@ -117,7 +117,7 @@ index 5a5811ff5..9cc1d61c2 100644
              default:
                  LOG_ERROR("sql.sql", "SmartAIMgr: Not handled event_type({}), Entry {} SourceType {} Event {} Action {}, skipped.", e.GetEventType(), e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType());
 diff --git a/src/server/game/AI/SmartScripts/SmartScriptMgr.h b/src/server/game/AI/SmartScripts/SmartScriptMgr.h
-index 4ee1fc761..34fc8c844 100644
+index d9d576865..9cd5f6f94 100644
 --- a/src/server/game/AI/SmartScripts/SmartScriptMgr.h
 +++ b/src/server/game/AI/SmartScripts/SmartScriptMgr.h
 @@ -199,8 +199,9 @@ enum SMART_EVENT
@@ -143,7 +143,7 @@ index 4ee1fc761..34fc8c844 100644
          struct
          {
              uint32 emote;
-@@ -1955,6 +1961,7 @@ const uint32 SmartAIEventMask[SMART_EVENT_AC_END][2] =
+@@ -1964,6 +1970,7 @@ const uint32 SmartAIEventMask[SMART_EVENT_AC_END][2] =
      {SMART_EVENT_IS_IN_MELEE_RANGE,         SMART_SCRIPT_TYPE_MASK_CREATURE },
      {SMART_EVENT_QUEST_ABANDONED,           SMART_SCRIPT_TYPE_MASK_CREATURE },
      {SMART_EVENT_QUEST_COMPLETED,           SMART_SCRIPT_TYPE_MASK_CREATURE },
@@ -152,10 +152,10 @@ index 4ee1fc761..34fc8c844 100644
  
  enum SmartEventFlags
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 95a9dddbc..e6f9a1e94 100644
+index c0e694546..a0c44119c 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -5714,11 +5714,36 @@ void Player::SendCinematicStart(uint32 CinematicSequenceId) const
+@@ -5886,11 +5886,36 @@ void Player::SendCinematicStart(uint32 CinematicSequenceId) const
  
  void Player::SendMovieStart(uint32 MovieId)
  {
@@ -193,10 +193,10 @@ index 95a9dddbc..e6f9a1e94 100644
  {
      if (!IsAlive())
 diff --git a/src/server/game/Entities/Player/Player.h b/src/server/game/Entities/Player/Player.h
-index 3ff5a86f9..35d43e51d 100644
+index 00b155309..d49d21ff1 100644
 --- a/src/server/game/Entities/Player/Player.h
 +++ b/src/server/game/Entities/Player/Player.h
-@@ -2463,6 +2463,9 @@ public:
+@@ -2472,6 +2472,9 @@ public:
  
      void SendCinematicStart(uint32 CinematicSequenceId) const;
      void SendMovieStart(uint32 MovieId);
@@ -206,7 +206,7 @@ index 3ff5a86f9..35d43e51d 100644
  
      uint32 DoRandomRoll(uint32 minimum, uint32 maximum);
  
-@@ -2991,6 +2994,7 @@ private:
+@@ -3004,6 +3007,7 @@ private:
  
      CinematicMgr _cinematicMgr;
      std::unique_ptr<PhaseMgr> m_phaseMgr; // F-194 Cata zone phasing progression
@@ -234,7 +234,7 @@ index 97c40e936..7ec78c19c 100644
  {
      uint8 ActionBar;
 diff --git a/src/server/game/Server/Protocol/Opcodes.cpp b/src/server/game/Server/Protocol/Opcodes.cpp
-index 55113a806..787fc174b 100644
+index c2d99161e..8a4461358 100644
 --- a/src/server/game/Server/Protocol/Opcodes.cpp
 +++ b/src/server/game/Server/Protocol/Opcodes.cpp
 @@ -1253,7 +1253,7 @@ void OpcodeTable::Initialize()
@@ -247,10 +247,10 @@ index 55113a806..787fc174b 100644
      /*0x467*/ DEFINE_HANDLER(CMSG_SET_GLYPH,                                                        STATUS_NEVER,      PROCESS_INPLACE,        &WorldSession::Handle_NULL                              );
      /*0x468*/ DEFINE_SERVER_OPCODE_HANDLER(SMSG_ACHIEVEMENT_EARNED,                                 STATUS_NEVER);
 diff --git a/src/server/game/Server/WorldSession.h b/src/server/game/Server/WorldSession.h
-index b588ad8f1..5207fcd23 100644
+index 886f5ad9d..f278009e8 100644
 --- a/src/server/game/Server/WorldSession.h
 +++ b/src/server/game/Server/WorldSession.h
-@@ -971,6 +971,7 @@ public:                                                 // opcodes handlers
+@@ -1021,6 +1021,7 @@ public:                                                 // opcodes handlers
  
      void HandleCompleteCinematic(WorldPacket& recvPacket);
      void HandleNextCinematicCamera(WorldPacket& recvPacket);

@@ -1,4 +1,4 @@
-From ae0788c70ac1d6cede0d91176706d60ee5773bb4 Mon Sep 17 00:00:00 2001
+From bb2d81daa55ea460044b36a8956feb686f3d7b9c Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 1 Oct 2026 01:49:08 +0000
 Subject: [PATCH] feat: Per-slot heirloom armour bits in ScalingStatValues
@@ -16,10 +16,10 @@ Claude-Session: https://claude.ai/code/session_01H4Ch7VpPResUX1y2oEkQEq
  1 file changed, 18 insertions(+)
 
 diff --git a/src/server/shared/DataStores/DBCStructure.h b/src/server/shared/DataStores/DBCStructure.h
-index 3ebac7eb9..650194234 100644
+index 9a6cc2424..5fbca624b 100644
 --- a/src/server/shared/DataStores/DBCStructure.h
 +++ b/src/server/shared/DataStores/DBCStructure.h
-@@ -1503,8 +1503,26 @@ struct ScalingStatValuesEntry
+@@ -1539,8 +1539,26 @@ struct ScalingStatValuesEntry
          return 0;
      }
  

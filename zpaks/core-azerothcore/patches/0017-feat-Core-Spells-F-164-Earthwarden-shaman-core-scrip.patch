@@ -1,4 +1,4 @@
-From e7bdc2085ee3471b0384079c33e5a181c126e2dc Mon Sep 17 00:00:00 2001
+From 2a7050f53275ae23a488afc8850a95c314975e41 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 04:40:38 +0000
 Subject: [PATCH] feat(Core/Spells): F-164 Earthwarden shaman core scripts
@@ -13,10 +13,10 @@ no C++ here.
  2 files changed, 127 insertions(+)
 
 diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
-index a30b6c16a..e5714edd5 100644
+index d684660c9..70865a75d 100644
 --- a/src/server/game/Spells/SpellEffects.cpp
 +++ b/src/server/game/Spells/SpellEffects.cpp
-@@ -3032,6 +3032,25 @@ void Spell::EffectEnchantItemTmp(SpellEffIndex effIndex)
+@@ -3195,6 +3195,25 @@ void Spell::EffectEnchantItemTmp(SpellEffIndex effIndex)
              case 11:
                  spell_id = 36760;
                  break;               // 20%

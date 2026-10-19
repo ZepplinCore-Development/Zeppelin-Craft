@@ -1,4 +1,4 @@
-From c8471f9e890bc820220f146489e6475d109708b8 Mon Sep 17 00:00:00 2001
+From 04d863012792eba040f9f621627dd7c2522f7c54 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 25 Jun 2026 08:06:26 +0000
 Subject: [PATCH] feat(Core/Spells): Stat-scaled damage via MiscValueB (F-188)
@@ -18,15 +18,15 @@ reads school from SpellInfo, never the effect MiscValue (vestigial data).
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_015qmedFMHJQaq91UUAWKWL2
 ---
- src/server/game/Spells/SpellEffects.cpp | 24 ++++++++++++++++++++++++
- src/server/shared/SharedDefines.h       | 20 ++++++++++++++++++++
- 2 files changed, 44 insertions(+)
+ src/server/game/Spells/SpellEffects.cpp | 26 +++++++++++++++++++++++++
+ src/server/shared/SharedDefines.h       | 20 +++++++++++++++++++
+ 2 files changed, 46 insertions(+)
 
 diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
-index e5714edd5..7d6b722aa 100644
+index 70865a75d..2143edf08 100644
 --- a/src/server/game/Spells/SpellEffects.cpp
 +++ b/src/server/game/Spells/SpellEffects.cpp
-@@ -646,6 +646,30 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
+@@ -674,6 +674,32 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                  }
          }
  
@@ -34,21 +34,23 @@ index e5714edd5..7d6b722aa 100644
 +        // stat * coeff; MiscValue picks the stat (ZepStatScalingStat). MiscValueB is unused
 +        // by stock SCHOOL_DAMAGE, so this never fires on existing spells. Scales as part of
 +        // the hit (crit, +damage% auras, resist all apply), replacing one-off scripts.
-+        if (int32 statCoeff = m_spellInfo->Effects[effIndex].MiscValueB)
++        // Only a unit caster has stats; a GameObject caster (#27627) skips the scaling.
++        int32 const statCoeff = m_spellInfo->Effects[effIndex].MiscValueB;
++        if (statCoeff && unitCaster)
 +        {
 +            float statVal = 0.0f;
 +            switch (m_spellInfo->Effects[effIndex].MiscValue)
 +            {
-+                case ZEP_STAT_BLOCK_VALUE:  statVal = float(m_caster->GetShieldBlockValue()); break;
-+                case ZEP_STAT_ARMOR:        statVal = float(m_caster->GetArmor()); break;
-+                case ZEP_STAT_ATTACK_POWER: statVal = m_caster->GetTotalAttackPowerValue(BASE_ATTACK); break;
-+                case ZEP_STAT_SPELL_POWER:  statVal = float(m_caster->SpellBaseDamageBonusDone(m_spellInfo->GetSchoolMask())); break;
-+                case ZEP_STAT_STRENGTH:     statVal = m_caster->GetStat(STAT_STRENGTH); break;
-+                case ZEP_STAT_AGILITY:      statVal = m_caster->GetStat(STAT_AGILITY); break;
-+                case ZEP_STAT_STAMINA:      statVal = m_caster->GetStat(STAT_STAMINA); break;
-+                case ZEP_STAT_INTELLECT:    statVal = m_caster->GetStat(STAT_INTELLECT); break;
-+                case ZEP_STAT_SPIRIT:       statVal = m_caster->GetStat(STAT_SPIRIT); break;
-+                case ZEP_STAT_MAX_HEALTH:   statVal = float(m_caster->GetMaxHealth()); break;
++                case ZEP_STAT_BLOCK_VALUE:  statVal = float(unitCaster->GetShieldBlockValue()); break;
++                case ZEP_STAT_ARMOR:        statVal = float(unitCaster->GetArmor()); break;
++                case ZEP_STAT_ATTACK_POWER: statVal = unitCaster->GetTotalAttackPowerValue(BASE_ATTACK); break;
++                case ZEP_STAT_SPELL_POWER:  statVal = float(unitCaster->SpellBaseDamageBonusDone(m_spellInfo->GetSchoolMask())); break;
++                case ZEP_STAT_STRENGTH:     statVal = unitCaster->GetStat(STAT_STRENGTH); break;
++                case ZEP_STAT_AGILITY:      statVal = unitCaster->GetStat(STAT_AGILITY); break;
++                case ZEP_STAT_STAMINA:      statVal = unitCaster->GetStat(STAT_STAMINA); break;
++                case ZEP_STAT_INTELLECT:    statVal = unitCaster->GetStat(STAT_INTELLECT); break;
++                case ZEP_STAT_SPIRIT:       statVal = unitCaster->GetStat(STAT_SPIRIT); break;
++                case ZEP_STAT_MAX_HEALTH:   statVal = float(unitCaster->GetMaxHealth()); break;
 +                default: break;
 +            }
 +            damage += int32(statVal * (statCoeff / 100.0f));

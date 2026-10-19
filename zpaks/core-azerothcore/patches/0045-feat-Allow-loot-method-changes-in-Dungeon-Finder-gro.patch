@@ -1,4 +1,4 @@
-From c0e7a93009442ca820a1e2de891c491ea5decbb5 Mon Sep 17 00:00:00 2001
+From cb1729f6e1cc78c25ea3c1f4bef147dd7836fd96 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 8 Aug 2026 12:18:25 +0000
 Subject: [PATCH] feat: Allow loot method changes in Dungeon Finder groups
@@ -24,10 +24,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  2 files changed, 44 insertions(+), 2 deletions(-)
 
 diff --git a/src/server/apps/worldserver/worldserver.conf.dist b/src/server/apps/worldserver/worldserver.conf.dist
-index 503c5d4a9..a27a59dee 100644
+index 0e7298b7c..46a11ac62 100644
 --- a/src/server/apps/worldserver/worldserver.conf.dist
 +++ b/src/server/apps/worldserver/worldserver.conf.dist
-@@ -4863,6 +4863,26 @@ Block.CritMult = 1.5
+@@ -4922,6 +4922,26 @@ Block.CritMult = 1.5
  #
  ###################################################################################################
  
@@ -55,7 +55,7 @@ index 503c5d4a9..a27a59dee 100644
  #                                                                                                 #
  # GAME SETTINGS END                                                                               #
 diff --git a/src/server/game/Handlers/GroupHandler.cpp b/src/server/game/Handlers/GroupHandler.cpp
-index 3f0884ebe..d2769e8f1 100644
+index b2f2f9173..07493ff04 100644
 --- a/src/server/game/Handlers/GroupHandler.cpp
 +++ b/src/server/game/Handlers/GroupHandler.cpp
 @@ -16,6 +16,7 @@
@@ -66,7 +66,7 @@ index 3f0884ebe..d2769e8f1 100644
  #include "DatabaseEnv.h"
  #include "Group.h"
  #include "GroupMgr.h"
-@@ -518,8 +519,15 @@ void WorldSession::HandleLootMethodOpcode(WorldPacket& recvData)
+@@ -525,8 +526,15 @@ void WorldSession::HandleLootMethodOpcode(WorldPacket& recvData)
          return;
  
      /** error handling **/
@@ -84,7 +84,7 @@ index 3f0884ebe..d2769e8f1 100644
          return;
  
      if (lootMethod > NEED_BEFORE_GREED)
-@@ -537,6 +545,20 @@ void WorldSession::HandleLootMethodOpcode(WorldPacket& recvData)
+@@ -544,6 +552,20 @@ void WorldSession::HandleLootMethodOpcode(WorldPacket& recvData)
      group->SetMasterLooterGuid(lootMaster);
      group->SetLootThreshold((ItemQualities)lootThreshold);
      group->SendUpdate();
