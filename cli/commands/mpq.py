@@ -595,15 +595,14 @@ def mpq_info(ctx):
     click.echo()
 
     # Header
-    click.echo(f"  {'Patch':<10} {'Zpak':<24} {'Mandatory':<11} {'Size':<10} {'Source':<16} {'Status'}")
-    click.echo(f"  {'─' * 10} {'─' * 24} {'─' * 11} {'─' * 10} {'─' * 16} {'─' * 12}")
+    click.echo(f"  {'Patch':<10} {'Zpak':<24} {'Size':<10} {'Source':<16} {'Status'}")
+    click.echo(f"  {'─' * 10} {'─' * 24} {'─' * 10} {'─' * 16} {'─' * 12}")
 
     for letter in sorted_letters:
         patch_key = f"PATCH-{letter}.MPQ"
         reg = register.get(patch_key, {})
         zpaks_for_letter = zpak_patches.get(letter, [])
 
-        mandatory = "yes" if reg.get('is_mandatory') else "no"
         size = reg.get('size_mb', 0)
         size_str = f"{size:.0f} MB" if size else "—"
         build_source = reg.get('build_source', '—')
@@ -611,7 +610,7 @@ def mpq_info(ctx):
         if not zpaks_for_letter:
             # Register-only entry (no zpak, e.g. generated patches)
             status = click.style("generated", fg='cyan')
-            click.echo(f"  {'PATCH-' + letter:<10} {'—':<24} {mandatory:<11} {size_str:<10} {build_source:<16} {status}")
+            click.echo(f"  {'PATCH-' + letter:<10} {'—':<24} {size_str:<10} {build_source:<16} {status}")
         else:
             # Sort by priority within same letter
             zpaks_for_letter.sort(key=lambda z: z['priority'])
@@ -626,20 +625,17 @@ def mpq_info(ctx):
                 else:
                     status = click.style("no binary", fg='yellow')
 
-                click.echo(f"  {patch_pad:<10} {name:<24} {mandatory:<11} {size_str:<10} {build_source:<16} {status}")
+                click.echo(f"  {patch_pad:<10} {name:<24} {size_str:<10} {build_source:<16} {status}")
 
                 # Only show size/source on first row for multi-zpak patches
                 size_str = ""
                 build_source = ""
-                mandatory = ""
 
     # Summary
     total_zpaks = sum(len(v) for v in zpak_patches.values())
-    mandatory_count = sum(1 for r in register.values() if r.get('is_mandatory'))
-    optional_count = len(all_letters) - mandatory_count
 
     click.echo()
-    click.echo(f"  {len(all_letters)} patches ({mandatory_count} mandatory, {optional_count} optional) from {total_zpaks} zpaks")
+    click.echo(f"  {len(all_letters)} patches from {total_zpaks} zpaks")
     click.echo()
 
 
