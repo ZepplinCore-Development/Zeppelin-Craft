@@ -932,3 +932,269 @@ def cinematic_convert(ctx, source, name, out_dir, widths, fps, bitrate):
     else:
         click.echo(click.style('\nConversion produced a non-conforming file.',
                                fg='red'))
+
+
+# =============================================================================
+# Minimap generator (F-217)
+# =============================================================================
+
+@build.command('minimap-gen')
+@click.option('--wmo-root', 'wmo_root', default=None,
+              help="Tree holding the WMO to render. Default: the patch-open-azeroth zpak, "
+                   "because that is the copy the client loads - OA ships its own Orgrimmar WMO "
+                   "(147 groups) and its group indices ARE the client's tile indices. The Asset "
+                   "Library copy is a DIFFERENT build (145 groups) and its indices are wrong.")
+@click.option('--wmo', 'wmo_rel', required=True,
+              help="WMO path under world/wmo, e.g. kalimdor/ogrimmar/ogrimmar")
+@click.option('--groups', 'groups_opt', default=None,
+              help="Group indices: '137,124,78' or ranges '110-114'")
+@click.option('--area', 'area_name', default=None,
+              help="Resolve groups from WMOAreaTable by area name, e.g. 'Cleft of Shadow'")
+@click.option('--wmo-id', 'wmo_id', type=int, default=None,
+              help="WMOAreaTable wmo_id, required with --area")
+@click.option('--zcut', default='auto',
+              help="Roof cut: 'auto' (40%% of z-range), 'none', or a fraction like 0.35")
+@click.option('--headroom', type=float, default=None,
+              help="Floor mode: keep the highest surface within N yards of the LOCAL floor. "
+                   "Follows sloping ground and drops roofs without punching holes. "
+                   "Try 6-12; overrides --zcut behaviour when set.")
+@click.option('--px-per-yard', 'px_per_yard', type=float, default=2.0,
+              help="Uniform render scale. Stock tile dims are pow2(yards*2), so 2.0 matches; "
+                   "the tile covers W/scale x H/scale yards from the bbox minimum.")
+@click.option('--gamma', type=float, default=0.70,
+              help="Midtone lift (<1 brightens). Stock-matched linear lighting leaves halls "
+                   "too dark to read; 0.70 brightens the floor without blowing highlights.")
+@click.option('--preview', is_flag=True, help="Write PNG previews only, change nothing")
+@click.option('--zpak', 'zpak_name', default='zep-legacy', help="Zpak that ships the tiles")
+@click.option('--task', 'task_id', default='F-217', help="Task ID for the emitted SQL")
+@click.option('--allow-multi', is_flag=True, help="(legacy, unused - the client only reads _00_00)")
+@click.option('--composite/--no-composite', default=False,
+              help="Composite every overlapping group into each tile. OFF by default: stock "
+                   "tiles hold only their OWN group's geometry, and compositing makes adjacent "
+                   "tiles redraw shared geometry at different offsets, which reads as a muddled, "
+                   "badly scaled map in game.")
+@click.option('--client-offset', type=int, default=0,
+              help="Add N to the group index when naming the tile. Our Asset Library's "
+                   "Ogrimmar.wmo is numbered 9 LOWER than the client's, so Orgrimmar needs 9 "
+                   "(proven in game: library groups 110-114 = Grommash Hold = client tiles 119-123).")
+@click.pass_context
+def build_minimap_gen(ctx, wmo_root, wmo_rel, groups_opt, area_name, wmo_id, zcut, headroom,
+                      px_per_yard, gamma, preview, zpak_name, task_id, allow_multi, client_offset, composite):
+    """Render minimap tiles from our own WMO geometry (F-217).
+
+    A stock tile holds only its own group's geometry, so a large room renders as
+    sparse pockets (I-371). This composites every group overlapping each tile's
+    cell and cuts roof geometry away, giving a complete local floor map.
+
+    Manual by design - point it at a flagged area, check --preview, then write.
+
+    Examples:
+        zep build minimap-gen --wmo kalimdor/ogrimmar/ogrimmar --groups 110-114 --preview
+        zep build minimap-gen --wmo kalimdor/ogrimmar/ogrimmar --area "Cleft of Shadow" --wmo-id 759
+    """
+    import struct
+    import numpy as np
+    from lib.minimap_gen import (AssetIndex, Renderer, group_data, tiles_for,
+                                 auto_zcut, tile_resolution, CELL, TILE_PX)
+    from lib.blp_image import write_minimap_blp
+
+    craft_root = ctx.obj['craft_root']
+    lib_root = Path('/workspace/project/Zeppelin-Tools/Asset Library/GAME ASSETS')
+    oa_root = (Path(craft_root) / 'zpaks' / 'patch-open-azeroth' / 'mpq' / 'source-assets')
+    root = Path(wmo_root) if wmo_root else oa_root
+    def _ci(base: Path, *parts) -> Path:
+        """Resolve a path case-insensitively - zpak trees are UPPERCASE, the
+        Asset Library is lowercase."""
+        cur = Path(base)
+        for want in parts:
+            if not cur.is_dir():
+                return cur / want
+            hit = next((c for c in cur.iterdir()
+                        if c.is_dir() and c.name.lower() == str(want).lower()), None)
+            cur = hit if hit else cur / want
+        return cur
+    wmo_dir = _ci(root, 'world', 'wmo', *Path(wmo_rel).parent.parts)
+    stem = Path(wmo_rel).name
+    root_wmo = next((f for f in (wmo_dir.iterdir() if wmo_dir.is_dir() else [])
+                     if f.name.lower() == f"{stem}.wmo".lower()), None)
+    if root_wmo is None:
+        raise click.ClickException(f"root WMO not found under {wmo_dir}")
+    click.echo(f"WMO source: {wmo_dir}")
+
+    # map group index -> MOGP groupID, and bbox
+    byname = {f.name.lower(): f for f in wmo_dir.iterdir() if f.is_file()}
+    info = {}
+    for i in range(1000):
+        p = byname.get(f"{stem}_{i:03d}.wmo".lower(), wmo_dir / f"{stem}_{i:03d}.wmo")
+        if not p.exists():
+            if i > 8 and not info:
+                break
+            continue
+        b = p.read_bytes()[:96]
+        if b[12:16][::-1] != b"MOGP":
+            continue
+        info[i] = dict(gid=struct.unpack_from("<I", b, 20 + 56)[0],
+                       bbox=struct.unpack_from("<6f", b, 32),
+                       flags=struct.unpack_from("<I", b, 20 + 8)[0])
+    if not info:
+        raise click.ClickException("no group files found")
+    click.echo(f"{stem}: {len(info)} groups")
+
+    targets = []
+    if groups_opt:
+        for part in groups_opt.split(','):
+            part = part.strip()
+            if '-' in part:
+                a, bnd = part.split('-', 1)
+                targets += list(range(int(a), int(bnd) + 1))
+            elif part:
+                targets.append(int(part))
+    elif area_name:
+        if wmo_id is None:
+            raise click.ClickException("--area requires --wmo-id")
+        from lib.dbc_utils import DBCConnection, DBCConfig
+        cfg = DBCConfig.from_env(Path(craft_root) / 'cli' / '.env')
+        gids = []
+        with DBCConnection(cfg) as conn:
+            cur = conn.get_connection(cfg.live).cursor()
+            cur.execute("SELECT wmo_group_id FROM wmoareatable WHERE wmo_id=%s AND name_enus=%s",
+                        (wmo_id, area_name))
+            gids = [r[0] for r in cur.fetchall()]
+            cur.close()
+        by_gid = {v['gid']: k for k, v in info.items()}
+        targets = sorted({by_gid[g] for g in gids if g in by_gid})
+        click.echo(f"area '{area_name}': {len(gids)} rows -> {len(targets)} groups")
+    else:
+        raise click.ClickException("pass --groups or --area")
+
+    targets = [t for t in targets if t in info]
+    if not targets:
+        raise click.ClickException("no valid target groups")
+
+    assets = AssetIndex([root, lib_root])
+    rend = Renderer(wmo_dir, stem, assets)
+
+    rel_dir = Path(str(Path(wmo_rel).parent).lower())
+    out_dir = (craft_root / 'zpaks' / zpak_name / 'mpq' / 'source-assets' /
+               'Textures' / 'Minimap' / rel_dir)
+    prev_dir = Path('/tmp/minimap-preview')
+    (prev_dir if preview else out_dir).mkdir(parents=True, exist_ok=True)
+
+    # reuse the casing an existing md5translate row already uses, so a generated
+    # layer never downgrades 'WMO\\Kalimdor\\Ogrimmar\\...' to lowercase
+    existing_src = {}
+    try:
+        from lib.dbc_utils import DBCConnection, DBCConfig
+        _cfg = DBCConfig.from_env(Path(craft_root) / 'cli' / '.env')
+        with DBCConnection(_cfg) as _c:
+            _cur = _c.get_connection(_cfg.live).cursor()
+            _cur.execute("SELECT `src` FROM `md5translate`")
+            existing_src = {r[0].lower(): r[0] for r in _cur.fetchall()}
+            _cur.close()
+    except Exception:
+        pass
+
+    rows, skipped = [], []
+    for gi in targets:
+        bbox = info[gi]['bbox']
+        if zcut == 'none':
+            zc = None
+        elif zcut == 'auto':
+            zc = auto_zcut(bbox)
+        else:
+            zc = auto_zcut(bbox, float(zcut))
+        # Stock tiles hold only their own group's geometry and tile cleanly next
+        # to each other. Compositing neighbours duplicates shared geometry across
+        # adjacent tiles, so it is opt-in only.
+        indoor = bool(info[gi]['flags'] & 0x2000)
+        res = tile_resolution(bbox)
+        # The cell: fixed 2 px/yd, anchored at the bbox MINIMUM (measured in game).
+        cover = (bbox[0], bbox[1], bbox[2],
+                 bbox[0] + res[0] / px_per_yard,
+                 bbox[1] + res[1] / px_per_yard,
+                 bbox[5])
+        if composite:
+            # Composite every overlapping group of the SAME indoor/outdoor kind.
+            # A coverage threshold was tried and abandoned: the cell is fixed by
+            # the group's OWN bbox, so tile 123's cell contains 0% of the corridor
+            # (122) and 0% of room 2 (121) - no threshold can put them in. Each
+            # tile is a window fixed by its own bbox, so the picture necessarily
+            # changes as the client swaps tiles. That transition "pop" is
+            # STRUCTURAL to per-group tiles, not a tile-content bug. Plain overlap
+            # maximises what each tile carries, which is the best available.
+            over = [j for j, v in info.items()
+                    if v['bbox'][3] > bbox[0] and v['bbox'][0] < bbox[3]
+                    and v['bbox'][4] > bbox[1] and v['bbox'][1] < bbox[4]
+                    and bool(v['flags'] & 0x2000) == indoor]
+        else:
+            over = [gi]
+        # clamp to this room's own vertical extent (small margin for thresholds)
+        zwin = (bbox[2] - 3.0, bbox[5] + 3.0) if indoor else None
+
+        # The client only ever requests _00_00 - confirmed in game, every cell
+        # index read 00,00 - so one tile covers the whole group.
+        # Cut EVERY composited group at its OWN height, not the target's. Sharing
+        # one plane made the corridor render differently depending on whose tile
+        # drew it, which is what changed on entering the tunnel (I-371).
+        if headroom is not None:
+            zc_map = None
+        elif zcut == 'none':
+            zc_map = None
+        else:
+            frac = 0.40 if zcut == 'auto' else float(zcut)
+            zc_map = {j: auto_zcut(info[j]['bbox'], frac) for j in over}
+        img = rend.render(over, cover, size=res,
+                          zcut=zc_map,
+                          headroom=headroom, gamma=gamma, zwindow=zwin)
+        lit = float((img.mean(axis=2) > 40).mean())
+        ci = gi + client_offset
+        name = f"{stem}_{ci:03d}_00_00.blp"
+        if preview:
+            from PIL import Image
+            Image.fromarray(img).save(prev_dir / name.replace('.blp', '.png'))
+        else:
+            write_minimap_blp(out_dir / name, img)
+            src = (f"WMO\\{Path(wmo_rel).parent.as_posix().replace('/', chr(92))}"
+                   f"\\{stem}_{ci:03d}_00_00.blp")
+            src = existing_src.get(src.lower(), src)
+            if src.lower() not in existing_src and existing_src:
+                # New row: no stored casing to reuse. Copy the casing of a sibling
+                # row in the same directory rather than emitting a lowercase path -
+                # every stock row is 'WMO\\Kalimdor\\Ogrimmar\\Ogrimmar_...'.
+                pre = src.rsplit('\\', 1)[0].lower() + '\\' + stem.lower() + '_'
+                for k, v in existing_src.items():
+                    if k.startswith(pre):          # same directory AND same WMO stem
+                        sib_dir, sib_file = v.rsplit('\\', 1)
+                        stem_cased = sib_file[:len(stem)]
+                        tail = src.rsplit('\\', 1)[1][len(stem) + 1:]
+                        src = f"{sib_dir}\\{stem_cased}_{tail}"
+                        break
+            dst = f"{str(rel_dir).replace('/', chr(92))}\\{name}"
+            rows.append((src, dst))
+        click.echo(f"  group {gi:03d} -> tile {ci:03d}  {res[0]}x{res[1]}px covering "
+                   f"{cover[3]-cover[0]:.0f}x{cover[4]-cover[1]:.0f} yd "
+                   f"({res[0]/(cover[3]-cover[0]):.1f}x{res[1]/(cover[4]-cover[1]):.1f} px/yd)"
+                   f"  lit {lit:.0%}")
+
+    for gi, why in skipped:
+        click.echo(click.style(f"  group {gi:03d} SKIPPED ({why}) - "
+                               f"use --allow-multi once tile orientation is calibrated", fg='yellow'))
+    if preview:
+        click.echo(click.style(f"\nPreviews written to {prev_dir} (nothing else changed)", fg='green'))
+        return
+    if rows:
+        from lib.trs_utils import sql_str
+        sql_dir = craft_root / 'zpaks' / zpak_name / 'dbc'
+        sql_dir.mkdir(parents=True, exist_ok=True)
+        f = sql_dir / f"[{task_id}]_md5translate_{Path(wmo_rel).parent.name.lower()}.sql"
+        d = f"WMO\\{Path(wmo_rel).parent.as_posix().replace('/', chr(92))}"
+        body = [f"-- [{task_id}] minimap rows for tiles generated by 'zep build minimap-gen'",
+                f"-- Source: our own {stem}.wmo geometry, composited per cell with a roof cut.", ""]
+        body.append("DELETE FROM `md5translate` WHERE `src` IN (%s);" %
+                    ", ".join(sql_str(s) for s, _ in rows))
+        body.append("INSERT INTO `md5translate` (`src`, `dst`, `dir`) VALUES")
+        body.append(",\n".join(f"({sql_str(s)}, {sql_str(dd)}, {sql_str(d)})" for s, dd in rows) + ";")
+        f.write_text("\n".join(body) + "\n")
+        click.echo(click.style(f"\n{len(rows)} tiles -> {out_dir}", fg='green'))
+        click.echo(click.style(f"rows -> {f}", fg='green'))
+        click.echo("next: zep dbc db rebuild -t md5translate && zep build patch-mpq -p Z --parse-build")
