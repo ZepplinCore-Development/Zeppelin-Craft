@@ -383,10 +383,17 @@ def _load_item_lookups():
             cfg = DBCConfig.from_env(ENV_PATH)
             with DBCConnection(cfg) as conn:
                 cur = conn.get_connection(cfg.live).cursor()
-                cur.execute('SELECT id, left_model, right_model, left_model_texture, right_model_texture, icon_1, icon_2 '
-                            'FROM itemdisplayinfo')
-                for rid, lm, rm, lt, rt, i1, i2 in cur.fetchall():
-                    idi[int(rid)] = [int(rid), lm or '', rm or '', lt or '', rt or '', i1 or '', i2 or '']
+                cols = ('left_model', 'right_model', 'left_model_texture', 'right_model_texture', 'icon_1', 'icon_2',
+                        'geoset_group_1', 'geoset_group_2', 'geoset_group_3', 'flags', 'spell_visual_id',
+                        'group_sound_index', 'helmet_geoset_male', 'helmet_geoset_female')      # binary columns 1-14
+                cur.execute(f'SELECT id, {", ".join(cols)} FROM itemdisplayinfo')
+                width = max((len(r) for r in idi.values()), default=25)
+                for row in cur.fetchall():
+                    rid = int(row[0])
+                    r = list(idi.get(rid) or [rid] + [0] * (width - 1))
+                    r[1:7] = [v or '' for v in row[1:7]]
+                    r[7:15] = [int(v or 0) for v in row[7:15]]
+                    idi[rid] = r
         except Exception:
             pass
         races = {k: v[6] for k, v in table('ChrRaces.dbc', (6,)).items()}
