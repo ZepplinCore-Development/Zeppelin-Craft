@@ -228,7 +228,7 @@ def generate_sql(
     lines.append(f"-- Update {creature_name} spawn masks for the dungeon map")
     lines.append("UPDATE `creature`")
     lines.append("SET `spawnMask` = 7")
-    lines.append(f"WHERE `id1` = {entry} AND `map` = {map_id};")
+    lines.append(f"WHERE `id` = {entry} AND `map` = {map_id};")
     lines.append("")
 
     return lines
@@ -274,6 +274,10 @@ def generate_loot_sql(
             f"AND `Reference` = 0;"
         )
         # Reference rows: expand each ref row into the items from the ref pool.
+        # A pool row can itself be a NESTED reference (Reference > 0), whose Item
+        # is only a row key (1, 2, 3...). Carry its Reference across so it stays a
+        # reference: zeroing it turned every nested pool into a drop of item 1..24
+        # (Errors.log flood, lost world/zone loot, item 17 Martin Fury, I-383).
         # Preserve the ref item's own Chance/GroupId/MinCount/MaxCount. The
         # parent ref-row Chance is not multiplied in (would need ratio math);
         # naive expansion matches what AC would deliver for a ref row at
@@ -287,7 +291,7 @@ def generate_loot_sql(
             f"INSERT IGNORE INTO `creature_loot_template` "
             f"(`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, "
             f"`LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) "
-            f"SELECT {new_entry}, rlt.Item, 0, rlt.Chance, rlt.QuestRequired, "
+            f"SELECT {new_entry}, rlt.Item, rlt.Reference, rlt.Chance, rlt.QuestRequired, "
             f"rlt.LootMode, rlt.GroupId, rlt.MinCount, rlt.MaxCount, "
             f"CONCAT('expanded from ref ', clt.Reference) "
             f"FROM `creature_loot_template` clt "
