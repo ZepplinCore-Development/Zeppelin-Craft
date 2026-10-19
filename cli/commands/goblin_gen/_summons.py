@@ -59,6 +59,13 @@ CPP_SUMMONS = {
     # the Faceless + its void zone at waypoint 35.
     38457: "npc_ace_surrender_escort",   # Naga Hatchling (the four that follow Ace)
     38450: "npc_ace_surrender_escort",   # Faceless of the Deep Void Zone
+    # I-343, quest 25023 "Old Friends" — the escape from Volcanoth's Lair. The lair
+    # has no walk-out, so with no bomber the player is sealed in after 24958.
+    # npc_sassy_quest_giver_volcanoth (lost_isles.cpp:1749) summons the bomber on
+    # quest accept; npc_flying_bomber_old_friends (:1604) summons the passenger
+    # Sassy on IsSummonedBy and again at waypoint 31 after the seat swap.
+    38918: "npc_flying_bomber_old_friends",   # Flying Bomber (VehicleId 657)
+    38869: "npc_flying_bomber_old_friends",   # Sassy Hardwrench (2), the passenger
 }
 
 

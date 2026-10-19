@@ -138,18 +138,35 @@ def emit(ctx):
         return ctx.q("SELECT * FROM smart_scripts WHERE source_type=%s AND entryorguid=%s ORDER BY id",
                      (source_type, entry))
 
-    # I-349: a donor spell id that exists in NEITHER client. Neltharion fabricates spells
-    # in its own `spell_dbc` (the 151xxx block) and ships the effects in a custom client
-    # patch we do not have, so there is nothing for spells.py to port and the
-    # `valid_spells` gate below correctly refuses the row. Refusing it silently is the
-    # problem: where the row is the tail of a link the head keeps a link id that now
-    # resolves to nothing, and AC neither validates that at load nor logs it at fire time,
-    # so the chain just stops (quest 25100 "Let's Ride": Kilag Gorefang talked and cast
-    # Sanctuary, then never summoned the mount).
+    # I-343: a donor spell id that EXISTS in 3.3.5a as something COMPLETELY DIFFERENT.
+    # The `valid_spells` gate in collect() only asks "is this id in our DBC" — it cannot
+    # see a COLLISION, so the row ships and fires the wrong spell with nothing logged.
+    # Cata 80808 is the Old Friends bomber's ride-seat-3 (the C++ twin of these very
+    # rows, lost_isles.cpp:1596, spells it SPELL_RIDE_SEAT_3 = 98707); 3.3.5a 80808 is
+    # "Reagent Banker", whose effect_1 is 28 SUMMON — so the seat swap at the end of the
+    # flight would have summoned a banker instead of moving the player.
+    #
+    # Only add an id here after checking BOTH sides: the donor's meaning (grep the
+    # script that casts it) and ours (`zep dbc info query`). An id absent from our DBC
+    # needs no entry — collect() already drops those rows.
+    SPELL_ID_COLLISIONS = {
+        80808: 98707,   # Cata ride-seat-3 -> stock "Ride Camera - Seat 3" (base points 3)
+    }
+
+    spell_collisions = []
+
+    # I-349: the third shape — a donor id that exists in NEITHER client. Neltharion
+    # fabricates spells in its own `spell_dbc` (the 151xxx block) and ships the effects
+    # in a custom client patch we do not have, so there is nothing for spells.py to port
+    # and the `valid_spells` gate below correctly refuses the row. Refusing it silently
+    # is the problem: where the row is the tail of a link the head keeps a link id that
+    # now resolves to nothing, and AC neither validates that at load nor logs it at fire
+    # time, so the chain just stops (quest 25100 "Let's Ride": Kilag Gorefang talked and
+    # cast Sanctuary, then never summoned the mount).
     #
     # Retail usually has a real spell doing the same job — Neltharion re-invented it to
-    # feed its own C++ script. Substituting BEFORE the gate lets the row ship against the
-    # spell 3.3.5a can actually represent.
+    # feed its own C++ script. Substituting BEFORE the gate (this map is applied first)
+    # lets the row ship against the spell 3.3.5a can actually represent.
     #
     # Both sides must be checked before adding an id: the donor's meaning (grep the C++
     # that consumes it — the summon target names the twin) and the substitute's effects
@@ -189,6 +206,11 @@ def emit(ctx):
             it = int(float(_val(r["action_param1"])))
             if it in iremap:
                 r["action_param1"] = iremap[it]
+        if at in SPELL_ACTION_TYPES:   # param1 = spell id for all of them
+            sp = int(float(_val(r["action_param1"])))
+            if sp in SPELL_ID_COLLISIONS:
+                r["action_param1"] = SPELL_ID_COLLISIONS[sp]
+                spell_collisions.append((sp, SPELL_ID_COLLISIONS[sp]))
 
     # I-316: SMART_ACTION_CAST param2 is castFlags. 0x20 = SMARTCAST_AURA_NOT_PRESENT
     # ("only cast if the target does not already have this spell's aura") and means the
@@ -488,11 +510,12 @@ def emit(ctx):
     return ("scope cre=%d go=%d (excluded cre=%d go=%d) -> blocks=%d rows=%d "
             "[cre=%d go=%d tal=%d] skipped(type)=%d skipped(spell)=%d "
             "castflags: fixed=%d suspect=%d spellcast: covered=%d added=%d "
-            "escort forcedMovement remapped=%d donor-custom spells substituted=%d%s%s" % (
+            "escort forcedMovement remapped=%d spell-id collisions remapped=%d "
+            "donor-custom spells substituted=%d%s%s" % (
                 len(cre_scope), len(go_scope), len(excl_cre), len(excl_go),
                 len(rows_by_key), sum(len(v) for v in rows_by_key.values()),
                 len(cre), len(go), len(tal), skipped, spell_skipped,
                 len(cf_applied), len(cf_suspect), sc_covered, sc_added,
-                len(escort_fixed), len(spell_substitutes),
+                len(escort_fixed), len(spell_collisions), len(spell_substitutes),
                 "".join("\n" + line for line in drop_lines),
                 "".join("\n  WARN " + w for w in sc_warns)))

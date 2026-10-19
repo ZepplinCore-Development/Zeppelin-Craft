@@ -117,6 +117,16 @@ EFFECT_OVERRIDE = {
     # controlled exit.
     72889: {"effect_die_sides_1": 0},
 
+    # 98707 "Ride Camera - Seat 3" (quest 25023 "Old Friends", I-343). Effect 0 is
+    # aura 236 CONTROL_VEHICLE, and AC reads the SEAT INDEX out of the effect value:
+    # AuraEffect::HandleAuraControlVehicle (SpellAuraEffects.cpp:3803) passes
+    # `m_amount - 1` to _EnterVehicle. Source BasePoints 3 / DieSides 0 = seat 2,
+    # which is what the donor script's own comment says ("SPELL_RIDE_SEAT_3 = 98707,
+    # // seat 3-1 = 2"); emitted as 3/1 it calculates to 4 and asks for seat 3, which
+    # vehicle 657 does not have, so the "get in the back seat" swap silently does
+    # nothing. Same class as 71648 / 72889 — a seat/id effect value poisoned by the +1.
+    98707: {"effect_die_sides_1": 0},
+
     # 71091 "It's A Town-In-A-Box: Town-In-A-Box Plunger - Effect 2" (I-315).
     # Effect 0 is 140 FORCE_CAST -> 68750 "Quest Phase 05", whose only effect is
     # aura 261 SPELL_AURA_PHASE with MiscValue 2048 and DurationIndex 21 (-1,
