@@ -20,6 +20,9 @@
 *.ogg
 *.mp3
 *.wav
+*.OGG
+*.MP3
+*.WAV
 
 # MPQ metadata files
 (listfile)

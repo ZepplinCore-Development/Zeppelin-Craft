@@ -87,3 +87,18 @@ external/
 
 # Local DBCTool-style config (credentials, not source of truth)
 /config.json
+
+# Locally built launcher binary (release builds live in Launcher/dist/)
+Launcher/zeppelin-launcher
+
+# Cinematic media, test encodes and source archives - shipped via MPQ/loose files, not git
+*.avi
+*.AVI
+*.mp4
+*.rar
+*.MPQ.old*
+zpaks/zep-goblin-start/cine-tests/
+
+# Local backup copies and editor project files
+*-orig
+*.noggitproj

@@ -21,3 +21,6 @@
 *.DBC
 *.tex
 *.trs
+
+# Parsed output: binaries above are ignored; stray previews/tools left by curation are not tracked
+mpq/parsed-assets/

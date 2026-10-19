@@ -21,3 +21,6 @@
 *.DBC
 *.tex
 *.trs
+
+# Parsed copies are regenerated from source-assets by --parse-build
+mpq/parsed-assets/SOUND/
