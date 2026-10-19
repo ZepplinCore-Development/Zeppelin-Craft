@@ -1,13 +1,12 @@
 -- [F-154] Warrior Class Tuning: spell
 -- Counter ability, CD category separation, Battle Shout duration (split from [BASE,F-044]_spell.sql)
 
--- Counter scaling (shared between spell and desc variable 195)
+-- Counter scaling
 SET @ctr_dmg_base = 10;
 SET @ctr_dmg_die = 1;
 SET @ctr_dmg_perlevel = 5.0;
 SET @ctr_base_level = 6;
 SET @ctr_max_level = 80;
-SET @ctr_ap_coeff = 0.1;
 
 -- Counter (new spell)
 DELETE FROM `spell` WHERE `id` = 91001;
@@ -49,7 +48,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = '',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'A strike that becomes active after parrying or dodging an opponent''s attack. Deals $<dmg> damage and slows their melee attack speed by $s2% for $d.',
+    `spell_desc_enus` = 'A strike that becomes active after parrying or dodging an opponent''s attack. Deals $s1 damage and slows their melee attack speed by $s2% for $d.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Melee attack speed slowed by $s2%.',
     `spell_tooltip_flags` = 16712190,
@@ -64,14 +63,11 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 1,
     `effect_bonus_multiplier_2` = 1.0,
-    `spell_desc_variable_id` = 195;
+    `spell_desc_variable_id` = 0;
 
--- Variable 195: Counter tooltip damage (base + per-level + AP scaling)
+-- Variable 195 (RETIRED, I-414): the x64 client's $s1 already adds the per-level points and
+-- AP x ap_bonus (spell_bonus_data -> ZepSpellBonusData.dbc), so the hand-built $<dmg> is gone.
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 195;
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (195, CONCAT(
-    '$perlevel=${($pl-', @ctr_base_level, ')*', @ctr_dmg_perlevel, '}\n',
-    '$apbonus=${$AP*', @ctr_ap_coeff, '}\n',
-    '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
 
 -- Shield Bash / Pummel - no longer share CD category
 UPDATE `spell` SET `recovery_time` = 12000, `category_recovery_time` = 0, `spell_tooltip_flags` = 16712190 WHERE `id` = 72;

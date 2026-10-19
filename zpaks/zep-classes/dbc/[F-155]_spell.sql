@@ -1,13 +1,12 @@
 -- [F-155] Paladin Class Tuning: spell
 -- Chastise ability, Blessing duration increases (split from [BASE,F-044]_spell.sql)
 
--- Chastise scaling (shared between spell and desc variable 196)
+-- Chastise scaling
 SET @cht_dmg_base = 10;
 SET @cht_dmg_die = 1;
 SET @cht_dmg_perlevel = 5.0;
 SET @cht_base_level = 6;
 SET @cht_max_level = 80;
-SET @cht_ap_coeff = 0.1;
 
 -- Chastise (new spell 91002)
 -- A strike that becomes active after parrying or dodging an opponent's attack.
@@ -49,7 +48,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = '',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'A strike that becomes active after parrying or dodging an opponent''s attack. Deals $<dmg> damage and slows their melee attack speed by $s2% for $d.',
+    `spell_desc_enus` = 'A strike that becomes active after parrying or dodging an opponent''s attack. Deals $s1 damage and slows their melee attack speed by $s2% for $d.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Melee attack speed slowed by $s2%.',
     `spell_tooltip_flags` = 16712190,
@@ -65,14 +64,11 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 1,
     `effect_bonus_multiplier_2` = 1.0,
-    `spell_desc_variable_id` = 196;
+    `spell_desc_variable_id` = 0;
 
--- Variable 196: Chastise tooltip damage (base + per-level + AP scaling)
+-- Variable 196 (RETIRED, I-414): the x64 client's $s1 already adds the per-level points and
+-- AP x ap_bonus (spell_bonus_data -> ZepSpellBonusData.dbc), so the hand-built $<dmg> is gone.
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 196;
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (196, CONCAT(
-    '$perlevel=${($pl-', @cht_base_level, ')*', @cht_dmg_perlevel, '}\n',
-    '$apbonus=${$AP*', @cht_ap_coeff, '}\n',
-    '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
 
 -- Blessing durations increased to 30 minutes (duration_index 30)
 -- Blessing of Might, Wisdom, Kings, Sanctuary (all ranks)
