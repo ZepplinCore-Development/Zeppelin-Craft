@@ -1181,7 +1181,10 @@ const pickOf = (e) => (choices[kindOf(e)] || {})[keyOf(e)];
 function assetMatches(e) {
   if (e.tab !== tab) return false;
   // 'model:<path>' (a model card's Displays button): every display that shows that model, whatever the filter
-  if (search.startsWith('model:')) return displaysOfModel(search.slice(6)).has(e);
+  // 'model:<path>' (a model card's Displays button) narrows to the displays that show that model; the filter
+  // (Undecided / Review / All / Favourites) still applies, and same-look members are listed one by one
+  const modelQ = search.startsWith('model:');
+  if (modelQ && !displaysOfModel(search.slice(6)).has(e)) return false;
   if (search.startsWith('riders:')) return ridersOfModel(search.slice(7)).has(e.display);
   const c = pickOf(e);
   const rv = reviewReason(kindOf(e), keyOf(e), e);
@@ -1193,7 +1196,7 @@ function assetMatches(e) {
   if (filter === 'todo' && unusedModel(e)) return false;                            // nothing in game uses it yet
   // same-look displays are ONE row (the group's first id) in every list, so each unique look is worked once;
   // a member with its own pick (not applied from the group) or searched by its exact id still shows
-  if (e.tab === 'display' && e.look_group && e.display !== e.look_group[0] && !(search && String(e.display) === search)) {
+  if (e.tab === 'display' && e.look_group && e.display !== e.look_group[0] && !modelQ && !(search && String(e.display) === search)) {
     const own = choices.display[String(e.display)];
     if (!own || own.group_of === e.look_group[0] || filter === 'todo') return false;
   }
@@ -1206,7 +1209,7 @@ function assetMatches(e) {
   if (filter === 'wish' && !(choices.wish || {})[e.path]) return false;
   if (filter === 'retail' && !e.retailOnly) return false;                          // shopping: models only retail has
   if (filter === 'remaster' && !(e.tab === 'creature' && !e.retailOnly && (namedFor(e.path) || (retailIdx.models || {})[e.path]))) return false;
-  if (search) {
+  if (search && !modelQ) {
     // every word must match the path, display, names or keywords (a word also matches its synonyms)
     const hay = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + (e.kw || '') + ' ' + dispModels(e) + ' ' + foldedNames(e) + (f220Tagged(e) ? ' f-220 f220' : '')).toLowerCase();
     if (!searchWords().every(alts => alts.some(w => hay.includes(w)))) return false;
