@@ -501,14 +501,14 @@ def dbc_modify(ctx, sql_file: str, task_id: Optional[str], no_cascade: bool):
 
     # Execute on live database
     click.echo(f"\nApplying to {config.live}...")
-    success, output = run_sql(sql, config, config.live)
+    success, output = run_sql(sql, config, config.live, transactional=True)
     if not success:
         raise click.ClickException(f"Failed to apply to live database: {output}")
     click.echo(click.style("  OK", fg='green'))
 
     # Execute on expected database
     click.echo(f"Applying to {config.expected}...")
-    success, output = run_sql(sql, config, config.expected)
+    success, output = run_sql(sql, config, config.expected, transactional=True)
     if not success:
         click.echo(click.style(f"  Warning: {output}", fg='yellow'))
     else:
@@ -565,8 +565,8 @@ def _cascade_after_modify(config, sql_path: Path, no_cascade: bool):
             continue
 
         start_time = time.time()
-        live_ok, live_out = run_sql(cascade_sql, config, config.live)
-        exp_ok, exp_out = run_sql(cascade_sql, config, config.expected)
+        live_ok, live_out = run_sql(cascade_sql, config, config.live, transactional=True)
+        exp_ok, exp_out = run_sql(cascade_sql, config, config.expected, transactional=True)
         exec_ms = int((time.time() - start_time) * 1000)
 
         live_status = click.style("OK", fg='green') if live_ok else click.style("FAIL", fg='red')
@@ -2453,13 +2453,16 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
         click.echo("Checking for changed files...")
         stored_hashes = get_all_stored_dbc_hashes(config)
 
+        # Universal downstream cascade (F-205), mirroring `world sql changed`.
+        #
+        # DBC files apply in zpak priority order, then sorted filename order, and a
+        # later file may override rows written by an earlier one in ANY zpak (e.g.
+        # [I-xxx] overrides on [AUTO,*] output). Once one file is due, every file
+        # after it in global apply order re-applies, so an incremental apply lands
+        # the same rows a full rebuild would. `cascading` deliberately does NOT
+        # reset per zpak — that reset was the bug.
+        cascading = False
         for priority, zpak, sql_files in zpak_groups:
-            # Ordering cascade (I-244): within a zpak, DBC files apply in sorted
-            # filename order and later files may override earlier ones' rows
-            # (e.g. [I-xxx] overrides on [AUTO,*] output). Once one file in the
-            # zpak is due, every file sorting after it re-applies too, so
-            # re-applying an earlier file can't silently revert an override.
-            cascading = False
             for sql_file in sql_files:
                 current_hash = calculate_file_hash(sql_file)
                 stored = stored_hashes.get(sql_file.name)
@@ -2563,8 +2566,8 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
 
         # Apply to both databases
         start_time = time.time()
-        live_ok, live_out = run_sql(sql, config, config.live)
-        exp_ok, exp_out = run_sql(sql, config, config.expected)
+        live_ok, live_out = run_sql(sql, config, config.live, transactional=True)
+        exp_ok, exp_out = run_sql(sql, config, config.expected, transactional=True)
         exec_ms = int((time.time() - start_time) * 1000)
 
         # Build status string

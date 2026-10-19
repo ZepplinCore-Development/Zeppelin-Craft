@@ -188,7 +188,12 @@ def is_feature_disabled(filename: str, disabled_features: Set[str]) -> bool:
         return False
     # A feature ID is covered if it — or its parent — is disabled, so disabling
     # a parent feature (e.g. F-164) cascades to its sub-features (F-164C, ...).
-    return all(
-        fid in disabled_features or parent_feature_id(fid) in disabled_features
-        for fid in ids
-    )
+    return all(feature_id_covered(fid, disabled_features) for fid in ids)
+
+
+def feature_id_covered(feature_id: str, id_set: Set[str]) -> bool:
+    """True if feature_id — or its parent feature — is in id_set.
+
+    Sub-features roll up to their parent, so F-164 in id_set covers F-164C.
+    """
+    return feature_id in id_set or parent_feature_id(feature_id) in id_set

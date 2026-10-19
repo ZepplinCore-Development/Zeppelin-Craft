@@ -869,7 +869,8 @@ def generate_full_diff_sql(db_conn: DBCConnection, db_source: str, db_target: st
     return "\n".join(sql_parts)
 
 
-def run_sql(sql: str, config: DBCConfig, database: str = None) -> Tuple[bool, str]:
+def run_sql(sql: str, config: DBCConfig, database: str = None,
+            transactional: bool = False) -> Tuple[bool, str]:
     """
     Execute SQL against a DBC database using mysql CLI.
 
@@ -879,6 +880,12 @@ def run_sql(sql: str, config: DBCConfig, database: str = None) -> Tuple[bool, st
         sql: SQL to execute
         config: Database configuration
         database: Database name (defaults to live)
+        transactional: wrap the payload in a single transaction. Set this when
+            applying a whole FILE. DBC files are written one statement per row
+            for readability and the largest is over 40,000 statements, which
+            under autocommit is 40,000 separate commits. Leave it off for
+            queries and one-off statements — a SELECT gains nothing, and the
+            caller keeps per-statement commit semantics.
 
     Returns:
         Tuple of (success, output)
@@ -902,9 +909,13 @@ def run_sql(sql: str, config: DBCConfig, database: str = None) -> Tuple[bool, st
             database
         ]
 
+        # The lone ';' guards files whose last statement is unterminated — mysql
+        # only forgives that at EOF, so COMMIT would otherwise glue onto it and
+        # raise a syntax error. A standalone ';' is accepted either way.
+        payload = f"SET autocommit=0;\n{sql}\n;\nCOMMIT;\n" if transactional else sql
         result = subprocess.run(
             mysql_cmd,
-            input=sql,
+            input=payload,
             capture_output=True,
             text=True
         )
