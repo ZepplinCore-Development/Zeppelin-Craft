@@ -1,0 +1,36 @@
+From bf31f8a316276b0edccb5acf5eeca9c6ffb91081 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 20 Oct 2026 13:02:57 +0000
+Subject: [PATCH] fix: map_extractor segfault on Cata split root ADTs (I-417)
+
+adt_MHDR::getMCIN() returned a pointer even when offsMCIN is 0. The
+LostIsles split root ADTs in PATCH-T have no MCIN, so ConvertADT read
+garbage MCNK offsets and segfaulted at map 648, aborting the whole
+extraction. Return nullptr like getMH2O/getMFBO; ConvertADT already
+skips a tile without cells.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UBPV6ZJQU8VTjnHQQesNg4
+---
+ src/tools/map_extractor/adt.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/tools/map_extractor/adt.h b/src/tools/map_extractor/adt.h
+index 4cbbb20a0..dafef5946 100644
+--- a/src/tools/map_extractor/adt.h
++++ b/src/tools/map_extractor/adt.h
+@@ -376,7 +376,10 @@ public:
+     bool prepareLoadedData();
+     adt_MCIN* getMCIN()
+     {
+-        return reinterpret_cast<adt_MCIN*>(reinterpret_cast<uint8*>(&flags) + offsMCIN);
++        // Cata split root ADTs (zep-lost-isles-terrain) have no MCIN (I-417)
++        if (offsMCIN)
++            return reinterpret_cast<adt_MCIN*>(reinterpret_cast<uint8*>(&flags) + offsMCIN);
++        return nullptr;
+     }
+     adt_MH2O* getMH2O()
+     {
+-- 
+2.34.1
+
