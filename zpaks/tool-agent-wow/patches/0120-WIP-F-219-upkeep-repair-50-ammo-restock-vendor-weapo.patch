@@ -1,0 +1,200 @@
+From 8a38d01f011db9fba801ab2581fd64c4d8390918 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 20 Oct 2026 13:58:05 +0000
+Subject: [PATCH] WIP: F-219 - upkeep (repair 50 %, ammo restock, vendor weapon
+ upgrades); patrols by live position
+
+- upkeep() every 3 min out of combat: repair below 50 % within 600 yd (70 % within 150),
+  ammo below 200 -> 2 stacks, vendor weapon 30 %+ better keeping next 2 levels' training money
+- post-death repair threshold 30 % -> 50 %
+- route_guard judges waypoint patrols by where they are now (one Snowstrider's route
+  stranded a level-5 paladin for 30 min)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 124 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 119 insertions(+), 5 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 6a4d99d..ac56aeb 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1598,6 +1598,108 @@ class Runner:
+                     money -= rows[0]["price"] * max(1, 10 // rows[0]["buy"])
+         self._kit_t = 0
+ 
++    def training_reserve(self, level):
++        """Copper the class training of the next two levels will cost (spells we do not know yet):
++        a purchase must leave this much, or the trainer refuses us for money."""
++        known = set(call("interact.spells").get("spells", []))
++        return max((sum(x["cost"] for x in sp if level < x["level"] <= level + 2 and x["spell"] not in known)
++                    for sp in self.w.trainer_spells.values()), default=0)
++
++    def restock_ammo(self, level, max_walk=600):
++        """Below 200 rounds, buy two stacks (2 x 200 for 20c) at the nearest vendor that sells them.
++        Ammo used to be bought only on a level-up, from a vendor within 150 yd: Teldrassil's hunter
++        never bought any in 6 h and ended with 27 arrows - out of ammo, Auto Shot stops without a word."""
++        have, ranged = self.bags()
++        if not ranged:
++            return False
++        sub = (self.items([ranged]).get(ranged) or (0, 0))[1]
++        ammo_sub = {2: 2, 18: 2, 3: 3}.get(sub)
++        if not ammo_sub:
++            return False
++        held = [e for e, inf in self.items(list(have)).items() if inf and inf[0] == 6 and inf[1] == ammo_sub]
++        n = sum(have[e] for e in held)
++        if n >= 200:
++            return False
++        money, me = call("interact.self").get("money", 0), self.me()
++        rows = sorted((r for r in self.w.shop if r["cls"] == 6 and r["sub"] == ammo_sub and r["lvl"] <= level
++                       and r["price"] * 2 <= money), key=lambda r: (-r["lvl"], r["price"]))
++        for r in rows:
++            p = self.w.nearest("c", r["vendor"], me, self.phase_mask())
++            if not p or math.dist(p[:2], (me["x"], me["y"])) > max_walk:
++                continue
++            print(f"  ammo: {n} left - 2 stacks of {r['item']} from {r['vendor']} "
++                  f"{math.dist(p[:2], (me['x'], me['y'])):.0f} yd", flush=True)
++            if not self.go_near("c", r["vendor"]):
++                continue
++            res = call("interact.vendor_buy", target={"entry": r["vendor"]}, item_id=r["item"], count=2)
++            print(f"  ammo: bought: {res.get('detail')}", flush=True)
++            if res.get("ok"):
++                call("interact.set_ammo", entry=r["item"])
++                self._kit_t = 0
++                return True
++        return False
++
++    def buy_weapons(self, level, max_walk=600):
++        """Buy a vendor weapon that beats the worn one by 30 %+ (any weapon slot we can use), keeping the
++        next two levels of training money back. Only quest rewards ever changed a weapon: Teldrassil's
++        level-7 hunter still swung the 1.4 DPS Worn Battleaxe in its 60 % defend deaths, with a 4.3 DPS
++        Large Axe (484c) and a better bow (285c) for sale nearby - and 885c spent on repairs."""
++        if not self.w.vendors:
++            return False
++        if self.__dict__.get("_weapon_shop") is None:
++            self._weapon_shop = [(int(r["entry"]), int(r["item"]), int(r["price"])) for r in sql(
++                "SELECT v.entry,v.item,i.BuyPrice price FROM npc_vendor v JOIN item_template i ON i.entry=v.item "
++                f"WHERE v.entry IN ({inlist(self.w.vendors)}) AND v.ExtendedCost=0 AND v.maxcount=0 AND i.class=2")]
++        money = call("interact.self").get("money", 0) - self.training_reserve(level)
++        if money <= 0:
++            return False
++        worn = {it.get("slot"): it.get("entry") for it in call("interact.inventory").get("equipped", [])}
++        rows = self.item_rows([i for _, i, _ in self._weapon_shop])
++        best = None
++        for v, i, price in self._weapon_shop:
++            r = rows.get(i)
++            if price > money or not self.can_use(r, level) or r["InventoryType"] not in INV_SLOTS:
++                continue
++            if r["InventoryType"] == 22 and self.w.cls != 4:  # below 20 only a rogue dual wields
++                continue
++            old, new = self.slot_value(r, worn), self.gear_score(r)
++            if new < old * 1.3 or new - old < 1.0:
++                continue
++            if not best or new - old > best[0]:
++                best = (new - old, v, i, price, old, new)
++        if not best:
++            return False
++        _, v, i, price, old, new = best
++        me = self.me()
++        p = self.w.nearest("c", v, me, self.phase_mask())
++        if not p or math.dist(p[:2], (me["x"], me["y"])) > max_walk:
++            return False
++        print(f"  weapon: {i} from {v} for {price}c (score {old:.1f} -> {new:.1f})", flush=True)
++        if not self.go_near("c", v):
++            return False
++        res = call("interact.vendor_buy", target={"entry": v}, item_id=i, count=1)
++        print(f"  weapon: bought: {res.get('detail')}", flush=True)
++        if res.get("ok"):
++            time.sleep(1)
++            self.gear_up()  # wears it (the same scoring picked it)
++            return True
++        return False
++
++    def upkeep(self, level):
++        """Every few minutes out of combat: repair early, ammo, weapon upgrades. Repair used to wait for a
++        death and 30 %: a death plus a spirit rez (-25 %) took gear from 35 % to 0 - the hunter walked
++        to repair at 0-20 % in 12 of 14 trips and the rogue fought on a broken dagger."""
++        if time.time() - getattr(self, "_upkeep_t", 0) < 180:
++            return
++        self._upkeep_t = time.time()
++        for what, fn in (("repair", lambda: self.maybe_repair(0.5, 600) or self.maybe_repair(0.7, 150)),
++                         ("ammo", lambda: self.restock_ammo(level)),
++                         ("weapon", lambda: self.buy_weapons(level))):
++            try:
++                fn()
++            except StepFailed as e:
++                print(f"  ~ {what}: {str(e)[:80]}", flush=True)
++
+     def reach_trainer(self, t):
+         """Walk to the trainer's NEAREST spawn only and stand by him if he is there. go_near would fall
+         back to farther spawn points - Shadowglen's in-tree Warrior Trainer is never found, and the
+@@ -2348,7 +2450,7 @@ class Runner:
+                         # row left a rogue's weapon broken (Sinister Strike failed MAINHAND, max health
+                         # 194 -> 164 from broken armour) and it died on that spot until the run ended
+                         try:
+-                            self.maybe_repair(0.3, 800)
++                            self.maybe_repair(0.5, 800)
+                         except StepFailed as e:
+                             print(f"  ~ repair: {str(e)[:80]}", flush=True)
+                         return
+@@ -2358,7 +2460,7 @@ class Runner:
+             finally:
+                 self.reviving = False
+             try:
+-                self.maybe_repair(0.3, 600)  # deaths are what wear the gear
++                self.maybe_repair(0.5, 600)  # deaths are what wear the gear
+             except StepFailed as e:
+                 print(f"  ~ repair: {str(e)[:80]}", flush=True)
+             return
+@@ -2381,6 +2483,8 @@ class Runner:
+         # deaths came straight after a won fight, at 4-47 % health)
+         if low_mana or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 90):  # never start a pull half dead
+             self.rest(90)
++        if not self.reviving:
++            self.upkeep(s.get("level", 1))
+ 
+     def _revive_loop(self, corpse):
+         """Revive on a clock (release, walk back, wait out the reclaim delay, reclaim); fall back to the
+@@ -2487,18 +2591,19 @@ class Runner:
+             facs = inlist({int(r["f"]) for r in rows})
+             enemy = {int(r["id"]) for r in dbc(f"SELECT id,enemy_group e FROM factiontemplate WHERE id IN ({facs})")
+                      if int(r["e"]) & (1 | side)}
+-            # (x, y, level, entry, pad): pad widens the reach - a random wanderer by its wander
++            # (x, y, level, entry, pad, phasemask, patrol): pad widens the reach - a random wanderer by its wander
+             # radius; a waypoint patrol is a threat along its WHOLE route (Ammen Vale: 4 of 37 Mutated
+             # Owlkin patrol 9-71 node paths - nowhere near their spawn point)
+             hot = [r for r in rows if int(r["f"]) in enemy]
+             self._threats = [(float(r["x"]), float(r["y"]), int(r["l"]), int(r["e"]),
+-                              float(r["wd"] or 0) if r["mt"] == "1" else 0.0, int(r["pm"])) for r in hot]
++                              float(r["wd"] or 0) if r["mt"] == "1" else 0.0, int(r["pm"]), r["mt"] == "2")
++                             for r in hot]
+             paths = {int(r["p"]): r for r in hot if r["mt"] == "2" and r["p"] not in ("NULL", "0", "")}
+             if paths:
+                 for w in sql(f"SELECT id,point,position_x x,position_y y FROM waypoint_data WHERE id IN ({inlist(paths)})"):
+                     if int(w["point"]) % 2 == 0:  # every other node: dense enough at ~20 yd reach
+                         r = paths[int(w["id"])]
+-                        self._threats.append((float(w["x"]), float(w["y"]), int(r["l"]), int(r["e"]), 3.0, int(r["pm"])))
++                        self._threats.append((float(w["x"]), float(w["y"]), int(r["l"]), int(r["e"]), 3.0, int(r["pm"]), True))
+         # only what our phase can see: Kezan's Pirate Party Crashers (phase 4/6144) blocked a level-1
+         # goblin's first two quests from the start and the run ended after 4.6 min
+         mask = self.phase_mask()
+@@ -2550,6 +2655,15 @@ class Runner:
+         # looked at the destination)
+         spots = [(dx, dy) for dx, dy, dl in self.death_spots if dl == level]
+         graves = [p for p in spots if sum(1 for q in spots if math.dist(p, q) < 45) >= 2]
++        if any(t[6] for t in red):
++            # a waypoint patrol is somewhere on its route, not everywhere on it: judge it by where it IS
++            # (Dun Morogh: one level-9 Frostmane Snowstrider's route crossed every road out, and a
++            # level-5 paladin waited 30 min for level 8 and ended its run). Out of sight = far from us
++            pe = {t[3]: t for t in red if t[6]}
++            live = [o for o in call("interact.find", type=3, radius=100, limit=80).get("objects", [])
++                    if o.get("entry") in pe and o.get("health", 0) > 0]
++            red = [t for t in red if not t[6]] + [(o["x"], o.get("y", 0), pe[o["entry"]][2], o["entry"], 8.0,
++                                                   pe[o["entry"]][5], True) for o in live]
+         if not red and not graves:
+             return
+         try:
+-- 
+2.34.1
+
