@@ -1,0 +1,145 @@
+{
+  "_comment": "I-417: the HD pack OrcInn (patch-hd-buildings) has its floor up to ~1 yd below the stock inn, so stock terrain pokes through it and the client classes a camera or player inside as outdoors (the inn vanishes). terrain_clear_wmo lowers only the ground under the HD floor to 0.25 below it. Stock-MPQ tiles are seeded into OA parsed-assets from Asset Library/STOCK/MPQ/patch.MPQ before the recipe runs.",
+  "target_zpak": "patch-open-azeroth",
+  "placements": {
+    "WORLD/MAPS/KALIMDOR/KALIMDOR_36_27.ADT": {
+      "base_sha256": "fb9fa1058135ad7cf3b3fa6f77e729c151149809ff43292f8b6ada2286a0e92a",
+      "terrain_clear_wmo": [
+        {
+          "uid": 268859,
+          "floor": {
+            "zpak": "patch-hd-buildings",
+            "groups": {
+              "WORLD/WMO/KALIMDOR/BUILDINGS/ORCINN/ORCINN_000.WMO": "847586f1ea35e8d0b0148e34a1f88db12dda002d457ab19bb366bbf127a97f10"
+            },
+            "max_z": 10.0,
+            "min_nz": 0.5
+          },
+          "clearance": 0.25,
+          "note": "I-417 HD OrcInn floor at Splintertree Post"
+        }
+      ],
+      "result_sha256": "2b2aebf3b2fbf1b7b8d67fe0d60ddeacd7be0d856f1f4fb9849f108bbaee82d3"
+    },
+    "WORLD/MAPS/KALIMDOR/KALIMDOR_36_32.ADT": {
+      "base_sha256": "4c5b62d0e12cc834f77029515e20ba527c7f9befb2605fffc9701e723f9a09de",
+      "terrain_clear_wmo": [
+        {
+          "uid": 268637,
+          "floor": {
+            "zpak": "patch-hd-buildings",
+            "groups": {
+              "WORLD/WMO/KALIMDOR/BUILDINGS/ORCINN/ORCINN_000.WMO": "847586f1ea35e8d0b0148e34a1f88db12dda002d457ab19bb366bbf127a97f10"
+            },
+            "max_z": 10.0,
+            "min_nz": 0.5
+          },
+          "clearance": 0.25,
+          "note": "I-417 HD OrcInn floor at the Crossroads"
+        }
+      ],
+      "result_sha256": "7d410fd7a8376fe8a2b771a555748165eb2970af0b55607c12e912d269f8e4ec"
+    },
+    "WORLD/MAPS/KALIMDOR/KALIMDOR_40_31.ADT": {
+      "base_sha256": "060aa2729ce982917c240385ca64c75891f66bd1dd64f0559c979e12138067db",
+      "terrain_clear_wmo": [
+        {
+          "uid": 268702,
+          "floor": {
+            "zpak": "patch-hd-buildings",
+            "groups": {
+              "WORLD/WMO/KALIMDOR/BUILDINGS/ORCINN/ORCINN_000.WMO": "847586f1ea35e8d0b0148e34a1f88db12dda002d457ab19bb366bbf127a97f10"
+            },
+            "max_z": 10.0,
+            "min_nz": 0.5
+          },
+          "clearance": 0.25,
+          "note": "I-417 HD OrcInn floor at Razor Hill"
+        }
+      ],
+      "result_sha256": "1c706ee3464908d24590d66c6a6951e38e072d6bf24c25566e80b7eead69b9c1"
+    },
+    "WORLD/MAPS/EXPANSION01/EXPANSION01_27_31.ADT": {
+      "base_sha256": "160a9c5cb951e9df352b4ad4c3aa1ba204cb47cf97a0550e9f03af38a827225a",
+      "terrain_clear_wmo": [
+        {
+          "uid": 697146,
+          "floor": {
+            "zpak": "patch-hd-buildings",
+            "groups": {
+              "WORLD/WMO/KALIMDOR/BUILDINGS/ORCINN/ORCINN_000.WMO": "847586f1ea35e8d0b0148e34a1f88db12dda002d457ab19bb366bbf127a97f10"
+            },
+            "max_z": 10.0,
+            "min_nz": 0.5
+          },
+          "clearance": 0.25,
+          "note": "I-417 HD OrcInn floor at Thrallmar (stock tile)"
+        }
+      ],
+      "result_sha256": "682ae1f1128021cf7e0b98eef0232c9ad1d177fe22eacb4998982c730b50fe18"
+    },
+    "WORLD/MAPS/HELLFIRERAMPART/HELLFIRERAMPART_29_33.ADT": {
+      "base_sha256": "ee119acf133759357ad33115780a1b5ec043de5b4aacd65d23d513034e4c0f64",
+      "terrain_clear_wmo": [
+        {
+          "uid": 768869,
+          "floor": {
+            "zpak": "patch-hd-buildings",
+            "groups": {
+              "WORLD/WMO/KALIMDOR/BUILDINGS/ORCINN/ORCINN_000.WMO": "847586f1ea35e8d0b0148e34a1f88db12dda002d457ab19bb366bbf127a97f10"
+            },
+            "max_z": 10.0,
+            "min_nz": 0.5
+          },
+          "clearance": 0.25,
+          "note": "I-417 HD OrcInn floor at Hellfire Ramparts (stock tile)"
+        }
+      ],
+      "result_sha256": "1908a8bd2ea3f4ec6f11f8e0c607f8ec1565412aad20587e31aa16ce113df579"
+    },
+    "WORLD/MAPS/HYJALPAST/HYJALPAST_37_21.ADT": {
+      "base_sha256": "9748bbb5c76b162c05aa43a98c3fc6a4607f8c3e852358c471fc57b32ea562f9",
+      "terrain_clear_wmo": [
+        {
+          "uid": 670960,
+          "floor": {
+            "zpak": "patch-hd-buildings",
+            "groups": {
+              "WORLD/WMO/KALIMDOR/BUILDINGS/ORCINN/ORCINN_000.WMO": "847586f1ea35e8d0b0148e34a1f88db12dda002d457ab19bb366bbf127a97f10"
+            },
+            "max_z": 10.0,
+            "min_nz": 0.5
+          },
+          "clearance": 0.25,
+          "note": "I-417 HD OrcInn floor at Hyjal Past (stock tile)",
+          "seam_tiles": [
+            "WORLD/MAPS/HYJALPAST/HYJALPAST_37_22.ADT"
+          ]
+        }
+      ],
+      "result_sha256": "67683d7af2fc516ca0a6f2669aaaeccb7509ac2e9bc1fa007d10aed01d13ffdb"
+    },
+    "WORLD/MAPS/HYJALPAST/HYJALPAST_37_22.ADT": {
+      "base_sha256": "7e27fa8af463abe1525a3ebf611d9a81d9e18ca52fd1bee4ce0fc51fa71cab3a",
+      "terrain_clear_wmo": [
+        {
+          "uid": 670960,
+          "floor": {
+            "zpak": "patch-hd-buildings",
+            "groups": {
+              "WORLD/WMO/KALIMDOR/BUILDINGS/ORCINN/ORCINN_000.WMO": "847586f1ea35e8d0b0148e34a1f88db12dda002d457ab19bb366bbf127a97f10"
+            },
+            "max_z": 10.0,
+            "min_nz": 0.5
+          },
+          "clearance": 0.25,
+          "note": "I-417 HD OrcInn floor at Hyjal Past (stock tile)",
+          "seam_tiles": [
+            "WORLD/MAPS/HYJALPAST/HYJALPAST_37_21.ADT"
+          ]
+        }
+      ],
+      "result_sha256": "86d279f24a8068df08995b811d5d5219bf507c803a7effadb1c99071a5cbb15a"
+    }
+  }
+}

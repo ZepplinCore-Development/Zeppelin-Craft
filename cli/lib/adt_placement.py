@@ -347,6 +347,180 @@ class AdtFile:
                 carried.append((struct.unpack_from('<I', mddf, k * 36 + 4)[0], round(rise, 3)))
         return {'vertices_raised': raised, 'max_raise': round(top, 3), 'doodads_carried': carried}
 
+    def find_wmo(self, uid: int) -> Optional[Tuple]:
+        """(adt_pos, rot) of the MODF entry with this uid, or None."""
+        modf = self.first('MODF')
+        for k in range(len(modf) // 64 if modf is not None else 0):
+            if struct.unpack_from('<I', modf, k * 64 + 4)[0] == uid:
+                return (struct.unpack_from('<3f', modf, k * 64 + 8),
+                        struct.unpack_from('<3f', modf, k * 64 + 20))
+        return None
+
+    def _terrain_triangle(self, x: float, y: float):
+        """Ground height at world (x, y) on the client's own triangulation, plus
+        the three vertices under it as (payload, mcvt_off, index).
+
+        Each quad of outer vertices is cut into four triangles around its inner
+        (centre) vertex. Bilinear `height_at` is up to a few cm off near the
+        centre vertex; this is what the client's viewer ray hits (I-417)."""
+        step = CHUNK_SIZE / 8.0
+        for payload in self.mcnks():
+            px, py, pz = struct.unpack_from('<3f', payload, 0x68)
+            fx, fy = (px - x) / step, (py - y) / step
+            if not (0 <= fx <= 8 and 0 <= fy <= 8):
+                continue
+            mcvt = struct.unpack_from('<I', payload, 0x14)[0]
+            r, c = min(int(fx), 7), min(int(fy), 7)
+            dr, dc = fx - r, fy - c
+            corner = {'tl': (0, 0, r * 17 + c), 'tr': (0, 1, r * 17 + c + 1),
+                      'bl': (1, 0, (r + 1) * 17 + c), 'br': (1, 1, (r + 1) * 17 + c + 1)}
+            mid = (0.5, 0.5, r * 17 + 9 + c)
+            if dc <= dr and dc <= 1 - dr:
+                tri = (corner['tl'], corner['bl'], mid)
+            elif dc >= dr and dc >= 1 - dr:
+                tri = (corner['tr'], corner['br'], mid)
+            elif dr < dc:
+                tri = (corner['tl'], corner['tr'], mid)
+            else:
+                tri = (corner['bl'], corner['br'], mid)
+            (r1, c1, i1), (r2, c2, i2), (r3, c3, i3) = tri
+            den = (c2 - c3) * (r1 - r3) + (r3 - r2) * (c1 - c3)
+            l1 = ((c2 - c3) * (dr - r3) + (r3 - r2) * (dc - c3)) / den
+            l2 = ((c3 - c1) * (dr - r3) + (r1 - r3) * (dc - c3)) / den
+            hz = [struct.unpack_from('<f', payload, mcvt + i * 4)[0] for i in (i1, i2, i3)]
+            h = pz + l1 * hz[0] + l2 * hz[1] + (1 - l1 - l2) * hz[2]
+            return h, [(payload, mcvt, i1), (payload, mcvt, i2), (payload, mcvt, i3)]
+        return None, []
+
+    def clear_under_wmo(self, uid: int, floor_tris: List, clearance: float,
+                        sample_step: float = 0.25) -> Dict:
+        """Lower the ground wherever it stands closer than `clearance` below the
+        floor of the placed WMO `uid`. Never raises.
+
+        `floor_tris` are the WMO's floor triangles in model space. The client
+        puts the camera inside a WMO group only when a ray cast down from it
+        hits one of that group's triangles before the terrain
+        (CMap::LocateViewerMapObjs), and the server picks indoor/outdoor the
+        same way, so terrain poking through a floor makes the building vanish
+        from inside (I-370, I-417). Every point on a `sample_step` grid under
+        the floor is checked on the client's terrain triangulation; the three
+        vertices under a failing point drop by the shortfall, repeated until
+        none fail. Only the overlap is dug: ground outside the footprint moves
+        only through vertices it shares with a failing triangle.
+        Doodads (MDDF) over lowered ground ride down with it."""
+        found = self.find_wmo(uid)
+        if found is None:
+            raise ValueError(f"no WMO with uid {uid} in tile")
+        adt_pos, rot = found
+        if abs(rot[0]) > 1e-3 or abs(rot[2]) > 1e-3:
+            raise ValueError(f"WMO uid {uid} is tilted {rot}; clear_under_wmo handles yaw only")
+        ox, oy, oz = world_from_adt(adt_pos)
+        phi = math.radians(rot[1] - 180.0)
+        cs, sn = math.cos(phi), math.sin(phi)
+
+        def to_world(v):
+            return (ox + v[0] * cs - v[1] * sn, oy + v[0] * sn + v[1] * cs, oz + v[2])
+
+        tris = [tuple(to_world(v) for v in t) for t in floor_tris]
+        # spatial hash: 1 yd buckets -> triangles whose xy box covers them
+        buckets: Dict[Tuple[int, int], List[int]] = {}
+        for n, t in enumerate(tris):
+            for bx in range(math.floor(min(p[0] for p in t)), math.floor(max(p[0] for p in t)) + 1):
+                for by in range(math.floor(min(p[1] for p in t)), math.floor(max(p[1] for p in t)) + 1):
+                    buckets.setdefault((bx, by), []).append(n)
+
+        def floor_z(x, y):
+            best = None
+            for n in buckets.get((math.floor(x), math.floor(y)), ()):
+                a, b, c = tris[n]
+                den = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1])
+                if abs(den) < 1e-9:
+                    continue
+                l1 = ((b[1] - c[1]) * (x - c[0]) + (c[0] - b[0]) * (y - c[1])) / den
+                l2 = ((c[1] - a[1]) * (x - c[0]) + (a[0] - c[0]) * (y - c[1])) / den
+                if min(l1, l2, 1 - l1 - l2) < -1e-6:
+                    continue
+                z = l1 * a[2] + l2 * b[2] + (1 - l1 - l2) * c[2]
+                best = z if best is None else min(best, z)   # a camera under stairs looks down at the lowest
+            return best
+
+        xs = [p[0] for t in tris for p in t]
+        ys = [p[1] for t in tris for p in t]
+        samples = []
+        x = min(xs)
+        while x <= max(xs):
+            y = min(ys)
+            while y <= max(ys):
+                fz = floor_z(x, y)
+                if fz is not None and self._terrain_triangle(x, y)[0] is not None:
+                    samples.append((x, y, fz))
+                y += sample_step
+            x += sample_step
+
+        mddf = self.first('MDDF')
+        pad = CHUNK_SIZE / 8.0
+        box = (min(xs) - pad, min(ys) - pad, max(xs) + pad, max(ys) + pad)
+        carry = []
+        for k in range(len(mddf) // 36 if mddf is not None else 0):
+            wx, wy, _ = world_from_adt(struct.unpack_from('<3f', mddf, k * 36 + 8))
+            before = self._terrain_triangle(wx, wy)[0]
+            if box[0] <= wx <= box[2] and box[1] <= wy <= box[3] and before is not None:
+                carry.append((k, wx, wy, before))
+
+        # Neighbouring MCNKs (and tiles) each store their own copy of a shared edge vertex.
+        # Key every copy by its global lattice position so they all move together; lowering
+        # one copy alone cracks the ground at the chunk border.
+        copies: Dict[Tuple[int, int], List] = {}
+        key_of: Dict[Tuple[int, int], Tuple[int, int]] = {}
+        for payload, mcvt, _, i, vx, vy, _ in self._terrain_vertices():
+            key = _lattice_key(vx, vy)
+            copies.setdefault(key, []).append((payload, mcvt, i, vx, vy))
+            key_of[(id(payload), i)] = key
+
+        lowered: Dict[Tuple[int, int], float] = {}
+        for _ in range(20):
+            drop: Dict[Tuple[int, int], float] = {}
+            for sx, sy, fz in samples:
+                h, verts = self._terrain_triangle(sx, sy)
+                short = h - (fz - clearance)
+                if short <= 1e-4:
+                    continue
+                for payload, _, i in verts:
+                    key = key_of[(id(payload), i)]
+                    drop[key] = max(drop.get(key, 0.0), short)
+            if not drop:
+                break
+            for key, short in drop.items():
+                for payload, mcvt, i, _, _ in copies[key]:
+                    at = mcvt + i * 4
+                    struct.pack_into('<f', payload, at, struct.unpack_from('<f', payload, at)[0] - short)
+                lowered[key] = lowered.get(key, 0.0) + short
+        else:
+            raise ValueError(f"uid {uid}: terrain still above the floor after 20 passes")
+
+        gap = min((fz - self._terrain_triangle(sx, sy)[0] for sx, sy, fz in samples), default=None)
+        carried = []
+        for k, wx, wy, before in carry:
+            fall = before - self._terrain_triangle(wx, wy)[0]
+            if fall > 1e-4:
+                off = k * 36 + 8 + 4          # adt_pos.y is world z
+                struct.pack_into('<f', mddf, off, struct.unpack_from('<f', mddf, off)[0] - fall)
+                carried.append((struct.unpack_from('<I', mddf, k * 36 + 4)[0], round(fall, 3)))
+        edge, moved_xy = 0, []
+        for key in lowered:
+            vx, vy = copies[key][0][3], copies[key][0][4]
+            moved_xy.append((vx, vy))
+            tile_x, tile_y = (MAP_HALF - vx) / (CHUNK_SIZE * 16), (MAP_HALF - vy) / (CHUNK_SIZE * 16)
+            if min(abs(tile_x - round(tile_x)), abs(tile_y - round(tile_y))) < 1e-3:
+                edge += 1
+        return {'vertices_lowered': len(lowered),
+                'max_lower': round(max(lowered.values(), default=0.0), 3),
+                'samples': len(samples), 'min_gap_after': gap and round(gap, 3),
+                'tile_edge_vertices_lowered': edge, 'doodads_carried': carried,
+                'moved_xy': moved_xy,
+                'center': ((box[0] + box[2]) / 2, (box[1] + box[3]) / 2),
+                'radius': math.hypot(box[2] - box[0], box[3] - box[1]) / 2}
+
     def recompute_normals(self, center, radius: float) -> int:
         """Rewrite MCNR for every vertex within `radius` of `center` from the
         current heights, by central differences across chunk borders."""
@@ -448,6 +622,12 @@ class AdtFile:
         return bytes(out)
 
 
+def _lattice_key(x: float, y: float) -> Tuple[int, int]:
+    """Global half-step lattice index of a terrain vertex (outer and inner share it)."""
+    step = CHUNK_SIZE / 8.0
+    return (round(x / step * 2), round(y / step * 2))
+
+
 def _smoothstep(t: float) -> float:
     t = max(0.0, min(1.0, t))
     return t * t * (3 - 2 * t)
@@ -506,6 +686,35 @@ def apply_recipe(adt_path: Path, entry: Dict, *, strict: bool = True) -> Tuple[b
         stats.setdefault('doodads_carried', []).extend(r['doodads_carried'])
     stats['terrain_vertices_raised'] = raised
 
+    for cl in entry.get('terrain_clear_wmo', []):
+        floor = load_wmo_floor(cl['floor'])
+        r = adt.clear_under_wmo(cl['uid'], floor, cl.get('clearance', 0.25))
+        if cl.get('seam_tiles'):
+            # A WMO across a tile border is cleared once per tile, and each tile only sees its own
+            # triangles, so the shared border row would end up at two heights (a crack). Clear the
+            # neighbour the same way and take the lower height on every shared vertex: lowering
+            # only adds clearance, and both tiles land on the same min, whichever is applied first.
+            root = next(q for q in adt_path.parents if q.name == 'parsed-assets')
+            mine: Dict[Tuple[int, int], List] = {}
+            for payload, mcvt, _, i, x, y, h in adt._terrain_vertices():
+                mine.setdefault(_lattice_key(x, y), []).append((payload, mcvt, i, x, y, h))
+            for rel in cl['seam_tiles']:
+                other = AdtFile((root / rel).read_bytes())
+                other.clear_under_wmo(cl['uid'], floor, cl.get('clearance', 0.25))
+                for _, _, _, _, x, y, h in other._terrain_vertices():
+                    for payload, mcvt, i, mx, my, mh in mine.get(_lattice_key(x, y), ()):
+                        if h < mh - 1e-6:
+                            pz = struct.unpack_from('<f', payload, 0x70)[0]
+                            struct.pack_into('<f', payload, mcvt + i * 4, h - pz)
+                            r['moved_xy'].append((mx, my))
+        # only the lowered vertices and their lattice neighbours get new normals; the rest keep
+        # Blizzard's baked ones (a blanket rewrite shifts lighting across the whole radius)
+        for xy in r['moved_xy']:
+            adt.recompute_normals(xy, CHUNK_SIZE / 8.0 * 1.5)
+        stats.setdefault('terrain_cleared', []).append(
+            {k: v for k, v in r.items() if k not in ('center', 'radius', 'moved_xy')} | {'uid': cl['uid']})
+        stats.setdefault('doodads_carried', []).extend(r['doodads_carried'])
+
     masks = []
     for gd in entry.get('no_effect_doodads', []):
         masks.append(adt.set_no_effect_doodad(gd['chunk_index'], gd['mask']))
@@ -515,6 +724,47 @@ def apply_recipe(adt_path: Path, entry: Dict, *, strict: bool = True) -> Tuple[b
                   'base_sha256': base, 'result_sha256': sha256(out),
                   'size_delta': len(out) - len(original)})
     return out, stats
+
+
+def load_wmo_floor(cfg: Dict) -> List[Tuple]:
+    """Floor triangles, in model space, from the WMO group files a
+    `terrain_clear_wmo` step names.
+
+    cfg: {"zpak": <zpak shipping the WMO>, "groups": {<parsed-assets path>: <sha256>},
+          "max_z": <model-space z cap, keeps upper storeys out>, "min_nz": 0.5}
+    A triangle counts when its normal points up (nz >= min_nz) and it lies
+    wholly below max_z. Each group file is pinned by sha256: if the pack
+    changes, the recipe stops instead of digging to the wrong floor."""
+    root = Path(__file__).resolve().parents[2] / 'zpaks' / cfg['zpak'] / 'mpq' / 'parsed-assets'
+    max_z, min_nz = cfg.get('max_z', 1e9), cfg.get('min_nz', 0.5)
+    tris = []
+    for rel, want in cfg['groups'].items():
+        data = (root / rel).read_bytes()
+        if sha256(data) != want:
+            raise ValueError(f"{rel}: sha256 {sha256(data)[:16]} does not match recipe {want[:16]}")
+        if data[12:16] != b'PGOM':
+            raise ValueError(f"{rel}: not a WMO group file")
+        off, end, sub = 12 + 8 + 68, len(data), {}
+        while off + 8 <= end:
+            magic = data[off:off + 4][::-1]
+            size = struct.unpack_from('<I', data, off + 4)[0]
+            sub.setdefault(magic, (off + 8, size))
+            off += 8 + size
+        vofs, vsize = sub[b'MOVT']
+        iofs, isize = sub[b'MOVI']
+        verts = [struct.unpack_from('<3f', data, vofs + k * 12) for k in range(vsize // 12)]
+        idx = struct.unpack_from(f'<{isize // 2}H', data, iofs)
+        for k in range(0, len(idx) - 2, 3):
+            a, b, c = verts[idx[k]], verts[idx[k + 1]], verts[idx[k + 2]]
+            if max(a[2], b[2], c[2]) > max_z:
+                continue
+            u = (b[0] - a[0], b[1] - a[1], b[2] - a[2])
+            v = (c[0] - a[0], c[1] - a[1], c[2] - a[2])
+            n = (u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0])
+            ln = math.sqrt(n[0] ** 2 + n[1] ** 2 + n[2] ** 2)
+            if ln > 1e-9 and n[2] / ln >= min_nz:
+                tris.append((a, b, c))
+    return tris
 
 
 def load_recipe(path: Path) -> Dict:

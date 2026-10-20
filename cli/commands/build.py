@@ -481,6 +481,11 @@ def build_adt_place(ctx, recipe_path, dry_run, force):
 
         click.echo(f'  {rel}: +{stats["wmos_added"]} WMO, +{stats["doodads_added"]} doodad, '
                    f'{stats["chunks_touched"]} MCNK updated, {stats["size_delta"]:+d} bytes')
+        for cl in stats.get('terrain_cleared', []):
+            click.echo(f'    terrain under WMO uid {cl["uid"]}: {cl["vertices_lowered"]} vertices lowered '
+                       f'(max {cl["max_lower"]}), {cl["samples"]} floor samples, min floor-ground gap now '
+                       f'{cl["min_gap_after"]}, {cl["tile_edge_vertices_lowered"]} on the tile edge, '
+                       f'{len(cl["doodads_carried"])} doodads carried')
         if dry_run:
             click.echo(f'    [DRY RUN] would become {stats["result_sha256"][:16]}')
             continue
