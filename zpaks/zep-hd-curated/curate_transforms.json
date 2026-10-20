@@ -1425,20 +1425,20 @@
  "world/generic/centaur/passive doodads/centaurtents/centaurtent02.m2": [
   {
    "source": "appletrey-2026-07",
-   "note": "slot 2 has no filename; sibling in the folder uses 10ct_centaur_hut02_4005634.blp (model screen 2026-10-07)",
+   "note": "A conversion of Dragonflight's 10ct_centaur_hut01.wmo; texture 2 lost its filename (type 0, empty), so the roof cap (submesh 10) and a band (submesh 2) drew untextured. Retail's hut01 materials 2 / 10 use 10ct_centaur_hut01_3997709 (thatch) and _4005649 (wood poles), both shipped by the pack but named by no texture: the cap is thatch. (2026-10-07's guess hut02_4005634 belongs to the hut02 model: wrong roof.) The converter also kept only the first texture of each two-layer WMO material (shader 13 + grey_07 detail).",
    "base_sha256": "e1928d98fe6083702bc4b572b3141fd163f89ee42e688e89044ace185589aac0",
-   "result_sha256": "da59439d83a741f1bb4eac3bb3f7423b101726899c913b0439cb79a9ac5776c4",
+   "result_sha256": "527d32e46e5fd2515000c3e566e4e2ce62522415d22f40aadce9816c35a17507",
    "ops": [
     {
      "op": "m2.texture.set",
      "index": 2,
      "expect_type": 0,
      "expect_name": "",
-     "name": "world\\wmo\\expansion09\\centaur\\10ct_centaur_hut02_4005634.blp"
+     "name": "world\\wmo\\expansion09\\centaur\\10ct_centaur_hut01_3997709.blp"
     }
    ],
    "ship": [
-    "world/wmo/expansion09/centaur/10ct_centaur_hut02_4005634.blp"
+    "world/wmo/expansion09/centaur/10ct_centaur_hut01_3997709.blp"
    ]
   }
  ],
@@ -5426,6 +5426,42 @@
      2
     ]
    }
+  ]
+ },
+ "world/generic/passivedoodads/christmas/g_nutcracker.m2": {
+  "source": "patch-hd-everything",
+  "note": "Its only texture lost its filename (type 0, empty): the 3.3.5 client gives a nameless texture TextureCreateSolid(white) (CM2Shared texture load, M2Shared.cpp), so the whole nutcracker draws flat white in game. Stock and retail (199591, TXID 199598) name MM_NUTCRACKER_01.blp, which the pack ships in HD.",
+  "base_sha256": "27303e0b1b541968098d99108d725378f1a460f7398f5681f9a771620509a9ea",
+  "result_sha256": "a4208066ac5c8c1f8f5a1b3b1b95c949569aea77dd475a27d856443159b00fd6",
+  "ops": [
+   {
+    "op": "m2.texture.set",
+    "index": 0,
+    "expect_type": 0,
+    "expect_name": "",
+    "name": "World\\GENERIC\\PassiveDoodads\\CHRISTMAS\\MM_NUTCRACKER_01.blp"
+   }
+  ],
+  "ship": [
+   "world/generic/passivedoodads/christmas/mm_nutcracker_01.blp"
+  ]
+ },
+ "world/kalimdor/ashenvale/passivedoodads/ashenvaletrees/ashenvaletree01.m2": {
+  "source": "patch-hd-everything",
+  "note": "Not a remaster: the pack swapped in a Legion Azsuna tree (2,004 vertices; stock and retail are a 200-vertex Ashenvale tree). Its trunk texture lost its filename (type 0, empty): the 3.3.5 client draws a nameless texture solid white, so the trunk and the canopy's first layer were flat white. Every retail 7an_tree_c model (araknashal: c01-c07) pairs 7an_treeleaves_01 (1030118) with trunk 7an_tree_c01.blp (1030117), which the pack ships beside the leaves.",
+  "base_sha256": "8e084437cdc0e91bafe9ea0555a5791e40948dab05a4e0f7dbdba08ad599c796",
+  "result_sha256": "647e9a5928a575d5377d06ba4d9000d36a72ee379902ae0b97c4ed7b28a733f2",
+  "ops": [
+   {
+    "op": "m2.texture.set",
+    "index": 0,
+    "expect_type": 0,
+    "expect_name": "",
+    "name": "world\\expansion06\\doodads\\araknashal\\7an_tree_c01.blp"
+   }
+  ],
+  "ship": [
+   "world/expansion06/doodads/araknashal/7an_tree_c01.blp"
   ]
  }
 }

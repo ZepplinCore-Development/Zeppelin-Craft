@@ -117,6 +117,7 @@ function pullBlobs() {
 }
 // ?retail=<fdid>&build=<retail build>: every file the engine asks for by id comes from wago.tools
 const RETAIL_FDID = +(q.get('retail') || 0);
+const WHITE_TEX = 'zepviewer/solidwhite.blp';          // served as white.blp (a nameless texture's stand-in)
 const RETAIL_BUILD = q.get('build') || '';
 function mapUrl(logical) {
   if (RETAIL_FDID) {
@@ -126,6 +127,7 @@ function mapUrl(logical) {
     if (m && !(FILEMAP && FILEMAP['fdid/' + m[1]]))
       return `https://wago.tools/api/casc/${m[1]}?version=${encodeURIComponent(RETAIL_BUILD)}`;
   }
+  if (logical.toLowerCase().includes(WHITE_TEX)) return logical.slice(0, Math.max(0, logical.indexOf(BASE))) + 'white.blp';
   if (!FILEMAP) return logical;
   const i = logical.indexOf(BASE);
   if (i < 0) return logical;
@@ -154,6 +156,20 @@ function upgradeM2(buf) {
     for (let i = 0; i < n; i++) dv.setUint16(o + 4 * i, dv.getUint16(o + 4 * i, true) | bit, true);
   }
   if (buf.byteLength < 0x130 || dv.getUint32(0, true) !== 0x3032444D) return buf;   // 'MD20'
+  // a hardcoded texture with NO filename (a broken conversion): the 3.3.5 client gives it a solid white
+  // texture (CM2Shared, M2Shared.cpp: TextureCreateSolid(white)) - draw it the same, not black
+  {
+    const nT = dv.getUint32(0x50, true), oT = dv.getUint32(0x54, true), blank = [];
+    for (let i = 0; i < nT && oT + 16 * i + 16 <= buf.byteLength; i++)
+      if (dv.getUint32(oT + 16 * i, true) === 0 && dv.getUint32(oT + 16 * i + 8, true) <= 1) blank.push(i);
+    if (blank.length && !q.has('blankblack')) {
+      const name = new TextEncoder().encode(WHITE_TEX + '\0'), at = (buf.byteLength + 15) & ~15;
+      const nb = new Uint8Array(at + name.length); nb.set(new Uint8Array(buf)); nb.set(name, at);
+      const ndv = new DataView(nb.buffer);
+      blank.forEach(i => { ndv.setUint32(oT + 16 * i + 8, name.length, true); ndv.setUint32(oT + 16 * i + 12, at, true); });
+      return upgradeM2(nb.buffer);
+    }
+  }
   if (dv.getUint32(4, true) >= 272) return buf;
   // Stock models carry zero-length vertex normals (gnollmelee: 57 of 695).
   // The engine's normalize() turns them into NaN and the lit face renders black;

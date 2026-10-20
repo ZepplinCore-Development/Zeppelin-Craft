@@ -27,7 +27,7 @@ TABS = ('creature', 'character', 'object', 'item', 'wmo')
 # the picker reads data/v2 while a deploy runs: build data/v2.new, swap it in when done
 STAGE = 'v2.new'
 CHAR_PANE_VERSION = 2          # 2: each option wears the bake it ships with (bake_for), not the live DBC's
-PANE_CODE_VERSION = 3          # bump when pane building changes: every cached pane is rebuilt (2: geoset 0 nibbles, I-388; 3: item textures follow their item mesh)
+PANE_CODE_VERSION = 4          # bump when pane building changes: every cached pane is rebuilt (2: geoset 0 nibbles, I-388; 3: item textures follow their item mesh; 4: TBC v256 models measured from their v264 conversion)
 PANE_CACHE = Path('/workspace/project/logs/viewer_pane_cache.pkl')
 
 

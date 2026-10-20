@@ -114,18 +114,22 @@ def _stage_pane(name: str, r: 'ms.Resolved', files: SourceFiles, out_root: Path,
     stem = r.model_path[:-3]
     m = r.m2
     tbc = mf is not None and 256 <= int.from_bytes(mf.read_bytes()[4:8], 'little') < 264
-    if tbc and not _DRY:
-        # TBC-format model (skin inline): stage a v264 copy + .skin for the viewer
+    data = mf.read_bytes() if mf else None
+    if tbc:
+        # TBC-format model (skin inline, other header offsets): measured from its v264 conversion even in a
+        # dry run (Appletrey's veb_waterlily02 v256 read as v264: "2.7e30 yd tall"); staged when not dry
         from lib import m2_tbc
-        m2b, skins, _ = m2_tbc.convert(mf.read_bytes())
-        (dest / r.model_path).parent.mkdir(parents=True, exist_ok=True)
-        (dest / r.model_path).write_bytes(m2b)
-        for v, skb in enumerate(skins):
-            (dest / f'{stem}{v:02d}.skin').write_bytes(skb)
-        mf = dest / r.model_path
-        m = ms.decode_m2(mf)
-    if mf:
-        bbox = _mesh_bbox(mf.read_bytes())
+        m2b, skins, _ = m2_tbc.convert(data)
+        data = m2b
+        if not _DRY:
+            (dest / r.model_path).parent.mkdir(parents=True, exist_ok=True)
+            (dest / r.model_path).write_bytes(m2b)
+            for v, skb in enumerate(skins):
+                (dest / f'{stem}{v:02d}.skin').write_bytes(skb)
+            mf = dest / r.model_path
+            m = ms.decode_m2(mf)
+    if data:
+        bbox = _mesh_bbox(data)
     for v in range(0 if tbc else (m.views if m else 1)):
         put(f'{stem}{v:02d}.skin')
     for k, f in files.anims(stem).items():
@@ -791,6 +795,8 @@ def _mesh_bbox(data: bytes) -> Optional[List[float]]:
         for k in range(3):
             if v[k] < lo[k]: lo[k] = v[k]
             if v[k] > hi[k]: hi[k] = v[k]
+    if any(not (abs(x) < 1e5) for x in lo + hi):
+        return None                     # not a vertex block (wrong format / broken file): no size, not 1e30 yd
     return lo + hi
 
 

@@ -26,6 +26,9 @@
   .tile .nums { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
   .tile .nums b { font-size: 20px; color: var(--text); margin-right: 3px; }
   .tile .nums .r b { color: var(--warn, #e6b450); } .tile .nums .c b { color: var(--good); }
+  .tile .pbar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; background: var(--line); }
+  .tile .pbar i { display: block; height: 100%; } .tile .pbar .c { background: var(--good); } .tile .pbar .r { background: var(--warn, #e6b450); }
+  .tile .ppct { font-size: 11px; color: var(--muted); }
   .tile .d { color: var(--muted); font-size: 12px; }
   .layerbar { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
   .layerbar b { font-size: 15px; }
@@ -1629,7 +1632,7 @@ function openAsset(e) {
       ${p.ignored_skin && !p.fixed_by_us ? `<div class="stats"><span class="chip bad" title="A display-skin slot (type 11-13) names its own texture; the client ignores that name and paints the display's skin instead, which was made for another model. The model needs that slot as a fixed texture.">pack defect: skin slot names ${esc(p.ignored_skin.map(x => x.split('/').pop()).join(', '))} (ignored in game)</span></div>` : ''}
       ${p.geosets_fixed ? `<div class="stats"><span class="chip warn" title="The pack's geoset data names a geoset its own mesh does not have, so that group draws nothing in game (wendigo2: brows and lip fur). We point it at the variant the mesh has.">geosets fixed by us: ${p.geosets_fixed[0]} → ${p.geosets_fixed[1]}</span></div>` : ''}
       ${p.skins_filled ? `<div class="stats"><span class="chip warn" title="The pack swapped in a model that needs display skins and left this display without any; these are filled from the stock look or the sibling displays">skins filled by us: ${esc(p.skins_filled.join(', '))}</span></div>` : ''}
-      ${p.empty_tex && !p.fixed_by_us ? `<div class="stats"><span class="chip bad" title="A batch reads a hardcoded texture with no filename - a broken conversion in this file. It draws black here; in game it gets no texture.">pack defect: ${p.empty_tex.toLocaleString()} triangles use an empty texture</span></div>` : ''}
+      ${p.empty_tex && !p.fixed_by_us ? `<div class="stats"><span class="chip bad" title="A batch reads a hardcoded texture with no filename - a broken conversion in this file. The 3.3.5 client gives a nameless texture a solid white one (CM2Shared, M2Shared.cpp), so in game these triangles draw flat white; this preview draws them black.">pack defect: ${p.empty_tex.toLocaleString()} triangles use an empty texture (flat white in game)</span></div>` : ''}
       <div class="stats">${paneStatsLine(sp)}${(p.missing || []).length ? ` · <span class="chip warn" title="${esc(p.missing.join('\n'))}">${p.missing.length} missing</span>` : ''}${(p.conflicts || []).length ? ` · <span class="chip bad" title="${esc('Shared with other models whose current pick needs a different version. Shown with the one that fits THIS option; one file ships, so settle it in the Textures tab:\n' + p.conflicts.join('\n'))}">${p.conflicts.length} texture conflict${p.conflicts.length > 1 ? 's' : ''}</span>` : ''}</div>
       ${e.tab === 'display' ? `<div class="stats">model: ${esc(p.model)}</div>` : ''}
       ${!vs && g.note ? `<div class="stats"><span class="chip">near-duplicate</span> ${esc(g.note)}</div>` : ''}
@@ -2962,7 +2965,12 @@ function showHome(push = true) {
     const nums = c.of !== undefined
       ? `<span class="nums"><span><b>${f(c.done)}</b> edited</span><span>of ${f(c.of)}</span></span>`
       : `<span class="nums"><span class="u"><b>${f(c.und)}</b> undecided</span><span class="r"><b>${f(c.rev)}</b> review</span><span class="c"><b>${f(c.done)}</b> completed</span></span>`;
-    return `<button class="tile" data-layer="${k}"><b>${name}</b>${nums}<span class="d">${d}</span></button>`; }).join('');
+    // progress: completed / review / undecided as one bar (the Display editor counts edits, not decisions)
+    const tot = c.of === undefined ? c.und + c.rev + c.done : 0, pc = (n) => tot ? (100 * n / tot) : 0;
+    const bar = tot ? `<span class="pbar" title="${f(c.done)} completed · ${f(c.rev)} review · ${f(c.und)} undecided of ${f(tot)}">`
+      + `<i class="c" style="width:${pc(c.done)}%"></i><i class="r" style="width:${pc(c.rev)}%"></i></span>`
+      + `<span class="ppct">${Math.floor(pc(c.done))}% done</span>` : '';
+    return `<button class="tile" data-layer="${k}"><b>${name}</b>${nums}${bar}<span class="d">${d}</span></button>`; }).join('');
   document.body.classList.add('home');
   $('home').hidden = false;
   if (push) history.pushState({ home: 1 }, '', location.pathname);
