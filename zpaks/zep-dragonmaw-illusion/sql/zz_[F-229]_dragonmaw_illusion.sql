@@ -3,8 +3,8 @@
 -- Males keep the stock chain. Females get 900942 -> 40216 (faction) + 900940 -> creature 900962.
 -- Spells 900940-900942 live in dbc/[F-229]_spell.sql.
 
--- Female disguise creature (copy of 23130). Display 21216 = Dragonmaw Wyrmcaller (female orc)
--- is a placeholder until a female fel orc model exists.
+-- Female disguise creature (copy of 23130). Display 900572 = orc female model in a generated red fel skin
+-- (outfits/dragonmaw_illusion_female.json, Scripts/Character Skins/orc_female_fel_red.py).
 DELETE FROM `creature_template` WHERE `entry` = 900962;
 INSERT INTO `creature_template` SET
   `entry` = 900962,
@@ -26,10 +26,14 @@ DELETE FROM `creature_template_model` WHERE `CreatureID` = 900962;
 INSERT INTO `creature_template_model` SET
   `CreatureID` = 900962,
   `Idx` = 0,
-  `CreatureDisplayID` = 21216,
+  `CreatureDisplayID` = 900572,
   `DisplayScale` = 1,
   `Probability` = 1,
   `VerifiedBuild` = 0;
+
+-- Male disguise: stock fel orc display 21267 is race 12, which this server repurposed to worgen, so it
+-- drew worgen skins. Display 900571 = orc male model in the red orc skin (outfits/dragonmaw_illusion_male.json).
+UPDATE `creature_template_model` SET `CreatureDisplayID` = 900571 WHERE `CreatureID` = 23130 AND `Idx` = 0;
 
 -- Stock rows: 40214 for any gender (2) -> males only (0).
 UPDATE `spell_area` SET `gender` = 0 WHERE `spell` = 40214 AND `area` IN (3759, 3939, 3965, 3966);

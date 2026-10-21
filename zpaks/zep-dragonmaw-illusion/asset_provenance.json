@@ -1,0 +1,19 @@
+{
+ "generator": "zep wardrobe build (F-198)",
+ "source": "wago.tools CASC by FDID (https://wago.tools/api/casc/<fdid>?version=<build>)",
+ "downport": "cli/lib/wardrobe/downport_harness.cpp + m2.classic_env_batches",
+ "assets": [
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900571_HD.blp",
+   "kind": "bake",
+   "display": 900571,
+   "sha256": "96b4e7e3c990f115e89ebe26da724cb21c6085e4d5bc19407241fb237f951803"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900572_HD.blp",
+   "kind": "bake",
+   "display": 900572,
+   "sha256": "d2b90aff97d55ad25fc320501de9a48539df0191ca33356dbe89ab1deeac9a63"
+  }
+ ]
+}

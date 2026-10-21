@@ -1,0 +1,29 @@
+{
+  "task": "F-229",
+  "kind": "unique",
+  "name": "dragonmaw_illusion_male",
+  "_comment": "Male Dragonmaw Illusion (creature 23130): standard orc male in the red orc skin (colour 10), bare with the colour-10 pelvis cloth like the stock fel orc look. Replaces fel orc display 21267, whose race 12 now draws worgen skins. Colour 10's CharSections underwear names OrcMaleNakedPelvisSkin00_101, which no client ships; the HD pack's _10 is used.",
+  "race": 2,
+  "base_display": {
+    "0": 1139
+  },
+  "outfit": {
+    "items": {}
+  },
+  "appearance": {
+    "skin_color": 10,
+    "face_type": 1,
+    "hair_style": 0,
+    "hair_color": 0,
+    "facial_hair": 0,
+    "gender": 0,
+    "sections": {
+      "4": {
+        "texture_1": "Character\\Orc\\Male\\OrcMaleNakedPelvisSkin00_10.blp"
+      }
+    }
+  },
+  "display_ids": [
+    900571
+  ]
+}

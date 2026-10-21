@@ -1,0 +1,37 @@
+{
+  "task": "F-229",
+  "kind": "unique",
+  "name": "dragonmaw_illusion_female",
+  "_comment": "Female Dragonmaw Illusion (creature 900962): standard orc female in a red fel skin. The orc female has no red tone of her own (her colour 10 is brown); skin, face and underwear are colour 27 of the Nexus Mods WoW mod 907 customisation pack (patch-A.MPQ, OrcFemale*00_27), shipped under Zep names. skin_color 0 only picks the green _Extra (mouth/tusks); the bake uses the sections.",
+  "race": 2,
+  "base_display": {
+    "1": 1312
+  },
+  "outfit": {
+    "items": {}
+  },
+  "appearance": {
+    "skin_color": 0,
+    "face_type": 0,
+    "hair_style": 7,
+    "hair_color": 0,
+    "facial_hair": 0,
+    "gender": 1,
+    "sections": {
+      "0": {
+        "texture_1": "Character\\Orc\\Female\\ZepFelOrcFemaleSkin.blp"
+      },
+      "1": {
+        "texture_1": "Character\\Orc\\Female\\ZepFelOrcFemaleFaceLower.blp",
+        "texture_2": "Character\\Orc\\Female\\ZepFelOrcFemaleFaceUpper.blp"
+      },
+      "4": {
+        "texture_1": "Character\\Orc\\Female\\ZepFelOrcFemaleNakedPelvis.blp",
+        "texture_2": "Character\\Orc\\Female\\ZepFelOrcFemaleNakedTorso.blp"
+      }
+    }
+  },
+  "display_ids": [
+    900572
+  ]
+}

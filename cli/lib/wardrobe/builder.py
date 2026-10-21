@@ -9,6 +9,8 @@ Manifest kinds:
            "skin_texture" (a stock client texture in the classic character layout, e.g. a fused
            rider's skin, F-220): the bake is that texture itself, under the classic bake name (no
            _HD) - it is painted for the classic character model, not the HD one
+           "appearance" may also name "sections": {base_section: {texture_1.., }} to bake from
+           those client textures instead of the CharSections row (an NPC-only tone, F-229)
   uniform  up to MAX_VARIANTS appearances of one outfit (a guard force); appearances
            are explicit or drawn from the stock NPC appearances that ship an HD bake
 
@@ -99,7 +101,10 @@ class WardrobeBuilder:
         self.assets = self.zpak / 'mpq' / 'source-assets'
         self.parsed = self.zpak / 'mpq' / 'parsed-assets'
         self.retail = retail
-        # external = the client without this zpak (what already ships); resolver = what the bake sees
+        # external = the client without this zpak (what already ships); resolver = what the bake sees.
+        # Our own source-assets never count as external: a rebuild would take our previous bake for a
+        # client file, skip it and then delete it as stale (F-229)
+        external_roots = [r for r in external_roots if Path(r).resolve() != self.assets.resolve()]
         self.external = FileResolver(external_roots)
         self.resolver = FileResolver([self.assets] + list(external_roots))
         self.dbc = dbc_query
@@ -412,10 +417,12 @@ class WardrobeBuilder:
                              source_extra=int(r['id'])))
         return pool
 
-    def _charsection(self, race, gender):
+    def _charsection(self, race, gender, sections: Optional[Dict] = None):
         cache = {}
 
         def get(base, typ, color):
+            if sections and str(base) in sections:
+                return sections[str(base)]
             k = (base, typ, color)
             if k not in cache:
                 rows = self.dbc(f'SELECT texture_1, texture_2, texture_3 FROM charsections WHERE race = {race} '
@@ -554,7 +561,7 @@ class WardrobeBuilder:
             bake = f'CreatureDisplayExtra-{did}{sfx}.blp'
         else:
             layers = {s: [(r, p) for (r, p) in i.layers.get(g, [])] for s, i in worn.items() if s in BODY_SLOTS}
-            img, log = compose(v, self._charsection(race, g), layers, self.resolver)
+            img, log = compose(v, self._charsection(race, g, v.get('sections')), layers, self.resolver)
             bake = f'CreatureDisplayExtra-{did}{sfx}_HD.blp'
         tmp = self.retail.dir / 'out' / bake
         tmp.parent.mkdir(exist_ok=True)
