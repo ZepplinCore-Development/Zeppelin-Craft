@@ -2577,7 +2577,10 @@ async function bakeCards(e, c) {
   const M = assets.find(a => a.tab === 'character' && a.path === sp.model);
   const key = (choices.mesh[sp.model] || {}).option || (M ? M.current : null);
   const shipFile = M && M.panes.find(p => p.option === key);
-  const def = bakeDefault(sp.bakes, key), pick = String((c || {}).option || '').startsWith('bake:') ? c.option.slice(5) : null;
+  // no pack ships this model (vrykul, tuskarr, taunka...): the classic file ships for every display, so every
+  // bake fits it and curate takes the largest unless one is picked
+  const solo = !M;
+  const def = solo ? sp.bakes.reduce((a, b) => (b[2] > a[2] ? b : a))[0] : bakeDefault(sp.bakes, key), pick = String((c || {}).option || '').startsWith('bake:') ? c.option.slice(5) : null;
   const smap = await mapOf(sp.map);
   if (cur !== e) return;
   const ent = customList.find(x => x.display === e.display) || {};
@@ -2606,7 +2609,7 @@ async function bakeCards(e, c) {
                    : src === 'stock' ? { ...sp, display: e.display, _bake: 'stock' }
                    : { ...sp, display: e.display, tex, _ovr: ovr, _bake: src };
     // one file of the model ships for every display: a card is choosable when its file is the model pick's
-    const usable = file ? !!shipFile && file.option === shipFile.option && fits.includes(key) : !!shipFile && shipFile.sources.includes('stock');
+    const usable = solo || (file ? !!shipFile && file.option === shipFile.option && fits.includes(key) : !!shipFile && shipFile.sources.includes('stock'));
     // chosen: the explicit pick, else the default - unless another option (our edit) is the pick
     const chosen = usable && (pick ? pick === src : !(c && c.option) && src === def);
     const div = document.createElement('div');
