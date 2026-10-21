@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-skin-expansion",
+  "version": "0.1.0",
+  "description": "F-230 expanded character skin, hair and facial hair colours from Nexus Mods WoW mod 907",
+  "author": "Zeppelin Team",
+  "type": "hybrid",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ],
+    "sql": [
+      "sql/*.sql"
+    ],
+    "dbc": [
+      "dbc/*.sql"
+    ],
+    "mpq": [
+      "mpq/**/*"
+    ]
+  },
+  "client_patch": "PATCH-S",
+  "enabled": true,
+  "priority": 320,
+  "patch_display_name": "Character Skins",
+  "feature_id": "F-230",
+  "launcher": {
+    "mandatory": true,
+    "enabled_by_default": true,
+    "auto_update": false,
+    "requires": []
+  }
+}
