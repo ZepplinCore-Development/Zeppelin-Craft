@@ -730,7 +730,13 @@ function modelDecides(d) {
 }
 // a display decided by its model's pick (Displays tab: not in the queue, overridable)
 function viaModel(d) {
-  if (d.tab !== 'display' || !d.panes.length) return null;
+  if (d.tab !== 'display') return null;
+  if (!d.panes.length) {
+    // no option cards of its own (a creature-level edit or a retail remaster brought it here; display 1192):
+    // its stock model's card decides it - picked there = decided
+    const m0 = d.current && choices.mesh[d.current];
+    return m0 ? { option: m0.option, sources: m0.sources || [] } : null;
+  }
   const m = choices.mesh[d.panes[0].model];
   if (!m) return null;
   if (!m.displays) {
