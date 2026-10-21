@@ -5,6 +5,13 @@ goblin zone NPCs so imported SmartAI SMART_ACTION_TALK references resolve.
 BroadcastTextId forced to 0 (inline Text field is used). DELETE+INSERT per
 CreatureID. Single combined file for both zones -> emitted only on the "" pass.
 
+Voice-over (F-011): a line's Sound is a Cata SoundEntries id (Gallywix/Thrall VO,
+19555+) that stock 3.3.5a lacks. The row is ported verbatim from the Whitemane
+SoundEntries.dbc (first 30 fields = the 3.3.5a layout; the 5 appended Cata
+variation fields and the SoundEntriesAdvanced ref are dropped, as in I-242) and its
+.ogg files ship in the zpak (PATCH-Z). Only a sound whose row or files are absent
+from the Cata client is shipped as 0 — AC logs a missing SoundEntries id at load.
+
 Scope is the zone spawn sweep UNION the port's summon closure (I-288): a creature
 that only ever exists as a spell summon has no `creature` row, so it never entered
 `gob` and shipped with no dialogue at all — the same hole I-277 found for
@@ -13,12 +20,22 @@ creature_addon and I-285 for templates, one table over. 35813 Frightened Miner
 """
 import importlib.util
 import os
+import struct
 
 NAME = "creature_text"
-TABLES = ["creature_text"]
+TABLES = ["creature_text", "soundentries"]
 TIER = "base"
 
 ZONES = ("4720", "4737")   # Lost Isles + Kezan (one combined file)
+
+# 3.3.5a SoundEntries.dbc field order = Cata 4.3.4 fields 0..29 (Cata appends 5).
+SOUND_FIELDS = (["id", "sound_type", "name"]
+                + ["file_%d" % i for i in range(1, 11)]
+                + ["frequency_%d" % i for i in range(1, 11)]
+                + ["base_dir", "volume", "flags", "min_distance", "distance_cutoff",
+                   "eax_def", "advanced_id"])
+SOUND_STR = {2, 23} | set(range(3, 13))
+SOUND_FLOAT = {24, 26, 27}
 
 
 def _sibling(modname):
@@ -42,6 +59,39 @@ def _i(v, d=0):
 
 def _esc(v):
     return "'" + str(v).strip().replace("\\", "\\\\").replace("'", "''") + "'"
+
+
+def _f32(u):
+    return round(struct.unpack("<f", struct.pack("<I", u))[0], 4)
+
+
+def _port_sounds(ctx, wanted):
+    """Port the Cata SoundEntries rows in `wanted` (absent from STOCK 3.3.5a) and
+    ship their audio. Returns (ported ids, unresolved ids)."""
+    recs, gs = ctx.read_wdbc(ctx.whitemane_dbc("SoundEntries.dbc"))
+    src = {r[0]: r for r in recs}
+    ported, gaps = set(), []
+    for sid in sorted(wanted):
+        r = src.get(sid)
+        if r is None:
+            gaps.append("%d (no 4.3.4 row)" % sid)
+            continue
+        base = gs(r[23])
+        files = [gs(r[i]) for i in range(3, 13) if r[i] and gs(r[i])]
+        state = [ctx.ship_asset("%s/%s" % (base, f)) for f in files]
+        if not files or "missing" in state:
+            gaps.append("%d %s (audio not in the 4.3.4 extract)" % (sid, gs(r[2])))
+            continue
+        cols = {}
+        for i, c in enumerate(SOUND_FIELDS):
+            v = r[i]
+            cols[c] = (gs(v) if v else "") if i in SOUND_STR else (
+                _f32(v) if i in SOUND_FLOAT else int(v))
+        cols["advanced_id"] = 0            # Cata SoundEntriesAdvanced not ported
+        ctx.col.put("soundentries", sid, cols, tier="base", owner=NAME,
+                    note="%d %s (creature_text VO)" % (sid, cols["name"]))
+        ported.add(sid)
+    return ported, gaps
 
 
 def emit(ctx):
@@ -70,6 +120,13 @@ def emit(ctx):
     # (CreatureID, GroupID, ID) lookup would swap NPC lines around. demojibake +
     # the hand-verified text_overrides fixture only; see _entext.py.
     en = _sibling("_entext").EnglishText(ctx)
+    # Cata voice-over SoundEntries (Gallywix 19555+, Thrall) are not in stock
+    # SoundEntries.dbc: port the row + audio. STOCK, never live, so a re-run still
+    # emits what an earlier run applied (reference_dbc_stock_determinism).
+    sounds = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM soundentries")}
+    vo, vo_gaps = _port_sounds(
+        ctx, {_i(r["sound"]) for r in rows} - sounds - {0})
+    sounds |= vo
 
     ctx.col.delete("creature_text",
                    "CreatureID IN (%s)" % ",".join(map(str, entries)))
@@ -82,9 +139,12 @@ def emit(ctx):
             "CreatureID": cid, "GroupID": gid, "ID": tid,
             "Text": text, "Type": _i(r["type"]),
             "Language": _i(r["language"]), "Probability": _i(r["probability"], 100),
-            "Emote": _i(r["emote"]), "Duration": _i(r["duration"]), "Sound": _i(r["sound"]),
+            "Emote": _i(r["emote"]), "Duration": _i(r["duration"]), "Sound": _i(r["sound"]) if _i(r["sound"]) in sounds else 0,
             "BroadcastTextId": 0, "TextRange": _i(r["text_range"]),
             "comment": comment,
         })
-    return ("creature_text=%d rows across %d NPCs\n  %s"
-            % (len(rows), len(entries), en.summary()))
+    out = ("creature_text=%d rows across %d NPCs\n  %s\n  voice-over: %d SoundEntries"
+           " ported" % (len(rows), len(entries), en.summary(), len(vo)))
+    if vo_gaps:
+        out += "; shipped as 0: " + ", ".join(vo_gaps)
+    return out

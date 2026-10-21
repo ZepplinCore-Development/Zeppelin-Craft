@@ -683,7 +683,8 @@ class _GenCtx:
         Whitemane extract into this zpak's mpq/source-assets unless some case
         variant is already there. Returns 'present' | 'shipped' | 'missing'.
 
-        BLP-safe only: textures are format-stable across 3.3.5a<->4.3.4. M2/skin
+        BLP/audio-safe only: textures and .ogg/.mp3/.wav sound files are format-stable
+        across 3.3.5a<->4.3.4 (creature_text voice-over ships this way). M2/skin
         meshes are NOT (v264 vs v272) and stay a curated retroport step — never
         route them through here (I-249: green NPCs were DBC rows shipped for
         displays whose texture files this step now closes the loop on)."""

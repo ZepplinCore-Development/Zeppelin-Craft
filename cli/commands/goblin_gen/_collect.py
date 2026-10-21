@@ -147,6 +147,7 @@ TABLES = {
     "gameobjectdisplayinfo":      dict(order=0, kind="A", pk="id", dest="dbc"),
     "itemdisplayinfo":            dict(order=0, kind="A", pk="id", dest="dbc"),
     "screeneffect":               dict(order=0, kind="A", pk="id", dest="dbc"),
+    "soundentries":               dict(order=0, kind="A", pk="id", dest="dbc"),
     "spell":                      dict(order=0, kind="A", pk="id", dest="dbc"),
     "summonproperties":           dict(order=0, kind="A", pk="id", dest="dbc"),
     "spellvisual":                dict(order=0, kind="A", pk="id", dest="dbc"),

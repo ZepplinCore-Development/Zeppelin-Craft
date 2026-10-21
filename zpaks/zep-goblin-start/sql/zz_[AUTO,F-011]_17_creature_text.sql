@@ -9,7 +9,7 @@
 
 -- F-011 creature_text (one file per table; rows carry final state)
 
-DELETE FROM creature_text WHERE CreatureID IN (23837,34668,34673,34689,34692,34693,34695,34696,34697,34748,34830,34835,34872,34874,34876,34877,34878,35053,35054,35120,35175,35186,35200,35201,35222,35239,35294,35304,35486,35650,35758,35769,35786,35813,35838,35875,35893,35917,36100,36112,36129,36143,36145,36161,36178,36403,36425,36470,36471,36513,36519,36600,37106,37179,37500,37602,37804,38120,38122,38124,38195,38318,38381,38387,38409,38432,38441,38455,38517,38643,38647,38696,38738,38745,38746,38855,38869,38928,39065,39066,39193,39194,39198,39199,39200,39201,39363,39426,39456,39582,48305,48494,48496,366150);
+DELETE FROM creature_text WHERE CreatureID IN (23837,34668,34673,34689,34692,34693,34695,34696,34697,34748,34830,34835,34872,34874,34876,34877,34878,35053,35054,35120,35175,35186,35200,35201,35222,35239,35294,35304,35486,35650,35758,35769,35786,35813,35838,35875,35893,35917,36042,36100,36112,36129,36143,36145,36161,36178,36403,36425,36470,36471,36513,36519,36600,37106,37179,37500,37602,37804,38120,38122,38124,38195,38318,38381,38387,38409,38432,38441,38455,38517,38643,38647,38696,38738,38745,38746,38855,38869,38928,39065,39066,39193,39194,39198,39199,39200,39201,39363,39426,39456,39582,48305,48494,48496,366150);
 
 INSERT INTO creature_text (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
   (23837, 0, 0, 'Scrying upon many insignificant situations within Icecrown, you stumble upon something interesting...', 42, 0, 100, 0, 0, 0, 0, 0, 'Eye of Lich King Ambient'),
@@ -206,6 +206,11 @@ INSERT INTO creature_text (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Langu
   (35893, 1, 0, 'Go back to Aggra and tell her that we''re moving northwest.', 12, 0, 100, 0, 0, 0, 0, 0, 'Kilag Sangrecroc'),
   (35917, 0, 0, 'Use your Infrared Heat Focals!', 41, 0, 100, 0, 0, 0, 0, 0, 'Kilag Sangrecroc'),
   (35917, 1, 0, 'Ride Bastia! Find Brax!', 12, 0, 100, 25, 0, 0, 0, 0, 'Kilag Sangrecroc'),
+  (36042, 0, 0, 'My ribs are broken.', 12, 0, 100, 1, 0, 0, 0, 0, '36599'),
+  (36042, 0, 1, 'Throm-Ka, goblin!', 12, 0, 100, 5, 0, 0, 0, 0, '36600'),
+  (36042, 0, 2, 'Aka''Magosh, goblin!', 12, 0, 100, 5, 0, 0, 0, 0, '36601'),
+  (36042, 0, 3, 'Lok''tar!', 12, 0, 100, 5, 0, 0, 0, 0, '36602'),
+  (36042, 0, 4, 'I give you thanks for my life.', 12, 0, 100, 1, 0, 0, 0, 0, '36603'),
   (36100, 0, 0, 'Don''t forget to keep your goggles on, $n. That''s the only way we''ll spot them before they can jump us.', 12, 0, 100, 1, 0, 0, 0, 0, ''),
   (36112, 0, 0, 'Get to the Gyrochoppa! Do it now!', 14, 0, 100, 5, 0, 0, 0, 0, 'Eclaireur Brax'),
   (36129, 0, 0, 'Hey! Get away from my flying machine!', 12, 0, 100, 0, 0, 0, 0, 0, 'Gyrochoppa Pilot'),
