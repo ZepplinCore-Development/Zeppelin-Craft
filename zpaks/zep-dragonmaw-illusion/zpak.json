@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-dragonmaw-illusion",
+  "version": "0.1.0",
+  "description": "F-229 gendered Dragonmaw Illusion: female players get a female disguise at Netherwing Ledge",
+  "author": "Zeppelin Team",
+  "type": "hybrid",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ],
+    "sql": [
+      "sql/*.sql"
+    ],
+    "dbc": [
+      "dbc/*.sql"
+    ]
+  },
+  "client_patch": "PATCH-Z",
+  "enabled": true,
+  "priority": 506,
+  "feature_id": "F-229"
+}
