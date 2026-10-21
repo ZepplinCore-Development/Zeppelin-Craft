@@ -1356,6 +1356,30 @@ def reuses_display(stock_path: str, path: str, ext, stock_paths: set) -> bool:
     return not (a in b or b in a or len(os.path.commonprefix([a, b])) >= 4)
 
 
+def merge_identical_panes(assets: list, log=print) -> None:
+    """Display cards that draw exactly the same thing - the same model, file map, skins, geosets and texture
+    overrides - are one option offered by several packs (display 1461: patch-hd-creatures-mounts and
+    patch-hd-everything both suggest the same ancientofwar2diseased retroport with the same skins, as two
+    cards with one option key). Merged into the first, every pack named."""
+    n = 0
+    for e in assets:
+        if e.get('tab') != 'display' or len(e.get('panes') or []) < 2:
+            continue
+        keep, seen = [], {}
+        for p in e['panes']:
+            k = (p.get('model'), p.get('map'), tuple(p.get('skins') or ()), tuple(p.get('mesh') or ()),
+                 json.dumps(p.get('tex') or {}, sort_keys=True), json.dumps(p.get('items') or [], sort_keys=True))
+            if p.get('map') and k in seen:
+                first = seen[k]
+                first['sources'] = sorted(set(first['sources']) | set(p.get('sources') or []), key=lambda x: (x != 'stock', x))
+                n += 1
+                continue
+            seen[k] = p
+            keep.append(p)
+        e['panes'] = keep
+    log(f'  display cards: {n:,} identical cards merged into one')
+
+
 def _converted_map(dep, path: str, info: dict, base_mid: Optional[str], conv: dict) -> Optional[str]:
     """A pane map: the pane's own (pack skins, items) with path's model / .skin / .anim replaced by our WXL
     conversion of the retail model (lib/retail.convert, cached) and that conversion's textures added."""
@@ -2674,6 +2698,7 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
         log(f'  repoint sources: {len(moved):,} stock models packs move displays off join the chooser')
     try:
         annotate_retroports(dep, assets, v2, log)
+        merge_identical_panes(assets, log)
         merge_retroports(assets, log)
         (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
     except Exception as ex:                                  # a preview nicety: never block a deploy
