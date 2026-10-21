@@ -1,0 +1,88 @@
+From 7d353bf771e3a3ce22580318b547b1601c5ec971 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Wed, 21 Oct 2026 13:42:06 +0000
+Subject: [PATCH] Zeppelin F-151: filtered skin cycle jumps straight to the
+ next allowed colour
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ WoW/Source/Glue/CharacterCreation.cpp         |  9 ++++++++
+ WoW/Source/Glue/CharacterCreation.h           |  1 +
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp | 21 ++++++++++++++++++-
+ 3 files changed, 30 insertions(+), 1 deletion(-)
+
+diff --git a/WoW/Source/Glue/CharacterCreation.cpp b/WoW/Source/Glue/CharacterCreation.cpp
+index f5af90a8..a34ec1a8 100644
+--- a/WoW/Source/Glue/CharacterCreation.cpp
++++ b/WoW/Source/Glue/CharacterCreation.cpp
+@@ -224,6 +224,15 @@ bool CCharacterCreation::IsClassAvailable(int32_t classID) {
+     return false;
+ }
+ 
++// Not in the original (F-151 sub-races): put the skin straight on a known-good colour, with the same follow-up
++// as a skin cycle below. A filtered skin cycle picks its target first and applies it once, because every
++// SetSkinColor reloads the body textures.
++void CCharacterCreation::ZepSetSkin(int32_t skinID) {
++    CCharacterCreation::m_character->SetSkinColor(skinID, true, true, nullptr);
++    CCharacterCreation::m_prevSkinIndex = CCharacterCreation::m_character->m_data.m_preferences.m_skinID;
++    CGlueLoading::StartLoad(CCharacterCreation::m_character, 1);
++}
++
+ // VERIFY: e48266b8 auto
+ // OFFSET: 0x004E01F0
+ void CCharacterCreation::CycleCharCustomization(CHAR_CUSTOMIZATION_TYPE type, int32_t delta) {
+diff --git a/WoW/Source/Glue/CharacterCreation.h b/WoW/Source/Glue/CharacterCreation.h
+index 65b138da..783e84a9 100644
+--- a/WoW/Source/Glue/CharacterCreation.h
++++ b/WoW/Source/Glue/CharacterCreation.h
+@@ -33,6 +33,7 @@ class CCharacterCreation {
+     static void CalcClasses(int32_t raceID);
+     static void CreateCharacter(const char* name);
+     static void CycleCharCustomization(CHAR_CUSTOMIZATION_TYPE type, int32_t delta);
++    static void ZepSetSkin(int32_t skinID);     // Not in the original (F-151)
+     static void Dress();
+     static int32_t GetExistingClassIndex();
+     static int32_t GetExistingRaceIndex();
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index 8275e80a..8545b78e 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -661,7 +661,8 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+ }
+ 
+ // Steps the stock cycle until it lands on an allowed value. With no allowed value reachable at all (say a
+-// class with none of the listed colours) it is a single stock step. The bound covers every value an option can have.
++// class with none of the listed colours) it is a single stock step. A skin goes straight to the next allowed
++// colour instead, since each stock skin step reloads the body textures. The bound covers every value an option can have.
+ static void CharCustomizationCycleAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t delta) {
+     const ZepCustomizationFilter& filter = s_customizationFilter[type];
+     bool reachable = false;
+@@ -675,6 +676,24 @@ static void CharCustomizationCycleAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t
+         return;
+     }
+ 
++    if (type == CHAR_CUSTOMIZATION_SKIN) {
++        const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++        int32_t numColors = ComponentGetNumColors(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_SKIN, 0);
++        int32_t step = delta > 0 ? 1 : -1;
++        int32_t skin = prefs.m_skinID;
++
++        for (int32_t i = 0; i < numColors; i++) {
++            skin = (skin + step + numColors) % numColors;
++
++            if (CharCustomizationReachable(CHAR_CUSTOMIZATION_SKIN, skin)) {
++                CCharacterCreation::ZepSetSkin(skin);
++                return;
++            }
++        }
++
++        return;
++    }
++
+     for (int32_t i = 0; i < 256; i++) {
+         CCharacterCreation::CycleCharCustomization(type, delta);
+ 
+-- 
+2.34.1
+
