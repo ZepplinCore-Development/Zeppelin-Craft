@@ -358,6 +358,34 @@
 			</Anchors>
 		</PushedTexture>
 	</CheckButton>
+	<!-- F-151 sub-races: a round portrait beside the selected race (CharCreate_UpdateSubRaces) -->
+	<CheckButton name="CharCreateSubRaceButtonTemplate" virtual="true" hidden="true">
+		<Size x="40" y="40"/>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentIcon" parentKey="icon" setAllPoints="true"/>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="$parentRing" file="Interface\Glues\CharacterCreate\UI-CharacterCreate-SubRace-Ring" setAllPoints="true"/>
+			</Layer>
+		</Layers>
+		<CheckedTexture file="Interface\Glues\CharacterCreate\UI-CharacterCreate-SubRace-RingChecked" setAllPoints="true"/>
+		<HighlightTexture file="Interface\Glues\CharacterCreate\UI-CharacterCreate-SubRace-RingChecked" alphaMode="ADD" setAllPoints="true"/>
+		<Scripts>
+			<OnClick>
+				CharCreateSubRace_OnClick(self);
+			</OnClick>
+			<OnEnter>
+				if ( self.name ) then
+					CharacterCreateTooltip:SetOwner(self);
+					CharacterCreateTooltip:SetText(self.name);
+				end
+			</OnEnter>
+			<OnLeave>
+				CharacterCreateTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
 	<CheckButton name="CharCreateClassButtonTemplate" virtual="true" motionScriptsWhileDisabled="true">
 		<Size x="52" y="52"/>
 		<Layers>
@@ -1269,6 +1297,11 @@
 											<Anchor point="TOPLEFT" relativeTo="CharCreateRaceButton12" relativePoint="BOTTOMLEFT" x="0" y="-20"/>
 										</Anchors>
 									</CheckButton>
+									<!-- F-151 sub-races: placed beside the selected race by CharCreate_UpdateSubRaces -->
+									<CheckButton name="CharCreateSubRaceButton1" inherits="CharCreateSubRaceButtonTemplate" id="1"/>
+									<CheckButton name="CharCreateSubRaceButton2" inherits="CharCreateSubRaceButtonTemplate" id="2"/>
+									<CheckButton name="CharCreateSubRaceButton3" inherits="CharCreateSubRaceButtonTemplate" id="3"/>
+									<CheckButton name="CharCreateSubRaceButton4" inherits="CharCreateSubRaceButtonTemplate" id="4"/>
 								</Frames>
 							</Frame>
 							<Frame inherits="CharCreatePanelTemplate" setAllPoints="true">		<!-- top filigree box -->

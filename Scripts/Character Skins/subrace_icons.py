@@ -1,0 +1,129 @@
+"""F-151 sub-races: the round portraits the character creator shows beside a race that has sub-races.
+
+Retail draws its race portraits from one atlas, interface/glues/charactercreate/charactercreateicons.blp
+(FileDataID 1662186). The members come from UiTextureAtlasMember ("raceicon128-<race>-<sex>"). A
+sub-race with no retail portrait is derived from one that has, by colour-shifting its skin pixels (Fel Orc =
+the retail orc portrait shifted from green to red, Blackrock = shifted to dark grey).
+
+Writes zpaks/patch-modern-login/mpq/source-assets/Interface/Glues/CharacterCreate/
+UI-CharacterCreate-SubRace-<NAME>_<SEX>.blp (64x64, palettized BLP2 with 8-bit alpha, round mask) and the two
+rings drawn over them: UI-CharacterCreate-SubRace-Ring.blp (always) and -RingChecked.blp (selected).
+
+  python3 "Scripts/Character Skins/subrace_icons.py"
+"""
+import colorsys
+import io
+import struct
+import sys
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+CRAFT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(CRAFT / 'cli'))
+sys.path.insert(0, str(CRAFT))
+from lib import retail  # noqa: E402
+
+OUT = CRAFT / 'zpaks' / 'patch-modern-login' / 'mpq' / 'source-assets' / 'Interface' / 'Glues' / 'CharacterCreate'
+ATLAS_FDID = 1662186
+SIZE = 64
+# our icon name -> (retail atlas race, skin hue shift or None)
+ICONS = {
+    'ORC': ('orc', None),
+    'MAGHAR': ('magharorc', None),
+    'FELORC': ('orc', 'red'),
+    'BLACKROCK': ('orc', 'grey'),
+}
+
+
+def atlas_members():
+    want = {f'raceicon128-{race}-{sex}' for race, _ in ICONS.values() for sex in ('male', 'female')}
+    return {r['CommittedName']: tuple(int(r[k]) for k in ('CommittedLeft', 'CommittedTop', 'CommittedRight', 'CommittedBottom'))
+            for r in retail._csv('UiTextureAtlasMember') if r['UiTextureAtlasID'] == '897' and r['CommittedName'] in want}
+
+
+def shift_skin(im, shift):
+    """Green orc skin (hue 40-140 degrees) -> fel red (hue ~4, a little more saturated) or Blackrock grey
+    (nearly unsaturated, darker). Eyes and hair stay."""
+    a = np.asarray(im).astype(float) / 255
+    out = a.copy()
+    for y in range(a.shape[0]):
+        for x in range(a.shape[1]):
+            h, s, v = colorsys.rgb_to_hsv(*a[y, x, :3])
+            deg = h * 360
+            if 40 <= deg <= 140 and s > 0.25:
+                if shift == 'red':
+                    out[y, x, :3] = colorsys.hsv_to_rgb(4 / 360, min(1, s * 1.1), v * 0.95)
+                else:
+                    out[y, x, :3] = colorsys.hsv_to_rgb(220 / 360, s * 0.12, v * 0.7)
+    return Image.fromarray((out * 255).astype(np.uint8), 'RGBA')
+
+
+def round_mask(im):
+    yy, xx = np.mgrid[:SIZE, :SIZE]
+    r = SIZE / 2
+    d = np.sqrt((xx + 0.5 - r) ** 2 + (yy + 0.5 - r) ** 2)
+    mask = np.clip(r - d, 0, 1)                      # 1 px soft edge
+    a = np.asarray(im).copy()
+    a[..., 3] = (a[..., 3] * mask).astype(np.uint8)
+    return Image.fromarray(a, 'RGBA')
+
+
+def ring(width, glow, rgb):
+    """A ring on the portrait's edge: `width` px of solid colour, then `glow` px fading inwards."""
+    yy, xx = np.mgrid[:SIZE, :SIZE]
+    r = SIZE / 2
+    d = r - np.sqrt((xx + 0.5 - r) ** 2 + (yy + 0.5 - r) ** 2)     # px inside the edge
+    fade = np.clip(1 - (d - width) / glow, 0, 1) * 0.6 if glow else 0
+    alpha = np.where(d < 0, 0, np.where(d <= width, 1, fade))
+    a = np.zeros((SIZE, SIZE, 4), np.uint8)
+    a[..., :3] = rgb
+    a[..., 3] = (alpha * 255).astype(np.uint8)
+    return Image.fromarray(a, 'RGBA')
+
+
+def write_blp_rgba(path, im):
+    """BLP2, encoding 1 (256-colour palette) with 8-bit alpha, full mip chain: per mip the palette indices,
+    then one alpha byte per pixel."""
+    rgb = im.convert('RGB')
+    q = rgb.quantize(256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    pal = (q.getpalette()[:768] + [0] * 768)[:768]
+    mips, cur, cq = [], im, q
+    while True:
+        alpha = np.asarray(cur)[..., 3]
+        mips.append(cq.tobytes() + alpha.tobytes())
+        if cur.width == 1 or cur.height == 1:
+            break
+        cur = cur.resize((cur.width // 2, cur.height // 2), Image.BOX)
+        cq = cur.convert('RGB').quantize(palette=q, dither=Image.Dither.NONE)
+    offs, sizes, o = [0] * 16, [0] * 16, 1172
+    for i, m in enumerate(mips):
+        offs[i], sizes[i] = o, len(m)
+        o += len(m)
+    palette = b''.join(bytes((pal[k * 3 + 2], pal[k * 3 + 1], pal[k * 3], 0)) for k in range(256))
+    head = b'BLP2' + struct.pack('<I4B2I', 1, 1, 8, 8, 1, im.width, im.height)   # as stock palettized UI art
+    head += struct.pack('<16I', *offs) + struct.pack('<16I', *sizes) + palette
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(head + b''.join(mips))
+
+
+def main():
+    atlas = Image.open(io.BytesIO(retail.fetch(ATLAS_FDID))).convert('RGBA')
+    members = atlas_members()
+    for name, (race, shift) in ICONS.items():
+        for sex in ('male', 'female'):
+            im = atlas.crop(members[f'raceicon128-{race}-{sex}']).resize((SIZE, SIZE), Image.LANCZOS)
+            if shift:
+                im = shift_skin(im, shift)
+            dst = OUT / f'UI-CharacterCreate-SubRace-{name}_{sex.upper()}.blp'
+            write_blp_rgba(dst, round_mask(im))
+            print(dst.relative_to(CRAFT))
+    for name, im in (('Ring', ring(2, 0, (150, 120, 60))), ('RingChecked', ring(3, 8, (255, 210, 80)))):
+        dst = OUT / f'UI-CharacterCreate-SubRace-{name}.blp'
+        write_blp_rgba(dst, im)
+        print(dst.relative_to(CRAFT))
+
+
+if __name__ == '__main__':
+    main()

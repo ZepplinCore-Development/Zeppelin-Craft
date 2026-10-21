@@ -83,6 +83,29 @@ BANNER_DEFAULT_SIZE = {200, 308};
 
 CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 
+-- F-151 sub-races: a race's skin colours split into named sets. Every colour belongs to exactly one sub-race,
+-- so a character's sub-race follows from its skin colour and needs no stored field. Colours are CharSections
+-- color_index values per sex; "shared" lists the ones every sub-race offers (death knight skins).
+-- Keyed by the race's file name (GetNameForRace).
+CHAR_CREATE_SUBRACES = {
+	["ORC"] = {
+		shared = { MALE = {15, 16, 17}, FEMALE = {11, 12, 13} },
+		{ name = "Orc", icon = "ORC",
+			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 40},
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 40} },
+		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR",
+			MALE = {12, 18, 19, 20, 21, 22, 23, 24, 28, 29, 30, 31, 32, 34, 36, 38, 41},
+			FEMALE = {18, 19, 20, 21, 22, 23, 24, 28, 29, 30, 31, 32, 34, 36, 38, 41} },
+		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK",
+			MALE = {9, 14, 42, 43, 44, 45},
+			FEMALE = {42, 43, 44, 45} },
+		{ name = "Fel Orc", icon = "FELORC",
+			MALE = {10, 25, 26, 27, 33, 35, 37, 39},
+			FEMALE = {25, 26, 27, 33, 35, 37, 39} },
+	},
+};
+MAX_SUBRACES = 4;
+
 function CharacterCreate_OnLoad(self)
 	self:RegisterEvent("RANDOM_CHARACTER_NAME_RESULT");
 	self:RegisterEvent("GLUE_UPDATE_EXPANSION_LEVEL");
@@ -163,6 +186,8 @@ function CharacterCreate_OnShow()
 		--button:SetScale(0.8)
 		SetButtonDesaturated(button, false)
 	end
+
+	CharacterCreate.subRaces = nil;	-- F-151: re-derive the sub-race from the new character's skin
 
 	if ( PAID_SERVICE_TYPE ) then
 		CustomizeExistingCharacter( PAID_SERVICE_CHARACTER_ID );
@@ -292,6 +317,101 @@ function CharCreate_UpdateCustomizationCounts()
 			end
 		end
 	end
+end
+
+-- F-151 sub-races (CHAR_CREATE_SUBRACES): portraits beside the selected race, its skin colours limited to the
+-- chosen sub-race (SetCharCustomizationFilter is a source-client API), and the sub-race's name on the race
+-- button and the race info title.
+function CharCreate_SubRaceGender()
+	if ( GetSelectedSex() == SEX_MALE ) then
+		return "MALE";
+	end
+	return "FEMALE";
+end
+
+function CharCreate_SubRaceOf(subRaces, gender, skin)
+	for i, subRace in ipairs(subRaces) do
+		for _, colour in ipairs(subRace[gender]) do
+			if ( colour == skin ) then
+				return i;
+			end
+		end
+	end
+end
+
+function CharCreate_ApplySubRace()
+	local subRaces = CharacterCreate.subRaces;
+	local gender = CharCreate_SubRaceGender();
+	local colours = {};
+	for _, colour in ipairs(subRaces[CharacterCreate.subRace][gender]) do
+		tinsert(colours, colour);
+	end
+	if ( subRaces.shared ) then
+		for _, colour in ipairs(subRaces.shared[gender]) do
+			tinsert(colours, colour);
+		end
+	end
+	SetCharCustomizationFilter(1, unpack(colours));
+end
+
+function CharCreate_UpdateSubRaces()
+	local _, fileString = GetNameForRace();
+	local subRaces = SetCharCustomizationFilter and fileString and CHAR_CREATE_SUBRACES[strupper(fileString)];
+	if ( not subRaces ) then
+		for i = 1, MAX_SUBRACES do
+			_G["CharCreateSubRaceButton"..i]:Hide();
+		end
+		if ( CharacterCreate.subRaces ) then
+			SetCharCustomizationFilter(1);
+			CharacterCreate.subRaces = nil;
+		end
+		return;
+	end
+
+	local gender = CharCreate_SubRaceGender();
+	if ( CharacterCreate.subRaces ~= subRaces ) then
+		-- a newly selected race starts in the sub-race its (random or existing) skin colour belongs to
+		local _, _, skin = GetCharCustomizationInfo(1);
+		CharacterCreate.subRaces = subRaces;
+		CharacterCreate.subRace = CharCreate_SubRaceOf(subRaces, gender, skin) or 1;
+	end
+	CharCreate_ApplySubRace();
+
+	-- a row on the inward side of the race button: right of the Alliance column, left of the Horde column
+	local raceButton = _G["CharCreateRaceButton"..CharacterCreate.selectedRace];
+	local _, faction = GetFactionForRace(CharacterCreate.selectedRace);
+	local point, relativePoint, gap = "LEFT", "RIGHT", 4;
+	if ( faction == "Horde" ) then
+		point, relativePoint, gap = "RIGHT", "LEFT", -4;
+	end
+	for i = 1, MAX_SUBRACES do
+		local button = _G["CharCreateSubRaceButton"..i];
+		local subRace = subRaces[i];
+		if ( subRace ) then
+			button:ClearAllPoints();
+			if ( i == 1 ) then
+				button:SetPoint(point, raceButton, relativePoint, gap * 3, 0);
+			else
+				button:SetPoint(point, _G["CharCreateSubRaceButton"..(i - 1)], relativePoint, gap, 0);
+			end
+			button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-"..subRace.icon.."_"..gender);
+			button.name = subRace.title or subRace.name;
+			button:SetChecked(i == CharacterCreate.subRace and 1 or 0);
+			button:Show();
+		else
+			button:Hide();
+		end
+	end
+
+	local subRace = subRaces[CharacterCreate.subRace];
+	raceButton.nameFrame.text:SetText(subRace.name);
+	CharCreateRaceInfoFrame.title:SetText(subRace.title or subRace.name);
+end
+
+function CharCreateSubRace_OnClick(self)
+	PlaySound("gsCharacterCreationClass");
+	CharacterCreate.subRace = self:GetID();
+	CharCreate_UpdateSubRaces();
 end
 
 function CharacterCreateFrame_OnUpdate(self, elapsed)
@@ -544,6 +664,8 @@ function SetCharacterRace(id)
 	else
 		CharCreateRaceInfoFrame.scrollFrame.scrollChild.bulletText:SetText("");
 	end
+
+	CharCreate_UpdateSubRaces();
 
 	-- Altered form
 	--[[if (HasAlteredForm()) then

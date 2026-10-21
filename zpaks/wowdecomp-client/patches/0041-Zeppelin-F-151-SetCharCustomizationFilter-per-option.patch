@@ -1,0 +1,203 @@
+From 28b532d6d933818db74333aa8d661c65767cd26b Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Wed, 21 Oct 2026 13:00:54 +0000
+Subject: [PATCH] Zeppelin F-151: SetCharCustomizationFilter - per-option
+ allow-lists for sub-races
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp | 128 +++++++++++++++++-
+ 1 file changed, 121 insertions(+), 7 deletions(-)
+
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index d2b12b24..8275e80a 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -1,5 +1,7 @@
+ #include "CharacterCreation.h"
++#include <algorithm>
+ #include <cstdint>
++#include <vector>
+ #include "Engine/Source/BlizzardCore/SFile2-Core.h"
+ #include "Engine/Source/Frame/CScriptObject.h"
+ #include "Engine/Source/Frame/CSimpleModel.h"
+@@ -300,6 +302,8 @@ static int32_t Script_GetSelectedClass(lua_State* L) {
+     return 6;
+ }
+ 
++static void CharCustomizationCycleAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t delta);
++
+ // VERIFY: 8c236267 manual
+ // OFFSET: 0x004E0B50
+ static int32_t Script_CycleCharCustomization(lua_State* L) {
+@@ -310,7 +314,7 @@ static int32_t Script_CycleCharCustomization(lua_State* L) {
+ 
+     CHAR_CUSTOMIZATION_TYPE type = static_cast<CHAR_CUSTOMIZATION_TYPE>(static_cast<int32_t>(lua_tonumber(L, 1)) - 1);
+     int32_t delta = static_cast<int32_t>(lua_tonumber(L, 2));
+-    CCharacterCreation::CycleCharCustomization(type, delta);
++    CharCustomizationCycleAllowed(type, delta);     // Zeppelin F-151: was CCharacterCreation::CycleCharCustomization
+     return 0;
+ }
+ 
+@@ -564,11 +568,53 @@ static int32_t Script_PaidChange_GetPreviousRaceIndex(lua_State* L) {
+     return 1;
+ }
+ 
+-// Not in the original (F-151): GetCharCustomizationInfo(index) -> position, count. The choices of one
+-// customization button that its cycle can reach for the selected race, sex and class (the same record and
+-// flag checks as CCharacterComponent::SetNext*), and the 1-based position of the current choice among them
+-// (0 when the current value is not one of them). Lets the glue screens show "3/20" on each button.
++// Not in the original (F-151 sub-races): an allow-list per customization type, set from Lua by
++// SetCharCustomizationFilter. It holds only for the race and sex it was set for, so a race or sex change
++// never leaves a stale list behind.
++struct ZepCustomizationFilter {
++    bool active = false;
++    int32_t raceID = -1;
++    int32_t sexID = -1;
++    std::vector<int32_t> values;
++};
++
++static ZepCustomizationFilter s_customizationFilter[CHAR_CUSTOMIZATION_FACIAL_FEATURE + 1];
++
++static bool CharCustomizationAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t value) {
++    const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    const ZepCustomizationFilter& filter = s_customizationFilter[type];
++
++    if (!filter.active || filter.raceID != static_cast<int32_t>(prefs.m_raceID) || filter.sexID != static_cast<int32_t>(prefs.m_sexID)) {
++        return true;
++    }
++
++    return std::find(filter.values.begin(), filter.values.end(), value) != filter.values.end();
++}
++
++static int32_t CharCustomizationCurrent(CHAR_CUSTOMIZATION_TYPE type) {
++    const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++
++    switch (type) {
++        case CHAR_CUSTOMIZATION_SKIN:
++            return prefs.m_skinID;
++        case CHAR_CUSTOMIZATION_FACE:
++            return prefs.m_faceId;
++        case CHAR_CUSTOMIZATION_HAIR_STYLE:
++            return prefs.m_hairStyleId;
++        case CHAR_CUSTOMIZATION_HAIR_COLOR:
++            return prefs.m_hairColorId;
++        case CHAR_CUSTOMIZATION_FACIAL_FEATURE:
++            return prefs.m_facialHairId;
++        default:
++            return 0;
++    }
++}
++
+ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t value) {
++    if (!CharCustomizationAllowed(type, value)) {
++        return false;
++    }
++
+     const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
+     COMPONENT_SELECTION selection = GetSelectionFromContext(COMPONENT_CONTEXT_0, prefs.m_classId);
+     st_race* lookup = CCharacterComponent::s_chrVarArray;
+@@ -586,7 +632,7 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+         case CHAR_CUSTOMIZATION_FACE: {
+             int32_t numColors = ComponentGetNumColors(lookup, prefs.m_raceID, prefs.m_sexID, VARIATION_FACE, value);
+             for (int32_t skin = 0; skin < numColors; skin++) {
+-                if (skinOk(skin, value)) {
++                if (CharCustomizationAllowed(CHAR_CUSTOMIZATION_SKIN, skin) && skinOk(skin, value)) {
+                     return true;
+                 }
+             }
+@@ -614,6 +660,35 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+     }
+ }
+ 
++// Steps the stock cycle until it lands on an allowed value. With no allowed value reachable at all (say a
++// class with none of the listed colours) it is a single stock step. The bound covers every value an option can have.
++static void CharCustomizationCycleAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t delta) {
++    const ZepCustomizationFilter& filter = s_customizationFilter[type];
++    bool reachable = false;
++
++    for (int32_t value : filter.values) {
++        reachable = reachable || CharCustomizationReachable(type, value);
++    }
++
++    if (!reachable) {
++        CCharacterCreation::CycleCharCustomization(type, delta);
++        return;
++    }
++
++    for (int32_t i = 0; i < 256; i++) {
++        CCharacterCreation::CycleCharCustomization(type, delta);
++
++        if (CharCustomizationAllowed(type, CharCustomizationCurrent(type))) {
++            return;
++        }
++    }
++}
++
++// Not in the original (F-151): GetCharCustomizationInfo(index) -> position, count, value. The choices of one
++// customization button that its cycle can reach for the selected race, sex and class (the same record and
++// flag checks as CCharacterComponent::SetNext*, plus any SetCharCustomizationFilter list), the 1-based position
++// of the current choice among them (0 when the current value is not one of them), and the current value itself.
++// Lets the glue screens show "3/20" on each button.
+ static int32_t Script_GetCharCustomizationInfo(lua_State* L) {
+     if (!lua_isnumber(L, 1)) {
+         luaL_error(L, "Usage: GetCharCustomizationInfo(index)");
+@@ -665,7 +740,45 @@ static int32_t Script_GetCharCustomizationInfo(lua_State* L) {
+ 
+     lua_pushnumber(L, position);
+     lua_pushnumber(L, count);
+-    return 2;
++    lua_pushnumber(L, current);
++    return 3;
++}
++
++// Not in the original (F-151 sub-races): SetCharCustomizationFilter(index[, value, ...]) limits a customization
++// to the listed values for the current race and sex (CharSections colour / variation numbers). No values clears
++// it. The current value moves forward to the first allowed one.
++static int32_t Script_SetCharCustomizationFilter(lua_State* L) {
++    if (!lua_isnumber(L, 1)) {
++        luaL_error(L, "Usage: SetCharCustomizationFilter(index[, value, ...])");
++        return 0;
++    }
++
++    int32_t index = static_cast<int32_t>(lua_tonumber(L, 1)) - 1;
++
++    if (!CCharacterCreation::m_character || index < CHAR_CUSTOMIZATION_SKIN || index > CHAR_CUSTOMIZATION_FACIAL_FEATURE) {
++        return 0;
++    }
++
++    CHAR_CUSTOMIZATION_TYPE type = static_cast<CHAR_CUSTOMIZATION_TYPE>(index);
++    const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    ZepCustomizationFilter& filter = s_customizationFilter[type];
++    filter.values.clear();
++
++    for (int32_t arg = 2; arg <= lua_gettop(L); arg++) {
++        if (lua_isnumber(L, arg)) {
++            filter.values.push_back(static_cast<int32_t>(lua_tonumber(L, arg)));
++        }
++    }
++
++    filter.active = !filter.values.empty();
++    filter.raceID = prefs.m_raceID;
++    filter.sexID = prefs.m_sexID;
++
++    if (!CharCustomizationAllowed(type, CharCustomizationCurrent(type))) {
++        CharCustomizationCycleAllowed(type, 1);
++    }
++
++    return 0;
+ }
+ 
+ // Not in the original (F-151): SetCharacterCreateZoom(zoom 0..1) moves the character-create camera toward the
+@@ -732,6 +845,7 @@ static FrameScript_Method s_scriptFunctions[] = {
+     { "GetCreateBackgroundModel", &Script_GetCreateBackgroundModel },
+     { "GetCharCustomizationInfo", &Script_GetCharCustomizationInfo },   // Not in the original (F-151)
+     { "SetCharacterCreateZoom", &Script_SetCharacterCreateZoom },   // Not in the original (F-151)
++    { "SetCharCustomizationFilter", &Script_SetCharCustomizationFilter },   // Not in the original (F-151)
+ };
+ 
+ // VERIFY: 88b9bf9d auto
+-- 
+2.34.1
+
