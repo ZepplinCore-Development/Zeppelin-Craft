@@ -896,25 +896,6 @@
    "ship": []
   }
  ],
- "creature/mechastrider/pvpmechastrider.m2": [
-  {
-   "source": "patch-hd-everything",
-   "note": "slot 0 (type 12) names viciouswarmechanostrider.blp; display skin pvpmechastriderheadlightglow.blp looks different (corr 0.11) -> fixed texture (model screen 2026-10-07)",
-   "base_sha256": "b01a4d1358100086a554a1a714835197afc936aa0b564be5c08b54ae643f3500",
-   "result_sha256": "c9690aa909ca026132803c1f103028506d12317df478d6607b8d1b59132d9383",
-   "ops": [
-    {
-     "op": "m2.texture.set",
-     "index": 0,
-     "expect_type": 12,
-     "type": 0
-    }
-   ],
-   "ship": [
-    "creature/viciouswarmechanostrider/viciouswarmechanostrider.blp"
-   ]
-  }
- ],
  "creature/monkey/monkey_fez.m2": [
   {
    "source": "zep-goblin-start",
