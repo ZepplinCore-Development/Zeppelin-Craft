@@ -1,0 +1,49 @@
+From 4ce6114c4dd690fcf609087f4899fb27bd90715c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 21 Oct 2026 10:41:24 +0000
+Subject: [PATCH] WIP: F-219 - supervisor waits out a worldserver outage until
+ the deadline
+
+A down server no longer burns the 12 attempts (~35 min): a rebuild ended all nine bots at 2 h.
+Only runs that die with the session up count toward the 12.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/supervise.sh | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/tests/supervise.sh b/zeppelin/tests/supervise.sh
+index 540f7ed..14de32f 100755
+--- a/zeppelin/tests/supervise.sh
++++ b/zeppelin/tests/supervise.sh
+@@ -16,13 +16,24 @@ BIN=${AW_BIN:-$RUN/../agent-wow/bin/agent-wow}
+ RPC="$TESTS/rpc.sh"
+ alive() { "$RPC" interact.self | grep -q '"guid"'; }
+ deadline=$(( $(date +%s) + MIN * 60 ))
+-for attempt in $(seq 1 12); do
++# a server that is DOWN costs no attempts: wait it out until the deadline (a worldserver rebuild took
++# it away for hours and the old 12-attempt loop, ~35 min, ended all nine bots at the 2 h mark).
++# Only runs that die with the session up count toward the 12
++attempt=0; session=0
++while [ "$attempt" -lt 12 ]; do
+   if ! alive; then
+     pkill -f "agent-wow char play $CHAR\$" ; sleep 3
+     (cd "$RUN" && exec setsid "$BIN" char play "$CHAR" < /dev/null > "$RUN/session-$CHAR.log" 2>&1 &)
+     for i in $(seq 1 30); do sleep 5; alive && break; done
+-    echo "[SUPERVISOR] session $attempt up: $("$RPC" interact.self | cut -c1-80)" >> "$LOG"
++    session=$((session + 1))
++    if ! alive; then
++      [ $(( (deadline - $(date +%s)) / 60 )) -le 0 ] && break
++      [ $((session % 10)) -eq 1 ] && echo "[SUPERVISOR] server down - waiting (try $session)" >> "$LOG"
++      sleep 30; continue
++    fi
++    echo "[SUPERVISOR] session $session up: $("$RPC" interact.self | cut -c1-80)" >> "$LOG"
+   fi
++  attempt=$((attempt + 1))
+   left=$(( (deadline - $(date +%s)) / 60 )); [ "$left" -le 0 ] && break
+   RUNLOG=$(mktemp)
+   (cd "$TESTS" && python3 -u start_area.py --char "$CHAR" --map "$MAP" --box $BOX --minutes "$left" ${AW_ZONE:+--zone $AW_ZONE} 2>&1; echo "[SUPERVISOR] runner exit code $?") | tee -a "$LOG" > "$RUNLOG"
+-- 
+2.34.1
+
