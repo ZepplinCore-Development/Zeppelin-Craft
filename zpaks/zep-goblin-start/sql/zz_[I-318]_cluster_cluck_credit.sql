@@ -17,19 +17,20 @@
 DELETE FROM spell_script_names WHERE spell_id = 71170;
 
 -- Restrict the item to actual cluckers so a mis-click reports "Invalid target"
--- instead of silently burning a cast. SourceGroup 1 = EFFECT_0 mask,
+-- instead of silently burning a cast. This must be SourceType 17 (SPELL, checked at
+-- cast time) with ConditionTarget 1 = the explicit target: 71170's only effect is a
+-- TARGET_UNIT_TARGET_ANY dummy, so a SourceType-13 implicit-target row was ignored by
+-- AC at load ("does not have implicit targets of types _AREA_ ...", I-383).
 -- condition 31 = CONDITION_OBJECT_ENTRY_GUID, value1 3 = TYPEID_UNIT.
--- The generated conditions file already DELETEs source_type 13 / entry 71170,
--- and [I-318] sorts after [AUTO,F-011], so this row survives a regen.
-DELETE FROM conditions WHERE SourceTypeOrReferenceId = 13 AND SourceEntry = 71170;
+DELETE FROM conditions WHERE SourceTypeOrReferenceId IN (13, 17) AND SourceEntry = 71170;
 INSERT INTO conditions SET
-  `SourceTypeOrReferenceId` = 13,
-  `SourceGroup` = 1,
+  `SourceTypeOrReferenceId` = 17,
+  `SourceGroup` = 0,
   `SourceEntry` = 71170,
   `SourceId` = 0,
   `ElseGroup` = 0,
   `ConditionTypeOrReference` = 31,
-  `ConditionTarget` = 0,
+  `ConditionTarget` = 1,
   `ConditionValue1` = 3,
   `ConditionValue2` = 38111,
   `ConditionValue3` = 0,

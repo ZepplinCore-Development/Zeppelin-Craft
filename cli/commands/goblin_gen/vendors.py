@@ -206,7 +206,7 @@ def emit(ctx):
         col["description"] = gs(s[_SP_DESC]).strip()
         col["Material"] = s[_SP_MATERIAL] or (m[_IT_MATERIAL] if m else 0)
         col["sheath"] = s[_SP_SHEATHE] or (m[_IT_SHEATHE] if m else 0)
-        col["BagFamily"] = s[_SP_BAGFAMILY]
+        col["BagFamily"] = s[_SP_BAGFAMILY] & 0x7FFF  # I-383: ItemBagFamily.dbc ids 1-15 only (bit 15 = Cata Fishing Supplies)
         col["startquest"] = s[_SP_STARTQUEST]
         # Cata carries no disenchant data; tier off stock 3.3.5a rules so ported
         # weapons/armour are disenchantable (see _itemdb.disenchant_tier).

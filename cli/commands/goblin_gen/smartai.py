@@ -274,6 +274,48 @@ def emit(ctx):
         r["action_param1"] = want
         escort_fixed.append((donor, want))
 
+    # I-383: AC's SmartAIMgr refuses (skips, with an Errors.log line) any row carrying a
+    # value in a parameter its event/action does not use (CheckUnused*Params), and a
+    # TEXT_OVER whose creature entry is 0. The donor core never checked either, so rows
+    # that ran there were silently dead here: Geargrinder Gizmo's quest-accept aura (75
+    # with a donor "targets" param), Bilgewater's quest-end link (61 carrying 14125), the
+    # training dummies' 99 rows (donor data bug, GO loot state on a creature: a no-op).
+    ACTION_PARAMS_USED = {75: 1, 99: 1}    # ADD_AURA {spell}, GO_SET_LOOT_STATE {state}
+    EVENT_PARAMS_USED = {61: 0}            # LINK takes no params
+    TEXT_OVER = 52
+    INVOKER_EVENTS = {4, 5, 6, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 27,
+                      28, 31, 32, 33, 35, 38, 42, 45, 46, 53, 54, 62, 64, 65, 67, 70, 72, 73,
+                      74, 75, 82, 101, 105, 106, 107, 110, 111, 112, 113}   # EventHasInvoker
+    params_zeroed = []
+
+    def normalize_params(r, source_type, entry, et, at):
+        rid = int(float(_val(r["id"])))
+        n = ACTION_PARAMS_USED.get(at)
+        if n is not None:
+            for k in range(n + 1, 7):
+                if int(float(_val(r["action_param%d" % k]))):
+                    r["action_param%d" % k] = 0
+                    params_zeroed.append((source_type, entry, rid, "action_param%d" % k))
+        n = EVENT_PARAMS_USED.get(et)
+        if n is not None:
+            for k in range(n + 1, 5):
+                if int(float(_val(r["event_param%d" % k]))):
+                    r["event_param%d" % k] = 0
+                    params_zeroed.append((source_type, entry, rid, "event_param%d" % k))
+        # AC refuses an invoker target on an event that provides none (SmartAIMgr
+        # EventHasInvoker; timed actionlists and LINK rows are exempt) — 35769's
+        # respawn react-state. The action was meant for the script owner itself.
+        if (source_type != 9 and et != 61 and et not in INVOKER_EVENTS
+                and int(float(_val(r["target_type"]))) == 7):
+            r["target_type"] = 1
+            params_zeroed.append((source_type, entry, rid, "target 7->1 (event has no invoker)"))
+        if et == TEXT_OVER and source_type == 0 and not int(float(_val(r["event_param2"]))):
+            r["event_param2"] = entry      # "creature entry who talks": the script owner
+            params_zeroed.append((source_type, entry, rid, "event_param2=entry"))
+
+    dead_gates = []       # (st, entry, row id, spell) SPELLHIT on a spell nothing has
+    dead_summons = []     # (st, entry, row id, action, target entry) summon of nothing
+
     def collect(source_type, entry):
         nonlocal skipped, spell_skipped
         out = []
@@ -295,6 +337,14 @@ def emit(ctx):
                 spell_drops.setdefault(int(float(_val(r["action_param1"]))), []).append(
                     (source_type, entry, int(float(_val(r["id"])))))
                 continue
+            # I-383: a SPELLHIT gate on a spell no client has (Neltharion 151145/151146/
+            # 151150) can never fire; AC refuses it at load. Drop it like the cast rows.
+            if et == 8 and int(float(_val(r["event_param1"]))) and \
+                    int(float(_val(r["event_param1"]))) not in valid_spells:
+                dead_gates.append((source_type, entry, int(float(_val(r["id"]))),
+                                   int(float(_val(r["event_param1"])))))
+                skipped += 1
+                continue
             # I-274: opcode numbers are NOT identical across the two cores. An id
             # that means something else in AC must never be trusted through; one
             # that only moved gets rewritten to AC's number.
@@ -309,6 +359,7 @@ def emit(ctx):
                 remapped[at] = remapped.get(at, 0) + 1
             repair_cast_flags(r, source_type, entry, et, ACTION_REMAP.get(at, at))
             repair_escort_forced_movement(r, ACTION_REMAP.get(at, at))
+            normalize_params(r, source_type, entry, et, ACTION_REMAP.get(at, at))
             out.append(r)
         if out:
             rows_by_key[(source_type, entry)] = out
@@ -414,6 +465,43 @@ def emit(ctx):
                 direct.add((spell, cred))
                 sc_added += 1
 
+    # I-383: SUMMON_CREATURE (12) / SUMMON_GO (50) of an entry neither the port ships
+    # nor the world has (75115 Wondi's bunny, GO 202104 "Biggest Egg Ever" flavor) is
+    # refused by AC at load. Drop the row; checked against the collector, then live.
+    SUMMON_ACTIONS = {12: ("creature_template", "entry"), 50: ("gameobject_template", "entry")}
+    cand = {12: set(), 50: set()}
+    for rws in rows_by_key.values():
+        for r in rws:
+            at = _num(r["action_type"])
+            if at in SUMMON_ACTIONS:
+                tid = _num(r["action_param1"])
+                if tid and tid not in set(ctx.col.pks(SUMMON_ACTIONS[at][0])):
+                    cand[at].add(tid)
+    missing = {12: set(), 50: set()}
+    for at, ids in cand.items():
+        if not ids:
+            continue
+        import subprocess, sys
+        res = subprocess.run(
+            [sys.executable, "-m", "cli.zep", "world", "sql", "query",
+             "SELECT entry FROM %s WHERE entry IN (%s)"
+             % (SUMMON_ACTIONS[at][0], ",".join(map(str, sorted(ids))))],
+            capture_output=True, text=True,
+            cwd=os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+        missing[at] = ids - {int(x) for x in res.stdout.split() if x.strip().isdigit()}
+    for key in list(rows_by_key):
+        keep = []
+        for r in rows_by_key[key]:
+            at = _num(r["action_type"])
+            if at in missing and _num(r["action_param1"]) in missing[at]:
+                dead_summons.append((key[0], key[1], _num(r["id"]), at, _num(r["action_param1"])))
+                continue
+            keep.append(r)
+        if keep:
+            rows_by_key[key] = keep
+        else:
+            del rows_by_key[key]
+
     # I-383: relink past dropped tails. A head whose `link` row was dropped (the
     # 151xxx remove-aura tails on 34668 row 6 and GO 201736 row 1) logs
     # "Link Event N not found, skipped" to Errors.log every time it fires. Follow the
@@ -464,6 +552,26 @@ def emit(ctx):
         ctx.col.put("creature_template", e, {"AIName": "SmartAI"}, tier="overlay")
     for e in go:
         ctx.col.put("gameobject_template", e, {"AIName": "SmartGameObjectAI"}, tier="overlay")
+
+    # I-383: creatures.py keeps the donor AIName, but many donor SmartAI blocks never
+    # ship (out of scope, every row dropped, or the behaviour was C++). AC logs
+    # "has SmartAI enabled but no SmartAI entries" for each at startup — 117 of them.
+    # Blank AIName where this emitter ships no rows; an [I-xxx] override that authors
+    # rows for such an entry registers it in creatures.AI_NAME_PORTS.
+    spec = importlib.util.spec_from_file_location(
+        "goblin_gen_creatures", os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                             "creatures.py"))
+    _cr = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(_cr)
+    cre_set = set(cre)
+    ai_blanked = []
+    for e in ctx.col.pks("creature_template", owned=True):
+        if not isinstance(e, int) or e in cre_set or e in _cr.AI_NAME_PORTS or e in excl_cre:
+            continue
+        row = ctx.col.get("creature_template", e) or {}
+        if str(row.get("AIName") or "").strip() == "SmartAI":
+            ctx.col.put("creature_template", e, {"AIName": ""}, tier="overlay")
+            ai_blanked.append(e)
 
     for (st, e), rws in sorted(rows_by_key.items()):
         ctx.col.delete("smart_scripts", "source_type=%d AND entryorguid=%d" % (st, e))
@@ -549,6 +657,18 @@ def emit(ctx):
                     "stops here" % ("GO" if st == 1 else "creature" if st == 0
                                     else "actionlist", e, int(float(_val(r["id"]))), link))
 
+    for (st, e, rid, sp) in dead_gates:
+        drop_lines.append("    dead SPELLHIT gate %s %d row %d: spell %d exists nowhere"
+                          % ({0: "creature", 1: "GO", 9: "actionlist"}.get(st, st), e, rid, sp))
+    for (st, e, rid, at, tid) in dead_summons:
+        drop_lines.append("    dead summon %s %d row %d: action %d of nonexistent %d"
+                          % ({0: "creature", 1: "GO", 9: "actionlist"}.get(st, st), e, rid, at, tid))
+    for (st, e, rid, what) in params_zeroed:
+        drop_lines.append("    param fix %s %d row %d: %s"
+                          % ({0: "creature", 1: "GO", 9: "actionlist"}.get(st, st), e, rid, what))
+    if ai_blanked:
+        drop_lines.append("  AIName blanked on %d creature(s) with no shipped SmartAI: %s"
+                          % (len(ai_blanked), ",".join(map(str, sorted(ai_blanked)))))
     kind = {0: "creature", 1: "GO", 9: "actionlist"}
     for (st, e, rid, was, now) in relinked:
         drop_lines.append("    relinked %s %d row %d: link %d (dropped) -> %d"

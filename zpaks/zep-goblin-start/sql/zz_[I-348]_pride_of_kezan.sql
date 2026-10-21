@@ -11,8 +11,15 @@
 -- which is wider than "straight ahead" should read), and the type-13 condition
 -- is what TARGET_CHECK_ENTRY filters on — with no condition
 -- `SelectImplicitConeTargets` has nothing to match and the burst hits nothing.
--- Same pattern as I-257's 66301 knockback. 73477 (Wild Weasel Rockets) and
--- 74958 already carry their own type-13 rows from the port; those are untouched.
+-- Same pattern as I-257's 66301 knockback. 73477 (Wild Weasel Rockets) keeps its
+-- own type-13 row from the port.
+--
+-- 74958 (the bullet) does NOT: dbc/[I-348]_spell.sql retargets it to 6
+-- TARGET_UNIT_TARGET_ENEMY, a single explicit target, so the port's 13/1/74958 ->
+-- 39039 row filters nothing and AC logs "does not have implicit targets of types
+-- _AREA_, _CONE_, _NEARBY_" at every start (I-383). The cone above already limits
+-- what 73456 hands the bullet. This file sorts after the AUTO conditions file.
+DELETE FROM conditions WHERE SourceTypeOrReferenceId = 13 AND SourceEntry = 74958;
 
 DELETE FROM spell_cone WHERE ID = 73456;
 INSERT INTO spell_cone SET

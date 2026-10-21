@@ -90,9 +90,19 @@ def emit(ctx):
         "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS id FROM creature "
         "WHERE TRIM(zone) IN ('%s','%s')"
         " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)}  # no dev/leet NPCs (I-233)
-    # I-277: summon-only NPCs have no spawn row — pull their addons in too.
     import importlib.util as _ilu
     import os as _os
+    # I-383: same NOISE filter as creatures.py's spawn sweep. Without it the ELM /
+    # Wondi's bunnies creatures.py never ports kept their addon rows, and AC logged
+    # "Creature template (Entry: N) does not exist but has a record" at every start.
+    _pc = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "creatures.py")
+    _sc = _ilu.spec_from_file_location("goblin_gen_creatures", _pc)
+    _cr = _ilu.module_from_spec(_sc); _sc.loader.exec_module(_cr)
+    gob -= {_i(r["entry"]) for r in ctx.q("SELECT entry, name FROM creature_template")
+            if _i(r["entry"]) in gob and _i(r["entry"]) not in _cr.NOISE_KEEP
+            and any(k in str(r["name"] or "").lower() for k in _cr.NOISE)}
+    gob -= _cr.stock_creature_entries()   # stock creatures keep their stock addon
+    # I-277: summon-only NPCs have no spawn row — pull their addons in too.
     _p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "_summons.py")
     _s = _ilu.spec_from_file_location("goblin_gen__summons", _p)
     _m = _ilu.module_from_spec(_s); _s.loader.exec_module(_m)
@@ -104,6 +114,10 @@ def emit(ctx):
     # Full scan (non-indexed columns force the clustered/insertion-order scan);
     # filter by the goblin set in Python to preserve the source dump row order.
     emit_rows, dropped = [], 0
+    # I-383: a Cata mount display absent from our CreatureDisplayInfo (29681 on the
+    # Gallywix rows 35222/39582/39615) is dropped by AC with a load error anyway.
+    displays = {int(r["id"]) for r in ctx.dbc_query("SELECT id FROM creaturedisplayinfo")}
+    bad_mounts = []
     for r in ctx.q("SELECT entry,mount,bytes1,bytes2,emote,auras "
                    "FROM creature_template_addon"):
         entry = _i(r["entry"])
@@ -113,7 +127,11 @@ def emit(ctx):
         valid = [str(s) for s in (_i(x) for x in auras)
                  if s in present and s not in blind]
         dropped += len(auras) - len(valid)
-        emit_rows.append((entry, _i(r["mount"]), _i(r["bytes1"]), _i(r["bytes2"]),
+        mount = _i(r["mount"])
+        if mount and mount not in displays:
+            bad_mounts.append((entry, mount))
+            mount = 0
+        emit_rows.append((entry, mount, _i(r["bytes1"]), _i(r["bytes2"]),
                           _i(r["emote"]), " ".join(valid)))
 
     # visibilityDistanceType is ALWAYS 0 (Normal, 100yd) — I-337.
@@ -131,4 +149,6 @@ def emit(ctx):
         }, tier="base", owner="creature_addon")
     naura = sum(1 for e in emit_rows if e[5])
     return ("creature_template_addon=%d entries (%d with valid auras), %d Cata aura-spells dropped"
-            % (len(emit_rows), naura, dropped))
+            "%s" % (len(emit_rows), naura, dropped,
+                    "; mount display not in DBC, zeroed: %s" % ", ".join(
+                        "%d/%d" % m for m in bad_mounts) if bad_mounts else ""))

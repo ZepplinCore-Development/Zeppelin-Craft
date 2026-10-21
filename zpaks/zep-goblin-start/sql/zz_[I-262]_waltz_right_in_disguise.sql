@@ -29,7 +29,7 @@ INSERT INTO creature_template SET
   faction = 35,
   unit_class = 1,
   type = 7,
-  AIName = 'NullAI';
+  AIName = 'NullCreatureAI';
 
 DELETE FROM creature_template_model WHERE CreatureID = 948925;
 INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES

@@ -10,7 +10,6 @@
 -- F-011 smart_scripts (one file per table; rows carry final state)
 
 DELETE FROM smart_scripts WHERE entryorguid IN (195488,195489) AND source_type=1;
-DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=6827;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=33420;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=34668;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=34673;
@@ -66,7 +65,7 @@ DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=35894;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=35904;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=35917;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=35995;
-DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=35999;
+DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=36042;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=36092;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=36103;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=36104;
@@ -121,7 +120,6 @@ DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=38360;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=38381;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=38387;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=38409;
-DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=38412;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=38432;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=38441;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=38448;
@@ -171,9 +169,6 @@ DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=39598;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=40722;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=42473;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=44175;
-DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=44578;
-DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=44579;
-DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=44580;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=44588;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=44589;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=44590;
@@ -208,6 +203,8 @@ DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3487600;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3487700;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3487800;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3506300;
+DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3604200;
+DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3604201;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3651300;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3651301;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3660800;
@@ -230,10 +227,6 @@ DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3812400;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3822400;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3822700;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3840900;
-DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3841200;
-DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3841201;
-DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3841202;
-DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3841203;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3844800;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3864300;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=3864400;
@@ -261,7 +254,6 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (195489, 1, 2, 0, 70, 0, 100, 0, 2, 0, 0, 0, 0, 0, 50, 195492, 120, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.2, -2.1, 0, 0, 'Kaja''mite Deposit - On Activated (Kablooey Bombs) - Summon Kaja''mite Chunk 3/3 (I-256)');
 
 INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
-  (6827, 0, 0, 0, 11, 0, 100, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (33420, 0, 1, 0, 4, 0, 100, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (33420, 0, 2, 0, 0, 0, 100, 0, 0, 2000, 2000, 5000, 11, 71812, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (33420, 0, 3, 0, 4, 0, 100, 0, 0, 0, 0, 0, 8, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -316,7 +308,7 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (34872, 0, 0, 0, 20, 0, 100, 0, 14138, 0, 0, 0, 1, 0, 3000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'on quest saytext0'),
   (34872, 0, 1, 0, 52, 0, 100, 0, 0, 34872, 0, 0, 11, 87226, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'spellhit cadeau'),
   (34872, 0, 2, 0, 52, 0, 100, 0, 0, 34872, 0, 0, 1, 1, 3000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'link say text1'),
-  (34872, 0, 3, 0, 52, 0, 100, 0, 1, 0, 0, 0, 1, 2, 3000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'link say text2'),
+  (34872, 0, 3, 0, 52, 0, 100, 0, 1, 34872, 0, 0, 1, 2, 3000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'link say text2'),
   (34872, 0, 4, 0, 19, 0, 100, 0, 25473, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'on quest 25473 say text'),
   (34872, 0, 5, 0, 19, 0, 100, 0, 14124, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'on quest 14124 say text 4'),
   (34872, 0, 6, 0, 1, 0, 50, 0, 45000, 245000, 45000, 245000, 1, 5, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'criez say5'),
@@ -406,7 +398,7 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (35769, 0, 2, 0, 19, 0, 100, 0, 14021, 0, 0, 0, 134, 68062, 2, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (35769, 0, 3, 4, 62, 0, 100, 0, 510023, 1, 0, 0, 134, 68062, 2, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (35769, 0, 4, 0, 61, 0, 100, 0, 0, 0, 0, 0, 72, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (35769, 0, 5, 0, 11, 0, 100, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  (35769, 0, 5, 0, 11, 0, 100, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (35778, 0, 16, 0, 11, 0, 100, 1, 3000, 5000, 0, 0, 11, 44163, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Summon Imp Company'),
   (35786, 0, 0, 0, 19, 0, 100, 0, 14473, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (35786, 0, 1, 0, 20, 0, 100, 0, 14473, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -446,7 +438,8 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (35995, 0, 1, 0, 6, 0, 100, 0, 0, 0, 0, 0, 45, 1, 1, 0, 0, 0, 0, 19, 36042, 8, 0, 0, 0, 0, 0, 0, 0),
   (35995, 0, 2, 0, 6, 0, 100, 0, 0, 0, 0, 0, 11, 50630, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (35995, 0, 3, 0, 11, 0, 100, 0, 0, 0, 0, 0, 12, 36042, 6, 2000, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (35999, 0, 0, 0, 1, 0, 100, 1, 400, 400, 400, 400, 12, 350751, 7, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Summon gobelin on self'),
+  (36042, 0, 0, 0, 38, 0, 100, 1, 1, 1, 0, 0, 80, 3604200, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  (36042, 0, 1, 0, 54, 0, 100, 0, 0, 0, 0, 0, 80, 3604201, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (36092, 0, 201, 0, 1, 0, 100, 1, 0, 20000, 10000, 25000, 89, 15, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'move'),
   (36103, 0, 0, 1, 54, 0, 100, 0, 0, 0, 0, 0, 8, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (36103, 0, 1, 0, 61, 0, 100, 0, 0, 0, 0, 0, 89, 7, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -501,7 +494,7 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (36591, 0, 0, 0, 11, 0, 100, 0, 0, 0, 0, 0, 11, 76354, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (36600, 0, 0, 0, 64, 0, 100, 0, 0, 0, 0, 0, 10, 1, 3, 5, 6, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'On gossip Hello - Play Random Emote'),
   (36600, 0, 1, 2, 19, 0, 100, 0, 14474, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'On Quest 14474 Accept - Say'),
-  (36600, 0, 2, 0, 61, 0, 100, 0, 0, 0, 0, 0, 75, 67433, 1, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  (36600, 0, 2, 0, 61, 0, 100, 0, 0, 0, 0, 0, 75, 67433, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (36600, 0, 3, 0, 19, 0, 100, 0, 14001, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'On Quest 14001 Accept - Say'),
   (36600, 0, 4, 0, 8, 0, 100, 0, 98914, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (36600, 0, 5, 6, 4, 0, 100, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -534,7 +527,7 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (37598, 0, 0, 0, 54, 0, 100, 0, 0, 0, 0, 0, 80, 3759800, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (37598, 0, 1, 0, 40, 0, 100, 0, 3, 37598, 0, 0, 80, 3759801, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (37602, 0, 0, 0, 64, 0, 100, 0, 0, 0, 0, 0, 10, 1, 3, 5, 6, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'on gossip set emote'),
-  (37602, 0, 3, 0, 61, 0, 100, 0, 14125, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Remove aura when quest 14125 end'),
+  (37602, 0, 3, 0, 61, 0, 100, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Remove aura when quest 14125 end'),
   (37683, 0, 0, 0, 8, 0, 100, 0, 70330, 0, 0, 0, 80, 3506300, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (37804, 0, 202, 0, 1, 0, 100, 0, 30000, 120000, 30000, 120000, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'TEXT'),
   (37872, 0, 0, 0, 8, 0, 100, 0, 68280, 0, 0, 0, 80, 3787200, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -581,7 +574,6 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (38227, 0, 0, 1, 54, 0, 100, 0, 0, 0, 0, 0, 80, 3822700, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (38227, 0, 1, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 90000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Force Despawn after 20 sec'),
   (38227, 0, 2, 0, 38, 0, 100, 1, 1, 1, 0, 0, 41, 1000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Force Despawn after 20 sec'),
-  (38318, 0, 0, 1, 8, 0, 100, 0, 151145, 0, 0, 0, 11, 50630, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (38318, 0, 1, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (38318, 0, 2, 0, 2, 0, 100, 1, 1, 30, 15000, 15000, 1, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (38318, 0, 3, 0, 27, 0, 100, 0, 0, 0, 0, 0, 33, 38318, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -616,7 +608,6 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (38409, 0, 0, 0, 8, 0, 100, 1, 73583, 0, 0, 0, 80, 3840900, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (38409, 0, 1, 0, 11, 0, 100, 0, 0, 0, 0, 0, 42, 80, 80, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (38409, 0, 2, 0, 32, 0, 100, 1, 1, 120000, 60000, 60000, 42, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (38412, 0, 1, 0, 8, 0, 100, 1, 151147, 0, 0, 0, 88, 3841200, 3841203, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (38432, 0, 0, 0, 19, 0, 100, 0, 24868, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Quest 24868'),
   (38432, 0, 1, 0, 19, 0, 100, 0, 24864, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 24864),
   (38432, 0, 3, 0, 19, 0, 100, 0, 24897, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -743,7 +734,6 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (39194, 0, 3, 0, 6, 0, 100, 0, 0, 0, 0, 0, 11, 73711, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (39194, 0, 5, 0, 6, 0, 100, 0, 0, 0, 0, 0, 45, 1, 1, 0, 0, 0, 0, 19, 39195, 50, 0, 0, 0, 0, 0, 0, 0),
   (39194, 0, 6, 0, 4, 0, 100, 0, 0, 0, 0, 0, 64, 1, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (39194, 0, 7, 0, 6, 0, 100, 0, 0, 0, 0, 0, 12, 75129, 2, 30000, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (39195, 0, 0, 0, 38, 0, 100, 0, 1, 1, 0, 0, 37, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (39341, 0, 0, 0, 19, 0, 100, 0, 25184, 0, 0, 0, 80, 3934100, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (39354, 0, 0, 0, 6, 0, 100, 0, 0, 0, 0, 0, 11, 73852, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -781,29 +771,22 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (44175, 0, 6, 0, 11, 0, 100, 1, 0, 0, 0, 0, 88, 3803800, 3803802, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Apply Random Mask Aura'),
   (44175, 0, 7, 0, 6, 0, 100, 0, 0, 0, 0, 0, 11, 71240, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- On death, cast Training DummyDeath'),
   (44175, 0, 8, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- On death, Despawn'),
-  (44175, 0, 9, 0, 8, 0, 100, 0, 9734, 0, 0, 0, 99, 70, 70, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Priest - On spell hit, adjust hp (To Keep HP consistant)'),
-  (44175, 0, 10, 0, 8, 0, 100, 0, 60195, 0, 0, 0, 99, 65, 65, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Rogue - On spell hit, adjust hp (To Keep HP consistant)'),
-  (44175, 0, 11, 0, 8, 0, 100, 0, 6660, 0, 0, 0, 99, 72, 72, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Hunter - On spell hit, adjust hp (To Keep HP consistant)'),
-  (44175, 0, 12, 0, 8, 0, 100, 0, 9739, 0, 0, 0, 99, 68, 68, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Druid - On spell hit, adjust hp (To Keep HP consistant)'),
-  (44175, 0, 13, 0, 8, 0, 100, 0, 20797, 0, 0, 0, 99, 62, 62, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Mage - On spell hit, adjust hp (To Keep HP consistant)'),
-  (44175, 0, 14, 0, 8, 0, 100, 0, 20791, 0, 0, 0, 99, 65, 65, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Warlock - On spell hit, adjust hp (To Keep HP consistant)'),
-  (44175, 0, 15, 0, 8, 0, 100, 0, 25710, 0, 0, 0, 99, 65, 65, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Warrior - On spell hit, adjust hp (To Keep HP consistant)'),
-  (44175, 0, 16, 0, 8, 0, 100, 0, 20802, 0, 0, 0, 99, 65, 65, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Shaman - On spell hit, adjust hp (To Keep HP consistant)'),
+  (44175, 0, 9, 0, 8, 0, 100, 0, 9734, 0, 0, 0, 99, 70, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Priest - On spell hit, adjust hp (To Keep HP consistant)'),
+  (44175, 0, 10, 0, 8, 0, 100, 0, 60195, 0, 0, 0, 99, 65, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Rogue - On spell hit, adjust hp (To Keep HP consistant)'),
+  (44175, 0, 11, 0, 8, 0, 100, 0, 6660, 0, 0, 0, 99, 72, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Hunter - On spell hit, adjust hp (To Keep HP consistant)'),
+  (44175, 0, 12, 0, 8, 0, 100, 0, 9739, 0, 0, 0, 99, 68, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Druid - On spell hit, adjust hp (To Keep HP consistant)'),
+  (44175, 0, 13, 0, 8, 0, 100, 0, 20797, 0, 0, 0, 99, 62, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Mage - On spell hit, adjust hp (To Keep HP consistant)'),
+  (44175, 0, 14, 0, 8, 0, 100, 0, 20791, 0, 0, 0, 99, 65, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Warlock - On spell hit, adjust hp (To Keep HP consistant)'),
+  (44175, 0, 15, 0, 8, 0, 100, 0, 25710, 0, 0, 0, 99, 65, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Warrior - On spell hit, adjust hp (To Keep HP consistant)'),
+  (44175, 0, 16, 0, 8, 0, 100, 0, 20802, 0, 0, 0, 99, 65, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Shaman - On spell hit, adjust hp (To Keep HP consistant)'),
   (44175, 0, 17, 0, 8, 0, 100, 0, 56641, 0, 0, 0, 33, 48304, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'F-011 - On Spell Hit 56641 - Quest 14007 Credit 48304 (RequiredSpellCast port, I-247)'),
   (44175, 0, 18, 0, 8, 0, 100, 0, 2098, 0, 0, 0, 33, 48304, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'F-011 - On Spell Hit 2098 - Quest 14010 Credit 48304 (RequiredSpellCast port, I-247)'),
   (44175, 0, 19, 0, 8, 0, 100, 0, 73899, 0, 0, 0, 33, 48304, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'F-011 - On Spell Hit 73899 - Quest 14011 Credit 48304 (RequiredSpellCast port, I-247)'),
   (44175, 0, 20, 0, 8, 0, 100, 0, 348, 0, 0, 0, 33, 48304, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'F-011 - On Spell Hit 348 - Quest 14012 Credit 48304 (RequiredSpellCast port, I-247)'),
   (44175, 0, 21, 0, 8, 0, 100, 0, 100, 0, 0, 0, 33, 48304, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'F-011 - On Spell Hit 100 - Quest 14013 Credit 48304 (RequiredSpellCast port, I-247)'),
-  (44578, 0, 1, 0, 8, 0, 100, 1, 151147, 0, 0, 0, 88, 3841200, 3841203, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (44579, 0, 1, 0, 8, 0, 100, 1, 151147, 0, 0, 0, 88, 3841200, 3841203, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (44580, 0, 1, 0, 8, 0, 100, 1, 151147, 0, 0, 0, 88, 3841200, 3841203, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (44588, 0, 0, 0, 8, 0, 100, 1, 151146, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (44588, 0, 1, 0, 54, 0, 100, 0, 0, 0, 0, 0, 29, 2, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (44589, 0, 0, 0, 8, 0, 100, 1, 151146, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (44589, 0, 1, 0, 54, 0, 100, 0, 0, 0, 0, 0, 29, 2, 45, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (44590, 0, 0, 0, 8, 0, 100, 1, 151146, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (44590, 0, 1, 0, 54, 0, 100, 0, 0, 0, 0, 0, 29, 2, 315, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (44591, 0, 0, 0, 8, 0, 100, 1, 151146, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (44591, 0, 1, 0, 54, 0, 100, 0, 0, 0, 0, 0, 29, 4, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (48304, 0, 0, 0, 8, 0, 100, 0, 5143, 0, 1200, 1500, 33, 44175, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Mage Quest - On spell hit Arcane Missile, give quest credit'),
   (48304, 0, 1, 0, 8, 0, 100, 0, 73899, 0, 1200, 1500, 33, 44175, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Shaman Quest - On spell hit Primal Strike, give quest credit'),
@@ -814,14 +797,14 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (48304, 0, 6, 0, 11, 0, 100, 1, 0, 0, 0, 0, 88, 3803800, 3803802, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Apply Random Mask Aura'),
   (48304, 0, 7, 0, 6, 0, 100, 0, 0, 0, 0, 0, 11, 71240, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- On death, cast Training DummyDeath'),
   (48304, 0, 8, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- On death, Despawn'),
-  (48304, 0, 9, 0, 8, 0, 100, 0, 9734, 0, 0, 0, 99, 70, 70, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Priest - On spell hit, adjust hp (To Keep HP consistant)'),
-  (48304, 0, 10, 0, 8, 0, 100, 0, 60195, 0, 0, 0, 99, 65, 65, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Rogue - On spell hit, adjust hp (To Keep HP consistant)'),
-  (48304, 0, 11, 0, 8, 0, 100, 0, 6660, 0, 0, 0, 99, 72, 72, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Hunter - On spell hit, adjust hp (To Keep HP consistant)'),
-  (48304, 0, 12, 0, 8, 0, 100, 0, 9739, 0, 0, 0, 99, 68, 68, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Druid - On spell hit, adjust hp (To Keep HP consistant)'),
-  (48304, 0, 13, 0, 8, 0, 100, 0, 20797, 0, 0, 0, 99, 62, 62, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Mage - On spell hit, adjust hp (To Keep HP consistant)'),
-  (48304, 0, 14, 0, 8, 0, 100, 0, 20791, 0, 0, 0, 99, 65, 65, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Warlock - On spell hit, adjust hp (To Keep HP consistant)'),
-  (48304, 0, 15, 0, 8, 0, 100, 0, 25710, 0, 0, 0, 99, 65, 65, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Warrior - On spell hit, adjust hp (To Keep HP consistant)'),
-  (48304, 0, 16, 0, 8, 0, 100, 0, 20802, 0, 0, 0, 99, 65, 65, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Shaman - On spell hit, adjust hp (To Keep HP consistant)'),
+  (48304, 0, 9, 0, 8, 0, 100, 0, 9734, 0, 0, 0, 99, 70, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Priest - On spell hit, adjust hp (To Keep HP consistant)'),
+  (48304, 0, 10, 0, 8, 0, 100, 0, 60195, 0, 0, 0, 99, 65, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Rogue - On spell hit, adjust hp (To Keep HP consistant)'),
+  (48304, 0, 11, 0, 8, 0, 100, 0, 6660, 0, 0, 0, 99, 72, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Hunter - On spell hit, adjust hp (To Keep HP consistant)'),
+  (48304, 0, 12, 0, 8, 0, 100, 0, 9739, 0, 0, 0, 99, 68, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Druid - On spell hit, adjust hp (To Keep HP consistant)'),
+  (48304, 0, 13, 0, 8, 0, 100, 0, 20797, 0, 0, 0, 99, 62, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Mage - On spell hit, adjust hp (To Keep HP consistant)'),
+  (48304, 0, 14, 0, 8, 0, 100, 0, 20791, 0, 0, 0, 99, 65, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Warlock - On spell hit, adjust hp (To Keep HP consistant)'),
+  (48304, 0, 15, 0, 8, 0, 100, 0, 25710, 0, 0, 0, 99, 65, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Warrior - On spell hit, adjust hp (To Keep HP consistant)'),
+  (48304, 0, 16, 0, 8, 0, 100, 0, 20802, 0, 0, 0, 99, 65, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Training Dummy- Fight Novice Darkspear Shaman - On spell hit, adjust hp (To Keep HP consistant)'),
   (48304, 0, 17, 0, 8, 0, 100, 0, 56641, 0, 0, 0, 33, 48304, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'F-011 - On Spell Hit 56641 - Quest 14007 Credit 48304 (RequiredSpellCast port, I-247)'),
   (48304, 0, 18, 0, 8, 0, 100, 0, 2098, 0, 0, 0, 33, 48304, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'F-011 - On Spell Hit 2098 - Quest 14010 Credit 48304 (RequiredSpellCast port, I-247)'),
   (48304, 0, 19, 0, 8, 0, 100, 0, 73899, 0, 0, 0, 33, 48304, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'F-011 - On Spell Hit 73899 - Quest 14011 Credit 48304 (RequiredSpellCast port, I-247)'),
@@ -861,13 +844,11 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (75106, 0, 0, 1, 73, 0, 100, 0, 0, 0, 0, 0, 134, 70015, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (75106, 0, 1, 0, 61, 0, 100, 0, 0, 0, 0, 0, 28, 49416, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (75107, 0, 0, 0, 1, 0, 100, 0, 0, 5000, 8000, 15000, 10, 15, 5, 11, 19, 25, 274, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (75113, 0, 0, 0, 11, 0, 100, 0, 0, 0, 0, 0, 50, 201972, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (75113, 0, 1, 2, 8, 0, 100, 0, 98914, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 20, 201972, 3, 0, 0, 0, 0, 0, 0, 0),
   (75113, 0, 2, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 1000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (75116, 0, 0, 0, 60, 0, 100, 0, 0, 0, 60000, 60000, 49, 0, 0, 0, 0, 0, 0, 19, 0, 10, 0, 0, 0, 0, 0, 0, 0),
   (75116, 0, 3, 0, 54, 0, 100, 0, 0, 0, 0, 0, 88, 7511600, 7511602, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (75116, 0, 5, 0, 8, 0, 100, 1, 72207, 0, 0, 0, 22, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (75116, 0, 6, 0, 8, 0, 100, 1, 151150, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (75116, 0, 7, 8, 40, 0, 100, 1, 4, 75116, 0, 0, 49, 0, 0, 0, 0, 0, 0, 19, 38526, 10, 0, 0, 0, 0, 0, 0, 0),
   (75116, 0, 8, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 8000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (366150, 0, 0, 0, 60, 0, 100, 0, 20000, 30000, 10000, 50000, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Talk on update'),
@@ -925,6 +906,10 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3487800, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 34878, 0, 0, 0, 0, 0, 18, 35, 0, 0, 0, 0, 0, 0, 0, 0),
   (3487800, 9, 4, 0, 0, 0, 100, 0, 0, 0, 0, 0, 41, 4000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3506300, 9, 0, 0, 0, 0, 100, 0, 3000, 3000, 0, 0, 24, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  (3604200, 9, 0, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 66, 0, 0, 0, 0, 0, 0, 21, 50, 0, 0, 0, 0, 0, 0, 0, 0),
+  (3604200, 9, 1, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 1, 0, 0, 0, 0, 0, 0, 21, 50, 0, 0, 0, 0, 0, 0, 0, 0),
+  (3604200, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 41, 2000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  (3604201, 9, 0, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 11, 46598, 0, 0, 0, 0, 0, 19, 35995, 10, 0, 0, 0, 0, 0, 0, 0),
   (3651300, 9, 0, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 66, 0, 0, 0, 0, 0, 0, 12, 1, 0, 0, 0, 0, 0, 0, 0, 0),
   (3651300, 9, 1, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 1, 0, 0, 0, 0, 0, 0, 12, 1, 0, 0, 0, 0, 0, 0, 0, 0),
   (3651300, 9, 2, 0, 0, 0, 100, 0, 7500, 7500, 0, 0, 66, 0, 0, 0, 0, 0, 0, 12, 1, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -1020,11 +1005,8 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3812000, 9, 6, 0, 0, 0, 100, 0, 0, 0, 0, 0, 17, 26, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3812400, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3812400, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3812400, 9, 2, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 50, 202104, 17, 0, 0, 0, 0, 8, 0, 0, 0, 0, 905.573, 2340.72, 5.5, 0.628042, 0),
   (3812400, 9, 3, 0, 0, 0, 100, 0, 4500, 4500, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3812400, 9, 4, 0, 0, 0, 100, 0, 6500, 6500, 0, 0, 1, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3812400, 9, 5, 0, 0, 0, 100, 0, 3000, 3000, 0, 0, 12, 75115, 2, 8000, 0, 0, 0, 8, 0, 0, 0, 0, 907.714, 2338.46, 9.608, 6.06, 0),
-  (3812400, 9, 6, 0, 0, 0, 100, 0, 0, 0, 0, 0, 12, 75115, 2, 8000, 0, 0, 0, 8, 0, 0, 0, 0, 907.714, 2338.46, 9.608, 6.06, 0),
   (3812400, 9, 7, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 81, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3822400, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 71423, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3822400, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 81312, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -1038,30 +1020,6 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3840900, 9, 3, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 66, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3840900, 9, 4, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3840900, 9, 6, 0, 0, 0, 100, 0, 0, 0, 0, 0, 41, 2000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841200, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841200, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 18, 768, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841200, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 71917, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841200, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 38413, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841200, 9, 4, 0, 0, 0, 100, 0, 3000, 3000, 0, 0, 86, 71919, 2, 7, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841200, 9, 5, 0, 0, 0, 100, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841201, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841201, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 18, 768, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841201, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 71917, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841201, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 38413, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841201, 9, 4, 0, 0, 0, 100, 0, 3000, 3000, 0, 0, 86, 71918, 2, 7, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841201, 9, 5, 0, 0, 0, 100, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841202, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841202, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 18, 768, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841202, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 71917, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841202, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 38413, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841202, 9, 4, 0, 0, 0, 100, 0, 3000, 3000, 0, 0, 86, 83115, 2, 7, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841202, 9, 5, 0, 0, 0, 100, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841203, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841203, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 18, 768, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841203, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 71917, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841203, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 38413, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841203, 9, 4, 0, 0, 0, 100, 0, 3000, 3000, 0, 0, 86, 83116, 2, 7, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  (3841203, 9, 5, 0, 0, 0, 100, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3844800, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 62, 648, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 131.559, 1938.31, 18.62, 0, 0),
   (3844800, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 18, 768, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (3844800, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 139.28, 1933.99, 7.181, 0.1899, 0),

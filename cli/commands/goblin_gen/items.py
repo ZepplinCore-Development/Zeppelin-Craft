@@ -127,7 +127,7 @@ def emit(ctx):
         cols["Material"] = _gi(s, "Material") or _gi(m, "Material"); cols["sheath"] = _gi(s, "SheatheType") or _gi(m, "SheatheType")
         cols["RandomProperty"] = 0; cols["RandomSuffix"] = 0; cols["block"] = 0
         cols["itemset"] = _gi(s, "ItemSet"); cols["MaxDurability"] = _gi(s, "MaxDurability")
-        cols["area"] = 0; cols["Map"] = 0; cols["BagFamily"] = _gi(s, "BagFamily"); cols["TotemCategory"] = _gi(s, "TotemCategoryID")
+        cols["area"] = 0; cols["Map"] = 0; cols["BagFamily"] = _gi(s, "BagFamily") & 0x7FFF; cols["TotemCategory"] = _gi(s, "TotemCategoryID")
         for n in range(1, 4):
             cols["socketColor_%d" % n] = _gi(s, "SocketType_%d" % (n - 1)); cols["socketContent_%d" % n] = 0
         cols["socketBonus"] = _gi(s, "Socket_match_enchantment_ID"); cols["GemProperties"] = _gi(s, "Gem_properties")

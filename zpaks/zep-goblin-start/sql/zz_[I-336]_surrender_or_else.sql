@@ -167,8 +167,10 @@ INSERT INTO smart_scripts
    `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
   -- event 54 JUST_SUMMONED: invoker is the summoner, i.e. the player who accepted the quest.
   (38455, 0, 0, 0, 54, 0, 100, 0,  0,     0, 0, 0, 0, 0, 80, 3845500, 0, 0, 0, 0, 0,  1,     0,  0, 0, 0, 0, 0, 0, 0, 'Ace - On Just Summoned - Run Intro Actionlist (I-336)'),
-  (38455, 0, 1, 0, 40, 0, 100, 0, 13, 38455, 0, 0, 0, 0,  1,       2, 0, 0, 0, 0, 0,  7,     0,  0, 0, 0, 0, 0, 0, 0, 'Ace - On Waypoint 13 Reached - Say Line 2 (I-336)'),
-  (38455, 0, 2, 0, 40, 0, 100, 0, 20, 38455, 0, 0, 0, 0,  1,       3, 0, 0, 0, 0, 0,  7,     0,  0, 0, 0, 0, 0, 0, 0, 'Ace - On Waypoint 20 Reached - Say Line 3 (I-336)'),
+  -- Target 23 OWNER_OR_SUMMONER (the quest player), not 7: WAYPOINT_REACHED provides
+  -- no invoker and AC refuses a row targeting one at load (I-383).
+  (38455, 0, 1, 0, 40, 0, 100, 0, 13, 38455, 0, 0, 0, 0,  1,       2, 0, 0, 0, 0, 0, 23,     0,  0, 0, 0, 0, 0, 0, 0, 'Ace - On Waypoint 13 Reached - Say Line 2 (I-336)'),
+  (38455, 0, 2, 0, 40, 0, 100, 0, 20, 38455, 0, 0, 0, 0,  1,       3, 0, 0, 0, 0, 0, 23,     0,  0, 0, 0, 0, 0, 0, 0, 'Ace - On Waypoint 20 Reached - Say Line 3 (I-336)'),
   (38455, 0, 3, 0, 40, 0, 100, 0, 35, 38455, 0, 0, 0, 0, 80, 3845501, 0, 0, 0, 0, 0,  1,     0,  0, 0, 0, 0, 0, 0, 0, 'Ace - On Waypoint 35 Reached - Run Showdown Actionlist (I-336)'),
   -- SmartAI fires SMART_EVENT_DEATH before despawning an escort whose player walked off.
   (38455, 0, 4, 0,  6, 0, 100, 0,  0,     0, 0, 0, 0, 0, 41,       0, 0, 0, 0, 0, 0, 11, 38457, 80, 1, 0, 0, 0, 0, 0, 'Ace - On Death/Escort Abandoned - Despawn Naga Hatchlings (I-336)'),

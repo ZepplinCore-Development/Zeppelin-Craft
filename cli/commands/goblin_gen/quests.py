@@ -121,19 +121,40 @@ def emit(ctx):
     qids = sorted(qt)
     print("LI quests with source data:", len(qids), "of", len(QIDS))
 
+    # I-383: three quest fields AC validates at load and drops with an Errors.log line.
+    #   QuestSortID 4707 is the Cata map-1 copy of the Lost Isles zone (map-648 4720 here);
+    #   RewardDisplaySpell is a client "Quest Complete" visual the port does not carry;
+    #   RewardNextQuest 25267 "Message for Garrosh" is an Orgrimmar quest, out of scope.
+    ZONE_SORT_REMAP = {4707: 4720}
+    present_spells = ctx.dbc_spell_ids()
+    next_ids = {gi(qt[q], "NextQuestIdChain") for q in qids} - set(QIDS) - {0}
+    stock_next = set()
+    if next_ids:
+        import subprocess, sys
+        r = subprocess.run(
+            [sys.executable, "-m", "cli.zep", "world", "sql", "query",
+             "SELECT ID FROM quest_template WHERE ID IN (%s)" % ",".join(map(str, sorted(next_ids)))],
+            capture_output=True, text=True,
+            cwd=os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+        stock_next = {int(x) for x in r.stdout.split() if x.strip().isdigit()}
+
     # ---- quest_template ----
     for qid in qids:
         s = qt[qid]
         col = {
             "ID": qid, "QuestType": gi(s, "Method"), "QuestLevel": gi(s, "Level"),
-            "MinLevel": gi(s, "MinLevel"), "QuestSortID": gi(s, "ZoneOrSort"),
+            "MinLevel": gi(s, "MinLevel"),
+            "QuestSortID": ZONE_SORT_REMAP.get(gi(s, "ZoneOrSort"), gi(s, "ZoneOrSort")),
             "QuestInfoID": gi(s, "Type"), "SuggestedGroupNum": gi(s, "SuggestedPlayers"),
             "RequiredFactionId1": 0, "RequiredFactionId2": 0,
             "RequiredFactionValue1": 0, "RequiredFactionValue2": 0,
-            "RewardNextQuest": gi(s, "NextQuestIdChain"),
+            "RewardNextQuest": (lambda n: n if n in QIDS or n in stock_next else 0)(
+                gi(s, "NextQuestIdChain")),
             "RewardXPDifficulty": gi(s, "RewardXPId"), "RewardMoney": gi(s, "RewardOrRequiredMoney"),
             "RewardMoneyDifficulty": gi(s, "RewardMoneyMaxLevel"),
-            "RewardDisplaySpell": gi(s, "RewardSpellCast"), "RewardSpell": gi(s, "RewardSpell"),
+            "RewardDisplaySpell": (lambda sp: sp if sp in present_spells else 0)(
+                gi(s, "RewardSpellCast")),
+            "RewardSpell": gi(s, "RewardSpell"),
             "RewardHonor": gi(s, "RewardHonor"), "RewardKillHonor": 0,
             "StartItem": rm(s["SourceItemId"]), "Flags": gi(s, "Flags"),
             "RequiredPlayerKills": gi(s, "RequiredPlayerKills"),

@@ -59,6 +59,7 @@ INSERT INTO `creature_text`
   (36608, 4, 0, 'Stay back, I''m going to resuscitate $g him:her;! I hope these wet jumper cables don''t kill us all!', 12, 0, 100, 5, 0, 0, 0, 0, 'Doc Zapnozzle - before the jolts (source)'),
   (36608, 5, 0, 'That''s all I''ve got. It''s up to $g him:her; now. You hear me, $n? Come on, snap out of it! Don''t go into the Light!', 12, 0, 100, 5, 0, 0, 0, 0, 'Doc Zapnozzle - last jolt (source)'),
   (36608, 6, 0, 'There are more survivors to tend to. I''ll see you on the shore.', 12, 0, 100, 1, 0, 0, 0, 0, 'Doc Zapnozzle - parting line (source, unused)'),
+  (36600, 0, 0, 'Yeah, there are lots of people stuck in escape pods, boss. Uh, wait. I guess you''re not really the boss anymore. Anyway, they''ll probably all drown if we don''t help them.', 12, 0, 100, 1, 0, 0, 0, 0, 'Geargrinder Gizmo - on quest 14001 / 14474 accept (source, de-garbled; I-383)'),
   (36600, 1, 0, 'That''s $n?! Sorry, Doc, I thought $g he:she; was dead!', 12, 0, 100, 5, 0, 0, 0, 0, 'Geargrinder Gizmo - reply to Doc (source)');
 
 

@@ -160,10 +160,11 @@ INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, Display
 -- KILL_CREDIT (effect 90) for these entries, so each taming quest shows
 -- "<Beast> tamed 0/1" and killing the real beast never counts.
 DELETE FROM creature_template WHERE entry BETWEEN @CR_RAPTOR AND @CR_TURTLE;
-INSERT INTO creature_template (entry, name, subname, minlevel, maxlevel, faction, unit_flags, flags_extra, RegenHealth) VALUES
-  (@CR_RAPTOR,  'Teraptor Bull tamed',       'I-376 credit', 1, 1, 35, 33554432, 130, 1),
-  (@CR_PANTHER, 'Jungle Panther tamed',      'I-376 credit', 1, 1, 35, 33554432, 130, 1),
-  (@CR_TURTLE,  'Contaminated Turtle tamed', 'I-376 credit', 1, 1, 35, 33554432, 130, 1);
+-- unit_class 1: the column defaults to 0, which AC rejects at load (I-383).
+INSERT INTO creature_template (entry, name, subname, minlevel, maxlevel, faction, unit_class, unit_flags, flags_extra, RegenHealth) VALUES
+  (@CR_RAPTOR,  'Teraptor Bull tamed',       'I-376 credit', 1, 1, 35, 1, 33554432, 130, 1),
+  (@CR_PANTHER, 'Jungle Panther tamed',      'I-376 credit', 1, 1, 35, 1, 33554432, 130, 1),
+  (@CR_TURTLE,  'Contaminated Turtle tamed', 'I-376 credit', 1, 1, 35, 1, 33554432, 130, 1);
 DELETE FROM creature_template_model WHERE CreatureID BETWEEN @CR_RAPTOR AND @CR_TURTLE;
 INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES
   (@CR_RAPTOR, 0, 11686, 1, 1, 0), (@CR_PANTHER, 0, 11686, 1, 1, 0), (@CR_TURTLE, 0, 11686, 1, 1, 0);

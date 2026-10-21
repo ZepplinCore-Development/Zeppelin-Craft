@@ -291,7 +291,7 @@ def item_cols(wm, cata, newid):
     cols["MaxDurability"] = 0         # not stored in 4.3.4 DB2 (client-computed)
     cols["area"] = 0
     cols["Map"] = 0
-    cols["BagFamily"] = si(116)
+    cols["BagFamily"] = si(116) & 0x7FFF  # I-383: ItemBagFamily.dbc ids 1-15 only (bit 15 = Cata Fishing Supplies)
     cols["TotemCategory"] = si(117)
     for n in range(1, 4):
         cols["socketColor_%d" % n] = si(117 + n)

@@ -69,6 +69,13 @@ CPP_SUMMONS = {
 }
 
 
+# SmartAI SUMMON_CREATURE (action 12) targets the spell sweep cannot see: no spell, no
+# C++ — a donor SAI row summons them directly. Same treatment as CPP_SUMMONS (I-383).
+SAI_SUMMONS = {
+    36042: "35995 Strangle Vine row 3",   # Orc Scout, freed when the vine dies
+}
+
+
 def _sibling(modname):
     """Load a sibling gen module (domains are file-loaded, not a package)."""
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), modname + ".py")
@@ -117,8 +124,8 @@ def summoned_entries(ctx):
     out = {}
     for sid, entry, _props in _summon_effects(ctx):
         out.setdefault(entry, sid)
-    if CPP_SUMMONS:
-        ids = ",".join(str(int(e)) for e in sorted(CPP_SUMMONS))
+    if CPP_SUMMONS or SAI_SUMMONS:
+        ids = ",".join(str(int(e)) for e in sorted(set(CPP_SUMMONS) | set(SAI_SUMMONS)))
         for r in ctx.q("SELECT entry FROM creature_template WHERE entry IN (%s)" % ids):
             out.setdefault(int(r["entry"]), 0)
     ctx._summoned_entries_cache = out

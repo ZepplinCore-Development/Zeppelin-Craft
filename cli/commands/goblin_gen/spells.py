@@ -46,6 +46,11 @@ def _scope():
     return mod
 
 # conditions column order (mirrors spellclick.py's type-18 port)
+# Implicit targets whose selection category is NEARBY/CONE/AREA/TRAJ (AC
+# SpellImplicitTargetInfo::_data) and the area-aura effects ConditionMgr also accepts.
+SEARCH_TARGETS = {2, 3, 4, 7, 8, 15, 16, 20, 24, 30, 31, 33, 34, 37, 38, 40, 46, 51, 52,
+                  54, 56, 58, 59, 60, 61, 89, 93, 104, 108}
+AREA_AURA_EFFECTS = {27, 35, 65, 119, 128, 129, 143}
 _COND_COLS = ("SourceTypeOrReferenceId", "SourceGroup", "SourceEntry", "SourceId",
               "ElseGroup", "ConditionTypeOrReference", "ConditionTarget",
               "ConditionValue1", "ConditionValue2", "ConditionValue3",
@@ -284,6 +289,15 @@ F = dict(cast=12, dur=13, power=14, rng=15, speed=16, vis=17, icon=19, active=20
          equipped=39, interrupts=40, levels=41, targetres=45, auraopt=32)
 
 
+def _sibling(modname):
+    """Load a sibling gen module (domains are file-loaded, not a package)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), modname + ".py")
+    spec = importlib.util.spec_from_file_location("goblin_gen_" + modname, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def _rd(path):
     """Open a WDBC and return (bytes, field_count, record_size, str_reader, row_iter).
 
@@ -452,10 +466,44 @@ def emit(ctx):
                 c["effect_spell_class_mask_a_%d" % n] = e[18]; c["effect_spell_class_mask_b_%d" % n] = e[19]; c["effect_spell_class_mask_c_%d" % n] = e[20]
         sql_rows.append((sid, name, c))
 
+    final_spell = {}
     for sid, name, c in sql_rows:
         c = {k: (v & 0xFFFFFFFF if (k in UMASK and isinstance(v, int) and v < 0) else v) for k, v in c.items()}
         c.update(EFFECT_OVERRIDE.get(sid, {}))
+        final_spell[sid] = c
         ctx.col.put("spell", sid, c, tier="base", owner="spells", note="%d %s" % (sid, name))
+
+    def _cond_effect_ok(c, n):
+        """AC ConditionMgr: a SourceType-13 row only applies where effect n searches."""
+        if (c.get("effect_implicit_target_a_%d" % n, 0) in SEARCH_TARGETS
+                or c.get("effect_implicit_target_b_%d" % n, 0) in SEARCH_TARGETS):
+            return True
+        return (c.get("effect_%d" % n, 0) in AREA_AURA_EFFECTS
+                or c.get("effect_chain_targets_%d" % n, 0) > 1)
+    cond_ignored = []
+    # I-383: CONDITION_OBJECT_ENTRY_GUID rows naming an entry that exists nowhere are
+    # skipped by AC at load ("non existing creature template entry"): the NOISE filter
+    # drops the donor's bunnies (44775 "Generic Bunny - PRK", 75047/75123 Wondi's), and
+    # GO 202463 has no donor spawn. The quests these spells serve were verified working
+    # without the rows, so drop them rather than resurrect the markers (that would move
+    # where the 447 summons land). To make a marker real, add it to creatures.NOISE_KEEP.
+    # "Exists" = stock AC, collected by this run, or already in the live world.
+    def _missing(table, ids):
+        ids = set(ids) - set(ctx.col.pks(table))
+        if table == "creature_template":
+            ids -= _sibling("creatures").stock_creature_entries()
+        if not ids:
+            return set()
+        import subprocess, sys
+        res = subprocess.run(
+            [sys.executable, "-m", "cli.zep", "world", "sql", "query",
+             "SELECT entry FROM %s WHERE entry IN (%s)" % (table, ",".join(map(str, sorted(ids))))],
+            capture_output=True, text=True, cwd=os.path.dirname(os.path.dirname(
+                os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+        if res.returncode != 0:
+            raise RuntimeError("world query failed: %s" % res.stderr[-300:])
+        return ids - {int(x) for x in res.stdout.split() if x.strip().isdigit()}
+    cond_unshipped = []
 
     # world-side: SourceType-13 (SPELL_IMPLICIT_TARGET) conditions of the ported spells.
     # A TARGET_UNIT_*_AREA_ENTRY effect selects NOTHING without its entry condition —
@@ -465,6 +513,20 @@ def emit(ctx):
     crows = ctx.q("SELECT * FROM conditions WHERE SourceTypeOrReferenceId=13 "
                   "AND SourceEntry IN (%s) ORDER BY SourceEntry,SourceGroup,ElseGroup" % sin)
     ctx.col.delete("conditions", "SourceTypeOrReferenceId=13 AND SourceEntry IN (%s)" % sin)
+    # spells this run does not (re)emit still have their target data in the live DBC
+    _need = sorted({int(r["SourceEntry"]) for r in crows} - set(final_spell))
+    live_spell = {}
+    if _need:
+        _tc = ["effect_%d" % n for n in (1, 2, 3)] + \
+              ["effect_implicit_target_%s_%d" % (ab, n) for ab in "ab" for n in (1, 2, 3)]
+        for r in ctx.dbc_query("SELECT id, %s FROM spell WHERE id IN (%s)"
+                               % (", ".join(_tc), ",".join(map(str, _need)))):
+            live_spell[int(r["id"])] = {k: int(r[k] or 0) for k in _tc}
+    _c31 = [r for r in crows if int(r["ConditionTypeOrReference"] or 0) == 31]
+    _gone = {3: _missing("creature_template", {int(r["ConditionValue2"] or 0) for r in _c31
+                                               if int(r["ConditionValue1"] or 0) == 3}),
+             5: _missing("gameobject_template", {int(r["ConditionValue2"] or 0) for r in _c31
+                                                 if int(r["ConditionValue1"] or 0) == 5})}
     for r in crows:
         row = {}
         for col in _COND_COLS:
@@ -476,7 +538,24 @@ def emit(ctx):
         ov = COND_TARGET_OVERRIDE.get((row["SourceEntry"], row["SourceGroup"]))
         if ov:
             row["ConditionValue1"], row["ConditionValue2"] = ov
+        if row["ConditionTypeOrReference"] == 31 and \
+                row["ConditionValue2"] in _gone.get(row["ConditionValue1"], ()):
+            cond_unshipped.append((row["SourceEntry"], row["ConditionValue2"]))
+            continue
+        # I-383: AC ignores (and logs) a row whose effect mask covers an effect that does
+        # not search for targets — 73532 summons at a dest, 74958 hits its explicit target.
+        fs = final_spell.get(row["SourceEntry"]) or live_spell.get(row["SourceEntry"])
+        if fs is not None and any(row["SourceGroup"] & (1 << (n - 1)) and not _cond_effect_ok(fs, n)
+                                  for n in (1, 2, 3)):
+            cond_ignored.append((row["SourceEntry"], row["SourceGroup"]))
+            continue
         ctx.col.add("conditions", row)
+    if cond_unshipped:
+        print("spells: conditions naming an unshipped entry, dropped: %s"
+              % ", ".join("%d/%d" % c for c in cond_unshipped))
+    if cond_ignored:
+        print("spells: SourceType-13 conditions AC would ignore, dropped: %s"
+              % ", ".join("%d/%d" % c for c in cond_ignored))
 
     # world-side: TARGET_DEST_DB destinations (I-275). Effects using implicit target
     # 17 read where to put the caster from `spell_target_position`; without the row

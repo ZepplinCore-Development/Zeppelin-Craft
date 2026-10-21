@@ -31,7 +31,7 @@ INSERT INTO creature_template SET
   faction = 35,
   unit_class = 1,
   type = 7,
-  AIName = 'NullAI';
+  AIName = 'NullCreatureAI';
 INSERT INTO creature_template SET
   entry = 935186,
   name = 'Life of the Party Outfit - Female',
@@ -41,7 +41,7 @@ INSERT INTO creature_template SET
   faction = 35,
   unit_class = 1,
   type = 7,
-  AIName = 'NullAI';
+  AIName = 'NullCreatureAI';
 
 DELETE FROM creature_template_model WHERE CreatureID IN (935175, 935186);
 INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES

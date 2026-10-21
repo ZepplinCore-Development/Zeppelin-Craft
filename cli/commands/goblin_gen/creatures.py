@@ -30,6 +30,7 @@ Asset Library scan; those non-reproducible inputs are replaced by the committed
 `fb_plan` fixture (fallback creatures) — everything else non-stock is shipped.
 """
 import os
+import re
 import struct
 import importlib.util
 
@@ -95,6 +96,26 @@ NOISE = ("bunny", "invisible stalker", "generateur", "elm general", "wondi", "pu
 #         markers for quest 24741; condition 13/1/56576 -> 31/0/3/75113.
 NOISE_KEEP = {75113}
 STOCK_COLLIDE = {4075, 6827, 13321, 31688}   # exist in AC world -> reuse stock, spawn only
+_STOCK_CACHE = None
+
+
+def stock_creature_entries():
+    """Entries in stock AzerothCore's base creature_template (I-383).
+
+    Donor spawns of a stock creature (6491 Spirit Healer, 4075 Rat, 2110 Black Rat ...)
+    must REUSE the stock template, exactly what STOCK_COLLIDE meant. A hand list missed
+    three of the seven, and a template row is a DELETE+INSERT, so the Cata donor's
+    AIName / equipment / addon replaced the stock creature world-wide. Every domain that
+    scopes creatures subtracts this set; spawns keep their stock entry.
+    """
+    global _STOCK_CACHE
+    if _STOCK_CACHE is None:
+        base = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..",
+                            "Zeppelin-Core", "data", "sql", "base", "db_world",
+                            "creature_template.sql")
+        with open(base, encoding="utf-8", errors="ignore") as f:
+            _STOCK_CACHE = {int(m) for m in re.findall(r"\((\d+),\s*\d+,\s*\d+,\s*\d+,\s*\d+,\s*\d+,\s*'", f.read())}
+    return _STOCK_CACHE
 # Cata FactionTemplate IDs absent from WotLK -> remap by hostility.
 # EMPTY since I-337: the eight goblin-zone templates (2159/2160/2200/2204/2227/2228/
 # 2231/2238) and the three Faction rows they need (1133/1152/1157) are now shipped by
@@ -263,6 +284,10 @@ AI_NAME_PORTS = {
     # (`sassy->AI()->TalkWithDelay(...)`). The donor's own smart_scripts twin replaces
     # that with SMART_ACTION_SET_DATA onto 38869, which needs SmartAI to receive it.
     38869: ("SmartAI", "I-343"),   # Sassy Hardwrench (2) — the passenger's barks
+    # Rows authored in overrides on entries whose donor block does not ship (I-383 found
+    # them when smartai.py started blanking AIName on entries it emits no rows for):
+    38187: ("SmartAI", "I-320"),   # Spiny Raptor — Trading Up lure/spring
+    38457: ("SmartAI", "I-336"),   # Naga Hatchling — Surrender or Else followers
 }
 
 
@@ -297,14 +322,19 @@ def emit(ctx):
     needmodel |= curated
 
     tmpl = {int(r["entry"]): r for r in ctx.q("SELECT * FROM creature_template")}
+    valid_families = {int(r["id"]) for r in ctx.dbc_query("SELECT id FROM creaturefamily")}
     ents = [int(r["id"]) for r in
             ctx.q("SELECT DISTINCT TRIM(id) AS id FROM creature WHERE TRIM(zone)=%s", (zone,))]
     # e < 1000000: Neltharion donor dev/test NPCs use placeholder/leet entries
     # (1234567 Gnomey, 1337016 XP Rates) — never real Cata content (I-233).
-    real = [e for e in ents
-            if e in tmpl and e < 1000000
-            and (e in NOISE_KEEP
-                 or not any(k in (tmpl[e]["name"] or "").lower() for k in NOISE))]
+    stock = stock_creature_entries()
+    eligible = [e for e in ents
+                if e in tmpl and e < 1000000
+                and (e in NOISE_KEEP
+                     or not any(k in (tmpl[e]["name"] or "").lower() for k in NOISE))]
+    # stock entries keep their (stock) template; only their spawns are ported
+    stock_spawned = {e for e in eligible if e in stock}
+    real = [e for e in eligible if e not in stock]
     real_set = set(real)
     # Summon-only creatures (no spawn row anywhere -> invisible to the zone sweep)
     # referenced by ported spells' SUMMON effects (I-242 Hot Rod 34840). Emitted
@@ -314,7 +344,7 @@ def emit(ctx):
     if not sfx:
         summoned = _sibling_const("_summons", "summoned_entries")(ctx)
         for e in sorted(summoned):
-            if e not in real_set and e in tmpl:
+            if e not in real_set and e in tmpl and e not in stock:
                 real.append(e)
                 real_set.add(e)
     # Hand-placed spawns (manual_spawns fixture, I-246): creatures the source dump
@@ -323,7 +353,7 @@ def emit(ctx):
     # from the fixture below.
     manual_spawn_rows = _sibling_const("_manual", "manual_rows")(ctx)
     for e in sorted({int(r["entry"]) for r in manual_spawn_rows}):
-        if e not in real_set and e in tmpl:
+        if e not in real_set and e in tmpl and e not in stock:
             real.append(e)
             real_set.add(e)
     entries_sorted = sorted(real)
@@ -425,7 +455,9 @@ def emit(ctx):
             "KillCredit1": int(t["KillCredit1"] or 0), "KillCredit2": int(t["KillCredit2"] or 0),
             "name": (t["name"] or "").strip(), "subname": (t["subname"] or "").strip() or None,
             "IconName": (lambda s: ICONNAME_MAP.get(s, s) or None)((t["IconName"] or "").strip()),
-            "gossip_menu_id": int(t["gossip_menu_id"] or 0),
+            # I-383: a menu on an NPC without UNIT_NPC_FLAG_GOSSIP can never open (AC logs
+            # it at load) — 38409 Goblin Survivor carried a text-only donor menu.
+            "gossip_menu_id": int(t["gossip_menu_id"] or 0) if int(t["npcflag"] or 0) & 1 else 0,
             "minlevel": int(_or(t["minlevel"], 1)), "maxlevel": int(_or(t["maxlevel"], 1)),
             "exp": exp, "faction": faction, "npcflag": int(t["npcflag"] or 0),
             "speed_walk": float(_or(t["speed_walk"], 1)), "speed_run": float(_or(t["speed_run"], 1.14286)),
@@ -437,7 +469,10 @@ def emit(ctx):
             "BaseVariance": 1.0, "RangeVariance": 1.0,
             "unit_class": int(_or(t["unit_class"], 1)), "unit_flags": int(t["unit_flags"] or 0),
             "unit_flags2": int(t["unit_flags2"] or 0), "dynamicflags": int(t["dynamicflags"] or 0),
-            "family": int(t["family"] or 0), "type": int(t["type"] or 0),
+            # I-383: Cata-only families (51 on the Kezan monkeys) are reset to 0 by AC
+            # with a load error; ship what AC would end up with.
+            "family": (lambda f: f if f in valid_families else 0)(int(t["family"] or 0)),
+            "type": int(t["type"] or 0),
             "type_flags": int(t["type_flags"] or 0),
             "lootid": 0, "pickpocketloot": 0, "skinloot": 0,
             "PetSpellDataId": int(t["PetSpellDataId"] or 0), "VehicleId": int(t["VehicleId"] or 0),
@@ -497,7 +532,8 @@ def emit(ctx):
 
     # ---- spawns ----
     spawns = ctx.q("SELECT * FROM creature WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
-    spawns = [s for s in spawns if int(s["id"]) in real_set or int(s["id"]) in STOCK_COLLIDE]
+    spawns = [s for s in spawns if int(s["id"]) in real_set
+              or int(s["id"]) in STOCK_COLLIDE or int(s["id"]) in stock_spawned]
 
     # ---- TDB 4.3.4 movement / per-spawn addon overlay (I-249) ----
     # Neltharion drove civilian NPCs (Kezan Citizen 35075) through C++ scripts, so its

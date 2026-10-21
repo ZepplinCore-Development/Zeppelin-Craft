@@ -55,6 +55,13 @@ def emit(ctx):
         "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS id FROM creature "
         "WHERE TRIM(zone) IN ('%s','%s')"
         " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)}  # no dev/leet NPCs (I-233)
+    # I-383: creatures.py drops NOISE-named spawns (bunnies, stalkers) — so must we, or
+    # their movement rows ship for templates that do not exist.
+    _cr = _sibling("creatures")
+    gob -= {_i(r["entry"]) for r in ctx.q("SELECT entry, name FROM creature_template")
+            if _i(r["entry"]) in gob and _i(r["entry"]) not in _cr.NOISE_KEEP
+            and any(k in str(r["name"] or "").lower() for k in _cr.NOISE)}
+    gob -= _cr.stock_creature_entries()   # stock creatures keep their stock rows
 
     # summon-only creatures (I-310 blind spot, hit again as I-311): never in the
     # source `creature` table, so the zone-spawn scope misses them — the

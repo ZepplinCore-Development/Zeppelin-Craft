@@ -92,6 +92,10 @@ TYPE_OVERRIDE = {196837: 5, 196838: 5, 310000: 1}
 TEMPLATE_OVERRIDE = {
     310000: {"displayId": 7529, "name": "Raptor Trap",
              "AIName": "SmartGameObjectAI"},
+    # 201791 Rope Ladder (Life Savings): its type-22 spell 70390 cannot be ported
+    # (see DATA_OVERRIDE), and AC rejects a SPELLCASTER with Data0 0 at load, so the
+    # inert ladder ships as GENERIC scenery (I-383).
+    201791: {"type": 5},
 }
 
 # I-277: per-entry corrections to the raw Cata Data0-23 block, applied last so
@@ -163,6 +167,13 @@ DATA_OVERRIDE = {
     # Nothing reads the old focus values: spell 56576 has spell_focus_object 0 and
     # anchors on creature 75113 through its type-13 condition, not on this GO.
     310000: {"Data0": 1, "Data1": 0},
+
+    # 201791 Rope Ladder (Life Savings). Type 22 SPELLCASTER on 70390 "Life Savings: Rope
+    # Ladder", a TARGET_DEST_DB teleport with no spell_target_position in any held source,
+    # so _spellscope cannot port it and AC logged the dead spell at every start (I-383).
+    # The quest's finale already runs through its own movie + teleport; the ladder is inert
+    # and ships as type 5 GENERIC (TEMPLATE_OVERRIDE), whose Data0 0 is valid.
+    201791: {"Data0": 0},
 
     # 201938 Town-In-A-Box Plunger — quest 14245 "It's a Town-In-A-Box" (I-315).
     # Same 1511xx dead-spell band as the pod above, and the same silent failure:
@@ -301,7 +312,18 @@ def _addon_cols(e, t):
     return {"entry": e, "faction": faction, "flags": flags}
 
 
-def _template_cols(e, t):
+_FOCUS = None
+
+
+def _focus_ids(ctx):
+    """SpellFocusObject ids in our 3.3.5a DBC (cached per run)."""
+    global _FOCUS
+    if _FOCUS is None:
+        _FOCUS = {int(r["id"]) for r in ctx.dbc_query("SELECT id FROM spellfocusobject")}
+    return _FOCUS
+
+
+def _template_cols(e, t, focus_ids=None):
     """Build the ordered gameobject_template column dict for one GO entry."""
     typ = TYPE_OVERRIDE.get(e, _gi(t, "type"))
     icon = (t["IconName"] or "").strip()
@@ -320,6 +342,10 @@ def _template_cols(e, t):
         col["Data3"] = 0
     elif typ == 10:
         col["Data19"] = 0
+    elif typ == 8 and focus_ids is not None and col["Data0"] not in focus_ids:
+        # I-383: a Cata SpellFocusObject id (412000 "Entra": 1648) that our DBC lacks —
+        # AC logs it at load; no ported spell needs the focus.
+        col["Data0"] = 0
     # I-277 corrections last, so they win over both the verbatim copy and the
     # gossip zeroing above.
     col.update(DATA_OVERRIDE.get(e, {}))
@@ -346,7 +372,7 @@ def emit(ctx):
     for e in sorted(ents):
         if e in STOCK_GO:
             continue
-        ctx.col.put("gameobject_template", e, _template_cols(e, gt[e]),
+        ctx.col.put("gameobject_template", e, _template_cols(e, gt[e], _focus_ids(ctx)),
                     tier="base", zone=sfx, owner="gameobjects")
         addon = _addon_cols(e, gt[e])
         if addon:
@@ -480,7 +506,7 @@ def emit(ctx):
     spawned = set(scope["ents"])
     quest_go = sorted(g for g in refgo if g not in spawned and g in gt)
     for e in quest_go:
-        ctx.col.put("gameobject_template", e, _template_cols(e, gt[e]),
+        ctx.col.put("gameobject_template", e, _template_cols(e, gt[e], _focus_ids(ctx)),
                     tier="base", zone=sfx, owner="gameobjects")
 
     # ---- DBC: GameObjectDisplayInfo additions (models absent from 3.3.5a) ----

@@ -275,6 +275,11 @@ def emit(ctx):
         })
     # repoint each NPC at its remapped menu — overlay onto our creature_template INSERTs
     for e, mm in cre_menu.items():
+        # I-383: never on an NPC without UNIT_NPC_FLAG_GOSSIP (38409 Goblin Survivor's
+        # text-only donor menu) — AC logs it at load and the menu can never open.
+        base = ctx.col.get("creature_template", e)
+        if base is not None and not int(base.get("npcflag") or 0) & 1:
+            continue
         ctx.col.put("creature_template", e, {"gossip_menu_id": menu_remap[mm]},
                     tier="overlay")
     # repoint gossip-bearing GOs at their remapped menus (only menus that exist
@@ -293,6 +298,7 @@ def emit(ctx):
               "WHERE SourceTypeOrReferenceId IN (14,15) "
               "AND CAST(TRIM(SourceGroup) AS SIGNED) IN (%s)" % mset)
     iremap = {int(k): v for k, v in ctx.fixture("item_remap").items()}
+    present_spells = ctx.dbc_spell_ids()
     kept, dropped = [], 0
     for r in crows:
         st, sg, se = _i(r["SourceTypeOrReferenceId"]), _i(r["SourceGroup"]), _i(r["SourceEntry"])
@@ -306,6 +312,12 @@ def emit(ctx):
         ct, cv1 = _i(r["ConditionTypeOrReference"]), _i(r["ConditionValue1"])
         if ct in (2, 3):   # CONDITION_ITEM / _ITEM_EQUIPPED: Value1 is a Cata item id (I-245)
             cv1 = iremap.get(cv1, cv1)
+        # I-383: an aura condition on a spell no client has (Neltharion's 151099/151100
+        # on the Gasbot panel menu) is skipped by AC at load, so the option already
+        # shows unconditionally; drop the row instead of logging it every start.
+        if ct == 1 and cv1 not in present_spells:
+            dropped += 1
+            continue
         kept.append((st, menu_remap[sg], new_se, _i(r["SourceId"]), _i(r["ElseGroup"]),
                      ct, _i(r["ConditionTarget"]),
                      cv1, _i(r["ConditionValue2"]),

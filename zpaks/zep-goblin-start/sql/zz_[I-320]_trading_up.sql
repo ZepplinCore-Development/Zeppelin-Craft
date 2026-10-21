@@ -352,8 +352,10 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   -- still loaded (SmartScript.cpp:5495). The lure list normally self-clears long before
   -- this, but if it ever did not, the whole spring sequence would silently no-op.
   (38195, 0, 4, 0, 38, 0, 100, 0, 2, 2, 0, 0, 0, 0,  80, 3819501, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker Egg - On Data 2 2 (raptor is in the trap) - Run Spring Actionlist'),
-  -- no raptor in 40yd: say the line to the summoner and despawn after 5s (donor else-branch)
-  (38195, 0, 5, 6, 104, 0, 100, 1, 0, 38187, 1, 40, 600, 0,  1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker Egg - On No Spiny Raptor Within 40yd (once) - Say Line 0'),
+  -- no raptor in 40yd: say the line to the summoner and despawn after 5s (donor else-branch).
+  -- Target 23 OWNER_OR_SUMMONER, not 7: event 104 provides no invoker, and AC refuses a
+  -- row that targets one at load (I-383), which also stranded the linked despawn below.
+  (38195, 0, 5, 6, 104, 0, 100, 1, 0, 38187, 1, 40, 600, 0,  1, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker Egg - On No Spiny Raptor Within 40yd (once) - Say Line 0'),
   (38195, 0, 6, 0, 61, 0, 100, 0, 0, 0, 0, 0, 0, 0,  41, 5000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker Egg - Linked - Despawn In 5s'),
 
   -- lure actionlist (runs ON the decoy): 500ms after the summon, push the nearest
