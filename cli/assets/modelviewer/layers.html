@@ -1564,6 +1564,10 @@ function openAsset(e) {
       `<option value="${x}"${x === fitBody ? ' selected' : ''}>${esc(codeName(x))}</option>`).join('')}</select>`;
     $('fitbody').onchange = (ev) => { fitBody = ev.target.value; openAsset(e); };
   }
+  if (e.tab === 'creature' && !e.retailOnly && e.path) {
+    $('subtitle').insertAdjacentHTML('beforeend', ` <button id="newdisp-m" title="Create a new display id (the highest + 1) on ${esc(e.path)} and dress it in the Display editor; point a creature at it with its id">+ New display on this model</button>`);
+    $('newdisp-m').onclick = () => newModelDisplay(e.path);
+  }
   const groups = e.tab === 'display' ? e.panes.map(p => ({ key: p.option, sources: p.sources, file: p, reps: {} })) : swapCards(e);
   const implied = e.tab === 'display' ? viaModel(e) : null;
   const allDs = repEntries(e.path);
@@ -1690,12 +1694,28 @@ function openAsset(e) {
   // Retail, LIVE: wago.tools serves the modern model + its files by id (CORS-open), so the
   // pane loads them directly. The WXL-converted file is made only if Retail is picked.
   if (e.retailOnly) {
-    const prm = new URLSearchParams({ src: 'v2', model: e.path, retail: e.retailOnly, build: retailIdx.build,
-      skins: (e.rskins || [0, 0, 0]).join(','), pv: PANE_V });
-    $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><iframe src="${retailPaneSrc(prm, e.path)}" loading="lazy" title="Retail"></iframe>
-      <div class="info"><div class="h"><b>Retail</b><span class="chip" title="Retail model, loaded live (FileDataID ${e.retailOnly})">live from wago.tools</span><span class="chip" title="A candidate for new content: star it as a favourite; shipping it needs a new display (F-197 / F-216 curate)">not in the 3.3.5 client</span></div>
+    // one pane per retail skin set (retail_sets.json), each a "New display" with that skin; until the sets
+    // load (or for a model no retail display uses), the first retail display's skins
+    const rpane = (sk, title, si, note) => {
+      const prm = new URLSearchParams({ src: 'v2', model: e.path, retail: e.retailOnly, build: retailIdx.build, skins: sk.join(','), pv: PANE_V });
+      return `<div class="pane rset"><iframe src="${retailPaneSrc(prm, e.path)}" loading="lazy" title="${esc(title)}"></iframe>
+      <div class="info"><div class="h"><b>${esc(title)}</b><span class="chip" title="Retail model, loaded live (FileDataID ${e.retailOnly})">live from wago.tools</span><span class="chip" title="Not in the 3.3.5 client: a new display ships it (converted at curate time)">not in the 3.3.5 client</span></div>
       <div class="stats" data-live>loading…</div>
-      <div class="stats">model: ${esc(e.path)}</div></div></div>`);
+      <div class="stats">model: ${esc(e.path)}${note ? ' · ' + esc(note) : ''}</div>
+      <button class="usecust" data-nd="${si}" title="Create a new display id (the highest + 1) on this retail model wearing this skin, then tune it in the Display editor; point a creature at it with its id">New display with this skin</button></div></div>`;
+    };
+    const wire = () => $('panes').querySelectorAll('.rset [data-nd]').forEach(b => b.onclick = () => newRetailDisplay(e.path, e.retailOnly, Math.max(0, +b.dataset.nd)));
+    $('panes').insertAdjacentHTML('beforeend', rpane(e.rskins || [0, 0, 0], 'Retail', -1, ''));
+    wire();
+    loadRsets().then(R => {
+      const sets = R.sets[e.retailOnly] || [];
+      if (cur !== e || !sets.length) return;
+      const nm = (fd) => !fd ? '' : String((R.names || {})[String(fd)] || fd).split('/').pop().replace(/\.blp$/, '');
+      $('panes').querySelectorAll('.rset').forEach(x => x.remove());
+      $('panes').insertAdjacentHTML('beforeend', sets.map(([sk, n], si) => rpane(sk, sk.filter(Boolean).map(nm).join(' + ') || `skin set ${si + 1}`, si,
+        `${n} retail display${n === 1 ? '' : 's'}`)).join(''));
+      wire(); fitPanes();
+    });
     render();
     return;
   }
@@ -1773,7 +1793,7 @@ function openAsset(e) {
       const f = $('panes').querySelector('#cu-pf');
       const sk_ = skinIds(cb.skins);
       const prm_ = new URLSearchParams({ src: 'v2', model: cb.model, retail: cb.fdid, build: retailIdx.build,
-        skins: sk_.ids.join(','), scale: (e.panes[0] || {}).scale || 1, pv: PANE_V });
+        skins: sk_.ids.join(','), scale: cb.scale || (e.panes[0] || {}).scale || 1, pv: PANE_V });
       if (Object.keys(sk_.ovr).length) prm_.set('ovr', JSON.stringify(sk_.ovr));
       if ((cb.geosets || []).some(Boolean)) { prm_.set('mesh', [0, ...cb.geosets].join(',')); prm_.set('g0all', '1'); }
       if (f) f.src = retailPaneSrc(prm_, e.path);
@@ -2243,6 +2263,11 @@ function newDisplayEntry(did, path, saved = null) {
     return { ...x, display: did, isNew: true, names: [saved.label || 'new display'], kw: 'new display ' + (x.from_names || []).join(' ').toLowerCase(),
              base: { ...x.base, display: did }, from_names: x.from_names || [], clone_of: saved.clone_of || null };
   }
+  if (saved && saved.base && (saved.base.sources || []).includes('retail'))
+    // a display created on a retail model: openCustom sends it through openCustom_, which dresses it from retail's sets
+    return { display: did, isNew: true, names: [saved.label || 'new display'], kw: 'new display retail ' + String(path).toLowerCase(),
+             path, groups: {}, slots: [], cgd: [0, 0, 0, 0, 0, 0, 0, 0], from_names: [], via: 'retail',
+             base: { model: path, option: path, sources: ['retail'], display: did } };
   const m = creator && creator.by.get(path);
   if (!m) return null;
   const [, src, pane, groups, slots, tk, names] = m;
@@ -2255,20 +2280,49 @@ function addNewDisplays() {
   customList = customList.filter(c => !c.isNew);
   Object.entries(choices.custom || {}).forEach(([k, v]) => { if (v && v.new) { const c = newDisplayEntry(+k, v.path, v); if (c) customList.push(c); } });
 }
+// a model card's "+ New display on this model" (3.3.5 / pack model): as picking it in the creator
+async function newModelDisplay(path) {
+  await loadCreator();
+  const c = newDisplayEntry(nextDisplayId(), path);
+  if (!c) { $('save').className = 'err'; $('save').textContent = `${path} is not in the display creator (no preview pane for it)`; return; }
+  openLayer('custom', false);
+  openItem(c); render();
+}
+// a new display on a RETAIL model (its creature card's skin panes, the creator's retail rows): dressed in the
+// browser like a "Search all models" retail pick, keyed by the model path (stockModelOf of a created display)
+async function newRetailDisplay(path, fd, si = 0) {
+  $('save').className = ''; $('save').textContent = `loading ${path.split('/').pop()}…`;
+  await loadCreator();
+  const did = nextDisplayId();
+  const named = retailIdx.named = retailIdx.named || {};
+  const nm = named[path] = named[path] || { rule: false, stock_anims: [], displays: [], targets: [] };
+  let ti = nm.targets.findIndex(t => t[0] === path);
+  if (ti < 0) { nm.targets.push(await buildRetailTarget(path, fd, did)); ti = nm.targets.length - 1; }
+  else { const t = nm.targets[ti]; if (!t[6].includes(did)) { t[6].push(did); t[7] = [...(t[7] || []), did]; } }
+  customList = customList.filter(x => x.display !== did);
+  const c = { display: did, isNew: true, names: ['new display'], kw: 'new display', from_names: [], path, groups: {}, slots: [],
+              cgd: [0, 0, 0, 0, 0, 0, 0, 0], base: null, via: 'retail', rfd: fd,
+              retail: { model: path, ti, si: Math.min(si, Math.max(0, (nm.targets[ti][3] || []).length - 1)) } };
+  customList.push(c);
+  $('save').textContent = '';
+  openLayer('custom', false);
+  openItem(c); render();
+}
 // A character model has no plain "new display": its display draws a CreatureDisplayInfoExtra row (race, sex,
 // skin, face, hair, outfit, bake - a display without a bake crashes the client). So a new one starts as a copy
 // of one of that model's displays: the editor opens on it in "new display" mode and saves only as a new id
 // (Save as new display: its row and bake row are copied onto new ids at ship time).
 let pendingNew = null;   // { from: the display the new one copies } while the editor shows it
 function openCreator() {
-  loadCreator().then(d => {
+  Promise.all([loadCreator(), allModelsPool()]).then(([d, pool]) => {
+    const rrows = pool.filter(m => m.kind === 'retail');   // retail creature models: a new display ships them converted
     let q = '', charPath = null;
     const charDisp = new Map();                      // character model -> its displays (the editor's list)
     customList.forEach(c => { if (!c.isNew && c.char && String(c.path || '').startsWith('character/')) {
       if (!charDisp.has(c.path)) charDisp.set(c.path, []); charDisp.get(c.path).push(c); } });
     const charRows = [...charDisp.keys()].sort().map(p => [p, charDisp.get(p).length]);
     const ov = document.createElement('div'); ov.className = 'wardov';
-    ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b data-ch>New display ${nextDisplayId()}</b><input placeholder="search ${d.models.length.toLocaleString()} creature and ${charRows.length} character models (path or creature name)" data-cq>
+    ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b data-ch>New display ${nextDisplayId()}</b><input placeholder="search ${d.models.length.toLocaleString()} creature, ${rrows.length.toLocaleString()} retail and ${charRows.length} character models (path or creature name)" data-cq>
       <button data-cx>close</button></div><div class="creatorlist"></div><div class="wardmore"></div></div>`;
     document.body.append(ov);
     const list = ov.querySelector('.creatorlist'), more = ov.querySelector('.wardmore');
@@ -2284,11 +2338,15 @@ function openCreator() {
       }
       const chars = charRows.filter(([p]) => has(p));
       const hit = d.models.filter(m => has(m[0] + ' ' + m[6].join(' ')));
+      const rhit = ws.length ? rrows.filter(m => has(m.path + ' ' + m.kw)) : [];   // retail only once searched (thousands)
       list.innerHTML = chars.map(([p, n]) => `<button class="crow" data-cc="${esc(p)}"><b>${esc(p.split('/').pop())}</b>
         <span>${esc(p)}</span><span>character model · starts as a copy of one of its ${n.toLocaleString()} displays</span></button>`).join('')
         + hit.slice(0, 300).map(m => `<button class="crow" data-cp="${esc(m[0])}"><b>${esc(m[0].split('/').pop())}</b>
-        <span>${esc(m[0])}</span><span>${esc(m[6].join(', ') || 'no creature uses it')} · ${esc(m[1])}${(m[4] || []).length ? ` · ${m[4].length} skin slot${m[4].length > 1 ? 's' : ''}` : ''}</span></button>`).join('');
-      more.textContent = (hit.length > 300 ? `300 of ${hit.length.toLocaleString()} - narrow the search` : `${hit.length.toLocaleString()} models`) + (chars.length ? ` + ${chars.length} character models` : '');
+        <span>${esc(m[0])}</span><span>${esc(m[6].join(', ') || 'no creature uses it')} · ${esc(m[1])}${(m[4] || []).length ? ` · ${m[4].length} skin slot${m[4].length > 1 ? 's' : ''}` : ''}</span></button>`).join('')
+        + rhit.slice(0, 300).map(m => `<button class="crow" data-cr="${esc(m.path)}" data-fd="${m.fdid}"><b>${esc(m.path.split('/').pop())}</b>
+        <span>${esc(m.path)}</span><span>retail model (not in the 3.3.5 client) · dressed from retail's skin sets, converted at ship time</span></button>`).join('');
+      more.textContent = (hit.length > 300 ? `300 of ${hit.length.toLocaleString()} - narrow the search` : `${hit.length.toLocaleString()} models`) + (chars.length ? ` + ${chars.length} character models` : '')
+        + (rhit.length ? ` + ${rhit.length > 300 ? `300 of ${rhit.length.toLocaleString()}` : rhit.length.toLocaleString()} retail` : ws.length ? '' : ' · type to search retail models too');
     };
     let tq = null;
     ov.querySelector('[data-cq]').oninput = (ev) => { clearTimeout(tq); tq = setTimeout(() => { q = ev.target.value.trim().toLowerCase(); draw(); }, 150); };
@@ -2296,7 +2354,8 @@ function openCreator() {
     ov.querySelector('[data-cx]').onclick = close;
     ov.addEventListener('click', (ev) => { if (ev.target === ov) close(); });
     list.addEventListener('click', (ev) => {
-      const cc = ev.target.closest('[data-cc]'), ct = ev.target.closest('[data-ct]');
+      const cc = ev.target.closest('[data-cc]'), ct = ev.target.closest('[data-ct]'), cr = ev.target.closest('[data-cr]');
+      if (cr) { close(); newRetailDisplay(cr.dataset.cr, +cr.dataset.fd, 0); return; }
       if (cc) {
         charPath = cc.dataset.cc; q = '';
         ov.querySelector('[data-ch]').textContent = `New display ${nextDisplayId()} on ${charPath.split('/').pop()}: start from which display?`;
@@ -2632,6 +2691,11 @@ async function bakedLook(look, ch, outfit, hs, fh) {
 let editView = null, editViewFor = null;
 const withView = (url) => editView ? url + (url.includes('?') ? '&' : '?') + 'view=' + editView.join(',') : url;
 function openCustom(c) {
+  // a saved display created on a retail model: openCustom_ dresses it from retail's sets (once: a model
+  // wago cannot serve must not loop)
+  if (c.isNew && !c.retail && !c._rtry && (((choices.custom[String(c.display)] || {}).base || {}).sources || []).includes('retail')) {
+    c._rtry = true; return openCustom_(c.display, false);
+  }
   if (editViewFor !== c.display) editView = null;   // a different display starts on its default framing
   editViewFor = c.display;
   cur = c;
@@ -2650,8 +2714,13 @@ function openCustom(c) {
       (hv ? `<option value="${hv}"${val === hv ? ' selected' : ''}>none (hidden)</option>` : '') +
       (c.groups[g] || []).filter(v => v).map(v => `<option value="${v}"${v === val ? ' selected' : ''}>${g * 100 + v}</option>`).join('') + '</select></label>'; };
   let ctl = '';
-  const models = c.isNew ? [{ kind: 'pane', pane: base, label: `${c.path.split('/').pop()} · ${c.via || 'stock'}` }] : relevantModels(c.display, c);
-  if (c.isNew) {
+  const models = c.isNew && c.retail ? [{ kind: 'retail', ti: c.retail.ti, model: c.retail.model, label: `${c.path.split('/').pop()} · retail` }]
+    : c.isNew ? [{ kind: 'pane', pane: base, label: `${c.path.split('/').pop()} · ${c.via || 'stock'}` }] : relevantModels(c.display, c);
+  if (c.isNew && c.retail) {
+    ctl += `<label>Name<input id="cs-label" placeholder="what this display is for" value="${esc(saved.label || '')}"></label>
+      <div class="note">New display ${c.display} (the highest display id + 1) on retail ${esc(c.path)}: a blank row on retail's own CreatureModelData (size, collision, bounds; no creature sounds). It ships with the curated build; point a creature at it with its id.</div>
+      <label>Scale<input id="cs-rscale" type="number" min="0.05" max="10" step="0.05" value="${+((saved.base || {}).scale || 1)}" title="CreatureDisplayInfo.creature_model_scale: retail models are often far bigger than their classic counterparts"></label>`;
+  } else if (c.isNew) {
     // a created display: its skins start on the model's most used set (an empty slot = a white model)
     if (!c.skins && custSets) c.skins = ((((custSets || {})[c.tex_key] || [])[0] || [])[0] || ['', '', '']).slice();
     ctl += `<label>Name<input id="cs-label" placeholder="what this display is for" value="${esc(saved.label || '')}"></label>
@@ -2769,7 +2838,7 @@ function openCustom(c) {
     const t = namedFor(c.retail.model).targets[c.retail.ti], rp = rPick();
     const sp = (assets.find(a => a.tab === 'display' && a.display === c.display) || {}).panes || [];
     const prm = new URLSearchParams({ src: 'v2', model: t[0], retail: t[1], build: retailIdx.build, skins: rp.skins.map(v => typeof v === 'string' ? 0 : v).join(','),
-      scale: (sp[0] || {}).scale || 1, pv: PANE_V });
+      scale: $('cs-rscale') ? +$('cs-rscale').value || 1 : (sp[0] || {}).scale || 1, pv: PANE_V });
     const ovr = {};
     rp.skins.forEach(v => { if (packSkin[v]) ovr['fdid/' + v] = packSkin[v].cas; });   // a retroport pack's skin
     if (Object.keys(ovr).length) prm.set('ovr', JSON.stringify(ovr));
@@ -2806,6 +2875,7 @@ function openCustom(c) {
   }
   $('panes').querySelectorAll('input[data-slot]').forEach(i => i.onchange = () => preview());
   $('panes').querySelectorAll('select').forEach(s => s.onchange = preview);
+  if ($('cs-rscale')) $('cs-rscale').onchange = preview;
   const rs = $('cs-rset');
   if (rs && c.retail) rs.onchange = () => {
     const t = namedFor(c.retail.model).targets[c.retail.ti];
@@ -2837,7 +2907,14 @@ function openCustom(c) {
       const rp = { at: new Date().toISOString(), path: t[0], geosets: pk.geosets,
         base: { option: t[0], sources: ['retail'], model: t[0], fdid: t[1], skins: pk.skins.map(v => packSkin[v] ? packSkin[v].ref : v),
                 geosets: pk.geosets, remaster_of: c.retail.model } };
+      if (c.isNew) {                                     // a display created on a retail model: always ships
+        rp.new = true; rp.label = ($('cs-label') || {}).value || '';
+        rp.entry = { path: t[0], groups: {}, slots: [], from_names: [], base: { model: t[0], option: t[0], sources: ['retail'] } };
+        rp.base.scale = +(($('cs-rscale') || {}).value) || 1;
+        delete rp.base.remaster_of;
+      }
       if (await saveCustom(c.display, rp)) {
+        if (c.isNew) addNewDisplays();
         await save('display', String(c.display), displayEntry(c.display), 'custom', {}, false);
         openDisplay(c.display);
       }

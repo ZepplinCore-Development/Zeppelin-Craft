@@ -604,6 +604,47 @@ def model_data_id(fdid: int) -> int:
     return _cmd_ids.get(fdid, 0)
 
 
+_cmd_rows: Optional[Dict[int, dict]] = None
+
+
+def model_data_row(fdid: int) -> Optional[dict]:
+    """Retail's CreatureModelData row for model file `fdid` (model_data_id's row) in 3.3.5 column names:
+    the size, collision and bounds a display we create on a retail-only model ships with (no stock row
+    to copy). Retail's sound / foley ids name retail tables, so they are left 0 (footprints share 3.3.5's ids). None when absent."""
+    global _cmd_rows
+    mid = model_data_id(fdid)
+    if not mid:
+        return None
+    if _cmd_rows is None:
+        pk = CACHE / f'cmdrow_{build()}.pkl'
+        if pk.exists():
+            _cmd_rows = pickle.loads(pk.read_bytes())
+        else:
+            f = lambda r, k, d=0.0: float(r.get(k) or d)
+            _cmd_rows = {}
+            for r in _csv('CreatureModelData'):
+                if not r['ID'].isdigit():
+                    continue
+                g = [f(r, f'GeoBox_{i}') for i in range(6)]
+                _cmd_rows[int(r['ID'])] = {
+                    'flags': 0, 'size_class': int(f(r, 'SizeClass')), 'model_scale': f(r, 'ModelScale', 1.0) or 1.0,
+                    'blood_id': int(f(r, 'BloodID')), 'footprint_texture_id': int(f(r, 'FootprintTextureID')),
+                    'footprint_texture_length': f(r, 'FootprintTextureLength'), 'footprint_texture_width': f(r, 'FootprintTextureWidth'),
+                    'footprint_particle_scale': f(r, 'FootprintParticleScale', 1.0), 'foley_material_id': 0,
+                    'footstep_shake_size': 0, 'death_thud_shake_size': 0, 'sound_data': 0,
+                    'collision_width': f(r, 'CollisionWidth'), 'collision_height': f(r, 'CollisionHeight'),
+                    'mount_height': f(r, 'MountHeight'),
+                    'geo_box_min_x': g[0], 'geo_box_min_y': g[1], 'geo_box_min_z': g[2],
+                    'geo_box_max_x': g[3], 'geo_box_max_y': g[4], 'geo_box_max_z': g[5],
+                    'world_effect_scale': f(r, 'WorldEffectScale', 1.0), 'attached_effect_scale': f(r, 'AttachedEffectScale', 1.0),
+                    'missile_collision_radius': f(r, 'MissileCollisionRadius'), 'missile_collision_push': f(r, 'MissileCollisionPush'),
+                    'missile_collision_raise': f(r, 'MissileCollisionRaise')}
+            CACHE.mkdir(parents=True, exist_ok=True)
+            pk.write_bytes(pickle.dumps(_cmd_rows))
+    r = _cmd_rows.get(mid)
+    return {'id': mid, **r} if r else None
+
+
 _cdg: Optional[Dict[int, List[Tuple[int, int]]]] = None
 
 

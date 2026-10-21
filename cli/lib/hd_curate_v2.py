@@ -615,6 +615,21 @@ def _new_display(did: int, cu: dict, layers: 'hd.Layers', result: dict, srcs: di
                        ('live', result['effective_dbc'][0])] + [(n, s.cdi) for n, s in srcs.items()]:
         if (rows.get((did,)) if name in ('stock', 'base') else rows.get(did)):
             return f'display id {did} is already used by {name}'
+    def blank():
+        t = next(iter(layers.state('creaturedisplayinfo', 'stock').values()))
+        t = {k: (0 if isinstance(v, (int, float)) else '') for k, v in t.items()}
+        t.update({'id': did, 'creature_model_scale': 1.0, 'creature_model_alpha': 255})
+        return t
+    if 'retail' in (b.get('sources') or []):
+        # a display created on a retail-only model (creature card "New display", or the creator's retail
+        # rows): no stock display or model row to copy - a blank row and retail's own CreatureModelData
+        from lib import retail
+        fd = int(b.get('fdid') or 0)
+        mrow = retail.model_data_row(fd) if fd else None
+        if mrow is None:
+            return f'retail has no CreatureModelData row for {path} (fdid {fd})'
+        dp = {'option': b.get('option') or path, 'fdid': fd, 'skins': b.get('skins'), 'geosets': 0, 'scale': b.get('scale')}
+        return _retail_display(did, dp, layers, result, srcs, want, wanted_rows, log, row=blank(), smodel=mrow)
     tpl_id = int(b.get('display') or 0)
     tpl, src = None, None
     for x in sources + ['base', 'stock']:
@@ -643,9 +658,7 @@ def _new_display(did: int, cu: dict, layers: 'hd.Layers', result: dict, srcs: di
     if mrow is None:
         return f'no CreatureModelData row names {path}'
     if tpl is None:
-        tpl = next(iter(layers.state('creaturedisplayinfo', 'stock').values()))
-        tpl = {k: (0 if isinstance(v, (int, float)) else '') for k, v in tpl.items()}
-        tpl.update({'creature_model_scale': 1.0, 'creature_model_alpha': 255})
+        tpl = blank()
     if msrc not in ('base', 'stock'):
         wanted_rows[('creaturemodeldata', (int(mrow['id']),))] = dict(mrow)
     if path not in ix.stock and want.get(path) is None:
@@ -748,21 +761,23 @@ def _retroport_swap(manifest: dict, wanted_rows: dict, base_cdi: dict, base_cmd:
 
 
 def _retail_display(did: int, dp: dict, layers: hd.Layers, result: dict, srcs: dict,
-                    want: Dict[str, Optional[Path]], wanted_rows: dict, log=print) -> str:
+                    want: Dict[str, Optional[Path]], wanted_rows: dict, log=print,
+                    row: Optional[dict] = None, smodel: Optional[dict] = None) -> str:
     """Display `did` -> the retail model dp['option'] (converted the WXL way at its OWN path) as
     a new CreatureModelData row on the retail id (a copy of the display's stock model row: a
     remaster keeps the classic size and collision), wearing the picked retail skins dp['skins']
-    as retail_<fdid>.blp beside the model. '' when done, else why not."""
+    as retail_<fdid>.blp beside the model. A display we create passes its own `row` and `smodel`
+    (retail's model row) instead of the stock ones. '' when done, else why not."""
     from lib import retail
     tp = ms.norm(str(dp.get('option') or ''))
     by_path, _ = retail.listfile()
     fd = by_path.get(tp, 0)
     if not fd or (dp.get('fdid') and int(dp['fdid']) != fd):
         return f'{tp} is not a retail model file (fdid {dp.get("fdid")})'
-    srow = layers.state('creaturedisplayinfo', 'stock').get((did,))
+    srow = row or layers.state('creaturedisplayinfo', 'stock').get((did,))
     if not srow:
         return 'not a stock display'
-    smodel = layers.state('creaturemodeldata', 'stock').get((int(srow.get('model_id') or 0),))
+    smodel = smodel or layers.state('creaturemodeldata', 'stock').get((int(srow.get('model_id') or 0),))
     if not smodel:
         return 'stock display has no model row'
     mid = retail.model_data_id(fd)
@@ -783,7 +798,7 @@ def _retail_display(did: int, dp: dict, layers: hd.Layers, result: dict, srcs: d
     mrow['id'] = mid
     mrow['model_path'] = tp[:-3].replace('/', '\\') + '.mdx'
     wanted_rows[('creaturemodeldata', (mid,))] = mrow
-    row = dict(wanted_rows.get(('creaturedisplayinfo', (did,))) or layers.state('creaturedisplayinfo', 'base').get((did,)) or srow)
+    row = dict(srow if row else wanted_rows.get(('creaturedisplayinfo', (did,))) or layers.state('creaturedisplayinfo', 'base').get((did,)) or srow)
     row['model_id'] = mid
     mdir = tp.rsplit('/', 1)[0]
     raw = list(dp.get('skins') or [])[:3] + [0, 0, 0]
