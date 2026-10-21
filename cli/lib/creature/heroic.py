@@ -159,8 +159,14 @@ def modify_creature(
         )
 
     # Clone gets its own lootid (= its own entry) so we can preserve base
-    # creature drops AND bolt on cache references.
-    row["lootid"] = new_entry
+    # creature drops AND bolt on cache references. Exception: a boss whose base
+    # has no loot (lootid=0) gets no rows from generate_loot_sql (caches belong
+    # on the encounter GO chest), so it keeps lootid=0 - pointing it at its own
+    # empty entry logged "creature_loot_template Entry N does not exist" (I-383).
+    if challenge == "boss" and base_lootid == 0:
+        row["lootid"] = 0
+    else:
+        row["lootid"] = new_entry
 
     return row, creature_name, prefixed_name, base_lootid
 
@@ -234,6 +240,59 @@ def generate_sql(
     return lines
 
 
+def ref_expansion_sql(new_entry: int, base_lootid: int) -> str:
+    """INSERT that flattens the base lootid's Reference rows into the clone.
+
+    Each pool item gets the probability it had of dropping from the base
+    creature: chance = P(parent ref row fires) x P(item | pool opened) / 100.
+      - P(parent): its Chance; for an equal-chance (0) row in a group, the
+        group's leftover share (100 - explicit) / equal-chance entries.
+      - P(item): its Chance when ungrouped or explicit; for an equal-chance
+        item, its pool group's leftover share split the same way.
+    Copying the pool items at their own chance alone (before 2026-10-20) dropped
+    the parent's gate: Old Serra'kis's 5% ref 24070 became a guaranteed item
+    every kill, about 6.6 extra items per clone kill against 0.1 on the base.
+    Items that can never drop (P = 0) are skipped; a chance-0 row in a group
+    would otherwise read as equal-chance.
+
+    GroupId remap (I-383): every ref numbers its own groups from 1, and so does
+    the base table. Each distinct (ref, ref group) gets its own group above the
+    base table's highest direct group (@zep_ref_group_base), so a pool group
+    totals exactly its parent's P and never merges with the boss's drops. Max
+    needed across all clones is 22 (GroupId must stay < 128). A pool's ungrouped
+    items stay ungrouped. Per-item odds match the base creature; the one-pool-
+    per-pick correlation of a grouped parent is not kept (no base group mixes
+    equal-chance direct items with refs, so the boss's own drops are unaffected).
+    A parent MaxCount > 1 (open the pool N times) is applied once.
+    """
+    p = ("IF(clt.GroupId = 0 OR clt.Chance > 0, clt.Chance, "
+         "GREATEST(0, 100 - pg.expl) / pg.neq)")
+    i = ("IF(rlt.GroupId = 0 OR rlt.Chance > 0, rlt.Chance, "
+         "GREATEST(0, 100 - rg.expl) / rg.neq)")
+    return (
+        f"INSERT IGNORE INTO `creature_loot_template` "
+        f"(`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, "
+        f"`LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) "
+        f"SELECT {new_entry}, rlt.Item, rlt.Reference, ROUND({p} * {i} / 100, 6), "
+        f"rlt.QuestRequired, rlt.LootMode, IF(rlt.GroupId = 0, 0, @zep_ref_group_base + "
+        f"DENSE_RANK() OVER (PARTITION BY rlt.GroupId = 0 "
+        f"ORDER BY clt.Reference, rlt.GroupId)), rlt.MinCount, rlt.MaxCount, "
+        f"CONCAT('expanded from ref ', clt.Reference, ' at ', ROUND({p}, 4), '%') "
+        f"FROM `creature_loot_template` clt "
+        f"LEFT JOIN (SELECT GroupId, SUM(Chance) expl, SUM(Chance = 0) neq "
+        f"FROM `creature_loot_template` WHERE Entry = {base_lootid} AND GroupId > 0 "
+        f"GROUP BY GroupId) pg ON pg.GroupId = clt.GroupId "
+        f"JOIN `reference_loot_template` rlt ON rlt.Entry = clt.Reference "
+        f"LEFT JOIN (SELECT Entry, GroupId, SUM(Chance) expl, SUM(Chance = 0) neq "
+        f"FROM `reference_loot_template` WHERE GroupId > 0 AND Entry IN "
+        f"(SELECT Reference FROM `creature_loot_template` WHERE Entry = {base_lootid} "
+        f"AND Reference > 0) GROUP BY Entry, GroupId) rg "
+        f"ON rg.Entry = rlt.Entry AND rg.GroupId = rlt.GroupId "
+        f"WHERE clt.Entry = {base_lootid} AND clt.Reference > 0 AND rlt.Item > 0 "
+        f"AND {p} * {i} > 0;"
+    )
+
+
 def generate_loot_sql(
     new_entry: int, base_lootid: int, challenge: str,
     cache_armor_entry: int, cache_weapon_entry: int,
@@ -247,7 +306,7 @@ def generate_loot_sql(
       2. Adds the heroic/mythic cache references on top.
 
     Bosses get both caches at 100% (GroupId=0, independent guaranteed drops).
-    Trash gets one cache at 0.5% via GroupId=1 (1% combined, 50/50 split).
+    Trash gets one cache at 0.5% each in a shared group of its own (1% combined).
     """
     is_boss = challenge == "boss"
     lines = [
@@ -278,27 +337,16 @@ def generate_loot_sql(
         # is only a row key (1, 2, 3...). Carry its Reference across so it stays a
         # reference: zeroing it turned every nested pool into a drop of item 1..24
         # (Errors.log flood, lost world/zone loot, item 17 Martin Fury, I-383).
-        # Preserve the ref item's own Chance/GroupId/MinCount/MaxCount. The
-        # parent ref-row Chance is not multiplied in (would need ratio math);
-        # naive expansion matches what AC would deliver for a ref row at
-        # Chance=100 (the common case for boss loot tables).
-        #
         # INSERT IGNORE because the same Item may appear via multiple paths
         # (direct + via a ref, or in two different refs the creature uses).
         # creature_loot_template PRIMARY KEY is (Entry, Item, Reference)
         # so collisions on Item across legs would otherwise fail the apply.
         lines.append(
-            f"INSERT IGNORE INTO `creature_loot_template` "
-            f"(`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, "
-            f"`LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) "
-            f"SELECT {new_entry}, rlt.Item, rlt.Reference, rlt.Chance, rlt.QuestRequired, "
-            f"rlt.LootMode, rlt.GroupId, rlt.MinCount, rlt.MaxCount, "
-            f"CONCAT('expanded from ref ', clt.Reference) "
-            f"FROM `creature_loot_template` clt "
-            f"JOIN `reference_loot_template` rlt ON rlt.Entry = clt.Reference "
-            f"WHERE clt.Entry = {base_lootid} AND clt.Reference > 0 "
-            f"AND rlt.Item > 0;"
+            f"SET @zep_ref_group_base := (SELECT COALESCE(MAX(`GroupId`), 0) "
+            f"FROM `creature_loot_template` WHERE `Entry` = {base_lootid} "
+            f"AND `Reference` = 0);"
         )
+        lines.append(ref_expansion_sql(new_entry, base_lootid))
 
     # Skip cache drops on bosses with no creature loot table (lootid=0).
     # These are multi-add or event-driven encounters where the actual
@@ -317,7 +365,9 @@ def generate_loot_sql(
     # bosses primarily drop F-179 scaled stock loot, with caches as a 1-in-4
     # bonus per type. LFG daily completion guarantees both caches via
     # zz_[F-179]_lfg_cache_rewards.sql, so players still have a reliable
-    # source). Trash = 0.5% each (GroupId=1 for 1% total).
+    # source). Trash = 0.5% each in one shared group (1% total). That group is
+    # the next free GroupId on the clone's table, not a fixed 1: a fixed 1 merged
+    # the caches into the base's group 1 (I-383, see the ref remap above).
     if is_boss:
         lines.append(
             f"INSERT INTO `creature_loot_template` SET "
@@ -333,15 +383,19 @@ def generate_loot_sql(
         )
     else:
         lines.append(
+            f"SET @zep_cache_group := (SELECT COALESCE(MAX(`GroupId`), 0) + 1 "
+            f"FROM `creature_loot_template` WHERE `Entry` = {new_entry});"
+        )
+        lines.append(
             f"INSERT INTO `creature_loot_template` SET "
             f"`Entry` = {new_entry}, `Item` = {cache_armor_entry}, "
-            f"`Reference` = 0, `Chance` = 0.5, `GroupId` = 1, `MaxCount` = 1, "
+            f"`Reference` = 0, `Chance` = 0.5, `GroupId` = @zep_cache_group, `MaxCount` = 1, "
             f"`Comment` = 'trash armor cache (0.5%)';"
         )
         lines.append(
             f"INSERT INTO `creature_loot_template` SET "
             f"`Entry` = {new_entry}, `Item` = {cache_weapon_entry}, "
-            f"`Reference` = 0, `Chance` = 0.5, `GroupId` = 1, `MaxCount` = 1, "
+            f"`Reference` = 0, `Chance` = 0.5, `GroupId` = @zep_cache_group, `MaxCount` = 1, "
             f"`Comment` = 'trash weapon cache (0.5%)';"
         )
     lines.append("")

@@ -414,9 +414,13 @@ def _go_chest_block(tier: str) -> List[str]:
             f"DELETE FROM `gameobject_loot_template` "
             f"WHERE `Entry` = {chest_loot_id} AND `Item` IN ({cache_ids_csv});"
         )
+        # Source type 4 = CONDITION_SOURCE_TYPE_GAMEOBJECT_LOOT_TEMPLATE. These
+        # rows were emitted as 3 (FISHING) - AC dropped them at load ("SourceGroup
+        # N ... does not exist in fishing_loot_template") so the chest caches went
+        # ungated on every difficulty (I-383). DELETE covers 3 too to purge them.
         lines.append(
             f"DELETE FROM `conditions` "
-            f"WHERE `SourceTypeOrReferenceId` = 3 "
+            f"WHERE `SourceTypeOrReferenceId` IN (3, 4) "
             f"AND `SourceGroup` = {chest_loot_id} "
             f"AND `SourceEntry` IN ({cache_ids_csv}) "
             f"AND `ConditionTypeOrReference` = 49;"
@@ -430,7 +434,7 @@ def _go_chest_block(tier: str) -> List[str]:
             )
             lines.append(
                 f"INSERT INTO `conditions` SET "
-                f"`SourceTypeOrReferenceId` = 3, `SourceGroup` = {chest_loot_id}, "
+                f"`SourceTypeOrReferenceId` = 4, `SourceGroup` = {chest_loot_id}, "
                 f"`SourceEntry` = {cache_entry}, `ConditionTypeOrReference` = 49, "
                 f"`ConditionValue1` = {diff_value}, "
                 f"`Comment` = '{label} gated to difficulty {diff_value}';"

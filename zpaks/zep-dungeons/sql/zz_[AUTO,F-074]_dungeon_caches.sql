@@ -1637,25 +1637,25 @@ INSERT INTO `item_loot_template` SET `Entry` = 66203, `Item` = 9, `Reference` = 
 
 -- Chest of the Seven (gameobject 169243, loot 12260)
 DELETE FROM `gameobject_loot_template` WHERE `Entry` = 12260 AND `Item` IN (66200, 66201, 66202, 66203);
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 3 AND `SourceGroup` = 12260 AND `SourceEntry` IN (66200, 66201, 66202, 66203) AND `ConditionTypeOrReference` = 49;
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` IN (3, 4) AND `SourceGroup` = 12260 AND `SourceEntry` IN (66200, 66201, 66202, 66203) AND `ConditionTypeOrReference` = 49;
 INSERT INTO `gameobject_loot_template` SET `Entry` = 12260, `Item` = 66200, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Chest of the Seven - heroic armor cache (diff-gated)';
-INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 12260, `SourceEntry` = 66200, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic armor cache gated to difficulty 1';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 4, `SourceGroup` = 12260, `SourceEntry` = 66200, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic armor cache gated to difficulty 1';
 INSERT INTO `gameobject_loot_template` SET `Entry` = 12260, `Item` = 66201, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Chest of the Seven - heroic weapon cache (diff-gated)';
-INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 12260, `SourceEntry` = 66201, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic weapon cache gated to difficulty 1';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 4, `SourceGroup` = 12260, `SourceEntry` = 66201, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic weapon cache gated to difficulty 1';
 INSERT INTO `gameobject_loot_template` SET `Entry` = 12260, `Item` = 66202, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Chest of the Seven - mythic armor cache (diff-gated)';
-INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 12260, `SourceEntry` = 66202, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic armor cache gated to difficulty 2';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 4, `SourceGroup` = 12260, `SourceEntry` = 66202, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic armor cache gated to difficulty 2';
 INSERT INTO `gameobject_loot_template` SET `Entry` = 12260, `Item` = 66203, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Chest of the Seven - mythic weapon cache (diff-gated)';
-INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 12260, `SourceEntry` = 66203, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic weapon cache gated to difficulty 2';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 4, `SourceGroup` = 12260, `SourceEntry` = 66203, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic weapon cache gated to difficulty 2';
 
 -- Sothos and Jarien's Heirlooms (gameobject 181083, loot 17919)
 DELETE FROM `gameobject_loot_template` WHERE `Entry` = 17919 AND `Item` IN (66200, 66201, 66202, 66203);
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 3 AND `SourceGroup` = 17919 AND `SourceEntry` IN (66200, 66201, 66202, 66203) AND `ConditionTypeOrReference` = 49;
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` IN (3, 4) AND `SourceGroup` = 17919 AND `SourceEntry` IN (66200, 66201, 66202, 66203) AND `ConditionTypeOrReference` = 49;
 INSERT INTO `gameobject_loot_template` SET `Entry` = 17919, `Item` = 66200, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Sothos and Jarien''s Heirlooms - heroic armor cache (diff-gated)';
-INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 17919, `SourceEntry` = 66200, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic armor cache gated to difficulty 1';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 4, `SourceGroup` = 17919, `SourceEntry` = 66200, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic armor cache gated to difficulty 1';
 INSERT INTO `gameobject_loot_template` SET `Entry` = 17919, `Item` = 66201, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Sothos and Jarien''s Heirlooms - heroic weapon cache (diff-gated)';
-INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 17919, `SourceEntry` = 66201, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic weapon cache gated to difficulty 1';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 4, `SourceGroup` = 17919, `SourceEntry` = 66201, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic weapon cache gated to difficulty 1';
 INSERT INTO `gameobject_loot_template` SET `Entry` = 17919, `Item` = 66202, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Sothos and Jarien''s Heirlooms - mythic armor cache (diff-gated)';
-INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 17919, `SourceEntry` = 66202, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic armor cache gated to difficulty 2';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 4, `SourceGroup` = 17919, `SourceEntry` = 66202, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic armor cache gated to difficulty 2';
 INSERT INTO `gameobject_loot_template` SET `Entry` = 17919, `Item` = 66203, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Sothos and Jarien''s Heirlooms - mythic weapon cache (diff-gated)';
-INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 17919, `SourceEntry` = 66203, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic weapon cache gated to difficulty 2';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 4, `SourceGroup` = 17919, `SourceEntry` = 66203, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic weapon cache gated to difficulty 2';
 
