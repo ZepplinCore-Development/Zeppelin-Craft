@@ -1700,28 +1700,14 @@ function openAsset(e) {
   // Retail, LIVE: wago.tools serves the modern model + its files by id (CORS-open), so the
   // pane loads them directly. The WXL-converted file is made only if Retail is picked.
   if (e.retailOnly) {
-    // one pane per retail skin set (retail_sets.json), each a "New display" with that skin; until the sets
-    // load (or for a model no retail display uses), the first retail display's skins
-    const rpane = (sk, title, si, note) => {
-      const prm = new URLSearchParams({ src: 'v2', model: e.path, retail: e.retailOnly, build: retailIdx.build, skins: sk.join(','), pv: PANE_V });
-      return `<div class="pane rset"><iframe src="${retailPaneSrc(prm, e.path)}" loading="lazy" title="${esc(title)}"></iframe>
-      <div class="info"><div class="h"><b>${esc(title)}</b><span class="chip" title="Retail model, loaded live (FileDataID ${e.retailOnly})">live from wago.tools</span><span class="chip" title="Not in the 3.3.5 client: a new display ships it (converted at curate time)">not in the 3.3.5 client</span></div>
+    const prm = new URLSearchParams({ src: 'v2', model: e.path, retail: e.retailOnly, build: retailIdx.build,
+      skins: (e.rskins || [0, 0, 0]).join(','), pv: PANE_V });
+    $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><iframe src="${retailPaneSrc(prm, e.path)}" loading="lazy" title="Retail"></iframe>
+      <div class="info"><div class="h"><b>Retail</b><span class="chip" title="Retail model, loaded live (FileDataID ${e.retailOnly})">live from wago.tools</span><span class="chip" title="Not in the 3.3.5 client: a new display ships it (converted at curate time)">not in the 3.3.5 client</span></div>
       <div class="stats" data-live>loading…</div>
-      <div class="stats">model: ${esc(e.path)}${note ? ' · ' + esc(note) : ''}</div>
-      <button class="usecust" data-nd="${si}" title="Create a new display id (the highest + 1) on this retail model wearing this skin, then tune it in the Display editor; point a creature at it with its id">New display with this skin</button></div></div>`;
-    };
-    const wire = () => $('panes').querySelectorAll('.rset [data-nd]').forEach(b => b.onclick = () => newRetailDisplay(e.path, e.retailOnly, Math.max(0, +b.dataset.nd)));
-    $('panes').insertAdjacentHTML('beforeend', rpane(e.rskins || [0, 0, 0], 'Retail', -1, ''));
-    wire();
-    loadRsets().then(R => {
-      const sets = R.sets[e.retailOnly] || [];
-      if (cur !== e || !sets.length) return;
-      const nm = (fd) => !fd ? '' : String((R.names || {})[String(fd)] || fd).split('/').pop().replace(/\.blp$/, '');
-      $('panes').querySelectorAll('.rset').forEach(x => x.remove());
-      $('panes').insertAdjacentHTML('beforeend', sets.map(([sk, n], si) => rpane(sk, sk.filter(Boolean).map(nm).join(' + ') || `skin set ${si + 1}`, si,
-        `${n} retail display${n === 1 ? '' : 's'}`)).join(''));
-      wire(); fitPanes();
-    });
+      <div class="stats">model: ${esc(e.path)}</div>
+      <button class="usecust" id="newdisp-r" title="Create a new display id (the highest + 1) on this retail model and dress it (skins, scale, geosets) in the Display editor; point a creature at it with its id">New display</button></div></div>`);
+    $('newdisp-r').onclick = () => newRetailDisplay(e.path, e.retailOnly, 0);
     render();
     return;
   }
