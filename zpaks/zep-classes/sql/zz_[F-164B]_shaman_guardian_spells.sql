@@ -22,18 +22,14 @@ INSERT INTO `spell_custom_attr` (`spell_id`, `attributes`) VALUES
 (900316, 0x1000);
 
 -- ============================================================================
--- spell_group - Splinter Armor joins "Major Armor Debuffs" (group 1015,
--- stack_rule 3 EXCLUSIVE_SAME_EFFECT) so it does NOT stack with Sunder/Expose
--- (all use aura 22 MOD_RESISTANCE flat armor; only the strongest applies). A player
--- only ever has one rank of Splinter Armor, so listing all ranks is harmless.
+-- spell_group - Splinter Armor is NOT in "Major Armor Debuffs" (group 1015).
+-- I-383: 1015 is stack_rule 3 (EXCLUSIVE_SAME_EFFECT). AC guesses the group's aura
+-- type from its members' majority aura = 101 MOD_RESISTANCE_PCT (Sunder 58567, Expose
+-- 8647, Acid Spit 55749); Splinter Armor is aura 22 MOD_RESISTANCE (flat), so the
+-- same-effect check never matched it - membership was inert and logged "does not
+-- share aura assigned for group 1015". Ranks 900310-900316 were also listed, which
+-- LoadSpellGroups rejects ("not first rank": spell_group takes the chain head only).
+-- Exclusivity with Sunder would need Splinter Armor moved to aura 101 (design call).
+-- The DELETE stays to purge the old rows.
 -- ============================================================================
 DELETE FROM `spell_group` WHERE `id` = 1015 AND `spell_id` IN (900264, 900310, 900311, 900312, 900313, 900314, 900315, 900316);
-INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1015, 900264),
-(1015, 900310),
-(1015, 900311),
-(1015, 900312),
-(1015, 900313),
-(1015, 900314),
-(1015, 900315),
-(1015, 900316);

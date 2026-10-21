@@ -9,21 +9,23 @@
 DELETE FROM `spell_script_names` WHERE `spell_id` IN (900170, 900167, 900168, 900169, 900171, 900172);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900170, 'spell_sha_living_guardian_aura');
--- Living Guardian heal-only filtering is data-driven (spell_proc SpellTypeMask=2 +
--- SpellPhaseMask=2 on all 3 ranks); no proc-filter script needed.
+-- Living Guardian heal-only filtering is data-driven (spell_proc SpellTypeMask=2 on
+-- all 3 ranks); no proc-filter script needed.
 
 -- ============================================================================
 -- spell_proc — proc only on direct heals received.
--- SpellTypeMask=2 (PROC_SPELL_TYPE_HEAL) + SpellPhaseMask=2 (PROC_SPELL_PHASE_HIT), 10s ICD.
--- SpellPhaseMask=2 is REQUIRED: at CAST/FINISH phase AC forces spellTypeMask=MASK_ALL
--- (Unit.cpp), so a 0 phase let self-cast positive buffs slip past the HEAL filter.
+-- SpellTypeMask=2 (PROC_SPELL_TYPE_HEAL), 10s ICD. ProcFlags=0 -> DBC proc_flags 0x8000
+-- (TAKEN_SPELL_MAGIC_DMG_CLASS_POS). SpellPhaseMask=0 (I-383): AC only checks the phase
+-- for DONE spell flags (REQ_SPELL_PHASE_PROC_FLAG_MASK); CAST/FINISH phase procs are
+-- raised with procVictim=NONE, so a TAKEN proc only ever fires at HIT phase anyway.
+-- A non-zero phase here was unused and logged "SpellPhaseMask ... won't be used".
 -- 900171/900172 kept in DELETE to purge old retired-rank rows.
 -- ============================================================================
 DELETE FROM `spell_proc` WHERE `SpellId` IN (900167, 900168, 900169, 900171, 900172);
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
-(900167, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
-(900168, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
-(900169, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0);
+(900167, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
+(900168, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
+(900169, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0);
 
 -- ============================================================================
 -- spell_linked_spell — shield buff (900170) applies cooldown debuff (900186)
