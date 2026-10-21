@@ -1056,13 +1056,20 @@ function placeStart() {
   });
 }
 const wrapPi = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+// The engine applies each orbit / zoom call over the following frames (a frame-time spring), so commanding
+// the WHOLE error every frame re-adds what is still in flight: on a fast or high-refresh display (Edge) the
+// loop overshot and oscillated - the model spun forever and grabbing it could not stop it (only scrolling
+// the card off-screen did: the paused frame let the engine settle). Steer by a damped share of the error,
+// capped per frame; it still lands exactly, over a few frames.
+const CAM_GAIN = 0.3, CAM_MAX_ANGLE = 0.25;   // share of the error per frame; at most ~14 degrees a frame
+const clampAbs = (v, m) => Math.max(-m, Math.min(m, v));
 function camStep() {                     // called every frame
   if (!camLive) return;
   const m = measureCam(), D = 180 / Math.PI;
   const dy = wrapPi(cam.yaw - m.yaw), dp = cam.pitch - m.pitch, dd = cam.dist - m.dist;
-  if (Math.abs(dy) > 1e-3) Module._addHorizontalViewDir(-dy * D);    // +v turns yaw down
-  if (Math.abs(dp) > 1e-3) Module._addVerticalViewDir(dp * D);       // +v raises the camera
-  if (Math.abs(dd) > 1e-3 * cam.dist) Module._zoomInFromMouseScroll(dd); // +v moves back v units
+  if (Math.abs(dy) > 1e-3) Module._addHorizontalViewDir(-clampAbs(dy * CAM_GAIN, CAM_MAX_ANGLE) * D);   // +v turns yaw down
+  if (Math.abs(dp) > 1e-3) Module._addVerticalViewDir(clampAbs(dp * CAM_GAIN, CAM_MAX_ANGLE) * D);     // +v raises the camera
+  if (Math.abs(dd) > 1e-3 * cam.dist) Module._zoomInFromMouseScroll(dd * CAM_GAIN);                    // +v moves back v units
 }
 function applyCam() { updateRuler(); }
 function moveCam(mut, broadcast = true) {
