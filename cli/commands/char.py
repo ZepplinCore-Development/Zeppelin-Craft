@@ -1050,7 +1050,8 @@ def char_test_setup(name, race, cls, gender, level, account, before, done, take,
     ids = list(equip) + kit
     if bag:   # backpack items (F-226): first free backpack slots, INVENTORY_SLOT_ITEM_START (23) onward
         rows = {int(r['entry']): r for r in _q(_run_world_query,
-                "SELECT entry, name, MaxDurability FROM item_template "
+                "SELECT entry, name, MaxDurability, spellcharges_1, spellcharges_2, spellcharges_3, "
+                "spellcharges_4, spellcharges_5 FROM item_template "
                 f"WHERE entry IN ({','.join(map(str, bag))})")}
         bag_item_guid = _alloc_id('item_instance', 'guid', ITEM_GUID_OFFSET) + 1000
         for pack_slot, entry in enumerate(bag[:16], start=23):
@@ -1058,10 +1059,12 @@ def char_test_setup(name, race, cls, gender, level, account, before, done, take,
             if not it:
                 click.echo(f"  warning: item {entry} not in item_template, skipped")
                 continue
+            # template charges (-1 = unlimited use); 0 makes an on-use item fail NO_CHARGES_REMAIN (I-420)
+            charges = ' '.join(str(it[f'spellcharges_{n}']) for n in range(1, 6)) + ' '
             stmts.append(
                 "INSERT INTO item_instance (guid, itemEntry, owner_guid, creatorGuid, giftCreatorGuid, "
                 "count, duration, charges, flags, enchantments, randomPropertyId, durability, playedTime, text) "
-                f"VALUES ({bag_item_guid}, {entry}, {guid}, 0, 0, 1, 0, '0 0 0 0 0 ', 0, "
+                f"VALUES ({bag_item_guid}, {entry}, {guid}, 0, 0, 1, 0, '{charges}', 0, "
                 f"'{ENCHANTMENTS_BLANK}', 0, {int(it['MaxDurability'])}, 0, NULL);")
             stmts.append(f"INSERT INTO character_inventory (guid, bag, slot, item) "
                          f"VALUES ({guid}, 0, {pack_slot}, {bag_item_guid});")
