@@ -1,0 +1,97 @@
+From 4ccd7c9d028e180062efdb11f3d65417fb3dba88 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 21 Oct 2026 00:27:34 +0000
+Subject: [PATCH] WIP: F-219 - never stranded beside a mob; dense wait relaxes
+ when grinding is dry; repair reserve
+
+- route_guard ignores red mobs we already stand beside (reach + 60 yd of the start)
+- dense-area wait drops to the mobs' level while the last grind search found nothing (Kezan)
+- buy_weapons keeps two repairs (30c x level) back as well as training money
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index ac56aeb..0d0879c 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1641,7 +1641,7 @@ class Runner:
+ 
+     def buy_weapons(self, level, max_walk=600):
+         """Buy a vendor weapon that beats the worn one by 30 %+ (any weapon slot we can use), keeping the
+-        next two levels of training money back. Only quest rewards ever changed a weapon: Teldrassil's
++        next two levels of training money and two repairs back. Only quest rewards ever changed a weapon: Teldrassil's
+         level-7 hunter still swung the 1.4 DPS Worn Battleaxe in its 60 % defend deaths, with a 4.3 DPS
+         Large Axe (484c) and a better bow (285c) for sale nearby - and 885c spent on repairs."""
+         if not self.w.vendors:
+@@ -1650,7 +1650,9 @@ class Runner:
+             self._weapon_shop = [(int(r["entry"]), int(r["item"]), int(r["price"])) for r in sql(
+                 "SELECT v.entry,v.item,i.BuyPrice price FROM npc_vendor v JOIN item_template i ON i.entry=v.item "
+                 f"WHERE v.entry IN ({inlist(self.w.vendors)}) AND v.ExtendedCost=0 AND v.maxcount=0 AND i.class=2")]
+-        money = call("interact.self").get("money", 0) - self.training_reserve(level)
++        # ...and two full repairs (~15c a level each): the weapons left Teldrassil's hunter broke, its
++        # repairs stopped at 23 % then 0 %, and it fought on broken gear through a death loop
++        money = call("interact.self").get("money", 0) - self.training_reserve(level) - 30 * level
+         if money <= 0:
+             return False
+         worn = {it.get("slot"): it.get("entry") for it in call("interact.inventory").get("equipped", [])}
+@@ -1841,6 +1843,7 @@ class Runner:
+         hostile = {t[3] for t in self.threats()}
+         pool = (set(self.w.objective_creatures) | (hostile & set(self.w.cspawn))) - self.grind_skip
+         if not pool:
++            self._grind_dry_t = time.time()
+             return False
+         me = self.me()
+         lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+@@ -1893,8 +1896,16 @@ class Runner:
+                     print(f"  ~ grind spot ({p[0]:.0f},{p[1]:.0f}): {str(e)[:90]}", flush=True)
+                 finally:
+                     self.current_qid = q
++        self._grind_dry_t = time.time()
+         return False
+ 
++    def grind_dry(self, level, dense):
++        """The dense-area wait (2 levels over its mobs) is only fair while a grind can earn those levels.
++        When the last grind search found nowhere to go (Kezan: the Pirate Party Crashers ARE the hostile
++        mobs; the goblin waited at level 4 for 6 with nothing to fight and ended its run), go in at the
++        mobs' own level instead."""
++        return level >= dense - 2 and time.time() - getattr(self, "_grind_dry_t", 0) < 600
++
+     def clear_camp(self, spot, radius=25.0):
+         """Before walking to an object in a hostile camp, clear the camp from the edge: one mob at a
+         time, OUTERMOST first, approached from outside so the pull does not drag in the rest, and rest
+@@ -1931,7 +1942,7 @@ class Runner:
+         key = (round(spot[0] / 20), round(spot[1] / 20))
+         top = max(info.get(o["entry"], (99, 0))[0] for o in mobs)
+         dense = self.dense_level(spot)
+-        if dense and level < dense:
++        if dense and level < dense and not self.grind_dry(level, dense):
+             # a quest object in a cave or packed camp waits until we out-level its mobs
+             q = getattr(self, "current_qid", None)
+             if q:
+@@ -2194,7 +2205,7 @@ class Runner:
+         group = [m for m in mobs if math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 18
+                  and (m is t or self.hostile(m["entry"]))]
+         dense = self.dense_level((t["x"], t.get("y", 0)))
+-        if dense and level < dense:
++        if dense and level < dense and not self.grind_dry(level, dense):
+             q = getattr(self, "current_qid", None)
+             if q:
+                 self.defer_until[q] = max(self.defer_until.get(q, 0), dense)
+@@ -2676,6 +2687,10 @@ class Runner:
+ 
+         def reach(t):
+             return min(28.0, 20.0 + t[2] - level) + t[4]
++        # a mob we already stand beside never blocks the way OUT: staying is no safer than leaving (the
++        # detour still skirts it). Durotar's warlock stood 70 yd from a level-7 Makrura, Mulgore's druid
++        # 70 yd from a level-8 Prairie Stalker: every route started past it, both runs ended parked
++        red = [t for t in red if math.dist(t[:2], start) >= reach(t) + 60]
+         for a, b in zip(pts, pts[1:]):
+             ax, ay, bx, by = a.get("x", 0), a.get("y", 0), b.get("x", 0), b.get("y", 0)
+             n = max(1, int(math.dist((ax, ay), (bx, by)) / 4))
+-- 
+2.34.1
+
