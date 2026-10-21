@@ -97,6 +97,7 @@ function CharacterCreate_OnLoad(self)
 	CharacterCreate.selectedGender = 0;
 
 	SetCharCustomizeFrame("CharacterCreate");
+	CharacterCreateFrame:EnableMouseWheel(true);	-- F-151 zoom
 
 	for i=1, NUM_CHAR_CUSTOMIZATIONS, 1 do
 		_G["CharCreateCustomizationButton"..i].text:SetText(_G["CHAR_CUSTOMIZATION"..i.."_DESC"]);
@@ -248,7 +249,58 @@ function CharacterCreateFrame_OnMouseUp(button)
 	end
 end
 
+-- F-151: mouse-wheel zoom toward the character's head (SetCharacterCreateZoom, a source-client API).
+-- CHAR_CREATE_ZOOM is the target (0 = stock framing, 1 = face), eased each frame.
+CHAR_CREATE_ZOOM = 0;
+CHAR_CREATE_ZOOM_SHOWN = 0;
+CHAR_CREATE_ZOOM_STEP = 0.2;
+
+function CharacterCreate_Zoom(delta)
+	CHAR_CREATE_ZOOM = math.min(1, math.max(0, CHAR_CREATE_ZOOM + delta * CHAR_CREATE_ZOOM_STEP));
+end
+
+function CharacterCreate_UpdateZoom(elapsed)
+	if ( not SetCharacterCreateZoom ) then
+		return;
+	end
+	local shown = CHAR_CREATE_ZOOM_SHOWN + (CHAR_CREATE_ZOOM - CHAR_CREATE_ZOOM_SHOWN) * math.min(1, elapsed * 10);
+	if ( math.abs(shown - CHAR_CREATE_ZOOM) < 0.002 ) then
+		shown = CHAR_CREATE_ZOOM;
+	end
+	CHAR_CREATE_ZOOM_SHOWN = shown;
+	SetCharacterCreateZoom(shown);
+end
+
+-- F-151: "Label | 3/20" on the customization buttons (GetCharCustomizationInfo is a source-client API)
+CHAR_CREATE_COUNT_TIMER = 0;
+
+function CharCreate_UpdateCustomizationCounts()
+	for i = 1, 5 do
+		local button = _G["CharCreateCustomizationButton"..i];
+		if ( button and button.count ) then
+			local position, count;
+			if ( GetCharCustomizationInfo ) then
+				position, count = GetCharCustomizationInfo(i);
+			end
+			if ( count and count > 0 ) then
+				button.count:SetText(position.."/"..count);
+				button.count:Show();
+				button.divider:Show();
+			else
+				button.count:Hide();
+				button.divider:Hide();
+			end
+		end
+	end
+end
+
 function CharacterCreateFrame_OnUpdate(self, elapsed)
+	CharacterCreate_UpdateZoom(elapsed);
+	CHAR_CREATE_COUNT_TIMER = CHAR_CREATE_COUNT_TIMER - elapsed;
+	if ( CHAR_CREATE_COUNT_TIMER <= 0 ) then
+		CHAR_CREATE_COUNT_TIMER = 0.15;
+		CharCreate_UpdateCustomizationCounts();
+	end
 	if ( CHARACTER_CREATE_ROTATION_START_X ) then
 		local x = GetCursorPosition();
 		local diff = (x - CHARACTER_CREATE_ROTATION_START_X) * CHARACTER_ROTATION_CONSTANT;

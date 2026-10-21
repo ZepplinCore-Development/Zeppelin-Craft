@@ -539,7 +539,22 @@
 			<Layer level="ARTWORK">
 				<FontString name="$parentText" inherits="GlueFontHighlightSmall" parentKey="text">
 					<Anchors>
-						<Anchor point="CENTER" x="0" y="2"/>
+						<Anchor point="CENTER" x="-24" y="2"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<!-- F-151: "| 3/20" right of the label (CharCreate_UpdateCustomizationCounts); OVERLAY, above the button art -->
+			<Layer level="OVERLAY">
+				<Texture name="$parentDivider" parentKey="divider">
+					<Size x="1" y="16"/>
+					<Anchors>
+						<Anchor point="RIGHT" x="-52" y="2"/>
+					</Anchors>
+					<Color r="1.0" g="0.82" b="0.0" a="0.7"/>
+				</Texture>
+				<FontString name="$parentCount" inherits="GlueFontHighlightSmall" parentKey="count">
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="RIGHT" x="-33" y="2"/>
 					</Anchors>
 				</FontString>
 			</Layer>
@@ -1879,6 +1894,8 @@
 					<OnMouseWheel>
 						if ( CharCreatePreviewFrame:IsShown() ) then
 							CharCreate_ChangeFeatureVariation(delta * -1);
+						else
+							CharacterCreate_Zoom(delta);
 						end
 					</OnMouseWheel>
 				</Scripts>

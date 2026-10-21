@@ -1,0 +1,276 @@
+From 0b474f2989fc7f23780d4d8f4bf3fd12c4fc8230 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Wed, 21 Oct 2026 10:20:22 +0000
+Subject: [PATCH] Zeppelin F-151: character create choice counters and head
+ zoom
+
+- GetCharCustomizationInfo(index) -> position, count: the choices a
+  customization button's cycle can reach for the selected race, sex and
+  class (same record/flag checks as SetNext*, facial hair capped by
+  CharacterFacialHairStyles as SetBeardStyle does).
+- SetCharacterCreateZoom(0..1): moves the character-create camera toward
+  the character's head attachment; zoom 0 is the stock framing.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ Engine/Source/Frame/CSimpleModel.cpp          |  51 +++++++
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp | 136 ++++++++++++++++++
+ 2 files changed, 187 insertions(+)
+
+diff --git a/Engine/Source/Frame/CSimpleModel.cpp b/Engine/Source/Frame/CSimpleModel.cpp
+index b1e3c540..ed3deb8e 100644
+--- a/Engine/Source/Frame/CSimpleModel.cpp
++++ b/Engine/Source/Frame/CSimpleModel.cpp
+@@ -1,6 +1,7 @@
+ #include <cmath>
+ #include <cstddef>
+ #include <cstdint>
++#include <unordered_map>
+ #include "Engine/Source/Frame/CSimpleModel.h"
+ #include "Engine/Source/Base/Coordinate.h"
+ #include "Engine/Source/Base/Handle.h"
+@@ -14,6 +15,7 @@
+ #include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
+ #include "Engine/Source/Gx/CGxTexFlags.h"
+ #include "Engine/Source/Gx/Gx.h"
++#include "Engine/Source/Gxu/Gxu.h"
+ #include "Engine/Source/Model2/M2Cache.h"
+ #include "Engine/Source/Model2/M2Data.h"
+ #include "Engine/Source/Model2/M2Model.h"
+@@ -102,9 +104,57 @@ int32_t CSimpleModel::AdvanceTime() {
+     return 1;
+ }
+ 
++// Not in the original (F-151): per-frame camera zoom toward a point another model supplies (character create:
++// the character's head attachment), kept outside the class layout. ZepSetCameraZoomFocus(model, zoom 0..1,
++// focus): the eye moves toward the point by zoom * ZOOM_FOCUS_MAX of the distance and the look-at point blends
++// from the camera's target to it, so zoom 0 is the stock framing.
++struct ZepCameraZoom {
++    float zoom;
++    bool (*focus)(C3Vector& point);
++};
++
++static std::unordered_map<const CSimpleModel*, ZepCameraZoom> s_zepCameraZoom;
++static const float ZOOM_FOCUS_MAX = 0.75f;
++
++void ZepSetCameraZoomFocus(CSimpleModel* model, float zoom, bool (*focus)(C3Vector& point)) {
++    if (zoom <= 0.0f || !focus) {
++        s_zepCameraZoom.erase(model);
++    } else {
++        s_zepCameraZoom[model] = { zoom, focus };
++    }
++}
++
++static void ZepApplyCameraZoom(const CSimpleModel* model, CCamera* camera) {
++    auto it = s_zepCameraZoom.find(model);
++
++    if (it == s_zepCameraZoom.end()) {
++        return;
++    }
++
++    const C3Vector& pos = camera->m_position.m_data;
++    C3Vector target(camera->m_target.m_data.x - pos.x, camera->m_target.m_data.y - pos.y, camera->m_target.m_data.z - pos.z);
++    C3Vector point;
++
++    if (!it->second.focus(point)) {
++        return;
++    }
++
++    float z = it->second.zoom > 1.0f ? 1.0f : it->second.zoom;
++    C3Vector focus(point.x - pos.x, point.y - pos.y, point.z - pos.z);
++    C3Vector eye(focus.x * z * ZOOM_FOCUS_MAX, focus.y * z * ZOOM_FOCUS_MAX, focus.z * z * ZOOM_FOCUS_MAX);
++    C3Vector center(target.x + (focus.x - target.x) * z, target.y + (focus.y - target.y) * z, target.z + (focus.z - target.z) * z);
++    C3Vector up(camera->m_rotation.m_sin * camera->m_roll.m_sin, -(camera->m_rotation.m_cos * camera->m_roll.m_sin), camera->m_roll.m_cos);
++    C44Matrix view;
++    GxuXformCreateLookAtSgCompat(eye, center, up, view);
++    g_theGxDevicePtr->XformSetView(view);
++    CShaderEffect::UpdateProjMatrix();
++}
++
+ // VERIFY: d4b291b5 auto
+ // OFFSET: [0x0095F3A0, 0x0095F670, 0x0095F7D0]
+ CSimpleModel::~CSimpleModel() {
++    s_zepCameraZoom.erase(this);   // Not in the original (F-151)
++
+     if (this->m_camera) {
+         HandleClose(reinterpret_cast<HOBJECT>(this->m_camera));
+     }
+@@ -445,6 +495,7 @@ void CSimpleModel::RenderModel(void* arg) {
+         DataMgrGetCoord(camera, 7, &cameraPos);
+         DataMgrGetCoord(camera, 8, &cameraTarget);
+         CameraSetupWorldProjection(camera, rect, 0);
++        ZepApplyCameraZoom(simpleModel, camera);   // Not in the original (F-151)
+     } else {
+         C2Vector offset;
+         offset.x = rect.minX;
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index 38e3979d..d2b12b24 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -3,12 +3,14 @@
+ #include "Engine/Source/BlizzardCore/SFile2-Core.h"
+ #include "Engine/Source/Frame/CScriptObject.h"
+ #include "Engine/Source/Frame/CSimpleModel.h"
++#include "Engine/Source/Model2/M2Model.h"
+ #include "Engine/Source/FrameScript/FrameScript.h"
+ #include "Engine/Source/FrameScript/FrameScript_Object.h"
+ #include "Engine/Source/lua-5.1/src/lauxlib.h"
+ #include "Engine/Source/lua-5.1/src/lua.h"
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "WoW/Common/ComponentCore/CharacterComponent.h"
++#include "WoW/Common/ComponentCore/ComponentUtils.h"
+ #include "WoW/Source/DB/DBClient/DBClient.h"
+ #include "WoW/Source/DB/Rec/ChrClassesRec.h"
+ #include "WoW/Source/DB/Rec/ChrRacesRec.h"
+@@ -562,6 +564,138 @@ static int32_t Script_PaidChange_GetPreviousRaceIndex(lua_State* L) {
+     return 1;
+ }
+ 
++// Not in the original (F-151): GetCharCustomizationInfo(index) -> position, count. The choices of one
++// customization button that its cycle can reach for the selected race, sex and class (the same record and
++// flag checks as CCharacterComponent::SetNext*), and the 1-based position of the current choice among them
++// (0 when the current value is not one of them). Lets the glue screens show "3/20" on each button.
++static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t value) {
++    const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    COMPONENT_SELECTION selection = GetSelectionFromContext(COMPONENT_CONTEXT_0, prefs.m_classId);
++    st_race* lookup = CCharacterComponent::s_chrVarArray;
++    auto ok = [&](COMPONENT_VARIATIONS variation, int32_t index, int32_t color) {
++        CharSectionsRec* rec = ComponentGetSectionsRecord(lookup, prefs.m_raceID, prefs.m_sexID, variation, index, color, nullptr);
++        return rec && ComponentFlagsMatch(rec->m_flags, selection);
++    };
++    auto skinOk = [&](int32_t skin, int32_t face) {
++        return ok(VARIATION_SKIN, 0, skin) && ok(VARIATION_FACE, face, skin) && ok(VARIATION_UNDERWEAR, 0, skin);
++    };
++
++    switch (type) {
++        case CHAR_CUSTOMIZATION_SKIN:
++            return skinOk(value, prefs.m_faceId);
++        case CHAR_CUSTOMIZATION_FACE: {
++            int32_t numColors = ComponentGetNumColors(lookup, prefs.m_raceID, prefs.m_sexID, VARIATION_FACE, value);
++            for (int32_t skin = 0; skin < numColors; skin++) {
++                if (skinOk(skin, value)) {
++                    return true;
++                }
++            }
++            return false;
++        }
++        case CHAR_CUSTOMIZATION_HAIR_STYLE:
++        case CHAR_CUSTOMIZATION_FACIAL_FEATURE: {
++            COMPONENT_VARIATIONS variation = type == CHAR_CUSTOMIZATION_HAIR_STYLE ? VARIATION_HAIR : VARIATION_FACIAL_HAIR;
++            if (type == CHAR_CUSTOMIZATION_FACIAL_FEATURE
++                && value >= static_cast<int32_t>(CCharacterComponent::s_characterFacialHairStylesList[prefs.m_raceID * 2 + prefs.m_sexID])) {
++                return false;   // SetBeardStyle refuses it (I-419)
++            }
++            int32_t numColors = ComponentGetNumColors(lookup, prefs.m_raceID, prefs.m_sexID, variation, value);
++            for (int32_t color = 0; color < numColors; color++) {
++                if (ok(variation, value, color)) {
++                    return true;
++                }
++            }
++            return false;
++        }
++        case CHAR_CUSTOMIZATION_HAIR_COLOR:
++            return ok(VARIATION_HAIR, prefs.m_hairStyleId, value);
++        default:
++            return false;
++    }
++}
++
++static int32_t Script_GetCharCustomizationInfo(lua_State* L) {
++    if (!lua_isnumber(L, 1)) {
++        luaL_error(L, "Usage: GetCharCustomizationInfo(index)");
++        return 0;
++    }
++
++    if (!CCharacterCreation::m_character) {
++        return 0;
++    }
++
++    CHAR_CUSTOMIZATION_TYPE type = static_cast<CHAR_CUSTOMIZATION_TYPE>(static_cast<int32_t>(lua_tonumber(L, 1)) - 1);
++    const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    int32_t current, total;
++
++    switch (type) {
++        case CHAR_CUSTOMIZATION_SKIN:
++            current = prefs.m_skinID;
++            total = ComponentGetNumColors(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_SKIN, 0);
++            break;
++        case CHAR_CUSTOMIZATION_FACE:
++            current = prefs.m_faceId;
++            total = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_FACE);
++            break;
++        case CHAR_CUSTOMIZATION_HAIR_STYLE:
++            current = prefs.m_hairStyleId;
++            total = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_HAIR);
++            break;
++        case CHAR_CUSTOMIZATION_HAIR_COLOR:
++            current = prefs.m_hairColorId;
++            total = ComponentGetNumColors(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_HAIR, prefs.m_hairStyleId);
++            break;
++        case CHAR_CUSTOMIZATION_FACIAL_FEATURE:
++            current = prefs.m_facialHairId;
++            total = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_FACIAL_HAIR);
++            break;
++        default:
++            return 0;
++    }
++
++    int32_t position = 0, count = 0;
++    for (int32_t value = 0; value < total; value++) {
++        if (CharCustomizationReachable(type, value)) {
++            count++;
++            if (value == current) {
++                position = count;
++            }
++        }
++    }
++
++    lua_pushnumber(L, position);
++    lua_pushnumber(L, count);
++    return 2;
++}
++
++// Not in the original (F-151): SetCharacterCreateZoom(zoom 0..1) moves the character-create camera toward the
++// character's head (attachment 11), see ZepSetCameraZoomFocus in CSimpleModel.cpp.
++void ZepSetCameraZoomFocus(CSimpleModel* model, float zoom, bool (*focus)(C3Vector& point));
++
++static bool CharacterCreateHead(C3Vector& point) {
++    CM2Model* model = CCharacterCreation::m_character ? CCharacterCreation::m_character->m_data.m_model : nullptr;
++
++    if (!model || !(model->m_fFlags & 1) || !model->HasAttachment(11)) {
++        return false;
++    }
++
++    point = model->GetAttachmentPosition(11);
++    return true;
++}
++
++static int32_t Script_SetCharacterCreateZoom(lua_State* L) {
++    if (!lua_isnumber(L, 1)) {
++        luaL_error(L, "Usage: SetCharacterCreateZoom(zoom)");
++        return 0;
++    }
++
++    if (CCharacterCreation::m_charCustomizeFrame) {
++        ZepSetCameraZoomFocus(CCharacterCreation::m_charCustomizeFrame, static_cast<float>(lua_tonumber(L, 1)), &CharacterCreateHead);
++    }
++
++    return 0;
++}
++
+ // STATIC: 0x00AC4228
+ static FrameScript_Method s_scriptFunctions[] = {
+     { "SetCharCustomizeFrame", &Script_SetCharCustomizeFrame },
+@@ -596,6 +730,8 @@ static FrameScript_Method s_scriptFunctions[] = {
+     { "IsRaceClassValid", &Script_IsRaceClassValid },
+     { "IsRaceClassRestricted", &Script_IsRaceClassRestricted },
+     { "GetCreateBackgroundModel", &Script_GetCreateBackgroundModel },
++    { "GetCharCustomizationInfo", &Script_GetCharCustomizationInfo },   // Not in the original (F-151)
++    { "SetCharacterCreateZoom", &Script_SetCharacterCreateZoom },   // Not in the original (F-151)
+ };
+ 
+ // VERIFY: 88b9bf9d auto
+-- 
+2.34.1
+
