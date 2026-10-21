@@ -70,6 +70,7 @@ if (KEEPER) try { LENT = KEEPER.lend(); } catch (e) {}
   else mvGlHooks(WebGL2RenderingContext.prototype);
   const gl = LENT ? LENT.gl : vis.getContext('webgl2', { antialias: false, alpha: true, depth: true, stencil: true });
   if (gl) { gl.__diag = DIAG; gl.__nocache = q.has('noprogcache'); }
+  else setTimeout(() => fail('no WebGL2 context (browser refused one)'));
   if (DIAG) DIAG.lent = LENT ? 1 : 0;
 }
 
@@ -930,7 +931,7 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
   this.addEventListener('loadend', () => {
     pending--;
     if (this.status >= 400) { missing.add(logical.slice(logical.indexOf(BASE) + BASE.length)); report(); }
-    status.textContent = pending > 0 ? `loading ${pending}…` : '';
+    if (!failed) status.textContent = pending > 0 ? `loading ${pending}…` : '';
   });
   pending++;
   return xopen.call(this, method, fixed, ...rest);
@@ -938,11 +939,18 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
 const xfetch = window.fetch;
 window.fetch = (u, o) => xfetch(fixUrl(typeof u === 'string' ? u : u.url), o);
 
-// Engine crash: tell the picker, so a blank pane is labelled instead of silent.
-addEventListener('error', (e) => {
-  status.textContent = 'viewer crashed';
-  parent.postMessage({ type: 'pane-error', src: SRC, message: String(e.message || e.error || 'error') }, '*');
-});
+// Engine crash: tell the picker, and say why on the pane, so a blank pane is labelled instead of silent
+// (Safari blank cards: crash, abort, lost or refused GL context each read differently).
+let failed = false;
+function fail(why) {
+  if (failed) return;
+  failed = true;
+  status.textContent = why; status.style.color = '#fca5a5'; status.style.opacity = 1;
+  parent.postMessage({ type: 'pane-error', src: SRC, message: why }, '*');
+}
+addEventListener('error', (e) => fail('viewer crashed: ' + String(e.message || e.error || 'error').slice(0, 160)));
+addEventListener('unhandledrejection', (e) => fail('viewer crashed: ' + String((e.reason && e.reason.message) || e.reason || 'error').slice(0, 160)));
+document.getElementById('wowcanvas').addEventListener('webglcontextlost', () => { if (!gone) fail('WebGL context lost (browser limit or GPU reset)'); });
 
 function report() {
   parent.postMessage({ type: 'pane-missing', src: SRC, missing: [...missing] }, '*');
@@ -1166,6 +1174,7 @@ var Module = {
     parent.postMessage({ type: 'pane-meshes', src: SRC, ids: Array.from(ids) }, '*');
   },
   locateFile: (path) => 'engine/' + path,
+  onAbort: (what) => fail('viewer aborted: ' + String(what || '').slice(0, 160)),
   onRuntimeInitialized() { fetchMap().then(fetchItems).catch(() => {}).finally(() => startScene()); },
 };
 function startScene() {
