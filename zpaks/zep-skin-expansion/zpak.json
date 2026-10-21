@@ -19,10 +19,9 @@
       "mpq/**/*"
     ]
   },
-  "client_patch": "PATCH-S",
+  "client_patch": "PATCH-L",
   "enabled": true,
   "priority": 320,
-  "patch_display_name": "Character Skins",
   "feature_id": "F-230",
   "launcher": {
     "mandatory": true,
