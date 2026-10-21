@@ -1,0 +1,76 @@
+{
+ "_doc": "F-216: display-row corrections for community packs (lib/model_sources.apply_pack_row_fixes), applied to every pack that ships the named model file, after the scan - so the picker and `zep model curate` both see them. For packs that replaced a model in place but left some of its displays' rows naming skins for the OLD model. Keyed by model path; rows: {display id: {column: value}}; 'only_if' guards each value against the stock one it replaces.",
+ "creature/mechastrider/mechastrider.m2": {
+  "note": "patch-hd-everything's HD mechastrider draws a two-part skin (slot 1 colour + slot 2 its '...1' half; slot 2 empty -> the model's hardcoded red Mechastrider1). The pack set slot 2 on 7 of its 12 displays and ships every half; these 5 kept stock's blank slot 2.",
+  "rows": {
+   "6544": {
+    "texture_variation_2": "Mechastrider1",
+    "only_if": {
+     "texture_variation_1": "MechaStrider",
+     "texture_variation_2": ""
+    }
+   },
+   "10662": {
+    "texture_variation_2": "MechaStriderSkin_BluePurple1",
+    "only_if": {
+     "texture_variation_1": "MechaStriderSkin_BluePurple",
+     "texture_variation_2": ""
+    }
+   },
+   "10664": {
+    "texture_variation_2": "MechaStriderSkin_RedBlue1",
+    "only_if": {
+     "texture_variation_1": "MechaStriderSkin_RedBlue",
+     "texture_variation_2": ""
+    }
+   },
+   "10667": {
+    "texture_variation_2": "MechaStriderSkin_YellowGreen1",
+    "only_if": {
+     "texture_variation_1": "MechaStriderSkin_YellowGreen",
+     "texture_variation_2": ""
+    }
+   },
+   "28539": {
+    "texture_variation_2": "GnomeMechaStriderSkinRed1",
+    "only_if": {
+     "texture_variation_1": "GnomeMechaStriderSkinRed",
+     "texture_variation_2": ""
+    }
+   }
+  }
+ },
+ "creature/mechastrider/pvpmechastrider.m2": {
+  "note": "Same two-part skin on the HD PvP mechastrider: slot 2 must be the colour's '...1' half. These 4 displays keep stock's PvPMechaStriderHeadlightGlow there (a glow texture for the OLD model); the pack ships each half.",
+  "rows": {
+   "14581": {
+    "texture_variation_2": "PvPMechaStriderSkin_Metal1",
+    "only_if": {
+     "texture_variation_1": "PvPMechaStriderSkin_Metal",
+     "texture_variation_2": "PvPMechaStriderHeadlightGlow"
+    }
+   },
+   "29877": {
+    "texture_variation_2": "TourneyMechaStriderSkinOrange1",
+    "only_if": {
+     "texture_variation_1": "TourneyMechaStriderSkinOrange",
+     "texture_variation_2": "PvPMechaStriderHeadlightGlow"
+    }
+   },
+   "31670": {
+    "texture_variation_2": "GnomeMechaStriderSkinRed1",
+    "only_if": {
+     "texture_variation_1": "GnomeMechaStriderSkinRed",
+     "texture_variation_2": "PvPMechaStriderHeadlightGlow"
+    }
+   },
+   "31692": {
+    "texture_variation_2": "PvPMechaStriderSkin_BlueBlack1",
+    "only_if": {
+     "texture_variation_1": "PvPMechaStriderSkin_BlueBlack",
+     "texture_variation_2": "PvPMechaStriderHeadlightGlow"
+    }
+   }
+  }
+ }
+}

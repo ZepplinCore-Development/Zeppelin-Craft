@@ -799,10 +799,12 @@ def run_scan(craft_root: Path, cache_path: Path, include_disabled: bool = True) 
         try:
             k, res = pickle.loads(rc.read_bytes())
             if k == fp:
+                apply_pack_row_fixes(res)
                 return res
         except Exception:
             pass
     res = _run_scan(craft_root, cache_path, include_disabled, srcs)
+    apply_pack_row_fixes(res)
     try:
         tmp = rc.with_suffix('.tmp')
         tmp.write_bytes(pickle.dumps((fp, res)))
@@ -810,6 +812,39 @@ def run_scan(craft_root: Path, cache_path: Path, include_disabled: bool = True) 
     except Exception:
         pass
     return res
+
+
+PACK_ROW_FIXES = Path(__file__).resolve().parents[2] / 'zpaks' / 'zep-hd-curated' / 'pack_row_fixes.json'
+
+
+def apply_pack_row_fixes(res: dict) -> int:
+    """zep-hd-curated/pack_row_fixes.json: display-row corrections for every pack that ships the named model
+    (a pack that replaced a model in place but left some of its displays naming the OLD model's skins).
+    Each value applies only while the row still holds what 'only_if' expects. Idempotent."""
+    import json as _j
+    try:
+        fixes = {k.lower(): v for k, v in _j.loads(PACK_ROW_FIXES.read_text()).items() if not k.startswith('_')}
+    except (OSError, ValueError):
+        return 0
+    n = 0
+    for s in res.get('sources') or []:
+        if s.kind == 'stock' or not s.cdi:
+            continue
+        for path, fx in fixes.items():
+            if path not in s.assets:
+                continue
+            for did, cols in (fx.get('rows') or {}).items():
+                row = s.cdi.get(int(did))
+                if not row:
+                    continue
+                want = cols.get('only_if') or {}
+                if any(str(row.get(k) or '') != str(v) for k, v in want.items()):
+                    continue
+                new = dict(row)
+                new.update({k: v for k, v in cols.items() if k != 'only_if'})
+                s.cdi[int(did)] = new
+                n += 1
+    return n
 
 
 def _run_scan(craft_root: Path, cache_path: Path, include_disabled: bool, zsources_pre: List['Source']) -> dict:

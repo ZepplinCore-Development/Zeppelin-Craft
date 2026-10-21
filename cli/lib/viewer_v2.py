@@ -633,8 +633,17 @@ class Deployer:
                     if mr:
                         m_.setdefault(ms.norm(str(mr.get('model_path') or '')), []).append(d)
             sibs = by[dbc_source].get(path, [])
-            return self.fill_skins(path, opt, tuple(str(srow.get(k) or '') for k in ms.CDI_TEX_FIELDS),
-                                   [tuple(str(cdi_s[d].get(k) or '') for k in ms.CDI_TEX_FIELDS) for d in sibs])
+            row_tex = tuple(str(srow.get(k) or '') for k in ms.CDI_TEX_FIELDS)
+            filled = self.fill_skins(path, opt, row_tex,
+                                     [tuple(str(cdi_s[d].get(k) or '') for k in ms.CDI_TEX_FIELDS) for d in sibs])
+            if filled:
+                return filled
+            # complete as it is: still THIS row's skins when they differ from the live row's (a disabled pack,
+            # a pack_row_fixes correction - mechastrider 6544's second half), else the live ones are the same
+            live = self.result['effective_dbc'][0].get(did) or {}
+            if [x.lower() for x in row_tex] != [str(live.get(k) or '').lower() for k in ms.CDI_TEX_FIELDS]:
+                return row_tex
+            return None
         live = self.result['effective_dbc'][0].get(did)
         if not live:
             return None
