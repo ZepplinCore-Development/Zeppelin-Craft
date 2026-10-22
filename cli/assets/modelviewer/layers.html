@@ -942,10 +942,28 @@ async function save(kind, key, entry, optionKey, extra = {}, nav = true) {
   } catch (e) { status.className = 'err'; status.textContent = 'save failed: ' + e.message; return false; }
   if (!nav) return true;
   try {
-    const pos = view.indexOf(cur);
+    const pos = queueIndex(cur);
     render();
-    if (filter !== 'all' && view.length) openItem(view[Math.min(pos, view.length - 1)]); else openItem(cur);
+    openAfterSave(pos, cur);
   } catch (e) { console.error(e); }
+}
+// a display's place in the list on screen: a same-look member is listed as its group's first id, and a display
+// opened by link may not be listed at all (-1; view[-1] opened "Nothing here." after a pick)
+function queueIndex(e) {
+  if (!e) return -1;
+  const i = view.indexOf(e);
+  if (i >= 0 || e.tab !== 'display') return i;
+  const ids = new Set(e.look_group || [e.display]);
+  return view.findIndex(x => x.tab === 'display' && (ids.has(x.display) || (x.look_group || []).includes(e.display)));
+}
+// after a pick: the item now at the saved one's place (it left Undecided), the top of the queue when its place
+// is unknown, and past a search that only matched the saved display; the All list stays on it
+function openAfterSave(pos, e) {
+  if (filter === 'all') return openItem(e);
+  if (!view.length && search) { search = ''; $('search').value = ''; render(); }
+  if (!view.length) return openItem(e);
+  const next = view[pos >= 0 ? Math.min(pos, view.length - 1) : 0];
+  if (next.tab === 'display' && next.display !== undefined) openDisplay(next.display); else openItem(next);
 }
 
 // ---- list -------------------------------------------------------------------------------
@@ -3001,17 +3019,15 @@ function displayQueuePos(did) {
   try {
     tab = 'display'; filter = tabFilter('display');
     if (filter === 'all') return -1;
-    const d = displayEntry(did), rep = d.look_group ? displayEntry(d.look_group[0]) : d;
-    return pool().filter(assetMatches).indexOf(rep);
+    const v0 = view; view = pool().filter(assetMatches);
+    try { return queueIndex(displayEntry(did)); } finally { view = v0; }
   } catch (e) { return -1; } finally { tab = t0; filter = f0; }
 }
 function afterEditSave(did, pos) {
-  if (pos < 0) return openDisplay(did);
+  if (tabFilter('display') === 'all') return openDisplay(did);
   openLayer('display', false, false);
   render();
-  if (!view.length) return openDisplay(did);
-  const next = view[Math.min(pos, view.length - 1)];
-  if (next.tab === 'display' && next.display !== undefined) openDisplay(next.display); else openItem(next);
+  openAfterSave(pos, displayEntry(did));
 }
 async function saveCustom(did, pick) {
   const status = $('save');
