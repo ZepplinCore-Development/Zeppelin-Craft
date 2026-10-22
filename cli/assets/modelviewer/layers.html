@@ -2289,7 +2289,7 @@ async function newModelDisplay(path) {
   await loadCreator();
   const c = newDisplayEntry(nextDisplayId(), path);
   if (!c) { $('save').className = 'err'; $('save').textContent = `${path} is not in the display creator (no preview pane for it)`; return; }
-  openLayer('custom', false);
+  openLayer('custom', false, false);
   openItem(c); render();
 }
 // a new display on a RETAIL model (its creature card's skin panes, the creator's retail rows): dressed in the
@@ -2309,7 +2309,7 @@ async function newRetailDisplay(path, fd, si = 0) {
               retail: { model: path, ti, si: Math.min(si, Math.max(0, (nm.targets[ti][3] || []).length - 1)) } };
   customList.push(c);
   $('save').textContent = '';
-  openLayer('custom', false);
+  openLayer('custom', false, false);
   openItem(c); render();
 }
 // A character model has no plain "new display": its display draws a CreatureDisplayInfoExtra row (race, sex,
@@ -2371,7 +2371,7 @@ function openCreator() {
       const c = newDisplayEntry(nextDisplayId(), b.dataset.cp);
       close();
       if (!c) return;
-      openLayer('custom', false);
+      openLayer('custom', false, false);
       openItem(c); render();
     });
     draw();
@@ -3151,7 +3151,7 @@ async function openDisplay(did, push = true) {
     if (sp) d.panes = [{ ...sp, option: sp.model, sources: ['stock'] }];
     d.looked = true;                                 // a created display has no stock card: never look again (openItem loop)
   }
-  openLayer('display', false);
+  openLayer('display', false, false);
   if (push) history.pushState({ layer: 'display', display: +did }, '', `${location.pathname}?layer=display&display=${+did}`);
   openItem(d); render(); closeDrawer();
 }
@@ -3173,7 +3173,7 @@ function openCustom_(did, push = true, via = null) {
     }
   }
   if (!via) via = shippingVia(did);
-  openLayer('custom', false);
+  openLayer('custom', false, false);
   let c = customList.find(x => x.display === +did);
   if (!via && saved_ && saved_.entry && !saved_.new && !(saved_.base && (saved_.base.sources || []).includes('retail'))) {
     // an edit reopens on what it was made from (its own snapshot), not on the display's stock model
@@ -3204,13 +3204,18 @@ function openCustom_(did, push = true, via = null) {
   if (c) { openItem(c); render(); closeDrawer(); }
   else $('panes').innerHTML = `<div class="empty">Display ${+did} has nothing to customise (no geoset groups, hair or outfit).</div>`;
 }
-function openLayer(t, push = true) {
+// openFirst = false: the caller opens its own item next. The tab's own "open the list's first item" must not run:
+// for a stand-in display that open is async (loadCustStock) and landed AFTER the caller's, so ?display=28061
+// showed 28060 and Display editor saves went to the list's first display (28060 -> 28063, 26423 -> 27235)
+let tabOpenFirst = true;
+function openLayer(t, push = true, openFirst = true) {
   const b = $('tabs').querySelector(`button[data-tab="${t}"]`);
   if (!b) return showHome(push);
   document.body.classList.remove('home');
   $('home').hidden = true;
   if (push) history.pushState({ layer: t }, '', `${location.pathname}?layer=${t}`);
-  b.click();
+  tabOpenFirst = openFirst;
+  try { b.click(); } finally { tabOpenFirst = true; }
 }
 $('tiles').onclick = (ev) => { const b = ev.target.closest('.tile'); if (b) openLayer(b.dataset.layer); };
 addEventListener('popstate', () => { const u = new URLSearchParams(location.search), t = u.get('layer');
@@ -3248,7 +3253,7 @@ $('tabs').onclick = (ev) => {
   tab = b.dataset.tab;
   [...$('tabs').children].forEach(x => x.classList.toggle('on', x === b));
   filter = tabFilter(tab);
-  render(); openItem(view[0]);
+  render(); if (tabOpenFirst) openItem(view[0]);
 };
 $('filters').onclick = (ev) => {
   const b = ev.target.closest('button'); if (!b || !b.dataset.f) return;
