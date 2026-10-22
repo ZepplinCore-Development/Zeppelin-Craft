@@ -1,0 +1,28 @@
+From e2bb3cccb5eafa0eb724d364fea4a3f34db47945 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 22 Oct 2026 07:28:21 +0000
+Subject: [PATCH] WIP: F-219 - a grave we stand beside never blocks the way out
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 0d0879c..adb2f8e 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2691,6 +2691,9 @@ class Runner:
+         # detour still skirts it). Durotar's warlock stood 70 yd from a level-7 Makrura, Mulgore's druid
+         # 70 yd from a level-8 Prairie Stalker: every route started past it, both runs ended parked
+         red = [t for t in red if math.dist(t[:2], start) >= reach(t) + 60]
++        # ...nor does a grave we stand beside (Dun Morogh's paladin died twice by the spot it then stood
++        # on, every road out "passed" it, and the run ended at 214 min with the paladin parked)
++        graves = [g for g in graves if math.dist(g, start) >= 90]
+         for a, b in zip(pts, pts[1:]):
+             ax, ay, bx, by = a.get("x", 0), a.get("y", 0), b.get("x", 0), b.get("y", 0)
+             n = max(1, int(math.dist((ax, ay), (bx, by)) / 4))
+-- 
+2.34.1
+
