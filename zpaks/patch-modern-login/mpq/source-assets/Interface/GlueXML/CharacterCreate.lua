@@ -91,16 +91,17 @@ CHAR_CREATE_SUBRACES = {
 	["ORC"] = {
 		-- colours 28-43 are base colours plus a body marking (now the Body Markings choice); the old death knight
 		-- colours (male 15-17, female 11-13) sit in the sub-race of their tone
-		{ name = "Orc", icon = "ORC",
+		-- bodyMarkings: the body markings (CharSections base_section 7 types; 0 = none) the sub-race offers
+		{ name = "Orc", icon = "ORC", bodyMarkings = {0, 3, 4},
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
-		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR",
+		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR", bodyMarkings = {0, 1, 2},
 			MALE = {12, 16, 20, 21, 22, 23, 24},
 			FEMALE = {12, 20, 21, 22, 23, 24} },
-		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK",
+		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK", bodyMarkings = {0, 5, 6, 7},
 			MALE = {9, 14, 15, 17, 18, 19, 44, 45},
 			FEMALE = {11, 13, 18, 19, 44, 45} },
-		{ name = "Fel Orc", icon = "FELORC",
+		{ name = "Fel Orc", icon = "FELORC", bodyMarkings = {0, 8, 9},
 			MALE = {10, 25, 26, 27},
 			FEMALE = {25, 26, 27} },
 	},
@@ -402,6 +403,7 @@ function CharCreate_ApplySubRace()
 		end
 	end
 	SetCharCustomizationFilter(1, unpack(colours));
+	SetCharCustomizationFilter(8, unpack(subRaces[CharacterCreate.subRace].bodyMarkings or {}));
 end
 
 function CharCreate_UpdateSubRaces()
@@ -413,6 +415,7 @@ function CharCreate_UpdateSubRaces()
 		end
 		if ( CharacterCreate.subRaces ) then
 			SetCharCustomizationFilter(1);
+			SetCharCustomizationFilter(8);
 			CharacterCreate.subRaces = nil;
 		end
 		return;

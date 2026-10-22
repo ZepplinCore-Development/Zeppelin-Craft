@@ -1,0 +1,100 @@
+From d3a25204036bb500877b36777fd93f65f91ae7c4 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Thu, 22 Oct 2026 11:33:32 +0000
+Subject: [PATCH] Zeppelin F-151: eye glow follows the eye colour (glow texture
+ in the eye row's texture_3, geoset 1703 only for a glow eye); invalid eye
+ falls to the class's first; geoset-only facial features counted
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ .../ComponentCore/CharacterComponent.cpp      | 32 ++++++++++++++++++-
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp |  6 ++++
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.cpp b/WoW/Common/ComponentCore/CharacterComponent.cpp
+index 4cd8a458..aa6176b6 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.cpp
++++ b/WoW/Common/ComponentCore/CharacterComponent.cpp
+@@ -1697,7 +1697,16 @@ void CCharacterComponent::ValidateComponentData(ComponentData* data, COMPONENT_C
+ 
+     // Not in the original (F-151)
+     if (!CCharacterComponent::FaceLayerValid(prefs, VARIATION_EYES, prefs.m_eyeId, context)) {
++        // the first eye the class may have (a death knight's are the glow eyes)
++        int32_t numEyes = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_EYES);
+         prefs.m_eyeId = 0;
++
++        for (int32_t i = 0; i < numEyes; i++) {
++            if (CCharacterComponent::FaceLayerValid(prefs, VARIATION_EYES, i, context)) {
++                prefs.m_eyeId = i;
++                break;
++            }
++        }
+     }
+ 
+     if (!CCharacterComponent::FaceLayerValid(prefs, VARIATION_MARKINGS, prefs.m_markingId, context)) {
+@@ -1825,6 +1834,21 @@ void CCharacterComponent::LoadFaceLayers(const char* debug) {
+     this->LoadBaseVariation(VARIATION_MARKINGS, 0, prefs.m_markingId, prefs.m_skinID, SECTION_HEAD_LOWER, debug);
+     this->LoadBaseVariation(VARIATION_MARKINGS, 1, prefs.m_markingId, prefs.m_skinID, SECTION_HEAD_UPPER, debug);
+ 
++    // a glow eye recolours the eye-glow geoset: its texture is the model's hardcoded (type 0) one
++    CharSectionsRec* eyeRec = ComponentGetSectionsRecord(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_EYES, prefs.m_eyeId, 0, nullptr);
++
++    if (eyeRec && *eyeRec->m_textureName[2] && this->m_data.m_model) {
++        strcpy(s_pathEnd, eyeRec->m_textureName[2]);
++        CTexture* glow = CreateTexture(s_path, &s_status);
++
++        if (glow) {
++            this->m_data.m_model->ReplaceTexture(0, glow);
++            HandleClose(reinterpret_cast<HOBJECT>(glow));
++        }
++    }
++
++    this->m_flags |= 0x4;   // geosets: the eye glow may come or go
++
+     // the body marking is one full-atlas layer: every body section is redrawn when it changes
+     bool hadBody = this->m_baseVariation[VARIATION_BODY_MARKINGS].m_texture[0] != nullptr;
+     this->LoadBaseVariation(VARIATION_BODY_MARKINGS, 0, prefs.m_bodyMarkingId, 0, SECTION_TORSO_UPPER, debug);
+@@ -3634,8 +3658,14 @@ static bool __stdcall ItemDisplayHasGeosetGroup(uint32_t displayID, int32_t grou
+ // OFFSET: 0x004ED900
+ void CCharacterComponent::GeosRenderPrep() {
+     bool eyeGlow = false;
++    const CharacterPreferences& prefs = this->m_data.m_preferences;
+ 
+-    if (this->m_data.m_preferences.m_classId == 6) {
++    // Not in the original (F-151): for a race with eye colour choices, the glow shows exactly when the chosen eye is a
++    // glow eye (its CharSections row names a glow texture, texture_3)
++    if (ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_EYES) > 0) {
++        CharSectionsRec* eyeRec = ComponentGetSectionsRecord(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_EYES, prefs.m_eyeId, 0, nullptr);
++        eyeGlow = eyeRec && *eyeRec->m_textureName[2];
++    } else if (this->m_data.m_preferences.m_classId == 6) {
+         eyeGlow = true;
+     } else {
+         CharSectionsRec* faceRec = ComponentGetSectionsRecord(CCharacterComponent::s_chrVarArray, this->m_data.m_preferences.m_raceID, this->m_data.m_preferences.m_sexID, VARIATION_FACE, this->m_data.m_preferences.m_faceId, this->m_data.m_preferences.m_skinID, nullptr);
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index d0d54d3e..49953e63 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -654,6 +654,9 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+                 && value >= static_cast<int32_t>(CCharacterComponent::s_characterFacialHairStylesList[prefs.m_raceID * 2 + prefs.m_sexID])) {
+                 return false;   // SetBeardStyle refuses it (I-419)
+             }
++            if (type == CHAR_CUSTOMIZATION_FACIAL_FEATURE && ComponentGetNumVariations(lookup, prefs.m_raceID, prefs.m_sexID, VARIATION_FACIAL_HAIR) == 0) {
++                return true;    // Not in the original (F-151): geoset-only features (female orc piercings) have no CharSections rows
++            }
+             int32_t numColors = ComponentGetNumColors(lookup, prefs.m_raceID, prefs.m_sexID, variation, value);
+             for (int32_t color = 0; color < numColors; color++) {
+                 if (ok(variation, value, color)) {
+@@ -760,6 +763,9 @@ static int32_t Script_GetCharCustomizationInfo(lua_State* L) {
+         case CHAR_CUSTOMIZATION_FACIAL_FEATURE:
+             current = prefs.m_facialHairId;
+             total = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_FACIAL_HAIR);
++            if (total == 0) {   // Not in the original (F-151): geoset-only features, counted by CharacterFacialHairStyles
++                total = static_cast<int32_t>(CCharacterComponent::s_characterFacialHairStylesList[prefs.m_raceID * 2 + prefs.m_sexID]);
++            }
+             break;
+         case CHAR_CUSTOMIZATION_EYES:
+         case CHAR_CUSTOMIZATION_MARKINGS:
+-- 
+2.34.1
+
