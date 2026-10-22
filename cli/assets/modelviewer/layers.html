@@ -726,6 +726,9 @@ function modelDecides(d) {
   // it - and with it the default bake (the largest that fits that file); a card pick only overrides
   // - only when nothing moves it to ANOTHER model (16624 bloodelfmale -> arator.m2 is a real display choice)
   if (m && m.tab === 'character' && choices.mesh[m.path] && d.panes.every(p => p.model === m.path)) return true;
+  // a character model no pack ships (tuskarr, vrykul, taunka...: 939 displays): the classic file ships, so there is
+  // no model pick to wait for and the default bake (the largest) stands, like bakeCards' 'Chosen (default)'
+  if (!m && d.panes.length && String(d.panes[0].model).startsWith('character/') && d.panes.every(p => p.model === d.panes[0].model)) return true;
   return !!m && modelOptions(m).some(g => g.reps[d.display]);
 }
 // a display decided by its model's pick (Displays tab: not in the queue, overridable)
@@ -893,7 +896,9 @@ function reviewReason(kind, key, entry) {
   const renamed = (k) => { const [base] = String(k).split('#'); return k.includes('#') && base in c.options &&
     (now[k] || []).every(z => (c.options[base] || []).includes(z)); };
   const added = Object.keys(now).filter(k => !was(k, c.options) && !renamed(k) && !f220(k));
-  const gone = Object.keys(c.options).filter(k => !(k in now) && !merged.has(k) && !Object.keys(now).some(n => n.startsWith(k + '#')) &&
+  // bake options join optionsOf only once bakeCards has loaded the display's bakes (custom_stock): until
+  // then a 'bake:' key is unknown, not gone (25979's pick read 'no longer offered' on every open)
+  const gone = Object.keys(c.options).filter(k => !(k in now) && !merged.has(k) && !(k.startsWith('bake:') && !entry.bakes) && !Object.keys(now).some(n => n.startsWith(k + '#')) &&
     !((c.options[k] || []).includes('retail') && ('retail:' + k) in now));
   if (gone.includes(c.option)) return 'picked option no longer offered';
   const nm = (k) => (now[k] || []).includes('retail') ? String(k).split('/').pop() + ' (retail)' : label(now[k]);
@@ -2579,7 +2584,7 @@ async function bakeCards(e, c) {
   const shipFile = M && M.panes.find(p => p.option === key);
   // no pack ships this model (vrykul, tuskarr, taunka...): the classic file ships for every display, so every
   // bake fits it and curate takes the largest unless one is picked
-  const solo = !M;
+  const solo = !M, other = (e.panes || []).some(p => p.model !== sp.model);
   const def = solo ? sp.bakes.reduce((a, b) => (b[2] > a[2] ? b : a))[0] : bakeDefault(sp.bakes, key), pick = String((c || {}).option || '').startsWith('bake:') ? c.option.slice(5) : null;
   const smap = await mapOf(sp.map);
   if (cur !== e) return;
@@ -2611,7 +2616,9 @@ async function bakeCards(e, c) {
     // one file of the model ships for every display: a card is choosable when its file is the model pick's
     const usable = solo || (file ? !!shipFile && file.option === shipFile.option && fits.includes(key) : !!shipFile && shipFile.sources.includes('stock'));
     // chosen: the explicit pick, else the default - unless another option (our edit) is the pick
-    const chosen = usable && (pick ? pick === src : !(c && c.option) && src === def);
+    // a display that can also move to another model (25979: tuskarrmale_hd.m2) is still undecided: the
+    // default bake is only what ships if nothing is picked, so it gets the 'default' chip, not the green box
+    const chosen = usable && (pick ? pick === src : !(c && c.option) && !other && src === def);
     const div = document.createElement('div');
     div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.bake = src;
     div.innerHTML = `<iframe src="${paneUrl(p)}" loading="lazy" title="${esc(label([src]))}"></iframe>
