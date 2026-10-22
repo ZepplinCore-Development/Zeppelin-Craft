@@ -48,6 +48,7 @@ FLAGS_ANY = 0x11
 SKIN_TEX = 'Character\\Orc\\{sex}\\Orc{sex}Skin00_{colour:02d}.blp'
 MARK_DIFF = 42                                   # |rgb| sum over which a marked skin differs from its base
 TONE_SIGMA = 24                                  # px (of 512): reach of the local tone match
+INK_SIGMA = 48                                   # 'ink': px reach of the tone match
 STRONG = 150                                     # |rgb| a paint or ink region must reach somewhere
 STRONG_P90 = 100                                 # ... and over most of it: c41 ink p90 115+, its darker toes 67
 SIZE = 512
@@ -65,8 +66,8 @@ MARKINGS = {
     5: ('Scars', 36, 19, 'shade'),
     6: ('Piercings', 38, 19, 'pierce'),
     7: ('Black tattoo', 41, 19, 'fixed'),
-    8: ('Green runes', 42, 19, 'fixed', 300, 4),
-    9: ('Orange runes', 43, 19, 'fixed', 300, 4),
+    8: ('Green runes', 42, 19, 'ink', 0, 0, 43),
+    9: ('Orange runes', 43, 19, 'ink', 0, 0, 42),
 }
 # old skin colour -> (base colour, marking): the colours that are a base plus a body marking
 SPLIT_COLOURS = {28: (19, 1), 29: (22, 1), 30: (19, 2), 31: (22, 2), 32: (22, 3), 33: (26, 3), 34: (22, 4),
@@ -106,7 +107,7 @@ def feather(mask):
     return a
 
 
-def marking(donor, base, mode, min_blob=0, close=0):
+def marking(donor, base, mode, min_blob=0, close=0, partner=None):
     """RGBA layer (uint8) of donor minus base."""
     # tone: a first pass on the global offset finds the marking, then the offset is averaged locally over the
     # unmarked pixels only, so a colour whose tone drifts across the body (c41 legs) is not read as a marking
@@ -118,6 +119,25 @@ def marking(donor, base, mode, min_blob=0, close=0):
     matched = np.clip(base + local, 0, 255)
     diff = np.abs(donor - matched).sum(axis=2)
     mask = clean(diff > MARK_DIFF, grow=1)
+    if mode == 'ink':
+        # a dark, cool ink design with glowing runes (c42 / c43): ink is much darker than the tone-matched skin, or
+        # cooler and a little darker; runes are strongly saturated. Wider tone reach: the design covers whole limbs.
+        local = np.dstack([ndimage.gaussian_filter((donor - base)[..., k] * w, INK_SIGMA) for k in range(3)])
+        local /= np.maximum(ndimage.gaussian_filter(w, INK_SIGMA), 1e-3)[..., None]
+        matched = np.clip(base + local, 0, 255)
+        def ink(img):
+            li, lm = img.mean(axis=2), matched.mean(axis=2)
+            cool = (img[..., 0] - img[..., 2]) < (matched[..., 0] - matched[..., 2]) - 18
+            glow = (img.max(axis=2) - img.min(axis=2) > 90) & ((img[..., 1] > img[..., 0] + 30) | (img[..., 0] > img[..., 2] + 120))
+            return (li < lm * 0.72) | (cool & (li < lm * 0.95)) | glow
+        raw = ink(donor)
+        if partner is not None:
+            # the partner colour is the same art with other rune colours (c42 / c43, user tip): its ink widens the
+            # shape where one colour's ink is faint, and the pixels where the two differ are exactly the runes
+            raw |= ink(partner) | (np.abs(donor - partner).sum(axis=2) > 40)
+        mask = clean(raw)
+        mask = ndimage.binary_fill_holes(ndimage.binary_closing(np.pad(mask, 2, mode='edge'), iterations=2))[2:-2, 2:-2]
+        return soft_layer(donor, matched, mask), mask.mean()
     if mode == 'fixed':
         # paint and ink have strong cores; a region that only differs a little is the donor's own shading
         labels, n = ndimage.label(mask)
@@ -242,7 +262,7 @@ def main():
             return skins[c]
 
         for n, (name, donor, base, mode, *opts) in MARKINGS.items():
-            layer, cover = marking(skin(donor), skin(base), mode, *opts)
+            layer, cover = marking(skin(donor), skin(base), mode, *opts[:2], *(skin(c) for c in opts[2:3]))
             rel = f'Character\\Orc\\{sex}\\Orc{sex}BodyMarking{n:02d}.blp'
             layer = np.asarray(Image.fromarray(layer, 'RGBA').resize((SIZE, SIZE), Image.LANCZOS))
             icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), Image.fromarray(layer, 'RGBA'))

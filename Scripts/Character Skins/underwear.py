@@ -47,16 +47,19 @@ CLOTH_DIFF = 40                          # |rgb| sum over which the underwear te
 # sub-race -> (donor colours, colours that wear it), per sex. Every donor wears the same style over its own skin;
 # a cloth pixel that happens to match one donor's skin still differs from another's, so the mask is their union.
 STYLES = {
-    0: {'Orc': ((0,), [0, 1, 2, 3, 4, 5, 6, 7, 8]),
+    0: {'Orc': ((0, 3, 6), [0, 1, 2, 3, 4, 5, 6, 7, 8]),
         'Maghar': ((28, 29, 30, 31), [12, 16, 20, 21, 22, 23, 24]),
         'Blackrock': ((32, 33, 34, 35), [9, 14, 15, 17, 18, 19, 44, 45]),
         'FelOrc': ((36, 37, 38, 39), [10, 25, 26, 27])},
-    1: {'Orc': ((0,), [0, 1, 2, 3, 4, 5, 6, 7, 8]),
+    1: {'Orc': ((0, 3, 6), [0, 1, 2, 3, 4, 5, 6, 7, 8]),
         'Maghar': ((28, 29, 30, 31), [12, 20, 21, 22, 23, 24]),
         'Blackrock': ((36, 37, 38, 39), [11, 13, 18, 19, 44, 45]),
-        'FelOrc': ((40, 41), [25, 26, 27])},
+        'FelOrc': ((41, 40), [25, 26, 27])},   # c41 first: c40's cloth is painted with fel-green highlights
 }
-CLOTH_STRONG = 90                         # |rgb| a pixel must differ from the donor's skin to give its colour
+SKIN_HUE = 12                             # hue steps (of 256) from the skin's hue that count as skin
+SKIN_HUE_STYLES = {'Orc'}                 # green skin under brown cloth; elsewhere cloth and skin share a hue
+OWN_DIFF = 75                             # |rgb| from the donor's local skin tone for a pixel to give its colour
+AGREE = 40                                # |rgb| spread across donors under which a pixel is the shared cloth
 GAP = 7                                   # px (of 256): openings in the cloth narrower than twice this are closed
 HEM_PERCENTILE = 80                       # pelvis: every column reaches this percentile of the hem depth
 LEVEL_HEM = {(0, 'Maghar'), (0, 'FelOrc'), (1, 'Maghar'), (1, 'Blackrock'), (1, 'FelOrc')}   # hem rises over crotch / seat (user reports)
@@ -81,11 +84,11 @@ def load(files, path):
     return Image.open(f).convert('RGB')
 
 
-def cloth(files, sex, donors, part, xy, level_hem=False):
+def cloth(files, sex, donors, part, xy, level_hem=False, skin_hue_test=False):
     """The style's cloth as RGBA at the underwear texture's own size. The shape is the union of every donor's cloth;
     the colour is the first donor's (each donor's cloth is tinted a little differently), and where that donor shows
     skin, or a gap was closed, the nearest pixel of its own cloth."""
-    rgb, mask, solid, others = None, None, None, []
+    rgb, mask, solid, all_u = None, None, None, []
     for donor in donors:
         under = load(files, DONOR.format(sex=sex, part=part, colour=donor))
         w, h = under.size
@@ -95,12 +98,21 @@ def cloth(files, sex, donors, part, xy, level_hem=False):
         u, b = np.asarray(under).astype(np.int16), np.asarray(bare).astype(np.int16)
         dist = np.abs(u - b).sum(axis=2)
         diff = dist > CLOTH_DIFF
+        all_u.append(u)
         if rgb is None:
             rgb, mask, solid = u.copy(), diff.copy(), ndimage.binary_opening(diff, iterations=1)
-            strong = dist > CLOTH_STRONG
+            # own cloth: far from the donor's local skin tone (the skin is resampled to the underwear's scale, so a
+            # pixel-exact comparison lets skin-coloured pixels through: green on the c0 / c40 styles)
+            tone = np.dstack([ndimage.gaussian_filter(b[..., k].astype(np.float32), 2) for k in range(3)])
+            # ... and not the skin's own hue (lit skin between the straps passes the distance test: Orc c0 bra)
+            hsv_u = np.asarray(Image.fromarray(u.astype(np.uint8)).convert('HSV')).astype(np.int16)
+            hsv_b = np.asarray(Image.fromarray(np.clip(tone, 0, 255).astype(np.uint8)).convert('HSV')).astype(np.int16)
+            dh = np.abs(hsv_u[..., 0] - hsv_b[..., 0])
+            skin_hue = (np.minimum(dh, 256 - dh) < SKIN_HUE) & (hsv_u[..., 1] > 60) & skin_hue_test
+            own = (np.abs(u - tone).sum(axis=2) > OWN_DIFF) & ~skin_hue
+            off_skin = (dist > CLOTH_DIFF) & ~skin_hue
         else:
             mask |= diff
-            others.append((u, ndimage.binary_erosion(diff, iterations=1)))
     # every morphology step runs on a padded copy: ndimage treats outside the texture as empty, so an unpadded opening
     # or closing eats the edge columns, and the left and right edges meet on the model's centre line (user report: seam)
     pad = GAP + 3
@@ -128,19 +140,18 @@ def cloth(files, sex, donors, part, xy, level_hem=False):
         mask |= cols[None, :] & (rows >= top[None, :]) & (rows <= np.maximum(hem, depth)[None, :])
     # pixels the closing or the hem added carry skin in every donor: colour them from the nearest cloth pixel,
     # taken two pixels inside the cloth's edge (edge pixels are part donor skin: green specks over c40)
-    core = ndimage.binary_erosion(np.pad(solid, 2, mode='edge'), iterations=2)[2:-2, 2:-2] & strong
+    # colour sources: the first donor's own cloth (off its skin), or pixels every donor paints alike (shared cloth
+    # art), never within two pixels of the cloth's outline (edge pixels are part donor skin: green specks over c40).
+    # Everything else in the mask (closed gaps, levelled hem) is filled from the nearest source.
+    good = own.copy()
+    if len(all_u) > 1:
+        stack = np.stack(all_u)
+        # donors of one hue (the green Orc colours) agree on their skin too, so agreement counts only off the skin
+        good |= ((stack.max(axis=0) - stack.min(axis=0)).sum(axis=2) < AGREE) & off_skin
+    inside = ndimage.binary_erosion(np.pad(mask, 2, mode='edge'), iterations=2)[2:-2, 2:-2]
+    core = good & inside
     core = core if core.any() else solid
-    # where the first donor shows skin but another donor shows its cloth: that donor's pixel in the first donor's
-    # tint (per-channel ratio over the pixels both show as cloth)
     rgb = rgb.astype(np.float32)
-    for u, theirs in others:
-        both = core & theirs
-        if both.sum() < 50:
-            continue
-        ratio = np.median(rgb[both], axis=0) / np.maximum(np.median(u[both].astype(np.float32), axis=0), 1)
-        take = mask & theirs & ~core
-        rgb[take] = u[take] * ratio
-        core = core | take
     _, (iy, ix) = ndimage.distance_transform_edt(~core, return_indices=True)
     rgb = np.where((mask & ~core)[..., None], rgb[iy, ix], rgb)
     # feathered inward only: a pixel outside the mask carries the donor's skin, which would fringe other colours
@@ -162,7 +173,8 @@ def main():
                 if not under[(g, donors[0])][col]:
                     paths[col] = ''
                     continue
-                img, cover = cloth(files, sex, donors, part, xy, level_hem=part == 'Pelvis' and (g, style) in LEVEL_HEM)
+                img, cover = cloth(files, sex, donors, part, xy, level_hem=part == 'Pelvis' and (g, style) in LEVEL_HEM,
+                                   skin_hue_test=style in SKIN_HUE_STYLES)
                 rel = f'Character\\Orc\\{sex}\\OrcUnderwear{sex}{style}{part}.blp'
                 icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), img)
                 paths[col] = rel

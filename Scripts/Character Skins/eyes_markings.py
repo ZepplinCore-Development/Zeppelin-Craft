@@ -61,8 +61,9 @@ PLAIN_SQL = ZPAK / 'dbc' / '[F-151]_charsections_plainfaces.sql'
 #   sex -> {colour: (base colour, marking, detection)}; 'dark' = much darker than the base shading (black paint),
 #   'rebuild' = the old death knight colours: blue paint (male) and lit lids (both sexes) are baked in; their plain
 #   face is rebuilt whole, the base face's detail in the colour's own smoothed tone, paint and glow left out
-BAKED = {0: {44: (19, 8, 'dark'), 45: (19, 8, 'dark'), 15: (19, 9, 'rebuild'), 17: (19, 9, 'rebuild')},
-         1: {44: (19, 8, 'dark'), 45: (19, 8, 'dark'), 11: (19, None, 'rebuild'), 13: (19, None, 'rebuild')}}
+BAKED = {0: {44: (19, 8, 'dark'), 45: (19, 8, 'dark'), 15: (19, 9, 'rebuild'), 17: (19, 9, 'rebuild'), 14: (19, None, 'rebuild')},
+         1: {44: (19, 8, 'dark'), 45: (19, 8, 'dark'), 11: (19, None, 'rebuild'), 13: (19, None, 'rebuild'), 12: (19, None, 'rebuild')}}
+# male 14 (gold) and female 12 (blue) are custom colours with lit lids baked in, like the death knight ones (user report)
 BAKED_MARKS = sorted({m for per in BAKED.values() for _b, m, _d in per.values() if m})
 PAINT_BLUE = 40                          # 'rebuild': blue - (red + green) / 2 above the colour's median = paint / glow
 PAINT_GOLD = 60                          # 'rebuild': (red + green) / 2 - blue above the median = gold lid glow
