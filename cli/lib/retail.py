@@ -499,10 +499,13 @@ def named_remasters(path: str) -> List[Tuple[str, int]]:
     exact = f'creature/{dd}2/{stem}2.m2'
     # <name>2 and the other numberings retail used (wendigo_02 beside wendigo2)
     pat = re.compile(re.escape(f'creature/{dd}') + r'_?\d+[a-z_]*/' + re.escape(stem) + r'_?\d+[a-z_]*\.m2')
+    # and a folder named after the FILE: creature/murloc/babymurloc.m2 -> creature/babymurloc3/babymurloc3.m2
+    # (else only the creature-name lead found it, per display: 15397 'Baby Murloc' had it, 22986 did not)
+    pat2 = re.compile(re.escape(f'creature/{stem}') + r'_?\d+[a-z_]*/' + re.escape(stem) + r'_?\d+[a-z_]*\.m2') if stem != dd else pat
     global _named_index
     if _named_index is None:
         _named_index = sorted(p for p in by_path if p.startswith('creature/') and p.endswith('.m2'))
-    hits = [p for p in _named_index if pat.fullmatch(p) and p != path]
+    hits = [p for p in _named_index if (pat.fullmatch(p) or pat2.fullmatch(p)) and p != path]
     hits.sort(key=lambda p: (p != exact, p))
     return [(p, by_path[p]) for p in hits]
 
