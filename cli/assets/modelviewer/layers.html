@@ -1228,7 +1228,9 @@ function assetMatches(e) {
   if (filter === 'todo' && e.tab !== 'display' && (nOptions(e) < 2 ||
       (e.tab !== 'item' && !e.retailOnly && (modelOptions(e), e._partial && e._partial.size)))) return false;   // decided per display / nothing to decide
   if (filter === 'todo' && e.tab === 'display' && modelDecides(e) && !startedPerDisplay(e)) return false;   // the model pick decides it
-  if (filter === 'todo' && e.tab === 'display' && nOptions(e) < 2 && !(e.standin && search)) return false;     // compare-only (a creature-level SQL edit): nothing to decide
+  // compare-only (a creature-level SQL edit) or a lone stock card: nothing to decide - still found by its exact id
+  // (any search used to keep them: 'proto' listed the Proto-Drake Egg, display 20245)
+  if (filter === 'todo' && e.tab === 'display' && nOptions(e) < 2 && !(e.standin && search === String(e.display))) return false;
   if (filter === 'todo' && unusedModel(e)) return false;                            // nothing in game uses it yet
   // same-look displays are ONE row (the group's first id) in every list, so each unique look is worked once;
   // a member with its own pick (not applied from the group) or searched by its exact id still shows
