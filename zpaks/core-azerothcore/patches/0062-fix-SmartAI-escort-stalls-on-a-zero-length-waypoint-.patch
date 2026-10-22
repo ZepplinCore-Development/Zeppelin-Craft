@@ -1,0 +1,38 @@
+From ec02ae9e7b7c2b7503f9e667722bfa7298560286 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 22 Oct 2026 07:45:51 +0000
+Subject: [PATCH] fix: SmartAI escort stalls on a zero-length waypoint (I-418)
+
+- UpdatePath resent ResumePath forever when the next waypoint sat on top of the
+  previous one: the zero-length spline never informs, so mWPReached stayed false
+  and the waypoint's events never ran (Torek WP21/22 never despawned him)
+- Report the waypoint reached when within 0.5 yd; covers 74 duplicate pairs in 62 paths
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UBPV6ZJQU8VTjnHQQesNg4
+---
+ src/server/game/AI/SmartScripts/SmartAI.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/server/game/AI/SmartScripts/SmartAI.cpp b/src/server/game/AI/SmartScripts/SmartAI.cpp
+index be39ef926..ff6bb892e 100644
+--- a/src/server/game/AI/SmartScripts/SmartAI.cpp
++++ b/src/server/game/AI/SmartScripts/SmartAI.cpp
+@@ -518,6 +518,14 @@ void SmartAI::UpdatePath(const uint32 diff)
+     {
+         if (!mWPReached)
+         {
++            // A waypoint on top of the previous one makes a zero-length spline that never informs,
++            // so ResumePath would be resent forever and the waypoint's events never fire (I-418)
++            if (mLastWP && me->GetExactDistSq(mLastWP->X, mLastWP->Y, mLastWP->Z) < 0.25f)
++            {
++                MovepointReached(mCurrentWPID);
++                return;
++            }
++
+             ResumePath();
+             return;
+         }
+-- 
+2.34.1
+
