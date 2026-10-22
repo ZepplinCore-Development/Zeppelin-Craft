@@ -51,9 +51,12 @@ TONE_SIGMA = 24                                  # px (of 512): reach of the loc
 STRONG = 150                                     # |rgb| a paint or ink region must reach somewhere
 STRONG_P90 = 100                                 # ... and over most of it: c41 ink p90 115+, its darker toes 67
 SIZE = 512
+OUT = 1024                                       # markings are cut at twice the skin's size for soft edges, then written at
+                                                 # SIZE: the client composites the body at 512, and a 1024 layer crashed it (I-422)
 HEAD = [((0, 320), (256, 64)), ((0, 384), (256, 128))]   # head sections: the face textures cover them
 
-# marking -> (name, donor colour, base colour, mode); mode 'fixed' keeps the colours, 'shade' follows the skin
+# marking -> (name, donor colour, base colour, mode[, smallest region kept, closing px]); mode 'fixed' keeps the
+# colours, 'shade' follows the skin
 MARKINGS = {
     1: ('Handprints', 28, 19, 'fixed'),
     2: ('War paint', 30, 19, 'fixed'),
@@ -62,8 +65,8 @@ MARKINGS = {
     5: ('Scars', 36, 19, 'shade'),
     6: ('Piercings', 38, 19, 'pierce'),
     7: ('Black tattoo', 41, 19, 'fixed'),
-    8: ('Green runes', 42, 19, 'fixed'),
-    9: ('Orange runes', 43, 19, 'fixed'),
+    8: ('Green runes', 42, 19, 'fixed', 300, 4),
+    9: ('Orange runes', 43, 19, 'fixed', 300, 4),
 }
 # old skin colour -> (base colour, marking): the colours that are a base plus a body marking
 SPLIT_COLOURS = {28: (19, 1), 29: (22, 1), 30: (19, 2), 31: (22, 2), 32: (22, 3), 33: (26, 3), 34: (22, 4),
@@ -103,7 +106,7 @@ def feather(mask):
     return a
 
 
-def marking(donor, base, mode):
+def marking(donor, base, mode, min_blob=0, close=0):
     """RGBA layer (uint8) of donor minus base."""
     # tone: a first pass on the global offset finds the marking, then the offset is averaged locally over the
     # unmarked pixels only, so a colour whose tone drifts across the body (c41 legs) is not read as a marking
@@ -121,7 +124,13 @@ def marking(donor, base, mode):
         if n:
             peak = ndimage.maximum(diff, labels, range(1, n + 1))
             p90 = ndimage.labeled_comprehension(diff, labels, range(1, n + 1), lambda v: np.percentile(v, 90), float, 0)
-            mask = np.isin(labels, 1 + np.flatnonzero((peak >= STRONG) & (p90 >= STRONG_P90)))
+            sizes = ndimage.sum(mask, labels, range(1, n + 1))
+            mask = np.isin(labels, 1 + np.flatnonzero((peak >= STRONG) & (p90 >= STRONG_P90) & (sizes >= min_blob)))
+        if close:
+            # ragged designs (the runes): merge the fragments into solid shapes
+            mask = ndimage.binary_fill_holes(ndimage.binary_closing(np.pad(mask, close, mode='edge'), iterations=close))[close:-close, close:-close]
+    if mode == 'fixed':
+        return soft_layer(donor, matched, mask), mask.mean()
     rgb = donor.copy()
     alpha = feather(mask)
     if mode in ('shade', 'pierce'):
@@ -140,7 +149,33 @@ def marking(donor, base, mode):
         rgb[light] = 255
         a_shade = np.where(dark, (1 - ratio) * 255 * 1.2, np.clip((ratio - 1), 0, 1) * 255 * 0.8)
         alpha = np.where(shade, np.clip(a_shade, 0, 255) * (alpha / 255), alpha)
-    return np.dstack([rgb, alpha]).astype(np.uint8), mask.mean()
+    layer = Image.fromarray(np.dstack([rgb, alpha]).astype(np.uint8), 'RGBA').resize((OUT, OUT), Image.LANCZOS)
+    return np.asarray(layer), mask.mean()
+
+
+def up(a):
+    """A float RGB / grey array at OUT size, LANCZOS."""
+    if a.ndim == 2:
+        return np.asarray(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).resize((OUT, OUT), Image.LANCZOS)).astype(np.float32)
+    return np.asarray(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).resize((OUT, OUT), Image.LANCZOS)).astype(np.float32)
+
+
+def soft_layer(donor, matched, mask):
+    """Paint / ink at OUT size with a soft matte: alpha from how far each pixel is from the tone-matched base (full
+    inside the marking, fading over its edge), colour unmixed from the base, so edges are antialiased, not stepped."""
+    d, m = up(donor), up(matched)
+    diff = np.abs(d - m).sum(axis=2)
+    region = up(ndimage.binary_dilation(mask, iterations=2).astype(np.float32) * 255) / 255
+    inner = up(ndimage.binary_erosion(mask, iterations=1).astype(np.float32) * 255) / 255
+    t = np.clip((diff - MARK_DIFF * 0.5) / (MARK_DIFF * 1.1), 0, 1)
+    a = np.maximum(t * t * (3 - 2 * t), inner) * np.clip(region, 0, 1)
+    rgb = np.where(a[..., None] > 0.08, (d - (1 - a[..., None]) * m) / np.maximum(a[..., None], 0.08), d)
+    # the edge band takes the colour of the marking's interior: unmixing a thin edge amplifies its light rim
+    core = (up(ndimage.binary_erosion(mask, iterations=2).astype(np.float32) * 255) > 128) & (a > 0.85)
+    if core.any():
+        _, (iy, ix) = ndimage.distance_transform_edt(~core, return_indices=True)
+        rgb = np.where(core[..., None], rgb, rgb[iy, ix])
+    return np.dstack([np.clip(rgb, 0, 255), np.clip(a * 255, 0, 255)]).astype(np.uint8)
 
 
 def repair(skin, filler):
@@ -206,9 +241,10 @@ def main():
                 skins[c] = load(files, SKIN_TEX.format(sex=sex, colour=c))
             return skins[c]
 
-        for n, (name, donor, base, mode) in MARKINGS.items():
-            layer, cover = marking(skin(donor), skin(base), mode)
+        for n, (name, donor, base, mode, *opts) in MARKINGS.items():
+            layer, cover = marking(skin(donor), skin(base), mode, *opts)
             rel = f'Character\\Orc\\{sex}\\Orc{sex}BodyMarking{n:02d}.blp'
+            layer = np.asarray(Image.fromarray(layer, 'RGBA').resize((SIZE, SIZE), Image.LANCZOS))
             icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), Image.fromarray(layer, 'RGBA'))
             print(f'{sex} {n} {name}: colour {donor} over {base} ({mode}), {cover:.1%} of the body')
             sql.append(f"INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, texture_3, flags, "

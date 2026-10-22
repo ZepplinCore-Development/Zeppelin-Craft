@@ -152,6 +152,23 @@ def glow_texture(eye_pixels):
     return Image.fromarray(np.dstack([rgb, src[..., 3]]).astype(np.uint8), 'RGBA')
 
 
+def soft_hd(src, mask):
+    """src (192x256 face, upper over lower) and its marking mask at twice the size: alpha a smoothed matte of the
+    mask, colour from the mask's interior across the edge band."""
+    size = (src.shape[1] * 2, src.shape[0] * 2)
+    # the paint's own speckle (the death knight paint is blue, white and black noise): a median over the paint
+    calm = np.dstack([ndimage.median_filter(src[..., k], size=3) for k in range(3)])
+    src = np.where(mask[..., None], calm, src)
+    big = np.asarray(Image.fromarray(np.clip(src, 0, 255).astype(np.uint8)).resize(size, Image.LANCZOS)).astype(float)
+    m = np.asarray(Image.fromarray(mask.astype(np.uint8) * 255).resize(size, Image.BILINEAR)).astype(float) / 255
+    alpha = np.clip((ndimage.gaussian_filter(m, 1.2) - 0.25) * 2.2, 0, 1)
+    core = np.asarray(Image.fromarray(ndimage.binary_erosion(mask, iterations=1).astype(np.uint8) * 255).resize(size, Image.NEAREST)) > 128
+    if core.any():
+        _, (iy, ix) = ndimage.distance_transform_edt(~core, return_indices=True)
+        big = np.where(core[..., None], big, big[iy, ix])
+    return big, (alpha * 255).astype(np.uint8)
+
+
 def rgba(rgb, alpha):
     return Image.fromarray(np.dstack([rgb.astype(np.uint8), alpha]), 'RGBA')
 
@@ -343,9 +360,11 @@ def main():
                     plain_rows.append((g, f, c, k, rel))
             print(f'{sex} colour {c}: face paint ({mode}) -> marking {mark or "none"}, plain faces written')
         for mark, (src, m) in sorted(paints.items()):
-            alpha = soft(m)
-            lo = out.put(f'{folder}Marking{mark:02d}Lower.blp', rgba(src[64:], alpha[64:]))
-            up = out.put(f'{folder}Marking{mark:02d}Upper.blp', rgba(src[:64], alpha[:64])) if m[:64].any() else ''
+            # cut at twice the face's size with a soft matte, written at the face's size: antialiased edges (user report: scuffed)
+            hi, alpha = soft_hd(src, m)
+            half = lambda a, h: np.asarray(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).resize((256, h), Image.LANCZOS))  # noqa: E731
+            lo = out.put(f'{folder}Marking{mark:02d}Lower.blp', rgba(half(hi[128:], 128), half(alpha[128:], 128)))
+            up = out.put(f'{folder}Marking{mark:02d}Upper.blp', rgba(half(hi[:128], 64), half(alpha[:128], 64))) if m[:64].any() else ''
             print(f'{sex} marking {mark}: {int(m.sum())} px')
             for c in fc.colours(g):
                 rows.append((rid, g, SECTION_MARKINGS, lo, up, FLAGS_ANY, mark, c, ''))

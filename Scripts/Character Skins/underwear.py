@@ -56,9 +56,10 @@ STYLES = {
         'Blackrock': ((36, 37, 38, 39), [11, 13, 18, 19, 44, 45]),
         'FelOrc': ((40, 41), [25, 26, 27])},
 }
+CLOTH_STRONG = 90                         # |rgb| a pixel must differ from the donor's skin to give its colour
 GAP = 7                                   # px (of 256): openings in the cloth narrower than twice this are closed
-HEM_PERCENTILE = 70                       # pelvis: every column reaches this percentile of the hem depth
-LEVEL_HEM = {(0, 'Maghar'), (0, 'FelOrc'), (1, 'Maghar')}   # styles whose hem rises over the crotch / seat (user report)
+HEM_PERCENTILE = 80                       # pelvis: every column reaches this percentile of the hem depth
+LEVEL_HEM = {(0, 'Maghar'), (0, 'FelOrc'), (1, 'Maghar'), (1, 'Blackrock'), (1, 'FelOrc')}   # hem rises over crotch / seat (user reports)
 
 
 def rows_by_key(query):
@@ -92,19 +93,30 @@ def cloth(files, sex, donors, part, xy, level_hem=False):
         body = load(files, DONOR_SKIN.format(sex=sex, colour=donor)).resize((int(512 * scale), int(512 * scale)), Image.LANCZOS)
         bare = body.crop((int(xy[0] * scale), int(xy[1] * scale), int(xy[0] * scale) + w, int(xy[1] * scale) + h))
         u, b = np.asarray(under).astype(np.int16), np.asarray(bare).astype(np.int16)
-        diff = np.abs(u - b).sum(axis=2) > CLOTH_DIFF
+        dist = np.abs(u - b).sum(axis=2)
+        diff = dist > CLOTH_DIFF
         if rgb is None:
             rgb, mask, solid = u.copy(), diff.copy(), ndimage.binary_opening(diff, iterations=1)
+            strong = dist > CLOTH_STRONG
         else:
             mask |= diff
             others.append((u, ndimage.binary_erosion(diff, iterations=1)))
+    # every morphology step runs on a padded copy: ndimage treats outside the texture as empty, so an unpadded opening
+    # or closing eats the edge columns, and the left and right edges meet on the model's centre line (user report: seam)
+    pad = GAP + 3
+    mask = np.pad(mask, pad, mode='edge')
+    solid = np.pad(solid, pad, mode='edge')
     mask = ndimage.binary_opening(mask, iterations=1)
     labels, n = ndimage.label(mask)
     if n:
         sizes = ndimage.sum(mask, labels, range(1, n + 1))
         mask = np.isin(labels, 1 + np.flatnonzero(sizes >= 30))
     solid &= mask
-    mask = ndimage.binary_fill_holes(ndimage.binary_closing(mask, iterations=GAP))
+    mask = ndimage.binary_closing(mask, iterations=GAP)
+    if part == 'Torso':
+        mask[-pad:, :] = True   # under the cups the cloth opens onto the bottom edge: that edge counts as cloth
+    mask = ndimage.binary_fill_holes(mask)
+    mask, solid = mask[pad:-pad, pad:-pad], solid[pad:-pad, pad:-pad]
     if level_hem:
         # the hem: the designs rise to notches that sit over the crotch and the seat (user report: "crotchless");
         # every column of cloth reaches at least the typical hem depth, deeper tufts stay
@@ -115,8 +127,8 @@ def cloth(files, sex, donors, part, xy, level_hem=False):
         depth = int(np.percentile(hem[cols], HEM_PERCENTILE)) if cols.any() else 0
         mask |= cols[None, :] & (rows >= top[None, :]) & (rows <= np.maximum(hem, depth)[None, :])
     # pixels the closing or the hem added carry skin in every donor: colour them from the nearest cloth pixel,
-    # taken a pixel inside the cloth's edge (an edge pixel is half the donor's skin: green specks over c40)
-    core = ndimage.binary_erosion(solid, iterations=1)
+    # taken two pixels inside the cloth's edge (edge pixels are part donor skin: green specks over c40)
+    core = ndimage.binary_erosion(np.pad(solid, 2, mode='edge'), iterations=2)[2:-2, 2:-2] & strong
     core = core if core.any() else solid
     # where the first donor shows skin but another donor shows its cloth: that donor's pixel in the first donor's
     # tint (per-channel ratio over the pixels both show as cloth)
