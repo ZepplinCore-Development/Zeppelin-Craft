@@ -1,0 +1,48 @@
+From b685772649c4a0f0332b6759d9aa2fe5740e0986 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Thu, 22 Oct 2026 08:00:51 +0000
+Subject: [PATCH] Zeppelin F-151: eye colour and marking layers in the
+ synchronous head compositor (RenderPrepHU/HL) - character select and in-world
+ draw through it
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ WoW/Common/ComponentCore/CharacterComponent.cpp | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.cpp b/WoW/Common/ComponentCore/CharacterComponent.cpp
+index 41ee255e..936935cb 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.cpp
++++ b/WoW/Common/ComponentCore/CharacterComponent.cpp
+@@ -4920,6 +4920,13 @@ void CCharacterComponent::RenderPrepHU() {
+         CCharacterComponent::PasteToSection(SECTION_HEAD_UPPER, this->m_baseVariation[VARIATION_FACE].m_texture[1], CCharacterComponent::s_textureBuffer);
+     }
+ 
++    // Not in the original (F-151): the marking and eye colour layers go over the face, under facial hair and hair
++    for (COMPONENT_VARIATIONS layer : { VARIATION_MARKINGS, VARIATION_EYES }) {
++        if (this->m_baseVariation[layer].m_texture[1]) {
++            CCharacterComponent::PasteToSection(SECTION_HEAD_UPPER, this->m_baseVariation[layer].m_texture[1], CCharacterComponent::s_textureBuffer);
++        }
++    }
++
+     if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[1]) {
+         CCharacterComponent::PasteToSection(SECTION_HEAD_UPPER, this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[1], CCharacterComponent::s_textureBuffer);
+     }
+@@ -4942,6 +4949,13 @@ void CCharacterComponent::RenderPrepHL() {
+         CCharacterComponent::PasteToSection(SECTION_HEAD_LOWER, this->m_baseVariation[VARIATION_FACE].m_texture[0], CCharacterComponent::s_textureBuffer);
+     }
+ 
++    // Not in the original (F-151): the marking and eye colour layers go over the face, under facial hair and hair
++    for (COMPONENT_VARIATIONS layer : { VARIATION_MARKINGS, VARIATION_EYES }) {
++        if (this->m_baseVariation[layer].m_texture[0]) {
++            CCharacterComponent::PasteToSection(SECTION_HEAD_LOWER, this->m_baseVariation[layer].m_texture[0], CCharacterComponent::s_textureBuffer);
++        }
++    }
++
+     if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[0]) {
+         CCharacterComponent::PasteToSection(SECTION_HEAD_LOWER, this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[0], CCharacterComponent::s_textureBuffer);
+     }
+-- 
+2.34.1
+
