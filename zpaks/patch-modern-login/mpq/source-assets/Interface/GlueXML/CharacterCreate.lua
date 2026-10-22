@@ -395,7 +395,6 @@ function CharCreate_UpdateSubRaces()
 				button:SetPoint(point, _G["CharCreateSubRaceButton"..(i - 1)], relativePoint, gap, 0);
 			end
 			button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-"..subRace.icon.."_"..gender);
-			button.name = subRace.title or subRace.name;
 			button:SetChecked(i == CharacterCreate.subRace and 1 or 0);
 			button:Show();
 		else

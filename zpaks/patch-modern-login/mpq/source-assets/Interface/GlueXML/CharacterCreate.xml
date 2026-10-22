@@ -375,15 +375,6 @@
 			<OnClick>
 				CharCreateSubRace_OnClick(self);
 			</OnClick>
-			<OnEnter>
-				if ( self.name ) then
-					CharacterCreateTooltip:SetOwner(self);
-					CharacterCreateTooltip:SetText(self.name);
-				end
-			</OnEnter>
-			<OnLeave>
-				CharacterCreateTooltip:Hide();
-			</OnLeave>
 		</Scripts>
 	</CheckButton>
 	<CheckButton name="CharCreateClassButtonTemplate" virtual="true" motionScriptsWhileDisabled="true">

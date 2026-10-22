@@ -1,0 +1,95 @@
+From 06da7107be9b590423a9239be4f3142f989bf162 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Thu, 22 Oct 2026 00:22:07 +0000
+Subject: [PATCH] Zeppelin F-151: character-create zoom centres on the eyes
+ (eye-glow geoset) instead of the head attachment
+
+---
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp | 54 ++++++++++++++++++-
+ 1 file changed, 52 insertions(+), 2 deletions(-)
+
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index 8545b78e..83a5de53 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -5,7 +5,9 @@
+ #include "Engine/Source/BlizzardCore/SFile2-Core.h"
+ #include "Engine/Source/Frame/CScriptObject.h"
+ #include "Engine/Source/Frame/CSimpleModel.h"
++#include "Engine/Source/Model2/M2Data.h"
+ #include "Engine/Source/Model2/M2Model.h"
++#include "Engine/Source/Model2/M2Scene.h"
+ #include "Engine/Source/FrameScript/FrameScript.h"
+ #include "Engine/Source/FrameScript/FrameScript_Object.h"
+ #include "Engine/Source/lua-5.1/src/lauxlib.h"
+@@ -801,9 +803,48 @@ static int32_t Script_SetCharCustomizationFilter(lua_State* L) {
+ }
+ 
+ // Not in the original (F-151): SetCharacterCreateZoom(zoom 0..1) moves the character-create camera toward the
+-// character's head (attachment 11), see ZepSetCameraZoomFocus in CSimpleModel.cpp.
++// character's eyes, see ZepSetCameraZoomFocus in CSimpleModel.cpp.
+ void ZepSetCameraZoomFocus(CSimpleModel* model, float zoom, bool (*focus)(C3Vector& point));
+ 
++// The eyes in bind pose: the mean of the eye-glow skin sections' vertices (geoset group 17, which every
++// character model carries over its eyes). Returns false when the model has none.
++static bool CharacterCreateEyesBind(CM2Model* model, C3Vector& eyes) {
++    M2Data* data = model->m_shared->m_data;
++    M2SkinProfile* skin = model->m_shared->m_skinData;
++
++    if (!skin) {
++        return false;
++    }
++
++    C3Vector sum(0.0f, 0.0f, 0.0f);
++    uint32_t count = 0;
++
++    for (uint32_t i = 0; i < skin->m_skinSections.m_count; i++) {
++        const M2SkinSection& section = skin->m_skinSections[i];
++
++        if (section.m_skinSectionId / 100 != 17) {
++            continue;
++        }
++
++        for (uint32_t v = section.m_vertexStart; v < section.m_vertexStart + section.m_vertexCount && v < skin->m_vertices.m_count; v++) {
++            const C3Vector& pos = data->m_vertices[skin->m_vertices[v]].m_position;
++            sum.x += pos.x;
++            sum.y += pos.y;
++            sum.z += pos.z;
++            count++;
++        }
++    }
++
++    if (!count) {
++        return false;
++    }
++
++    eyes = C3Vector(sum.x / count, sum.y / count, sum.z / count);
++    return true;
++}
++
++// The zoom focus: the eyes, carried by the bone of the head attachment (11) so they follow the idle
++// animation; the head attachment itself (which sits above the head) when the model has no eye glow.
+ static bool CharacterCreateHead(C3Vector& point) {
+     CM2Model* model = CCharacterCreation::m_character ? CCharacterCreation::m_character->m_data.m_model : nullptr;
+ 
+@@ -811,7 +852,16 @@ static bool CharacterCreateHead(C3Vector& point) {
+         return false;
+     }
+ 
+-    point = model->GetAttachmentPosition(11);
++    point = model->GetAttachmentPosition(11);   // also animates the bones
++
++    C3Vector eyes;
++
++    if (CharacterCreateEyesBind(model, eyes)) {
++        M2Data* data = model->m_shared->m_data;
++        uint16_t bone = data->m_attachments[data->m_attachmentIndicesById[11]].m_bone;
++        point = eyes * model->m_boneMatrices[bone] * model->m_scene->m_viewInv;
++    }
++
+     return true;
+ }
+ 
+-- 
+2.34.1
+
