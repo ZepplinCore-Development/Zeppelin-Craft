@@ -988,6 +988,16 @@
 							<OnClick function="CharacterCreate_Forward"/>
 						</Scripts>
 					</Button>
+					<!-- F-151: takes the class outfit off the model so skin colour and markings can be seen (SetCharacterCreateOutfitShown) -->
+					<Button name="CharCreateOutfitButton" inherits="CharCreateNavButtonTemplate" text="CHAR_CREATE_HIDE_OUTFIT" hidden="true">
+						<Anchors>
+							<Anchor point="BOTTOM" relativeTo="CharCreateOkayButton" relativePoint="TOP" x="0" y="0"/>
+						</Anchors>
+						<Size x="150" y="50"/>
+						<Scripts>
+							<OnClick function="CharacterCreate_ToggleOutfit"/>
+						</Scripts>
+					</Button>
 					<EditBox name="CharacterCreateNameEdit" letters="12">
 						<Size x="156" y="40"/>
 						<Anchors>

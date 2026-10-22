@@ -190,6 +190,7 @@ function CharacterCreate_OnShow()
 	end
 
 	CharacterCreate.subRaces = nil;	-- F-151: re-derive the sub-race from the new character's skin
+	CharacterCreate_ShowOutfit(true);	-- F-151: every visit starts dressed
 
 	if ( PAID_SERVICE_TYPE ) then
 		CustomizeExistingCharacter( PAID_SERVICE_CHARACTER_ID );
@@ -277,13 +278,15 @@ function CharacterCreateFrame_OnMouseUp(button)
 end
 
 -- F-151: mouse-wheel zoom toward the character's head (SetCharacterCreateZoom, a source-client API).
--- CHAR_CREATE_ZOOM is the target (0 = stock framing, 1 = face), eased each frame.
+-- CHAR_CREATE_ZOOM is the target (0 = stock framing, 1 = face), eased each frame. It stops at
+-- CHAR_CREATE_ZOOM_MAX: closer than that the face textures show their pixels on a 4K screen.
 CHAR_CREATE_ZOOM = 0;
 CHAR_CREATE_ZOOM_SHOWN = 0;
 CHAR_CREATE_ZOOM_STEP = 0.2;
+CHAR_CREATE_ZOOM_MAX = 0.8;
 
 function CharacterCreate_Zoom(delta)
-	CHAR_CREATE_ZOOM = math.min(1, math.max(0, CHAR_CREATE_ZOOM + delta * CHAR_CREATE_ZOOM_STEP));
+	CHAR_CREATE_ZOOM = math.min(CHAR_CREATE_ZOOM_MAX, math.max(0, CHAR_CREATE_ZOOM + delta * CHAR_CREATE_ZOOM_STEP));
 end
 
 function CharacterCreate_UpdateZoom(elapsed)
@@ -324,6 +327,22 @@ end
 
 -- F-151: Eye Color (6) and Markings (7) show only for a race that has more than one choice, below the last
 -- shown stock button.
+-- F-151: the outfit toggle above Finish (SetCharacterCreateOutfitShown is a source-client API)
+function CharacterCreate_ShowOutfit(shown)
+	if ( not SetCharacterCreateOutfitShown ) then
+		CharCreateOutfitButton:Hide();
+		return;
+	end
+	SetCharacterCreateOutfitShown(shown);
+	CharCreateOutfitButton:SetText(shown and CHAR_CREATE_HIDE_OUTFIT or CHAR_CREATE_SHOW_OUTFIT);
+	CharCreateOutfitButton:Show();
+end
+
+function CharacterCreate_ToggleOutfit()
+	CharacterCreate_ShowOutfit(not IsCharacterCreateOutfitShown());
+	PlaySound("gsCharacterCreationLook");
+end
+
 function CharCreate_UpdateFaceLayerButtons()
 	local below = CharCreateCustomizationButton1;
 	for i = 2, 5 do

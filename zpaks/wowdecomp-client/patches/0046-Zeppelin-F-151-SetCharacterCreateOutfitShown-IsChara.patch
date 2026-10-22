@@ -1,0 +1,139 @@
+From 2bad89d9fd286c36592ad52e534b7603d4428f7e Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Thu, 22 Oct 2026 08:13:32 +0000
+Subject: [PATCH] Zeppelin F-151: SetCharacterCreateOutfitShown /
+ IsCharacterCreateOutfitShown - character create can show the model without
+ its class outfit
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ WoW/Source/Glue/CharacterCreation.cpp         | 30 ++++++++++++++-----
+ WoW/Source/Glue/CharacterCreation.h           |  2 ++
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp | 21 +++++++++++++
+ 3 files changed, 45 insertions(+), 8 deletions(-)
+
+diff --git a/WoW/Source/Glue/CharacterCreation.cpp b/WoW/Source/Glue/CharacterCreation.cpp
+index f3e14c49..65a01913 100644
+--- a/WoW/Source/Glue/CharacterCreation.cpp
++++ b/WoW/Source/Glue/CharacterCreation.cpp
+@@ -61,6 +61,9 @@ uint32_t CCharacterCreation::m_prevHairStyleIndex;
+ // STATIC: 0x00B6B19C
+ uint32_t CCharacterCreation::m_prevFacialHairIndex;
+ 
++// Not in the original (F-151)
++bool CCharacterCreation::s_outfitHidden;
++
+ // STATIC: 0x00B6B1A0
+ CCharacterComponent* CCharacterCreation::m_character;
+ 
+@@ -433,7 +436,25 @@ int32_t CCharacterCreation::GetRandomClassID() {
+ 
+ // VERIFY: b15e5451 auto
+ // OFFSET: 0x004E0FD0
++// Not in the original (F-151): takes every item and weapon off the character-create model
++void CCharacterCreation::Undress() {
++    for (uint32_t i = 0; i < NUM_ITEM_SLOTS; i++) {
++        CCharacterCreation::m_character->RemoveItem(static_cast<ITEM_SLOT>(i));
++    }
++
++    CCharacterComponent::RemoveHandItem(CCharacterCreation::m_character->m_data.m_model, INVSLOT_MAINHAND, SHEATHE_NONE, false);
++    CCharacterComponent::RemoveHandItem(CCharacterCreation::m_character->m_data.m_model, INVSLOT_OFFHAND, SHEATHE_NONE, false);
++    CCharacterComponent::RemoveHandItem(CCharacterCreation::m_character->m_data.m_model, INVSLOT_OFFHAND, SHEATHE_NONE, true);
++    CCharacterComponent::RemoveHandItem(CCharacterCreation::m_character->m_data.m_model, INVSLOT_RANGED, SHEATHE_NONE, false);
++}
++
+ void CCharacterCreation::Dress() {
++    // Not in the original (F-151): the glue's outfit toggle (SetCharacterCreateOutfitShown) shows the character bare
++    if (CCharacterCreation::s_outfitHidden) {
++        CCharacterCreation::Undress();
++        return;
++    }
++
+     if (CCharacterCreation::m_existingCharacterIndex >= 0) {
+         CharacterSelectionDisplay* display = CCharacterSelection::GetCharacterDisplay(CCharacterCreation::m_existingCharacterIndex);
+ 
+@@ -485,14 +506,7 @@ void CCharacterCreation::Dress() {
+         }
+     }
+ 
+-    for (uint32_t i = 0; i < NUM_ITEM_SLOTS; i++) {
+-        CCharacterCreation::m_character->RemoveItem(static_cast<ITEM_SLOT>(i));
+-    }
+-
+-    CCharacterComponent::RemoveHandItem(CCharacterCreation::m_character->m_data.m_model, INVSLOT_MAINHAND, SHEATHE_NONE, false);
+-    CCharacterComponent::RemoveHandItem(CCharacterCreation::m_character->m_data.m_model, INVSLOT_OFFHAND, SHEATHE_NONE, false);
+-    CCharacterComponent::RemoveHandItem(CCharacterCreation::m_character->m_data.m_model, INVSLOT_OFFHAND, SHEATHE_NONE, true);
+-    CCharacterComponent::RemoveHandItem(CCharacterCreation::m_character->m_data.m_model, INVSLOT_RANGED, SHEATHE_NONE, false);
++    CCharacterCreation::Undress();
+ 
+     for (int32_t i = 0; i < g_charStartOutfitDB.m_numRecords; i++) {
+         CharStartOutfitRec* outfit = i >= 0 && i < g_charStartOutfitDB.m_numRecords ? &g_charStartOutfitDB.m_records[i] : nullptr;
+diff --git a/WoW/Source/Glue/CharacterCreation.h b/WoW/Source/Glue/CharacterCreation.h
+index 783e84a9..d1db3203 100644
+--- a/WoW/Source/Glue/CharacterCreation.h
++++ b/WoW/Source/Glue/CharacterCreation.h
+@@ -29,12 +29,14 @@ class CCharacterCreation {
+     static uint32_t m_prevHairColorIndex;
+     static uint32_t m_prevHairStyleIndex;
+     static uint32_t m_prevFacialHairIndex;
++    static bool s_outfitHidden;     // Not in the original (F-151)
+ 
+     static void CalcClasses(int32_t raceID);
+     static void CreateCharacter(const char* name);
+     static void CycleCharCustomization(CHAR_CUSTOMIZATION_TYPE type, int32_t delta);
+     static void ZepSetSkin(int32_t skinID);     // Not in the original (F-151)
+     static void Dress();
++    static void Undress();          // Not in the original (F-151)
+     static int32_t GetExistingClassIndex();
+     static int32_t GetExistingRaceIndex();
+     static int32_t GetRandomClassID();
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index 45fde46b..a7d4d4bc 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -20,6 +20,7 @@
+ #include "WoW/Source/DB/Rec/ChrRacesRec.h"
+ #include "WoW/Source/DB/Rec/FactionGroupRec.h"
+ #include "WoW/Source/DB/Rec/FactionTemplateRec.h"
++#include "WoW/Source/Glue/CGlueLoading.h"
+ #include "WoW/Source/Glue/CharacterSelection.h"
+ #include "WoW/Source/Glue/CSimpleModelFFX.h"
+ #include "WoW/Source/Object/ObjectClient/Unit_C.h"
+@@ -895,6 +896,24 @@ static int32_t Script_SetCharacterCreateZoom(lua_State* L) {
+     return 0;
+ }
+ 
++// Not in the original (F-151): SetCharacterCreateOutfitShown(shown) dresses the character-create model in its class
++// outfit or takes it off, so skin colour and markings can be seen; IsCharacterCreateOutfitShown() reads it back.
++static int32_t Script_SetCharacterCreateOutfitShown(lua_State* L) {
++    CCharacterCreation::s_outfitHidden = !lua_toboolean(L, 1);
++
++    if (CCharacterCreation::m_character) {
++        CCharacterCreation::Dress();
++        CGlueLoading::StartLoad(CCharacterCreation::m_character, 1);
++    }
++
++    return 0;
++}
++
++static int32_t Script_IsCharacterCreateOutfitShown(lua_State* L) {
++    lua_pushboolean(L, !CCharacterCreation::s_outfitHidden);
++    return 1;
++}
++
+ // STATIC: 0x00AC4228
+ static FrameScript_Method s_scriptFunctions[] = {
+     { "SetCharCustomizeFrame", &Script_SetCharCustomizeFrame },
+@@ -931,6 +950,8 @@ static FrameScript_Method s_scriptFunctions[] = {
+     { "GetCreateBackgroundModel", &Script_GetCreateBackgroundModel },
+     { "GetCharCustomizationInfo", &Script_GetCharCustomizationInfo },   // Not in the original (F-151)
+     { "SetCharacterCreateZoom", &Script_SetCharacterCreateZoom },   // Not in the original (F-151)
++    { "SetCharacterCreateOutfitShown", &Script_SetCharacterCreateOutfitShown },   // Not in the original (F-151)
++    { "IsCharacterCreateOutfitShown", &Script_IsCharacterCreateOutfitShown },     // Not in the original (F-151)
+     { "SetCharCustomizationFilter", &Script_SetCharCustomizationFilter },   // Not in the original (F-151)
+ };
+ 
+-- 
+2.34.1
+
