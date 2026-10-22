@@ -1,0 +1,72 @@
+From 0be5ed5ce4e1da97b685f94e19107074d920ac0a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 22 Oct 2026 10:40:44 +0000
+Subject: [PATCH] WIP: F-151 - character list accepts the ZEPD customization
+ trailer
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ pkg/char/characters.go  | 24 ++++++++++++++++++++----
+ pkg/char/client_test.go |  8 ++++++++
+ 2 files changed, 28 insertions(+), 4 deletions(-)
+
+diff --git a/pkg/char/characters.go b/pkg/char/characters.go
+index 50661c5..8ac3ab9 100644
+--- a/pkg/char/characters.go
++++ b/pkg/char/characters.go
+@@ -85,12 +85,28 @@ func decodeCharacters(body []byte) ([]Character, error) {
+ 		seen[ch.GUID] = true
+ 		characters = append(characters, ch)
+ 	}
+-	// Zeppelin (F-151): the server appends "ZEPC", a count and per character guid, eye colour and marking.
+-	if r.Len() >= 5 && bytes.Equal(r.Bytes()[:4], []byte("ZEPC")) {
++	// Zeppelin (F-151): the server appends its character customizations after the list:
++	// "ZEPC", count, per character guid, eye colour, marking; or
++	// "ZEPD", count, per character guid, n, n choices.
++	if r.Len() >= 5 && (bytes.Equal(r.Bytes()[:4], []byte("ZEPC")) || bytes.Equal(r.Bytes()[:4], []byte("ZEPD"))) {
++		counted := r.Bytes()[3] == 'D'
+ 		r.Next(4)
+ 		extra, _ := r.ReadByte()
+-		if _, err := io.ReadFull(r, make([]byte, int(extra)*10)); err != nil {
+-			return nil, fmt.Errorf("truncated customization trailer: %w", err)
++		for i := 0; i < int(extra); i++ {
++			n := 2
++			if _, err := io.ReadFull(r, make([]byte, 8)); err != nil {
++				return nil, fmt.Errorf("truncated customization trailer: %w", err)
++			}
++			if counted {
++				c, err := r.ReadByte()
++				if err != nil {
++					return nil, fmt.Errorf("truncated customization trailer: %w", err)
++				}
++				n = int(c)
++			}
++			if _, err := io.ReadFull(r, make([]byte, n)); err != nil {
++				return nil, fmt.Errorf("truncated customization trailer: %w", err)
++			}
+ 		}
+ 	}
+ 	if r.Len() != 0 {
+diff --git a/pkg/char/client_test.go b/pkg/char/client_test.go
+index 72efc2c..867e774 100644
+--- a/pkg/char/client_test.go
++++ b/pkg/char/client_test.go
+@@ -547,6 +547,14 @@ func TestCharacterDecoder(t *testing.T) {
+ 	if _, err := decodeCharacters(append(bytes.Clone(fixture), trailer[:len(trailer)-1]...)); err == nil {
+ 		t.Fatal("accepted a truncated trailer")
+ 	}
++	// "ZEPD": per character guid, a choice count, then the choices
++	counted := append([]byte("ZEPD\x02"), append(append(make([]byte, 8), 3, 1, 2, 3), append(make([]byte, 8), 3, 4, 5, 6)...)...)
++	if chars, err := decodeCharacters(append(bytes.Clone(fixture), counted...)); err != nil || len(chars) != 2 {
++		t.Fatal("counted trailer refused", err)
++	}
++	if _, err := decodeCharacters(append(bytes.Clone(fixture), counted[:len(counted)-1]...)); err == nil {
++		t.Fatal("accepted a truncated counted trailer")
++	}
+ 	for _, change := range []func([]byte) []byte{
+ 		func(p []byte) []byte { return append(p, 0) }, func(p []byte) []byte { p[0] = 255; return p }, func(p []byte) []byte { p[9] = 0x1b; return p },
+ 		func(p []byte) []byte { clear(p[1:9]); return p }, func(p []byte) []byte { copy(p[276:284], p[1:9]); return p },
+-- 
+2.34.1
+

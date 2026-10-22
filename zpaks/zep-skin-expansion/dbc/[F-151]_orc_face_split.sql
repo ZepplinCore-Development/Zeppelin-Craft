@@ -7,3 +7,7 @@
 -- Sorts after the [AUTO,*] files, whose rows it overrides.
 UPDATE charsections SET flags = flags | 0x10 WHERE race = 2 AND base_section = 1 AND type BETWEEN 0 AND 8 AND (flags & 0x1) = 0x1;
 UPDATE charsections SET flags = 0 WHERE race = 2 AND base_section = 1 AND type BETWEEN 9 AND 31;
+-- The old death knight skin colours (male 15-17, female 11-13) are ordinary colours of their sub-race now (user rule):
+-- skin, underwear and plain faces open to every class (0x4 death knight only -> 0x11 any class).
+UPDATE charsections SET flags = (flags & ~0x4) | 0x11 WHERE race = 2 AND base_section IN (0, 4) AND ((gender = 0 AND color_index IN (15, 16, 17)) OR (gender = 1 AND color_index IN (11, 12, 13)));
+UPDATE charsections SET flags = (flags & ~0x4) | 0x11 WHERE race = 2 AND base_section = 1 AND type BETWEEN 0 AND 8 AND ((gender = 0 AND color_index IN (15, 16, 17)) OR (gender = 1 AND color_index IN (11, 12, 13)));

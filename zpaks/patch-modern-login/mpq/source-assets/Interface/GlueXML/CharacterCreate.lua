@@ -7,7 +7,7 @@ FINISH = "Finish";
 CHARACTER_FACING_INCREMENT = 2;
 MAX_RACES = 12;
 MAX_CLASSES_PER_RACE = 11;
-NUM_CHAR_CUSTOMIZATIONS = 7;	-- F-151: 6 eye colour, 7 markings (source-client customizations)
+NUM_CHAR_CUSTOMIZATIONS = 8;	-- F-151: 6 eye colour, 7 facial markings, 8 body markings (source-client customizations)
 MIN_CHAR_NAME_LENGTH = 2;
 CHARACTER_CREATE_ROTATION_START_X = nil;
 CHARACTER_CREATE_INITIAL_FACING = nil;
@@ -89,19 +89,20 @@ CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 -- Keyed by the race's file name (GetNameForRace).
 CHAR_CREATE_SUBRACES = {
 	["ORC"] = {
-		shared = { MALE = {15, 16, 17}, FEMALE = {11, 12, 13} },
+		-- colours 28-43 are base colours plus a body marking (now the Body Markings choice); the old death knight
+		-- colours (male 15-17, female 11-13) sit in the sub-race of their tone
 		{ name = "Orc", icon = "ORC",
-			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 40},
-			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 40} },
+			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
 		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR",
-			MALE = {12, 20, 21, 22, 23, 24, 29, 31, 32, 34},
-			FEMALE = {20, 21, 22, 23, 24, 29, 31, 32, 34} },
+			MALE = {12, 16, 20, 21, 22, 23, 24},
+			FEMALE = {12, 20, 21, 22, 23, 24} },
 		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK",
-			MALE = {9, 14, 18, 19, 28, 30, 36, 38, 41, 42, 43, 44, 45},
-			FEMALE = {18, 19, 28, 30, 36, 38, 41, 42, 43, 44, 45} },
+			MALE = {9, 14, 15, 17, 18, 19, 44, 45},
+			FEMALE = {11, 13, 18, 19, 44, 45} },
 		{ name = "Fel Orc", icon = "FELORC",
-			MALE = {10, 25, 26, 27, 33, 35, 37, 39},
-			FEMALE = {25, 26, 27, 33, 35, 37, 39} },
+			MALE = {10, 25, 26, 27},
+			FEMALE = {25, 26, 27} },
 	},
 };
 MAX_SUBRACES = 4;
@@ -127,6 +128,7 @@ function CharacterCreate_OnLoad(self)
 	end
 	CharCreateCustomizationButton6.text:SetText(CHAR_CUSTOMIZATION_EYES_DESC);		-- F-151
 	CharCreateCustomizationButton7.text:SetText(CHAR_CUSTOMIZATION_MARKINGS_DESC);
+	CharCreateCustomizationButton8.text:SetText(CHAR_CUSTOMIZATION_BODY_MARKINGS_DESC);
 
 	-- Color edit box backdrop
 	local backdropColor = FACTION_BACKDROP_COLOR_TABLE["Alliance"];
@@ -350,7 +352,7 @@ function CharCreate_UpdateFaceLayerButtons()
 			below = _G["CharCreateCustomizationButton"..i];
 		end
 	end
-	for i = 6, 7 do
+	for i = 6, 8 do
 		local button = _G["CharCreateCustomizationButton"..i];
 		local count;
 		if ( GetCharCustomizationInfo ) then

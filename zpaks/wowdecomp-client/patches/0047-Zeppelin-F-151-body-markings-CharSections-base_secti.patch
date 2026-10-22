@@ -1,0 +1,668 @@
+From 4809efa684cb69e5399ff75aa50fc234ca4bf788 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Thu, 22 Oct 2026 10:40:32 +0000
+Subject: [PATCH] Zeppelin F-151: body markings - CharSections base_section 7,
+ one full-atlas layer over the skin in both compositors; ZEPD char-list
+ trailer; body marking in CMSG_CHAR_CREATE and UNIT_FIELD_PADDING byte 2
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ .../ComponentCore/CharacterComponent.cpp      | 133 +++++++++++++++++-
+ WoW/Common/ComponentCore/CharacterComponent.h |   4 +
+ WoW/Common/ComponentCore/Types.h              |   4 +-
+ WoW/Source/Glue/CharacterCreation.cpp         |  11 +-
+ WoW/Source/Glue/CharacterCreation.h           |   6 +
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp |  16 ++-
+ WoW/Source/Glue/CharacterSelection.cpp        |   1 +
+ WoW/Source/Glue/ComponentData.cpp             |   2 +
+ WoW/Source/Glue/Types.h                       |   2 +
+ WoW/Source/Object/ObjectClient/Unit_C.cpp     |   1 +
+ WoW/Source/Ui/DressUpModelFrame.cpp           |   1 +
+ WoW/Source/WowServices/RealmConnection.cpp    |  32 +++--
+ WoW/Source/WowServices/RealmConnection.h      |   3 +-
+ WoW/Source/WowServices/Types.h                |   1 +
+ .../WowSvcs/WowSvcsClient/ClientServices.cpp  |   1 +
+ 15 files changed, 194 insertions(+), 24 deletions(-)
+
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.cpp b/WoW/Common/ComponentCore/CharacterComponent.cpp
+index 936935cb..4cd8a458 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.cpp
++++ b/WoW/Common/ComponentCore/CharacterComponent.cpp
+@@ -1218,6 +1218,8 @@ void CComponentRequest::DestroyCachedTextures() {
+     for (uint32_t i = 0; i < NUM_COMPONENT_SECTIONS; i++) {
+         TextureCacheDestroyTexture(this->m_baseTextures[i]);
+         this->m_baseTextures[i] = nullptr;
++        TextureCacheDestroyTexture(this->m_overlayTextures[i]);   // Not in the original (F-151)
++        this->m_overlayTextures[i] = nullptr;
+     }
+ 
+     for (uint32_t i = 0; i < this->m_layerCount; i++) {
+@@ -1701,6 +1703,10 @@ void CCharacterComponent::ValidateComponentData(ComponentData* data, COMPONENT_C
+     if (!CCharacterComponent::FaceLayerValid(prefs, VARIATION_MARKINGS, prefs.m_markingId, context)) {
+         prefs.m_markingId = 0;
+     }
++
++    if (!CCharacterComponent::FaceLayerValid(prefs, VARIATION_BODY_MARKINGS, prefs.m_bodyMarkingId, context)) {
++        prefs.m_bodyMarkingId = 0;
++    }
+ }
+ 
+ // Not in the original (F-151): an eye colour (CharSections base_section 5, colour 0) or marking (base_section 6,
+@@ -1713,16 +1719,102 @@ bool CCharacterComponent::FaceLayerValid(const CharacterPreferences& prefs, COMP
+ 
+     int32_t numVariations = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, variation);
+ 
+-    if (index == 0 && (variation == VARIATION_MARKINGS || numVariations == 0)) {
++    if (index == 0 && (variation != VARIATION_EYES || numVariations == 0)) {
+         return true;
+     }
+ 
+-    int32_t color = variation == VARIATION_EYES ? 0 : static_cast<int32_t>(prefs.m_skinID);
++    // facial markings are recoloured per skin; eyes and body markings are one layer for every skin (colour 0)
++    int32_t color = variation == VARIATION_MARKINGS ? static_cast<int32_t>(prefs.m_skinID) : 0;
+     CharSectionsRec* rec = ComponentGetSectionsRecord(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, variation, index, color, nullptr);
+ 
+     return rec && ComponentFlagsMatch(rec->m_flags, GetSelectionFromContext(context, prefs.m_classId));
+ }
+ 
++// Not in the original (F-151): the preference an eye colour / marking layer is chosen by
++uint32_t& CCharacterComponent::FaceLayerChoice(CharacterPreferences& prefs, COMPONENT_VARIATIONS variation) {
++    return variation == VARIATION_EYES ? prefs.m_eyeId : variation == VARIATION_MARKINGS ? prefs.m_markingId : prefs.m_bodyMarkingId;
++}
++
++// Not in the original (F-151): blends one section of a full-atlas layer (palettized, 8-bit alpha) over what is
++// already there, every mip. The stock PasteTransparent8Bit takes section-sized layers only: it ignores the source
++// position and expects the alpha plane straight after a section-high index plane. Nearest sampling, so a layer of
++// another size than the composite still lands on the same UVs.
++void CCharacterComponent::PasteOverlay(COMPONENT_SECTIONS section, void* texture, MipBits* dstMips) {
++    if (!TextureCacheHasMips(texture)) {
++        return;
++    }
++
++    TCTEXTUREINFO info;
++    info.m_width = 0;
++    info.m_height = 0;
++    info.m_mipCount = 0;
++    info.m_alphaSize = 0;
++    info.m_opaque = 1;
++    TextureCacheGetInfo(texture, info, 1);
++    const BlpPalPixel* pal = TextureCacheGetPal(texture);
++
++    if (!pal || info.m_alphaSize != 8 || !info.m_width || !info.m_height) {
++        return;
++    }
++
++    // the source mip matching the composite's size (or the full texture when it is smaller)
++    uint32_t srcMip = 0;
++    uint32_t srcWidth = info.m_width;
++    uint32_t srcHeight = info.m_height;
++
++    while (srcWidth > s_textureSize && srcMip + 1 < info.m_mipCount) {
++        srcWidth >>= 1;
++        srcHeight >>= 1;
++        srcMip++;
++    }
++
++    const CompSectionInfo& sec = s_sectionInfo[section];
++    uint32_t dstSize = s_textureSize;
++
++    for (uint32_t mip = 0; srcMip + mip < info.m_mipCount && (dstSize >> mip) && (sec.m_size.x >> mip) && (sec.m_size.y >> mip); mip++) {
++        uint32_t w = srcWidth >> mip ? srcWidth >> mip : 1;
++        uint32_t h = srcHeight >> mip ? srcHeight >> mip : 1;
++        uint32_t size = dstSize >> mip;
++        const uint8_t* index = static_cast<const uint8_t*>(TextureCacheGetMip(texture, srcMip + mip));
++        const uint8_t* alpha = index + w * h;
++        uint8_t* dst = reinterpret_cast<uint8_t*>(dstMips->m_mip[mip]);
++
++        if (!index || !dst) {
++            break;
++        }
++
++        for (int32_t y = sec.m_pos.y >> mip; y < (sec.m_pos.y + sec.m_size.y) >> mip; y++) {
++            uint32_t sy = static_cast<uint32_t>(y) * h / size;
++
++            for (int32_t x = sec.m_pos.x >> mip; x < (sec.m_pos.x + sec.m_size.x) >> mip; x++) {
++                uint32_t i = static_cast<uint32_t>(x) * w / size + w * sy;
++                uint32_t a = alpha[i];
++
++                if (!a) {
++                    continue;
++                }
++
++                const BlpPalPixel& color = pal[index[i]];
++                uint8_t* pixel = dst + 4 * (static_cast<uint32_t>(y) * size + static_cast<uint32_t>(x));
++                pixel[2] = ((255 - a) * pixel[2] + a * color.m_r) >> 8;
++                pixel[1] = ((255 - a) * pixel[1] + a * color.m_g) >> 8;
++                pixel[0] = ((255 - a) * pixel[0] + a * color.m_b) >> 8;
++            }
++        }
++
++        if (srcWidth < s_textureSize) {
++            break;   // a smaller layer only reaches the top mip, as the stock scaled pastes do
++        }
++    }
++}
++
++// Not in the original (F-151): the body marking over one body section's skin (synchronous compositor)
++void CCharacterComponent::PasteBodyMarking(COMPONENT_SECTIONS section) {
++    if (this->m_baseVariation[VARIATION_BODY_MARKINGS].m_texture[0]) {
++        CCharacterComponent::PasteOverlay(section, this->m_baseVariation[VARIATION_BODY_MARKINGS].m_texture[0], CCharacterComponent::s_textureBuffer);
++    }
++}
++
+ // Not in the original (F-151): loads the eye colour and marking layers of the current choices. A choice with no
+ // record (no marking) clears its layer; the caller marks the head sections dirty.
+ void CCharacterComponent::LoadFaceLayers(const char* debug) {
+@@ -1732,13 +1824,21 @@ void CCharacterComponent::LoadFaceLayers(const char* debug) {
+     this->LoadBaseVariation(VARIATION_EYES, 1, prefs.m_eyeId, 0, SECTION_HEAD_UPPER, debug);
+     this->LoadBaseVariation(VARIATION_MARKINGS, 0, prefs.m_markingId, prefs.m_skinID, SECTION_HEAD_LOWER, debug);
+     this->LoadBaseVariation(VARIATION_MARKINGS, 1, prefs.m_markingId, prefs.m_skinID, SECTION_HEAD_UPPER, debug);
++
++    // the body marking is one full-atlas layer: every body section is redrawn when it changes
++    bool hadBody = this->m_baseVariation[VARIATION_BODY_MARKINGS].m_texture[0] != nullptr;
++    this->LoadBaseVariation(VARIATION_BODY_MARKINGS, 0, prefs.m_bodyMarkingId, 0, SECTION_TORSO_UPPER, debug);
++
++    if (hadBody || this->m_baseVariation[VARIATION_BODY_MARKINGS].m_texture[0]) {
++        this->SetDirtySections(0xFF);
++    }
+ }
+ 
+ // Not in the original (F-151): steps the eye colour or marking choice by one in the direction of delta, past
+ // choices the character may not have, wrapping round.
+ bool CCharacterComponent::CycleFaceLayer(COMPONENT_VARIATIONS variation, int32_t delta, COMPONENT_CONTEXT context) {
+     CharacterPreferences& prefs = this->m_data.m_preferences;
+-    uint32_t& value = variation == VARIATION_EYES ? prefs.m_eyeId : prefs.m_markingId;
++    uint32_t& value = CCharacterComponent::FaceLayerChoice(prefs, variation);
+     int32_t numVariations = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, variation);
+     int32_t step = delta > 0 ? 1 : -1;
+     int32_t index = static_cast<int32_t>(value);
+@@ -1753,7 +1853,7 @@ bool CCharacterComponent::CycleFaceLayer(COMPONENT_VARIATIONS variation, int32_t
+                 this->LoadFaceLayers(nullptr);
+             }
+ 
+-            this->SetDirtySections(0x300);
++            this->SetDirtySections(variation == VARIATION_BODY_MARKINGS ? 0xFF : 0x300);
+             return true;
+         }
+     }
+@@ -1778,13 +1878,13 @@ bool CCharacterComponent::SetRandomFaceLayer(COMPONENT_VARIATIONS variation, COM
+         return false;
+     }
+ 
+-    (variation == VARIATION_EYES ? prefs.m_eyeId : prefs.m_markingId) = static_cast<uint32_t>(valid[CRandom::dice_(numValid, g_rndSeed)]);
++    CCharacterComponent::FaceLayerChoice(prefs, variation) = static_cast<uint32_t>(valid[CRandom::dice_(numValid, g_rndSeed)]);
+ 
+     if (!(this->m_data.m_flags & 0x1)) {
+         this->LoadFaceLayers(nullptr);
+     }
+ 
+-    this->SetDirtySections(0x300);
++    this->SetDirtySections(variation == VARIATION_BODY_MARKINGS ? 0xFF : 0x300);
+     return true;
+ }
+ 
+@@ -4877,6 +4977,7 @@ CCharacterComponent* CCharacterComponent::AllocComponent() {
+ // OFFSET: 0x004F09D0
+ void CCharacterComponent::RenderPrepAU() {
+     CCharacterComponent::PasteFromSkin(SECTION_ARM_UPPER, this->m_baseVariation[VARIATION_SKIN].m_texture[0], CCharacterComponent::s_textureBuffer);
++    this->PasteBodyMarking(SECTION_ARM_UPPER);   // Not in the original (F-151)
+ 
+     for (int32_t layer = 0; layer < 2; layer++) {
+         if ((1 << layer) & this->m_section[SECTION_ARM_UPPER].m_layerMask) {
+@@ -4889,6 +4990,7 @@ void CCharacterComponent::RenderPrepAU() {
+ // OFFSET: 0x004F0A30
+ void CCharacterComponent::RenderPrepAL() {
+     CCharacterComponent::PasteFromSkin(SECTION_ARM_LOWER, this->m_baseVariation[VARIATION_SKIN].m_texture[0], CCharacterComponent::s_textureBuffer);
++    this->PasteBodyMarking(SECTION_ARM_LOWER);   // Not in the original (F-151)
+ 
+     for (int32_t layer = 0; layer < 7; layer++) {
+         if ((1 << layer) & this->m_section[SECTION_ARM_LOWER].m_layerMask) {
+@@ -4901,6 +5003,7 @@ void CCharacterComponent::RenderPrepAL() {
+ // OFFSET: 0x004F0A90
+ void CCharacterComponent::RenderPrepHA() {
+     CCharacterComponent::PasteFromSkin(SECTION_HAND, this->m_baseVariation[VARIATION_SKIN].m_texture[0], CCharacterComponent::s_textureBuffer);
++    this->PasteBodyMarking(SECTION_HAND);   // Not in the original (F-151)
+ 
+     if (this->m_section[SECTION_HAND].m_layerMask & 0x1) {
+         CCharacterComponent::PasteToSection(SECTION_HAND, this->m_section[SECTION_HAND].m_layerTex[0], CCharacterComponent::s_textureBuffer);
+@@ -4969,6 +5072,7 @@ void CCharacterComponent::RenderPrepHL() {
+ // OFFSET: 0x004F0C10
+ void CCharacterComponent::RenderPrepTU() {
+     CCharacterComponent::PasteFromSkin(SECTION_TORSO_UPPER, this->m_baseVariation[VARIATION_SKIN].m_texture[0], CCharacterComponent::s_textureBuffer);
++    this->PasteBodyMarking(SECTION_TORSO_UPPER);   // Not in the original (F-151)
+ 
+     if (!(this->m_section[SECTION_TORSO_UPPER].m_layerMask & 0x7) && this->m_baseVariation[VARIATION_UNDERWEAR].m_texture[1]) {
+         CCharacterComponent::PasteToSection(SECTION_TORSO_UPPER, this->m_baseVariation[VARIATION_UNDERWEAR].m_texture[1], CCharacterComponent::s_textureBuffer);
+@@ -4985,6 +5089,7 @@ void CCharacterComponent::RenderPrepTU() {
+ // OFFSET: 0x004F0CA0
+ void CCharacterComponent::RenderPrepTL() {
+     CCharacterComponent::PasteFromSkin(SECTION_TORSO_LOWER, this->m_baseVariation[VARIATION_SKIN].m_texture[0], CCharacterComponent::s_textureBuffer);
++    this->PasteBodyMarking(SECTION_TORSO_LOWER);   // Not in the original (F-151)
+ 
+     for (int32_t layer = 0; layer < 7; layer++) {
+         if ((1 << layer) & this->m_section[SECTION_TORSO_LOWER].m_layerMask) {
+@@ -4997,6 +5102,7 @@ void CCharacterComponent::RenderPrepTL() {
+ // OFFSET: 0x004F0D00
+ void CCharacterComponent::RenderPrepLU() {
+     CCharacterComponent::PasteFromSkin(SECTION_LEG_UPPER, this->m_baseVariation[VARIATION_SKIN].m_texture[0], CCharacterComponent::s_textureBuffer);
++    this->PasteBodyMarking(SECTION_LEG_UPPER);   // Not in the original (F-151)
+ 
+     if (((this->m_flags & 0x20) || !(this->m_section[SECTION_LEG_UPPER].m_layerMask & 0x3)) && this->m_baseVariation[VARIATION_UNDERWEAR].m_texture[0]) {
+         CCharacterComponent::PasteToSection(SECTION_LEG_UPPER, this->m_baseVariation[VARIATION_UNDERWEAR].m_texture[0], CCharacterComponent::s_textureBuffer);
+@@ -5015,6 +5121,7 @@ void CCharacterComponent::RenderPrepLU() {
+ // OFFSET: 0x004F0DB0
+ void CCharacterComponent::RenderPrepLL() {
+     CCharacterComponent::PasteFromSkin(SECTION_LEG_LOWER, this->m_baseVariation[VARIATION_SKIN].m_texture[0], CCharacterComponent::s_textureBuffer);
++    this->PasteBodyMarking(SECTION_LEG_LOWER);   // Not in the original (F-151)
+ 
+     int32_t last = 2 * ((this->m_flags & 0x20) == 0) + 4;
+ 
+@@ -5029,6 +5136,7 @@ void CCharacterComponent::RenderPrepLL() {
+ // OFFSET: 0x004F0E40
+ void CCharacterComponent::RenderPrepFO() {
+     CCharacterComponent::PasteFromSkin(SECTION_FOOT, this->m_baseVariation[VARIATION_SKIN].m_texture[0], CCharacterComponent::s_textureBuffer);
++    this->PasteBodyMarking(SECTION_FOOT);   // Not in the original (F-151)
+ 
+     if (this->m_section[SECTION_FOOT].m_layerMask & 0x1) {
+         CCharacterComponent::PasteToSection(SECTION_FOOT, this->m_section[SECTION_FOOT].m_layerTex[0], CCharacterComponent::s_textureBuffer);
+@@ -5070,6 +5178,10 @@ void CCharacterComponent::ProcessComponentRequest(CComponentRequest* request) {
+         if (request->m_baseTextures[section]) {
+             CCharacterComponent::PasteFromSkin(static_cast<COMPONENT_SECTIONS>(section), request->m_baseTextures[section], dstMips);
+         }
++
++        if (request->m_overlayTextures[section]) {   // Not in the original (F-151)
++            CCharacterComponent::PasteOverlay(static_cast<COMPONENT_SECTIONS>(section), request->m_overlayTextures[section], dstMips);
++        }
+     }
+ 
+     for (uint32_t i = 0; i < request->m_layerCount; i++) {
+@@ -5119,6 +5231,10 @@ CComponentRequest* CCharacterComponent::AllocComponentRequest() {
+     request->m_mipBits = nullptr;
+     request->m_layerCount = 0;
+ 
++    for (void*& overlay : request->m_overlayTextures) {   // Not in the original (F-151)
++        overlay = nullptr;
++    }
++
+     return request;
+ }
+ 
+@@ -5318,6 +5434,11 @@ void CCharacterComponent::CreateComponentRequest() {
+     for (int32_t section = 0; section < NUM_COMPONENT_SECTIONS; section++) {
+         if ((1 << section) & this->m_dirtySections) {
+             (this->*CCharacterComponent::s_requestFunc[section])();
++
++            // Not in the original (F-151): the body marking over the body sections' skin
++            if (section < SECTION_HEAD_UPPER && this->m_request->m_baseTextures[section] && this->m_baseVariation[VARIATION_BODY_MARKINGS].m_texture[0]) {
++                this->m_request->m_overlayTextures[section] = TextureCacheCopyTexture(this->m_baseVariation[VARIATION_BODY_MARKINGS].m_texture[0]);
++            }
+         }
+     }
+ 
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.h b/WoW/Common/ComponentCore/CharacterComponent.h
+index e5632fa8..03e4e104 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.h
++++ b/WoW/Common/ComponentCore/CharacterComponent.h
+@@ -60,6 +60,7 @@ class CComponentRequest {
+     /* 0034 */ uint32_t m_layerCount;
+     /* 0038 */ void* m_layerTextures [40];
+     /* 00D8 */ uint8_t m_layerSections [40];
++    void* m_overlayTextures [10];   // Not in the original (F-151): body markings, pasted over each section's skin
+     /* 0100 */ TSLink<CComponentRequest> m_link;
+ 
+     void AddLayer(uint8_t section, void* texture);
+@@ -144,6 +145,8 @@ class CCharacterComponent {
+     static void UpdateBaseTexture(EGxTexCommand command, uint32_t width, uint32_t height, uint32_t face, uint32_t level, void* userArg, uint32_t& texelStrideInBytes, const void*& texels);
+     static void ValidateComponentData(ComponentData* data, COMPONENT_CONTEXT context);
+     static bool FaceLayerValid(const CharacterPreferences& prefs, COMPONENT_VARIATIONS variation, int32_t index, COMPONENT_CONTEXT context); // Not in the original (F-151)
++    static uint32_t& FaceLayerChoice(CharacterPreferences& prefs, COMPONENT_VARIATIONS variation); // Not in the original (F-151)
++    static void PasteOverlay(COMPONENT_SECTIONS section, void* texture, MipBits* dstMips); // Not in the original (F-151)
+ 
+     /* 0000 */ TSLink<CCharacterComponent> m_link;
+     /* 0008 */ uint32_t m_flags;
+@@ -200,6 +203,7 @@ class CCharacterComponent {
+     bool ItemsLoaded(int32_t wait);
+     void LoadBaseVariation(COMPONENT_VARIATIONS variation, int32_t textureIndex, int32_t variationIndex, int32_t colorIndex, COMPONENT_SECTIONS section, const char* debug);
+     void LoadFaceLayers(const char* debug); // Not in the original (F-151)
++    void PasteBodyMarking(COMPONENT_SECTIONS section); // Not in the original (F-151)
+     bool CycleFaceLayer(COMPONENT_VARIATIONS variation, int32_t delta, COMPONENT_CONTEXT context); // Not in the original (F-151)
+     bool SetRandomFaceLayer(COMPONENT_VARIATIONS variation, COMPONENT_CONTEXT context); // Not in the original (F-151)
+     void* LoadItemComponentTexture(const ItemDisplayInfoRec* displayRec, COMPONENT_SECTIONS section);
+diff --git a/WoW/Common/ComponentCore/Types.h b/WoW/Common/ComponentCore/Types.h
+index 8c8c3a78..488db885 100644
+--- a/WoW/Common/ComponentCore/Types.h
++++ b/WoW/Common/ComponentCore/Types.h
+@@ -148,7 +148,9 @@ enum COMPONENT_VARIATIONS {
+     // (CharSections base_section 5 and 6)
+     VARIATION_EYES = 5,
+     VARIATION_MARKINGS = 6,
+-    NUM_COMPONENT_VARIATIONS = 7,
++    // Not in the original (F-151): body markings, one full-atlas layer over the skin (CharSections base_section 7)
++    VARIATION_BODY_MARKINGS = 7,
++    NUM_COMPONENT_VARIATIONS = 8,
+ };
+ 
+ struct CharColorList {
+diff --git a/WoW/Source/Glue/CharacterCreation.cpp b/WoW/Source/Glue/CharacterCreation.cpp
+index 65a01913..181c5ca6 100644
+--- a/WoW/Source/Glue/CharacterCreation.cpp
++++ b/WoW/Source/Glue/CharacterCreation.cpp
+@@ -298,8 +298,9 @@ void CCharacterCreation::CycleCharCustomization(CHAR_CUSTOMIZATION_TYPE type, in
+ 
+         // Not in the original (F-151)
+         case CHAR_CUSTOMIZATION_EYES:
+-        case CHAR_CUSTOMIZATION_MARKINGS: {
+-            CCharacterCreation::m_character->CycleFaceLayer(type == CHAR_CUSTOMIZATION_EYES ? VARIATION_EYES : VARIATION_MARKINGS, delta, COMPONENT_CONTEXT_0);
++        case CHAR_CUSTOMIZATION_MARKINGS:
++        case CHAR_CUSTOMIZATION_BODY_MARKINGS: {
++            CCharacterCreation::m_character->CycleFaceLayer(ZepLayerVariation(type), delta, COMPONENT_CONTEXT_0);
+             break;
+         }
+ 
+@@ -358,6 +359,7 @@ void CCharacterCreation::CreateCharacter(const char* name) {
+     info.m_outfitID = 0;
+     info.m_eyeID = static_cast<uint8_t>(CCharacterCreation::m_character->m_data.m_preferences.m_eyeId);           // Not in the original (F-151)
+     info.m_markingID = static_cast<uint8_t>(CCharacterCreation::m_character->m_data.m_preferences.m_markingId);   // Not in the original (F-151)
++    info.m_bodyMarkingID = static_cast<uint8_t>(CCharacterCreation::m_character->m_data.m_preferences.m_bodyMarkingId);
+ 
+     if (guid && display) {
+         uint32_t flags = display->m_characterInfo.m_customizeFlags;
+@@ -668,6 +670,7 @@ void CCharacterCreation::SetSelectedSex(uint32_t sexID) {
+             data.m_preferences.m_faceId = display->m_characterInfo.m_faceID;
+             data.m_preferences.m_eyeId = display->m_characterInfo.m_eyeID;             // Not in the original (F-151)
+             data.m_preferences.m_markingId = display->m_characterInfo.m_markingID;     // Not in the original (F-151)
++            data.m_preferences.m_bodyMarkingId = display->m_characterInfo.m_bodyMarkingID;
+             CCharacterCreation::InitCharacterComponents(&data, false);
+ 
+             CCharacterCreation::m_nameGen.LoadNames(CCharacterCreation::m_races.m_data[CCharacterCreation::m_raceIndex], sexID);
+@@ -716,6 +719,7 @@ void CCharacterCreation::SetSelectedClass(int32_t classID) {
+     data.m_preferences.m_faceId = CCharacterCreation::m_character->m_data.m_preferences.m_faceId;
+     data.m_preferences.m_eyeId = CCharacterCreation::m_character->m_data.m_preferences.m_eyeId;           // Not in the original (F-151)
+     data.m_preferences.m_markingId = CCharacterCreation::m_character->m_data.m_preferences.m_markingId;   // Not in the original (F-151)
++    data.m_preferences.m_bodyMarkingId = CCharacterCreation::m_character->m_data.m_preferences.m_bodyMarkingId;
+     CCharacterComponent::ValidateComponentData(&data, COMPONENT_CONTEXT_0);
+     CCharacterCreation::InitCharacterComponents(&data, false);
+     CCharacterCreation::Dress();
+@@ -732,6 +736,7 @@ void CCharacterCreation::RandomizeCharCustomization() {
+     CCharacterCreation::m_character->SetRandomFacialFeature(COMPONENT_CONTEXT_0);
+     CCharacterCreation::m_character->SetRandomFaceLayer(VARIATION_EYES, COMPONENT_CONTEXT_0);       // Not in the original (F-151)
+     CCharacterCreation::m_character->SetRandomFaceLayer(VARIATION_MARKINGS, COMPONENT_CONTEXT_0);   // Not in the original (F-151)
++    CCharacterCreation::m_character->SetRandomFaceLayer(VARIATION_BODY_MARKINGS, COMPONENT_CONTEXT_0);
+ 
+     CCharacterCreation::m_prevSkinIndex = CCharacterCreation::m_character->m_data.m_preferences.m_skinID;
+     CCharacterCreation::m_prevFaceIndex = CCharacterCreation::m_character->m_data.m_preferences.m_faceId;
+@@ -837,6 +842,7 @@ void CCharacterCreation::SetSelectedRace(uint32_t raceIndex) {
+         data.m_preferences.m_faceId = display->m_characterInfo.m_faceID;
+         data.m_preferences.m_eyeId = display->m_characterInfo.m_eyeID;             // Not in the original (F-151)
+         data.m_preferences.m_markingId = display->m_characterInfo.m_markingID;     // Not in the original (F-151)
++        data.m_preferences.m_bodyMarkingId = display->m_characterInfo.m_bodyMarkingID;
+         CCharacterCreation::InitCharacterComponents(&data, false);
+         CCharacterCreation::SetSelectedSex(display->m_characterInfo.m_sexID);
+     } else {
+@@ -897,6 +903,7 @@ void CCharacterCreation::SetToExistingCharacter(uint32_t index) {
+     data.m_preferences.m_faceId = display->m_characterInfo.m_faceID;
+     data.m_preferences.m_eyeId = display->m_characterInfo.m_eyeID;             // Not in the original (F-151)
+     data.m_preferences.m_markingId = display->m_characterInfo.m_markingID;     // Not in the original (F-151)
++    data.m_preferences.m_bodyMarkingId = display->m_characterInfo.m_bodyMarkingID;
+     CCharacterCreation::InitCharacterComponents(&data, false);
+     CCharacterCreation::CalcClasses(data.m_preferences.m_raceID);
+     CCharacterCreation::InitCharacterComponents(&data, false);
+diff --git a/WoW/Source/Glue/CharacterCreation.h b/WoW/Source/Glue/CharacterCreation.h
+index d1db3203..6a2b6d90 100644
+--- a/WoW/Source/Glue/CharacterCreation.h
++++ b/WoW/Source/Glue/CharacterCreation.h
+@@ -4,6 +4,7 @@
+ #include <cstdint>
+ #include "Engine/Source/Storm/H/stpl.h"
+ #include "WoW/Source/Game/NameGen.h"
++#include "WoW/Common/ComponentCore/Types.h"
+ #include "WoW/Source/Glue/Types.h"
+ 
+ class CCharacterComponent;
+@@ -61,4 +62,9 @@ bool IsRaceClassValid(int32_t raceID, int32_t classID);
+ void CharacterCreateRegisterScriptFunctions();
+ void CharacterCreateUnregisterScriptFunctions();
+ 
++// Not in the original (F-151): the CharSections layer an eye colour / marking customization cycles
++inline COMPONENT_VARIATIONS ZepLayerVariation(CHAR_CUSTOMIZATION_TYPE type) {
++    return type == CHAR_CUSTOMIZATION_EYES ? VARIATION_EYES : type == CHAR_CUSTOMIZATION_MARKINGS ? VARIATION_MARKINGS : VARIATION_BODY_MARKINGS;
++}
++
+ #endif
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index a7d4d4bc..d0d54d3e 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -581,7 +581,7 @@ struct ZepCustomizationFilter {
+     std::vector<int32_t> values;
+ };
+ 
+-static ZepCustomizationFilter s_customizationFilter[CHAR_CUSTOMIZATION_MARKINGS + 1];
++static ZepCustomizationFilter s_customizationFilter[CHAR_CUSTOMIZATION_BODY_MARKINGS + 1];
+ 
+ static bool CharCustomizationAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t value) {
+     const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
+@@ -612,6 +612,8 @@ static int32_t CharCustomizationCurrent(CHAR_CUSTOMIZATION_TYPE type) {
+             return prefs.m_eyeId;
+         case CHAR_CUSTOMIZATION_MARKINGS:
+             return prefs.m_markingId;
++        case CHAR_CUSTOMIZATION_BODY_MARKINGS:
++            return prefs.m_bodyMarkingId;
+         default:
+             return 0;
+     }
+@@ -664,7 +666,8 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+             return ok(VARIATION_HAIR, prefs.m_hairStyleId, value);
+         case CHAR_CUSTOMIZATION_EYES:
+         case CHAR_CUSTOMIZATION_MARKINGS:
+-            return CCharacterComponent::FaceLayerValid(prefs, type == CHAR_CUSTOMIZATION_EYES ? VARIATION_EYES : VARIATION_MARKINGS, value, COMPONENT_CONTEXT_0);
++        case CHAR_CUSTOMIZATION_BODY_MARKINGS:
++            return CCharacterComponent::FaceLayerValid(prefs, ZepLayerVariation(type), value, COMPONENT_CONTEXT_0);
+         default:
+             return false;
+     }
+@@ -674,7 +677,7 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+ // class with none of the listed colours) it is a single stock step. A skin goes straight to the next allowed
+ // colour instead, since each stock skin step reloads the body textures. The bound covers every value an option can have.
+ static void CharCustomizationCycleAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t delta) {
+-    if (type < CHAR_CUSTOMIZATION_SKIN || type > CHAR_CUSTOMIZATION_MARKINGS) {
++    if (type < CHAR_CUSTOMIZATION_SKIN || type > CHAR_CUSTOMIZATION_BODY_MARKINGS) {
+         CCharacterCreation::CycleCharCustomization(type, delta);
+         return;
+     }
+@@ -760,8 +763,9 @@ static int32_t Script_GetCharCustomizationInfo(lua_State* L) {
+             break;
+         case CHAR_CUSTOMIZATION_EYES:
+         case CHAR_CUSTOMIZATION_MARKINGS:
+-            current = type == CHAR_CUSTOMIZATION_EYES ? prefs.m_eyeId : prefs.m_markingId;
+-            total = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, type == CHAR_CUSTOMIZATION_EYES ? VARIATION_EYES : VARIATION_MARKINGS);
++        case CHAR_CUSTOMIZATION_BODY_MARKINGS:
++            current = CharCustomizationCurrent(type);
++            total = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, ZepLayerVariation(type));
+             break;
+         default:
+             return 0;
+@@ -794,7 +798,7 @@ static int32_t Script_SetCharCustomizationFilter(lua_State* L) {
+ 
+     int32_t index = static_cast<int32_t>(lua_tonumber(L, 1)) - 1;
+ 
+-    if (!CCharacterCreation::m_character || index < CHAR_CUSTOMIZATION_SKIN || index > CHAR_CUSTOMIZATION_MARKINGS) {
++    if (!CCharacterCreation::m_character || index < CHAR_CUSTOMIZATION_SKIN || index > CHAR_CUSTOMIZATION_BODY_MARKINGS) {
+         return 0;
+     }
+ 
+diff --git a/WoW/Source/Glue/CharacterSelection.cpp b/WoW/Source/Glue/CharacterSelection.cpp
+index 23f7f209..e8e373ea 100644
+--- a/WoW/Source/Glue/CharacterSelection.cpp
++++ b/WoW/Source/Glue/CharacterSelection.cpp
+@@ -453,6 +453,7 @@ void CCharacterSelection::ShowCharacter() {
+         data.m_preferences.m_facialHairId = info.m_facialHairStyleID;
+         data.m_preferences.m_eyeId = info.m_eyeID;             // Not in the original (F-151)
+         data.m_preferences.m_markingId = info.m_markingID;     // Not in the original (F-151)
++        data.m_preferences.m_bodyMarkingId = info.m_bodyMarkingID;
+         data.m_model = CCharacterSelection::m_modelFrame->GetScene()->CreateModel(playerRec->m_modelName, 0);
+         data.m_flags |= 0x2;
+ 
+diff --git a/WoW/Source/Glue/ComponentData.cpp b/WoW/Source/Glue/ComponentData.cpp
+index 31b2657f..bd720814 100644
+--- a/WoW/Source/Glue/ComponentData.cpp
++++ b/WoW/Source/Glue/ComponentData.cpp
+@@ -14,6 +14,7 @@ ComponentData::ComponentData() {
+     this->m_preferences.m_hairStyleId = 0;
+     this->m_preferences.m_eyeId = 0;
+     this->m_preferences.m_markingId = 0;
++    this->m_preferences.m_bodyMarkingId = 0;
+     this->m_npcSkinTexture[0] = 0;
+     this->m_model = nullptr;
+     this->m_geosets[0] = 1;
+@@ -54,4 +55,5 @@ void ComponentData::SetPreferences(const CharacterPreferences* preferences) {
+     this->m_preferences.m_hairStyleId = preferences->m_hairStyleId;
+     this->m_preferences.m_eyeId = preferences->m_eyeId;
+     this->m_preferences.m_markingId = preferences->m_markingId;
++    this->m_preferences.m_bodyMarkingId = preferences->m_bodyMarkingId;
+ }
+diff --git a/WoW/Source/Glue/Types.h b/WoW/Source/Glue/Types.h
+index c4c913ae..7a8ced08 100644
+--- a/WoW/Source/Glue/Types.h
++++ b/WoW/Source/Glue/Types.h
+@@ -15,6 +15,7 @@ enum CHAR_CUSTOMIZATION_TYPE {
+     // Not in the original (F-151): CycleCharCustomization(6 / 7, delta)
+     CHAR_CUSTOMIZATION_EYES = 5,
+     CHAR_CUSTOMIZATION_MARKINGS = 6,
++    CHAR_CUSTOMIZATION_BODY_MARKINGS = 7,   // CycleCharCustomization(8, delta)
+ };
+ 
+ enum CharEnumFlags : uint32_t {
+@@ -67,6 +68,7 @@ struct CharacterPreferences {
+     // SMSG_CHAR_ENUM trailer.
+     /* 0020 */ uint32_t m_eyeId;
+     /* 0024 */ uint32_t m_markingId;
++    /* 0028 */ uint32_t m_bodyMarkingId;   // CharSections base_section 7; UNIT_FIELD_PADDING byte 2
+ };
+ 
+ #define GLUE_SCRIPT_EVENTS(EVENT) \
+diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+index bd529541..6338e9c2 100644
+--- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+@@ -13867,6 +13867,7 @@ int32_t CGUnit_C::InitializeExtendedDisplay(CGPlayer_C* player, int32_t hasDispl
+         data.m_preferences.m_facialHairId = player->m_player->m_playerBytes2[0];
+         data.m_preferences.m_eyeId = player->m_unit->m_unitFieldPadding & 0xFF;             // Not in the original (F-151)
+         data.m_preferences.m_markingId = (player->m_unit->m_unitFieldPadding >> 8) & 0xFF;
++        data.m_preferences.m_bodyMarkingId = (player->m_unit->m_unitFieldPadding >> 16) & 0xFF;
+     } else {
+         data.m_preferences.m_skinID = this->m_displayInfoExtra->m_skinID;
+         data.m_preferences.m_faceId = this->m_displayInfoExtra->m_faceID;
+diff --git a/WoW/Source/Ui/DressUpModelFrame.cpp b/WoW/Source/Ui/DressUpModelFrame.cpp
+index b1d8a04f..faed3224 100644
+--- a/WoW/Source/Ui/DressUpModelFrame.cpp
++++ b/WoW/Source/Ui/DressUpModelFrame.cpp
+@@ -526,6 +526,7 @@ void CGDressUpModelFrame::SetModel(CM2Model* model) {
+         data.m_preferences.m_facialHairId = player->m_player->m_playerBytes2[0];
+         data.m_preferences.m_eyeId = player->m_unit->m_unitFieldPadding & 0xFF;             // Not in the original (F-151)
+         data.m_preferences.m_markingId = (player->m_unit->m_unitFieldPadding >> 8) & 0xFF;
++        data.m_preferences.m_bodyMarkingId = (player->m_unit->m_unitFieldPadding >> 16) & 0xFF;
+         data.m_model = model;
+         data.m_flags ^= (data.m_flags ^ (static_cast<uint32_t>(player->m_obj->m_guid == ClntObjMgrGetActivePlayer()) << 1)) & 0x2;
+         CCharacterComponent::ValidateComponentData(&data, COMPONENT_CONTEXT_2);
+diff --git a/WoW/Source/WowServices/RealmConnection.cpp b/WoW/Source/WowServices/RealmConnection.cpp
+index f2bcb974..f7e0dc4e 100644
+--- a/WoW/Source/WowServices/RealmConnection.cpp
++++ b/WoW/Source/WowServices/RealmConnection.cpp
+@@ -75,30 +75,46 @@ int32_t RealmConnection::HandleCharEnum(uint32_t msgId, uint32_t time, CDataStor
+ 
+         info->m_eyeID = 0;          // Not in the original (F-151)
+         info->m_markingID = 0;
++        info->m_bodyMarkingID = 0;
+     }
+ 
+-    // Not in the original (F-151): Zeppelin's server appends 'ZEPC', a count and per character guid, eye colour and
+-    // marking (character_customizations). Without the magic the read position is put back for the stock tail.
++    // Not in the original (F-151): Zeppelin's server appends its character_customizations after the list:
++    //   'ZEPC', count, per character: guid, eye colour, marking
++    //   'ZEPD', count, per character: guid, n, then n choices (customization 1 = eye, 2 = marking, 3 = body marking)
++    // Without either magic the read position is put back for the stock tail.
+     if (msg->m_size - msg->m_read >= 5) {
+         uint32_t start = msg->m_read;
+         uint32_t magic = 0;
+         msg->Get(magic);
+ 
+-        if (magic == 0x4350455A) {     // "ZEPC" on the wire
++        if (magic == 0x4350455A || magic == 0x4450455A) {     // "ZEPC" / "ZEPD" on the wire
+             uint8_t extra = 0;
+             msg->Get(extra);
+ 
+             for (uint8_t i = 0; i < extra; i++) {
+                 uint64_t guid = 0;
+-                uint8_t eye = 0, marking = 0;
++                uint8_t choices[3] = { 0, 0, 0 };
++                uint8_t n = 2;
+                 msg->Get(guid);
+-                msg->Get(eye);
+-                msg->Get(marking);
++
++                if (magic == 0x4450455A) {
++                    msg->Get(n);
++                }
++
++                for (uint8_t k = 0; k < n; k++) {
++                    uint8_t choice = 0;
++                    msg->Get(choice);
++
++                    if (k < 3) {
++                        choices[k] = choice;
++                    }
++                }
+ 
+                 for (uint8_t c = 0; c < count; c++) {
+                     if (this->m_characterList.m_data[c].m_guid.m_guid == guid) {
+-                        this->m_characterList.m_data[c].m_eyeID = eye;
+-                        this->m_characterList.m_data[c].m_markingID = marking;
++                        this->m_characterList.m_data[c].m_eyeID = choices[0];
++                        this->m_characterList.m_data[c].m_markingID = choices[1];
++                        this->m_characterList.m_data[c].m_bodyMarkingID = choices[2];
+                     }
+                 }
+             }
+diff --git a/WoW/Source/WowServices/RealmConnection.h b/WoW/Source/WowServices/RealmConnection.h
+index ccd4e4ad..293eb808 100644
+--- a/WoW/Source/WowServices/RealmConnection.h
++++ b/WoW/Source/WowServices/RealmConnection.h
+@@ -43,7 +43,8 @@ class CHARACTER_INFO {
+     // Not in the original (F-151): from the SMSG_CHAR_ENUM trailer (RealmConnection::HandleCharEnum)
+     /* 0182 */ uint8_t m_eyeID;
+     /* 0183 */ uint8_t m_markingID;
+-    /* 0184 */ uint8_t unused_0184[4];
++    /* 0184 */ uint8_t m_bodyMarkingID;
++    /* 0185 */ uint8_t unused_0185[3];
+ };
+ 
+ class RealmConnection : public NetClient {
+diff --git a/WoW/Source/WowServices/Types.h b/WoW/Source/WowServices/Types.h
+index a11a620d..30c5ea1a 100644
+--- a/WoW/Source/WowServices/Types.h
++++ b/WoW/Source/WowServices/Types.h
+@@ -155,6 +155,7 @@ struct CHARACTER_CREATE_INFO {
+     // Not in the original (F-151): appended to CMSG_CHAR_CREATE after the outfit
+     /* 0039 */ uint8_t m_eyeID;
+     /* 003A */ uint8_t m_markingID;
++    /* 003B */ uint8_t m_bodyMarkingID;
+ };
+ 
+ struct REALM_INFO {
+diff --git a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
+index 025ea4ff..cc7b1f26 100644
+--- a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
++++ b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
+@@ -1369,6 +1369,7 @@ void ClientConnection::RequestCharacterCreate(const CHARACTER_CREATE_INFO& info)
+     msg.Put(info.m_outfitID);
+     msg.Put(info.m_eyeID);          // Not in the original (F-151): read by the server when present
+     msg.Put(info.m_markingID);
++    msg.Put(info.m_bodyMarkingID);
+     msg.Finalize();
+     this->Send(&msg);
+ }
+-- 
+2.34.1
+

@@ -1,0 +1,144 @@
+From b34720f66996a722f480d08d4ad34629d0b63207 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 22 Oct 2026 10:40:42 +0000
+Subject: [PATCH] CUSTOM: body marking per character - character_customizations
+ 3 (F-151)
+
+- character list trailer ZEPD (guid, n, n choices); needs WowClient64 v11
+- CMSG_CHAR_CREATE body marking after eye and marking; UNIT_FIELD_PADDING byte 2
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ .../Implementation/CharacterDatabase.cpp      |  8 +++----
+ .../game/Entities/Player/PlayerStorage.cpp    |  4 ++--
+ src/server/game/Handlers/CharacterHandler.cpp | 23 +++++++++++--------
+ src/server/game/Server/WorldSession.h         |  1 +
+ 4 files changed, 20 insertions(+), 16 deletions(-)
+
+diff --git a/src/server/database/Database/Implementation/CharacterDatabase.cpp b/src/server/database/Database/Implementation/CharacterDatabase.cpp
+index c5db755b9..b2f78d47b 100644
+--- a/src/server/database/Database/Implementation/CharacterDatabase.cpp
++++ b/src/server/database/Database/Implementation/CharacterDatabase.cpp
+@@ -42,18 +42,18 @@ void CharacterDatabaseConnection::DoPrepareStatements()
+     PrepareStatement(CHAR_SEL_BANNED_NAME, "SELECT characters.name FROM characters, character_banned WHERE character_banned.guid = ? AND character_banned.guid = characters.guid", CONNECTION_SYNCH);
+     PrepareStatement(CHAR_SEL_ENUM, "SELECT c.guid, c.name, c.race, c.class, c.gender, c.skin, c.face, c.hairStyle, c.hairColor, c.facialStyle, c.level, c.zone, c.map, c.position_x, c.position_y, c.position_z, "
+                      "gm.guildid, c.playerFlags, c.at_login, cp.entry, cp.modelid, cp.level, c.equipmentCache, cb.guid, c.extra_flags, "
+-                     "ce.choice, cm.choice "     // CUSTOM (F-151): eye colour, marking (NULL reads 0) - the last two columns
++                     "ce.choice, cm.choice, cbm.choice "     // CUSTOM (F-151): eye colour, marking, body marking (NULL reads 0) - the last three columns
+                      "FROM characters AS c LEFT JOIN character_pet AS cp ON c.guid = cp.owner AND cp.slot = ? LEFT JOIN guild_member AS gm ON c.guid = gm.guid "
+                      "LEFT JOIN character_banned AS cb ON c.guid = cb.guid AND cb.active = 1 "
+-                     "LEFT JOIN character_customizations AS ce ON c.guid = ce.guid AND ce.customization = 1 LEFT JOIN character_customizations AS cm ON c.guid = cm.guid AND cm.customization = 2 WHERE c.account = ? AND c.deleteInfos_Name IS NULL ORDER BY COALESCE(c.order, c.guid)", CONNECTION_ASYNC);
++                     "LEFT JOIN character_customizations AS ce ON c.guid = ce.guid AND ce.customization = 1 LEFT JOIN character_customizations AS cm ON c.guid = cm.guid AND cm.customization = 2 LEFT JOIN character_customizations AS cbm ON c.guid = cbm.guid AND cbm.customization = 3 WHERE c.account = ? AND c.deleteInfos_Name IS NULL ORDER BY COALESCE(c.order, c.guid)", CONNECTION_ASYNC);
+     PrepareStatement(CHAR_SEL_ENUM_DECLINED_NAME, "SELECT c.guid, c.name, c.race, c.class, c.gender, c.skin, c.face, c.hairStyle, c.hairColor, c.facialStyle, c.level, c.zone, c.map, "
+                      "c.position_x, c.position_y, c.position_z, gm.guildid, c.playerFlags, c.at_login, cp.entry, cp.modelid, cp.level, c.equipmentCache, "
+                      "cb.guid, c.extra_flags, cd.genitive, "
+-                     "ce.choice, cm.choice "     // CUSTOM (F-151): eye colour, marking (NULL reads 0) - the last two columns
++                     "ce.choice, cm.choice, cbm.choice "     // CUSTOM (F-151): eye colour, marking, body marking (NULL reads 0) - the last three columns
+                      "FROM characters AS c LEFT JOIN character_pet AS cp ON c.guid = cp.owner AND cp.slot = ? "
+                      "LEFT JOIN character_declinedname AS cd ON c.guid = cd.guid LEFT JOIN guild_member AS gm ON c.guid = gm.guid "
+                      "LEFT JOIN character_banned AS cb ON c.guid = cb.guid AND cb.active = 1 "
+-                     "LEFT JOIN character_customizations AS ce ON c.guid = ce.guid AND ce.customization = 1 LEFT JOIN character_customizations AS cm ON c.guid = cm.guid AND cm.customization = 2 WHERE c.account = ? AND c.deleteInfos_Name IS NULL ORDER BY COALESCE(c.order, c.guid)", CONNECTION_ASYNC);
++                     "LEFT JOIN character_customizations AS ce ON c.guid = ce.guid AND ce.customization = 1 LEFT JOIN character_customizations AS cm ON c.guid = cm.guid AND cm.customization = 2 LEFT JOIN character_customizations AS cbm ON c.guid = cbm.guid AND cbm.customization = 3 WHERE c.account = ? AND c.deleteInfos_Name IS NULL ORDER BY COALESCE(c.order, c.guid)", CONNECTION_ASYNC);
+     PrepareStatement(CHAR_SEL_FREE_NAME, "SELECT guid, name, at_login FROM characters WHERE guid = ? AND account = ? AND NOT EXISTS (SELECT NULL FROM characters WHERE name = ?)", CONNECTION_ASYNC);
+     PrepareStatement(CHAR_SEL_CHAR_ZONE, "SELECT zone FROM characters WHERE guid = ?", CONNECTION_SYNCH);
+     PrepareStatement(CHAR_SEL_CHARACTER_NAME_DATA, "SELECT race, class, gender, level FROM characters WHERE guid = ?", CONNECTION_SYNCH);
+diff --git a/src/server/game/Entities/Player/PlayerStorage.cpp b/src/server/game/Entities/Player/PlayerStorage.cpp
+index 8ae0d87b6..6e915624f 100644
+--- a/src/server/game/Entities/Player/PlayerStorage.cpp
++++ b/src/server/game/Entities/Player/PlayerStorage.cpp
+@@ -5129,13 +5129,13 @@ bool Player::LoadFromDB(ObjectGuid playerGuid, CharacterDatabaseQueryHolder cons
+     SetByteValue(PLAYER_BYTES_2, 0, fields[13].Get<uint8>());
+     SetByteValue(PLAYER_BYTES_2, 2, fields[14].Get<uint8>());
+ 
+-    // CUSTOM (F-151): eye colour (byte 0) and marking (byte 1), drawn over the face by the Zeppelin client
++    // CUSTOM (F-151): eye colour (byte 0), marking (byte 1) and body marking (byte 2), drawn by the Zeppelin client
+     if (PreparedQueryResult customizations = holder.GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CUSTOMIZATIONS))
+     {
+         do
+         {
+             uint8 customization = (*customizations)[0].Get<uint8>();
+-            if (customization == 1 || customization == 2)
++            if (customization >= 1 && customization <= 3)
+                 SetByteValue(UNIT_FIELD_PADDING, customization - 1, (*customizations)[1].Get<uint8>());
+         } while (customizations->NextRow());
+     }
+diff --git a/src/server/game/Handlers/CharacterHandler.cpp b/src/server/game/Handlers/CharacterHandler.cpp
+index 9ad746003..4fd34fcb4 100644
+--- a/src/server/game/Handlers/CharacterHandler.cpp
++++ b/src/server/game/Handlers/CharacterHandler.cpp
+@@ -229,8 +229,8 @@ void WorldSession::HandleCharEnum(PreparedQueryResult result)
+ 
+     data << num;
+ 
+-    // CUSTOM (F-151): per listed character its eye colour and marking, the last two query columns
+-    std::vector<std::tuple<uint64, uint8, uint8>> customizations;
++    // CUSTOM (F-151): per listed character its eye colour, marking and body marking, the last three query columns
++    std::vector<std::tuple<uint64, uint8, uint8, uint8>> customizations;
+ 
+     _legitCharacters.clear();
+     if (result)
+@@ -245,7 +245,7 @@ void WorldSession::HandleCharEnum(PreparedQueryResult result)
+                 ++num;
+ 
+                 uint32 columns = result->GetFieldCount();
+-                customizations.emplace_back(guid.GetRawValue(), (*result)[columns - 2].Get<uint8>(), (*result)[columns - 1].Get<uint8>());
++                customizations.emplace_back(guid.GetRawValue(), (*result)[columns - 3].Get<uint8>(), (*result)[columns - 2].Get<uint8>(), (*result)[columns - 1].Get<uint8>());
+             }
+         } while (result->NextRow());
+     }
+@@ -253,10 +253,11 @@ void WorldSession::HandleCharEnum(PreparedQueryResult result)
+     data.put<uint8>(0, num);
+ 
+     // CUSTOM (F-151): trailer after the character list, read by the Zeppelin client (RealmConnection::HandleCharEnum):
+-    // "ZEPC", count, then per character guid, eye colour, marking
+-    data << uint32(0x4350455A) << uint8(customizations.size());
+-    for (auto const& [rawGuid, eye, marking] : customizations)
+-        data << uint64(rawGuid) << uint8(eye) << uint8(marking);
++    // "ZEPD", count, then per character guid, n, n choices (customization 1 eye colour, 2 marking, 3 body marking).
++    // A client before WowClient64 v11 knows only "ZEPC" (guid, eye, marking) and shows no characters with this.
++    data << uint32(0x4450455A) << uint8(customizations.size());
++    for (auto const& [rawGuid, eye, marking, bodyMarking] : customizations)
++        data << uint64(rawGuid) << uint8(3) << uint8(eye) << uint8(marking) << uint8(bodyMarking);
+ 
+     SendPacket(&data);
+ }
+@@ -293,9 +294,11 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
+              >> createInfo->FacialHair
+              >> createInfo->OutfitId;
+ 
+-    // CUSTOM (F-151): eye colour and marking follow the outfit when the client sends them
++    // CUSTOM (F-151): eye colour, marking and body marking follow the outfit when the client sends them
+     if (recvData.rpos() + 2 <= recvData.size())
+         recvData >> createInfo->EyeId >> createInfo->MarkingId;
++    if (recvData.rpos() + 1 <= recvData.size())
++        recvData >> createInfo->BodyMarkingId;
+ 
+     if (!HasPermission(rbac::RBAC_PERM_SKIP_CHECK_CHARACTER_CREATION_TEAMMASK))
+     {
+@@ -596,8 +599,8 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
+             // Player created, save it now
+             newChar->SaveToDB(characterTransaction, true, false);
+ 
+-            // CUSTOM (F-151): eye colour and marking
+-            std::pair<uint8, uint8> const customizations[] = { { 1, createInfo->EyeId }, { 2, createInfo->MarkingId } };
++            // CUSTOM (F-151): eye colour, marking and body marking
++            std::pair<uint8, uint8> const customizations[] = { { 1, createInfo->EyeId }, { 2, createInfo->MarkingId }, { 3, createInfo->BodyMarkingId } };
+             for (auto const& [customization, choice] : customizations)
+             {
+                 CharacterDatabasePreparedStatement* customStmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_CHARACTER_CUSTOMIZATION);
+diff --git a/src/server/game/Server/WorldSession.h b/src/server/game/Server/WorldSession.h
+index 5ab42df95..3664f4083 100644
+--- a/src/server/game/Server/WorldSession.h
++++ b/src/server/game/Server/WorldSession.h
+@@ -384,6 +384,7 @@ protected:
+     // CUSTOM (F-151): appended to CMSG_CHAR_CREATE by the Zeppelin client (character_customizations 1 / 2)
+     uint8 EyeId = 0;
+     uint8 MarkingId = 0;
++    uint8 BodyMarkingId = 0;
+ 
+     /// Server side data
+     uint8 CharCount = 0;
+-- 
+2.34.1
+

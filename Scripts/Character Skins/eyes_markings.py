@@ -29,6 +29,7 @@ marking and eye colour.
   python3 "Scripts/Character Skins/eyes_markings.py" [--migration]
 """
 import hashlib
+import re
 import importlib.util
 import json
 import sys
@@ -53,7 +54,12 @@ ASSETS = ZPAK / 'mpq' / 'source-assets'
 SQL = ZPAK / 'dbc' / '[AUTO,F-151]_charsections_eyes.sql'
 SPLIT = Path(__file__).with_name('orc_face_split.json')
 MIGRATION = ZPAK / 'sql_characters' / 'zz_[F-151]_orc_face_split.sql'
-ID_BASE, ID_END = 80000, 89999
+ID_BASE, ID_END = 80000, 88999                # 89000-89999: body_markings.py
+PLAIN_SQL = ZPAK / 'dbc' / '[F-151]_charsections_plainfaces.sql'
+# colours whose every face bakes in the same black face paint -> the colour whose faces give the plain shading.
+# The paint becomes facial marking BAKED_MARK and these colours get plain faces (user rule, Blackrock 12 / 13).
+BAKED = {44: 19, 45: 19}
+BAKED_MARK = 8
 SECTION_EYES, SECTION_MARKINGS = 5, 6
 FLAGS_ANY, FLAGS_DK = 0x11, 0x5          # 0x10: a death knight may pick it too; 0x4: death knight only
 RACE, SEXES = 2, {0: 'Male', 1: 'Female'}
@@ -209,9 +215,10 @@ def migration_sql(split):
 def main():
     fc = Faces(charsections(_dbc_query_fn('live')), FileResolver([ASSETS] + [r for r in EXTERNAL_ROOTS if Path(r).resolve() != ASSETS.resolve()]))
     for d in ASSETS.glob('Character/Orc/*/'):
-        for old in list(d.glob('Orc*Eyes*.blp')) + list(d.glob('Orc*Marking*.blp')):
-            old.unlink()
-    out, rows, split, rid = Writer(), [], {}, ID_BASE
+        for old in d.glob('Orc*.blp'):
+            if re.match(r'Orc(Male|Female)(Eyes|Marking)\d', old.name) or old.name.endswith('Plain.blp') and 'Face' in old.name:
+                old.unlink()
+    out, rows, split, rid, plain_rows = Writer(), [], {}, ID_BASE, []
     for g, sex in SEXES.items():
         folder = f'Character\\Orc\\{sex}\\Orc{sex}'
         emask = eye_mask(fc, g)
@@ -254,6 +261,44 @@ def main():
                 rows.append((rid, g, SECTION_MARKINGS, lo, up, FLAGS_ANY, k, c))
                 rid += 1
 
+        # the black face paint of the BAKED colours: much darker than the plain face's shading at that pixel.
+        # Read from the original face files: once applied, the live rows point at the plain copies.
+        paint = None
+        for c, base in BAKED.items():
+            for f in range(DK_OFFSET):
+                r = fc.faces[(g, f, c)]
+                orig = {k: r[k].replace('Plain.blp', '.blp') for k in ('texture_1', 'texture_2')}
+                a = np.vstack([fc.tex(orig['texture_2']), fc.tex(orig['texture_1'])]).astype(float)
+                b = fc.both(g, f, base).astype(float)
+                la, lb = a.mean(2), b.mean(2)
+                lb = lb * np.median(la[~eye_full] / np.maximum(lb[~eye_full], 1))
+                m = ndimage.binary_opening((la < lb * 0.55) & ~eye_full, iterations=1)
+                m = ndimage.binary_closing(m, iterations=2)
+                lab, n = ndimage.label(m)
+                sizes = np.bincount(lab.ravel())
+                core = ndimage.binary_fill_holes(np.isin(lab, [i for i in range(1, n + 1) if sizes[i] >= 30])) & ~eye_full
+                m = ndimage.binary_dilation(core, iterations=2) & ~eye_full    # plus the paint's light rim, for the fill
+                if paint is None and f == 0:
+                    paint = (a.copy(), core)
+                # plain face: the base face's shading in this colour's tone where the paint was
+                tone = np.median(a[~m & ~eye_full], axis=0)
+                fill = np.clip(tone * lb[..., None] / max(float(np.median(lb[~m & ~eye_full])), 1.0), 0, 255)
+                w = ndimage.uniform_filter(ndimage.binary_dilation(m, iterations=1).astype(float), 3)[..., None]
+                plain = a * (1 - w) + fill * w
+                for k, half in (('texture_2', plain[:64]), ('texture_1', plain[64:])):
+                    rel = orig[k][:-4] + 'Plain.blp'
+                    icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), rgba(half, np.full(half.shape[:2], 255, np.uint8)))
+                    plain_rows.append((g, f, c, k, rel))
+            print(f'{sex} colour {c}: face paint {int(paint[1].sum()) if paint else 0} px (face 0) -> marking {BAKED_MARK}, plain faces written')
+        if paint is not None:
+            src, m = paint
+            alpha = soft(m)
+            lo = out.put(f'{folder}Marking{BAKED_MARK:02d}Lower.blp', rgba(src[64:], alpha[64:]))
+            up = out.put(f'{folder}Marking{BAKED_MARK:02d}Upper.blp', rgba(src[:64], alpha[:64])) if m[:64].any() else ''
+            for c in fc.colours(g):
+                rows.append((rid, g, SECTION_MARKINGS, lo, up, FLAGS_ANY, BAKED_MARK, c))
+                rid += 1
+
         # old face -> (face, eye, marking) per skin colour. A skin colour whose faces (nearly) all share one
         # baked eye (the Nexus glow colours) keeps that eye; otherwise each face keeps its own.
         base_of = {f: (f % DK_OFFSET if f < 18 else marks[(f - 18) % 7][2]) for f in range(32)}
@@ -288,6 +333,15 @@ def main():
     lines += [f"({r}, {RACE}, {g}, {s}, '{esc(t1)}', '{esc(t2)}', '', {fl}, {ty}, {c})," for r, g, s, t1, t2, fl, ty, c in rows]
     lines[-1] = lines[-1][:-1] + ';'
     SQL.write_text('\n'.join(lines) + '\n')
+    plain = ['-- F-151 Modern Character Creator: plain faces for the colours that baked in face paint (now marking '
+             f'{BAKED_MARK}).', '-- GENERATED by Scripts/Character Skins/eyes_markings.py - do not edit, re-run the script.']
+    per_row = {}
+    for g, f, c, k, rel in plain_rows:
+        per_row.setdefault((g, f, c), {})[k] = rel
+    plain += [f"UPDATE charsections SET texture_1 = '{esc(t['texture_1'])}', texture_2 = '{esc(t['texture_2'])}' "
+              f"WHERE race = {RACE} AND gender = {g} AND base_section = 1 AND type = {f} AND color_index = {c};"
+              for (g, f, c), t in sorted(per_row.items())]
+    PLAIN_SQL.write_text('\n'.join(plain) + '\n')
     SPLIT.write_text(json.dumps(split, indent=1) + '\n')
     if '--migration' in sys.argv[1:]:
         MIGRATION.write_text(migration_sql(split))
