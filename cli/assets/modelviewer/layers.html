@@ -2922,10 +2922,11 @@ function openCustom(c) {
         rp.base.scale = +(($('cs-rscale') || {}).value) || 1;
         delete rp.base.remaster_of;
       }
+      const qpos = c.isNew ? -1 : displayQueuePos(c.display);
       if (await saveCustom(c.display, rp)) {
         if (c.isNew) addNewDisplays();
         await save('display', String(c.display), displayEntry(c.display), 'custom', {}, false);
-        openDisplay(c.display);
+        afterEditSave(c.display, qpos);
       }
       return;
     }
@@ -2938,10 +2939,11 @@ function openCustom(c) {
       }
       return;
     }
+    const qpos = displayQueuePos(c.display);
     if (await saveCustom(c.display, pick)) {
       const de = displayEntry(c.display);
       await save('display', String(c.display), de, 'custom', {}, false);   // the edit becomes the chosen option
-      openDisplay(c.display);
+      afterEditSave(c.display, qpos);
     }
   };
   // the edit as a pick; asNew = a clone on a new display id, its row copied from this display's
@@ -2990,6 +2992,26 @@ function openCustom(c) {
   preview();
   fitPanes();
   render();
+}
+// After a Display editor save, carry on through the Displays queue like "Use this" does: the display's place in
+// that queue is taken BEFORE the save (it drops out of Undecided), then the item now at that place opens.
+// The All list (no queue) and new displays go back to the display page.
+function displayQueuePos(did) {
+  const t0 = tab, f0 = filter;
+  try {
+    tab = 'display'; filter = tabFilter('display');
+    if (filter === 'all') return -1;
+    const d = displayEntry(did), rep = d.look_group ? displayEntry(d.look_group[0]) : d;
+    return pool().filter(assetMatches).indexOf(rep);
+  } catch (e) { return -1; } finally { tab = t0; filter = f0; }
+}
+function afterEditSave(did, pos) {
+  if (pos < 0) return openDisplay(did);
+  openLayer('display', false, false);
+  render();
+  if (!view.length) return openDisplay(did);
+  const next = view[Math.min(pos, view.length - 1)];
+  if (next.tab === 'display' && next.display !== undefined) openDisplay(next.display); else openItem(next);
 }
 async function saveCustom(did, pick) {
   const status = $('save');
