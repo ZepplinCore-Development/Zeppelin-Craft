@@ -92,7 +92,7 @@ func performDownload(
 	if files, ok := pr.BundleFiles(filename); ok {
 		anyPending := false
 		for _, f := range files {
-			r := downloadOne(f.Name, filename, progressCh, cancelCh)
+			r := downloadOne(f.Name, filename, pr, progressCh, cancelCh)
 			if !r.Success {
 				return DownloadResult{filename, false, fmt.Sprintf("%s: %s", f.Name, r.Message), "missing"}
 			}
@@ -106,7 +106,7 @@ func performDownload(
 		}
 		return DownloadResult{filename, true, fmt.Sprintf("Downloaded %s", filename), state}
 	}
-	return downloadOne(filename, filename, progressCh, cancelCh)
+	return downloadOne(filename, filename, pr, progressCh, cancelCh)
 }
 
 // downloadOne fetches a single file, reporting progress + the result under displayName (which is the
@@ -114,6 +114,7 @@ func performDownload(
 func downloadOne(
 	filename string,
 	displayName string,
+	pr *PatchRegisterClient,
 	progressCh chan<- DownloadProgress,
 	cancelCh <-chan struct{},
 ) DownloadResult {
@@ -187,6 +188,11 @@ func downloadOne(
 			logError(fmt.Sprintf("Size mismatch for %s: expected %d, got %d", filename, total, actual))
 			return DownloadResult{filename, false, "Size validation failed", "missing"}
 		}
+	}
+
+	if !checksumMatches(pr, filename, localPath) { // client binaries: size alone cannot tell builds apart
+		os.Remove(localPath)
+		return DownloadResult{filename, false, "Checksum validation failed", "missing"}
 	}
 
 	finalState := installOrStage(filename, localPath)

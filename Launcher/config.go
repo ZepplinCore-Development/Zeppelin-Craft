@@ -3,7 +3,7 @@ package main
 // AppVersion and BaseURL are variables so a test build can set them with
 // -ldflags "-X main.AppVersion=... -X main.BaseURL=..."; release builds use these values.
 var (
-	AppVersion = "3.1.0"
+	AppVersion = "3.2.0"
 	BaseURL    = "http://159.196.84.172:8111/"
 )
 

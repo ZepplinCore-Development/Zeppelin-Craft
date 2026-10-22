@@ -27,6 +27,7 @@ type AppState struct {
 	dlStartTime    time.Time
 	lastKnownPatch map[string]string // filename -> version (for change detection)
 	patchCheckCnt  int
+	dlFailures     map[string]int // filename -> failed downloads this session (auto-download stops at maxAutoRetries)
 
 	progressCh chan DownloadProgress
 	resultCh   chan DownloadResult
@@ -79,6 +80,7 @@ func buildMainWindow(app fyne.App, engine *LauncherEngine) *MainUI {
 		state: AppState{
 			patchStates:    make(map[string]string),
 			lastKnownPatch: make(map[string]string),
+			dlFailures:     make(map[string]int),
 			progressCh:     make(chan DownloadProgress, 64),
 			resultCh:       make(chan DownloadResult, 4),
 			cancelCh:       make(chan struct{}),
@@ -156,6 +158,10 @@ func (ui *MainUI) buildContent() *fyne.Container {
 }
 
 const heroHeight = 300
+
+// maxAutoRetries caps automatic re-downloads of a file that keeps failing validation (a register whose
+// checksum does not match the served file would otherwise download in a loop).
+const maxAutoRetries = 3
 
 func (ui *MainUI) buildHeroImage() fyne.CanvasObject {
 	// Hero background image
@@ -292,6 +298,13 @@ func (ui *MainUI) populateTable() {
 	allFiles := pr.GetAllFiles()
 	var toDownload []string
 
+	ui.state.mu.Lock()
+	updating := ui.state.isUpdating
+	ui.state.mu.Unlock()
+	if !updating {
+		discardStaleStaged(pr)
+	}
+
 	// Sort filenames alphabetically — matches WoW's patch load order
 	filenames := make([]string, 0, len(allFiles))
 	for fn := range allFiles {
@@ -311,6 +324,14 @@ func (ui *MainUI) populateTable() {
 			localVersion = ""
 		}
 
+		if localVersion == serverVersion && exists { // the version store says current; prove it for client binaries
+			if stale := staleBundleMembers(pr, filename); len(stale) > 0 {
+				logWarning(fmt.Sprintf("%s v%s recorded but %v is another build - downloading again", filename, localVersion, stale))
+				ui.engine.VersionManager.ClearVersion(filename)
+				localVersion = ""
+			}
+		}
+
 		needsUpdate := (localVersion != serverVersion) || !exists
 		state := ui.determineState(filename, needsUpdate, exists)
 
@@ -318,7 +339,10 @@ func (ui *MainUI) populateTable() {
 		ui.state.patchStates[filename] = state
 		ui.state.mu.Unlock()
 
-		if state == "missing" && !ui.isQueuedOrDownloading(filename) {
+		ui.state.mu.Lock()
+		failures := ui.state.dlFailures[filename]
+		ui.state.mu.Unlock()
+		if state == "missing" && !ui.isQueuedOrDownloading(filename) && failures < maxAutoRetries {
 			toDownload = append(toDownload, filename)
 		}
 
@@ -435,7 +459,10 @@ func (ui *MainUI) onTableSelect(rowIdx int) {
 	ui.state.mu.Lock()
 	state := ui.state.patchStates[row.Filename]
 	ui.state.mu.Unlock()
-	if state == "missing" {
+	if state == "missing" { // a click retries even after auto-download gave up
+		ui.state.mu.Lock()
+		delete(ui.state.dlFailures, row.Filename)
+		ui.state.mu.Unlock()
 		ui.queueDownload(row.Filename)
 	}
 }
@@ -561,8 +588,10 @@ func (ui *MainUI) handleResult(result DownloadResult) {
 				ui.engine.VersionManager.SetVersion(result.Filename, ver)
 			}
 		}
+		delete(ui.state.dlFailures, result.Filename)
 	} else {
 		ui.state.patchStates[result.Filename] = "missing"
+		ui.state.dlFailures[result.Filename]++
 	}
 
 	ui.state.isUpdating = false
@@ -632,7 +661,7 @@ func (ui *MainUI) periodicWowCheck() {
 		logInfo(fmt.Sprintf("WoW closed - installing %d pending patches...", len(pending)))
 		ui.statusLabel.SetText("Installing pending patches...")
 
-		installResult := installPendingPatches()
+		installResult := installPendingPatches(ui.engine.PatchRegister)
 
 		for _, fn := range installResult.ValidationFailed {
 			ui.engine.VersionManager.ClearVersion(fn)
@@ -707,13 +736,19 @@ func (ui *MainUI) checkAndInstallPending() {
 	exclude := ui.state.currentDL
 	ui.state.mu.Unlock()
 
+	if !ui.engine.PatchRegister.fetched { // staged client binaries are validated against the register
+		ui.engine.PatchRegister.Fetch()
+	}
+	if ui.engine.PatchRegister.fetched && exclude == "" {
+		discardStaleStaged(ui.engine.PatchRegister)
+	}
 	pending := getPendingPatches(exclude)
 
 	if len(pending) > 0 && !isWowRunning() {
 		logInfo(fmt.Sprintf("Startup: installing %d pending patches...", len(pending)))
 		ui.statusLabel.SetText("Installing pending patches...")
 
-		installResult := installPendingPatches()
+		installResult := installPendingPatches(ui.engine.PatchRegister)
 
 		for _, fn := range installResult.ValidationFailed {
 			ui.engine.VersionManager.ClearVersion(fn)

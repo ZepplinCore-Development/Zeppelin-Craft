@@ -9,8 +9,6 @@ package main
 // ignore the block, so they are replaced once by hand.
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"fmt"
 	"io"
 	"net/http"
@@ -87,19 +85,6 @@ func cleanupSelfUpdate() {
 // version cannot make the launcher update and restart in a loop.
 func updateAttemptFile() string {
 	return filepath.Join(getAppDirectory(), "logs", "launcher_update_attempt")
-}
-
-func fileMD5(path string) (string, error) {
-	f, err := os.Open(path)
-	if err != nil {
-		return "", err
-	}
-	defer f.Close()
-	h := md5.New()
-	if _, err := io.Copy(h, f); err != nil {
-		return "", err
-	}
-	return hex.EncodeToString(h.Sum(nil)), nil
 }
 
 // selfUpdate replaces and restarts the launcher when the register names a newer release. It returns

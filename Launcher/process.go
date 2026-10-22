@@ -68,13 +68,28 @@ func getPendingPatches(excludeDownloading string) []string {
 	return pending
 }
 
+// discardStaleStaged deletes staged client binaries that are not the build the register now lists (a
+// newer one shipped after they were staged), so they are downloaded again instead of sitting "pending"
+// and being installed over the current build. Never called while a download runs: a partial file
+// would not match.
+func discardStaleStaged(pr *PatchRegisterClient) {
+	tempDir := getTempDownloadDir()
+	for _, name := range stagedNames(tempDir) {
+		path := filepath.Join(tempDir, name)
+		if pr.MemberChecksum(name) != "" && !checksumMatches(pr, name, path) {
+			logInfo("Discarding stale staged " + name)
+			os.Remove(path)
+		}
+	}
+}
+
 type InstallResult struct {
 	InstalledCount   int
 	FailedPatches    []string
 	ValidationFailed []string
 }
 
-func installPendingPatches() InstallResult {
+func installPendingPatches(pr *PatchRegisterClient) InstallResult {
 	tempDir := getTempDownloadDir()
 	dataDir := filepath.Join(getAppDirectory(), DataDirectory)
 	os.MkdirAll(dataDir, 0755)
@@ -104,7 +119,7 @@ func installPendingPatches() InstallResult {
 			targetFile = filepath.Join(getAppDirectory(), name)
 		}
 
-		if !validatePendingPatchFile(name, tempFile) {
+		if !validatePendingPatchFile(pr, name, tempFile) {
 			logError(fmt.Sprintf("Pending patch validation failed: %s - removing", name))
 			result.FailedPatches = append(result.FailedPatches, name)
 			result.ValidationFailed = append(result.ValidationFailed, name)
@@ -126,7 +141,13 @@ func installPendingPatches() InstallResult {
 	return result
 }
 
-func validatePendingPatchFile(filename, tempFile string) bool {
+func validatePendingPatchFile(pr *PatchRegisterClient, filename, tempFile string) bool {
+	if pr.MemberChecksum(filename) != "" { // a client binary: same size every build, so compare md5
+		ok := checksumMatches(pr, filename, tempFile)
+		logInfo(fmt.Sprintf("Pending patch checksum validation: %v for %s", ok, filename))
+		return ok
+	}
+
 	expectedSize := getServerFileSize(downloadBaseURL(filename) + filepath.ToSlash(filename))
 
 	if expectedSize < 0 {
