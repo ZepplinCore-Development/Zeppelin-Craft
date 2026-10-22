@@ -7,7 +7,7 @@ FINISH = "Finish";
 CHARACTER_FACING_INCREMENT = 2;
 MAX_RACES = 12;
 MAX_CLASSES_PER_RACE = 11;
-NUM_CHAR_CUSTOMIZATIONS = 5;
+NUM_CHAR_CUSTOMIZATIONS = 7;	-- F-151: 6 eye colour, 7 markings (source-client customizations)
 MIN_CHAR_NAME_LENGTH = 2;
 CHARACTER_CREATE_ROTATION_START_X = nil;
 CHARACTER_CREATE_INITIAL_FACING = nil;
@@ -125,6 +125,8 @@ function CharacterCreate_OnLoad(self)
 	for i=1, NUM_CHAR_CUSTOMIZATIONS, 1 do
 		_G["CharCreateCustomizationButton"..i].text:SetText(_G["CHAR_CUSTOMIZATION"..i.."_DESC"]);
 	end
+	CharCreateCustomizationButton6.text:SetText(CHAR_CUSTOMIZATION_EYES_DESC);		-- F-151
+	CharCreateCustomizationButton7.text:SetText(CHAR_CUSTOMIZATION_MARKINGS_DESC);
 
 	-- Color edit box backdrop
 	local backdropColor = FACTION_BACKDROP_COLOR_TABLE["Alliance"];
@@ -300,7 +302,8 @@ end
 CHAR_CREATE_COUNT_TIMER = 0;
 
 function CharCreate_UpdateCustomizationCounts()
-	for i = 1, 5 do
+	CharCreate_UpdateFaceLayerButtons();
+	for i = 1, NUM_CHAR_CUSTOMIZATIONS do
 		local button = _G["CharCreateCustomizationButton"..i];
 		if ( button and button.count ) then
 			local position, count;
@@ -315,6 +318,32 @@ function CharCreate_UpdateCustomizationCounts()
 				button.count:Hide();
 				button.divider:Hide();
 			end
+		end
+	end
+end
+
+-- F-151: Eye Color (6) and Markings (7) show only for a race that has more than one choice, below the last
+-- shown stock button.
+function CharCreate_UpdateFaceLayerButtons()
+	local below = CharCreateCustomizationButton1;
+	for i = 2, 5 do
+		if ( _G["CharCreateCustomizationButton"..i]:IsShown() ) then
+			below = _G["CharCreateCustomizationButton"..i];
+		end
+	end
+	for i = 6, 7 do
+		local button = _G["CharCreateCustomizationButton"..i];
+		local count;
+		if ( GetCharCustomizationInfo ) then
+			_, count = GetCharCustomizationInfo(i);
+		end
+		if ( count and count > 1 ) then
+			button:ClearAllPoints();
+			button:SetPoint("TOP", below, "BOTTOM", 0, 0);
+			button:Show();
+			below = button;
+		else
+			button:Hide();
 		end
 	end
 end

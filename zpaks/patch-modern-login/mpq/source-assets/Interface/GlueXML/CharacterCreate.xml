@@ -1589,6 +1589,33 @@
 									</OnClick>
 								</Scripts>
 							</CheckButton>
+							<!-- F-151: eye colour and markings, shown by CharCreate_UpdateFaceLayerButtons -->
+							<CheckButton name="CharCreateCustomizationButton6" inherits="CharCreateCustomizationButtonTemplate" id="6" hidden="true">
+								<Anchors>
+									<Anchor point="TOP" relativeTo="CharCreateCustomizationButton5" relativePoint="BOTTOM" x="0" y="0"/>
+								</Anchors>
+								<Scripts>
+									<OnLoad>
+										self:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+									</OnLoad>
+									<OnClick>
+										CharCustomizeButtonClick(6, button);
+									</OnClick>
+								</Scripts>
+							</CheckButton>
+							<CheckButton name="CharCreateCustomizationButton7" inherits="CharCreateCustomizationButtonTemplate" id="7" hidden="true">
+								<Anchors>
+									<Anchor point="TOP" relativeTo="CharCreateCustomizationButton6" relativePoint="BOTTOM" x="0" y="0"/>
+								</Anchors>
+								<Scripts>
+									<OnLoad>
+										self:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+									</OnLoad>
+									<OnClick>
+										CharCustomizeButtonClick(7, button);
+									</OnClick>
+								</Scripts>
+							</CheckButton>
 							<Button name="CharCreateRandomizeButton" hidden = "true">
 								<Size x="32" y="32"/>
 								<Anchors>
