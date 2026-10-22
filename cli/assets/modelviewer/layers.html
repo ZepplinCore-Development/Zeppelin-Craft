@@ -643,7 +643,9 @@ const unusedModel = (e) => (e.tab === 'creature' || e.tab === 'character') && !e
 const notInGame = (e) => e.ingame === false &&
   (e.tab === 'display' || !repEntries(e.path).some(d => d.ingame !== false));
 const nOptions = (e) => (e.tab === 'display' ? Math.max(1, e.panes.length) + (choices.custom[String(e.display)] ? 1 : 0)
-    + (namedFor((e.panes[0] || {}).model || e.named_of) ? 1 : 0)
+    // a retail remaster found by a creature name counts only on the displays it is offered on (29161 Sea Turtle:
+    // turtlemount2 is 17158's, so 29161 had a phantom second option and sat in Undecided with one card)
+    + ((namedFor((e.panes[0] || {}).model || e.named_of) || { targets: [] }).targets.some(t => targetFor(t, e.display)) ? 1 : 0)
   : e.tab === 'item' ? e.panes.length : modelOptions(e).length) +
   (retailIdx.models && retailIdx.models[e.path] ? 1 : 0) +
   (e.tab === 'creature' && namedFor(e.path) ? namedFor(e.path).targets.filter(t => !t[6]).length : 0);
@@ -742,10 +744,13 @@ function viaModel(d) {
   }
   const m = choices.mesh[d.panes[0].model];
   if (!m) return null;
-  if (!m.displays) {
+  if (!m.displays || (!Object.keys(m.displays).length && m.file_option)) {
     // a FILE pick (option = a content hash: which file ships at this path, doomguard.m2 -> patch-hd-everything's):
     // it decides the card that keeps the display on this same path from the same source
     const p = d.panes.find(x => x.model === d.panes[0].model && (m.sources || []).some(z => x.sources.includes(z)));
+    // a stand-in page (its only card is the stock one: 17543 shivan) stays on the model, so the file pick decides
+    // it - as it did before the page was opened and its stock card loaded
+    if (!p && d.standin && d.panes.every(x => x.model === d.panes[0].model)) return { option: m.option, sources: m.sources || [] };
     return p ? { option: p.option, sources: p.sources } : null;
   }
   // a model pick saved before the per-file split: what its card (modelSplitKey) gives this display
@@ -1839,6 +1844,13 @@ function openAsset(e) {
   }
   if (e.tab === 'creature' && namedFor(e.path) && !namedFor(e.path).rule) namedNotice(e.path, (e.panes.find(p => p.sources.includes('stock')) || e.panes[0] || {}).scale);
   const sm_ = e.tab === 'display' ? ((e.panes[0] || {}).model || e.named_of) : null;
+  if (e.tab === 'display' && e.standin && !e.panes.length && e.named_of && !$('panes').querySelector('.pane')) {
+    // no stock card: the display's stock model is not in the 3.3.5 client (19609: RidingWyvern_Armored.mdx), so
+    // in game it draws nothing - the retail remasters below are the way to give it a model
+    $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><div class="empty" style="padding:24px">no stock model</div><div class="info">
+      <div class="h"><b>stock</b><span class="chip bad" title="CreatureModelData points this display at a file the 3.3.5 client does not ship: the creature is invisible in game">model file missing</span></div>
+      <div class="stats">model: ${esc(e.named_of)} - not in the 3.3.5 client, so this display draws nothing in game</div></div></div>`);
+  }
   if (e.tab === 'display' && sm_ && namedFor(sm_)) retailNamedPanel(sm_, e.display, (e.panes[0] || {}).scale);
   const rfd = retailIdx.models && retailIdx.models[e.path];
   if ((e.tab === 'creature' || e.tab === 'object') && rfd && !e.panes.some(p => p.sources.includes('retail'))) {
