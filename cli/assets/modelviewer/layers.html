@@ -3385,6 +3385,19 @@ function unshare(cu) {
   if (Object.values(choices.custom || {}).some(v => v && v.new)) { await loadCreator(); addNewDisplays(); }
   Object.keys(choices.custom || {}).forEach(did => { if (/^\d+$/.test(did)) displayEntry(+did); });
   Object.entries(retailIdx.named || {}).forEach(([path, nm]) => (nm.displays || []).forEach(r => { const d = displayEntry(r[0]); if (!d.panes.length) d.named_of = path; }));
+  // look groups for those retail-only stand-ins (the deploy groups only displays with pack options): same stock
+  // model, skins and geoset data = same options (the model's named retail targets), one decision (28063 + 31837)
+  {
+    const byLook = {};
+    assets.forEach(d => {
+      if (d.tab !== 'display' || !d.named_of || d.panes.length || d.look_group) return;
+      const c = customList.find(x => x.display === d.display);
+      if (!c || c.char || c.path !== d.named_of) return;
+      const k = [c.path, ...(c.skins || []).map(x => String(x || '').toLowerCase()), ...(c.cgd || [])].join('|');
+      (byLook[k] = byLook[k] || []).push(d);
+    });
+    Object.values(byLook).forEach(ds => { if (ds.length > 1) { const ids = ds.map(d => d.display).sort((x, y) => x - y); ds.forEach(d => { d.look_group = ids; }); } });
+  }
   const startDisplay = new URLSearchParams(location.search).get('display');
   if (startLayer === 'custom' && startDisplay) openCustom_(startDisplay, false);
   else if (startLayer === 'display' && startDisplay) openDisplay(startDisplay, false);
