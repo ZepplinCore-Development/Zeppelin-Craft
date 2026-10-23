@@ -1558,7 +1558,24 @@ function bodyPaneUrl(e, p, code, override) {
     if (tex && texc) ovr[tex] = texc;
   }
   if (!items.length) return null;
-  return paneUrl({ ...body, items }, { ovr });
+  return paneUrl({ ...body, items, mesh: helmHides(e, code, body.mesh) }, { ovr });
+}
+// A helm hides hair / facial hair / ears as in game: its ItemDisplayInfo row (outfit335 helm.json, found by the
+// model name) -> HelmetGeosetVisData (hgvd.json), a race mask per group; same as the Displays bakes (outfitMesh)
+const RACE_IDS = { hu: 1, or: 2, dw: 3, ni: 4, sc: 5, ta: 6, gn: 7, tr: 8, go: 9, be: 10, dr: 11, wo: 12, na: 13, br: 14,
+  sk: 15, vr: 16, tu: 17, ft: 18, wt: 19, ns: 20, it: 21 };   // ChrRaces.client_prefix
+function helmHides(e, code, mesh) {
+  const head = itemMembersFor(e, code).find(m => m.startsWith('item/objectcomponents/head/'));
+  if (!head || !mesh) return mesh;
+  if (!O335.files) { o335Load().then(() => { if (cur === e) openAsset(e); }); return mesh; }   // first helm: load, redraw
+  const stem = head.split('/').pop().replace(/_[a-z]{2,3}[mf]\.m2$/, '').toLowerCase();
+  const row = ((O335.slots.helm || {}).items || []).find(r => String(r[5] || '').toLowerCase() === stem);
+  const vis = row && (O335.hgvd || {})[String(code.endsWith('f') ? row[10] : row[9])];
+  const race = RACE_IDS[code.slice(0, 2)];
+  if (!vis || !race) return mesh;
+  const out = mesh.slice();
+  [0, 1, 2, 3, 7].forEach((grp, i) => { if ((vis[i] >>> race) & 1) out[grp] = 1; });   // 1 = bald / none
+  return out;
 }
 function fitPanel(e) {
   const code = fitBody;
