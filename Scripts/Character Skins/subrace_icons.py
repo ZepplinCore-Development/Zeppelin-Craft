@@ -34,6 +34,12 @@ ICONS = {
     'MAGHAR': ('magharorc', None),
     'FELORC': ('orc', 'red'),
     'BLACKROCK': ('orc', 'grey'),
+    'DWARF': ('dwarf', None),
+    'DARKIRON': ('darkirondwarf', None),
+    'BLOODELF': ('bloodelf', None),
+    'VOIDELF': ('voidelf', None),
+    'DRAENEI': ('draenei', None),
+    'LIGHTFORGED': ('lightforged', None),
 }
 
 
