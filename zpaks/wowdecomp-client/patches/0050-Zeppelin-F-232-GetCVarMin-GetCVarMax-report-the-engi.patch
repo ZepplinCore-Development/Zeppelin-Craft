@@ -1,0 +1,229 @@
+From 28dc467631e16e6cd825cc1d6a3fb83713e0d6a7 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Fri, 23 Oct 2026 12:22:29 +0000
+Subject: [PATCH] Zeppelin F-232: GetCVarMin/GetCVarMax report the engine's
+ real slider ranges (raised farclip, ground clutter, environment detail,
+ camera zoom, ...); load Interface\FrameXML\ZepFrameXML.toc after FrameXML.toc
+ as built-in UI
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_013Xk5GiA26NbmbJLfwHDDNr
+---
+ WoW/Source/Glue/GlueScriptEvents_Scripts.cpp | 19 +++++
+ WoW/Source/Ui/GameUI.cpp                     |  5 ++
+ WoW/Source/Ui/GameUI_Scripts.cpp             | 19 +++++
+ WoW/Source/Ui/ZepCVarRanges.cpp              | 79 ++++++++++++++++++++
+ WoW/Source/Ui/ZepCVarRanges.h                | 11 +++
+ 5 files changed, 133 insertions(+)
+ create mode 100644 WoW/Source/Ui/ZepCVarRanges.cpp
+ create mode 100644 WoW/Source/Ui/ZepCVarRanges.h
+
+diff --git a/WoW/Source/Glue/GlueScriptEvents_Scripts.cpp b/WoW/Source/Glue/GlueScriptEvents_Scripts.cpp
+index fb437061..09b0a32a 100644
+--- a/WoW/Source/Glue/GlueScriptEvents_Scripts.cpp
++++ b/WoW/Source/Glue/GlueScriptEvents_Scripts.cpp
+@@ -18,6 +18,7 @@
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "Engine/Source/lua-5.1/src/lauxlib.h"
+ #include "Engine/Source/lua-5.1/src/lua.h"
++#include "WoW/Source/Ui/ZepCVarRanges.h" // Not in the original (F-232)
+ #include "WoW/Source/Client.h"
+ #include "WoW/Source/Console/ConsoleClient.h"
+ #include "WoW/Source/DB/DBClient/DBClient.h"
+@@ -673,6 +674,15 @@ static int32_t Script_GetCVarMin(lua_State* L) {
+ 
+     const char* name = var->m_key.m_str;
+ 
++    // Not in the original (F-232): the engine's real slider range for CVars whose limits we raised or that the
++    // Advanced video panel exposes
++    double zepValue;
++
++    if (ZepCVarRangeMin(name, &zepValue)) {
++        lua_pushnumber(L, zepValue);
++        return 1;
++    }
++
+     if (!SStrCmpI(name, "extShadowQuality", STORM_MAX_STR)) {
+         lua_pushnumber(L, 0.0);
+         return 1;
+@@ -704,6 +714,15 @@ static int32_t Script_GetCVarMax(lua_State* L) {
+ 
+     const char* name = var->m_key.m_str;
+ 
++    // Not in the original (F-232): the engine's real slider range for CVars whose limits we raised or that the
++    // Advanced video panel exposes
++    double zepValue;
++
++    if (ZepCVarRangeMax(name, &zepValue)) {
++        lua_pushnumber(L, zepValue);
++        return 1;
++    }
++
+     if (!SStrCmpI(name, "extShadowQuality", STORM_MAX_STR)) {
+         uint32_t mode = 0;
+         uint32_t maxMode = CShadowCache::GetMaxShadowMode();
+diff --git a/WoW/Source/Ui/GameUI.cpp b/WoW/Source/Ui/GameUI.cpp
+index 9ca68099..536a5332 100644
+--- a/WoW/Source/Ui/GameUI.cpp
++++ b/WoW/Source/Ui/GameUI.cpp
+@@ -1778,6 +1778,11 @@ void CGGameUI::InitializeFrameXML() {
+     FrameXML_RegisterLoadProgressCallback(LoadingScreenXMLCallback, nullptr, LoadAddOnFileCount() + numFiles);
+     FrameXML_FreeHashNodes();
+     FrameXML_CreateFrames("Interface\\FrameXML\\FrameXML.toc", nullptr, &md5, &status);
++    // Not in the original (F-232): Zeppelin's own FrameXML (zpak zep-options), loaded like FrameXML.toc with no addon
++    // wrapper, so it is secure built-in UI rather than an addon; FrameXML.toc itself stays with patch-open-azeroth.
++    if (SFile::FileExistsEx("Interface\\FrameXML\\ZepFrameXML.toc", 1)) {
++        FrameXML_CreateFrames("Interface\\FrameXML\\ZepFrameXML.toc", nullptr, &md5, &status);
++    }
+     // Not in the original (F-171): QuestLogFrame.lua hard-codes the stock 25-quest limit in these globals (read at run
+     // time by the quest log, UIParent's shared-quest check and the quest timers); this client holds 100.
+     FrameScript_Execute("MAX_QUESTS = 100 MAX_QUESTLOG_QUESTS = 100", "ZepQuestLog", nullptr);
+diff --git a/WoW/Source/Ui/GameUI_Scripts.cpp b/WoW/Source/Ui/GameUI_Scripts.cpp
+index 4de3290a..dbbaa34c 100644
+--- a/WoW/Source/Ui/GameUI_Scripts.cpp
++++ b/WoW/Source/Ui/GameUI_Scripts.cpp
+@@ -24,6 +24,7 @@
+ #include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
+ #include "Engine/Source/lua-5.1/src/lauxlib.h"
+ #include "Engine/Source/lua-5.1/src/lua.h"
++#include "WoW/Source/Ui/ZepCVarRanges.h" // Not in the original (F-232)
+ #include "Engine/Source/Os/OsFile.h"
+ #include "Engine/Source/Os/Time.h"
+ #include "Engine/Source/Os/TimeManager.h"
+@@ -1794,6 +1795,15 @@ static int32_t Script_GetCVarMin(lua_State* L) {
+ 
+     const char* name = var->m_key.m_str;
+ 
++    // Not in the original (F-232): the engine's real slider range for CVars whose limits we raised or that the
++    // Advanced video panel exposes
++    double zepValue;
++
++    if (ZepCVarRangeMin(name, &zepValue)) {
++        lua_pushnumber(L, zepValue);
++        return 1;
++    }
++
+     if (!SStrCmpI(name, "extShadowQuality", STORM_MAX_STR)) {
+         lua_pushnumber(L, 0.0);
+     } else if (!SStrCmpI(name, "farclip", STORM_MAX_STR)) {
+@@ -1822,6 +1832,15 @@ static int32_t Script_GetCVarMax(lua_State* L) {
+ 
+     const char* name = var->m_key.m_str;
+ 
++    // Not in the original (F-232): the engine's real slider range for CVars whose limits we raised or that the
++    // Advanced video panel exposes
++    double zepValue;
++
++    if (ZepCVarRangeMax(name, &zepValue)) {
++        lua_pushnumber(L, zepValue);
++        return 1;
++    }
++
+     if (!SStrCmpI(name, "extShadowQuality", STORM_MAX_STR)) {
+         uint32_t mode = 0;
+         uint32_t maxMode = CShadowCache::GetMaxShadowMode();
+diff --git a/WoW/Source/Ui/ZepCVarRanges.cpp b/WoW/Source/Ui/ZepCVarRanges.cpp
+new file mode 100644
+index 00000000..a62917fe
+--- /dev/null
++++ b/WoW/Source/Ui/ZepCVarRanges.cpp
+@@ -0,0 +1,79 @@
++// Not in the original (F-232): slider ranges for GetCVarMin / GetCVarMax.
++#include "WoW/Source/Ui/ZepCVarRanges.h"
++#include "Engine/Source/ConsoleBase/ConsoleVar.h"
++#include "Engine/Source/Storm/H/storm.h"
++#include "WoW/Source/UIUtil/Camera.h"
++
++namespace {
++
++constexpr double NO_LIMIT = -1.0e30;
++
++struct ZepCVarRange {
++    const char* name;
++    double min; // NO_LIMIT = keep the stock answer (FrameXML falls back to its own table)
++    double max;
++};
++
++// Engine limits come from the CVar validators and the clamps behind them (see the F-232 note).
++const ZepCVarRange s_ranges[] = {
++    // Stock sliders whose engine limit is above the FrameXML max.
++    { "farclip", NO_LIMIT, 10000.0 },             // World::ValidateFarClip (F-162 farclip-unlock), stock UI 1277
++    { "groundEffectDist", NO_LIMIT, 1024.0 },     // CVar callback (F-162 ground-effect-distance), stock UI 140
++    { "groundEffectDensity", NO_LIMIT, 256.0 },   // CVar callback, stock UI 64
++    { "environmentDetail", NO_LIMIT, 3.0 },       // no engine cap (F-162 environment-detail-unlock); 3 = twice the stock cap
++    { "mouseSpeed", 0.1, 2.0 },                   // OsInputSetMouseSpeed clamp, stock UI 0.5..1.5
++    { "cameraYawMoveSpeed", NO_LIMIT, 360.0 },    // ValidateCameraAngularSpeed, stock UI 270
++    { "cameraYawSmoothSpeed", NO_LIMIT, 360.0 },  // ValidateCameraAngularSpeed, stock UI 270
++
++    // Hidden CVars on the F-232 Advanced video panel.
++    { "horizonFarclipScale", 3.0, 12.0 },         // CVar callback (F-162 horizon-farclip-unlock)
++    { "maxFPS", 0.0, 300.0 },                     // 0 = unlimited; the engine has no top
++    { "maxFPSBk", 0.0, 300.0 },
++    { "spellEffectLevel", 0.0, 9.0 },             // SpellVisuals rate = level / 9
++    { "SkyCloudLOD", 0.0, 3.0 },                  // CloudLODCallback
++    { "texLodBias", -1.0, 1.0 },                  // TexLodBiasCallback
++};
++
++const ZepCVarRange* Find(const char* name) {
++    for (const ZepCVarRange& range : s_ranges) {
++        if (!SStrCmpI(name, range.name, STORM_MAX_STR)) {
++            return &range;
++        }
++    }
++
++    return nullptr;
++}
++
++} // namespace
++
++bool ZepCVarRangeMin(const char* name, double* value) {
++    const ZepCVarRange* range = Find(name);
++
++    if (!range || range->min == NO_LIMIT) {
++        return false;
++    }
++
++    *value = range->min;
++    return true;
++}
++
++bool ZepCVarRangeMax(const char* name, double* value) {
++    // The effective zoom is factor x cameraDistanceMax, clamped to 50 yd in CGCamera::UpdateMotion.
++    if (!SStrCmpI(name, "cameraDistanceMaxFactor", STORM_MAX_STR)) {
++        if (!s_cvCameraDistanceMax || s_cvCameraDistanceMax->m_floatValue <= 0.0f) {
++            return false;
++        }
++
++        *value = 50.0 / s_cvCameraDistanceMax->m_floatValue;
++        return true;
++    }
++
++    const ZepCVarRange* range = Find(name);
++
++    if (!range || range->max == NO_LIMIT) {
++        return false;
++    }
++
++    *value = range->max;
++    return true;
++}
+diff --git a/WoW/Source/Ui/ZepCVarRanges.h b/WoW/Source/Ui/ZepCVarRanges.h
+new file mode 100644
+index 00000000..14d7495d
+--- /dev/null
++++ b/WoW/Source/Ui/ZepCVarRanges.h
+@@ -0,0 +1,11 @@
++#ifndef WOW_SOURCE_UI_ZEPCVARRANGES_H
++#define WOW_SOURCE_UI_ZEPCVARRANGES_H
++
++// Not in the original (F-232): slider ranges that GetCVarMin / GetCVarMax report, so the options sliders
++// (stock FrameXML prefers GetCVarMin/Max over its hard-coded table) show the ranges the engine really accepts.
++
++// True and *value set when the CVar has a range override for that end; false keeps the stock answer.
++bool ZepCVarRangeMin(const char* name, double* value);
++bool ZepCVarRangeMax(const char* name, double* value);
++
++#endif
+-- 
+2.34.1
+

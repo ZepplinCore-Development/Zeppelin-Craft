@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-options",
+  "version": "0.1.0",
+  "description": "F-232 built-in Zeppelin FrameXML (ZepFrameXML.toc, loaded by the x64 client): Advanced video options page for hidden CVars",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-A",
+  "enabled": true,
+  "priority": 560,
+  "features": [
+    "F-232"
+  ]
+}
