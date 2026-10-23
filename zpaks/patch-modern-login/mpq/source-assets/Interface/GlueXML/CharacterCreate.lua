@@ -7,7 +7,7 @@ FINISH = "Finish";
 CHARACTER_FACING_INCREMENT = 2;
 MAX_RACES = 12;
 MAX_CLASSES_PER_RACE = 11;
-NUM_CHAR_CUSTOMIZATIONS = 8;	-- F-151: 6 eye colour, 7 facial markings, 8 body markings (source-client customizations)
+NUM_CHAR_CUSTOMIZATIONS = 9;	-- F-151: 6 eye colour, 7 tattoo, 8 scars, 9 war paint (source-client customizations)
 MIN_CHAR_NAME_LENGTH = 2;
 CHARACTER_CREATE_ROTATION_START_X = nil;
 CHARACTER_CREATE_INITIAL_FACING = nil;
@@ -89,20 +89,18 @@ CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 -- Keyed by the race's file name (GetNameForRace).
 CHAR_CREATE_SUBRACES = {
 	["ORC"] = {
-		-- colours 28-43 are base colours plus a body marking (now the Body Markings choice); the old death knight
+		-- colours 28-43 are base colours plus a body marking (not offered; retail tattoos, scars and war paint now); the old death knight
 		-- colours (male 15-17, female 11-13) sit in the sub-race of their tone
-		-- bodyMarkings / facialMarkings: the body markings (CharSections base_section 7) and facial markings (6) the
-		-- sub-race offers, by type; 0 = none
-		{ name = "Orc", icon = "ORC", bodyMarkings = {0, 3, 4}, facialMarkings = {0, 3, 6},
+		{ name = "Orc", icon = "ORC",
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
-		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR", bodyMarkings = {0, 1, 2}, facialMarkings = {0, 1, 2},
+		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR",
 			MALE = {12, 16, 20, 21, 22, 23, 24},
 			FEMALE = {12, 20, 21, 22, 23, 24} },
-		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK", bodyMarkings = {0, 5, 6, 7}, facialMarkings = {0, 4, 5},
+		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK",
 			MALE = {9, 14, 15, 17, 18, 19, 44, 45},
 			FEMALE = {11, 13, 18, 19, 44, 45} },
-		{ name = "Fel Orc", icon = "FELORC", bodyMarkings = {0, 8, 9}, facialMarkings = {0, 7, 8, 9},
+		{ name = "Fel Orc", icon = "FELORC",
 			MALE = {10, 25, 26, 27},
 			FEMALE = {25, 26, 27} },
 	},
@@ -131,6 +129,7 @@ function CharacterCreate_OnLoad(self)
 	CharCreateCustomizationButton6.text:SetText(CHAR_CUSTOMIZATION_EYES_DESC);		-- F-151
 	CharCreateCustomizationButton7.text:SetText(CHAR_CUSTOMIZATION_MARKINGS_DESC);
 	CharCreateCustomizationButton8.text:SetText(CHAR_CUSTOMIZATION_BODY_MARKINGS_DESC);
+	CharCreateCustomizationButton9.text:SetText(CHAR_CUSTOMIZATION_WAR_PAINT_DESC);
 
 	-- Color edit box backdrop
 	local backdropColor = FACTION_BACKDROP_COLOR_TABLE["Alliance"];
@@ -329,7 +328,7 @@ function CharCreate_UpdateCustomizationCounts()
 	end
 end
 
--- F-151: Eye Color (6) and Markings (7) show only for a race that has more than one choice, below the last
+-- F-151: Eye Color (6), Tattoo (7), Scars (8) and War Paint (9) show only for a race that has more than one choice, below the last
 -- shown stock button.
 -- F-151: the outfit toggle above Finish (SetCharacterCreateOutfitShown is a source-client API)
 function CharacterCreate_ShowOutfit(shown)
@@ -354,7 +353,7 @@ function CharCreate_UpdateFaceLayerButtons()
 			below = _G["CharCreateCustomizationButton"..i];
 		end
 	end
-	for i = 6, 8 do
+	for i = 6, 9 do
 		local button = _G["CharCreateCustomizationButton"..i];
 		local count;
 		if ( GetCharCustomizationInfo ) then
@@ -404,8 +403,8 @@ function CharCreate_ApplySubRace()
 		end
 	end
 	SetCharCustomizationFilter(1, unpack(colours));
-	SetCharCustomizationFilter(7, unpack(subRaces[CharacterCreate.subRace].facialMarkings or {}));
-	SetCharCustomizationFilter(8, unpack(subRaces[CharacterCreate.subRace].bodyMarkings or {}));
+	SetCharCustomizationFilter(7);	-- every sub-race has every tattoo, scar and war paint (retail's set, for testing)
+	SetCharCustomizationFilter(8);
 end
 
 function CharCreate_UpdateSubRaces()

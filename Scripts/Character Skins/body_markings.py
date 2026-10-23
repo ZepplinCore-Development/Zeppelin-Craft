@@ -52,6 +52,9 @@ INK_SIGMA = 48                                   # 'ink': px reach of the tone m
 STRONG = 150                                     # |rgb| a paint or ink region must reach somewhere
 STRONG_P90 = 100                                 # ... and over most of it: c41 ink p90 115+, its darker toes 67
 SIZE = 512
+# The body markings cut from the marked skin colours are retired: base_section 7 is retail's scars now
+# (retail_layers.py). This script still writes the c9 plain skin and the body split migration.
+EMIT_MARKINGS = False
 OUT = 1024                                       # markings are cut at twice the skin's size for soft edges, then written at
                                                  # SIZE: the client composites the body at 512, and a 1024 layer crashed it (I-422)
 HEAD = [((0, 320), (256, 64)), ((0, 384), (256, 128))]   # head sections: the face textures cover them
@@ -261,7 +264,7 @@ def main():
                 skins[c] = load(files, SKIN_TEX.format(sex=sex, colour=c))
             return skins[c]
 
-        for n, (name, donor, base, mode, *opts) in MARKINGS.items():
+        for n, (name, donor, base, mode, *opts) in (MARKINGS.items() if EMIT_MARKINGS else ()):
             layer, cover = marking(skin(donor), skin(base), mode, *opts[:2], *(skin(c) for c in opts[2:3]))
             rel = f'Character\\Orc\\{sex}\\Orc{sex}BodyMarking{n:02d}.blp'
             layer = np.asarray(Image.fromarray(layer, 'RGBA').resize((SIZE, SIZE), Image.LANCZOS))

@@ -1,194 +1,80 @@
-"""F-151: one underwear style per orc sub-race, worn by every skin colour of that sub-race.
+"""F-151: one underwear style per orc sub-race, from retail's own cloth layers.
 
-Each style is the cloth of one donor colour's underwear (CharSections base_section 4): the donor's underwear
-texture minus that colour's own skin texture at the same body region, so the skin and any body markings
-painted into both cancel out and only the cloth is left. The cloth is written with 8-bit alpha (palettized BLP2)
-and composited over each colour's skin, so one file per style fits every colour.
+Retail paints underwear as a cloth-only layer with alpha (ChrModelTextureTarget 13 pelvis / 14 torso, blend 15), so
+nothing is cut out of a skin: the textures retail_customizations.py grabbed are converted to palettized BLP2 with
+8-bit alpha (the source client's compositor needs a palette; DXT layers paste as solid green) and every colour of
+a sub-race points at its style. The sub-race colour lists must match CHAR_CREATE_SUBRACES in PATCH-L
+CharacterCreate.lua.
 
-  texture_1 = pelvis (SECTION_LEG_UPPER, body atlas 256,192 256x128)
-  texture_2 = torso  (SECTION_TORSO_UPPER, body atlas 256,0 256x128; females only)
+  texture_1 = pelvis (SECTION_LEG_UPPER), texture_2 = torso (SECTION_TORSO_UPPER; females only)
 
 Writes zpaks/zep-skin-expansion/mpq/source-assets/Character/Orc/<Sex>/OrcUnderwear<Sex><Style>{Pelvis,Torso}.blp
 and zpaks/zep-skin-expansion/dbc/[F-151]_charsections_underwear.sql (UPDATEs; sorts after the [AUTO,*] files
-that create the rows). The sub-race colour lists must match CHAR_CREATE_SUBRACES in PATCH-L CharacterCreate.lua.
+that create the rows).
 
-  python3 "Scripts/Character Skins/underwear.py" [--preview DIR]
+  python3 "Scripts/Character Skins/underwear.py"
 """
 import importlib.util
-import sys
 from pathlib import Path
 
-import numpy as np
 from PIL import Image
-from scipy import ndimage
 
 CRAFT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(CRAFT / 'cli'))
-sys.path.insert(0, str(CRAFT))
-from commands.wardrobe import EXTERNAL_ROOTS, _dbc_query_fn  # noqa: E402
-from lib.wardrobe.compositor import FileResolver  # noqa: E402
-
 _spec = importlib.util.spec_from_file_location('icons', Path(__file__).with_name('subrace_icons.py'))
 icons = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(icons)
 
-ZPAK = CRAFT / 'zpaks' / 'zep-skin-expansion'
-ASSETS = ZPAK / 'mpq' / 'source-assets'
-SQL = ZPAK / 'dbc' / '[F-151]_charsections_underwear.sql'
+RETAIL = CRAFT.parent / 'logs' / 'retail_cache' / 'orc_customizations' / 'tex'
+ASSETS = CRAFT / 'zpaks' / 'zep-skin-expansion' / 'mpq' / 'source-assets'
+SQL = CRAFT / 'zpaks' / 'zep-skin-expansion' / 'dbc' / '[F-151]_charsections_underwear.sql'
 RACE, SEXES = 2, {0: 'Male', 1: 'Female'}
-SECTION_SKIN, SECTION_UNDERWEAR = 0, 4
-REGIONS = {'texture_1': ('Pelvis', (256, 192)), 'texture_2': ('Torso', (256, 0))}
-# the donors' own underwear files, by name: the live rows point at this script's output once it is applied
-DONOR = 'Character\\Orc\\{sex}\\Orc{sex}Naked{part}Skin00_{colour:02d}.blp'
-DONOR_SKIN = 'Character\\Orc\\{sex}\\Orc{sex}Skin00_{colour:02d}.blp'
-CLOTH_DIFF = 40                          # |rgb| sum over which the underwear texture differs from the bare skin
+SECTION_UNDERWEAR = 4
+SIZE = (256, 128)
 
-# sub-race -> (donor colour, colours that wear it), per sex
-# sub-race -> (donor colours, colours that wear it), per sex. Every donor wears the same style over its own skin;
-# a cloth pixel that happens to match one donor's skin still differs from another's, so the mask is their union.
-STYLES = {
-    0: {'Orc': ((0, 3, 6), [0, 1, 2, 3, 4, 5, 6, 7, 8]),
-        'Maghar': ((28, 29, 30, 31), [12, 16, 20, 21, 22, 23, 24]),
-        'Blackrock': ((32, 33, 34, 35), [9, 14, 15, 17, 18, 19, 44, 45]),
-        'FelOrc': ((36, 37, 38, 39), [10, 25, 26, 27])},
-    1: {'Orc': ((0, 3, 6), [0, 1, 2, 3, 4, 5, 6, 7, 8]),
-        'Maghar': ((28, 29, 30, 31), [12, 20, 21, 22, 23, 24]),
-        'Blackrock': ((36, 37, 38, 39), [11, 13, 18, 19, 44, 45]),
-        'FelOrc': ((41, 40), [25, 26, 27])},   # c41 first: c40's cloth is painted with fel-green highlights
+# retail cloth per style: the orc HD set, and the Mag'har clan set (its choice 0 is the only cloth-only one)
+CLOTH = {
+    0: {'Orc': {'Pelvis': 'orc_Male/orcmalenakedpelvisskin00_00_hd.blp'},
+        'Maghar': {'Pelvis': 'maghar_Male/orcmaleclannakedpelvisskin00_00.blp'}},
+    1: {'Orc': {'Pelvis': 'orc_Female/orcfemalenakedpelvisskin00_00_hd.blp',
+                'Torso': 'orc_Female/orcfemalenakedtorsoskin00_00_hd.blp'},
+        'Maghar': {'Pelvis': 'maghar_Female/orcfemaleclannakedpelvisskin00_00.blp',
+                   'Torso': 'maghar_Female/orcfemaleclannakedtorsoskin00_00.blp'}},
 }
-SKIN_HUE = 12                             # hue steps (of 256) from the skin's hue that count as skin
-SKIN_HUE_STYLES = {'Orc'}                 # green skin under brown cloth; elsewhere cloth and skin share a hue
-OWN_DIFF = 75                             # |rgb| from the donor's local skin tone for a pixel to give its colour
-AGREE = 40                                # |rgb| spread across donors under which a pixel is the shared cloth
-GAP = 7                                   # px (of 256): openings in the cloth narrower than twice this are closed
-HEM_PERCENTILE = 80                       # pelvis: every column reaches this percentile of the hem depth
-LEVEL_HEM = {(0, 'Maghar'), (0, 'FelOrc'), (1, 'Maghar'), (1, 'Blackrock'), (1, 'FelOrc')}   # hem rises over crotch / seat (user reports)
-
-
-def rows_by_key(query):
-    rows = query(f'SELECT id, gender, base_section, type, color_index, texture_1, texture_2 FROM charsections '
-                 f'WHERE race = {RACE} AND base_section IN ({SECTION_SKIN}, {SECTION_UNDERWEAR})')
-    skin, under = {}, {}
-    for r in sorted(rows, key=lambda r: r['id']):            # duplicate keys: the highest id wins (F-225)
-        if r['base_section'] == SECTION_SKIN and r['type'] == 0:
-            skin[(r['gender'], r['color_index'])] = r
-        elif r['base_section'] == SECTION_UNDERWEAR:
-            under[(r['gender'], r['color_index'])] = r
-    return skin, under
-
-
-def load(files, path):
-    f = files.find(path)
-    if not f:
-        raise FileNotFoundError(path)
-    return Image.open(f).convert('RGB')
-
-
-def cloth(files, sex, donors, part, xy, level_hem=False, skin_hue_test=False):
-    """The style's cloth as RGBA at the underwear texture's own size. The shape is the union of every donor's cloth;
-    the colour is the first donor's (each donor's cloth is tinted a little differently), and where that donor shows
-    skin, or a gap was closed, the nearest pixel of its own cloth."""
-    rgb, mask, solid, all_u = None, None, None, []
-    for donor in donors:
-        under = load(files, DONOR.format(sex=sex, part=part, colour=donor))
-        w, h = under.size
-        scale = w / 256                                       # body atlas is 512 wide at underwear width 256
-        body = load(files, DONOR_SKIN.format(sex=sex, colour=donor)).resize((int(512 * scale), int(512 * scale)), Image.LANCZOS)
-        bare = body.crop((int(xy[0] * scale), int(xy[1] * scale), int(xy[0] * scale) + w, int(xy[1] * scale) + h))
-        u, b = np.asarray(under).astype(np.int16), np.asarray(bare).astype(np.int16)
-        dist = np.abs(u - b).sum(axis=2)
-        diff = dist > CLOTH_DIFF
-        all_u.append(u)
-        if rgb is None:
-            rgb, mask, solid = u.copy(), diff.copy(), ndimage.binary_opening(diff, iterations=1)
-            # own cloth: far from the donor's local skin tone (the skin is resampled to the underwear's scale, so a
-            # pixel-exact comparison lets skin-coloured pixels through: green on the c0 / c40 styles)
-            tone = np.dstack([ndimage.gaussian_filter(b[..., k].astype(np.float32), 2) for k in range(3)])
-            # ... and not the skin's own hue (lit skin between the straps passes the distance test: Orc c0 bra)
-            hsv_u = np.asarray(Image.fromarray(u.astype(np.uint8)).convert('HSV')).astype(np.int16)
-            hsv_b = np.asarray(Image.fromarray(np.clip(tone, 0, 255).astype(np.uint8)).convert('HSV')).astype(np.int16)
-            dh = np.abs(hsv_u[..., 0] - hsv_b[..., 0])
-            skin_hue = (np.minimum(dh, 256 - dh) < SKIN_HUE) & (hsv_u[..., 1] > 60) & skin_hue_test
-            own = (np.abs(u - tone).sum(axis=2) > OWN_DIFF) & ~skin_hue
-            off_skin = (dist > CLOTH_DIFF) & ~skin_hue
-        else:
-            mask |= diff
-    # every morphology step runs on a padded copy: ndimage treats outside the texture as empty, so an unpadded opening
-    # or closing eats the edge columns, and the left and right edges meet on the model's centre line (user report: seam)
-    pad = GAP + 3
-    mask = np.pad(mask, pad, mode='edge')
-    solid = np.pad(solid, pad, mode='edge')
-    mask = ndimage.binary_opening(mask, iterations=1)
-    labels, n = ndimage.label(mask)
-    if n:
-        sizes = ndimage.sum(mask, labels, range(1, n + 1))
-        mask = np.isin(labels, 1 + np.flatnonzero(sizes >= 30))
-    solid &= mask
-    mask = ndimage.binary_closing(mask, iterations=GAP)
-    if part == 'Torso':
-        mask[-pad:, :] = True   # under the cups the cloth opens onto the bottom edge: that edge counts as cloth
-    mask = ndimage.binary_fill_holes(mask)
-    mask, solid = mask[pad:-pad, pad:-pad], solid[pad:-pad, pad:-pad]
-    if level_hem:
-        # the hem: the designs rise to notches that sit over the crotch and the seat (user report: "crotchless");
-        # every column of cloth reaches at least the typical hem depth, deeper tufts stay
-        rows = np.arange(mask.shape[0])[:, None]
-        cols = mask.any(axis=0)
-        top = np.where(cols, mask.argmax(axis=0), 0)
-        hem = np.where(cols, mask.shape[0] - 1 - mask[::-1].argmax(axis=0), 0)
-        depth = int(np.percentile(hem[cols], HEM_PERCENTILE)) if cols.any() else 0
-        mask |= cols[None, :] & (rows >= top[None, :]) & (rows <= np.maximum(hem, depth)[None, :])
-    # pixels the closing or the hem added carry skin in every donor: colour them from the nearest cloth pixel,
-    # taken two pixels inside the cloth's edge (edge pixels are part donor skin: green specks over c40)
-    # colour sources: the first donor's own cloth (off its skin), or pixels every donor paints alike (shared cloth
-    # art), never within two pixels of the cloth's outline (edge pixels are part donor skin: green specks over c40).
-    # Everything else in the mask (closed gaps, levelled hem) is filled from the nearest source.
-    good = own.copy()
-    if len(all_u) > 1:
-        stack = np.stack(all_u)
-        # donors of one hue (the green Orc colours) agree on their skin too, so agreement counts only off the skin
-        good |= ((stack.max(axis=0) - stack.min(axis=0)).sum(axis=2) < AGREE) & off_skin
-    inside = ndimage.binary_erosion(np.pad(mask, 2, mode='edge'), iterations=2)[2:-2, 2:-2]
-    core = good & inside
-    core = core if core.any() else solid
-    rgb = rgb.astype(np.float32)
-    _, (iy, ix) = ndimage.distance_transform_edt(~core, return_indices=True)
-    rgb = np.where((mask & ~core)[..., None], rgb[iy, ix], rgb)
-    # feathered inward only: a pixel outside the mask carries the donor's skin, which would fringe other colours
-    alpha = np.clip(ndimage.uniform_filter(mask.astype(np.float32), 3) * 255 * 1.5, 0, 255).astype(np.uint8)
-    alpha[~mask] = 0
-    return Image.fromarray(np.dstack([np.clip(rgb, 0, 255).astype(np.uint8), alpha]), 'RGBA'), mask.mean()
+# sub-race -> (cloth style, colours that wear it)
+STYLES = {
+    0: {'Orc': ('Orc', [0, 1, 2, 3, 4, 5, 6, 7, 8]),
+        'Maghar': ('Maghar', [12, 16, 20, 21, 22, 23, 24]),
+        'Blackrock': ('Orc', [9, 14, 15, 17, 18, 19, 44, 45]),
+        'FelOrc': ('Orc', [10, 25, 26, 27])},
+    1: {'Orc': ('Orc', [0, 1, 2, 3, 4, 5, 6, 7, 8]),
+        'Maghar': ('Maghar', [12, 20, 21, 22, 23, 24]),
+        'Blackrock': ('Orc', [11, 13, 18, 19, 44, 45]),
+        'FelOrc': ('Orc', [25, 26, 27])},
+}
 
 
 def main():
-    preview = Path(sys.argv[sys.argv.index('--preview') + 1]) if '--preview' in sys.argv else None
-    files = FileResolver([ASSETS] + [r for r in EXTERNAL_ROOTS if Path(r).resolve() != ASSETS.resolve()])
-    skin, under = rows_by_key(_dbc_query_fn('live'))
-    sql = ['-- F-151 Modern Character Creator: one underwear style per orc sub-race.',
+    for old in ASSETS.glob('Character/Orc/*/OrcUnderwear*.blp'):
+        old.unlink()
+    sql = ['-- F-151 Modern Character Creator: one underwear style per orc sub-race, retail cloth layers.',
            '-- GENERATED by Scripts/Character Skins/underwear.py - do not edit, re-run the script.']
     for g, sex in SEXES.items():
-        for style, (donors, colours) in STYLES[g].items():
-            paths = {}
-            for col, (part, xy) in REGIONS.items():
-                if not under[(g, donors[0])][col]:
-                    paths[col] = ''
-                    continue
-                img, cover = cloth(files, sex, donors, part, xy, level_hem=part == 'Pelvis' and (g, style) in LEVEL_HEM,
-                                   skin_hue_test=style in SKIN_HUE_STYLES)
+        paths = {}
+        for style, parts in CLOTH[g].items():
+            paths[style] = {}
+            for part, src in parts.items():
+                im = Image.open(RETAIL / src).convert('RGBA')
+                if im.size != SIZE:
+                    im = im.convert('RGBa').resize(SIZE, Image.LANCZOS).convert('RGBA')
                 rel = f'Character\\Orc\\{sex}\\OrcUnderwear{sex}{style}{part}.blp'
-                icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), img)
-                paths[col] = rel
-                print(f'{sex} {style} {part}: donor colours {donors}, cloth {cover:.0%} of the texture')
-                if preview:
-                    preview.mkdir(parents=True, exist_ok=True)
-                    img.save(preview / f'{sex}_{style}_{part}.png')
-            missing = [c for c in colours if (g, c) not in under]
-            if missing:
-                raise SystemExit(f'{sex} {style}: no underwear row for colours {missing}')
-            esc = {c: p.replace('\\', '\\\\') for c, p in paths.items()}
-            sql.append(f"UPDATE charsections SET texture_1 = '{esc['texture_1']}', texture_2 = '{esc['texture_2']}' "
+                icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), im)
+                paths[style][part] = rel.replace('\\', '\\\\')
+                print(f'{sex} {style} {part}: retail {src}')
+        for subrace, (style, colours) in STYLES[g].items():
+            p = paths[style]
+            sql.append(f"UPDATE charsections SET texture_1 = '{p['Pelvis']}', texture_2 = '{p.get('Torso', '')}' "
                        f"WHERE race = {RACE} AND gender = {g} AND base_section = {SECTION_UNDERWEAR} "
-                       f"AND color_index IN ({', '.join(map(str, colours))});  -- {style}")
+                       f"AND color_index IN ({', '.join(map(str, colours))});  -- {subrace}")
     SQL.write_text('\n'.join(sql) + '\n')
     print(f'-> {SQL.relative_to(CRAFT)}')
 

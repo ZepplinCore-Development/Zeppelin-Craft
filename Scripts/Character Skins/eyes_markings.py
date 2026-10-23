@@ -54,7 +54,10 @@ ASSETS = ZPAK / 'mpq' / 'source-assets'
 SQL = ZPAK / 'dbc' / '[AUTO,F-151]_charsections_eyes.sql'
 SPLIT = Path(__file__).with_name('orc_face_split.json')
 MIGRATION = ZPAK / 'sql_characters' / 'zz_[F-151]_orc_face_split.sql'
-ID_BASE, ID_END = 80000, 88999                # 89000-89999: body_markings.py
+ID_BASE, ID_END = 80000, 88999                # 89000-89999: body_markings.py, retail_layers.py
+# The facial markings cut from the marked faces are retired: base_section 6 is retail's tattoos now (retail_layers.py).
+# The marks are still measured, because the face split (old face -> shape) needs each marked face's base shape.
+EMIT_MARKINGS = False
 PLAIN_SQL = ZPAK / 'dbc' / '[F-151]_charsections_plainfaces.sql'
 # colours whose every face bakes in the same black face paint -> the colour whose faces give the plain shading.
 # The paint becomes a facial marking and these colours get plain faces (user rule).
@@ -300,7 +303,7 @@ def main():
             marks.append((k, f, b, m))
             print(f'{sex} marking {k}: face {f} = face {b} + {m[:64].sum()} upper / {m[64:].sum()} lower px')
             alpha = soft(m)
-            for c in fc.colours(g):
+            for c in (fc.colours(g) if EMIT_MARKINGS else ()):
                 src = fc.both(g, f, c)
                 lo = out.put(f'{folder}Marking{k:02d}_{c:02d}Lower.blp', rgba(src[64:], alpha[64:]))
                 up = out.put(f'{folder}Marking{k:02d}_{c:02d}Upper.blp', rgba(src[:64], alpha[:64])) if m[:64].any() else ''
@@ -360,7 +363,7 @@ def main():
                     icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), rgba(half, np.full(half.shape[:2], 255, np.uint8)))
                     plain_rows.append((g, f, c, k, rel))
             print(f'{sex} colour {c}: face paint ({mode}) -> marking {mark or "none"}, plain faces written')
-        for mark, (src, m) in sorted(paints.items()):
+        for mark, (src, m) in (sorted(paints.items()) if EMIT_MARKINGS else ()):
             # cut at twice the face's size with a soft matte, written at the face's size: antialiased edges (user report: scuffed)
             hi, alpha = soft_hd(src, m)
             half = lambda a, h: np.asarray(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).resize((256, h), Image.LANCZOS))  # noqa: E731
