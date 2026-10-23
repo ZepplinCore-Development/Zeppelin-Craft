@@ -5409,40 +5409,55 @@
    }
   ]
  },
- "world/generic/passivedoodads/christmas/g_nutcracker.m2": {
-  "source": "patch-hd-everything",
-  "note": "Its only texture lost its filename (type 0, empty): the 3.3.5 client gives a nameless texture TextureCreateSolid(white) (CM2Shared texture load, M2Shared.cpp), so the whole nutcracker draws flat white in game. Stock and retail (199591, TXID 199598) name MM_NUTCRACKER_01.blp, which the pack ships in HD.",
-  "base_sha256": "27303e0b1b541968098d99108d725378f1a460f7398f5681f9a771620509a9ea",
-  "result_sha256": "a4208066ac5c8c1f8f5a1b3b1b95c949569aea77dd475a27d856443159b00fd6",
-  "ops": [
-   {
-    "op": "m2.texture.set",
-    "index": 0,
-    "expect_type": 0,
-    "expect_name": "",
-    "name": "World\\GENERIC\\PassiveDoodads\\CHRISTMAS\\MM_NUTCRACKER_01.blp"
-   }
-  ],
-  "ship": [
-   "world/generic/passivedoodads/christmas/mm_nutcracker_01.blp"
-  ]
- },
  "world/kalimdor/ashenvale/passivedoodads/ashenvaletrees/ashenvaletree01.m2": {
   "source": "patch-hd-everything",
-  "note": "Not a remaster: the pack swapped in a Legion Azsuna tree (2,004 vertices; stock and retail are a 200-vertex Ashenvale tree). Its trunk texture lost its filename (type 0, empty): the 3.3.5 client draws a nameless texture solid white, so the trunk and the canopy's first layer were flat white. Every retail 7an_tree_c model (araknashal: c01-c07) pairs 7an_treeleaves_01 (1030118) with trunk 7an_tree_c01.blp (1030117), which the pack ships beside the leaves.",
+  "note": "Not a remaster: the pack swapped in a Legion Azsuna tree (2,004 vertices; stock and retail are a 200-vertex Ashenvale tree). Texture 0 lost its filename (type 0, empty), which the 3.3.5 client draws solid white. The trunk batch reads it alone (flat white trunk); the canopy batch reads it UNDER 7an_treeleaves_01, where white is right. So the trunk gets its own texture - retail 7an_tree_c01.blp (1030117, shipped beside the leaves) added as texture 2 and the trunk's lookup slot pointed at it - and the canopy's first layer reads the leaves too (white under the leaves drew a white canopy in the picker). (2026-10-15's fix named texture 0 itself: the canopy drew as bark.)",
   "base_sha256": "8e084437cdc0e91bafe9ea0555a5791e40948dab05a4e0f7dbdba08ad599c796",
-  "result_sha256": "647e9a5928a575d5377d06ba4d9000d36a72ee379902ae0b97c4ed7b28a733f2",
+  "result_sha256": "036e395ac7a94c48a9956ed14bad105c7393a1d0114fb407a5ab95813b294320",
   "ops": [
    {
-    "op": "m2.texture.set",
-    "index": 0,
-    "expect_type": 0,
-    "expect_name": "",
-    "name": "world\\expansion06\\doodads\\araknashal\\7an_tree_c01.blp"
+    "op": "m2.texture.add",
+    "type": 0,
+    "flags": 3,
+    "name": "world\\expansion06\\doodads\\araknashal\\7an_tree_c01.blp",
+    "expect_count": 2
+   },
+   {
+    "op": "m2.texlookup.set",
+    "expect": [
+     0,
+     0,
+     0,
+     1
+    ],
+    "values": [
+     2,
+     0,
+     1,
+     1
+    ]
    }
   ],
   "ship": [
    "world/expansion06/doodads/araknashal/7an_tree_c01.blp"
+  ]
+ },
+ "world/kalimdor/durotar/passivedoodads/rocks/durotarcliffrock02.m2": {
+  "source": "appletrey-2026-07",
+  "note": "Its texture name is written twice back to back ('...6ar_wmocladding02.blpworld\\\\...6ar_wmocladding02.blp', one length over both): no file has that name, so the rock drew black in the picker and gets no texture in game. Named once; the pack ships 6ar_wmocladding02.blp (Warlords Ashran cladding).",
+  "base_sha256": "10f539a06cdb23fe3b1291ee5fdf81a9f2e03a573599df3098fe27538de3ba4a",
+  "result_sha256": "749f39dc5e747aafc686e9e120e755edd006aaf865e083c61811887bc1155ac2",
+  "ops": [
+   {
+    "op": "m2.texture.set",
+    "index": 0,
+    "expect_type": 0,
+    "expect_name": "world\\environment\\doodad\\6.0\\ashrand\\rocks\\textures\\6ar_wmocladding02.blpworld\\environment\\doodad\\6.0\\ashrand\\rocks\\textures\\6ar_wmocladding02.blp",
+    "name": "world\\environment\\doodad\\6.0\\ashrand\\rocks\\textures\\6ar_wmocladding02.blp"
+   }
+  ],
+  "ship": [
+   "world/environment/doodad/6.0/ashrand/rocks/textures/6ar_wmocladding02.blp"
   ]
  }
 }

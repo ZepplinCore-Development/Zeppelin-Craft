@@ -1551,7 +1551,8 @@ function bodyPaneUrl(e, p, code, override) {
     const src = fit && fit.borrow && vs[fit.borrow] ? fit.borrow : m;   // borrow another race's model
     const v = vs[src];
     if (!v) continue;
-    const [attach, m2c, skc, tex, texc] = v;
+    const [attach, m2c, skc, tex, texc, extra] = v;
+    Object.assign(ovr, extra || {});                    // textures named inside the item model (deploy item_variants)
     items.push({ a: attach, m, t: tex || '', fit: fit ? { dx: fit.dx, dy: fit.dy, dz: fit.dz, scale: fit.scale } : undefined });
     ovr[m] = m2c;
     if (skc) ovr[m.replace(/\.m2$/, '00.skin')] = skc;

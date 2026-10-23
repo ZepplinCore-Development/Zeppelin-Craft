@@ -128,6 +128,14 @@ def _stage_pane(name: str, r: 'ms.Resolved', files: SourceFiles, out_root: Path,
                 (dest / f'{stem}{v:02d}.skin').write_bytes(skb)
             mf = dest / r.model_path
             m = ms.decode_m2(mf)
+        else:
+            # the textures too come from the conversion: r.m2 read the v256 header as v264 and listed none, so
+            # the viewer's pane map never got veb_waterlily.blp (Appletrey's veb_waterlily02 drew untextured)
+            import tempfile
+            with tempfile.NamedTemporaryFile(suffix='.m2') as tf_:
+                tf_.write(m2b); tf_.flush()
+                m = ms.decode_m2(Path(tf_.name))
+        tbc_skin0 = skins[0] if skins else None
     if data:
         bbox = _mesh_bbox(data)
     for v in range(0 if tbc else (m.views if m else 1)):
@@ -138,8 +146,10 @@ def _stage_pane(name: str, r: 'ms.Resolved', files: SourceFiles, out_root: Path,
     # batch or particle uses, and displays name skins for slots the model lacks.
     drawn = None
     if m:
-        skf = files.find(f'{stem}00.skin')
-        if skf is not None:
+        skf = None if tbc and tbc_skin0 else files.find(f'{stem}00.skin')
+        if tbc and tbc_skin0:
+            drawn = ms.batch_textures(m, tbc_skin0)
+        elif skf is not None:
             drawn = ms.batch_textures(m, skf.read_bytes())
         for i, (tt, tn) in enumerate(m.textures):
             if tt == 0 and tn and (drawn is None or i in drawn):

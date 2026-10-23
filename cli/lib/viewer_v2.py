@@ -882,6 +882,14 @@ class Deployer:
                 if fx:
                     fmap[p] = self.store.put_bytes(fx[0], '.m2')
                     pane['fixed_by_us'] = fx[1].get('note', '')
+                    # the pane was staged from the pack's own file: a texture name the fix replaced is not missing
+                    # (Appletrey's durotarcliffrock02 listed its doubled, renamed name)
+                    import tempfile
+                    with tempfile.NamedTemporaryFile(suffix='.m2') as tf_:
+                        tf_.write(fx[0]); tf_.flush()
+                        now_ = {ms.norm(n_) for t_, n_ in (ms.decode_m2(Path(tf_.name)).textures or []) if n_}
+                    was_ = {ms.norm(n_) for t_, n_ in (ms.decode_m2(f).textures or []) if n_}
+                    pane['missing'] = [x_ for x_ in pane.get('missing') or [] if not (x_ in was_ and x_ not in now_)]
                     for t in fx[1].get('ship') or []:
                         tf = finder._resolve(t)
                         if tf is not None:
@@ -1344,7 +1352,22 @@ def item_variants(dep: 'Deployer', e: dict) -> Dict[str, Dict[str, list]]:
                     break
             stem = m.rsplit('/', 1)[1]
             attach = ITEM_ATTACH.get(folder, 1) if folder != 'shoulder' else (6 if stem.startswith('l') else 5)
-            per[m] = [attach, m2c, skc, tex, texc]
+            # textures named INSIDE the item model (type 0, besides the item texture above): a body pane's map
+            # carries only what the item ships here, so these come along - from the model's own packs, else stock
+            extra: Dict[str, str] = {}
+            try:
+                mi = ms.decode_m2(f) if not (256 <= int.from_bytes(f.read_bytes()[4:8], 'little') < 264) else None
+            except Exception:
+                mi = None
+            for tt, tn in (mi.textures if mi else []):
+                tp = ms.norm(tn) if tt == 0 and tn else ''
+                if not tp or tp == tex:
+                    continue
+                tf = next((x for x in (dep.ix._src_files(z).get(tp) for z in (mo.sources if mo else []) if z not in ('stock', 'retail'))
+                           if x is not None), None) or ms.stock_asset(tp)
+                if tf is not None:
+                    extra[tp] = dep.store.put(tf)
+            per[m] = [attach, m2c, skc, tex, texc] + ([extra] if extra else [])
         out[pn['option']] = per
     return out
 
