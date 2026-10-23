@@ -18,8 +18,10 @@ type LauncherEngine struct {
 
 func NewLauncherEngine() *LauncherEngine {
 	dataDir, _ := ensureDirectories()
+	vm := NewVersionManager(dataDir)
+	memberStore = vm // 3.3.0: per-member md5s of split bundles share the version store
 	return &LauncherEngine{
-		VersionManager: NewVersionManager(dataDir),
+		VersionManager: vm,
 		PatchRegister:  NewPatchRegisterClient(),
 		dataDir:        dataDir,
 	}
@@ -32,7 +34,7 @@ func (le *LauncherEngine) TestConnection() bool {
 func (le *LauncherEngine) CheckFileExists(filename string) bool {
 	if files, ok := le.PatchRegister.BundleFiles(filename); ok { // F-195 bundle: exists only if all members do
 		for _, f := range files {
-			if !fileExists(wxlFilePath(f.Name)) {
+			if !fileExists(memberPath(f.Name)) { // an archive piece lives in Data/
 				return false
 			}
 		}

@@ -71,7 +71,7 @@ func staleBundleMembers(pr *PatchRegisterClient, bundle string) []string {
 	}
 	var stale []string
 	for _, f := range files {
-		if p := wxlFilePath(f.Name); fileExists(p) && !checksumMatches(pr, f.Name, p) {
+		if p := memberPath(f.Name); fileExists(p) && !checksumMatches(pr, f.Name, p) {
 			stale = append(stale, f.Name)
 		}
 	}

@@ -90,16 +90,23 @@ func performDownload(
 	// A bundle entry (e.g. "WarcraftXL") is one launcher line backed by several real files; download each
 	// under the bundle's display name so progress + version tracking stay on the single bundle row.
 	if files, ok := pr.BundleFiles(filename); ok {
-		anyPending := false
+		anyPending, fetched := false, 0
 		for _, f := range files {
+			if memberCurrent(pr, f) { // 3.3.0: only the members whose md5 changed are downloaded
+				continue
+			}
 			r := downloadOne(f.Name, filename, pr, progressCh, cancelCh)
 			if !r.Success {
 				return DownloadResult{filename, false, fmt.Sprintf("%s: %s", f.Name, r.Message), "missing"}
 			}
+			fetched++
 			if r.FinalState == "pending" {
 				anyPending = true
+			} else {
+				recordMember(f.Name, f.Checksum)
 			}
 		}
+		logInfo(fmt.Sprintf("%s: %d of %d members downloaded, the rest already current", filename, fetched, len(files)))
 		state := "updated"
 		if anyPending {
 			state = "pending"

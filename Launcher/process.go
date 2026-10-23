@@ -135,6 +135,7 @@ func installPendingPatches(pr *PatchRegisterClient) InstallResult {
 		}
 
 		result.InstalledCount++
+		recordInstalledMember(pr, name) // a bundle member: remember the md5 it was installed at
 		logInfo(fmt.Sprintf("Installed pending patch: %s", name))
 	}
 

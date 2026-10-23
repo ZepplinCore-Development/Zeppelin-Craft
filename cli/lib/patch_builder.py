@@ -908,6 +908,23 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
             else:
                 print(f"{zpak['name']}: no parsed-assets found, skipping")
 
+    # A zpak with build.split ships this letter as ~1 GB pieces under one bundle line (lib/patch_split.py)
+    split_rules = next((z['manifest'].get('build', {}).get('split') for z, _ in buildable
+                        if z['manifest'].get('build', {}).get('split')), None)
+    if split_rules:
+        from lib import patch_split
+        from lib.patch_register import next_version, _calculate_checksum, _utc_timestamp
+        _print_step_header('PACK (split)', f'PATCH-{letter}')
+        display = next((z['manifest'].get('patch_display_name') for z, _ in buildable
+                        if z['manifest'].get('patch_display_name')), None) or ', '.join(z['name'] for z, _ in buildable)
+        desc = '\n'.join(f"{z['name']} - {z['manifest'].get('description', '')}" for z, _ in buildable)
+        ok = patch_split.build_split(letter, buildable, split_rules, nginx_path, register, _pack_mpq,
+                                     _backup_existing_mpq, _calculate_checksum, _utc_timestamp, next_version,
+                                     display, desc, dry_run=dry_run)
+        if ok and not dry_run:
+            bump_build_number(register)
+        return ok
+
     if dry_run:
         _print_step_header('PACK', patch_name)
         print(f"[DRY RUN] Would build {patch_name}")

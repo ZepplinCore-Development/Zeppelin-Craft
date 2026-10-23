@@ -293,6 +293,9 @@ func (ui *MainUI) populateTable() {
 	if isSourceClientMode() && !isWowRunning() { // F-224: the x64 client replaces WarcraftXL
 		removeWarcraftXL(getAppDirectory())
 	}
+	if !isWowRunning() { // 3.3.0: the single PATCH-<L>.MPQ a split bundle replaces, and dropped pieces
+		removeOrphanPieces(ui.engine.PatchRegister)
+	}
 
 	pr := ui.engine.PatchRegister
 	allFiles := pr.GetAllFiles()
@@ -807,7 +810,7 @@ func (ui *MainUI) updateVersionsForInstalled(pending, failed []string) {
 		touched, complete := false, true
 		for _, f := range files {
 			touched = touched || installed[f.Name]
-			complete = complete && !staged[f.Name] && fileExists(wxlFilePath(f.Name))
+			complete = complete && !staged[f.Name] && fileExists(memberPath(f.Name))
 		}
 		if touched && complete {
 			ui.engine.VersionManager.SetVersion(bundle, ver)

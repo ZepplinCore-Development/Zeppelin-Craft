@@ -747,7 +747,11 @@ def library_sources() -> List[Source]:
         for sub in man.get('files', []):                       # client load order: later wins
             assets.update(index_zpak_assets(d / sub))
         assets = {k: v for k, v in assets.items() if k.endswith(('.m2', '.skin', '.blp', '.anim', '.wmo'))}
-        src = Source(man.get('name', d.name), 'library', False, 0, '', assets, parse_zpak_dbc(d / 'dbc'))
+        # "default": the rank a pack had as a zpak (client_patch, priority, enabled) - curate keeps "today's
+        # winner" by it for every path nobody picked, so moving a pack out of zpaks/ changes no result
+        dflt = man.get('default') or {}
+        src = Source(man.get('name', d.name), 'library', bool(dflt.get('enabled', False)), int(dflt.get('priority', 0) or 0),
+                     dflt.get('client_patch', '') or '', assets, parse_zpak_dbc(d / 'dbc'))
         src.supersedes = list(man.get('supersedes') or [])
         src.manifest_author = man.get('author', '') or ''
         src.manifest_source = man.get('source', '') or ''
