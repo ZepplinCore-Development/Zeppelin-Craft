@@ -88,49 +88,57 @@ CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 -- color_index values per sex; "shared" lists the ones every sub-race offers (death knight skins).
 -- Keyed by the race's file name (GetNameForRace).
 CHAR_CREATE_SUBRACES = {
+	-- orc colours 28-43 bake markings (not offered: retail tattoos, scars and war paint now); Blackrock 15, 44, 45 and
+	-- Mag'har clan colours 46, 48, 49, 51, 52, 54, 55, 57 bake tattoos or paint (user review 2026-10-24)
 	["ORC"] = {
-		-- colours 28-43 are base colours plus a body marking (not offered; retail tattoos, scars and war paint now); the old death knight
-		-- colours (male 15-17, female 11-13) sit in the sub-race of their tone
 		{ name = "Orc", icon = "ORC",
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
-		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR",	-- 46 and up: retail's Mag'har clan colours
-			MALE = {12, 16, 20, 21, 22, 23, 24, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56},
-			FEMALE = {12, 20, 21, 22, 23, 24, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57} },
+		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR",
+			MALE = {12, 16, 20, 21, 22, 23, 24, 50, 53},
+			FEMALE = {12, 20, 21, 22, 23, 24, 50, 53} },
 		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK",
-			MALE = {9, 14, 15, 17, 18, 19, 44, 45},
-			FEMALE = {11, 13, 18, 19, 44, 45} },
+			MALE = {9, 14, 17, 18, 19, 47},
+			FEMALE = {11, 13, 18, 19, 47} },
 		{ name = "Fel Orc", icon = "FELORC",
 			MALE = {10, 25, 26, 27},
 			FEMALE = {25, 26, 27} },
 	},
-	-- retail's allied races that share their base race's model (retail_subrace_colours.py writes their colours)
+	-- retail's allied races that share their base race's model (retail_subrace_colours.py writes 33+ / 62+); dwarf
+	-- 9-18 are NPC skins with no face rows; Dark Iron 34, 35, 39, 41 have clashing eye islands (skin audit)
 	["DWARF"] = {
 		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
 		{ name = "Bronzebeard", title = "Bronzebeard Dwarf", icon = "DWARF",
-			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32},
-			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32} },
+			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
 		{ name = "Dark Iron", title = "Dark Iron Dwarf", icon = "DARKIRON",
-			MALE = {33, 34, 35, 36, 37, 38, 39, 40, 41},
-			FEMALE = {33, 34, 35, 36, 37, 38, 39, 40, 41} },
+			MALE = {26, 27, 33, 36, 38, 40},
+			FEMALE = {26, 27, 33, 34, 35, 36, 38, 40} },
+		{ name = "Wildhammer", title = "Wildhammer Dwarf", icon = "WILDHAMMER",
+			MALE = {22, 23, 24, 25, 28, 29, 30, 31, 32},
+			FEMALE = {22, 23, 24, 25, 28, 29, 30, 31, 32} },
 	},
+	-- blood elf 36-61 bake jewellery, tattoos or veins; 87-93 have no faces
 	["BLOODELF"] = {
 		shared = { MALE = {16, 17, 18}, FEMALE = {16, 17, 18} },
 		{ name = "Blood Elf", icon = "BLOODELF",
-			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61},
-			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61} },
+			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85},
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85} },
 		{ name = "Void Elf", icon = "VOIDELF",
-			MALE = {62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93},
-			FEMALE = {62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93} },
+			MALE = {34, 35, 62, 63, 64, 65, 66, 67, 68},
+			FEMALE = {34, 35, 62, 63, 64, 65, 66, 67, 68} },
 	},
 	["DRAENEI"] = {
 		shared = { MALE = {14, 15, 16}, FEMALE = {12, 13, 14} },
 		{ name = "Draenei", icon = "DRAENEI",
-			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32},
-			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32} },
+			MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 23, 24, 25, 26, 27, 28, 29},
+			FEMALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 22, 23, 24, 25, 26, 27, 28} },
 		{ name = "Lightforged", title = "Lightforged Draenei", icon = "LIGHTFORGED",
-			MALE = {33, 34, 35, 36, 37, 38, 39, 40},
-			FEMALE = {33, 34, 35, 36, 37, 38, 39, 40} },
+			MALE = {5, 32, 33, 34, 35, 37, 38, 39, 40},
+			FEMALE = {5, 32, 33, 34, 35, 37, 38, 39, 40} },
+		{ name = "Eredar", icon = "EREDAR",
+			MALE = {17, 18, 19, 20, 21, 22, 30, 31},
+			FEMALE = {15, 16, 17, 18, 19, 20, 30, 31} },
 	},
 };
 MAX_SUBRACES = 4;

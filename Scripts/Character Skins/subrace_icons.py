@@ -40,7 +40,18 @@ ICONS = {
     'VOIDELF': ('voidelf', None),
     'DRAENEI': ('draenei', None),
     'LIGHTFORGED': ('lightforged', None),
+    'EREDAR': ('draenei', 'eredar'),
+    'WILDHAMMER': ('dwarf', 'tattoo'),
 }
+
+
+def tattoo(im):
+    """Wildhammer: the dwarf portrait with a blue tribal band across the brow (their skin colours' tattoo)."""
+    a = np.asarray(im).astype(float)
+    yy, xx = np.mgrid[:a.shape[0], :a.shape[1]]
+    band = (np.abs(yy - (0.36 * a.shape[0] + 0.03 * np.sin(xx / 3.0) * a.shape[0])) < 0.035 * a.shape[0]) & (xx > 0.25 * a.shape[1]) & (xx < 0.75 * a.shape[1])
+    a[band, :3] = a[band, :3] * 0.35 + np.array([30, 90, 200]) * 0.65
+    return Image.fromarray(a.astype(np.uint8), 'RGBA')
 
 
 def atlas_members():
@@ -49,20 +60,22 @@ def atlas_members():
             for r in retail._csv('UiTextureAtlasMember') if r['UiTextureAtlasID'] == '897' and r['CommittedName'] in want}
 
 
+# shift -> (source skin hue range in degrees, minimum saturation, target hue, saturation x, value x)
+SHIFTS = {'red': ((40, 140), 0.25, 4, 1.1, 0.95),          # green orc -> fel red
+          'grey': ((40, 140), 0.25, 220, 0.12, 0.7),      # green orc -> Blackrock grey
+          'eredar': ((190, 290), 0.2, 355, 1.0, 0.85)}    # blue / violet draenei -> eredar red
+
+
 def shift_skin(im, shift):
-    """Green orc skin (hue 40-140 degrees) -> fel red (hue ~4, a little more saturated) or Blackrock grey
-    (nearly unsaturated, darker). Eyes and hair stay."""
+    """Skin pixels in the shift's hue range recoloured to its target hue; eyes and hair stay."""
+    (lo, hi), smin, hue, sx, vx = SHIFTS[shift]
     a = np.asarray(im).astype(float) / 255
     out = a.copy()
     for y in range(a.shape[0]):
         for x in range(a.shape[1]):
             h, s, v = colorsys.rgb_to_hsv(*a[y, x, :3])
-            deg = h * 360
-            if 40 <= deg <= 140 and s > 0.25:
-                if shift == 'red':
-                    out[y, x, :3] = colorsys.hsv_to_rgb(4 / 360, min(1, s * 1.1), v * 0.95)
-                else:
-                    out[y, x, :3] = colorsys.hsv_to_rgb(220 / 360, s * 0.12, v * 0.7)
+            if lo <= h * 360 <= hi and s > smin:
+                out[y, x, :3] = colorsys.hsv_to_rgb(hue / 360, min(1, s * sx), v * vx)
     return Image.fromarray((out * 255).astype(np.uint8), 'RGBA')
 
 
@@ -120,7 +133,9 @@ def main():
     for name, (race, shift) in ICONS.items():
         for sex in ('male', 'female'):
             im = atlas.crop(members[f'raceicon128-{race}-{sex}']).resize((SIZE, SIZE), Image.LANCZOS)
-            if shift:
+            if shift == 'tattoo':
+                im = tattoo(im)
+            elif shift:
                 im = shift_skin(im, shift)
             dst = OUT / f'UI-CharacterCreate-SubRace-{name}_{sex.upper()}.blp'
             write_blp_rgba(dst, round_mask(im))

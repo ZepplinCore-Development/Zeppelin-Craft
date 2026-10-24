@@ -48,12 +48,14 @@ icons = _load('icons', 'subrace_icons.py')
 rc = _load('rc', 'retail_customizations.py')                    # its DB2 table cache
 
 ASSETS = CRAFT / 'zpaks' / 'zep-skin-expansion' / 'mpq' / 'source-assets'
+CURATED = CRAFT / 'zpaks' / 'zep-hd-curated' / 'mpq' / 'parsed-assets'
 SQL = CRAFT / 'zpaks' / 'zep-skin-expansion' / 'dbc' / '[F-151]_charsections_subracecolours.sql'
 OUT = Path(__file__).with_name('retail_subrace_colours.json')
 ID_BASE, ID_END = 90000, 92999
 SEXES = {0: 'Male', 1: 'Female'}
 SKIN, FACE, UNDERWEAR = 0, 1, 4
 FACE_TARGETS = ('4', '5')                       # ChrModelTextureTarget of the face square (draenei use 4)
+DARK = 25.0                                      # mean brightness under which a retail skin needs a material we lack (renders black)
 SAME_COLOUR = 6.0                                 # mean |rgb| between bodies under which a colour is already offered
 # our faces keep the eyeball as its own UV island, which retail's face square does not have there: the box (x0, y0,
 # x1, y1 in the stacked 256x192 face) is copied from our own face of the same type in the nearest colour
@@ -164,6 +166,30 @@ def left_half(im):
     return im.crop((0, 0, im.width // 2, im.height)) if im.width > im.height else im
 
 
+def lit(body):
+    """The brighter half of a body's pixels: the skin's colour without its shadows."""
+    px = body.reshape(-1, 3)
+    lum = px.mean(axis=1)
+    return px[lum >= np.median(lum)]
+
+
+def retone(im, old_body, new_body):
+    """im (an _Extra: horns, tentacles, ears) moved from one skin colour to another. A pixel follows by how close its
+    hue (brightness normalised out) is to the old skin's lit colour, keeping its own brightness, so metal, gems and
+    eyes keep their colour (user report: Lightforged horns and tentacles in the old colour)."""
+    a = np.asarray(im).astype(np.float32)
+    rgb = a[..., :3]
+    old, new = lit(old_body), lit(new_body)
+    mo, mn = old.mean(axis=0), new.mean(axis=0)
+    spread = np.linalg.norm(old.std(axis=0))
+    lum = rgb.mean(axis=2, keepdims=True)
+    hue = np.linalg.norm(rgb / np.maximum(lum, 1) * mo.mean() - mo, axis=2)
+    w = np.exp(-(hue ** 2) / (2 * (1.2 * spread) ** 2))[..., None]
+    target = lum * (mn / max(mo.mean(), 1))
+    out = rgb + w * (np.clip(target, 0, 255) - rgb)
+    return Image.fromarray(np.dstack([np.clip(out, 0, 255), a[..., 3]]).astype(np.uint8), 'RGBA')
+
+
 def warp_face(square, fit):
     _ncc, sx, sy, x0, y0 = fit
     face = square.resize((512, 512), Image.LANCZOS).transform((256, 192), Image.AFFINE, (sx, 0, x0, 0, sy, y0), Image.BILINEAR)
@@ -172,7 +198,9 @@ def warp_face(square, fit):
 
 def main():
     r = Retail()
-    files = FileResolver([ASSETS] + [p for p in EXTERNAL_ROOTS if Path(p).resolve() != ASSETS.resolve()])
+    # the HD character art ships from zep-hd-curated's packed copy (its sources live in the Asset Library's COMMUNITY
+    # packs, which EXTERNAL_ROOTS does not list): without it, faces resolve to the classic stock files
+    files = FileResolver([ASSETS, CURATED] + [p for p in EXTERNAL_ROOTS if Path(p).resolve() not in (ASSETS.resolve(), CURATED.resolve())])
     query = _dbc_query_fn('live')
     for old in ASSETS.glob('Character/*/*/*_zs[0-9]*.blp'):
         old.unlink()
@@ -202,7 +230,7 @@ def main():
             box = EYE_BOX[(base, g)]
             faces = r.faces(allied, g)
             flags = {s: ours[(s, 0, 0)]['flags'] for s in (SKIN, FACE, UNDERWEAR) if (s, 0, 0) in ours}
-            new, same = [], {}
+            new, same, dark = [], {}, []
             nxt = max(colours) + 1
             for k, (choice, tex) in enumerate(r.skins(allied, g)):
                 skin = left_half(image(tex['1']))
@@ -213,11 +241,20 @@ def main():
                     same[k] = near
                     continue
                 c = nxt
-                nxt += 1
+                nxt += 1                                 # a skipped dark colour keeps its number: later ones stay put
+                if small.mean() < DARK:
+                    dark.append(c)
+                    continue
                 stem = f'Character\\{folder}\\{sex}\\{folder}{sex}'
                 paths = {'skin': f'{stem}Skin00_zs{c:02d}.blp'}
                 icons.write_blp_rgba(ASSETS / paths['skin'].replace('\\', '/'), skin.resize(size, Image.LANCZOS))
-                sql.append(_insert(rid, base, g, SKIN, paths['skin'], ours[(SKIN, 0, near)]['texture_2'], flags[SKIN], 0, c))
+                extra = ''
+                if ours[(SKIN, 0, near)]['texture_2']:
+                    # the nearest colour's _Extra (horns, tentacles, ears...) moved to this colour's skin tone
+                    extra = f'{stem}Skin00_zs{c:02d}_Extra.blp'
+                    src = Image.open(files.find(ours[(SKIN, 0, near)]['texture_2'])).convert('RGBA')
+                    icons.write_blp_rgba(ASSETS / extra.replace('\\', '/'), retone(src, body[near], small))
+                sql.append(_insert(rid, base, g, SKIN, paths['skin'], extra, flags[SKIN], 0, c))
                 rid += 1
                 for f, per_skin in enumerate(faces):
                     if choice not in per_skin:
@@ -248,9 +285,10 @@ def main():
                 sql.append(_insert(rid, base, g, UNDERWEAR, under.get('13', ''), under.get('14', ''), flags[UNDERWEAR], 0, c))
                 rid += 1
                 new.append(c)
-            report.setdefault(subrace, {})[sex] = {'new': new, 'already_offered': sorted(set(same.values())),
+            report.setdefault(subrace, {})[sex] = {'new': new, 'already_offered': sorted(set(same.values())), 'dark_skipped': dark,
                                                    'face_fit': fit, 'faces': len(faces)}
             print(f'{subrace} {sex}: {len(new)} new colours {new}, {len(same)} already offered as {sorted(set(same.values()))}, '
+                  f'dark (skipped) {dark}, '
                   f'{len(faces)} faces, face fit {fit}')
     if rid > ID_END:
         raise SystemExit('rows overflow the id range')

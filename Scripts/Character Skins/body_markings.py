@@ -52,9 +52,12 @@ INK_SIGMA = 48                                   # 'ink': px reach of the tone m
 STRONG = 150                                     # |rgb| a paint or ink region must reach somewhere
 STRONG_P90 = 100                                 # ... and over most of it: c41 ink p90 115+, its darker toes 67
 SIZE = 512
-# The body markings cut from the marked skin colours are retired: base_section 7 is retail's scars now
-# (retail_layers.py). This script still writes the c9 plain skin and the body split migration.
-EMIT_MARKINGS = False
+# The body markings cut from the marked skin colours are mostly retired: base_section 7 is retail's scars now
+# (retail_layers.py). The four paints the user prefers to retail's are kept as extra War Paint choices
+# (base_section 8, after retail's 12): marking -> war paint type. The script also writes the c9 plain skin and the
+# body split migration.
+WAR_PAINT = {1: 13, 2: 14, 3: 15, 4: 16}
+SECTION_WAR_PAINT = 8
 OUT = 1024                                       # markings are cut at twice the skin's size for soft edges, then written at
                                                  # SIZE: the client composites the body at 512, and a 1024 layer crashed it (I-422)
 HEAD = [((0, 320), (256, 64)), ((0, 384), (256, 128))]   # head sections: the face textures cover them
@@ -264,15 +267,15 @@ def main():
                 skins[c] = load(files, SKIN_TEX.format(sex=sex, colour=c))
             return skins[c]
 
-        for n, (name, donor, base, mode, *opts) in (MARKINGS.items() if EMIT_MARKINGS else ()):
+        for n, (name, donor, base, mode, *opts) in ((n, v) for n, v in MARKINGS.items() if n in WAR_PAINT):
             layer, cover = marking(skin(donor), skin(base), mode, *opts[:2], *(skin(c) for c in opts[2:3]))
             rel = f'Character\\Orc\\{sex}\\Orc{sex}BodyMarking{n:02d}.blp'
             layer = np.asarray(Image.fromarray(layer, 'RGBA').resize((SIZE, SIZE), Image.LANCZOS))
             icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), Image.fromarray(layer, 'RGBA'))
             print(f'{sex} {n} {name}: colour {donor} over {base} ({mode}), {cover:.1%} of the body')
             sql.append(f"INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, texture_3, flags, "
-                       f"type, color_index) VALUES ({rid}, {RACE}, {g}, {SECTION_BODY_MARKINGS}, "
-                       f"'{rel.replace(chr(92), chr(92) * 2)}', '', '', {FLAGS_ANY}, {n}, 0);  -- {name}")
+                       f"type, color_index) VALUES ({rid}, {RACE}, {g}, {SECTION_WAR_PAINT}, "
+                       f"'{rel.replace(chr(92), chr(92) * 2)}', '', '', {FLAGS_ANY}, {WAR_PAINT[n]}, 0);  -- {name}")
             rid += 1
             if preview:
                 preview.mkdir(parents=True, exist_ok=True)
