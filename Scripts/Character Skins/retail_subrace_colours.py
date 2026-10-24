@@ -4,9 +4,9 @@ Dark Iron (dwarf), Void Elf (blood elf), Lightforged (draenei) and Mag'har (orc)
 retail paints their skins in the same layout as the base race's HD skins, which are ours:
 
   body       retail <race><sex>skin00_NN, left half of 1024x512 -> our body atlas as it is (resized to our size)
-  faces      retail faceupper00_NN (one 512x512 face square per face and skin) -> our FaceUpper 256x64 +
-             FaceLower 256x128 by the per race / sex scale + offset that maps our own face 0 / colour 0 onto
-             retail's base race face 0 / colour 0 (fitted here, as retail_customizations.py does for the orc)
+  faces      ours: every face type of the nearest existing colour, recoloured to the new skin (retone), the eye
+             island (EYE_BOX) kept. Retail's own face squares are not used: retail draws eyeballs as a separate
+             part, so its faces have the lids painted shut and render eyeless on our model
   underwear  retail nakedpelvisskin / nakedtorsoskin as they are (256x128)
   _Extra     the skin row's texture_2: the nearest existing colour's (retail has no counterpart for most races)
 
@@ -15,7 +15,7 @@ existing colour. New colours take the next free color_index; their numbers are w
 retail_subrace_colours.json for the glue's CHAR_CREATE_SUBRACES.
 
 Writes <Race><Sex>{Skin00,FaceUpper,FaceLower,NakedPelvisSkin00,NakedTorsoSkin00}_zs<NN>.blp to zep-skin-expansion
-(PATCH-L) and [F-151]_charsections_subracecolours.sql (ids 90000-92999).
+(PATCH-L) and [F-151]_charsections_subracecolours.sql (ids 90000-99999).
 
   python3 "Scripts/Character Skins/retail_subrace_colours.py"
 """
@@ -27,13 +27,13 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image
-from scipy import ndimage, signal
 
 CRAFT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(CRAFT / 'cli'))
 sys.path.insert(0, str(CRAFT))
 from commands.wardrobe import EXTERNAL_ROOTS, _dbc_query_fn  # noqa: E402
 from lib import retail  # noqa: E402
+from lib.wardrobe.blp import read_blp  # noqa: E402
 from lib.wardrobe.compositor import FileResolver  # noqa: E402
 
 
@@ -49,9 +49,13 @@ rc = _load('rc', 'retail_customizations.py')                    # its DB2 table 
 
 ASSETS = CRAFT / 'zpaks' / 'zep-skin-expansion' / 'mpq' / 'source-assets'
 CURATED = CRAFT / 'zpaks' / 'zep-hd-curated' / 'mpq' / 'parsed-assets'
+# the HD character pack's sources since the PATCH-Q split moved them out of the zpaks (zep-hd-curated packs only a
+# subset: no dwarf / draenei / blood elf faces)
+COMMUNITY = [CRAFT.parent / 'Zeppelin-Tools' / 'Asset Library' / 'COMMUNITY' / n / 'mpq' / 'source-assets'
+             for n in ('patch-hd-everything', 'patch-hd-creatures-mounts')]
 SQL = CRAFT / 'zpaks' / 'zep-skin-expansion' / 'dbc' / '[F-151]_charsections_subracecolours.sql'
 OUT = Path(__file__).with_name('retail_subrace_colours.json')
-ID_BASE, ID_END = 90000, 92999
+ID_BASE, ID_END = 90000, 99999
 SEXES = {0: 'Male', 1: 'Female'}
 SKIN, FACE, UNDERWEAR = 0, 1, 4
 FACE_TARGETS = ('4', '5')                       # ChrModelTextureTarget of the face square (draenei use 4)
@@ -120,44 +124,6 @@ class Retail:
                 for c in self.option(race, sex, 'Face')]
 
 
-def edges(a):
-    a = ndimage.gaussian_filter(a.astype(float), 1.0)
-    return np.hypot(ndimage.sobel(a, 0), ndimage.sobel(a, 1))
-
-
-def best_match(face, square, sxs, sys_):
-    """The best normalised cross-correlation of face scaled by (sx, sy) inside square."""
-    square = square - square.mean()
-    best = None
-    for sx in sxs:
-        for sy in sys_:
-            w, h = int(face.shape[1] * sx), int(face.shape[0] * sy)
-            if w > 512 or h > 512 or w < 20:
-                continue
-            tpl = np.asarray(Image.fromarray(face).resize((w, h), Image.BILINEAR)).astype(float)
-            tpl -= tpl.mean()
-            tpl /= np.linalg.norm(tpl) + 1e-6
-            energy = signal.fftconvolve(square * square, np.ones_like(tpl), mode='valid')
-            ncc = signal.fftconvolve(square, tpl[::-1, ::-1], mode='valid') / np.sqrt(np.maximum(energy, 1e-6))
-            i = np.unravel_index(np.argmax(ncc), ncc.shape)
-            if best is None or ncc[i] > best[0]:
-                best = (float(ncc[i]), float(sx), float(sy), int(i[1]), int(i[0]))
-    return best
-
-
-def face_fit(face, square):
-    """(ncc, sx, sy, x0, y0): our face pixel (u, v) of 256x192 sits at (x0 + u*sx, y0 + v*sy) in the retail face
-    square at 512x512. Matched on edges, which carry the features across differently lit textures; coarse, then
-    fine. The eye island side (x 186 and up) is left out."""
-    ours = edges(np.asarray(face.convert('L')))[:, :186]
-    ours = (ours / ours.max() * 255).astype(np.float32)
-    big = edges(np.asarray(square.convert('L').resize((512, 512))))
-    big = big / big.max() * 255
-    _ncc, sx, sy, _x, _y = best_match(ours, big, np.arange(0.9, 2.6, 0.05), np.arange(0.9, 2.8, 0.05))
-    ncc, sx, sy, x0, y0 = best_match(ours, big, np.arange(sx - 0.06, sx + 0.061, 0.01), np.arange(sy - 0.06, sy + 0.061, 0.01))
-    return round(ncc, 3), round(sx, 3), round(sy, 3), x0, y0
-
-
 def image(fdid):
     return Image.open(retail.texture_file(fdid)).convert('RGBA')
 
@@ -190,17 +156,12 @@ def retone(im, old_body, new_body):
     return Image.fromarray(np.dstack([np.clip(out, 0, 255), a[..., 3]]).astype(np.uint8), 'RGBA')
 
 
-def warp_face(square, fit):
-    _ncc, sx, sy, x0, y0 = fit
-    face = square.resize((512, 512), Image.LANCZOS).transform((256, 192), Image.AFFINE, (sx, 0, x0, 0, sy, y0), Image.BILINEAR)
-    return face.crop((0, 0, 256, 64)), face.crop((0, 64, 256, 192))
-
-
 def main():
     r = Retail()
     # the HD character art ships from zep-hd-curated's packed copy (its sources live in the Asset Library's COMMUNITY
     # packs, which EXTERNAL_ROOTS does not list): without it, faces resolve to the classic stock files
-    files = FileResolver([ASSETS, CURATED] + [p for p in EXTERNAL_ROOTS if Path(p).resolve() not in (ASSETS.resolve(), CURATED.resolve())])
+    first = [ASSETS, CURATED] + [p for p in COMMUNITY if p.is_dir()]
+    files = FileResolver(first + [p for p in EXTERNAL_ROOTS if Path(p).resolve() not in {f.resolve() for f in first}])
     query = _dbc_query_fn('live')
     for old in ASSETS.glob('Character/*/*/*_zs[0-9]*.blp'):
         old.unlink()
@@ -217,18 +178,11 @@ def main():
             for row in sorted(rows, key=lambda x: x['id']):
                 ours[(row['base_section'], row['type'], row['color_index'])] = row
             colours = sorted(c for (s, t, c) in ours if s == SKIN and t == 0)
-            size = Image.open(files.find(ours[(SKIN, 0, 0)]['texture_1'])).size
-            body = {c: np.asarray(Image.open(files.find(ours[(SKIN, 0, c)]['texture_1'])).convert('RGB').resize((128, 128))).astype(np.float32)
+            size = read_blp(files.find(ours[(SKIN, 0, 0)]['texture_1'])).size
+            body = {c: np.asarray(read_blp(files.find(ours[(SKIN, 0, c)]['texture_1'])).convert('RGB').resize((128, 128))).astype(np.float32)
                     for c in colours}
 
-            face = Image.new('RGB', (256, 192))
-            face.paste(Image.open(files.find(ours[(FACE, 0, 0)]['texture_2'])).convert('RGB').resize((256, 64)), (0, 0))
-            face.paste(Image.open(files.find(ours[(FACE, 0, 0)]['texture_1'])).convert('RGB').resize((256, 128)), (0, 64))
-            base_skins, base_faces = r.skins(base, g), r.faces(base, g)
-            ref = next(per[c] for per in base_faces[:1] for c, _t in base_skins if c in per)
-            fit = face_fit(face, image(ref))
             box = EYE_BOX[(base, g)]
-            faces = r.faces(allied, g)
             flags = {s: ours[(s, 0, 0)]['flags'] for s in (SKIN, FACE, UNDERWEAR) if (s, 0, 0) in ours}
             new, same, dark = [], {}, []
             nxt = max(colours) + 1
@@ -249,28 +203,46 @@ def main():
                 paths = {'skin': f'{stem}Skin00_zs{c:02d}.blp'}
                 icons.write_blp_rgba(ASSETS / paths['skin'].replace('\\', '/'), skin.resize(size, Image.LANCZOS))
                 extra = ''
-                if ours[(SKIN, 0, near)]['texture_2']:
-                    # the nearest colour's _Extra (horns, tentacles, ears...) moved to this colour's skin tone
+                # the nearest colour's _Extra (horns, tentacles, ears...) moved to this colour's skin tone
+                donor_extra = next((files.find(ours[(SKIN, 0, c2)]['texture_2']) and (c2, files.find(ours[(SKIN, 0, c2)]['texture_2']))
+                                    for c2 in sorted(dist, key=dist.get) if ours[(SKIN, 0, c2)]['texture_2']
+                                    and files.find(ours[(SKIN, 0, c2)]['texture_2'])), None)
+                if donor_extra:
+                    c2, path = donor_extra
                     extra = f'{stem}Skin00_zs{c:02d}_Extra.blp'
-                    src = Image.open(files.find(ours[(SKIN, 0, near)]['texture_2'])).convert('RGBA')
-                    icons.write_blp_rgba(ASSETS / extra.replace('\\', '/'), retone(src, body[near], small))
+                    icons.write_blp_rgba(ASSETS / extra.replace('\\', '/'), retone(read_blp(path), body[c2], small))
                 sql.append(_insert(rid, base, g, SKIN, paths['skin'], extra, flags[SKIN], 0, c))
                 rid += 1
-                for f, per_skin in enumerate(faces):
-                    if choice not in per_skin:
+                # faces: our own, every face type the nearest colour has, recoloured to this skin. Retail's face
+                # squares do not fit: retail draws the eyeballs as their own part, so its faces have the lids
+                # painted shut and render eyeless on our model (user report). The eye island stays as it is.
+                def has(row):                        # both halves resolve (some rows name files no root carries)
+                    return all(files.find(row[k]) for k in ('texture_1', 'texture_2') if row[k])
+
+                donor = next(c2 for c2 in sorted(dist, key=dist.get)
+                             if any((FACE, t, c2) in ours and has(ours[(FACE, t, c2)]) for t in range(32)))
+                missing = []
+                for f in sorted(t for (s_, t, c2) in ours if s_ == FACE and c2 == donor):
+                    if not has(ours[(FACE, f, donor)]):
+                        missing.append(f)
                         continue
-                    up, lo = warp_face(image(per_skin[choice]), fit)
-                    src = next(ours[(FACE, t, c2)] for c2 in sorted(dist, key=dist.get) for t in (f, 0) if (FACE, t, c2) in ours)
-                    for own_path, half, y0 in ((src['texture_2'], up, 0), (src['texture_1'], lo, 64)):
-                        own = Image.open(files.find(own_path)).convert('RGBA').resize(half.size)
+                    src = ours[(FACE, f, donor)]
+                    halves = []
+                    for own_path, y0 in ((src['texture_2'], 0), (src['texture_1'], 64)):
+                        own = read_blp(files.find(own_path)).convert('RGBA').resize((256, 64 if y0 == 0 else 128))
+                        half = retone(own, body[donor], small)
                         b = (box[0], max(box[1] - y0, 0), box[2], min(box[3] - y0, half.height))
                         if b[3] > b[1]:
                             half.paste(own.crop(b), (b[0], b[1]))
+                        halves.append(half)
+                    up, lo = halves
                     pu, pl = f'{stem}FaceUpper{f:02d}_zs{c:02d}.blp', f'{stem}FaceLower{f:02d}_zs{c:02d}.blp'
                     icons.write_blp_rgba(ASSETS / pu.replace('\\', '/'), up)
                     icons.write_blp_rgba(ASSETS / pl.replace('\\', '/'), lo)
-                    sql.append(_insert(rid, base, g, FACE, pl, pu, flags[FACE], f, c))
+                    sql.append(_insert(rid, base, g, FACE, pl, pu, src['flags'], f, c))   # the donor face's own flags (DK faces)
                     rid += 1
+                if missing:
+                    print(f'   colour {c}: donor {donor} face types {missing} have no files, skipped')
                 under = {}
                 for target, part in (('13', 'NakedPelvisSkin00'), ('14', 'NakedTorsoSkin00')):
                     if target in tex:
@@ -279,17 +251,24 @@ def main():
                         under[target] = p
                 if not under:
                     # retail paints none (Lightforged): the nearest colour's, so the colour stays selectable
-                    # (character create offers a skin only with an underwear row)
-                    donor = next(ours[(UNDERWEAR, 0, c2)] for c2 in sorted(dist, key=dist.get) if (UNDERWEAR, 0, c2) in ours)
-                    under = {'13': donor['texture_1'], '14': donor['texture_2']}
+                    # (character create offers a skin only with an underwear row). Ours paint the donor's skin
+                    # round the cloth, so they are recoloured like the _Extra (preview: off-colour thighs).
+                    c2 = next(c2 for c2 in sorted(dist, key=dist.get) if (UNDERWEAR, 0, c2) in ours)
+                    donor = ours[(UNDERWEAR, 0, c2)]
+                    for target, col, part in (('13', 'texture_1', 'NakedPelvisSkin00'), ('14', 'texture_2', 'NakedTorsoSkin00')):
+                        if donor[col] and files.find(donor[col]):
+                            p = f'{stem}{part}_zs{c:02d}.blp'
+                            src = read_blp(files.find(donor[col])).resize((256, 128), Image.LANCZOS)
+                            icons.write_blp_rgba(ASSETS / p.replace('\\', '/'), retone(src, body[c2], small))
+                            under[target] = p
                 sql.append(_insert(rid, base, g, UNDERWEAR, under.get('13', ''), under.get('14', ''), flags[UNDERWEAR], 0, c))
                 rid += 1
                 new.append(c)
             report.setdefault(subrace, {})[sex] = {'new': new, 'already_offered': sorted(set(same.values())), 'dark_skipped': dark,
-                                                   'face_fit': fit, 'faces': len(faces)}
+                                                   }
             print(f'{subrace} {sex}: {len(new)} new colours {new}, {len(same)} already offered as {sorted(set(same.values()))}, '
                   f'dark (skipped) {dark}, '
-                  f'{len(faces)} faces, face fit {fit}')
+                  f'faces from our own')
     if rid > ID_END:
         raise SystemExit('rows overflow the id range')
     SQL.write_text('\n'.join(sql) + '\n')
