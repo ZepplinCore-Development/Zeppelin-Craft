@@ -274,7 +274,7 @@ def _geo_lookups(source: str) -> Tuple[dict, dict]:
             else:
                 rows = _geo_rows(table, ms.STOCK_DBC_DIR / fname, cols)
                 if source != 'stock':
-                    zdir = Path(__file__).resolve().parents[2] / 'zpaks' / source / 'dbc'
+                    zdir = ms.pack_dir(source) / 'dbc'
                     rows = _geo_apply(rows, table, sorted(zdir.glob(f'*{table}*.sql')))
             out.append(rows)
         frows, hrows = out

@@ -72,8 +72,20 @@ def discover(craft_root: Path) -> List[dict]:
         cp = man.get('client_patch')
         if not cp or not man.get('enabled', True):
             continue
+        if man.get('name', d.name) == 'zep-hd-curated':
+            continue                       # curate's own OUTPUT is never one of "today's winners"
         out.append({'name': man.get('name', d.name), 'path': d, 'letter': cp.replace('PATCH-', '').upper(),
                     'priority': int(man.get('priority', 100)), 'parsed': d / 'mpq' / 'parsed-assets'})
+    # Asset Library packs carrying the rank they had as a zpak (source.json "default", F-216 2026-10-24):
+    # still today's winners for what nobody picked, exactly as their zpak was
+    from lib import model_sources as ms
+    for ls in ms.library_sources():
+        if not ls.enabled or not ls.client_patch:
+            continue
+        d = ms.library_dirs().get(ls.name)
+        parsed = d / getattr(ls, 'parsed_dir', '') if d is not None and getattr(ls, 'parsed_dir', '') else None
+        out.append({'name': ls.name, 'path': d, 'letter': ls.client_patch.replace('PATCH-', '').upper(),
+                    'priority': ls.priority, 'parsed': parsed, **({} if parsed else {'files': ls.assets})})
     return out
 
 
@@ -324,12 +336,13 @@ def write_dbc_sql(craft_root: Path, zpak_dir: Path, overrides: Dict[str, List[st
         old.unlink()
     n_dbc = n_sql = 0
     for z in BASE_ZPAKS_WITH_DATA:
-        for f in sorted((craft_root / 'zpaks' / z / 'dbc').glob('*.sql')):
+        from lib.model_sources import pack_dir
+        for f in sorted((pack_dir(z) / 'dbc').glob('*.sql')):
             if f.name.startswith('[BASE,'):
                 continue
             shutil.copy2(f, dbc_dir / f.name)
             n_dbc += 1
-        for f in sorted((craft_root / 'zpaks' / z / 'sql').glob('*.sql')):
+        for f in sorted((pack_dir(z) / 'sql').glob('*.sql')):
             shutil.copy2(f, sql_dir / f.name)
             n_sql += 1
     n_ov = 0

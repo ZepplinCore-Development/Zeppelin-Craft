@@ -163,7 +163,7 @@ def _offer_on(source: str, path: str) -> List[str]:
     in zpaks/<source>/model_transforms.json (I-392: one dragonspawn for the whole family)."""
     import json
     from pathlib import Path
-    f = Path(__file__).resolve().parents[2] / 'zpaks' / source / 'model_transforms.json'
+    f = ms.pack_dir(source) / 'model_transforms.json'
     try:
         recipes = json.loads(f.read_text(encoding='utf-8-sig'))
     except (OSError, ValueError):

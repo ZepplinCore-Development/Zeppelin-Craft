@@ -713,6 +713,10 @@ def discover_sources(craft_root: Path) -> List[Source]:
                 src.manifest_source = (man.get('source') or {}).get('url', '')
                 sources.append(src)
     lib = library_sources()
+    # a library release also retires an older LIBRARY copy it supersedes (patch-hd-buildings, archived in the
+    # Asset Library 2026-10-24, is superseded by appletrey-2026-07): it is no longer an option
+    gone = {o for x in lib for o in getattr(x, 'supersedes', [])}
+    lib = [x for x in lib if x.name not in gone]
     # supersession: a library release replaces an older zpak copy of the same pack - it takes
     # that zpak's patch letter, priority and enabled state, and the old copy stops being a source
     by_name = {x.name: x for x in sources}
@@ -730,6 +734,27 @@ def discover_sources(craft_root: Path) -> List[Source]:
 
 
 COMMUNITY_LIBRARY = Path('/workspace/project/Zeppelin-Tools/Asset Library/COMMUNITY')
+
+
+def library_dirs() -> Dict[str, Path]:
+    """Asset Library pack name (source.json 'name') -> its folder."""
+    out: Dict[str, Path] = {}
+    if COMMUNITY_LIBRARY.is_dir():
+        for d in sorted(COMMUNITY_LIBRARY.iterdir()):
+            mf = d / 'source.json'
+            if mf.is_file():
+                try:
+                    out[json.loads(mf.read_text()).get('name', d.name)] = d
+                except ValueError:
+                    pass
+    return out
+
+
+def pack_dir(name: str) -> Path:
+    """A source's folder: zpaks/<name>, else its Asset Library folder (the community HD packs moved there,
+    F-216 2026-10-24). Their dbc/, sql/ and recipe files keep the zpak layout."""
+    z = Path(__file__).resolve().parents[2] / 'zpaks' / name
+    return z if z.is_dir() else library_dirs().get(name, z)
 
 
 def library_sources() -> List[Source]:
@@ -753,6 +778,7 @@ def library_sources() -> List[Source]:
         src = Source(man.get('name', d.name), 'library', bool(dflt.get('enabled', False)), int(dflt.get('priority', 0) or 0),
                      dflt.get('client_patch', '') or '', assets, parse_zpak_dbc(d / 'dbc'))
         src.supersedes = list(man.get('supersedes') or [])
+        src.parsed_dir = (man.get('default') or {}).get('parsed', '')   # what its zpak packed (curate winners)
         src.manifest_author = man.get('author', '') or ''
         src.manifest_source = man.get('source', '') or ''
         out.append(src)
@@ -775,7 +801,7 @@ class Resolved:
     flags: List[str]
 
 
-SCAN_CODE_VERSION = 1          # bump when run_scan's output changes shape: forces a full scan
+SCAN_CODE_VERSION = 2          # bump when run_scan's output changes shape: forces a full scan (2: library packs read their own skins)
 
 
 def _scan_fingerprint(sources: List['Source'], craft_root: Path, include_disabled: bool) -> str:
@@ -930,7 +956,7 @@ def _run_scan(craft_root: Path, cache_path: Path, include_disabled: bool, zsourc
                 flags.append('bad-sequence-bounds')
 
             sk0 = f'{mp[:-3]}00.skin'
-            skf0 = (src.assets.get(sk0) if src.kind == 'zpak' else None) or \
+            skf0 = (src.assets.get(sk0) if src.kind in ('zpak', 'library') else None) or \
                    (eff.assets.get(sk0) if src.kind == 'effective' else None) or \
                    (stock_asset(sk0) if sk0 in stock_list else None)
             drawn = batch_textures(info, skf0.read_bytes()) if skf0 is not None else None
@@ -944,7 +970,7 @@ def _run_scan(craft_root: Path, cache_path: Path, include_disabled: bool, zsourc
                     flags.append('missing-skin-file')
                     break
             sk = f'{stem}00.skin'
-            skf = (src.assets.get(sk) if src.kind == 'zpak' else None) or \
+            skf = (src.assets.get(sk) if src.kind in ('zpak', 'library') else None) or \
                   (eff.assets.get(sk) if src.kind == 'effective' else None) or \
                   (stock_asset(sk) if sk in stock_list else None)
             if skf is not None:

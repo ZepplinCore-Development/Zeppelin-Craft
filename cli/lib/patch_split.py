@@ -153,6 +153,13 @@ def build_split(letter: str, buildable: List[Tuple[Dict[str, Any], Path]], rules
     if dry_run:
         print(f"[DRY RUN] {key}: {len(members)} pieces, {len(changed)} would be packed, {len(gone)} would leave")
         return True
+    mono = out_dir / f'{key}.MPQ'                       # the single archive this replaces: off the server too,
+    if mono.exists():                                   # or anything linking MPQ/PATCH-*.MPQ loads it over the pieces
+        if not backup(mono, nginx_path):
+            print(f"  {mono.name}: backup failed - left in place; remove it by hand after backing it up")
+            return False
+        mono.unlink()
+        print(f"  removed {mono.name} (backed up)")
     for n in gone:                                     # pieces that left the bundle: off the server too
         f = out_dir / n
         if f.exists():

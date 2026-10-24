@@ -154,7 +154,8 @@ def apply_files(table: str, rows: Dict[tuple, dict], files: Iterable[Path]) -> D
 
 
 def _zpak_files(craft_root: Path, zpak: str, table: str, base_only: bool = False) -> List[Path]:
-    d = craft_root / 'zpaks' / zpak / 'dbc'
+    from lib.model_sources import pack_dir
+    d = pack_dir(zpak) / 'dbc'
     fs = sorted(p for p in d.glob('*.sql') if p.name.lower().endswith(f'_{table}.sql'))
     if base_only:
         fs = [p for p in fs if p.name.startswith('[BASE,')]
@@ -273,7 +274,8 @@ def resolve_rows(needs: Dict[Tuple[str, tuple], Dict[str, set]], layers: Layers)
 def base_tables(layers: Layers) -> List[str]:
     """Every table the base pack's [BASE] files touch."""
     out = set()
-    for f in (layers.root / 'zpaks' / layers.BASE_ZPAK / 'dbc').glob('[[]BASE,*.sql'):
+    from lib.model_sources import pack_dir
+    for f in (pack_dir(layers.BASE_ZPAK) / 'dbc').glob('[[]BASE,*.sql'):
         out.add(f.name.split(']_', 1)[1][:-4].lower())
     return sorted(out)
 
