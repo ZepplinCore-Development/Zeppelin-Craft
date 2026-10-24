@@ -717,6 +717,9 @@ def discover_sources(craft_root: Path) -> List[Source]:
     # Asset Library 2026-10-24, is superseded by appletrey-2026-07): it is no longer an option
     gone = {o for x in lib for o in getattr(x, 'supersedes', [])}
     lib = [x for x in lib if x.name not in gone]
+    for x in lib:                               # the successor of that pack, whichever form it was in: files a fix
+        for old in getattr(x, 'supersedes', []):   # converted from the old pack wear the release's textures
+            x.superseded = old                  # (zep-hd-pack-fixes fixes.json "from": patch-hd-buildings)
     # supersession: a library release replaces an older zpak copy of the same pack - it takes
     # that zpak's patch letter, priority and enabled state, and the old copy stops being a source
     by_name = {x.name: x for x in sources}
@@ -801,7 +804,7 @@ class Resolved:
     flags: List[str]
 
 
-SCAN_CODE_VERSION = 2          # bump when run_scan's output changes shape: forces a full scan (2: library packs read their own skins)
+SCAN_CODE_VERSION = 3          # bump when run_scan's output changes shape: forces a full scan (2: library packs read their own skins; 3: superseded set for library-retired packs)
 
 
 def _scan_fingerprint(sources: List['Source'], craft_root: Path, include_disabled: bool) -> str:
