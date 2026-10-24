@@ -362,6 +362,16 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
                 desc_lines.append(f"{zname} - {zdesc}")
             combined_desc = '\n'.join(desc_lines)
 
+        # A split letter (build.split, lib/patch_split.py) is ONE bundle entry 'PATCH-<L>' whose files are the
+        # pieces: keep it as the build wrote it (only name/description follow the manifest). Rebuilding a
+        # 'PATCH-<L>.MPQ' key here re-listed a file that no longer exists and dropped the bundle as an orphan.
+        if any(z['manifest'].get('build', {}).get('split') for z in zpaks):
+            bkey = f"PATCH-{letter}"
+            if bkey in old_patches:
+                new_patches[bkey] = {**old_patches[bkey], 'name': combined_name, 'description': combined_desc}
+                synced.append(bkey)
+            continue
+
         # Use first zpak with a launcher block for launcher metadata
         launcher = {}
         for z in zpaks:
