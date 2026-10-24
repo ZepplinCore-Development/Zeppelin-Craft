@@ -1,0 +1,99 @@
+From 3a36fb8eeb3acb5915cd52262a6d757833ee4e8c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 24 Oct 2026 13:23:08 +0000
+Subject: [PATCH] WIP: F-219 - packs on roads; keep planning detours; retake a
+ quest whose target went unseen
+
+- route_guard: 3+ hostile spawns within 15 yd at our level or above count as red (back at
+  pack level + 1); grid-bucketed
+- travel: on a detour flank already -> plan the next camp instead of walking the plain path
+  (Teldrassil hunter: 18 of 28 deaths to the same Vicious Grell road)
+- spell-hit objective unseen at its own spawn 3 times -> abandon + retake (14031 detects)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 42 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 38 insertions(+), 4 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index b0db3b3..991955e 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2769,6 +2769,20 @@ class Runner:
+         # level-9/10 Ether Fiends and the Spire's packs on roads the +3 rule let it take
+         gap = 2  # every class (was 3 for ranged: a level-5 druid walked into level-7/8 gnolls)
+         red = [t for t in self.threats() if t[2] >= level + gap]
++        # ...and PACKS at our level or above: 3+ hostile spawns within 15 yd of each other. Below 10 a
++        # triple is death whatever the level (Teldrassil's level-6 hunter met level-7 Vicious Grells
++        # three at a time on one road, 18 times) - the user's universal 2+/3+ rule, applied to roads
++        near = [t for t in self.threats() if t[2] >= level and t[2] < level + gap]
++        grid = {}
++        for t in near:
++            grid.setdefault((int(t[0] // 15), int(t[1] // 15)), []).append(t)
++
++        def crowd(t):
++            gx, gy = int(t[0] // 15), int(t[1] // 15)
++            return sum(1 for dx in (-1, 0, 1) for dy in (-1, 0, 1) for u in grid.get((gx + dx, gy + dy), [])
++                       if math.dist(t[:2], u[:2]) < 15)
++        packs = {t for t in near if crowd(t) >= 3}
++        red += list(packs)
+         # ...and where we died twice at this level in the last 15 min: whatever got us there will again
+         # (Teldrassil's hunter ran one road to the same grell ambush 10 times: the died-twice check only
+         # looked at the destination)
+@@ -2820,11 +2834,11 @@ class Runner:
+                 if hit:
+                     # back at the first level where it no longer counts: hit - gap + 1 (melee: one below
+                     # it; "hit - 2" was our own level for melee - a busy loop that ended the run)
+-                    back = hit[2] - gap + 1
++                    back = hit[2] + 1 if hit in packs else hit[2] - gap + 1  # a pack: out-level it
+                     q = getattr(self, "current_qid", None)
+                     if q:
+                         self.defer_until[q] = max(self.defer_until.get(q, 0), back)
+-                    raise StepFailed(f"route to ({x:.0f},{y:.0f}) passes level-{hit[2]} {hit[3]} at "
++                    raise StepFailed(f"route to ({x:.0f},{y:.0f}) passes {'a pack of ' if hit in packs else ''}level-{hit[2]} {hit[3]} at "
+                                      f"({hit[0]:.0f},{hit[1]:.0f}) - back at level {back}")
+ 
+     def detour(self, x, y, z):
+@@ -2931,8 +2945,13 @@ class Runner:
+                         print(f"  ~ detour: {str(e)[:80]}", flush=True)  # plan failed: the plain path
+                         break
+                     here = self.me()
+-                    if not wps or math.dist((here["x"], here["y"]), wps[0][:2]) < 12:
+-                        break  # nothing in the way, or the flank we stand on already: walk on
++                    if not wps:
++                        break  # nothing in the way: walk on
++                    if math.dist((here["x"], here["y"]), wps[0][:2]) < 12:
++                        # on that flank already: the camp is skirted (detour() noted it) - plan the NEXT
++                        # one. Breaking here walked the plain path into Teldrassil's Vicious Grells
++                        # (18 of the hunter's 28 deaths, the same trip every time)
++                        continue
+                     try:
+                         self.travel(*wps[0], within=8)
+                     except StepFailed:
+@@ -4318,7 +4337,22 @@ class Runner:
+                         r = call("interact.cast", spell_id=spell, target={"guid": int(o["guid"])})
+                     print(f"  hit {target} with {spell}: {r.get('detail')}", flush=True)
+                     time.sleep(1.5)
++                    self.stuck.pop(("unseen", target), None)
+                     return True
++                # standing on its spawn and still not in sight: our "see it" aura is gone (Lost Isles: the
++                # Dead Orc Scout's accept script stripped 14031's photo detects - 1/4, then 2 h idle).
++                # The third time, drop and retake the quest: accepting re-grants what the giver hands out
++                p = self.w.nearest("c", target, self.me(), self.phase_mask())
++                if p and math.dist(p[:2], (self.me()["x"], self.me()["y"])) < 15:
++                    miss = self.stuck.get(("unseen", target), 0) + 1
++                    self.stuck[("unseen", target)] = miss
++                    if miss >= 3:
++                        r = call("interact.quest_abandon", quest_id=qid)
++                        print(f"  {target} unseen at its spawn 3 times - abandon {qid} to retake it: {r.get('detail')}", flush=True)
++                        self.stuck.pop(("unseen", target), None)
++                        self.stuck.pop(qid, None)
++                        time.sleep(2)
++                        return True
+                 return False
+             if target > 0 and target in self.w.marker_targets and self.w.scripted_launch:
+                 bar, ventry = next(iter(self.w.scripted_launch.items()))
+-- 
+2.34.1
+

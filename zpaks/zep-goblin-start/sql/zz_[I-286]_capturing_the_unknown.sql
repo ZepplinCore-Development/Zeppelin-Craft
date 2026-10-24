@@ -207,3 +207,14 @@ INSERT INTO `creature_addon` (`guid`, `path_id`, `mount`, `bytes1`, `bytes2`, `e
 -- ---------------------------------------------------------------
 DELETE FROM `gameobject` WHERE `guid` IN (6950014, 6950015);
 DELETE FROM `gameobject_template` WHERE `entry` IN (902101, 902102);
+
+-- ---------------------------------------------------------------
+-- 10. Accepting "Orcs Can Write?" (14233) must not strip the photo detects. The
+-- Dead Orc Scout's AUTO accept script (35837 ids 0-3) removes all four "See Invis"
+-- detects 70661/70678/70680/70681, but 14233 opens alongside 14031 (both follow
+-- 14248): a player who takes it first can no longer see markers 2-4, and 14031 is
+-- stuck until abandoned. Each photo already strips its own detect, so the rows only
+-- ever fire in that broken case (F-219 goblin bot, 2026-10-24: 1/4, then 2 h idle).
+-- ---------------------------------------------------------------
+DELETE FROM `smart_scripts` WHERE `entryorguid` = 35837 AND `source_type` = 0 AND `id` IN (0, 1, 2, 3)
+  AND `action_type` = 28 AND `action_param1` IN (70661, 70678, 70680, 70681);
