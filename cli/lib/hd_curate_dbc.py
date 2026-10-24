@@ -31,6 +31,27 @@ TABLES = {
 _schema_cache: Dict[str, List[Tuple[str, str]]] = {}
 
 
+_unsigned: Dict[str, set] = {}     # table -> its UNSIGNED int columns (schema() fills it)
+
+
+def _col_lit(table: str, col: str, v) -> str:
+    """_lit, with a 32-bit int written in the column's signedness: the WDBC and the pack SQL give -1 where the
+    dbc database column is UNSIGNED (blood_id, missile_attachment, start_anim_id: ERROR 1264 at rebuild),
+    and 4294967295 where it is signed."""
+    if v is None:
+        # a column the source row lacks (the other-locale strings of a pack's custom spell: 'None' in the SQL,
+        # ERROR 1054 at rebuild): the column type's empty value, as the WDBC would hold it
+        kind = dict(schema(table)).get(col, 'int')
+        return "''" if kind == 'str' else '0'
+    if isinstance(v, int) and not isinstance(v, bool):
+        if col in _unsigned.get(table, ()):
+            if v < 0:
+                v &= 0xFFFFFFFF
+        elif v >= 2**31 and v < 2**32:
+            v -= 2**32
+    return _lit(v)
+
+
 def schema(table: str) -> List[Tuple[str, str]]:
     """[(column, kind)] in table order; kind = 'int' | 'float' | 'str'."""
     if table not in _schema_cache:
@@ -48,6 +69,8 @@ def schema(table: str) -> List[Tuple[str, str]]:
             # (as int they came out as bit patterns - model_scale 1065353216 - in any stock-copied row)
             kind = 'float' if ('float' in t or 'double' in t or 'decimal' in t) else 'str' if ('char' in t or 'text' in t) else 'int'
             cols.append((parts[0], kind))
+            if kind == 'int' and 'unsigned' in t:
+                _unsigned.setdefault(table, set()).add(parts[0])
         if not cols:
             raise RuntimeError(f'no schema for {table}: {r.stderr[-300:]}')
         _schema_cache[table] = cols
@@ -175,7 +198,8 @@ def _same(a, b) -> bool:
 
 def _lit(v) -> str:
     if isinstance(v, str):
-        return "'" + v.replace("'", "''") + "'"
+        # backslash first: a stock name ending in one ('Stoneharry\\') swallowed its closing quote
+        return "'" + v.replace('\\', '\\\\').replace("'", "''") + "'"
     if isinstance(v, float):
         return repr(round(v, 6))
     return str(v)
@@ -303,7 +327,7 @@ def stock_diff_sql(table: str, final: Dict[tuple, dict], stock: Dict[tuple, dict
     out = []
 
     def where(key):
-        return ' AND '.join(f'`{k}` = {_lit(v)}' for k, v in zip(keyc, key))
+        return ' AND '.join(f'`{k}` = {_col_lit(table, k, v)}' for k, v in zip(keyc, key))
     for key in sorted(set(final) | set(stock), key=lambda k: tuple(str(x) for x in k) if any(isinstance(x, str) for x in k) else k):
         f, st = final.get(key), stock.get(key)
         if f is None:
@@ -311,11 +335,11 @@ def stock_diff_sql(table: str, final: Dict[tuple, dict], stock: Dict[tuple, dict
         elif st is None:
             out.append(f'DELETE FROM `{table}` WHERE {where(key)};')
             out.append(f'INSERT INTO `{table}` (' + ', '.join(f'`{c}`' for c in cols) + ') VALUES ('
-                       + ', '.join(_lit(f.get(c)) for c in cols) + ');')
+                       + ', '.join(_col_lit(table, c, f.get(c)) for c in cols) + ');')
         else:
             diff = [c for c in cols if not _same(f.get(c), st.get(c))]
             if diff:
-                out.append(f'UPDATE `{table}` SET ' + ', '.join(f'`{c}` = {_lit(f.get(c))}' for c in diff)
+                out.append(f'UPDATE `{table}` SET ' + ', '.join(f'`{c}` = {_col_lit(table, c, f.get(c))}' for c in diff)
                            + f' WHERE {where(key)};')
     return out
 

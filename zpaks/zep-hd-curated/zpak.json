@@ -6,7 +6,7 @@
  "author": "Zeppelin Team",
  "type": "mpq",
  "client_patch": "PATCH-Q",
- "enabled": false,
+ "enabled": true,
  "priority": 30,
  "patch_display_name": "HD Models (curated)",
  "feature_id": "F-216",
