@@ -1,0 +1,364 @@
+From 7fd84e01a342b15dc467707909f5d4a48649a1a2 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 24 Oct 2026 07:03:34 +0000
+Subject: [PATCH] WIP: F-219 - KPI rates; revive via a quiet healer; no grey
+ grinding; follower-credit quests
+
+- scorecard: quests/h, levels/h, deaths/h columns; --compare prints the three rates + MEAN
+- revive: every reclaim spot inside aggro range (<30 yd) -> quiet spirit healer (only_safe)
+- grind: never grey mobs (gray_level = AC GetGrayLevel); a guarded local target is skipped
+  10 min and the bot looks elsewhere (Durotar's warlock ended on one)
+- follow_credit: credit paid by SAI DISTANCE_CREATURE markers for a summoned follower
+  (14021 Miner Troubles): lead it marker to marker in 20 yd hops, no detours, wait for it,
+  kill what hits it, abandon + retake when it is gone
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/scorecard.py  |  27 ++++--
+ zeppelin/tests/start_area.py | 169 +++++++++++++++++++++++++++++++++--
+ 2 files changed, 185 insertions(+), 11 deletions(-)
+
+diff --git a/zeppelin/tests/scorecard.py b/zeppelin/tests/scorecard.py
+index 8e5999a..83ac8b3 100644
+--- a/zeppelin/tests/scorecard.py
++++ b/zeppelin/tests/scorecard.py
+@@ -7,6 +7,7 @@
+     scorecard.py --list           every run in each area's log (start, minutes, level, quests, deaths)
+     scorecard.py elwynn mulgore   only these areas
+ 
++Headline KPIs (rates, so runs of different length compare): quests/h, levels/h, deaths/h.
+ Columns: level, quests turned in, kills, deaths (and per hour), the share of deaths that were
+ defend fights / 2+ mob fights / entered below half health, repairs (trips, copper), training
+ (copper spent, spells refused for money), stealth openers, kites, pack parks, reconnects, and
+@@ -99,7 +100,11 @@ def score(run, running_mtime=None):
+         s["minutes"] = (el + 86400) % 86400 / 60 if el < 0 else el / 60
+     else:
+         s["minutes"] = 0
+-    s["d_per_h"] = s["deaths"] / (s["minutes"] / 60) if s["minutes"] > 5 else 0
++    h = s["minutes"] / 60 if s["minutes"] > 5 else 0
++    # the headline KPIs are RATES: runs differ in length (restarts, outages, early stops)
++    s["d_per_h"] = s["deaths"] / h if h else 0
++    s["q_per_h"] = s["quests"] / h if h else 0
++    s["l_per_h"] = (s["level"] - 1) / h if h else 0
+     return s
+ 
+ 
+@@ -107,13 +112,14 @@ def pct(n, d):
+     return f"{100 * n // d}%" if d else "-"
+ 
+ 
+-COLS = [("area", 11), ("class", 17), ("min", 4), ("lvl", 3), ("q", 3), ("kills", 5), ("dth", 3), ("d/h", 4),
++COLS = [("area", 11), ("class", 17), ("min", 4), ("lvl", 3), ("q", 3), ("q/h", 4), ("l/h", 4), ("kills", 5), ("dth", 3), ("d/h", 4),
+         ("defend", 6), ("2+mob", 5), ("<50%", 4), ("rep", 3), ("rep_c", 5), ("train_c", 7), ("$wait", 5),
+         ("open", 4), ("kite", 4), ("park", 4), ("recon", 5), ("result", 9)]
+ 
+ 
+ def row(area, s):
+-    v = [area, s["char"], f"{s['minutes']:.0f}", s["level"], s["quests"], s["kills"], s["deaths"],
++    v = [area, s["char"], f"{s['minutes']:.0f}", s["level"], s["quests"], f"{s['q_per_h']:.1f}",
++         f"{s['l_per_h']:.2f}", s["kills"], s["deaths"],
+          f"{s['d_per_h']:.1f}", pct(s["d_defend"], s["deaths"]), pct(s["d_multi"], s["deaths"]),
+          pct(s["d_low"], s["deaths"]), s["repairs"], s["repair_c"], s["train_c"], s["money_wait"],
+          s["openers"], s["kites"], s["parks"], s["reconnects"], s["result"]]
+@@ -131,7 +137,8 @@ def main():
+     if a.list:
+         pass
+     elif a.compare:
+-        print(f"{'area':11} {'lvl':>8} {'quests':>9} {'deaths':>9} {'d/h':>11} {'repair_c':>11} {'min':>9}")
++        print(f"{'area':11} {'q/h':>11} {'lvl/h':>11} {'d/h':>11} {'lvl':>7} {'quests':>8} {'deaths':>8} "
++              f"{'repair_c':>10} {'min':>9}")
+     else:
+         print(" ".join(n.ljust(w) for n, w in COLS))
+     tot = {}
+@@ -154,8 +161,11 @@ def main():
+                 continue
+             p, c = score(full[-1]), score(runs[-1], mt)
+             f = lambda k, fmt="{}": f"{fmt.format(p[k])}->{fmt.format(c[k])}"
+-            print(f"{n:11} {f('level'):>8} {f('quests'):>9} {f('deaths'):>9} {f('d_per_h', '{:.1f}'):>11} "
+-                  f"{f('repair_c'):>11} {f('minutes', '{:.0f}'):>9}")
++            print(f"{n:11} {f('q_per_h', '{:.1f}'):>11} {f('l_per_h', '{:.2f}'):>11} {f('d_per_h', '{:.1f}'):>11} "
++                  f"{f('level'):>7} {f('quests'):>8} {f('deaths'):>8} {f('repair_c'):>10} {f('minutes', '{:.0f}'):>9}")
++            for k in ("q_per_h", "l_per_h", "d_per_h"):
++                tot.setdefault("p_" + k, []).append(p[k])
++                tot.setdefault("c_" + k, []).append(c[k])
+             continue
+         try:
+             run = runs[a.run]
+@@ -165,6 +175,11 @@ def main():
+         print(row(n, s))
+         for k in ("quests", "kills", "deaths", "repair_c", "train_c", "money_wait", "openers", "kites", "parks"):
+             tot[k] = tot.get(k, 0) + s[k]
++    if a.compare and tot:
++        m = lambda k: sum(tot[k]) / len(tot[k])
++        print(f"{'MEAN':11} {m('p_q_per_h'):.1f}->{m('c_q_per_h'):.1f}".ljust(24) +
++              f"{m('p_l_per_h'):.2f}->{m('c_l_per_h'):.2f}".rjust(11) + f"{m('p_d_per_h'):.1f}->{m('c_d_per_h'):.1f}".rjust(12))
++        return
+     if tot:
+         print(f"TOTAL: quests {tot['quests']}  kills {tot['kills']}  deaths {tot['deaths']}  repairs "
+               f"{tot['repair_c']}c  training {tot['train_c']}c  money-waits {tot['money_wait']}  "
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index c224f90..b0db3b3 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -177,6 +177,16 @@ CLASS_ABILITIES = {
+ # classes that fight from range (yd): they stand off and cast, and melee only what reaches them
+ # creatures worth grinding: XP-giving (CREATURE_FLAG_EXTRA_NO_XP 0x40) and not a training dummy (Kezan's
+ # 48304 has flags_extra 0 and never dies - it is the Charge quest's target, a script heals it)
++def gray_level(level):
++    """Highest mob level that pays NO XP (AzerothCore Trinity::XP::GetGrayLevel). Elwynn's level-7 priest
++    ground 58 level-2 Timber Wolves for nothing - and 70 more at level 6 for a sliver each."""
++    if level <= 5:
++        return 0
++    if level <= 39:
++        return level - 5 - level // 10
++    return level - 1 - level // 5 if level <= 59 else level - 9
++
++
+ GRINDABLE = "(flags_extra & 64)=0 AND ScriptName NOT LIKE '%dummy%' AND name NOT LIKE '%Training Dummy%'"
+ # racials, first in the list (only known ones are kept: refresh_abilities filters by the spellbook)
+ RACE_ABILITIES = {
+@@ -846,6 +856,23 @@ class World:
+                              f"AND action_type IN (11,134) AND action_param1 IN ({inlist(spells)}) AND event_type IN (62,64)"):
+                     if int(r["n"]) in self.cspawn:
+                         self.escort_credit[t] = (int(r["n"]), int(r["m"]) if int(r["ev"]) == 62 else 0, esc)
++        # follower credit: a summoned follower with no spawn (Lost Isles' Frightened Miner 35813, summoned by
++        # an aura on quest accept) earns it on reaching MARKER creatures - SAI DISTANCE_CREATURE (75) events
++        # whose actionlist gives the credit. We lead it marker to marker (14021 ended the goblin's run:
++        # "no spawn of c35816", the invisible credit NPC)
++        self.follow_credit = {}
++        for t in targets:
++            if t in self.cspawn or t in self.escort_credit or t in self.summon_credit_go:
++                continue
++            rows = sql("SELECT o.entryorguid e,o.event_param1 g FROM smart_scripts l JOIN smart_scripts o ON o.source_type=0 "
++                       "AND o.action_type=80 AND o.action_param1=l.entryorguid AND o.event_type=75 WHERE l.source_type=9 "
++                       f"AND l.action_type=33 AND l.action_param1={t}")
++            guids = {int(r["g"]) for r in rows if int(r["g"]) > 0}
++            if guids:
++                pts = [(float(r["x"]), float(r["y"]), float(r["z"])) for r in sql(
++                    f"SELECT position_x x,position_y y,position_z z FROM creature WHERE guid IN ({inlist(guids)})")]
++                if pts:
++                    self.follow_credit[t] = (int(rows[0]["e"]), pts)
+         # town guards (CREATURE_FLAG_EXTRA_GUARD 0x8000): where a losing fight runs to
+         self.guards = [(float(r["x"]), float(r["y"]), float(r["z"])) for r in sql(
+             f"SELECT c.position_x x,c.position_y y,c.position_z z FROM creature c JOIN creature_template t ON t.entry=c.id "
+@@ -1887,7 +1914,8 @@ class Runner:
+             return False
+         me = self.me()
+         lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+-            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(pool)}) AND {GRINDABLE}")}
++            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(pool)}) AND {GRINDABLE} "
++            f"AND maxlevel > {gray_level(level)}")}  # a grey mob pays no XP
+         # I-394: the spawn table holds every phase's copies, and the spot we stand on is where grind()
+         # just found nothing easy - "walking" there moved nothing yet returned True, and Kezan's bot
+         # spun on it silently for an hour (out-of-phase Rebellious Trolls, a Training Dummy). Only
+@@ -2104,10 +2132,12 @@ class Runner:
+         # no XP to be had from a training dummy (Kezan 48304, the Charge quest's target: 25 pulls that
+         # never ended) - CREATURE_FLAG_EXTRA_NO_XP 0x40 marks those
+         lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+-            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)}) AND {GRINDABLE}")}
++            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)}) AND {GRINDABLE} "
++            f"AND maxlevel > {gray_level(level)}")}  # a grey mob pays no XP
+         # an even fight is a coin flip in starting gear (three grind deaths at level == level in one
+         # fleet run): once a grind pull has killed us, only take mobs a level below us
+         easy = [o for o in mobs if o["entry"] in ents and lv.get(o["entry"], 99) <= cap
++                and time.time() - self.immune.get(int(o["guid"]), 0) > 120  # unhittable / unreachable lately
+                 and sum(1 for dx, dy, dl in self.death_spots if dl == level
+                         and math.dist((dx, dy), (o["x"], o.get("y", 0))) < 45) < 2]  # not where we died twice
+         if not easy:
+@@ -2149,7 +2179,17 @@ class Runner:
+         # (it walked to 4 yd and gave its whole range advantage away)
+         stand = self.fight_range() - 2 if CLASS_RANGE.get(self.w.cls) else 4
+         if t.get("distance", 0) > stand + 1:
+-            self.travel(t["x"], t.get("y", 0), t.get("z", 0), within=stand)
++            q, self.current_qid = getattr(self, "current_qid", None), None
++            try:
++                self.travel(t["x"], t.get("y", 0), t.get("z", 0), within=stand)
++            except StepFailed as e:
++                # its road is guarded: leave THAT mob 10 min and look elsewhere (Durotar's warlock asked
++                # for the same Razormane-guarded mob every pass until its run ended at 152 min)
++                self.immune[int(t["guid"])] = time.time() + 480
++                print(f"  ~ grind target {t['entry']}: {str(e)[:90]}", flush=True)
++                return self.walk_to_grind(level, cap)
++            finally:
++                self.current_qid = q
+         if self.w.cls == 4:
+             self.stealth(wait=True)  # the Backstab opener needs us unseen
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True)
+@@ -2416,7 +2456,7 @@ class Runner:
+         if r.get("reason") == "flee":
+             self.flee_to_guard()
+ 
+-    def spirit_rez(self):
++    def spirit_rez(self, only_safe=False):
+         """Resurrect at the nearest spirit healer (npcflag 0x4000; only a ghost sees one). Its spawn
+         comes from the DB - the graveyard we were released to - since the healer is often out of
+         sight once we have run back toward the corpse."""
+@@ -2441,6 +2481,9 @@ class Runner:
+         # the nearest healer, unless mobs above our level stand around it - then the nearest quiet one
+         # (a ghost walks there unseen; Mulgore's (-2727,-1115) healer sits among level-7 harpies)
+         safe_spots = [p for p in spots if not unsafe(p) and math.dist(p[:2], (me["x"], me["y"])) < 2500]
++        if only_safe and not safe_spots:
++            print("    spirit rez: no quiet healer either - reclaiming after all", flush=True)
++            return False
+         pick = safe_spots[0] if safe_spots else (spots[0] if spots else None)
+         healers = [o for o in call("interact.find", type=3, radius=250, limit=60).get("objects", [])
+                    if o.get("npcFlags", 0) & 0x4000 and (not pick or math.dist((o["x"], o.get("y", 0)), pick[:2]) < 30)]
+@@ -2553,6 +2596,7 @@ class Runner:
+         """Revive on a clock (release, walk back, wait out the reclaim delay, reclaim); fall back to the
+         spirit healer when the server keeps ignoring the reclaim."""
+         t0, stage, failed_reclaims, placed = time.time(), "", 0, 0
++        self._healer_tried = False
+         if True:
+             while time.time() - t0 < 600:
+                 try:
+@@ -2572,7 +2616,16 @@ class Runner:
+                 if r.get("alive"):
+                     break
+                 if corpse and placed < 2 and r.get("stage") in ("walking to corpse", "waiting reclaim delay"):
++                    self._ghost_unsafe = False
+                     placed += self._place_ghost(corpse, placed)
++                    if self._ghost_unsafe and not getattr(self, "_healer_tried", False):
++                        # take the spirit healer instead (no sickness below 11; 25 % durability beats a
++                        # second death) - unless the healer itself is unsafe, then reclaim after all
++                        self._healer_tried = True
++                        print("    revive: every reclaim spot is inside aggro range - spirit healer instead", flush=True)
++                        call("move.stop")  # the module's corpse walk is still running
++                        if self.spirit_rez(only_safe=True):
++                            break
+                 if r.get("stage") != stage:
+                     stage = r.get("stage", "")
+                     print(f"    revive: {stage}", flush=True)
+@@ -2615,8 +2668,11 @@ class Runner:
+             return min(near_live, near_spawn + 10)  # a mob standing there beats a spawn point
+         pts = [(corpse["x"], corpse["y"])] + [
+             (corpse["x"] + r * math.cos(a * math.pi / 6), corpse["y"] + r * math.sin(a * math.pi / 6))
+-            for r in (16, 28) for a in range(12)]
++            for r in (16, 28, 35) for a in range(12)]
+         best = max(pts, key=lambda p: score(*p))
++        # nowhere in reclaim reach is out of aggro range (30 yd): rising there at half health is the next
++        # death - 40 % of the hunter's and mage's deaths came straight after a revive, often 3-4 at once
++        self._ghost_unsafe = score(*best) < 30
+         if far <= 30 and score(*best) - score(me["x"], me["y"]) < 8:
+             return 1  # in reach and about as quiet as it gets
+         z = ground(best[0], best[1], corpse.get("z", me.get("z", 0)))
+@@ -3466,6 +3522,107 @@ class Runner:
+             return True  # the proxy is marked used; the next step picks another
+         return False
+ 
++    def lead_follower(self, qid, idx, target, before):
++        """Walk our summoned follower to its next marker (nearest one not tried this quest) and wait for
++        the credit: it pays when the FOLLOWER reaches the marker, so stand on it and give it time."""
++        esc, pts = self.w.follow_credit[target]
++        tried = self.__dict__.setdefault("_follow_tried", {}).setdefault(qid, set())
++        me = self.me()
++        left = [p for p in pts if p not in tried]
++        if not left:
++            tried.clear()  # every marker once and still short: go round again
++            left = list(pts)
++        p = min(left, key=lambda q: math.dist(q[:2], (me["x"], me["y"])))
++        tried.add(p)
++
++        def follower():
++            seen = [o for o in call("interact.find", entry=esc, limit=3).get("objects", []) if o.get("health", 0) > 0]
++            return min(seen, key=lambda o: o.get("distance", 99)) if seen else None
++        # lead, do not run: short hops on the straight road (no detours - the follower takes the direct
++        # path) and wait for it after each one. Detours round the Kaja'mite cave's 18-mob camp left the
++        # Frightened Miner behind and the quest lost its follower after 2 of 4 deposits
++        was, self._detouring = getattr(self, "_detouring", False), True
++        try:
++            for _ in range(40):
++                me = self.me()
++                d = math.dist(p[:2], (me["x"], me["y"]))
++                if d <= 4:
++                    break
++                k = min(1.0, 20.0 / d)
++                hx, hy = me["x"] + (p[0] - me["x"]) * k, me["y"] + (p[1] - me["y"]) * k
++                self.travel(hx, hy, ground(hx, hy, p[2]), within=3)
++                self.safe()
++                # wait for it - it stops ~15 s to mine any marker it passes (the bot walked on after 12 s,
++                # lost sight of the Frightened Miner at 58 yd and abandoned a quest that was going fine)
++                unseen = 0
++                for _ in range(25):
++                    f = follower()
++                    if f:
++                        unseen = 0
++                        hp0 = getattr(self, "_follow_hp", f.get("health", 0))
++                        self._follow_hp = f.get("health", 0)
++                        self._follow_seen = (f["x"], f.get("y", 0), f.get("z", 0))
++                        if f.get("health", 0) < hp0:
++                            # it is being hit (passive: it never fights back) - kill what stands on it
++                            foes = [o for o in call("interact.find", type=3, radius=40, limit=30).get("objects", [])
++                                    if o.get("health", 0) > 0 and not o.get("npcFlags") and self.hostile(o["entry"])
++                                    and math.dist((o["x"], o.get("y", 0)), (f["x"], f.get("y", 0))) < 8]
++                            if foes:
++                                g = min(foes, key=lambda o: math.dist((o["x"], o.get("y", 0)), (f["x"], f.get("y", 0))))
++                                r = call("combat.kill", guid=int(g["guid"]), **self.fight_args(), loot=False)
++                                self.fight_log(g["entry"], r, "defend follower")
++                                continue
++                        if f.get("distance", 99) < 12:
++                            break
++                        if f.get("distance", 99) > 30:  # it fell behind: go back for it
++                            self.travel(f["x"], f.get("y", 0), f.get("z", 0), within=8)
++                    else:
++                        unseen += 1
++                        if unseen > 5:
++                            break  # gone: the miss/abandon logic below decides
++                        if getattr(self, "_follow_seen", None):  # out of sight: back to where we last saw it
++                            self.travel(*self._follow_seen, within=8)
++                    if self.log().get(qid, {}).get("counts", [0, 0, 0, 0])[idx] > before:
++                        print(f"  follower credit {target}: on the way, near ({me['x']:.0f},{me['y']:.0f})", flush=True)
++                        return True
++                    time.sleep(2)
++                if not follower():
++                    break
++        finally:
++            self._detouring = was
++        t0 = time.time()
++        while time.time() - t0 < 30:
++            self.safe()
++            now = self.log().get(qid, {}).get("counts", [0, 0, 0, 0])[idx]
++            if now > before:
++                print(f"  follower credit {target}: {now} at marker ({p[0]:.0f},{p[1]:.0f})", flush=True)
++                return True
++            time.sleep(2)
++        seen = [o for o in call("interact.find", entry=esc, limit=3).get("objects", []) if o.get("distance", 99) < 40]
++        print(f"  follower credit {target}: nothing at ({p[0]:.0f},{p[1]:.0f}) - follower {esc} "
++              f"{'beside us' if seen else 'NOT in sight'}", flush=True)
++        if not seen and getattr(self, "_follow_seen", None):
++            self.travel(*self._follow_seen, within=8)  # look where we last saw it before giving up
++            seen = [o for o in call("interact.find", entry=esc, limit=3).get("objects", []) if o.get("distance", 99) < 40]
++        if not seen:
++            miss = self.stuck.get(("follow", target), 0) + 1
++            self.stuck[("follow", target)] = miss
++            if miss >= 2:
++                # the follower is gone (killed, lost in a cave) and its controller aura stays on us, so
++                # nothing summons another: drop and retake the quest, as a player would (14021: the
++                # Frightened Miner lost after 2 deposits; a relog kept aura 68062 and brought no miner)
++                r = call("interact.quest_abandon", quest_id=qid)
++                print(f"  follower {esc} gone - abandon {qid} to restart it: {r.get('detail')}", flush=True)
++                self.stuck.pop(("follow", target), None)
++                self.stuck.pop(qid, None)
++                self._follow_tried.pop(qid, None)
++                self._follow_seen = None
++                time.sleep(2)
++                return True
++            raise StepFailed(f"follower {esc} for credit {target} not with us")
++        self.stuck.pop(("follow", target), None)
++        return True
++
+     def run_escort(self, qid, idx, target, before):
+         """Ask the NPC for the escort (gossip), then shadow the summoned creature until the quest
+         counter stops moving (it pays as it reaches each stop) - defend it on the way."""
+@@ -3979,6 +4136,8 @@ class Runner:
+                 raise StepFailed(f"no living {self.w.kill_alias[target]} (kill credit {target}) in sight")
+             if target > 0 and target in self.w.escort_credit:
+                 return self.run_escort(qid, i - 1, target, counts[i - 1])
++            if target > 0 and target in self.w.follow_credit:
++                return self.lead_follower(qid, i - 1, target, counts[i - 1])
+             if target > 0 and target in self.w.summon_credit_go:
+                 go, menu = self.w.summon_credit_go[target]
+                 o = self.go_near("g", go, usable_only=True)
+-- 
+2.34.1
+
