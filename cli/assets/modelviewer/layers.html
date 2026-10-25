@@ -1541,9 +1541,35 @@ function fitOf(path, option) {
   const f = (choices.fit || {})[path];
   return f && f.option === option ? f : null;
 }
+// "No armour" (Items tab, for skin work): the body re-baked bare in the browser - the race's skin, face and
+// underwear with no NPC clothes (bakedLook with an empty outfit: armour geosets bare, helm / shoulders off).
+// A body with no bake of its own (worgen female) gets one slot for it.
+let bareBody = (() => { try { return localStorage.getItem('mv.bare') === '1'; } catch (x) { return false; } })();
+const bareDone = {}, barePending = {};
+function bareBodyLook(code, e) {
+  const b = bodies[code];
+  if (!b || !b.char) return null;
+  if (bareDone[code]) return bareDone[code];
+  if (!barePending[code]) {
+    // a fresh bake slot: the whole bake is composed from the race's default look (no NPC bake to start from)
+    const pane = { ...b, tex: { ...(b.tex || {}), 1: 999000001 } };
+    barePending[code] = bakedLook({ pane, ovr: {} }, b.char, {}, b.char.hair_style, b.char.facial_hair)
+      .then(async r => {
+        // o335Bake reuses ONE blob URL and revokes it on the next bake: keep this body's own copy, or a later
+        // bake (another body) leaves this pane with a dead URL - drawn black
+        if (r) for (const [k, v] of Object.entries(r.ovr || {})) {
+          if (String(v).startsWith('blob:')) r.ovr[k] = URL.createObjectURL(await (await fetch(v)).blob());
+        }
+        bareDone[code] = r; if (cur === e) openAsset(e);
+      }).catch(() => {});
+  }
+  return null;
+}
 function bodyPaneUrl(e, p, code, override) {
-  const body = bodies[code];
+  let body = bodies[code];
   if (!body || !e.variants) return null;
+  let bareOvr = {};
+  if (bareBody) { const bl = bareBodyLook(code, e); if (bl) { body = bl.pane; bareOvr = bl.ovr || {}; } }
   const vs = e.variants[p.option] || {};
   const items = [], ovr = {};
   for (const m of itemMembersFor(e, code)) {
@@ -1559,7 +1585,7 @@ function bodyPaneUrl(e, p, code, override) {
     if (tex && texc) ovr[tex] = texc;
   }
   if (!items.length) return null;
-  return paneUrl({ ...body, items, mesh: helmHides(e, code, body.mesh) }, { ovr });
+  return paneUrl({ ...body, items, mesh: helmHides(e, code, body.mesh) }, { ovr: { ...bareOvr, ...ovr } });
 }
 // A helm hides hair / facial hair / ears as in game: its ItemDisplayInfo row (outfit335 helm.json, found by the
 // model name) -> HelmetGeosetVisData (hgvd.json), a race mask per group; same as the Displays bakes (outfitMesh)
@@ -1617,6 +1643,8 @@ function openAsset(e) {
     $('subtitle').innerHTML = esc($('subtitle').textContent) + ` · on <select id="fitbody">${codes.map(x =>
       `<option value="${x}"${x === fitBody ? ' selected' : ''}>${esc(codeName(x))}</option>`).join('')}</select>`;
     $('fitbody').onchange = (ev) => { fitBody = ev.target.value; openAsset(e); };
+    $('subtitle').insertAdjacentHTML('beforeend', ` <label title="Draw the body in its bare skin: no NPC clothes, armour geosets bare (for skin work)"><input type="checkbox" id="barebody"${bareBody ? ' checked' : ''}> No armour</label>`);
+    $('barebody').onchange = (ev) => { bareBody = ev.target.checked; try { localStorage.setItem('mv.bare', bareBody ? '1' : '0'); } catch (x) {} openAsset(e); };
   }
   if (e.tab === 'creature' && !e.retailOnly && e.path) {
     $('subtitle').insertAdjacentHTML('beforeend', ` <button id="newdisp-m" title="Create a new display id (the highest + 1) on ${esc(e.path)} and dress it in the Display editor; point a creature at it with its id">+ New display on this model</button>`);

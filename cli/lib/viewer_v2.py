@@ -1323,6 +1323,8 @@ def bodies(dep: 'Deployer') -> Dict[str, dict]:
         code = pre + ('f' if g else 'm')
         if pre and code not in best and mp.startswith('character/') and d in cdi:
             best[code] = (0, 0, d, mp)
+    code_race = {(races.get(rid) or '').lower() + ('f' if g else 'm'): (rid, g) for rid, g in race_model}
+    geo_l = None
     out = {}
     for code, (_, _, did, path) in sorted(best.items()):
         o = dep.picks.mesh(path) or (dep.ix.meshes[path].options[0] if path in dep.ix.meshes else None)
@@ -1341,6 +1343,27 @@ def bodies(dep: 'Deployer') -> Dict[str, dict]:
             pn.pop('items', None)
             mvd._pane_cameras([pn])
             pn['code'] = code
+            # the look the picker re-bakes in the browser (o335Bake): "No armour" draws the race bare from it;
+            # a body no NPC wears (worgen female) gets the race's default look, so it is not drawn unbaked
+            # the race's DEFAULT look (skin 0, face 0) with the NPC's hair: a predictable bare skin for skin work
+            # (an NPC's own colour may have no CharSections skin: the worgen NPC's re-bake came out black)
+            ext = int((cdi.get(did) or {}).get('extended_display_info_id') or 0)
+            npc = cdx.get(ext) if ext else None
+            x = None
+            if code in code_race or npc:
+                rid, g = code_race.get(code) or (int(npc.get('race') or 0), int(npc.get('gender') or 0))
+                x = {'race': rid, 'gender': g, 'skin_color': 0, 'face_type': 0,
+                     'hair_style': int((npc or {}).get('hair_style') or 0), 'hair_color': int((npc or {}).get('hair_color') or 0),
+                     'facial_hair': int((npc or {}).get('facial_hair') or 0)}
+            if x is not None:
+                try:
+                    if geo_l is None:
+                        geo_l = mvd._geo_lookups('effective')
+                    pn['char'] = char_info(x, *geo_l)
+                    from lib import outfitter335
+                    pn['char']['cs'] = outfitter335.char_layers(dep, x, dep.result['effective_char_dbc'][1])
+                except Exception:
+                    pass
             out[code] = pn
     return out
 
