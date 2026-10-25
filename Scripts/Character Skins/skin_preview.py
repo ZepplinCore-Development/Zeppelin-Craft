@@ -154,8 +154,11 @@ def naked(mesh):
     displays, whose group 13 is 2 (1302, the robe). A robe draws with the body texture, so the previews showed a skin
     coloured dress on the females (user report); 1301 is the bare legs."""
     mesh = list(mesh)
-    if len(mesh) > 13:
-        mesh[13] = 1
+    # every armour group bare (gloves 4, boots 5, sleeves 8, leg cuffs 9, chest 10, pants 11, tabard 12, robe 13,
+    # cloak 15): the worgen male pane is an armoured NPC (a pale lump at the feet); hair, facial and ears stay
+    for g in (4, 5, 8, 9, 10, 11, 12, 13, 15):
+        if g < len(mesh):
+            mesh[g] = 1
     return mesh
 
 
