@@ -32,13 +32,15 @@ sys.path.insert(0, str(CRAFT))
 from commands.wardrobe import EXTERNAL_ROOTS, _dbc_query_fn  # noqa: E402
 from lib.wardrobe.blp import read_blp  # noqa: E402
 from lib.wardrobe.compositor import REGIONS, SCALE, FileResolver  # noqa: E402
+from lib.wardrobe.eye_islands import island  # noqa: E402
+import numpy as np  # noqa: E402
 
 VIEWER = CRAFT.parent / 'nginx' / 'wow' / 'modelviewer'
 ASSETS = CRAFT / 'zpaks' / 'zep-skin-expansion' / 'mpq' / 'source-assets'
 CURATED = CRAFT / 'zpaks' / 'zep-hd-curated' / 'mpq' / 'parsed-assets'
 COMMUNITY = [CRAFT.parent / 'Zeppelin-Tools' / 'Asset Library' / 'COMMUNITY' / n / 'mpq' / 'source-assets'
              for n in ('patch-hd-everything', 'patch-hd-creatures-mounts')]   # the HD character pack's sources
-CODES = {2: 'or', 3: 'dw', 10: 'be', 11: 'dr', 1: 'hu', 4: 'ni', 5: 'sc', 6: 'ta', 7: 'gn', 8: 'tr', 9: 'go', 22: 'wo'}
+CODES = {2: 'or', 3: 'dw', 10: 'be', 11: 'dr', 1: 'hu', 4: 'ni', 5: 'sc', 6: 'ta', 7: 'gn', 8: 'tr', 9: 'go', 12: 'wo', 22: 'wo'}
 PUPPETEER = '/opt/claude-tools/lib/node_modules/puppeteer'
 CHROME = Path.home() / '.cache' / 'puppeteer' / 'chrome' / 'linux-144.0.7559.96' / 'chrome-linux64' / 'chrome'
 SHOT_JS = """const puppeteer = require(%s);
@@ -76,7 +78,10 @@ def blp_bgra(im, path):
     path.write_bytes(bytes(b))
 
 
-def bake(files, query, race, sex, colour, face, layers):
+def bake(files, query, race, sex, colour, face, layers, face_imgs=None, mask=False):
+    """The colour's character texture. face_imgs = {'texture_1': lower, 'texture_2': upper} replaces the face;
+    mask = the face boxes magenta and everything else cyan (the eye island yellow), to tell in a render which
+    pixels are face and which are body (seam_check)."""
     def row(section, kind, col):
         rows = query(f'SELECT texture_1, texture_2, texture_3 FROM charsections WHERE race = {race} AND gender = {sex} '
                      f'AND base_section = {section} AND type = {kind} AND color_index = {col} ORDER BY id DESC LIMIT 1')
@@ -95,9 +100,18 @@ def bake(files, query, race, sex, colour, face, layers):
         raise SystemExit(f'colour {colour}: no skin row')
     canvas = load(skin['texture_1']).resize((512, 512), Image.LANCZOS)
     fr = row(1, face, colour) or next((row(1, f, colour) for f in range(32) if row(1, f, colour)), None)
+    if mask:
+        canvas = Image.new('RGBA', (512, 512), (0, 255, 255, 255))
+        eye = Image.fromarray(((island(race, sex)) * 255).astype(np.uint8))
+        for region, (y0, h) in (('FaceUpper', (0, 64)), ('FaceLower', (64, 128))):
+            x, y, w, hh = [v * SCALE for v in REGIONS[region]]
+            canvas.paste((255, 0, 255, 255), (x, y, x + w, y + hh))
+            e = eye.crop((0, y0, 256, y0 + h)).resize((w, hh), Image.NEAREST)
+            canvas.paste((255, 255, 0, 255), (x, y), e)
+        return canvas, None
     if fr:
         for col, region in (('texture_1', 'FaceLower'), ('texture_2', 'FaceUpper')):
-            im = load(fr[col])
+            im = (face_imgs or {}).get(col) or load(fr[col])
             if im:
                 blit(canvas, im, region)
     for section, kind in zip((6, 7, 8), layers):
@@ -132,6 +146,120 @@ def face_crop(front):
     return front.crop((cx - size // 2, top, cx + size // 2, top + size))
 
 
+def naked(mesh):
+    """A pane's geoset choices (one per group) as an undressed character wears them: the body panes come from creature
+    displays, whose group 13 is 2 (1302, the robe). A robe draws with the body texture, so the previews showed a skin
+    coloured dress on the females (user report); 1301 is the bare legs."""
+    mesh = list(mesh)
+    if len(mesh) > 13:
+        mesh[13] = 1
+    return mesh
+
+
+class Viewer:
+    """A temp www of symlinks to the F-216 viewer on an ephemeral port, and headless Chrome shots of its panes."""
+
+    def __init__(self):
+        self.work = Path(tempfile.mkdtemp(prefix='skin_preview_'))
+        self.www = self.work / 'www'
+        self.www.mkdir()
+        for entry in VIEWER.iterdir():
+            (self.www / entry.name).symlink_to(entry)
+        (self.www / 'local').mkdir()
+
+        class Quiet(http.server.SimpleHTTPRequestHandler):
+            def log_message(self, *args):
+                pass
+
+        self.httpd = socketserver.TCPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(self.www)))
+        self.port = self.httpd.server_address[1]
+        threading.Thread(target=self.httpd.serve_forever, daemon=True).start()
+        self.bodies = json.loads((VIEWER / 'data' / 'v2' / 'bodies.json').read_text())
+
+    def pane_query(self, race, sex, name, canvas, extra):
+        """The pane URL query for a race / sex body wearing `canvas` (and `extra` as its _Extra)."""
+        pane = self.bodies[CODES[race] + 'mf'[sex]]
+        tex = pane['tex']
+        blp_bgra(canvas, self.www / 'local' / f'{name}_bake.blp')
+        ovr = {f'fdid/{tex["1"]}': f'http://localhost:{self.port}/local/{name}_bake.blp'}
+        if extra is not None and '8' in tex:                 # a pane without an _Extra slot (worgen) keeps its own
+            blp_bgra(extra, self.www / 'local' / f'{name}_extra.blp')
+            ovr[f'fdid/{tex["8"]}'] = f'http://localhost:{self.port}/local/{name}_extra.blp'
+        base = (f'src=v2&model={pane["model"]}&map={pane["map"]}&tex=' + ','.join(f'{k}:{v}' for k, v in tex.items())
+                + '&mesh=' + ','.join(map(str, naked(pane['mesh']))) + '&ovr=' + urllib.parse.quote(json.dumps(ovr)))
+        # the pane orbits the model's own centre: the face is cropped from a front shot (face_crop)
+        cam = f'&cam={",".join(map(str, pane["camera"]["target"]))},{pane["camera"]["dist"]}'
+        return base + cam, pane['camera']['dist']
+
+    def shots(self, jobs):
+        """jobs = [(png path, pane query)]: renders them all in one browser."""
+        js = self.work / 'shot.js'
+        js.write_text(SHOT_JS % (json.dumps(PUPPETEER), json.dumps(str(CHROME))))
+        subprocess.run(['node', str(js), str(self.port), *[f'{p}={q}' for p, q in jobs]], check=True)
+
+    def close(self):
+        self.httpd.shutdown()
+
+
+def files_resolver():
+    first = [ASSETS, CURATED] + [p for p in COMMUNITY if p.is_dir()]
+    return FileResolver(first + [p for p in EXTERNAL_ROOTS if Path(p).resolve() not in {f.resolve() for f in first}])
+
+
+def seam_check(race, sex, items, files=None, query=None, viewer=None):
+    """How far each face's colour sits off the body right round it, as rendered: items = [(key, colour, face type,
+    face_imgs or None)] -> {key: (Lab a*b* distance, face Lab, neck Lab)}. Two front shots per item from one camera:
+    the real texture, and the mask (bake mask=True) that says which pixels are face and which body. The neck is the
+    body within 10 px of the face. None when the render found too few pixels of either."""
+    from scipy import ndimage
+    files = files or files_resolver()
+    query = query or _dbc_query_fn('live')
+    own = viewer is None
+    viewer = viewer or Viewer()
+    jobs, keys = [], []
+    for key, colour, face, face_imgs in items:
+        name = f'{race}_{sex}_{len(keys)}'
+        canvas, extra = bake(files, query, race, sex, colour, face, [0, 0, 0], face_imgs)
+        mask, _ = bake(files, query, race, sex, colour, face, [0, 0, 0], mask=True)
+        q_real, dist = viewer.pane_query(race, sex, name, canvas, extra)
+        q_mask, _ = viewer.pane_query(race, sex, name + 'm', mask, extra)
+        view = f'&view=0,0.08,{dist * 1.05:.3f}'
+        jobs += [(viewer.work / f'{name}.png', q_real + view), (viewer.work / f'{name}m.png', q_mask + view)]
+        keys.append((key, name))
+    viewer.shots(jobs)
+    out = {}
+    for key, name in keys:
+        real = np.asarray(Image.open(viewer.work / f'{name}.png').convert('RGB')).astype(float)
+        m = np.asarray(Image.open(viewer.work / f'{name}m.png').convert('RGB')).astype(float)
+        r, g, b = m[..., 0], m[..., 1], m[..., 2]
+        face_px = (r > 60) & (b > 60) & (g < 0.5 * np.minimum(r, b))           # magenta, lit or shaded
+        body_px = (g > 60) & (b > 60) & (r < 0.5 * np.minimum(g, b))           # cyan
+        neck = ndimage.binary_dilation(face_px, iterations=10) & body_px
+        if face_px.sum() < 200 or neck.sum() < 100:
+            out[key] = None
+            continue
+        f, n = _lit(real[face_px]), _lit(real[neck])
+        lf, ln = _lab(f), _lab(n)
+        out[key] = (float(np.linalg.norm((lf - ln)[1:])), lf, ln)
+    if own:
+        viewer.close()
+    return out
+
+
+def _lit(px):
+    lum = px.mean(axis=1)
+    return px[lum >= np.median(lum)].mean(axis=0)
+
+
+def _lab(rgb):
+    c = np.asarray(rgb, np.float64) / 255
+    c = np.where(c > 0.04045, ((c + 0.055) / 1.055) ** 2.4, c / 12.92)
+    xyz = np.array([[0.4124, 0.3576, 0.1805], [0.2126, 0.7152, 0.0722], [0.0193, 0.1192, 0.9505]]) @ c
+    xyz /= np.array([0.95047, 1.0, 1.08883])
+    f = np.where(xyz > 0.008856, np.cbrt(xyz), 7.787 * xyz + 16 / 116)
+    return np.array([116 * f[1] - 16, 500 * (f[0] - f[1]), 200 * (f[1] - f[2])])
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--race', type=int, required=True)
@@ -143,45 +271,18 @@ def main():
     a = ap.parse_args()
     colours = [int(c) for c in a.colours.split(',')]
     layers = [int(v) for v in a.layers.split(',')]
-    first = [ASSETS, CURATED] + [p for p in COMMUNITY if p.is_dir()]
-    files = FileResolver(first + [p for p in EXTERNAL_ROOTS if Path(p).resolve() not in {f.resolve() for f in first}])
+    files = files_resolver()
     query = _dbc_query_fn('live')
-    code = CODES[a.race] + 'mf'[a.sex]
-    pane = json.loads((VIEWER / 'data' / 'v2' / 'bodies.json').read_text())[code]
-    work = Path(tempfile.mkdtemp(prefix='skin_preview_'))
-    www = work / 'www'
-    www.mkdir()
-    for entry in VIEWER.iterdir():
-        (www / entry.name).symlink_to(entry)
-    (www / 'local').mkdir()
-    class Quiet(http.server.SimpleHTTPRequestHandler):
-        def log_message(self, *args):
-            pass
-
-    handler = functools.partial(Quiet, directory=str(www))
-    httpd = socketserver.TCPServer(('127.0.0.1', 0), handler)
-    port = httpd.server_address[1]
-    threading.Thread(target=httpd.serve_forever, daemon=True).start()
-
-    tex = pane['tex']
+    viewer = Viewer()
+    work = viewer.work
     jobs = []
     for c in colours:
         canvas, extra = bake(files, query, a.race, a.sex, c, a.face, layers)
-        blp_bgra(canvas, www / 'local' / f'{c}_bake.blp')
-        ovr = {f'fdid/{tex["1"]}': f'http://localhost:{port}/local/{c}_bake.blp'}
-        if extra is not None:
-            blp_bgra(extra, www / 'local' / f'{c}_extra.blp')
-            ovr[f'fdid/{tex["8"]}'] = f'http://localhost:{port}/local/{c}_extra.blp'
-        base = (f'src=v2&model={pane["model"]}&map={pane["map"]}&tex=' + ','.join(f'{k}:{v}' for k, v in tex.items())
-                + '&mesh=' + ','.join(map(str, pane['mesh'])) + '&ovr=' + urllib.parse.quote(json.dumps(ovr)))
-        # the pane orbits the model's own centre: the face is cropped from a front shot (FACE_CROP)
-        cam = f'&cam={",".join(map(str, pane["camera"]["target"]))},{pane["camera"]["dist"]}'
-        jobs += [f'{work}/{c}_front.png={base}{cam}&view=0,0.08,{pane["camera"]["dist"] * 1.05:.3f}',
-                 f'{work}/{c}_body.png={base}{cam}&view=0.6,0.15,{pane["camera"]["dist"] * 1.15:.3f}']
-    js = work / 'shot.js'
-    js.write_text(SHOT_JS % (json.dumps(PUPPETEER), json.dumps(str(CHROME))))
-    subprocess.run(['node', str(js), str(port), *jobs], check=True)
-    httpd.shutdown()
+        q, dist = viewer.pane_query(a.race, a.sex, str(c), canvas, extra)
+        jobs += [(work / f'{c}_front.png', q + f'&view=0,0.08,{dist * 1.05:.3f}'),
+                 (work / f'{c}_body.png', q + f'&view=0.6,0.15,{dist * 1.15:.3f}')]
+    viewer.shots(jobs)
+    viewer.close()
 
     T = 260
     sheet = Image.new('RGB', (len(colours) * T, 2 * T + 18), (30, 30, 30))

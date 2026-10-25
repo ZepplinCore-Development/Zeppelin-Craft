@@ -4,8 +4,8 @@ Dark Iron (dwarf), Void Elf (blood elf), Lightforged (draenei) and Mag'har (orc)
 retail paints their skins in the same layout as the base race's HD skins, which are ours:
 
   body       retail <race><sex>skin00_NN, left half of 1024x512 -> our body atlas as it is (resized to our size)
-  faces      ours: every face type of the nearest existing colour, recoloured to the new skin (retone), the eye
-             island (EYE_BOX) kept. Retail's own face squares are not used: retail draws eyeballs as a separate
+  faces      ours: every face type of the nearest stock colour, recoloured to the new skin (transfer), the eyeball
+             (lib/wardrobe/eye_islands.py) kept. Retail's own face squares are not used: retail draws eyeballs as a separate
              part, so its faces have the lids painted shut and render eyeless on our model
   underwear  retail nakedpelvisskin / nakedtorsoskin as they are (256x128)
   _Extra     the skin row's texture_2: the nearest existing colour's (retail has no counterpart for most races)
@@ -35,6 +35,7 @@ from commands.wardrobe import EXTERNAL_ROOTS, _dbc_query_fn  # noqa: E402
 from lib import retail  # noqa: E402
 from lib.wardrobe.blp import read_blp  # noqa: E402
 from lib.wardrobe.compositor import FileResolver  # noqa: E402
+from lib.wardrobe.eye_islands import island  # noqa: E402
 
 
 def _load(name, file):
@@ -62,10 +63,6 @@ FACE_TARGETS = ('4', '5')                       # ChrModelTextureTarget of the f
 DARK = 25.0                                      # mean brightness under which a retail skin needs a material we lack (renders black)
 SAME_COLOUR = 6.0                                 # mean |rgb| between bodies under which a colour is already offered
 STOCK_LAST = 9                                    # colours 0-9: Blizzard's own, plain faces (the face donors)
-# our faces keep the eyeball as its own UV island, which retail's face square does not have there: the box (x0, y0,
-# x1, y1 in the stacked 256x192 face) is copied from our own face of the same type in the nearest colour
-EYE_BOX = {(3, 0): (0, 135, 62, 192), (3, 1): (168, 0, 252, 54), (10, 0): (0, 128, 62, 192), (10, 1): (0, 0, 62, 56),
-           (11, 0): (104, 0, 152, 24), (11, 1): (0, 0, 62, 34), (2, 0): (195, 0, 256, 64), (2, 1): (165, 0, 256, 64)}
 # (base race id, its folder, allied ChrRaces id, sub-race name)
 PAIRS = [(3, 'Dwarf', 34, 'Dark Iron'), (10, 'BloodElf', 29, 'Void Elf'),
          (11, 'Draenei', 30, 'Lightforged'), (2, 'Orc', 36, "Mag'har")]
@@ -164,15 +161,44 @@ def body_only(body):
     return np.concatenate([body[:h * 5 // 8].reshape(-1, 3), body[h * 5 // 8:, w // 2:].reshape(-1, 3)])
 
 
+def lab(rgb):
+    """sRGB 0-255 -> CIE Lab (D65)."""
+    c = np.asarray(rgb, np.float64) / 255
+    c = np.where(c > 0.04045, ((c + 0.055) / 1.055) ** 2.4, c / 12.92)
+    xyz = (M_XYZ @ c) / WHITE
+    f = np.where(xyz > 0.008856, np.cbrt(xyz), 7.787 * xyz + 16 / 116)
+    return np.array([116 * f[1] - 16, 500 * (f[0] - f[1]), 200 * (f[1] - f[2])])
+
+
+def rgb_of(L):
+    """CIE Lab (D65) -> sRGB 0-255."""
+    fy = (L[0] + 16) / 116
+    f = np.array([fy + L[1] / 500, fy, fy - L[2] / 200])
+    xyz = np.where(f ** 3 > 0.008856, f ** 3, (f - 16 / 116) / 7.787) * WHITE
+    c = np.linalg.solve(M_XYZ, xyz)
+    c = np.where(c > 0.0031308, 1.055 * np.clip(c, 0, None) ** (1 / 2.4) - 0.055, 12.92 * c)
+    return np.clip(c * 255, 0, 255)
+
+
+M_XYZ = np.array([[0.4124, 0.3576, 0.1805], [0.2126, 0.7152, 0.0722], [0.0193, 0.1192, 0.9505]])
+WHITE = np.array([0.95047, 1.0, 1.08883])
+
+
 def transfer(im, old_body, new_body):
-    """A face moved from one skin colour to another: every channel scaled by the ratio of the two skins' lit colour.
-    A face is skin all over (the eye island is pasted back after), so the hue-weighted retone left most of it in the
-    donor's tone (skin check 'tone': pink Mag'har faces); the scale keeps the donor's own face-to-body relation."""
+    """A face moved from one skin colour to another: the donor face's brightness detail in the new body's colour,
+    shifted (CIE Lab) by as much as the donor face's colour sits off the donor body's (a blood elf face is pinker
+    than its body). Each pixel = its brightness over the face's lit brightness x that target colour.
+    A per-channel scale of a green donor tripled its blue: pink and magenta faces on grey and brown orcs whose
+    medians still matched (user report, Mag'har 8 / 9, Blackrock 6); the body's colour alone left blood elf
+    faces without their pink (skin check 'tone')."""
     a = np.asarray(im).astype(np.float32)
-    # medians, as the skin check measures: the lit half's mean leaves a grey or dark skin's face too warm
-    gain = np.median(body_only(new_body), axis=0) / np.maximum(np.median(body_only(old_body), axis=0), 1)
-    rgb = np.clip(a[..., :3] * gain, 0, 255)
-    return Image.fromarray(np.dstack([rgb, a[..., 3]]).astype(np.uint8), 'RGBA')
+    rgb = a[..., :3]
+    lum = rgb.mean(axis=2)
+    face_lit = lit(rgb.reshape(-1, 3)).mean(axis=0)
+    old_lit, new_lit = lit(body_only(old_body)).mean(axis=0), lit(body_only(new_body)).mean(axis=0)
+    target = rgb_of(lab(new_lit) + (lab(face_lit) - lab(old_lit)))
+    out = (lum / max(face_lit.mean(), 1))[..., None] * target
+    return Image.fromarray(np.dstack([np.clip(out, 0, 255), a[..., 3]]).astype(np.uint8), 'RGBA')
 
 
 def main():
@@ -201,7 +227,7 @@ def main():
             body = {c: np.asarray(read_blp(files.find(ours[(SKIN, 0, c)]['texture_1'])).convert('RGB').resize((128, 128))).astype(np.float32)
                     for c in colours}
 
-            box = EYE_BOX[(base, g)]
+            eyeball = island(base, g)
             flags = {s: ours[(s, 0, 0)]['flags'] for s in (SKIN, FACE, UNDERWEAR) if (s, 0, 0) in ours}
             new, same, dark = [], {}, []
             nxt = max(colours) + 1
@@ -252,9 +278,10 @@ def main():
                     for own_path, y0 in ((src['texture_2'], 0), (src['texture_1'], 64)):
                         own = read_blp(files.find(own_path)).convert('RGBA').resize((256, 64 if y0 == 0 else 128))
                         half = transfer(own, body[donor], small)
-                        b = (box[0], max(box[1] - y0, 0), box[2], min(box[3] - y0, half.height))
-                        if b[3] > b[1]:
-                            half.paste(own.crop(b), (b[0], b[1]))
+                        # the eyeball keeps its own colour: only the ellipse, not EYE_BOX's rectangle, whose corners
+                        # are skin the face uses (user report: a patch of the donor's skin below the Void Elf ear)
+                        eye = Image.fromarray((eyeball[y0:y0 + half.height] * 255).astype(np.uint8))
+                        half.paste(own, (0, 0), eye)
                         halves.append(half)
                     up, lo = halves
                     pu, pl = f'{stem}FaceUpper{f:02d}_zs{c:02d}.blp', f'{stem}FaceLower{f:02d}_zs{c:02d}.blp'

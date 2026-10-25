@@ -87,20 +87,24 @@ CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 -- so a character's sub-race follows from its skin colour and needs no stored field. Colours are CharSections
 -- color_index values per sex; "shared" lists the ones every sub-race offers (death knight skins).
 -- Keyed by the race's file name (GetNameForRace).
+-- war paint (CharSections base_section 8 types, 0 = none): retail's 1-12 for every orc; the Ascension paints 13-14
+-- for the Mag'har only (user review 2026-10-25)
+ORC_WAR_PAINT = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+MAGHAR_WAR_PAINT = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 CHAR_CREATE_SUBRACES = {
 	-- orc colours 28-43 bake markings (not offered: retail tattoos, scars and war paint now); Blackrock 15, 44, 45 and
 	-- Mag'har clan colours 46, 48, 49, 51, 52, 54, 55, 57 bake tattoos or paint (user review 2026-10-24)
 	["ORC"] = {
-		{ name = "Orc", icon = "ORC",
+		{ name = "Orc", icon = "ORC", warPaint = ORC_WAR_PAINT,
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
-		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR",
+		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR", warPaint = MAGHAR_WAR_PAINT,
 			MALE = {12, 16, 20, 21, 22, 23, 24, 50, 53},
 			FEMALE = {12, 20, 21, 22, 23, 24, 50, 53} },
-		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK",
+		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK", warPaint = ORC_WAR_PAINT,
 			MALE = {9, 14, 17, 18, 19, 47},
 			FEMALE = {11, 13, 18, 19, 47} },
-		{ name = "Fel Orc", icon = "FELORC",
+		{ name = "Fel Orc", icon = "FELORC", warPaint = ORC_WAR_PAINT,
 			MALE = {10, 25, 26, 27},
 			FEMALE = {25, 26, 27} },
 	},
@@ -453,8 +457,14 @@ function CharCreate_ApplySubRace()
 		end
 	end
 	SetCharCustomizationFilter(1, unpack(colours));
-	SetCharCustomizationFilter(7);	-- every sub-race has every tattoo, scar and war paint (retail's set, for testing)
+	SetCharCustomizationFilter(7);	-- every sub-race has every tattoo and scar (retail's set, for testing)
 	SetCharCustomizationFilter(8);
+	local warPaint = subRaces[CharacterCreate.subRace].warPaint;
+	if ( warPaint ) then
+		SetCharCustomizationFilter(9, unpack(warPaint));
+	else
+		SetCharCustomizationFilter(9);
+	end
 end
 
 function CharCreate_UpdateSubRaces()
@@ -468,6 +478,7 @@ function CharCreate_UpdateSubRaces()
 			SetCharCustomizationFilter(1);
 			SetCharCustomizationFilter(7);
 			SetCharCustomizationFilter(8);
+			SetCharCustomizationFilter(9);
 			CharacterCreate.subRaces = nil;
 		end
 		return;

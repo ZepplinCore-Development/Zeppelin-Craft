@@ -21,6 +21,7 @@ Warnings (reported, with a contact sheet):
 """
 import hashlib
 import json
+import re
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -32,8 +33,9 @@ from PIL import Image, ImageDraw
 from lib import model_sources as ms
 from lib.patch_builder import discover_patches
 from lib.wardrobe.blp import read_blp
+from lib.wardrobe.eye_islands import island
 
-PLAYABLE = range(1, 12)                      # ChrRaces 1-11; 12+ are NPC races (Worgen=Fel Orc row, Naga, ...)
+PLAYABLE = list(range(1, 13))                # ChrRaces 1-11 and 12, the Worgen (stock's Fel Orc row); 13+ are NPC races
 SEXES = {0: 'male', 1: 'female'}
 REACHABLE = 0x1 | 0x4                        # CharSections flags: playable, death knight
 HD_PACKS = [ms.TOOLS_ROOT / 'Asset Library' / 'COMMUNITY' / n / 'mpq' / 'source-assets'
@@ -41,7 +43,7 @@ HD_PACKS = [ms.TOOLS_ROOT / 'Asset Library' / 'COMMUNITY' / n / 'mpq' / 'source-
 # 512-scale character atlas boxes the face halves are pasted into (classic REGIONS x2)
 FACE_BOX = {'texture_1': (0, 384, 256, 128), 'texture_2': (0, 320, 256, 64)}
 TONE_SKIP = {6, 9}                           # tauren, goblin: the face covers more than the classic face box
-TONE_LIMIT = 0.35                            # chroma distance (0..~1.4) between a face and its skin
+TONE_LIMIT = 6.0                             # Lab a*b* distance of a face-to-body offset from the race's stock offset
 
 
 @dataclass
@@ -109,6 +111,31 @@ class Images:
         return self.get(f) is not None
 
 
+def _lab(rgb: np.ndarray) -> np.ndarray:
+    """sRGB 0-255 -> CIE Lab (D65)."""
+    c = np.asarray(rgb, np.float64) / 255
+    c = np.where(c > 0.04045, ((c + 0.055) / 1.055) ** 2.4, c / 12.92)
+    xyz = np.array([[0.4124, 0.3576, 0.1805], [0.2126, 0.7152, 0.0722], [0.0193, 0.1192, 0.9505]]) @ c
+    xyz /= np.array([0.95047, 1.0, 1.08883])
+    f = np.where(xyz > 0.008856, np.cbrt(xyz), 7.787 * xyz + 16 / 116)
+    return np.array([116 * f[1] - 16, 500 * (f[0] - f[1]), 200 * (f[1] - f[2])])
+
+
+def _lit_rgb(a: np.ndarray) -> Optional[np.ndarray]:
+    """The mean colour of the brighter half of the opaque pixels: how the skin reads. Medians sit in the
+    shadows, where a pink face on a grey body still matched (user report, Mag'har 8 / 9). Near-pure colour
+    (painted glowing eyes) is left out."""
+    m = a[..., 3] > 128
+    if m.sum() < 50:
+        return None
+    px = a[..., :3][m]
+    px = px[(px.max(axis=1) - px.min(axis=1)) <= 140]
+    if len(px) < 50:
+        return None
+    lum = px.mean(axis=1)
+    return px[lum >= np.median(lum)].mean(axis=0)
+
+
 def _median_rgb(a: np.ndarray) -> Optional[np.ndarray]:
     m = a[..., 3] > 128
     if m.sum() < 50:
@@ -168,6 +195,27 @@ def _holes(lums: Dict[int, np.ndarray], near=8) -> Dict[int, Tuple[int, Tuple[in
         for area, m, centre in comps[i]:
             if masks[sib][:, m].any(axis=1).sum() <= 1 and area > out.get(c, (0,))[0]:
                 out[c] = (area, centre)
+    return out
+
+
+GLUE = Path('zpaks/patch-modern-login/mpq/source-assets/Interface/GlueXML/CharacterCreate.lua')
+
+
+def offered(craft_root: Path) -> Dict[Tuple[str, int], set]:
+    """(race file name upper case, sex) -> the skin colours character create offers (CHAR_CREATE_SUBRACES, every
+    sub-race and the shared ones). A race without an entry offers every reachable colour (no key)."""
+    out = {}
+    text = (craft_root / GLUE).read_text(errors='replace')
+    start = text.find('CHAR_CREATE_SUBRACES = {')
+    if start < 0:
+        return out
+    body = text[start:text.find('\n};', start)]
+    for m in re.finditer(r'\["(\w+)"\] = \{(.*?)\n\t\},', body, re.S):
+        for sex, key in ((0, 'MALE'), (1, 'FEMALE')):
+            cols = set()
+            for lst in re.findall(key + r' = \{([\d,\s]*)\}', m.group(2)):
+                cols |= {int(x) for x in lst.replace(' ', '').split(',') if x}
+            out[(m.group(1), sex)] = cols
     return out
 
 
@@ -244,7 +292,7 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                         if r[col]:
                             resolve(r, col)
 
-            sizes = {}
+            sizes, tones, body_lit = {}, [], {}
             for t, cs in faces.items():
                 details = {}
                 for c, r in cs.items():
@@ -261,19 +309,21 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                             and low[..., :3][low[..., 3] > 128].mean() < 25:
                         out.append(Finding('error', 'blank', race, sex, c, f'face type {t} lower face is solid black',
                                            1, t, [r['texture_1'], r['texture_2']], files[ms.norm(r['texture_1'])][1]))
-                    if sk is not None and 'texture_1' in parts and not stock and race not in TONE_SKIP:
-                        s512 = np.asarray(Image.fromarray(sk.clip(0, 255).astype(np.uint8), 'RGBA')
-                                          .resize((512, 512), Image.BOX)).astype(np.float32)
-                        body = s512.copy()
-                        body[320:, :256, 3] = 0                    # the face area under the face is never seen
-                        under, face = _median_rgb(body), _median_rgb(parts['texture_1'])
-                        if under is not None and face is not None:
-                            d = _chroma_distance(face, under)
-                            stats['tone_checked'] += 1
-                            if d > TONE_LIMIT:
-                                out.append(Finding('warning', 'tone', race, sex, c,
-                                                   f'face type {t} colour distance {d:.2f} from its body', 1, t,
-                                                   [r['texture_1'], r['texture_2']]))
+                    if sk is not None and 'texture_1' in parts and not stock and race not in TONE_SKIP \
+                            and not skins[c]['flags'] & 0x4 and not r['flags'] & 0x4:   # DK skins and faces glow
+                        if c not in body_lit:
+                            s512 = np.asarray(Image.fromarray(sk.clip(0, 255).astype(np.uint8), 'RGBA')
+                                              .resize((512, 512), Image.BOX)).astype(np.float32)
+                            s512[320:, :256, 3] = 0                # the face area under the face is never seen
+                            body_lit[c] = _lit_rgb(s512)
+                        low = parts['texture_1'].copy()
+                        eye = island(race, sex)[64:]                   # the eye's own colour is not the face's
+                        if eye.any():
+                            hh, ww = low.shape[:2]
+                            low[..., 3][np.asarray(Image.fromarray(eye).resize((ww, hh), Image.NEAREST))] = 0
+                        face = _lit_rgb(low)
+                        if body_lit[c] is not None and face is not None:
+                            tones.append((c, t, _lab(face) - _lab(body_lit[c]), r))
                     if 'texture_1' in parts:
                         sizes[c, t] = parts['texture_1'].shape[:2]
                     if len(parts) == 2 and not stock:          # classic art on an HD head is already an error
@@ -286,6 +336,21 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                     out.append(Finding('warning', 'hole', race, sex, c,
                                        f'face type {t}: dark blob of {area} px at {x},{y} that few colours have', 1, t,
                                        [r['texture_1'], r['texture_2']]))
+            # tone: a face's lit colour against its body's (Lab a*b*), measured from what this race's own stock colours
+            # (0-9) do: their faces may be ruddier than the body, a clash is a face that strays from that. Death knight
+            # colours are left out (their faces glow). Calibrated on the old per-channel recolour's pink / magenta
+            # orc faces (6-14) against every shipped face (95th percentile 8): the two overlap, and so did a render of
+            # the face against its neck (skin_preview.seam_check), so tone is a warning on the sheet, never a stop.
+            ref = [dv for c, t, dv, r in tones if c <= 9]
+            if len(ref) >= 4:
+                ref = np.median(np.stack(ref), axis=0)
+                for c, t, dv, r in tones:
+                    d = float(np.linalg.norm((dv - ref)[1:]))      # a*, b*: hue and saturation; brightness may differ
+                    stats['tone_checked'] += 1
+                    if d > TONE_LIMIT:
+                        out.append(Finding('warning', 'tone', race, sex, c,
+                                           f'face type {t} colour {d:.1f} off its body (against the stock colours)',
+                                           1, t, [r['texture_1'], r['texture_2']], files[ms.norm(r['texture_1'])][1]))
             if sizes:
                 common = max(set(sizes.values()), key=list(sizes.values()).count)
                 for (c, t), hw in sizes.items():
@@ -294,6 +359,13 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                         out.append(Finding('warning', 'size', race, sex, c,
                                            f'face type {t} lower face is {hw[1]}x{hw[0]}, the others {common[1]}x{common[0]}',
                                            1, t, [r['texture_1'], r['texture_2']]))
+    # a colour character create does not offer cannot reach a player: its faults are warnings
+    offer = offered(craft_root)
+    for f in out:
+        cols = offer.get((names.get(f.race, '').upper(), f.sex))
+        if f.level == 'error' and cols is not None and f.colour not in cols and f.kind not in ('missing', 'undecodable'):
+            f.level = 'warning'
+            f.detail += ' (not offered in character create)'
     return out, dict(stats)
 
 

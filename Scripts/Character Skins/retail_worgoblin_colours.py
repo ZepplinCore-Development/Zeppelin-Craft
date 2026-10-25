@@ -114,7 +114,9 @@ def main():
         for g, option in options.items():
             mine = collections.defaultdict(dict)       # colour -> {(base, type): row}, highest id wins
             for r in sorted(ours, key=lambda r: r['id']):
-                if r['race'] == race and r['gender'] == g and r['base'] in (0, 1, 4):
+                # not this script's own rows: the server DBC already holds them, and taking them for our colours
+                # made a re-run see only one new colour (and its DELETE would have dropped the rest)
+                if r['race'] == race and r['gender'] == g and r['base'] in (0, 1, 4) and not ID_BASE <= r['id'] < ID_BASE + 10000:
                     mine[r['color']][(r['base'], r['type'])] = r
             playable = sorted(c for c, rs in mine.items() if (0, 0) in rs and rs[(0, 0)]['flags'] & 1 and (4, 0) in rs)
             bodies = retail_bodies(option)
@@ -133,8 +135,15 @@ def main():
                 a, b = hd[k].reshape(-1, 3), tgt.reshape(-1, 3)
                 w, *_ = np.linalg.lstsq(feats(a), b, rcond=None)
                 err = np.abs(np.clip(feats(a) @ w, 0, 255) - b).mean()
-                ours_body = rgb(files.find(mine[k][(0, 0)]['t1']))
-                dist = keep_map(ours_body.reshape(-1, 3))
+                # the pixels that follow the fit: anything near a colour of our colour k's skin anywhere (body, _Extra,
+                # face 0). From the body alone, the arms / hands column and the face (another tone in our atlas) kept
+                # the old colour: brown arms on a blue-grey worgen (user report, worgen 6-12 / 10-17)
+                skin_px = [rgb(files.find(mine[k][(0, 0)]['t1'])).reshape(-1, 3)]
+                for key, col in (((0, 0), 't2'), ((1, 0), 't1'), ((1, 0), 't2')):
+                    src = mine[k].get(key, {}).get(col)
+                    if src and files.find(src):
+                        skin_px.append(rgb(files.find(src)).reshape(-1, 3))
+                dist = keep_map(np.concatenate(skin_px))
                 made = 0
                 for (base, typ), r in sorted(mine[k].items()):
                     out = dict(r, color=colour, id=nid)
