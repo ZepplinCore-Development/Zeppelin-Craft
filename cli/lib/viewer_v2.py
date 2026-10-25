@@ -16,6 +16,7 @@ import json
 import os
 import re
 import shutil
+import struct
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple
 
@@ -2134,6 +2135,52 @@ def customise_entries(dep: 'Deployer', assets: List[dict]) -> List[dict]:
     return out
 
 
+def _model_facts(dep: 'Deployer', body: dict) -> Tuple[List[str], Optional[List[float]]]:
+    """From the body model: its hardcoded (type 0) texture paths - a glow eye replaces them (the client's
+    LoadFaceLayers ReplaceTexture(0, glow)) - and its head attachment (id 11), where the face close-up aims:
+    the top of the bounding box is the shoulders on a hunched orc."""
+    try:
+        maps = json.loads((dep.store.dir.parent.parent / 'data' / 'maps' / f"{body['map']}.json").read_text())
+        data = (dep.store.dir / maps[body['model']]).read_bytes()
+    except (KeyError, OSError, ValueError):
+        return [], None
+    if data[:4] == b'MD21':
+        data = data[8:]
+    if data[:4] != b'MD20':
+        return [], None
+    n, ofs = struct.unpack_from('<II', data, 0x50)
+    glow = []
+    for i in range(n):
+        ty, _fl, ln, on = struct.unpack_from('<IIII', data, ofs + 16 * i)
+        if ty == 0 and ln > 1:
+            glow.append(data[on:on + ln].rstrip(b'\0').decode('latin-1').replace('\\', '/').lower())
+    head = None
+    n, ofs = struct.unpack_from('<II', data, 0xF0)
+    for i in range(n):
+        aid, = struct.unpack_from('<I', data, ofs + 40 * i)
+        if aid == 11:
+            head = [round(v, 3) for v in struct.unpack_from('<3f', data, ofs + 40 * i + 8)]
+            break
+    return glow, head
+
+
+def _live_charsections() -> Dict[int, dict]:
+    """CharSections from the DBC database (what PATCH-Z is built from): the parsed zpak deltas miss bulk UPDATEs
+    (zep-skin-expansion sets orc faces to flags 17, the delta view kept stock 1 and hid every face from a death
+    knight). {} when the database is unreachable - the caller falls back to the effective view."""
+    try:
+        from commands.dbc import ENV_PATH
+        from lib.dbc_utils import DBCConfig, DBCConnection
+        cfg = DBCConfig.from_env(ENV_PATH)
+        with DBCConnection(cfg) as conn:
+            cur = conn.get_connection(cfg.live).cursor(dictionary=True)
+            cur.execute('SELECT id, race, gender, base_section, texture_1, texture_2, texture_3, flags, type, '
+                        'color_index FROM charsections')
+            return {int(r['id']): r for r in cur.fetchall()}
+    except Exception:
+        return {}
+
+
 def creator_chars(dep: 'Deployer', bd: Dict[str, dict]) -> Dict[str, dict]:
     """Per body code, every CharSections choice the client offers that race/sex - the live (effective) DBC,
     so zep-skin-expansion's PATCH-L colours are in - with each texture resolved to the file the client loads
@@ -2141,8 +2188,12 @@ def creator_chars(dep: 'Deployer', bd: Dict[str, dict]) -> Dict[str, dict]:
     wins, as in the client (F-225). For the picker's Character creator (in-browser bake, no items).
       {race, gender, skins: {c: {skin, extra, flags}}, under: {c: [legupper, torsoupper]},
        faces: {c: {face: [lower, upper, flags]}}, hair: {style: {hc: {tex, scalp: [lower, upper], flags}}},
-       facial: {style: {hc: [lower, upper]}}, hair_geo: {style: [geoset, show_scalp]}, facial_geo: {style: [5]}}"""
-    chs = dep.result['effective_char_dbc'][1]
+       facial: {style: {hc: [lower, upper]}}, hair_geo: {style: [geoset, show_scalp]}, facial_geo: {style: [5]},
+       eyes: {eye: [lower, upper, glow, flags]}, layers: {'6'|'7'|'8': {n: [texture, flags]}}, glow_paths: [path],
+       head: [x, y, z] | None}
+    F-151 sections as the x64 client reads them (CharacterComponent LoadFaceLayers / PasteFullLayers): eyes
+    (5) and the full-atlas layers (6 tattoo, 7 scars, 8 war paint) are one row per choice, colour 0."""
+    chs = _live_charsections() or dep.result['effective_char_dbc'][1]
     hair_l, facial_l = mvd._geo_lookups('effective')
     _, races, _ = mvd._load_item_lookups()
     cache: Dict[str, str] = {}
@@ -2152,7 +2203,7 @@ def creator_chars(dep: 'Deployer', bd: Dict[str, dict]) -> Dict[str, dict]:
             return ''
         p = str(name).replace('\\', '/').lower()
         if p not in cache:
-            f = dep.ix.stock.get(p) or dep.result['effective_assets'].get(p)
+            f = dep.result['effective_assets'].get(p) or dep.ix.stock.get(p)   # a patch's file wins over stock
             cache[p] = dep.store.put(f) if f is not None else ''
         return cache[p]
     by_rs: Dict[Tuple[int, int], Dict[tuple, dict]] = {}
@@ -2168,7 +2219,7 @@ def creator_chars(dep: 'Deployer', bd: Dict[str, dict]) -> Dict[str, dict]:
         if not rows:
             continue
         ch = {'race': race, 'gender': sex, 'skins': {}, 'under': {}, 'faces': {}, 'hair': {}, 'facial': {},
-              'hair_geo': {}, 'facial_geo': {}}
+              'hair_geo': {}, 'facial_geo': {}, 'eyes': {}, 'layers': {'6': {}, '7': {}, '8': {}}}
         for (b, t, c), r in sorted(rows.items()):
             t1, t2, t3, fl = r.get('texture_1'), r.get('texture_2'), r.get('texture_3'), int(r.get('flags') or 0)
             if b == 0 and t == 0:
@@ -2181,6 +2232,11 @@ def creator_chars(dep: 'Deployer', bd: Dict[str, dict]) -> Dict[str, dict]:
                 ch['hair'].setdefault(str(t), {})[str(c)] = {'tex': put(t1), 'scalp': [put(t2), put(t3)], 'flags': fl}
             elif b == 4 and t == 0:
                 ch['under'][str(c)] = [put(t1), put(t2)]
+            elif b == 5 and c == 0:                    # F-151 eye colour: [lower, upper, glow, flags]
+                ch['eyes'][str(t)] = [put(t1), put(t2), put(t3), fl]
+            elif b in (6, 7, 8) and c == 0 and t:      # F-151 full-atlas layers (tattoo, scars, war paint); 0 = none
+                ch['layers'][str(b)][str(t)] = [put(t1), fl]
+        ch['glow_paths'], ch['head'] = _model_facts(dep, bd[code])
         for (r_, s_, st), v in hair_l.items():
             if (r_, s_) == (race, sex):
                 ch['hair_geo'][str(st)] = list(v[:2])

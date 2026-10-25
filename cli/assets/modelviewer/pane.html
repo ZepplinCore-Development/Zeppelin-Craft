@@ -1059,6 +1059,10 @@ function placeStart() {
     // a restored view (?view=, the Display editor reloading its preview) is in this same orbit
     // frame: camStep steers the engine there
     if (VIEW.length >= 3 && VIEW.slice(0, 3).every(Number.isFinite)) { cam.yaw = VIEW[0]; cam.pitch = VIEW[1]; cam.dist = VIEW[2]; }
+    // its pan too - only now: an offset set before the start position is placed is lost (the creator's face close-up)
+    if (VIEW.length >= 5 && (VIEW[3] || VIEW[4]) && !panOff[0] && !panOff[1]) {
+      Module._addCameraViewOffset(VIEW[3], VIEW[4]); panOff[0] = VIEW[3]; panOff[1] = VIEW[4];
+    }
     camLive = true;
     updateRuler();
   });
@@ -1211,7 +1215,6 @@ function startScene_() {
     Module._setTextures(buf, slots.length);
     Module._free(buf);
     ready = true;
-    if (VIEW.length >= 5 && (VIEW[3] || VIEW[4])) { Module._addCameraViewOffset(VIEW[3], VIEW[4]); panOff[0] = VIEW[3]; panOff[1] = VIEW[4]; }
     applyMeshes();
     syncSize();
     let last;

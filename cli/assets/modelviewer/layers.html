@@ -435,6 +435,11 @@ async function o335Bake(ch, outfit, hairStyle, facialHair, pane = null) {
     g.drawImage(skin, 0, 0, 256 * S, 256 * S);
     const face = cs.face || [], fac = (cs.facial || {})[String(facialHair)] || [], sca = (cs.scalp || {})[String(hairStyle)] || [], und = cs.underwear || [];
     await blit(face[0], 'FaceLower'); await blit(face[1], 'FaceUpper');
+    // F-151 (x64 client PasteFullLayers / LoadFaceLayers): full-atlas layers (tattoo, scars, war paint) over the
+    // whole texture - after the face, before underwear - then the eye colour, under facial hair and scalp
+    for (const cas of cs.layers || []) { const b = await casBitmap(cas); if (b) g.drawImage(b, 0, 0, 256 * S, 256 * S); }
+    const eye = cs.eyes || [];
+    await blit(eye[0], 'FaceLower'); await blit(eye[1], 'FaceUpper');
     await blit(fac[0], 'FaceLower'); await blit(fac[1], 'FaceUpper');
     await blit(sca[0], 'FaceLower'); await blit(sca[1], 'FaceUpper');
     await blit(und[0], 'LegUpper'); await blit(und[1], 'TorsoUpper');
@@ -1545,7 +1550,7 @@ function fitOf(path, option) {
 // ---- Character creator (skin work, F-151): every CharSections choice of a race/sex as the client ships them -----
 // data/v2/chars/<code>.json (viewer_v2.creator_chars, from the live DBC incl. PATCH-L); the bake is composed in the
 // browser (o335Bake, no items) and drawn on the race's body pane: hair texture = slot 6, the colour's _Extra = slot 8.
-const CREATOR = { code: null, data: {}, sel: {}, playable: true, url: null };
+const CREATOR = { code: null, data: {}, sel: {}, playable: true, dk: false, face: false, url: null };
 const CR_BAKE = 999000101, CR_HAIR = 999000102, CR_EXTRA = 999000103;
 async function openCharCreator(code, push = true) {
   code = code || CREATOR.code || (bodies.hum ? 'hum' : Object.keys(bodies)[0]);
@@ -1557,7 +1562,9 @@ async function openCharCreator(code, push = true) {
   CREATOR.code = code;
   $('title').textContent = 'Character creator';
   if (!D || !body) { $('panes').innerHTML = `<div class="empty">No character data for ${esc(code)} (deploy the viewer).</div>`; return; }
-  const ok = (fl) => !CREATOR.playable || (fl & 1);             // CharSections flag 1: offered in character creation
+  // CharSections flags as the client's ComponentFlagsMatch reads them: 1 = character creation, 4 / 0x10 = death
+  // knight rows (4 = death knight only), 8 = never offered
+  const ok = (fl) => !CREATOR.playable || (CREATOR.dk ? (fl & 1) && (fl & 0x14) && !(fl & 8) : (fl & 1) && !(fl & 0xC));
   const num = (a) => a.sort((x, y) => +x - +y);
   const S = CREATOR.sel[code] || (CREATOR.sel[code] = {});
   const opts = {};
@@ -1571,7 +1578,18 @@ async function openCharCreator(code, push = true) {
   if (!opts.hc.includes(S.hc)) S.hc = opts.hc[0];
   opts.facial = num(Object.keys(D.facial_geo).length ? Object.keys(D.facial_geo) : Object.keys(D.facial));
   if (!opts.facial.includes(S.facial)) S.facial = opts.facial[0];
-  const LBL = { skin: 'Skin colour', face: 'Face', hair: 'Hair style', hc: 'Hair colour', facial: 'Facial hair' };
+  // F-151: eye colour (the first the class may have) and the full-atlas layers, '0' = none
+  const eyes = D.eyes || {}, layers = D.layers || {};
+  opts.eye = num(Object.keys(eyes).filter(t => ok(eyes[t][3])));
+  if (!opts.eye.includes(S.eye)) S.eye = opts.eye[0];
+  const LAYERS = { '6': 'tattoo', '7': 'scars', '8': 'paint' };
+  for (const [b, k] of Object.entries(LAYERS)) {
+    const o = num(Object.keys(layers[b] || {}).filter(t => ok(layers[b][t][1])));
+    opts[k] = o.length ? ['0', ...o] : [];
+    if (!opts[k].includes(S[k])) S[k] = '0';
+  }
+  const LBL = { skin: 'Skin colour', face: 'Face', hair: 'Hair style', hc: 'Hair colour', facial: 'Facial hair', eye: 'Eye colour',
+    tattoo: 'Tattoo', scars: 'Scars', paint: 'War paint' };
   const codes = Object.keys(bodies).sort((a, b) => codeName(a).localeCompare(codeName(b)));
   const ctl = (k) => `<div class="row"><label style="min-width:90px">${LBL[k]}</label><button data-cs="${k}" data-d="-1">&lt;</button>
     <select data-cr="${k}">${(opts[k] || []).map(v => `<option${v === S[k] ? ' selected' : ''}>${esc(v)}</option>`).join('')}</select>
@@ -1579,10 +1597,14 @@ async function openCharCreator(code, push = true) {
   $('panes').innerHTML = `<div class="pane" style="grid-column:1/-1;min-height:70vh"><iframe id="cr-pane" title="Character creator" style="height:62vh"></iframe>
     <div class="info"><div class="h"><b>${esc(codeName(code))}</b><span class="chip">no items</span><span class="chip" title="Live DBC: every enabled zpak, PATCH-L skin expansion included; textures as the client loads them">as shipped</span></div>
     <div class="cust"><div class="row"><label style="min-width:90px">Race</label><select id="cr-code">${codes.map(c => `<option value="${c}"${c === code ? ' selected' : ''}>${esc(codeName(c))}</option>`).join('')}</select>
-      <label title="Only choices the client's character creation offers (CharSections flag 1); off = NPC-only colours and faces too"><input type="checkbox" id="cr-play"${CREATOR.playable ? ' checked' : ''}> char create only</label></div>
-    ${['skin', 'face', 'hair', 'hc', 'facial'].map(ctl).join('')}<div class="stats" id="cr-status"></div></div></div></div>`;
+      <label title="Only choices the client's character creation offers (CharSections flag 1); off = NPC-only colours and faces too"><input type="checkbox" id="cr-play"${CREATOR.playable ? ' checked' : ''}> char create only</label>
+      <label title="Death knight choices (CharSections flags 4 / 0x10): their skins, faces and glow eyes"><input type="checkbox" id="cr-dk"${CREATOR.dk ? ' checked' : ''}> death knight</label>
+      <label title="Camera on the head"><input type="checkbox" id="cr-face"${CREATOR.face ? ' checked' : ''}> face close-up</label></div>
+    ${['skin', 'face', 'eye', 'hair', 'hc', 'facial', 'tattoo', 'scars', 'paint'].filter(k => (opts[k] || []).length).map(ctl).join('')}<div class="stats" id="cr-status"></div></div></div></div>`;
   $('cr-code').onchange = (ev) => openCharCreator(ev.target.value);
   $('cr-play').onchange = (ev) => { CREATOR.playable = ev.target.checked; openCharCreator(code, false); };
+  $('cr-dk').onchange = (ev) => { CREATOR.dk = ev.target.checked; openCharCreator(code, false); };
+  $('cr-face').onchange = (ev) => { CREATOR.face = ev.target.checked; openCharCreator(code, false); };
   $('panes').querySelectorAll('select[data-cr]').forEach(el => el.onchange = () => { S[el.dataset.cr] = el.value; openCharCreator(code, false); });
   $('panes').querySelectorAll('button[data-cs]').forEach(bt => bt.onclick = () => {
     const k = bt.dataset.cs, o = opts[k] || [], i = o.indexOf(S[k]);
@@ -1591,7 +1613,9 @@ async function openCharCreator(code, push = true) {
   const hair = (D.hair[S.hair] || {})[S.hc] || {}, sk = D.skins[S.skin] || {};
   const ch = { race: D.race, gender: D.gender, hair_style: +S.hair, facial_hair: +S.facial,
     cs: { skin: sk.skin, face: ((D.faces[S.skin] || {})[S.face] || []).slice(0, 2), underwear: D.under[S.skin] || [],
-          facial: { [S.facial]: (D.facial[S.facial] || {})[S.hc] || [] }, scalp: { [S.hair]: hair.scalp || [] } } };
+          facial: { [S.facial]: (D.facial[S.facial] || {})[S.hc] || [] }, scalp: { [S.hair]: hair.scalp || [] },
+          eyes: (eyes[S.eye] || []).slice(0, 2),
+          layers: Object.entries(LAYERS).map(([b, k]) => ((layers[b] || {})[S[k]] || [])[0]).filter(Boolean) } };
   $('cr-status').textContent = 'baking…';
   const bk = await o335Bake(ch, {}, +S.hair, +S.facial, null);
   if (CREATOR.code !== code || !$('cr-pane')) return;
@@ -1604,12 +1628,28 @@ async function openCharCreator(code, push = true) {
   if (hg) mesh[0] = hg[0];
   mesh[1] = fg[0]; mesh[3] = fg[1]; mesh[2] = fg[2];
   if (fg.length > 4) { mesh[16] = fg[3]; mesh[17] = fg[4]; }
+  // eye glow (client GeosRenderPrep): with eye choices, exactly a glow eye (texture_3) - its glow replaces the
+  // model's hardcoded textures; else a death knight, else a face row flagged 4
+  const eyeRow = eyes[S.eye], faceFl = ((D.faces[S.skin] || {})[S.face] || [])[2] || 0;
+  const glow = opts.eye.length ? !!(eyeRow && eyeRow[2]) : CREATOR.dk || !!(faceFl & 4);
+  if (glow) mesh[17] = 3;
   const tex = { ...(body.tex || {}), 1: CR_BAKE }, ovr = { ['fdid/' + CR_BAKE]: CREATOR.url };
+  if (glow && eyeRow && eyeRow[2]) (D.glow_paths || []).forEach(p => { ovr[p] = eyeRow[2]; });
   if (hair.tex) { tex['6'] = CR_HAIR; ovr['fdid/' + CR_HAIR] = hair.tex; }
   if (sk.extra) { tex['8'] = CR_EXTRA; ovr['fdid/' + CR_EXTRA] = sk.extra; }
-  const pane = { ...body, tex, mesh, items: [], scalp: hg && hg[1] ? 1 : 0 };
-  $('cr-pane').src = withView(paneUrl(pane, { ovr }));
-  $('cr-status').textContent = `skin ${S.skin} · face ${S.face} · hair ${S.hair} colour ${S.hc} · facial ${S.facial}`;
+  // framing: the whole body filling the pane, or the head close up
+  const bb = body.bbox || [0, 0, 0, 0, 0, 2], c0 = body.camera || { target: [0, 0, (bb[2] + bb[5]) / 2], dist: 4 };
+  // the engine always orbits the model's centre, so the close-up is the pane's own view: near-frontal, close,
+  // panned (world units, + = model up) by the height of the head above the centre - the head attachment (deploy: the
+  // model's attachment 11)
+  const hd = D.head || [0, 0, bb[5] - (bb[5] - bb[2]) * 0.13];
+  const face = CREATOR.face ? [0.35, 0.08, 1.6, 0, (bb[2] + bb[5]) / 2 - hd[2] + (bb[5] - bb[2]) * 0.12] : null;
+  const camera = { target: c0.target, dist: c0.dist * 0.7 };
+  const pane = { ...body, tex, mesh, items: [], scalp: hg && hg[1] ? 1 : 0, camera };
+  const url = paneUrl(pane, { ovr });
+  $('cr-pane').src = face ? url + '&view=' + face.map(v => +v.toFixed(3)).join(',') : withView(url);
+  $('cr-status').textContent = `skin ${S.skin} · face ${S.face}` + (opts.eye.length ? ` · eye ${S.eye}${glow ? ' (glow)' : ''}` : glow ? ' · eye glow' : '')
+    + ` · hair ${S.hair} colour ${S.hc} · facial ${S.facial}` + Object.values(LAYERS).filter(k => +S[k]).map(k => ` · ${k} ${S[k]}`).join('');
 }
 // "No armour" (Items tab, for skin work): the body re-baked bare in the browser - the race's skin, face and
 // underwear with no NPC clothes (bakedLook with an empty outfit: armour geosets bare, helm / shoulders off).
