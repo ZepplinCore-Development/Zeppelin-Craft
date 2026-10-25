@@ -13,6 +13,15 @@ type DownloadProgress struct {
 	Filename   string
 	Downloaded int64
 	Total      int64
+	Part       int // 3.3.0 split bundle: the piece being fetched (1-based) of Parts; 0 = a single file
+	Parts      int
+}
+
+// bundleProgress turns one member's byte counts into the whole bundle's: Downloaded/Total cover every
+// piece still to fetch, so the bar runs 0-100% once instead of restarting per ~1 GB piece.
+type bundleProgress struct {
+	offset, total int64
+	part, parts   int
 }
 
 type DownloadResult struct {
@@ -91,11 +100,20 @@ func performDownload(
 	// under the bundle's display name so progress + version tracking stay on the single bundle row.
 	if files, ok := pr.BundleFiles(filename); ok {
 		anyPending, fetched := false, 0
+		var todo []WxlFile
+		var total int64
 		for _, f := range files {
 			if memberCurrent(pr, f) { // 3.3.0: only the members whose md5 changed are downloaded
 				continue
 			}
-			r := downloadOne(f.Name, filename, pr, progressCh, cancelCh)
+			todo = append(todo, f)
+			total += int64(f.SizeMB * (1 << 20))
+		}
+		var offset int64
+		for i, f := range todo {
+			bp := &bundleProgress{offset: offset, total: total, part: i + 1, parts: len(todo)}
+			r := downloadOne(f.Name, filename, pr, progressCh, cancelCh, bp)
+			offset += int64(f.SizeMB * (1 << 20))
 			if !r.Success {
 				return DownloadResult{filename, false, fmt.Sprintf("%s: %s", f.Name, r.Message), "missing"}
 			}
@@ -113,7 +131,7 @@ func performDownload(
 		}
 		return DownloadResult{filename, true, fmt.Sprintf("Downloaded %s", filename), state}
 	}
-	return downloadOne(filename, filename, pr, progressCh, cancelCh)
+	return downloadOne(filename, filename, pr, progressCh, cancelCh, nil)
 }
 
 // downloadOne fetches a single file, reporting progress + the result under displayName (which is the
@@ -124,6 +142,7 @@ func downloadOne(
 	pr *PatchRegisterClient,
 	progressCh chan<- DownloadProgress,
 	cancelCh <-chan struct{},
+	bp *bundleProgress, // nil for a single file
 ) DownloadResult {
 	fileURL := downloadBaseURL(filename) + filepath.ToSlash(filename)
 
@@ -169,7 +188,15 @@ func downloadOne(
 		if n > 0 {
 			out.Write(buf[:n])
 			downloaded += int64(n)
-			progressCh <- DownloadProgress{displayName, downloaded, total}
+			if bp != nil && bp.total > 0 {
+				done := bp.offset + downloaded
+				if done > bp.total {
+					done = bp.total // size_mb is rounded to 0.1 MB
+				}
+				progressCh <- DownloadProgress{displayName, done, bp.total, bp.part, bp.parts}
+			} else {
+				progressCh <- DownloadProgress{displayName, downloaded, total, 0, 0}
+			}
 		}
 		if readErr != nil {
 			if readErr == io.EOF {

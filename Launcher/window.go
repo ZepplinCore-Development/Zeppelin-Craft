@@ -542,6 +542,24 @@ func (ui *MainUI) downloadListener() {
 	}
 }
 
+// progressName is what the status line calls a download: the patch's display name, plus which piece of a
+// split bundle is coming down (3.3.0) - the bar covers the whole bundle, so it never jumps back.
+func (ui *MainUI) progressName(prog DownloadProgress) string {
+	name := ui.engine.PatchRegister.GetDisplayName(prog.Filename)
+	if prog.Parts > 1 {
+		name += fmt.Sprintf(" (piece %d of %d)", prog.Part, prog.Parts)
+	}
+	return name
+}
+
+// sizePair formats done/total in MB, or GB once the total passes 1 GB.
+func sizePair(dlMB, totalMB float64) string {
+	if totalMB >= 1024 {
+		return fmt.Sprintf("%.2f/%.2f GB", dlMB/1024, totalMB/1024)
+	}
+	return fmt.Sprintf("%.1f/%.1f MB", dlMB, totalMB)
+}
+
 func (ui *MainUI) handleProgress(prog DownloadProgress) {
 	if prog.Total > 0 {
 		pct := float64(prog.Downloaded) / float64(prog.Total)
@@ -567,12 +585,12 @@ func (ui *MainUI) handleProgress(prog DownloadProgress) {
 				eta = fmt.Sprintf("%.1fm", remaining/60)
 			}
 			ui.statusLabel.SetText(
-				fmt.Sprintf("Downloading %s: %.1f/%.1f MB (%d%%) \u2014 %.1f MB/s \u2014 ETA: %s",
-					prog.Filename, dlMB, totalMB, int(pct*100), speed, eta))
+				fmt.Sprintf("Downloading %s: %s (%d%%) \u2014 %.1f MB/s \u2014 ETA: %s",
+					ui.progressName(prog), sizePair(dlMB, totalMB), int(pct*100), speed, eta))
 		} else {
 			ui.statusLabel.SetText(
-				fmt.Sprintf("Downloading %s: %.1f/%.1f MB (%d%%)",
-					prog.Filename, dlMB, totalMB, int(pct*100)))
+				fmt.Sprintf("Downloading %s: %s (%d%%)",
+					ui.progressName(prog), sizePair(dlMB, totalMB), int(pct*100)))
 		}
 	} else {
 		ui.statusLabel.SetText(
