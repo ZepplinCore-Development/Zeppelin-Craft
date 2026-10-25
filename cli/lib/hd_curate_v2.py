@@ -544,7 +544,12 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
     dropped = stock_copies = 0
     for p, f in want.items():
         under = rest.get(p)
-        if f is None or (under is not None and hc._same(under.file, f)) or (under is None and hc._is_stock(f)):
+        # one of OUR enabled zpaks ships its OWN art at this path: it wins - PATCH-Q loads after nearly all of
+        # them, so a curated copy would override it (patch-modern-login's green glue buttons came out blue from
+        # a stock copy in PATCH-Q-15). Where our file is only a copy of stock (the resource parser copies the
+        # stock files a zpak references: patch-open-azeroth holds hundreds), the HD pack file still ships.
+        # A stock file never needs shipping: the client has it.
+        if f is None or _ours_custom(p, under) or hc._is_stock(f) or (under is not None and hc._same(under.file, f)):
             if manifest.pop(p, None) is not None:
                 dropped += 1
             continue
@@ -553,6 +558,9 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
         manifest[p] = hc.Entry(owner, 'Q', 0, f)
         if owner == 'stock':
             stock_copies += 1
+    for p in [p for p in manifest if _ours_custom(p, rest.get(p))]:   # base winners under our own art: ours win
+        manifest.pop(p)
+        dropped += 1
     # ---- retroports: a pack model that is retail's downported ships OUR conversion of retail's ----------
     stock_dbc = ({k[0]: v for k, v in layers.state('creaturedisplayinfo', 'stock').items()},
                  {k[0]: v for k, v in layers.state('creaturemodeldata', 'stock').items()})
@@ -883,6 +891,20 @@ def _retail_display(did: int, dp: dict, layers: hd.Layers, result: dict, srcs: d
         row['creature_model_scale'] = float(dp['scale'])
     wanted_rows[('creaturedisplayinfo', (did,))] = row
     return ''
+
+
+_custom_memo: Dict[str, bool] = {}
+
+
+def _ours_custom(path: str, under) -> bool:
+    """Does one of our enabled zpaks ship its own art at `path` (not a byte copy of the stock file)?"""
+    if under is None:
+        return False
+    k = str(under.file)
+    if k not in _custom_memo:
+        st = ms.stock_asset(path.lower())
+        _custom_memo[k] = st is None or not hc._same(under.file, st)
+    return _custom_memo[k]
 
 
 def ai_owner(f: Path) -> str:

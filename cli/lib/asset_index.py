@@ -647,7 +647,9 @@ class AssetIndex:
             # our own zpaks' art wins (zep-skin-expansion's F-151 colours ship in PATCH-L, which PATCH-Q would
             # override: a community pack's black TrollFemaleFaceLower00_18 replaced ours)
             from lib.hd_curate import COMMUNITY
-            ours = [o for o in a.options if any(x not in COMMUNITY and x not in ('stock', 'retail') for x in o.sources)]
+            # (an option that IS the stock file - a resource-parser copy in one of ours - is not our art)
+            ours = [o for o in a.options if 'stock' not in o.sources
+                    and any(x not in COMMUNITY and x != 'retail' for x in o.sources)]
             if ours:
                 return max(ours, key=lambda o: o.size), []
             cand = [o for o in a.options if ('stock' in o.sources) == stock_mesh] or list(a.options)
