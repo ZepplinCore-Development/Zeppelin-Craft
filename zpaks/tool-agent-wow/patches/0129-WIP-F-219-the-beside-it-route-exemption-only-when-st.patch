@@ -1,0 +1,74 @@
+From 550aa5aa786018c6bd7ba2523a99cfe66a903eae Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 25 Oct 2026 23:25:57 +0000
+Subject: [PATCH] WIP: F-219 - the "beside it" route exemption only when
+ stranded (every walk refused 10 min)
+
+Applied always, it let Teldrassil's hunter - 75 yd from the Vicious Grell camp after its
+detours - re-guard its road and walk straight through the camp (defend x3 deaths again).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 991955e..53c3f6c 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2762,6 +2762,11 @@ class Runner:
+         return max(t[2] for t in near) + 2 if len(near) >= count else 0
+ 
+     def route_guard(self, x, y, z, level):
++        """See _route_guard_core. A walk that passes clears the stranded clock."""
++        self._route_guard_core(x, y, z, level)
++        self._refused_since = 0
++
++    def _route_guard_core(self, x, y, z, level):
+         """Raise StepFailed (and park the current quest) when the planned path passes within reach of a
+         mob 3+ levels above us. Reach = its aggro radius at that level gap + its wander radius. The
+         first and last 30 yd are left to the start/destination checks."""
+@@ -2809,13 +2814,16 @@ class Runner:
+ 
+         def reach(t):
+             return min(28.0, 20.0 + t[2] - level) + t[4]
+-        # a mob we already stand beside never blocks the way OUT: staying is no safer than leaving (the
+-        # detour still skirts it). Durotar's warlock stood 70 yd from a level-7 Makrura, Mulgore's druid
+-        # 70 yd from a level-8 Prairie Stalker: every route started past it, both runs ended parked
+-        red = [t for t in red if math.dist(t[:2], start) >= reach(t) + 60]
+-        # ...nor does a grave we stand beside (Dun Morogh's paladin died twice by the spot it then stood
+-        # on, every road out "passed" it, and the run ended at 214 min with the paladin parked)
+-        graves = [g for g in graves if math.dist(g, start) >= 90]
++        # STRANDED: once every long walk has been refused for 10 min, a mob or grave we stand beside no
++        # longer blocks the way OUT - staying is no safer than leaving (the detour still skirts it).
++        # Durotar's warlock stood 70 yd from a level-7 Makrura, Mulgore's druid 70 yd from a level-8
++        # Prairie Stalker, Dun Morogh's paladin beside its own grave: every road out was refused and
++        # the runs ended parked. Only then: applied always, it let Teldrassil's hunter, 75 yd from the
++        # Vicious Grell camp after its detours, walk straight through it (the old 18-death road)
++        stranded = getattr(self, "_refused_since", 0) and time.time() - self._refused_since > 600
++        if stranded:
++            red = [t for t in red if math.dist(t[:2], start) >= reach(t) + 60]
++            graves = [g for g in graves if math.dist(g, start) >= 90]
+         for a, b in zip(pts, pts[1:]):
+             ax, ay, bx, by = a.get("x", 0), a.get("y", 0), b.get("x", 0), b.get("y", 0)
+             n = max(1, int(math.dist((ax, ay), (bx, by)) / 4))
+@@ -2828,6 +2836,7 @@ class Runner:
+                     q = getattr(self, "current_qid", None)
+                     if q:
+                         self.defer_until[q] = max(self.defer_until.get(q, 0), level + 1)
++                    self._refused_since = getattr(self, "_refused_since", 0) or time.time()
+                     raise StepFailed(f"route to ({x:.0f},{y:.0f}) passes ({grave[0]:.0f},{grave[1]:.0f}) where we "
+                                      f"died twice at level {level} - back at level {level + 1}")
+                 hit = next((t for t in red if math.dist(t[:2], p) < reach(t)), None)
+@@ -2838,6 +2847,7 @@ class Runner:
+                     q = getattr(self, "current_qid", None)
+                     if q:
+                         self.defer_until[q] = max(self.defer_until.get(q, 0), back)
++                    self._refused_since = getattr(self, "_refused_since", 0) or time.time()
+                     raise StepFailed(f"route to ({x:.0f},{y:.0f}) passes {'a pack of ' if hit in packs else ''}level-{hit[2]} {hit[3]} at "
+                                      f"({hit[0]:.0f},{hit[1]:.0f}) - back at level {back}")
+ 
+-- 
+2.34.1
+
