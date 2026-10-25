@@ -139,7 +139,9 @@ class Picks:
         meshes = sorted(m for kind, m in self.ix.tex_refs.get(path, set()) if kind == 'mesh')
         if not meshes and any(k == 'race' for k, _ in self.ix.tex_refs.get(path, set())):
             folder = path.rsplit('/', 1)[0] + '/'
-            meshes = sorted(m for m in override if m.startswith(folder) and m.endswith('.m2'))
+            # the race's character model as PICKED, not only an override: curate passes none, so the HD mesh
+            # pick never reached default_texture and the stock face won by size (classic faces on HD heads)
+            meshes = sorted(m for m in set(override) | set(self.ix.meshes) if m.startswith(folder) and m.endswith('.m2'))
         ctx = tuple((m, override[m].key) for m in meshes if m in override)
         ck = (path, ctx)
         if ck not in self._tex_cache:

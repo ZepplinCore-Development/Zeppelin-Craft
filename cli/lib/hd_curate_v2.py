@@ -490,6 +490,55 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
         wanted_rows[('creaturedisplayinfo', key)] = new
         report['geosets_fixed'] += 1
 
+    # ---- dependency closure: a shipped pack model's textures ship with it ------------------
+    # A display pick or model swap ships the pack MODEL (m2 / skins / anims); the textures it reads were
+    # left to the texture layer, which only weighs paths several sources ship. A texture only that pack has
+    # (creature/cow2/cow.blp: cow 2442 on patch-hd-creatures-mounts' cow2.m2) shipped nowhere: missing-
+    # texture green in game. Every texture a shipped non-stock model reads - its own type-0 names and the
+    # skin names of the displays shipped on it - must ship, be stock, or come from another enabled zpak;
+    # else it is taken from the model's own pack.
+    report['textures_closed'] = []
+    report['textures_missing'] = []
+    cdi_now = dict(layers.state('creaturedisplayinfo', 'base'))
+    cmd_now = dict(layers.state('creaturemodeldata', 'base'))
+    for (t_, k_), r_ in wanted_rows.items():
+        if t_ == 'creaturedisplayinfo':
+            cdi_now[k_] = r_
+        elif t_ == 'creaturemodeldata':
+            cmd_now[k_] = r_
+    skins_of: Dict[str, set] = {}
+    for r_ in cdi_now.values():
+        if not r_:
+            continue
+        mr_ = cmd_now.get((int(r_.get('model_id') or 0),))
+        mp_ = ms.norm(str((mr_ or {}).get('model_path') or '')).replace('.mdx', '.m2')
+        if mp_.startswith('creature/'):
+            skins_of.setdefault(mp_, set()).update(
+                str(r_.get(f'texture_variation_{i}') or '').lower() for i in (1, 2, 3))
+    for mp_, f_ in list(want.items()):
+        if f_ is None or not mp_.endswith('.m2') or hc._is_stock(f_) or '/retail_cache/' in str(f_):
+            continue
+        try:
+            info_ = ms.decode_m2(f_)
+        except Exception:
+            continue
+        if not info_ or getattr(info_, 'error', None):
+            continue
+        folder_ = mp_.rsplit('/', 1)[0]
+        needed_ = {ms.norm(n_) for t_, n_ in info_.textures if t_ == 0 and n_}
+        if any(t_ in (11, 12, 13) for t_, _ in info_.textures):
+            needed_ |= {f'{folder_}/{n_}.blp' for n_ in skins_of.get(mp_, ()) if n_}
+        owner_ = ai_owner(f_)
+        for tp_ in sorted(needed_):
+            if want.get(tp_) is not None or tp_ in ix.stock or tp_ in rest:
+                continue
+            src_f = ix._src_files(owner_).get(tp_) if owner_ in srcs else None
+            if src_f is not None:
+                want[tp_] = src_f
+                report['textures_closed'].append(tp_)
+            else:
+                report['textures_missing'].append(f'{mp_}: {tp_}')
+
     # ---- the manifest ------------------------------------------------------------------
     manifest = dict(base)
     dropped = stock_copies = 0

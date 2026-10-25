@@ -636,6 +636,16 @@ class AssetIndex:
             # folder: the stock naga must not wear the HD packs' fins
             folder = tex.rsplit('/', 1)[0] + '/'
             meshes = [m for m in mesh_choices if m.startswith(folder) and m.endswith('.m2')]
+        if meshes and any(k == 'race' for k, _ in self.tex_refs.get(tex, set())) \
+                and all(m.startswith('character/') for m in meshes):
+            # a race texture (skin, face, scalp, underwear) is composited into the character's body atlas,
+            # not UV-mapped to one pack's mesh: an HD character model wears the HD pack art whichever HD pack
+            # shipped the mesh, a stock model the stock art. (The own-mesh rule below gave patch-hd-creatures-
+            # mounts' HD night elf the classic faces: Maribeth ships a mesh of it too, so her faces 'belonged'
+            # to her mesh, and the stock face was the only 'compatible' one.)
+            stock_mesh = all('stock' in mesh_choices[m].sources for m in meshes)
+            cand = [o for o in a.options if ('stock' in o.sources) == stock_mesh] or list(a.options)
+            return max(cand, key=lambda o: (o.size, o.sources[0] == 'stock')), []
         ok = [o for o in a.options if all(self.compatible(tex, o, m, mesh_choices[m]) for m in meshes)]
         if not ok:
             return None, [f'no option fits all of: {", ".join(sorted(meshes)[:4])}']
