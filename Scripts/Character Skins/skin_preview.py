@@ -40,7 +40,9 @@ ASSETS = CRAFT / 'zpaks' / 'zep-skin-expansion' / 'mpq' / 'source-assets'
 CURATED = CRAFT / 'zpaks' / 'zep-hd-curated' / 'mpq' / 'parsed-assets'
 COMMUNITY = [CRAFT.parent / 'Zeppelin-Tools' / 'Asset Library' / 'COMMUNITY' / n / 'mpq' / 'source-assets'
              for n in ('patch-hd-everything', 'patch-hd-creatures-mounts')]   # the HD character pack's sources
-CODES = {2: 'or', 3: 'dw', 10: 'be', 11: 'dr', 1: 'hu', 4: 'ni', 5: 'sc', 6: 'ta', 7: 'gn', 8: 'tr', 9: 'go', 12: 'wo', 22: 'wo'}
+CODES = {2: 'or', 3: 'dw', 10: 'be', 11: 'dr', 1: 'hu', 4: 'ni', 5: 'sc', 6: 'ta', 7: 'gn', 8: 'tr', 9: 'go'}
+FOLDERS = {1: 'Human', 2: 'Orc', 3: 'Dwarf', 4: 'NightElf', 5: 'Scourge', 6: 'Tauren', 7: 'Gnome', 8: 'Troll',
+           9: 'Goblin', 10: 'BloodElf', 11: 'Draenei', 12: 'Worgen'}
 PUPPETEER = '/opt/claude-tools/lib/node_modules/puppeteer'
 CHROME = Path.home() / '.cache' / 'puppeteer' / 'chrome' / 'linux-144.0.7559.96' / 'chrome-linux64' / 'chrome'
 SHOT_JS = """const puppeteer = require(%s);
@@ -178,7 +180,13 @@ class Viewer:
 
     def pane_query(self, race, sex, name, canvas, extra):
         """The pane URL query for a race / sex body wearing `canvas` (and `extra` as its _Extra)."""
-        pane = self.bodies[CODES[race] + 'mf'[sex]]
+        pane = self.bodies.get(CODES.get(race, '?') + 'mf'[sex])
+        folder = FOLDERS.get(race, '')
+        if pane is None or f'character/{folder.lower()}/' not in pane['model']:
+            # the viewer's 'wo' panes are stock's Fel Orc model (ChrRaces 12's old row), not the worgen: a preview
+            # there drew worgen fur on a fel orc (user report)
+            raise SystemExit(f'race {race}: the viewer has no {folder or "body"} pane '
+                             f'({pane["model"] if pane else "none"}); preview it in the client')
         tex = pane['tex']
         blp_bgra(canvas, self.www / 'local' / f'{name}_bake.blp')
         ovr = {f'fdid/{tex["1"]}': f'http://localhost:{self.port}/local/{name}_bake.blp'}
