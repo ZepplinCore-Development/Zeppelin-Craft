@@ -42,6 +42,9 @@ ICONS = {
     'LIGHTFORGED': ('lightforged', None),
     'EREDAR': ('draenei', 'eredar'),
     'WILDHAMMER': ('dwarf', 'tattoo'),
+    'GNOME': ('gnome', None),
+    'LEPERGNOME': ('gnome', 'leper'),
+    'DARKGNOME': ('gnome', 'dusk'),
 }
 
 
@@ -63,7 +66,9 @@ def atlas_members():
 # shift -> (source skin hue range in degrees, minimum saturation, target hue, saturation x, value x)
 SHIFTS = {'red': ((40, 140), 0.25, 4, 1.1, 0.95),          # green orc -> fel red
           'grey': ((40, 140), 0.25, 220, 0.12, 0.7),      # green orc -> Blackrock grey
-          'eredar': ((190, 290), 0.2, 355, 1.0, 0.85)}    # blue / violet draenei -> eredar red
+          'eredar': ((190, 290), 0.2, 355, 1.0, 0.85),    # blue / violet draenei -> eredar red
+          'leper': ((12, 45), 0.2, 80, 0.8, 0.85),         # gnome skin -> leper green
+          'dusk': ((12, 45), 0.2, 290, 0.3, 0.8)}          # gnome skin -> the pale violet of the dark gnomes
 
 
 def shift_skin(im, shift):

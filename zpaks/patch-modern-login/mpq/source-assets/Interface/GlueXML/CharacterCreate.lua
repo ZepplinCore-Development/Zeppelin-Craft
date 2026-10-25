@@ -105,18 +105,19 @@ CHAR_CREATE_SUBRACES = {
 			FEMALE = {25, 26, 27} },
 	},
 	-- retail's allied races that share their base race's model (retail_subrace_colours.py writes 33+ / 62+); dwarf
-	-- 9-18 are NPC skins with no face rows; Dark Iron 34, 35, 39, 41 have clashing eye islands (skin audit)
+	-- 9-18 are NPC skins with no face rows; Dark Iron 34, 35, 39, 41 have clashing eye islands (skin audit);
+	-- 28, 29, 32 are Dark Iron tones, moved from Wildhammer (user review 2026-10-25)
 	["DWARF"] = {
 		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
 		{ name = "Bronzebeard", title = "Bronzebeard Dwarf", icon = "DWARF",
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
 		{ name = "Dark Iron", title = "Dark Iron Dwarf", icon = "DARKIRON",
-			MALE = {26, 27, 33, 36, 38, 40},
-			FEMALE = {26, 27, 33, 34, 35, 36, 38, 40} },
+			MALE = {26, 27, 28, 29, 32, 33, 36, 38, 40},
+			FEMALE = {26, 27, 28, 29, 32, 33, 34, 35, 36, 38, 40} },
 		{ name = "Wildhammer", title = "Wildhammer Dwarf", icon = "WILDHAMMER",
-			MALE = {22, 23, 24, 25, 28, 29, 30, 31, 32},
-			FEMALE = {22, 23, 24, 25, 28, 29, 30, 31, 32} },
+			MALE = {22, 23, 24, 25, 30, 31},
+			FEMALE = {22, 23, 24, 25, 30, 31} },
 	},
 	-- blood elf 36-61 bake jewellery, tattoos or veins; 87-93 have no faces
 	["BLOODELF"] = {
@@ -127,6 +128,19 @@ CHAR_CREATE_SUBRACES = {
 		{ name = "Void Elf", icon = "VOIDELF",
 			MALE = {34, 35, 62, 63, 64, 65, 66, 67, 68},
 			FEMALE = {34, 35, 62, 63, 64, 65, 66, 67, 68} },
+	},
+	-- gnome 5, 6 (male) are the NPC leper skins with no face rows
+	["GNOME"] = {
+		shared = { MALE = {7, 8, 9}, FEMALE = {7, 8, 9} },
+		{ name = "Gnome", icon = "GNOME",
+			MALE = {0, 1, 2, 3, 4, 10, 11, 12},
+			FEMALE = {0, 1, 2, 3, 4, 6, 10, 11, 12} },
+		{ name = "Leper", title = "Leper Gnome", icon = "LEPERGNOME",
+			MALE = {15, 16, 17},
+			FEMALE = {15, 16, 17} },
+		{ name = "Dark", title = "Dark Gnome", icon = "DARKGNOME",
+			MALE = {13, 14},
+			FEMALE = {5, 13, 14} },
 	},
 	["DRAENEI"] = {
 		shared = { MALE = {14, 15, 16}, FEMALE = {12, 13, 14} },

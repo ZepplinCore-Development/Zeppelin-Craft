@@ -440,6 +440,31 @@ def _build_all_mode_menu(patches: dict) -> Optional[dict]:
 
 
 # =============================================================================
+# build skin-check (F-151)
+# =============================================================================
+
+@build.command('skin-check')
+@click.option('--race', '-r', 'races', multiple=True, type=int, help='Race id(s) to check (default: playable 1-11)')
+@click.pass_context
+def skin_check_cmd(ctx, races):
+    """Check the playable character skins as a build would ship them.
+
+    Resolves every CharSections texture through the enabled zpaks' parsed-assets in patch load order over the
+    stock client: missing / undecodable files and HD models wearing classic art are errors; faces off-colour
+    from their body, stray dark blobs, missing face types and duplicate rows are warnings. Writes
+    logs/skin_check/report.txt, findings.json and faces.png (a sheet of every flagged face - look at it).
+    Runs before packing PATCH-L and PATCH-Q (errors stop the build) and PATCH-Z (report only).
+    """
+    from lib import skin_check
+    errors, text, png = skin_check.run(ctx.obj['craft_root'], races or skin_check.PLAYABLE)
+    click.echo(text)
+    if png:
+        click.echo(f'\nflagged faces: {png}')
+    if errors:
+        raise SystemExit(1)
+
+
+# =============================================================================
 # build register
 # =============================================================================
 

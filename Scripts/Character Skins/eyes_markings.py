@@ -43,6 +43,7 @@ CRAFT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(CRAFT / 'cli'))
 sys.path.insert(0, str(CRAFT))
 from commands.wardrobe import EXTERNAL_ROOTS, _dbc_query_fn  # noqa: E402
+from lib.wardrobe.blp import read_blp  # noqa: E402
 from lib.wardrobe.compositor import FileResolver  # noqa: E402
 
 _spec = importlib.util.spec_from_file_location('icons', Path(__file__).with_name('subrace_icons.py'))
@@ -50,6 +51,9 @@ icons = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(icons)
 
 ZPAK = CRAFT / 'zpaks' / 'zep-skin-expansion'
+CURATED = CRAFT / 'zpaks' / 'zep-hd-curated' / 'mpq' / 'parsed-assets'
+COMMUNITY = [CRAFT.parent / 'Zeppelin-Tools' / 'Asset Library' / 'COMMUNITY' / n / 'mpq' / 'source-assets'
+             for n in ('patch-hd-everything', 'patch-hd-creatures-mounts')]   # the HD character art's sources
 ASSETS = ZPAK / 'mpq' / 'source-assets'
 SQL = ZPAK / 'dbc' / '[AUTO,F-151]_charsections_eyes.sql'
 SPLIT = Path(__file__).with_name('orc_face_split.json')
@@ -116,7 +120,7 @@ class Faces:
             f = self.files.find(path)
             if not f:
                 raise FileNotFoundError(path)
-            self._img[path] = np.asarray(Image.open(f).convert('RGB')).astype(np.int16)
+            self._img[path] = np.asarray(read_blp(f).convert('RGB')).astype(np.int16)   # Pillow misreads palettized BLP2
         return self._img[path]
 
     def upper(self, g, f, c):
@@ -147,7 +151,7 @@ def soft(mask, grow=1):
 
 def glow_texture(eye_pixels):
     """The stock death knight eye glow with its brightness kept and its colour set to the eye's brightest pixels."""
-    src = np.asarray(Image.open(FILES.find(STOCK_GLOW)).convert('RGBA')).astype(float)
+    src = np.asarray(read_blp(FILES.find(STOCK_GLOW)).convert('RGBA')).astype(float)
     lum = src[..., :3].mean(2)
     e = eye_pixels.astype(float)
     target = e[e.mean(1) >= np.percentile(e.mean(1), 80)].mean(0)
@@ -256,7 +260,9 @@ def migration_sql(split):
 
 def main():
     global FILES
-    FILES = FileResolver([ASSETS] + [r for r in EXTERNAL_ROOTS if Path(r).resolve() != ASSETS.resolve()])
+    # the HD art the HD models wear lives in the curated pack and its COMMUNITY sources, not in EXTERNAL_ROOTS
+    first = [ASSETS, CURATED] + [p for p in COMMUNITY if p.is_dir()]
+    FILES = FileResolver(first + [r for r in EXTERNAL_ROOTS if Path(r).resolve() not in {f.resolve() for f in first}])
     fc = Faces(charsections(_dbc_query_fn('live')), FILES)
     for d in ASSETS.glob('Character/Orc/*/'):
         for old in d.glob('Orc*.blp'):
@@ -347,8 +353,13 @@ def main():
                     # the base face's detail (its brightness against its own local mean) in this colour's local tone,
                     # the tone averaged without the paint / glow pixels
                     w = (~ndimage.binary_dilation(raw, iterations=4)).astype(float)
-                    tone = np.dstack([ndimage.gaussian_filter(a[..., k] * w, TONE_SIGMA) for k in range(3)])
-                    tone /= np.maximum(ndimage.gaussian_filter(w, TONE_SIGMA), 1e-3)[..., None]
+                    # inside a wide masked patch the near weight runs out (it read as a black dot on the brow,
+                    # skin check 'hole'): there the tone comes from a wider reach, then the colour's median
+                    tone = np.broadcast_to(np.median(a[w > 0], axis=0), a.shape).astype(float)
+                    for sigma in (TONE_SIGMA * 4, TONE_SIGMA):
+                        ws = ndimage.gaussian_filter(w, sigma)
+                        t = np.dstack([ndimage.gaussian_filter(a[..., k] * w, sigma) for k in range(3)]) / np.maximum(ws, 1e-6)[..., None]
+                        tone = np.where((ws > 0.05)[..., None], t, tone)
                     lb0 = b.mean(2)
                     detail = lb0 / np.maximum(ndimage.gaussian_filter(lb0, TONE_SIGMA), 1)
                     plain = np.where(eye_full[..., None], a, np.clip(tone * detail[..., None], 0, 255))
@@ -381,7 +392,12 @@ def main():
         dk_eye = EYES[g].index(EYE_DK)
         split[sex] = {}
         for c in fc.colours(g):
-            own = [eye_of(f, c) for f in range(DK_OFFSET)]
+            try:
+                own = [eye_of(f, c) for f in range(DK_OFFSET)]
+            except (FileNotFoundError, KeyError) as e:
+                # a colour another generator is rewriting (retail_subrace_colours.py): no existing character wears it
+                print(f'{sex} colour {c}: skipped in the face split ({e})')
+                continue
             top = max(set(own), key=own.count)
             fixed = top if top is not None and own.count(top) >= 6 and len(set(own)) <= 2 else None
             if fixed is not None:

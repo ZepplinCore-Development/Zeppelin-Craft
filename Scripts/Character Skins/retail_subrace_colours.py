@@ -61,6 +61,7 @@ SKIN, FACE, UNDERWEAR = 0, 1, 4
 FACE_TARGETS = ('4', '5')                       # ChrModelTextureTarget of the face square (draenei use 4)
 DARK = 25.0                                      # mean brightness under which a retail skin needs a material we lack (renders black)
 SAME_COLOUR = 6.0                                 # mean |rgb| between bodies under which a colour is already offered
+STOCK_LAST = 9                                    # colours 0-9: Blizzard's own, plain faces (the face donors)
 # our faces keep the eyeball as its own UV island, which retail's face square does not have there: the box (x0, y0,
 # x1, y1 in the stacked 256x192 face) is copied from our own face of the same type in the nearest colour
 EYE_BOX = {(3, 0): (0, 135, 62, 192), (3, 1): (168, 0, 252, 54), (10, 0): (0, 128, 62, 192), (10, 1): (0, 0, 62, 56),
@@ -156,6 +157,24 @@ def retone(im, old_body, new_body):
     return Image.fromarray(np.dstack([np.clip(out, 0, 255), a[..., 3]]).astype(np.uint8), 'RGBA')
 
 
+def body_only(body):
+    """A 128x128 skin atlas without its face box (bottom left, under the face textures and often left unpainted pale):
+    measured with it, faces came out paler than their body."""
+    h, w = body.shape[:2]
+    return np.concatenate([body[:h * 5 // 8].reshape(-1, 3), body[h * 5 // 8:, w // 2:].reshape(-1, 3)])
+
+
+def transfer(im, old_body, new_body):
+    """A face moved from one skin colour to another: every channel scaled by the ratio of the two skins' lit colour.
+    A face is skin all over (the eye island is pasted back after), so the hue-weighted retone left most of it in the
+    donor's tone (skin check 'tone': pink Mag'har faces); the scale keeps the donor's own face-to-body relation."""
+    a = np.asarray(im).astype(np.float32)
+    # medians, as the skin check measures: the lit half's mean leaves a grey or dark skin's face too warm
+    gain = np.median(body_only(new_body), axis=0) / np.maximum(np.median(body_only(old_body), axis=0), 1)
+    rgb = np.clip(a[..., :3] * gain, 0, 255)
+    return Image.fromarray(np.dstack([rgb, a[..., 3]]).astype(np.uint8), 'RGBA')
+
+
 def main():
     r = Retail()
     # the HD character art ships from zep-hd-curated's packed copy (its sources live in the Asset Library's COMMUNITY
@@ -219,8 +238,10 @@ def main():
                 def has(row):                        # both halves resolve (some rows name files no root carries)
                     return all(files.find(row[k]) for k in ('texture_1', 'texture_2') if row[k])
 
-                donor = next(c2 for c2 in sorted(dist, key=dist.get)
-                             if any((FACE, t, c2) in ours and has(ours[(FACE, t, c2)]) for t in range(32)))
+                # the donor is a stock colour (0-9): later colours may bake face paint in, which the copy then
+                # carried (skin check 'tone': magenta paint on Void Elf faces); the transfer moves the colour
+                donor = next(c2 for c2 in sorted(dist, key=dist.get) if c2 <= STOCK_LAST
+                             and any((FACE, t, c2) in ours and has(ours[(FACE, t, c2)]) for t in range(32)))
                 missing = []
                 for f in sorted(t for (s_, t, c2) in ours if s_ == FACE and c2 == donor):
                     if not has(ours[(FACE, f, donor)]):
@@ -230,7 +251,7 @@ def main():
                     halves = []
                     for own_path, y0 in ((src['texture_2'], 0), (src['texture_1'], 64)):
                         own = read_blp(files.find(own_path)).convert('RGBA').resize((256, 64 if y0 == 0 else 128))
-                        half = retone(own, body[donor], small)
+                        half = transfer(own, body[donor], small)
                         b = (box[0], max(box[1] - y0, 0), box[2], min(box[3] - y0, half.height))
                         if b[3] > b[1]:
                             half.paste(own.crop(b), (b[0], b[1]))

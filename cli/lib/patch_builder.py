@@ -885,6 +885,22 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
             print(f"Parse complete for PATCH-{letter}")
         return True
 
+    # Step 1a (F-151): the playable skins as this build ships them. A build stops on the errors it ships itself
+    # (a file of one of its zpaks; for PATCH-Z a CharSections row naming a missing file), not on another patch's.
+    # ZEP_SKIN_CHECK=off skips it, =warn reports without stopping.
+    mode = os.environ.get('ZEP_SKIN_CHECK', 'on')
+    if not dry_run and letter in ('L', 'Q', 'Z') and mode != 'off':
+        _print_step_header('SKIN-CHECK', 'F-151')
+        from lib import skin_check
+        errors, text, png = skin_check.run(Path(__file__).resolve().parents[2], letter=letter)
+        print(text)
+        if png:
+            print(f"flagged faces: {png}")
+        if errors and mode != 'warn':
+            print(f"PATCH-{letter} not built: {errors} skin errors (logs/skin_check/report.txt). "
+                  f"Fix them, or ZEP_SKIN_CHECK=warn to ship anyway.")
+            return False
+
     # Step 1b: the FileDataID table for the source-built client (F-223) is generated from what every
     # enabled zpak ships, so it is refreshed whenever the patch that carries it is packed.
     if not dry_run and any(z['name'] == 'zep-models' for z in zpaks):
