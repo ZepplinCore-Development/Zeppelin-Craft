@@ -782,6 +782,10 @@ def _retroport_swap(manifest: dict, wanted_rows: dict, base_cdi: dict, base_cmd:
         for k, f in files.items():
             if k.endswith(('.m2', '.skin', '.anim')):
                 manifest[k] = hc.Entry('retail-retroport', 'Q', 0, f)
+            elif k.endswith('.blp') and k not in manifest and k not in ix.stock:
+                # retail's hardcoded textures (particle / FX, named in TXID) - without them the emitters
+                # draw untextured quads (creature/imp2 fel fire); the pack's same-named skins still win
+                manifest[k] = hc.Entry('retail-retroport', 'Q', 0, f)
         # geosets: the pack's rows were written for its trimmed mesh
         pmesh = rp.mesh_variants(old_skin.file.read_bytes()) if old_skin is not None else {}
         rmesh = retail.mesh_geosets(info['fdid'])
