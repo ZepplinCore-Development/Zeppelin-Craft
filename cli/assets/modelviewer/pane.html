@@ -322,9 +322,35 @@ function fixLegacySkin(skinBuf, m2Buf) {
     return tc === 0 || sub >= nSub || mat >= nMat || (col >= 0 && col >= nCol) || texCombo >= nTexLk
       || uvCombo >= nTu || ttCombo >= nUvLk;
   };
+  // A batch whose colour alpha or transparency is keyed to 0 all through the sequence the engine plays at load
+  // (Stand, animation 0): the client multiplies them into the batch alpha and never draws it, the engine ignores
+  // them on opaque batches. The worgoblin worgen's four-legged-run paws (hand pieces on the leg bones, alpha 0
+  // in Stand, 1 in the run) drew as a pale lump at its feet. Only sequences stored in the .m2 can be read.
+  const [nSeq, oSeq] = arr(m, 0x1C), [nSeqLk, oSeqLk] = arr(m, 0x24);
+  let seq = nSeqLk ? m.getInt16(oSeqLk, true) : 0;
+  if (seq < 0 || seq >= nSeq) seq = 0;
+  const seqInline = nSeq > 0 && (m.getUint32(oSeq + 64 * seq + 12, true) & 0x20) !== 0;
+  const [, oCol] = arr(m, 0x48), [nTr, oTr] = arr(m, 0x58), [, oTrLk] = arr(m, 0x90);
+  const keyedZero = (t) => {                           // an M2Track<fixed16> whose keys in that sequence are all 0
+    const gs = m.getInt16(t + 2, true), [nV, oV] = arr(m, t + 12), k = gs >= 0 ? 0 : seq;
+    if (gs < 0 && !seqInline) return false;
+    if (k >= nV) return false;
+    const [c, o] = arr(m, oV + 8 * k);
+    if (!c || o + 2 * c > m.byteLength) return false;
+    for (let j = 0; j < c; j++) if (m.getInt16(o + 2 * j, true) !== 0) return false;
+    return true;
+  };
+  const invisible = (b) => {
+    if (q.has('drawhidden')) return false;            // debug: draw them anyway
+    const col = s.getInt16(b + 8, true), w = s.getUint16(b + 20, true);
+    if (col >= 0 && col < nCol && keyedZero(oCol + 40 * col + 20)) return true;
+    const tr = w < nTrLk ? m.getInt16(oTrLk + 2 * w, true) : -1;
+    return tr >= 0 && tr < nTr && keyedZero(oTr + 20 * tr);
+  };
   for (let i = 0; i < nB; i++) {
     const b = oB + 24 * i;
     if (badBatch(b)) { drop.push(i); malformed++; continue; }
+    if (invisible(b)) { drop.push(i); continue; }
     // a material-layer follower that shares its base batch's material is not drawn. kFinalizeSkin
     // (0x837A40) links a layer > 0 batch to batch[i - layer]; proven in the real client on
     // zebramount's horn (F-219, 2026-10-08): the follower (material 5 = its base's) never draws,
