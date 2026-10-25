@@ -7,7 +7,7 @@ a front face close-up and a three-quarter body shot of each in headless Chrome. 
 The viewer is not the client: no eye glow, the hair texture and mesh are the pane's own, and layers are pasted
 over the whole atlas at once (the client pastes them section by section). Check a sheet before testing in game.
 
-  python3 "Scripts/Character Skins/skin_preview.py" --race 11 --sex 0 --colours 33,34,35 [--face 0]
+  python3 "Scripts/Character Skins/skin_preview.py" --race 11 --sex 0 --colours 33,34,35|all [--face 0]
       [--layers tattoo,scars,warpaint] [--out sheet.png]
 """
 import argparse
@@ -46,21 +46,87 @@ FOLDERS = {1: 'Human', 2: 'Orc', 3: 'Dwarf', 4: 'NightElf', 5: 'Scourge', 6: 'Ta
            9: 'Goblin', 10: 'BloodElf', 11: 'Draenei', 12: 'Worgen'}
 PUPPETEER = '/opt/claude-tools/lib/node_modules/puppeteer'
 CHROME = Path.home() / '.cache' / 'puppeteer' / 'chrome' / 'linux-144.0.7559.96' / 'chrome-linux64' / 'chrome'
-SHOT_JS = """const puppeteer = require(%s);
-(async () => {
-  const [,, port, ...jobs] = process.argv;
-  const b = await puppeteer.launch({ headless: 'new', executablePath: %s,
-    args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--no-sandbox'] });
-  for (const j of jobs) {
-    const k = j.indexOf('='), out = j.slice(0, k), q = j.slice(k + 1);
-    const p = await b.newPage();
-    await p.setViewport({ width: 900, height: 1200 });
-    await p.goto(`http://localhost:${port}/pane.html?` + q, { waitUntil: 'load' });
-    await new Promise(r => setTimeout(r, 15000));
-    await p.screenshot({ path: out });
-    await p.close();
+PAGE_JS = """const puppeteer = require(%s);
+const launch = () => puppeteer.launch({ headless: 'new', executablePath: %s,
+  args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--no-sandbox'] });
+async function openPage(b) {
+  const p = await b.newPage();
+  await p.setViewport({ width: 900, height: 1200 });
+  // a fixed engine clock: 1/60 s a frame for the first 90 frames, then no time at all, so every shot holds the same
+  // pose 1.5 s into the idle animation (its first frame leans the head forward). A running animation keeps a body
+  // shot from ever settling
+  await p.evaluateOnNewDocument(() => {
+    const raf = window.requestAnimationFrame.bind(window);
+    window.__frames = 0;
+    window.requestAnimationFrame = (f) => raf(() => f(Math.min(window.__frames++, 90) * 1000 / 60));
+  });
+  return p;
+}
+// a shot is taken once the picture has settled, not after a fixed wait: pane.html is started (`ready`), nothing it
+// fetched is still loading (`pending`), the clock has stopped (90 frames) and a quarter-size probe of the frame (its
+// PNG size) is over `floor` and within 1 %% of the last for 0.5 s. pending alone hits 0 before the model's own files
+// are asked for; a full-size screenshot per probe was most of a shot's time
+const probe = (p) => p.screenshot({ clip: { x: 0, y: 0, width: p.viewport().width, height: p.viewport().height, scale: 0.25 } });
+async function settledShot(p, out, floor) {
+  const t0 = Date.now();
+  let last = 0, still = 0;
+  while (Date.now() - t0 < 40000) {
+    await new Promise(r => setTimeout(r, 125));
+    if (!(await p.evaluate('typeof ready !== "undefined" && ready && pending === 0 && window.__frames > 90').catch(() => false))) { still = 0; continue; }
+    const n = (await probe(p)).length;
+    still = n > floor && Math.abs(n - last) < 0.01 * n ? still + 1 : 0;
+    last = n;
+    if (still >= 4) break;
   }
-  await b.close();
+  if (process.env.SHOT_TRACE) console.error(`${out} ${Date.now() - t0} ms -> ${last}`);
+  if (still < 4) console.error(`not settled after 40 s: ${out}`);
+  await p.screenshot({ path: out });
+}
+"""
+SHOT_JS = PAGE_JS + """(async () => {
+  const [,, port, ...jobs] = process.argv;
+  const b = await launch();
+  try {
+    const p = await openPage(b);
+    for (const j of jobs) {
+      const k = j.indexOf('='), out = j.slice(0, k), q = j.slice(k + 1);
+      await p.goto(`http://localhost:${port}/pane.html?` + q, { waitUntil: 'load' });
+      await settledShot(p, out, 1.3 * (await probe(p)).length);
+    }
+  } finally { await b.close(); }
+})();
+"""
+# a strip: one page per camera loads the model once, then each colour only repoints the skin slots (1 = bake, 8 =
+# _Extra) at that colour's files, under texture ids of its own so the engine loads them fresh, and is shot. The
+# model load is most of a shot's time, so this is one load per race, sex and camera instead of one per picture
+STRIP_JS = PAGE_JS + """(async () => {
+  const [,, port, spec] = process.argv;
+  const { pages, colours, tex } = JSON.parse(require('fs').readFileSync(spec, 'utf8'));
+  // a browser per camera: a background tab gets no animation frames, so two pages of one browser never both settle
+  const browsers = [];
+  try {
+    for (const _ of pages) browsers.push(await launch());
+    await Promise.all(pages.map(async ({ query, suffix }, n) => {
+      const p = await openPage(browsers[n]);
+      await p.goto(`http://localhost:${port}/pane.html?` + query, { waitUntil: 'load' });
+      const floor = 1.3 * (await probe(p)).length;
+      for (const [i, c] of colours.entries()) {
+        // the page opens wearing the first colour (its query's overrides): only the later ones are swapped in, once
+        // the first shot has seen the page's file map loaded
+        if (i) await p.evaluate((c, tex) => {
+          const slots = new Int32Array(27);
+          for (const [k, v] of Object.entries(tex)) slots[+k] = v;
+          slots[1] = c.bake_id; FILEMAP['fdid/' + c.bake_id] = c.bake;
+          if (c.extra) { slots[8] = c.extra_id; FILEMAP['fdid/' + c.extra_id] = c.extra; }
+          const buf = Module._malloc(slots.length * 4);
+          Module.HEAP32.set(slots, buf >> 2);
+          Module._setTextures(buf, slots.length);
+          Module._free(buf);
+        }, c, tex);
+        await settledShot(p, c.out + suffix, floor);
+      }
+    }));
+  } finally { await Promise.all(browsers.map(b => b.close().catch(() => {}))); }
 })();
 """
 
@@ -197,6 +263,7 @@ class Viewer:
             other = self.bodies.get(CODES[race] + 'mf'[1 - sex], {})
             pane = dict(pane, tex={'1': UNBAKED_FDID}, mesh=other.get('mesh', [1] * 20))
         tex = pane['tex']
+        self.pane = pane
         blp_bgra(canvas, self.www / 'local' / f'{name}_bake.blp')
         ovr = {f'fdid/{tex["1"]}': f'http://localhost:{self.port}/local/{name}_bake.blp'}
         if extra is not None and '8' in tex:                 # a pane without an _Extra slot (worgen) keeps its own
@@ -209,10 +276,33 @@ class Viewer:
         return base + cam, pane['camera']['dist']
 
     def shots(self, jobs):
-        """jobs = [(png path, pane query)]: renders them all in one browser."""
+        """jobs = [(png path, pane query)]: renders them in turn in one browser, a page load each."""
         js = self.work / 'shot.js'
         js.write_text(SHOT_JS % (json.dumps(PUPPETEER), json.dumps(str(CHROME))))
         subprocess.run(['node', str(js), str(self.port), *[f'{p}={q}' for p, q in jobs]], check=True)
+
+    def strip(self, race, sex, items, views):
+        """items = [(name, canvas, extra)], views = {suffix: (yaw, pitch, distance factor)}: shoots every item from
+        every view, writing <work>/<name><suffix>.png. One page per view loads the race's model once and swaps only
+        the skin slots between items (STRIP_JS)."""
+        query, dist = self.pane_query(race, sex, items[0][0], items[0][1], items[0][2])
+        tex = {k: v for k, v in self.pane['tex'].items()}
+        colours = []
+        for i, (name, canvas, extra) in enumerate(items):
+            blp_bgra(canvas, self.www / 'local' / f'{name}_bake.blp')
+            c = {'out': str(self.work / name), 'bake_id': UNBAKED_FDID + 1000 + 2 * i,
+                 'bake': f'http://localhost:{self.port}/local/{name}_bake.blp'}
+            if extra is not None and '8' in tex:
+                blp_bgra(extra, self.www / 'local' / f'{name}_extra.blp')
+                c.update(extra_id=UNBAKED_FDID + 1001 + 2 * i, extra=f'http://localhost:{self.port}/local/{name}_extra.blp')
+            colours.append(c)
+        pages = [{'suffix': f'{suffix}.png', 'query': query + f'&view={y},{pt},{dist * f:.3f}'}
+                 for suffix, (y, pt, f) in views.items()]
+        spec = self.work / f'strip_{race}_{sex}.json'
+        spec.write_text(json.dumps({'pages': pages, 'colours': colours, 'tex': tex}))
+        js = self.work / 'strip.js'
+        js.write_text(STRIP_JS % (json.dumps(PUPPETEER), json.dumps(str(CHROME))))
+        subprocess.run(['node', str(js), str(self.port), str(spec)], check=True)
 
     def close(self):
         self.httpd.shutdown()
@@ -277,40 +367,48 @@ def _lab(rgb):
     return np.array([116 * f[1] - 16, 500 * (f[0] - f[1]), 200 * (f[1] - f[2])])
 
 
+def playable_colours(query, race, sex):
+    """The skin colours character creation offers the race and sex: each colour's highest-id skin row (the one the
+    client uses) with the playable flag 0x1."""
+    rows = query(f'SELECT color_index, flags FROM charsections WHERE race = {race} AND gender = {sex} '
+                 f'AND base_section = 0 AND type = 0 ORDER BY id')
+    last = {}
+    for r in rows:
+        last[int(r['color_index'] if isinstance(r, dict) else r[0])] = int(r['flags'] if isinstance(r, dict) else r[1])
+    return sorted(c for c, f in last.items() if f & 1)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--race', type=int, required=True)
     ap.add_argument('--sex', type=int, required=True)
-    ap.add_argument('--colours', required=True)
+    ap.add_argument('--colours', required=True, help="comma list, or 'all' = every char-create colour")
     ap.add_argument('--face', type=int, default=0)
     ap.add_argument('--layers', default='0,0,0')
     ap.add_argument('--out', default='skin_preview.png')
     a = ap.parse_args()
-    colours = [int(c) for c in a.colours.split(',')]
     layers = [int(v) for v in a.layers.split(',')]
     files = files_resolver()
     query = _dbc_query_fn('live')
+    colours = playable_colours(query, a.race, a.sex) if a.colours == 'all' else [int(c) for c in a.colours.split(',')]
     viewer = Viewer()
     work = viewer.work
-    jobs = []
-    for c in colours:
-        canvas, extra = bake(files, query, a.race, a.sex, c, a.face, layers)
-        q, dist = viewer.pane_query(a.race, a.sex, str(c), canvas, extra)
-        jobs += [(work / f'{c}_front.png', q + f'&view=0,0.08,{dist * 1.05:.3f}'),
-                 (work / f'{c}_body.png', q + f'&view=0.6,0.15,{dist * 1.15:.3f}')]
-    viewer.shots(jobs)
+    items = [(str(c), *bake(files, query, a.race, a.sex, c, a.face, layers)) for c in colours]
+    viewer.strip(a.race, a.sex, items, {'_front': (0, 0.08, 1.05), '_body': (0.6, 0.15, 1.15)})
     viewer.close()
 
-    T = 260
-    sheet = Image.new('RGB', (len(colours) * T, 2 * T + 18), (30, 30, 30))
+    T, COLS = 260, 12                                     # a row of the sheet = up to COLS colours, face over body
+    rows = -(-len(colours) // COLS)
+    sheet = Image.new('RGB', (min(len(colours), COLS) * T, rows * (2 * T + 18)), (30, 30, 30))
     d = ImageDraw.Draw(sheet)
     for i, c in enumerate(colours):
+        x, y = i % COLS * T, i // COLS * (2 * T + 18)
         front = Image.open(work / f'{c}_front.png').convert('RGB')
-        sheet.paste(face_crop(front).resize((T, T), Image.LANCZOS), (i * T, 18))
+        sheet.paste(face_crop(front).resize((T, T), Image.LANCZOS), (x, y + 18))
         body = Image.open(work / f'{c}_body.png').convert('RGB')
         w, h = body.size
-        sheet.paste(body.crop((w * 0.1, h * 0.05, w * 0.9, h * 0.95)).resize((T, T)), (i * T, 18 + T))
-        d.text((i * T + 4, 3), f'race {a.race} sex {a.sex} colour {c}', fill=(255, 255, 0))
+        sheet.paste(body.crop((w * 0.1, h * 0.05, w * 0.9, h * 0.95)).resize((T, T)), (x, y + 18 + T))
+        d.text((x + 4, y + 3), f'race {a.race} sex {a.sex} colour {c}', fill=(255, 255, 0))
     sheet.save(a.out)
     print(a.out)
 
