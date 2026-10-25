@@ -1281,6 +1281,23 @@ def bodies(dep: 'Deployer') -> Dict[str, dict]:
     _, races, _ = mvd._load_item_lookups()
     cdi, cmd = dep.result['effective_dbc']
     cdx = dep.result['effective_char_dbc'][0]
+    # each race/sex's PLAYABLE model (ChrRaces male/female display): race 12 is our Worgen (mod-worgoblin,
+    # Character/Worgen/), whose NPC displays are mostly stock fel orcs - 'wom' was the fel orc body
+    race_model: Dict[Tuple[int, int], Tuple[str, int]] = {}
+    try:
+        from commands.dbc import ENV_PATH
+        from lib.dbc_utils import DBCConfig, DBCConnection
+        cfg = DBCConfig.from_env(ENV_PATH)
+        with DBCConnection(cfg) as conn:
+            cur = conn.get_connection(cfg.live).cursor()
+            cur.execute('SELECT id, male_display_id, female_display_id FROM chrraces')
+            for rid, md, fd in cur.fetchall():
+                for g, d in ((0, md), (1, fd)):
+                    mr = cmd.get(int((cdi.get(int(d or 0)) or {}).get('model_id') or 0))
+                    if mr:
+                        race_model[(int(rid), g)] = (ms.norm(str(mr.get('model_path') or '')).replace('.mdx', '.m2'), int(d))
+    except Exception:
+        pass
     best: Dict[str, Tuple[int, int, int, str]] = {}
     for did, row in cdi.items():
         ext = int(row.get('extended_display_info_id') or 0)
@@ -1293,10 +1310,19 @@ def bodies(dep: 'Deployer') -> Dict[str, dict]:
         if not prefix or not path.startswith('character/'):
             continue
         code = prefix + ('f' if int(x.get('gender') or 0) else 'm')
+        want_ = race_model.get((int(x.get('race') or 0), int(x.get('gender') or 0)))
+        if want_ and ms.norm(path).replace('.mdx', '.m2') != want_[0]:
+            continue                                   # an NPC of the race on another model (fel orcs on race 12)
         gear = sum(1 for k in ('chest_id', 'legs_id', 'gloves_id', 'boots_id', 'belt_id', 'tabard_id', 'cape_id') if int(x.get(k) or 0))
         rank = (-len(dep.names.get(did, [])), gear, did)
         if code not in best or rank < best[code][:3]:
             best[code] = (*rank, path)
+    # a race/sex no NPC display wears (worgen female): its ChrRaces display, the playable model unbaked
+    for (rid, g), (mp, d) in race_model.items():
+        pre = (races.get(rid) or '').lower()
+        code = pre + ('f' if g else 'm')
+        if pre and code not in best and mp.startswith('character/') and d in cdi:
+            best[code] = (0, 0, d, mp)
     out = {}
     for code, (_, _, did, path) in sorted(best.items()):
         o = dep.picks.mesh(path) or (dep.ix.meshes[path].options[0] if path in dep.ix.meshes else None)
