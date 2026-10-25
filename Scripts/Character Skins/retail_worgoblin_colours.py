@@ -6,7 +6,7 @@ layout, which retail also still ships for the old colours. So each new colour is
 
   1. retail HD body atlas of the new colour N, and of each colour k we already offer
   2. k = the colour whose retail HD body is nearest in tone to N
-  3. quadratic RGB map fitted from retail HD body k to retail HD body N (pixel-aligned atlases)
+  3. one CIE Lab move from retail HD body k's lit colour to retail HD body N's (lightness scaled, hue shifted)
   4. every CharSections texture of our colour k (body, _Extra, faces of every type, underwear) put
      through that map; only skin/fur-like pixels change, so eyes and DK glow keep their paint (F-222)
 
@@ -35,6 +35,11 @@ from commands.wardrobe import EXTERNAL_ROOTS  # noqa: E402
 from lib import casc_store, retail  # noqa: E402
 from lib.wardrobe.compositor import FileResolver  # noqa: E402
 from cli.lib.blp_image import decode_blp_rgb  # noqa: E402
+from lib.wardrobe.blp import read_blp  # noqa: E402
+
+_ispec = importlib.util.spec_from_file_location('icons', Path(__file__).with_name('subrace_icons.py'))
+icons = importlib.util.module_from_spec(_ispec)
+_ispec.loader.exec_module(icons)
 
 _spec = importlib.util.spec_from_file_location('gfx', Path(__file__).with_name('gnome_female_extra_skins.py'))
 gfx = importlib.util.module_from_spec(_spec)
@@ -88,6 +93,42 @@ def rgb(path):
     return decode_blp_rgb(str(path)).astype(float)
 
 
+M_XYZ = np.array([[0.4124, 0.3576, 0.1805], [0.2126, 0.7152, 0.0722], [0.0193, 0.1192, 0.9505]])
+WHITE = np.array([0.95047, 1.0, 1.08883])
+
+
+def to_lab(rgb):
+    """sRGB 0-255 (... x 3) -> CIE Lab (D65)."""
+    c = np.asarray(rgb, np.float64) / 255
+    c = np.where(c > 0.04045, ((c + 0.055) / 1.055) ** 2.4, c / 12.92)
+    xyz = (c @ M_XYZ.T) / WHITE
+    f = np.where(xyz > 0.008856, np.cbrt(xyz), 7.787 * xyz + 16 / 116)
+    return np.stack([116 * f[..., 1] - 16, 500 * (f[..., 0] - f[..., 1]), 200 * (f[..., 1] - f[..., 2])], axis=-1)
+
+
+def from_lab(lab):
+    fy = (lab[..., 0] + 16) / 116
+    f = np.stack([fy + lab[..., 1] / 500, fy, fy - lab[..., 2] / 200], axis=-1)
+    xyz = np.where(f ** 3 > 0.008856, f ** 3, (f - 16 / 116) / 7.787) * WHITE
+    c = xyz @ np.linalg.inv(M_XYZ).T
+    c = np.where(c > 0.0031308, 1.055 * np.clip(c, 0, None) ** (1 / 2.4) - 0.055, 12.92 * c)
+    return np.clip(c * 255, 0, 255)
+
+
+def lit_lab(px):
+    lum = px.mean(axis=1)
+    return to_lab(px[lum >= np.median(lum)].mean(axis=0))
+
+
+def shift(im, src_lab, dst_lab):
+    """One colour move for every pixel: lightness scaled, hue (a*, b*) shifted by the two retail bodies' difference.
+    A fitted RGB map bent the fur's tones apart region by region (torso one colour, legs another: user report)."""
+    lab = to_lab(im)
+    lab[..., 0] *= dst_lab[0] / max(src_lab[0], 1)
+    lab[..., 1:] += dst_lab[1:] - src_lab[1:]
+    return from_lab(lab)
+
+
 def keep_map(px):
     """Distance (4-level RGB bins) from any colour to a set of body pixels."""
     g = np.zeros((64, 64, 64), bool)
@@ -132,14 +173,13 @@ def main():
                     continue
                 tgt = rgb(p)
                 k = min(known, key=lambda k: np.abs(hd[k].mean((0, 1)) - tgt.mean((0, 1))).sum())
-                a, b = hd[k].reshape(-1, 3), tgt.reshape(-1, 3)
-                w, *_ = np.linalg.lstsq(feats(a), b, rcond=None)
-                err = np.abs(np.clip(feats(a) @ w, 0, 255) - b).mean()
+                src_lab, dst_lab = lit_lab(hd[k].reshape(-1, 3)), lit_lab(tgt.reshape(-1, 3))
+                err = float(np.linalg.norm(dst_lab - src_lab))
                 # the pixels that follow the fit: anything near a colour of our colour k's skin anywhere (body, _Extra,
                 # face 0). From the body alone, the arms / hands column and the face (another tone in our atlas) kept
                 # the old colour: brown arms on a blue-grey worgen (user report, worgen 6-12 / 10-17)
                 skin_px = [rgb(files.find(mine[k][(0, 0)]['t1'])).reshape(-1, 3)]
-                for key, col in (((0, 0), 't2'), ((1, 0), 't1'), ((1, 0), 't2')):
+                for key, col in (((0, 0), 't2'), ((1, 0), 't1'), ((1, 0), 't2'), ((4, 0), 't1'), ((4, 0), 't2')):   # + underwear (thighs)
                     src = mine[k].get(key, {}).get(col)
                     if src and files.find(src):
                         skin_px.append(rgb(files.find(src)).reshape(-1, 3))
@@ -155,19 +195,27 @@ def main():
                         if f is None:
                             out[col] = r[col]
                             continue
+                        rgba = np.asarray(read_blp(f).convert('RGBA')).astype(float)
                         im = rgb(f)
+                        if im.shape[:2] != rgba.shape[:2]:
+                            rgba = np.asarray(Image.fromarray(rgba.astype(np.uint8), 'RGBA').resize(im.shape[1::-1])).astype(float)
                         bins = (im // 4).astype(int).clip(0, 63)
                         keep = np.clip(1 - (dist[bins[..., 0], bins[..., 1], bins[..., 2]] - 12) / 24, 0, 1)[..., None]
-                        res = keep * np.clip(feats(im) @ w, 0, 255) + (1 - keep) * im
+                        res = keep * shift(im, src_lab, dst_lab) + (1 - keep) * im
                         name = r[col][:-4] + f'_zr{colour}.blp'
                         dst = ASSETS / name.replace('\\', '/')
                         dst.parent.mkdir(parents=True, exist_ok=True)
-                        write_blp(str(dst), res)
+                        if (rgba[..., 3] < 250).any():
+                            # a texture with alpha (underwear cloth, an _Extra's cut-outs) keeps it: written opaque, the
+                            # colour under its transparent part painted over the thighs (user report: worgen legs)
+                            icons.write_blp_rgba(dst, Image.fromarray(np.dstack([np.clip(res, 0, 255), rgba[..., 3]]).astype(np.uint8), 'RGBA'))
+                        else:
+                            write_blp(str(dst), res)
                         out[col] = name
                         made += 1
                     rows.append(out)
                 print(f'race {race} g {g}: retail colour {o} -> our colour {colour} from our {k} '
-                      f'(fit error {err:.1f}/255, {made} textures)')
+                      f'(Lab move {err:.1f}, {made} textures)')
                 colour += 1
 
     q = lambda s: "'" + s.replace('\\', '\\\\').replace("'", "''") + "'"

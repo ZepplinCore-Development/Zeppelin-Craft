@@ -91,6 +91,10 @@ CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 -- for the Mag'har only (user review 2026-10-25)
 ORC_WAR_PAINT = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 MAGHAR_WAR_PAINT = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+-- eye colour (CharSections base_section 5 types; the last is the death knight eye, which only DKs see): the dwarves'
+-- full-colour eye (male 11, female 6; eyes_all.json) is Dark Iron only (user review 2026-10-25)
+DWARF_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}, FEMALE = {0, 1, 2, 3, 4, 5, 7} };
+DARKIRON_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, FEMALE = {0, 1, 2, 3, 4, 5, 6, 7} };
 CHAR_CREATE_SUBRACES = {
 	-- orc colours 28-43 bake markings (not offered: retail tattoos, scars and war paint now); Blackrock 15, 44, 45 and
 	-- Mag'har clan colours 46, 48, 49, 51, 52, 54, 55, 57 bake tattoos or paint (user review 2026-10-24)
@@ -113,13 +117,13 @@ CHAR_CREATE_SUBRACES = {
 	-- 28, 29, 32 are Dark Iron tones, moved from Wildhammer (user review 2026-10-25)
 	["DWARF"] = {
 		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
-		{ name = "Bronzebeard", title = "Bronzebeard Dwarf", icon = "DWARF",
+		{ name = "Bronzebeard", title = "Bronzebeard Dwarf", icon = "DWARF", eyes = DWARF_EYES,
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
-		{ name = "Dark Iron", title = "Dark Iron Dwarf", icon = "DARKIRON",
+		{ name = "Dark Iron", title = "Dark Iron Dwarf", icon = "DARKIRON", eyes = DARKIRON_EYES,
 			MALE = {26, 27, 28, 29, 32, 33, 36, 38, 40},
 			FEMALE = {26, 27, 28, 29, 32, 33, 34, 35, 36, 38, 40} },
-		{ name = "Wildhammer", title = "Wildhammer Dwarf", icon = "WILDHAMMER",
+		{ name = "Wildhammer", title = "Wildhammer Dwarf", icon = "WILDHAMMER", eyes = DWARF_EYES,
 			MALE = {22, 23, 24, 25, 30, 31},
 			FEMALE = {22, 23, 24, 25, 30, 31} },
 	},
@@ -459,6 +463,12 @@ function CharCreate_ApplySubRace()
 	SetCharCustomizationFilter(1, unpack(colours));
 	SetCharCustomizationFilter(7);	-- every sub-race has every tattoo and scar (retail's set, for testing)
 	SetCharCustomizationFilter(8);
+	local eyes = subRaces[CharacterCreate.subRace].eyes;
+	if ( eyes ) then
+		SetCharCustomizationFilter(6, unpack(eyes[gender]));
+	else
+		SetCharCustomizationFilter(6);
+	end
 	local warPaint = subRaces[CharacterCreate.subRace].warPaint;
 	if ( warPaint ) then
 		SetCharCustomizationFilter(9, unpack(warPaint));
@@ -476,6 +486,7 @@ function CharCreate_UpdateSubRaces()
 		end
 		if ( CharacterCreate.subRaces ) then
 			SetCharCustomizationFilter(1);
+			SetCharCustomizationFilter(6);
 			SetCharCustomizationFilter(7);
 			SetCharCustomizationFilter(8);
 			SetCharCustomizationFilter(9);

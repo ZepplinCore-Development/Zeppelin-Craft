@@ -137,23 +137,6 @@ def lit(body):
     return px[lum >= np.median(lum)]
 
 
-def retone(im, old_body, new_body):
-    """im (an _Extra: horns, tentacles, ears) moved from one skin colour to another. A pixel follows by how close its
-    hue (brightness normalised out) is to the old skin's lit colour, keeping its own brightness, so metal, gems and
-    eyes keep their colour (user report: Lightforged horns and tentacles in the old colour)."""
-    a = np.asarray(im).astype(np.float32)
-    rgb = a[..., :3]
-    old, new = lit(old_body), lit(new_body)
-    mo, mn = old.mean(axis=0), new.mean(axis=0)
-    spread = np.linalg.norm(old.std(axis=0))
-    lum = rgb.mean(axis=2, keepdims=True)
-    hue = np.linalg.norm(rgb / np.maximum(lum, 1) * mo.mean() - mo, axis=2)
-    w = np.exp(-(hue ** 2) / (2 * (1.2 * spread) ** 2))[..., None]
-    target = lum * (mn / max(mo.mean(), 1))
-    out = rgb + w * (np.clip(target, 0, 255) - rgb)
-    return Image.fromarray(np.dstack([np.clip(out, 0, 255), a[..., 3]]).astype(np.uint8), 'RGBA')
-
-
 def body_only(body):
     """A 128x128 skin atlas without its face box (bottom left, under the face textures and often left unpainted pale):
     measured with it, faces came out paler than their body."""
@@ -194,10 +177,29 @@ def transfer(im, old_body, new_body):
     a = np.asarray(im).astype(np.float32)
     rgb = a[..., :3]
     lum = rgb.mean(axis=2)
-    face_lit = lit(rgb.reshape(-1, 3)).mean(axis=0)
+    solid = a[..., 3] > 128
+    face_lit = lit(rgb[solid] if solid.sum() > 100 else rgb.reshape(-1, 3)).mean(axis=0)   # transparent pixels are no skin
     old_lit, new_lit = lit(body_only(old_body)).mean(axis=0), lit(body_only(new_body)).mean(axis=0)
     target = rgb_of(lab(new_lit) + (lab(face_lit) - lab(old_lit)))
     out = (lum / max(face_lit.mean(), 1))[..., None] * target
+    return Image.fromarray(np.dstack([np.clip(out, 0, 255), a[..., 3]]).astype(np.uint8), 'RGBA')
+
+
+def transfer_skin(im, old_body, new_body):
+    """A texture that is skin in part (_Extra: head, ears, horns, tentacles; borrowed underwear) moved to the new skin:
+    `transfer` on the pixels close in hue to the texture's own skin colour, the rest (eyes, metal, gems, cloth) as
+    they are. Weighed against the donor body's hue (retone), an orc head's ears and scalp were too far off it and kept
+    the donor's colour: pink ears on a brown Mag'har (user report)."""
+    a = np.asarray(im).astype(np.float32)
+    rgb = a[..., :3]
+    solid = a[..., 3] > 128
+    own = lit(rgb[solid] if solid.sum() > 100 else rgb.reshape(-1, 3))
+    mo, spread = own.mean(axis=0), np.linalg.norm(own.std(axis=0))
+    lum = rgb.mean(axis=2, keepdims=True)
+    hue = np.linalg.norm(rgb / np.maximum(lum, 1) * mo.mean() - mo, axis=2)
+    w = np.exp(-(hue ** 2) / (2 * (1.5 * spread) ** 2))[..., None]
+    moved = np.asarray(transfer(im, old_body, new_body)).astype(np.float32)[..., :3]
+    out = rgb + w * (moved - rgb)
     return Image.fromarray(np.dstack([np.clip(out, 0, 255), a[..., 3]]).astype(np.uint8), 'RGBA')
 
 
@@ -255,7 +257,7 @@ def main():
                 if donor_extra:
                     c2, path = donor_extra
                     extra = f'{stem}Skin00_zs{c:02d}_Extra.blp'
-                    icons.write_blp_rgba(ASSETS / extra.replace('\\', '/'), retone(read_blp(path), body[c2], small))
+                    icons.write_blp_rgba(ASSETS / extra.replace('\\', '/'), transfer_skin(read_blp(path), body[c2], small))
                 sql.append(_insert(rid, base, g, SKIN, paths['skin'], extra, flags[SKIN], 0, c))
                 rid += 1
                 # faces: our own, every face type the nearest colour has, recoloured to this skin. Retail's face
@@ -307,7 +309,7 @@ def main():
                         if donor[col] and files.find(donor[col]):
                             p = f'{stem}{part}_zs{c:02d}.blp'
                             src = read_blp(files.find(donor[col])).resize((256, 128), Image.LANCZOS)
-                            icons.write_blp_rgba(ASSETS / p.replace('\\', '/'), retone(src, body[c2], small))
+                            icons.write_blp_rgba(ASSETS / p.replace('\\', '/'), transfer_skin(src, body[c2], small))
                             under[target] = p
                 sql.append(_insert(rid, base, g, UNDERWEAR, under.get('13', ''), under.get('14', ''), flags[UNDERWEAR], 0, c))
                 rid += 1

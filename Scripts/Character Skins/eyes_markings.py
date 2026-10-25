@@ -353,13 +353,17 @@ def main():
                     # the base face's detail (its brightness against its own local mean) in this colour's local tone,
                     # the tone averaged without the paint / glow pixels
                     w = (~ndimage.binary_dilation(raw, iterations=4)).astype(float)
-                    # inside a wide masked patch the near weight runs out (it read as a black dot on the brow,
-                    # skin check 'hole'): there the tone comes from a wider reach, then the colour's median
-                    tone = np.broadcast_to(np.median(a[w > 0], axis=0), a.shape).astype(float)
-                    for sigma in (TONE_SIGMA * 4, TONE_SIGMA):
-                        ws = ndimage.gaussian_filter(w, sigma)
-                        t = np.dstack([ndimage.gaussian_filter(a[..., k] * w, sigma) for k in range(3)]) / np.maximum(ws, 1e-6)[..., None]
-                        tone = np.where((ws > 0.05)[..., None], t, tone)
+                    # the colour's local tone with the paint / glow pixels left out. Where the near weight runs out
+                    # (inside a wide painted patch) the tone is the nearest well-covered pixel's, smoothed: a black
+                    # dot with no fallback, pale splotches with a wider blur (user reports, Blackrock brow)
+                    ws = ndimage.gaussian_filter(w, TONE_SIGMA)
+                    tone = np.dstack([ndimage.gaussian_filter(a[..., k] * w, TONE_SIGMA) for k in range(3)]) / np.maximum(ws, 1e-6)[..., None]
+                    good = ws > 0.3
+                    if not good.all():
+                        _, (iy, ix) = ndimage.distance_transform_edt(~good, return_indices=True)
+                        near = tone[iy, ix]
+                        near = np.dstack([ndimage.gaussian_filter(near[..., k], TONE_SIGMA / 2) for k in range(3)])
+                        tone = np.where(good[..., None], tone, near)
                     lb0 = b.mean(2)
                     detail = lb0 / np.maximum(ndimage.gaussian_filter(lb0, TONE_SIGMA), 1)
                     plain = np.where(eye_full[..., None], a, np.clip(tone * detail[..., None], 0, 255))

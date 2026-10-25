@@ -275,12 +275,14 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                                        r['base_section'], r['type'], [path], model_owner))
                 return f
 
-            skin_img = {}
+            skin_img, extra_img = {}, {}
             for c, r in skins.items():
                 f = resolve(r, 'texture_1')
                 if f is not None:
                     skin_img[c] = imgs.get(f)
-                resolve(r, 'texture_2') if r['texture_2'] else None
+                fx = resolve(r, 'texture_2') if r['texture_2'] else None
+                if fx is not None:
+                    extra_img[c] = imgs.get(fx)
                 missing = sorted(want_types - {t for t in faces if c in faces[t]})
                 if missing:
                     out.append(Finding('warning', 'face-types', race, sex, c,
@@ -351,6 +353,25 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                         out.append(Finding('warning', 'tone', race, sex, c,
                                            f'face type {t} colour {d:.1f} off its body (against the stock colours)',
                                            1, t, [r['texture_1'], r['texture_2']], files[ms.norm(r['texture_1'])][1]))
+            # the _Extra (an HD head with its ears and scalp, horns, tentacles) against its body, the same way: the
+            # ears a different colour from the head (user report, Mag'har 7 / 8)
+            extra_tones = []
+            for c, ex in extra_img.items():
+                if race in TONE_SKIP or skins[c]['flags'] & 0x4 or c not in body_lit or body_lit[c] is None:
+                    continue
+                el = _lit_rgb(ex)
+                if el is not None:
+                    extra_tones.append((c, _lab(el) - _lab(body_lit[c])))
+            eref = [dv for c, dv in extra_tones if c <= 9]
+            if len(eref) >= 4:
+                eref = np.median(np.stack(eref), axis=0)
+                for c, dv in extra_tones:
+                    d = float(np.linalg.norm((dv - eref)[1:]))
+                    if d > TONE_LIMIT:
+                        r = skins[c]
+                        out.append(Finding('warning', 'tone', race, sex, c,
+                                           f'_Extra (head, ears, horns) colour {d:.1f} off its body (against the stock colours)',
+                                           0, 0, [r['texture_2']], files[ms.norm(r['texture_2'])][1]))
             if sizes:
                 common = max(set(sizes.values()), key=list(sizes.values()).count)
                 for (c, t), hw in sizes.items():
