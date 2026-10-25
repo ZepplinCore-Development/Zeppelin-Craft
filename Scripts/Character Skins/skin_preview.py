@@ -40,7 +40,8 @@ ASSETS = CRAFT / 'zpaks' / 'zep-skin-expansion' / 'mpq' / 'source-assets'
 CURATED = CRAFT / 'zpaks' / 'zep-hd-curated' / 'mpq' / 'parsed-assets'
 COMMUNITY = [CRAFT.parent / 'Zeppelin-Tools' / 'Asset Library' / 'COMMUNITY' / n / 'mpq' / 'source-assets'
              for n in ('patch-hd-everything', 'patch-hd-creatures-mounts')]   # the HD character pack's sources
-CODES = {2: 'or', 3: 'dw', 10: 'be', 11: 'dr', 1: 'hu', 4: 'ni', 5: 'sc', 6: 'ta', 7: 'gn', 8: 'tr', 9: 'go'}
+CODES = {2: 'or', 3: 'dw', 10: 'be', 11: 'dr', 1: 'hu', 4: 'ni', 5: 'sc', 6: 'ta', 7: 'gn', 8: 'tr', 9: 'go', 12: 'wo'}
+UNBAKED_FDID = 999990001                         # a FileDataID no file has: the override is the only source
 FOLDERS = {1: 'Human', 2: 'Orc', 3: 'Dwarf', 4: 'NightElf', 5: 'Scourge', 6: 'Tauren', 7: 'Gnome', 8: 'Troll',
            9: 'Goblin', 10: 'BloodElf', 11: 'Draenei', 12: 'Worgen'}
 PUPPETEER = '/opt/claude-tools/lib/node_modules/puppeteer'
@@ -187,6 +188,11 @@ class Viewer:
             # there drew worgen fur on a fel orc (user report)
             raise SystemExit(f'race {race}: the viewer has no {folder or "body"} pane '
                              f'({pane["model"] if pane else "none"}); preview it in the client')
+        if 'tex' not in pane:
+            # an unbaked pane (no NPC wears the model: the worgen female): a texture slot of our own for the body, and
+            # the other sex's geoset choices
+            other = self.bodies.get(CODES[race] + 'mf'[1 - sex], {})
+            pane = dict(pane, tex={'1': UNBAKED_FDID}, mesh=other.get('mesh', [1] * 20))
         tex = pane['tex']
         blp_bgra(canvas, self.www / 'local' / f'{name}_bake.blp')
         ovr = {f'fdid/{tex["1"]}': f'http://localhost:{self.port}/local/{name}_bake.blp'}
