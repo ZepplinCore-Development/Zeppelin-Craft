@@ -644,6 +644,12 @@ class AssetIndex:
             # mounts' HD night elf the classic faces: Maribeth ships a mesh of it too, so her faces 'belonged'
             # to her mesh, and the stock face was the only 'compatible' one.)
             stock_mesh = all('stock' in mesh_choices[m].sources for m in meshes)
+            # our own zpaks' art wins (zep-skin-expansion's F-151 colours ship in PATCH-L, which PATCH-Q would
+            # override: a community pack's black TrollFemaleFaceLower00_18 replaced ours)
+            from lib.hd_curate import COMMUNITY
+            ours = [o for o in a.options if any(x not in COMMUNITY and x not in ('stock', 'retail') for x in o.sources)]
+            if ours:
+                return max(ours, key=lambda o: o.size), []
             cand = [o for o in a.options if ('stock' in o.sources) == stock_mesh] or list(a.options)
             return max(cand, key=lambda o: (o.size, o.sources[0] == 'stock')), []
         ok = [o for o in a.options if all(self.compatible(tex, o, m, mesh_choices[m]) for m in meshes)]
