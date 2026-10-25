@@ -1531,7 +1531,8 @@ document.addEventListener('toggle', async (ev) => {
 
 // ---- items on a body (fitment) ------------------------------------------------------------------
 const RACE_NAMES = { hu: 'Human', or: 'Orc', dw: 'Dwarf', ni: 'Night Elf', sc: 'Undead', ta: 'Tauren', gn: 'Gnome',
-  tr: 'Troll', be: 'Blood Elf', dr: 'Draenei', go: 'Goblin', wo: 'Worgen' };
+  tr: 'Troll', be: 'Blood Elf', dr: 'Draenei', go: 'Goblin', wo: 'Worgen', na: 'Naga', br: 'Broken', sk: 'Skeleton',
+  vr: 'Vrykul', tu: 'Tuskarr', ft: 'Forest Troll', wt: 'Taunka', ns: 'Northrend Skeleton', it: 'Ice Troll' };   // ChrRaces 13-21
 const codeName = (c) => `${RACE_NAMES[c.slice(0, 2)] || c.slice(0, 2)} ${c.endsWith('f') ? 'female' : 'male'}`;
 function itemMembersFor(e, code) {
   // helms: the variant for this race/sex; shoulders/weapons: every model of the group
@@ -1540,6 +1541,75 @@ function itemMembersFor(e, code) {
 function fitOf(path, option) {
   const f = (choices.fit || {})[path];
   return f && f.option === option ? f : null;
+}
+// ---- Character creator (skin work, F-151): every CharSections choice of a race/sex as the client ships them -----
+// data/v2/chars/<code>.json (viewer_v2.creator_chars, from the live DBC incl. PATCH-L); the bake is composed in the
+// browser (o335Bake, no items) and drawn on the race's body pane: hair texture = slot 6, the colour's _Extra = slot 8.
+const CREATOR = { code: null, data: {}, sel: {}, playable: true, url: null };
+const CR_BAKE = 999000101, CR_HAIR = 999000102, CR_EXTRA = 999000103;
+async function openCharCreator(code, push = true) {
+  code = code || CREATOR.code || (bodies.hum ? 'hum' : Object.keys(bodies)[0]);
+  openLayer('character', false, false);
+  if (push) history.pushState({ layer: 'creator', code }, '', `${location.pathname}?layer=creator&code=${encodeURIComponent(code)}`);
+  if (!(code in CREATOR.data)) CREATOR.data[code] = await fetch(`data/v2/chars/${encodeURIComponent(code)}.json`, { cache: 'no-cache' })
+    .then(r => r.ok ? r.json() : null).catch(() => null);
+  const D = CREATOR.data[code], body = bodies[code];
+  CREATOR.code = code;
+  $('title').textContent = 'Character creator';
+  if (!D || !body) { $('panes').innerHTML = `<div class="empty">No character data for ${esc(code)} (deploy the viewer).</div>`; return; }
+  const ok = (fl) => !CREATOR.playable || (fl & 1);             // CharSections flag 1: offered in character creation
+  const num = (a) => a.sort((x, y) => +x - +y);
+  const S = CREATOR.sel[code] || (CREATOR.sel[code] = {});
+  const opts = {};
+  opts.skin = num(Object.keys(D.skins).filter(c => ok(D.skins[c].flags)));
+  if (!opts.skin.includes(S.skin)) S.skin = opts.skin[0];
+  opts.face = num(Object.keys(D.faces[S.skin] || {}).filter(t => ok((D.faces[S.skin][t] || [])[2] || 0)));
+  if (!opts.face.includes(S.face)) S.face = opts.face[0];
+  opts.hair = num(Object.keys(D.hair).filter(st => Object.values(D.hair[st]).some(h => ok(h.flags))));
+  if (!opts.hair.includes(S.hair)) S.hair = opts.hair[0];
+  opts.hc = num(Object.keys(D.hair[S.hair] || {}).filter(c => ok(D.hair[S.hair][c].flags)));
+  if (!opts.hc.includes(S.hc)) S.hc = opts.hc[0];
+  opts.facial = num(Object.keys(D.facial_geo).length ? Object.keys(D.facial_geo) : Object.keys(D.facial));
+  if (!opts.facial.includes(S.facial)) S.facial = opts.facial[0];
+  const LBL = { skin: 'Skin colour', face: 'Face', hair: 'Hair style', hc: 'Hair colour', facial: 'Facial hair' };
+  const codes = Object.keys(bodies).sort((a, b) => codeName(a).localeCompare(codeName(b)));
+  const ctl = (k) => `<div class="row"><label style="min-width:90px">${LBL[k]}</label><button data-cs="${k}" data-d="-1">&lt;</button>
+    <select data-cr="${k}">${(opts[k] || []).map(v => `<option${v === S[k] ? ' selected' : ''}>${esc(v)}</option>`).join('')}</select>
+    <button data-cs="${k}" data-d="1">&gt;</button><span class="stats">${(opts[k] || []).length} options</span></div>`;
+  $('panes').innerHTML = `<div class="pane" style="grid-column:1/-1;min-height:70vh"><iframe id="cr-pane" title="Character creator" style="height:62vh"></iframe>
+    <div class="info"><div class="h"><b>${esc(codeName(code))}</b><span class="chip">no items</span><span class="chip" title="Live DBC: every enabled zpak, PATCH-L skin expansion included; textures as the client loads them">as shipped</span></div>
+    <div class="cust"><div class="row"><label style="min-width:90px">Race</label><select id="cr-code">${codes.map(c => `<option value="${c}"${c === code ? ' selected' : ''}>${esc(codeName(c))}</option>`).join('')}</select>
+      <label title="Only choices the client's character creation offers (CharSections flag 1); off = NPC-only colours and faces too"><input type="checkbox" id="cr-play"${CREATOR.playable ? ' checked' : ''}> char create only</label></div>
+    ${['skin', 'face', 'hair', 'hc', 'facial'].map(ctl).join('')}<div class="stats" id="cr-status"></div></div></div></div>`;
+  $('cr-code').onchange = (ev) => openCharCreator(ev.target.value);
+  $('cr-play').onchange = (ev) => { CREATOR.playable = ev.target.checked; openCharCreator(code, false); };
+  $('panes').querySelectorAll('select[data-cr]').forEach(el => el.onchange = () => { S[el.dataset.cr] = el.value; openCharCreator(code, false); });
+  $('panes').querySelectorAll('button[data-cs]').forEach(bt => bt.onclick = () => {
+    const k = bt.dataset.cs, o = opts[k] || [], i = o.indexOf(S[k]);
+    if (o.length) { S[k] = o[(i + +bt.dataset.d + o.length) % o.length]; openCharCreator(code, false); } });
+  // the bake: skin + face + facial hair + scalp + underwear of the chosen colours, composed from scratch
+  const hair = (D.hair[S.hair] || {})[S.hc] || {}, sk = D.skins[S.skin] || {};
+  const ch = { race: D.race, gender: D.gender, hair_style: +S.hair, facial_hair: +S.facial,
+    cs: { skin: sk.skin, face: ((D.faces[S.skin] || {})[S.face] || []).slice(0, 2), underwear: D.under[S.skin] || [],
+          facial: { [S.facial]: (D.facial[S.facial] || {})[S.hc] || [] }, scalp: { [S.hair]: hair.scalp || [] } } };
+  $('cr-status').textContent = 'baking…';
+  const bk = await o335Bake(ch, {}, +S.hair, +S.facial, null);
+  if (CREATOR.code !== code || !$('cr-pane')) return;
+  if (!bk) { $('cr-status').textContent = 'no skin texture for this colour'; return; }
+  if (CREATOR.url) URL.revokeObjectURL(CREATOR.url);
+  CREATOR.url = URL.createObjectURL(await (await fetch(bk.url)).blob());   // o335Bake's URL is revoked on the next bake
+  const mesh = (body.mesh || new Array(20).fill(1)).slice();
+  [4, 5, 8, 9, 10, 11, 12, 13, 15, 18].forEach(g => { mesh[g] = 1; });     // armour groups bare
+  const hg = D.hair_geo[S.hair], fg = D.facial_geo[S.facial] || [1, 1, 1, 1, 1];
+  if (hg) mesh[0] = hg[0];
+  mesh[1] = fg[0]; mesh[3] = fg[1]; mesh[2] = fg[2];
+  if (fg.length > 4) { mesh[16] = fg[3]; mesh[17] = fg[4]; }
+  const tex = { ...(body.tex || {}), 1: CR_BAKE }, ovr = { ['fdid/' + CR_BAKE]: CREATOR.url };
+  if (hair.tex) { tex['6'] = CR_HAIR; ovr['fdid/' + CR_HAIR] = hair.tex; }
+  if (sk.extra) { tex['8'] = CR_EXTRA; ovr['fdid/' + CR_EXTRA] = sk.extra; }
+  const pane = { ...body, tex, mesh, items: [], scalp: hg && hg[1] ? 1 : 0 };
+  $('cr-pane').src = withView(paneUrl(pane, { ovr }));
+  $('cr-status').textContent = `skin ${S.skin} · face ${S.face} · hair ${S.hair} colour ${S.hc} · facial ${S.facial}`;
 }
 // "No armour" (Items tab, for skin work): the body re-baked bare in the browser - the race's skin, face and
 // underwear with no NPC clothes (bakedLook with an empty outfit: armour geosets bare, helm / shoulders off).
@@ -3154,7 +3224,8 @@ function showHome(push = true) {
     const bar = tot ? `<span class="pbar" title="${f(c.done)} completed · ${f(c.rev)} review · ${f(c.und)} undecided of ${f(tot)}">`
       + `<i class="c" style="width:${pc(c.done)}%"></i><i class="r" style="width:${pc(c.rev)}%"></i></span>`
       + `<span class="ppct">${Math.floor(pc(c.done))}% done</span>` : '';
-    return `<button class="tile" data-layer="${k}"><b>${name}</b>${nums}${bar}<span class="d">${d}</span></button>`; }).join('');
+    return `<button class="tile" data-layer="${k}"><b>${name}</b>${nums}${bar}<span class="d">${d}</span></button>`; }).join('')
+    + `<button class="tile" data-layer="creator"><b>Character creator</b><span class="d">Every skin, face, hair and facial-hair choice as the client ships them (PATCH-L skin expansion included), baked in the browser, no items</span></button>`;
   document.body.classList.add('home');
   $('home').hidden = false;
   if (push) history.pushState({ home: 1 }, '', location.pathname);
@@ -3315,9 +3386,10 @@ function openLayer(t, push = true, openFirst = true) {
   tabOpenFirst = openFirst;
   try { b.click(); } finally { tabOpenFirst = true; }
 }
-$('tiles').onclick = (ev) => { const b = ev.target.closest('.tile'); if (b) openLayer(b.dataset.layer); };
+$('tiles').onclick = (ev) => { const b = ev.target.closest('.tile'); if (!b) return; if (b.dataset.layer === 'creator') openCharCreator(); else openLayer(b.dataset.layer); };
 addEventListener('popstate', () => { const u = new URLSearchParams(location.search), t = u.get('layer');
-  t === 'custom' && u.get('display') ? openCustom_(u.get('display'), false)
+  t === 'creator' ? openCharCreator(u.get('code'), false)
+    : t === 'custom' && u.get('display') ? openCustom_(u.get('display'), false)
     : t === 'display' && u.get('display') ? openDisplay(u.get('display'), false) : t ? openLayer(t, false) : showHome(false); });
 $('homebtn').onclick = () => showHome();
 // the hamburger hides / shows the list: phones open the drawer, desktop folds the side bar (remembered)
@@ -3497,7 +3569,8 @@ function unshare(cu) {
     Object.values(byLook).forEach(ds => { if (ds.length > 1) { const ids = ds.map(d => d.display).sort((x, y) => x - y); ds.forEach(d => { d.look_group = ids; }); } });
   }
   const startDisplay = new URLSearchParams(location.search).get('display');
-  if (startLayer === 'custom' && startDisplay) openCustom_(startDisplay, false);
+  if (startLayer === 'creator') openCharCreator(new URLSearchParams(location.search).get('code'), false);
+  else if (startLayer === 'custom' && startDisplay) openCustom_(startDisplay, false);
   else if (startLayer === 'display' && startDisplay) openDisplay(startDisplay, false);
   else if (startLayer && new URLSearchParams(location.search).get('path')) {     // ?layer=creature&path=<model>
     const pth = new URLSearchParams(location.search).get('path');

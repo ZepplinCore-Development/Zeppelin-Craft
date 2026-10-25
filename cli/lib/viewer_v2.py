@@ -2134,6 +2134,63 @@ def customise_entries(dep: 'Deployer', assets: List[dict]) -> List[dict]:
     return out
 
 
+def creator_chars(dep: 'Deployer', bd: Dict[str, dict]) -> Dict[str, dict]:
+    """Per body code, every CharSections choice the client offers that race/sex - the live (effective) DBC,
+    so zep-skin-expansion's PATCH-L colours are in - with each texture resolved to the file the client loads
+    (stock, then the enabled patches by load order) and stored by content. Duplicate keys: the highest id
+    wins, as in the client (F-225). For the picker's Character creator (in-browser bake, no items).
+      {race, gender, skins: {c: {skin, extra, flags}}, under: {c: [legupper, torsoupper]},
+       faces: {c: {face: [lower, upper, flags]}}, hair: {style: {hc: {tex, scalp: [lower, upper], flags}}},
+       facial: {style: {hc: [lower, upper]}}, hair_geo: {style: [geoset, show_scalp]}, facial_geo: {style: [5]}}"""
+    chs = dep.result['effective_char_dbc'][1]
+    hair_l, facial_l = mvd._geo_lookups('effective')
+    _, races, _ = mvd._load_item_lookups()
+    cache: Dict[str, str] = {}
+
+    def put(name) -> str:
+        if not name:
+            return ''
+        p = str(name).replace('\\', '/').lower()
+        if p not in cache:
+            f = dep.ix.stock.get(p) or dep.result['effective_assets'].get(p)
+            cache[p] = dep.store.put(f) if f is not None else ''
+        return cache[p]
+    by_rs: Dict[Tuple[int, int], Dict[tuple, dict]] = {}
+    for rid in sorted(chs):                            # ascending id: a later (higher) id replaces its key
+        r = chs[rid]
+        k = (int(r.get('base_section') or 0), int(r.get('type') or 0), int(r.get('color_index') or 0))
+        by_rs.setdefault((int(r.get('race') or 0), int(r.get('gender') or 0)), {})[k] = r
+    out = {}
+    pre_race = {str(v).lower(): k for k, v in races.items()}
+    for code in bd:
+        race, sex = pre_race.get(code[:2]), (1 if code.endswith('f') else 0)
+        rows = by_rs.get((race, sex)) if race else None
+        if not rows:
+            continue
+        ch = {'race': race, 'gender': sex, 'skins': {}, 'under': {}, 'faces': {}, 'hair': {}, 'facial': {},
+              'hair_geo': {}, 'facial_geo': {}}
+        for (b, t, c), r in sorted(rows.items()):
+            t1, t2, t3, fl = r.get('texture_1'), r.get('texture_2'), r.get('texture_3'), int(r.get('flags') or 0)
+            if b == 0 and t == 0:
+                ch['skins'][str(c)] = {'skin': put(t1), 'extra': put(t2), 'flags': fl}
+            elif b == 1:
+                ch['faces'].setdefault(str(c), {})[str(t)] = [put(t1), put(t2), fl]
+            elif b == 2:
+                ch['facial'].setdefault(str(t), {})[str(c)] = [put(t1), put(t2)]
+            elif b == 3:
+                ch['hair'].setdefault(str(t), {})[str(c)] = {'tex': put(t1), 'scalp': [put(t2), put(t3)], 'flags': fl}
+            elif b == 4 and t == 0:
+                ch['under'][str(c)] = [put(t1), put(t2)]
+        for (r_, s_, st), v in hair_l.items():
+            if (r_, s_) == (race, sex):
+                ch['hair_geo'][str(st)] = list(v[:2])
+        for (r_, s_, st), v in facial_l.items():
+            if (r_, s_) == (race, sex):
+                ch['facial_geo'][str(st)] = list(v)
+        out[code] = ch
+    return out
+
+
 def char_info(x: dict, hair_t, facial_t) -> dict:
     """Customise's character facts for one CreatureDisplayInfoExtra row: its look and the hair /
     facial-hair choices (with their geosets) of its race and sex."""
@@ -2746,6 +2803,11 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
     bd = bodies(dep)
     riders(dep, bd, log)
     (v2 / 'bodies.json').write_text(json.dumps(bd, separators=(',', ':')))
+    # the character creator (skin work, F-151): every CharSections choice of each body's race/sex, as shipped
+    cdir = v2 / 'chars'
+    cdir.mkdir(exist_ok=True)
+    for code, ch in creator_chars(dep, bd).items():
+        (cdir / f'{code}.json').write_text(json.dumps(ch, separators=(',', ':')))
     log(f'  bodies: {len(bd)} race/sex bodies for item fitting')
     (v2 / 'mountriders.json').write_text(json.dumps(linked_riders(dep, mount_riders or {}, log), separators=(',', ':')))
     (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
