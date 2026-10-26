@@ -1,0 +1,56 @@
+From bd07efebce66f1a4abb808cf8ac36f1c28a78467 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 26 Oct 2026 01:44:17 +0000
+Subject: [PATCH] WIP: F-219 - wait out the stranded clock; stop a leg
+ displaced far outside its area
+
+- main loop: while routes are refused (stranded clock < 15 min) keep waiting instead of
+  ending the run (Mulgore's druid ended at 101 min before the 10 min clock ran out)
+- more than 1000 yd outside the area box (not reviving): [FAIL] displaced + RESULT: FAIL
+  (Kezan's Hot Rod summon put a level-2 goblin in the Barrens: 69 deaths in 2 h)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 53c3f6c..82a0d8f 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -4535,6 +4535,17 @@ class Runner:
+         self.refresh_abilities()
+         while time.time() - t0 < minutes * 60:
+             self.safe()
++            if not self.reviving:
++                # displaced far outside the area (Kezan's Hot Rod summon has twice put a level-2 goblin
++                # in the Barrens: 69 deaths in 2 h among level-15 mobs) - stop and say so, never farm deaths
++                me = self.me()
++                bx1, by1, bx2, by2 = self.w.box
++                ox = max(min(bx1, bx2) - me["x"], 0, me["x"] - max(bx1, bx2))
++                oy = max(min(by1, by2) - me["y"], 0, me["y"] - max(by1, by2))
++                if math.hypot(ox, oy) > 1000:
++                    print(f"[FAIL] displaced to ({me['x']:.0f},{me['y']:.0f}) on map {me.get('map', self.w.map)}, "
++                          f"{math.hypot(ox, oy):.0f} yd outside the area box", flush=True)
++                    raise SystemExit("RESULT: FAIL - displaced outside the area")
+             log = self.log()
+             level = call("interact.self").get("level", 1)
+             if level > getattr(self, "_last_level", level):
+@@ -4680,6 +4691,13 @@ class Runner:
+                     hard = []
+                 if idle == 0:
+                     continue
++            rs = getattr(self, "_refused_since", 0)
++            if rs and time.time() - rs < 900:
++                # every road out is refused: wait for the stranded clock (10 min) to let us leave past what
++                # we stand beside - ending now left Mulgore's druid parked at 101 min, clock unexpired
++                time.sleep(30)
++                idle = 0
++                continue
+             if any(t > time.time() for t in self.retry_at.values()):
+                 time.sleep(30)  # a giver we died near gets another try soon: not the end of the run
+                 idle = 0
+-- 
+2.34.1
+
