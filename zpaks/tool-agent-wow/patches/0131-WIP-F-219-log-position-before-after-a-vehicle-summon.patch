@@ -1,0 +1,35 @@
+From f2292dc44fe7685c97a41adfcd936e7cd8a62e3e Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 26 Oct 2026 01:45:31 +0000
+Subject: [PATCH] WIP: F-219 - log position before/after a vehicle summon (Hot
+ Rod teleport evidence)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 82a0d8f..8b29489 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -3451,9 +3451,14 @@ class Runner:
+         objs = call("interact.find", entry=ventry, limit=1).get("objects", [])
+         if (not objs or objs[0].get("distance", 0) > 30) and ventry in self.w.summon_item:
+             item, spell = self.w.summon_item[ventry]
++            before = self.me()
+             r = call("interact.use_item", entry=item, spell_id=spell)
+-            print(f"  summon vehicle {ventry} with item {item}: {r.get('detail')}", flush=True)
+             time.sleep(2)
++            after = self.me()
++            # where we stood before and after: Kezan's Hot Rod summon has put the goblin in the Barrens
++            print(f"  summon vehicle {ventry} with item {item}: {r.get('detail')} - at ({before['x']:.0f},"
++                  f"{before['y']:.0f}) map {before.get('map')} -> ({after['x']:.0f},{after['y']:.0f}) map "
++                  f"{after.get('map')}", flush=True)
+             objs = call("interact.find", entry=ventry, limit=1).get("objects", [])
+         if not objs and ventry in self.w.cspawn:
+             # out of sight: walk to its nearest spawn first (the Buccaneers stand on the field)
+-- 
+2.34.1
+
