@@ -54,7 +54,7 @@ ICONS = {
     'WILDHAMMER': ('dwarf', 'tattoo'),
     'GNOME': ('gnome', None),
     'LEPERGNOME': ('gnome', 'leper'),
-    'DARKGNOME': ('gnome', 'dusk'),
+    'CULTISTGNOME': ('gnome', 'dusk'),
     # races without sub-races, by their file name (GetNameForRace)
     'HUMAN': ('human', None),
     'NIGHTELF': ('nightelf', None),

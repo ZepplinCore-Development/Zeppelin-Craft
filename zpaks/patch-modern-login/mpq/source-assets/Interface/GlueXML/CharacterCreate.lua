@@ -146,7 +146,7 @@ CHAR_CREATE_SUBRACES = {
 		{ name = "Leper", lore = "The leper gnomes survived the radiation Thermaplugg unleashed on Gnomeregan, but it marked them forever. Scarred and sickly, many lost their minds in the dark below. Those who kept their wits refuse to be pitied, and fight to win their city back.", title = "Leper Gnome", icon = "LEPERGNOME",
 			MALE = {15, 16, 17},
 			FEMALE = {15, 16, 17} },
-		{ name = "Dark", lore = "Dark gnomes are the city-folk of Gnomeregan's deepest halls, pale from generations away from the sun. They are tinkerers of the shadowed workshops, building the machines that keep the city alive. Now they bring their strange inventions to the surface and the Alliance.", title = "Dark Gnome", icon = "DARKGNOME",
+		{ name = "Cultist", lore = "Not every gnome who fled Gnomeregan returned to the light. The cultists found answers in forbidden tomes and whispered rites, marking their faces with ritual paint and trading tinkering for darker arts. Those who stand with the Alliance swear their knowledge now serves it, though few gnomes sleep easily beside them.", title = "Cultist Gnome", icon = "CULTISTGNOME",
 			MALE = {13, 14},
 			FEMALE = {5, 13, 14} },
 	},
