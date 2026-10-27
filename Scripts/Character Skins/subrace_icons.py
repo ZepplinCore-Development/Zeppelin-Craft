@@ -1,4 +1,5 @@
-"""F-151 sub-races: the round portraits the character creator shows beside a race that has sub-races.
+"""F-151 race rings: the round portraits of every race and sub-race on the character creator's rings, and the two
+round faction crests.
 
 Retail draws its race portraits from one atlas, interface/glues/charactercreate/charactercreateicons.blp
 (FileDataID 1662186). The members come from UiTextureAtlasMember ("raceicon128-<race>-<sex>"). A
@@ -6,8 +7,10 @@ sub-race with no retail portrait is derived from one that has, by colour-shiftin
 the retail orc portrait shifted from green to red, Blackrock = shifted to dark grey).
 
 Writes zpaks/patch-modern-login/mpq/source-assets/Interface/Glues/CharacterCreate/
-UI-CharacterCreate-SubRace-<NAME>_<SEX>.blp (64x64, palettized BLP2 with 8-bit alpha, round mask) and the two
-rings drawn over them: UI-CharacterCreate-SubRace-Ring.blp (always) and -RingChecked.blp (selected).
+UI-CharacterCreate-SubRace-<NAME>_<SEX>.blp (64x64, palettized BLP2 with 8-bit alpha, round mask; NAME is the
+sub-race icon, or for a race without sub-races its file name, e.g. SCOURGE), UI-CharacterCreate-SubRace-CREST_<FACTION>.blp
+(the glue's AllianceLogo / HordeLogo on a dark disc) and the two rings drawn over them:
+UI-CharacterCreate-SubRace-Ring.blp (always) and -RingChecked.blp (selected).
 
   python3 "Scripts/Character Skins/subrace_icons.py"
 """
@@ -27,6 +30,13 @@ from lib import retail  # noqa: E402
 
 OUT = CRAFT / 'zpaks' / 'patch-modern-login' / 'mpq' / 'source-assets' / 'Interface' / 'Glues' / 'CharacterCreate'
 ATLAS_FDID = 1662186
+# the 130 px square portraits the Esteria creator's author shared (user, 2026-10-27), preferred over the atlas where
+# they have the race: <faction>/Charactercreate-races_<name>-<sex>[2].png
+PACK = CRAFT.parent / 'Zeppelin-Tools' / 'Esteria-review' / 'Portraits'
+PACK_NAMES = {'orc': 'orc', 'magharorc': 'maghar', 'dwarf': 'dwarf', 'darkirondwarf': 'darkirondwarf',
+              'bloodelf': 'bloodelf', 'voidelf': 'voidelf', 'draenei': 'draenei', 'lightforged': 'lightforged',
+              'gnome': 'gnome', 'human': 'human', 'nightelf': 'nightelf', 'undead': 'undead', 'tauren': 'tauren',
+              'troll': 'troll', 'goblin': 'goblin', 'worgen': 'worgen', 'eredar': 'eredar'}
 SIZE = 64
 # our icon name -> (retail atlas race, skin hue shift or None)
 ICONS = {
@@ -40,12 +50,21 @@ ICONS = {
     'VOIDELF': ('voidelf', None),
     'DRAENEI': ('draenei', None),
     'LIGHTFORGED': ('lightforged', None),
-    'EREDAR': ('draenei', 'eredar'),
+    'EREDAR': ('eredar', None),		# the pack has a real eredar portrait (the atlas doesn't)
     'WILDHAMMER': ('dwarf', 'tattoo'),
     'GNOME': ('gnome', None),
     'LEPERGNOME': ('gnome', 'leper'),
     'DARKGNOME': ('gnome', 'dusk'),
+    # races without sub-races, by their file name (GetNameForRace)
+    'HUMAN': ('human', None),
+    'NIGHTELF': ('nightelf', None),
+    'SCOURGE': ('undead', None),
+    'TAUREN': ('tauren', None),
+    'TROLL': ('troll', None),
+    'GOBLIN': ('goblin', None),
+    'WORGEN': ('worgen', None),
 }
+CRESTS = {'ALLIANCE': 'AllianceLogo', 'HORDE': 'HordeLogo'}		# CHARACTERCREATE/<file>.blp in this zpak
 
 
 def tattoo(im):
@@ -57,8 +76,29 @@ def tattoo(im):
     return Image.fromarray(a.astype(np.uint8), 'RGBA')
 
 
+def pack_portrait(race, sex):
+    """The pack's portrait of an atlas race name, or None."""
+    name = PACK_NAMES.get(race)
+    for suffix in ('', '2'):
+        for f in sorted(PACK.glob(f'*/Charactercreate-races_{name}-{sex}{suffix}.png')) if name else []:
+            return Image.open(f).convert('RGBA')
+    return None
+
+
+def crest(path):
+    """A faction logo (its opaque part, 82% of the width) centred on a dark disc, SIZE square."""
+    from lib.wardrobe.blp import read_blp
+    logo = read_blp(path).convert('RGBA')
+    logo = logo.crop(logo.getchannel('A').point(lambda a: 255 if a > 24 else 0).getbbox())
+    side = int(SIZE * 0.82)
+    logo.thumbnail((side, side), Image.LANCZOS)
+    im = Image.new('RGBA', (SIZE, SIZE), (18, 14, 10, 255))
+    im.alpha_composite(logo, ((SIZE - logo.width) // 2, (SIZE - logo.height) // 2))
+    return im
+
+
 def atlas_members():
-    want = {f'raceicon128-{race}-{sex}' for race, _ in ICONS.values() for sex in ('male', 'female')}
+    want = {f'raceicon128-{race}-{sex}' for race, _ in ICONS.values() for sex in ('male', 'female')}	# eredar: none
     return {r['CommittedName']: tuple(int(r[k]) for k in ('CommittedLeft', 'CommittedTop', 'CommittedRight', 'CommittedBottom'))
             for r in retail._csv('UiTextureAtlasMember') if r['UiTextureAtlasID'] == '897' and r['CommittedName'] in want}
 
@@ -137,7 +177,8 @@ def main():
     members = atlas_members()
     for name, (race, shift) in ICONS.items():
         for sex in ('male', 'female'):
-            im = atlas.crop(members[f'raceicon128-{race}-{sex}']).resize((SIZE, SIZE), Image.LANCZOS)
+            im = pack_portrait(race, sex) or atlas.crop(members[f'raceicon128-{race}-{sex}'])
+            im = im.resize((SIZE, SIZE), Image.LANCZOS)
             if shift == 'tattoo':
                 im = tattoo(im)
             elif shift:
@@ -145,6 +186,10 @@ def main():
             dst = OUT / f'UI-CharacterCreate-SubRace-{name}_{sex.upper()}.blp'
             write_blp_rgba(dst, round_mask(im))
             print(dst.relative_to(CRAFT))
+    for faction, logo in CRESTS.items():
+        dst = OUT / f'UI-CharacterCreate-SubRace-CREST_{faction}.blp'
+        write_blp_rgba(dst, round_mask(crest(OUT.parent / 'CHARACTERCREATE' / f'{logo}.blp')))
+        print(dst.relative_to(CRAFT))
     for name, im in (('Ring', ring(2, 0, (150, 120, 60))), ('RingChecked', ring(3, 8, (255, 210, 80)))):
         dst = OUT / f'UI-CharacterCreate-SubRace-{name}.blp'
         write_blp_rgba(dst, im)

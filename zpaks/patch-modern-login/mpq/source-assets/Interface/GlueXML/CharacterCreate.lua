@@ -102,13 +102,13 @@ CHAR_CREATE_SUBRACES = {
 		{ name = "Orc", icon = "ORC", warPaint = ORC_WAR_PAINT,
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
-		{ name = "Mag'har", title = "Mag'har Orc", icon = "MAGHAR", warPaint = MAGHAR_WAR_PAINT,
+		{ name = "Mag'har", lore = "The Mag'har are the orcs who never drank the blood of Mannoroth. Untouched by the demonic taint, they kept the old ways of Draenor: shamanism, the hunt and the honour of the clans. Now they stand with the Horde as living proof of what the orcs were before the fall.", title = "Mag'har Orc", icon = "MAGHAR", warPaint = MAGHAR_WAR_PAINT,
 			MALE = {12, 16, 20, 21, 22, 23, 24, 50, 53},
 			FEMALE = {12, 20, 21, 22, 23, 24, 50, 53} },
-		{ name = "Blackrock", title = "Blackrock Orc", icon = "BLACKROCK", warPaint = ORC_WAR_PAINT,
+		{ name = "Blackrock", lore = "Forged in the fires of Blackrock Mountain, the Blackrock clan is the iron fist of the orcish war machine. Their smiths turned war into an industry and their warlords led the Horde's first invasions. Those who march under the Horde's banner today trade old conquest for discipline and steel.", title = "Blackrock Orc", icon = "BLACKROCK", warPaint = ORC_WAR_PAINT,
 			MALE = {9, 14, 17, 18, 19, 47},
 			FEMALE = {11, 13, 18, 19, 47} },
-		{ name = "Fel Orc", icon = "FELORC", warPaint = ORC_WAR_PAINT,
+		{ name = "Fel Orc", lore = "Fel orcs carry the Legion's corruption in their very blood, their skin burned red by fel power. Many were bred for war in Hellfire Citadel, but some broke free of their masters' grip. They fight beside the Horde, shunned by many and feared by more, to turn the demons' gift against them.", icon = "FELORC", warPaint = ORC_WAR_PAINT,
 			MALE = {10, 25, 26, 27},
 			FEMALE = {25, 26, 27} },
 	},
@@ -120,10 +120,10 @@ CHAR_CREATE_SUBRACES = {
 		{ name = "Bronzebeard", title = "Bronzebeard Dwarf", icon = "DWARF", eyes = DWARF_EYES,
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
-		{ name = "Dark Iron", title = "Dark Iron Dwarf", icon = "DARKIRON", eyes = DARKIRON_EYES,
+		{ name = "Dark Iron", lore = "The Dark Iron dwarves were once the bitter rivals of Ironforge, ruled from the burning halls of Shadowforge City. Tempered by fire and magma, they are master smiths and fierce warriors. With old enmities set aside, they now stand with the Alliance.", title = "Dark Iron Dwarf", icon = "DARKIRON", eyes = DARKIRON_EYES,
 			MALE = {26, 27, 28, 29, 32, 33, 36, 38, 40},
 			FEMALE = {26, 27, 28, 29, 32, 33, 34, 35, 36, 38, 40} },
-		{ name = "Wildhammer", title = "Wildhammer Dwarf", icon = "WILDHAMMER", eyes = DWARF_EYES,
+		{ name = "Wildhammer", lore = "The Wildhammer dwarves left Ironforge long ago for the cliffs of Grim Batol and later the Hinterlands. They live close to nature, ride gryphons into battle and mark their bodies with tribal tattoos. Proud and free, they answer to no king but their own thanes.", title = "Wildhammer Dwarf", icon = "WILDHAMMER", eyes = DWARF_EYES,
 			MALE = {22, 23, 24, 25, 30, 31},
 			FEMALE = {22, 23, 24, 25, 30, 31} },
 	},
@@ -133,7 +133,7 @@ CHAR_CREATE_SUBRACES = {
 		{ name = "Blood Elf", icon = "BLOODELF",
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85} },
-		{ name = "Void Elf", icon = "VOIDELF",
+		{ name = "Void Elf", lore = "The void elves were exiled from Silvermoon for studying the forbidden powers of the Void. Saved from the brink of madness by the Alliance, they learned to walk the line between shadow and self. They now lend their dark gifts to the Alliance's cause, ever watchful of the whispers within.", icon = "VOIDELF",
 			MALE = {34, 35, 62, 63, 64, 65, 66, 67, 68},
 			FEMALE = {34, 35, 62, 63, 64, 65, 66, 67, 68} },
 	},
@@ -143,10 +143,10 @@ CHAR_CREATE_SUBRACES = {
 		{ name = "Gnome", icon = "GNOME",
 			MALE = {0, 1, 2, 3, 4, 10, 11, 12},
 			FEMALE = {0, 1, 2, 3, 4, 6, 10, 11, 12} },
-		{ name = "Leper", title = "Leper Gnome", icon = "LEPERGNOME",
+		{ name = "Leper", lore = "The leper gnomes survived the radiation Thermaplugg unleashed on Gnomeregan, but it marked them forever. Scarred and sickly, many lost their minds in the dark below. Those who kept their wits refuse to be pitied, and fight to win their city back.", title = "Leper Gnome", icon = "LEPERGNOME",
 			MALE = {15, 16, 17},
 			FEMALE = {15, 16, 17} },
-		{ name = "Dark", title = "Dark Gnome", icon = "DARKGNOME",
+		{ name = "Dark", lore = "Dark gnomes are the city-folk of Gnomeregan's deepest halls, pale from generations away from the sun. They are tinkerers of the shadowed workshops, building the machines that keep the city alive. Now they bring their strange inventions to the surface and the Alliance.", title = "Dark Gnome", icon = "DARKGNOME",
 			MALE = {13, 14},
 			FEMALE = {5, 13, 14} },
 	},
@@ -155,10 +155,10 @@ CHAR_CREATE_SUBRACES = {
 		{ name = "Draenei", icon = "DRAENEI",
 			MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 23, 24, 25, 26, 27, 28, 29},
 			FEMALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 22, 23, 24, 25, 26, 27, 28} },
-		{ name = "Lightforged", title = "Lightforged Draenei", icon = "LIGHTFORGED",
+		{ name = "Lightforged", lore = "The Lightforged draenei spent millennia aboard the Genedar, waging the Army of the Light's war against the Burning Legion across countless worlds. Infused with the Light itself, they are zealous, steadfast and uncompromising. They have returned to Azeroth to see the Legion's end.", title = "Lightforged Draenei", icon = "LIGHTFORGED",
 			MALE = {5, 32, 33, 34, 35, 37, 38, 39, 40},
 			FEMALE = {5, 32, 33, 34, 35, 37, 38, 39, 40} },
-		{ name = "Eredar", icon = "EREDAR",
+		{ name = "Eredar", lore = "Long before the draenei fled Argus, their people were the eredar, a race of brilliant mages and scholars. These eredar never bowed to Sargeras, yet still bear the old look of Argus. Wary of their own reflection in the Legion's ranks, they seek to prove that their people's legacy is not only darkness.", icon = "EREDAR",
 			MALE = {17, 18, 19, 20, 21, 22, 30, 31},
 			FEMALE = {15, 16, 17, 18, 19, 20, 30, 31} },
 	},
@@ -223,6 +223,7 @@ function CharacterCreate_OnShow()
 	end
 
 	CharacterCreate.subRaces = nil;	-- F-151: re-derive the sub-race from the new character's skin
+	CharacterCreate.racePicked = PAID_SERVICE_TYPE ~= nil;	-- F-151: a new character opens on the two factions
 	CharacterCreate_ShowOutfit(true);	-- F-151: every visit starts dressed
 
 	if ( PAID_SERVICE_TYPE ) then
@@ -890,7 +891,10 @@ function CharacterCreate_UpdateHairCustomization()
 end
 
 function CharacterCreate_Forward()
-	if ( CharacterCreate.step == 1 ) then	-- F-151: Race goes on to Appearance
+	if ( CharacterCreate.step == 1 ) then	-- F-151: Race goes on to Appearance, once a race is picked
+		if ( not CharacterCreate.racePicked ) then
+			return;
+		end
 		PlaySound("gsCharacterCreationClass");
 		CharCreate_SetStep(2);
 		return;
@@ -979,6 +983,7 @@ end
 
 function CharacterRace_OnClick(self, id, forceSelect)
 	if( self:IsEnabled() ) then
+		CharacterCreate.racePicked = true;	-- F-151: the creator opens with no race picked
 		PlaySound("gsCharacterCreationClass");
 		if ( GetSelectedRace() ~= id or forceSelect ) then
 			SetSelectedRace(id);
@@ -1564,17 +1569,15 @@ CHAR_CREATE_ROWS_TOP = -84;
 CHAR_CREATE_APPEARANCE_ROWS = {1, 2, 3, 4, 6};	-- skin, face, hair style, hair colour, eye colour
 CHAR_CREATE_DETAIL_ROWS = {5, 7, 8, 9};		-- features, tattoo, scars, war paint
 CHAR_CREATE_CLASS_ORDER = {1, 2, 3, 4, 5, 7, 8, 9, 10, 6, 11};	-- enumerate index; death knight (6) last
-CHAR_CREATE_CLASS_SPACING = 56;
-CHAR_CREATE_CLASS_SCALE = 0.85;
+CHAR_CREATE_CLASS_SPACING = 58;
+CHAR_CREATE_CLASS_SIZE = 34;			-- round class icons (UI-Classes-Circles), spread across the centre
 -- step 1's race ring (user design 2026-10-27, option A): per faction panel, the six races on a ring around the faction
 -- crest. Picking a race swaps it with the crest: the crest takes the race's slot on the ring, and the race goes to the
 -- middle, alone when it has no sub-races, else as the inner ring of its sub-races (the race itself first)
 CHAR_CREATE_RACE_RINGS = { {1, 2, 3, 4, 5, 6}, {7, 8, 9, 10, 12, 11} };	-- Alliance, Horde, clockwise from the top
-CHAR_CREATE_RACE_SCALE = 0.75;			-- the 52 px race portrait drawn at 39
+CHAR_CREATE_ICON_SIZE = 40;			-- every round portrait on the rings: race, sub-race, crest
 CHAR_CREATE_RING_RADIUS = 105;
-CHAR_CREATE_INNER_RADIUS = 58;
-CHAR_CREATE_SUBRACE_SIZE = 32;
-CHAR_CREATE_MEDAL_SIZE = 50;
+CHAR_CREATE_INNER_RADIUS = 44;
 CHAR_CREATE_RING_TOP = 26;				-- from the headings' rule to the top of the ring
 CHAR_CREATE_RING_FAN_TIME = 0.2;		-- seconds for the inner ring to open
 CHAR_CREATE_INFO_WIDTH = CHAR_CREATE_PANEL_WIDTH - 40;
@@ -1694,7 +1697,7 @@ function CharCreateLayout_Build()
 
 	-- step 1: the race grid is placed by CharCreateLayout_RefreshRaces; gender sits under the step strip
 	for i = 1, MAX_RACES do
-		_G["CharCreateRaceButton"..i]:SetScale(CHAR_CREATE_RACE_SCALE);
+		CharCreateLayout_RoundButton(_G["CharCreateRaceButton"..i], CHAR_CREATE_ICON_SIZE);
 	end
 	CharCreateMaleButton:ClearAllPoints();
 	CharCreateMaleButton:SetPoint("TOP", CharacterCreateFrame, "TOP", -25, -46);
@@ -1713,12 +1716,24 @@ function CharCreateLayout_Build()
 
 	-- class: one row of icons under the model, the selected class's name above it (names under each would collide)
 	CharCreateClassFrame:SetBackdrop(nil);
-	CharCreateClassFrame:SetScale(CHAR_CREATE_CLASS_SCALE);
 	CharCreateClassFrame:ClearAllPoints();
-	CharCreateClassFrame:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 0, 80 / CHAR_CREATE_CLASS_SCALE);
-	CharCreateClassFrame:SetHeight(60);
+	CharCreateClassFrame:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 0, 80);
+	CharCreateClassFrame:SetHeight(50);
+	for i = 1, MAX_CLASSES_PER_RACE do
+		local button = _G["CharCreateClassButton"..i];
+		-- the round class icons share UI-CharacterCreate-Classes' layout, so CLASS_ICON_TCOORDS still applies
+		_G[button:GetName().."NormalTexture"]:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles");
+		_G[button:GetName().."PushedTexture"]:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles");
+		CharCreateLayout_RoundButton(button, CHAR_CREATE_CLASS_SIZE);
+	end
 	local className = CharacterCreateFrame:CreateFontString("CharCreateClassName", "OVERLAY", "GlueFontNormalLarge");
-	className:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 0, 128);
+	className:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 0, 118);
+
+	-- Back and Customize / Finish centred in their panels
+	CharCreateBackButton:ClearAllPoints();
+	CharCreateBackButton:SetPoint("BOTTOM", CharCreateLeftPanel, "BOTTOM", 0, 20);
+	CharCreateOkayButton:ClearAllPoints();
+	CharCreateOkayButton:SetPoint("BOTTOM", CharCreateRightPanel, "BOTTOM", 0, 20);
 
 	-- step 2: the option rows and the name under the model
 	for _, id in ipairs(CHAR_CREATE_APPEARANCE_ROWS) do
@@ -1730,6 +1745,37 @@ function CharCreateLayout_Build()
 	CharacterCreateNameEdit:ClearAllPoints();
 	CharacterCreateNameEdit:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 16, 96);
 	CharCreateCustomizationFrame:Hide();
+end
+
+CHAR_CREATE_ROUND = "Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-";	-- ..<NAME>_<SEX>, CREST_<FACTION>, Ring, RingChecked
+
+-- a stock square icon button restyled as a round one of `size`: its square shadow and bevel hidden, the gold ring as its
+-- checked and hover state, the thin ring over it (the portrait itself is its normal texture, set by the caller)
+function CharCreateLayout_RoundButton(button, size)
+	button:SetWidth(size);
+	button:SetHeight(size);
+	for _, part in ipairs({ "Shadow", "BevelEdge" }) do
+		local texture = _G[button:GetName()..part];
+		if ( texture ) then
+			texture:Hide();
+		end
+	end
+	button:SetCheckedTexture(CHAR_CREATE_ROUND.."RingChecked");
+	button:SetHighlightTexture(CHAR_CREATE_ROUND.."RingChecked", "ADD");
+	-- the template's checked and highlight textures keep its atlas coordinates when their file changes
+	button:GetCheckedTexture():SetTexCoord(0, 1, 0, 1);
+	button:GetHighlightTexture():SetTexCoord(0, 1, 0, 1);
+	for _, texture in ipairs({ button:GetNormalTexture(), button:GetPushedTexture(), button:GetCheckedTexture(), button:GetHighlightTexture() }) do
+		if ( texture ) then
+			texture:ClearAllPoints();
+			texture:SetAllPoints(button);
+		end
+	end
+	if ( not button.ring ) then
+		button.ring = button:CreateTexture(nil, "OVERLAY");
+		button.ring:SetTexture(CHAR_CREATE_ROUND.."Ring");
+		button.ring:SetAllPoints(button);
+	end
 end
 
 -- a title, a paragraph and a bullet list, CHAR_CREATE_INFO_WIDTH wide
@@ -1821,8 +1867,8 @@ end
 local function CharCreateLayout_Medal(panel)
 	if ( not panel.medal ) then
 		local medal = CreateFrame("Frame", nil, CharCreateRaceButtonsFrame);
-		medal:SetWidth(CHAR_CREATE_MEDAL_SIZE);
-		medal:SetHeight(CHAR_CREATE_MEDAL_SIZE);
+		medal:SetWidth(CHAR_CREATE_ICON_SIZE);
+		medal:SetHeight(CHAR_CREATE_ICON_SIZE);
 		local cx, cy = CharCreateLayout_RingCentre();
 		medal:SetPoint("CENTER", panel, "TOPLEFT", cx, cy);
 		medal.icon = medal:CreateTexture(nil, "ARTWORK");
@@ -1844,13 +1890,13 @@ function CharCreateLayout_RefreshRaces()
 		return;
 	end
 	local gender = CharCreate_SubRaceGender();
-	local scale = CHAR_CREATE_RACE_SCALE;
 	local cx, cy = CharCreateLayout_RingCentre();
 	for faction, ring in ipairs(CHAR_CREATE_RACE_RINGS) do
 		local panel = (faction == 1) and CharCreateLeftPanel or CharCreateRightPanel;
 		local medal = CharCreateLayout_Medal(panel);
-		local crest = "Interface\\Glues\\CharacterCreate\\"..((faction == 1) and "AllianceLogo" or "HordeLogo");
+		local crest = CHAR_CREATE_ROUND.."CREST_"..((faction == 1) and "ALLIANCE" or "HORDE");
 		medal.icon:SetTexture(crest);
+		medal.ring:SetTexture(CHAR_CREATE_ROUND.."Ring");
 		medal:Show();
 		local count = 0;
 		for slot, i in ipairs(ring) do
@@ -1859,8 +1905,8 @@ function CharCreateLayout_RefreshRaces()
 				count = count + 1;
 				local angle = math.rad(90 - (slot - 1) * 360 / #ring);
 				raceButton:ClearAllPoints();
-				raceButton:SetPoint("CENTER", panel, "TOPLEFT", (cx + CHAR_CREATE_RING_RADIUS * math.cos(angle)) / scale,
-					(cy + CHAR_CREATE_RING_RADIUS * math.sin(angle)) / scale);	-- offsets are in its own scale
+				raceButton:SetPoint("CENTER", panel, "TOPLEFT", cx + CHAR_CREATE_RING_RADIUS * math.cos(angle),
+					cy + CHAR_CREATE_RING_RADIUS * math.sin(angle));
 				raceButton.ringAngle = angle;
 				-- the name outside the ring: above a portrait on its top half, below on its bottom half
 				local label = raceButton.nameFrame.text;
@@ -1872,19 +1918,16 @@ function CharCreateLayout_RefreshRaces()
 				end
 
 				local subRaces = SetCharCustomizationFilter and raceButton.fileString and CHAR_CREATE_SUBRACES[raceButton.fileString];
-				local selected = (i == CharacterCreate.selectedRace);
-				raceButton:SetChecked(selected and 1 or 0);
-				local portrait = selected and crest or raceButton.raceTexture;
+				local selected = CharacterCreate.racePicked and (i == CharacterCreate.selectedRace);
+				raceButton:SetChecked(0);	-- the selection's gold ring is in the middle; the race's slot holds the crest
+				-- the round portrait: the race's first sub-race icon, or its own file name's
+				raceButton.roundTexture = CHAR_CREATE_ROUND..((subRaces and subRaces[1].icon) or raceButton.fileString).."_"..gender;
+				local portrait = selected and crest or raceButton.roundTexture;
 				_G["CharCreateRaceButton"..i.."NormalTexture"]:SetTexture(portrait);
 				_G["CharCreateRaceButton"..i.."PushedTexture"]:SetTexture(portrait);
 				if ( subRaces ) then
 					raceButton.nameFrame.text:SetText(subRaces[1].name);
 				end
-				if ( not raceButton.badge ) then
-					raceButton.badge = raceButton:CreateFontString(nil, "OVERLAY", "GlueFontNormalSmall");
-					raceButton.badge:SetPoint("TOPRIGHT", raceButton, "TOPRIGHT", 6, 4);
-				end
-				raceButton.badge:SetText(subRaces and ("+"..(#subRaces - 1)) or "");
 
 				for k = 1, MAX_SUBRACES do
 					local name = "CharCreateRaceSub"..i.."_"..k;
@@ -1894,8 +1937,8 @@ function CharCreateLayout_RefreshRaces()
 						if ( not button ) then
 							button = CreateFrame("CheckButton", name, CharCreateRaceButtonsFrame, "CharCreateSubRaceButtonTemplate");
 							button:SetID(k);
-							button:SetWidth(CHAR_CREATE_SUBRACE_SIZE);
-							button:SetHeight(CHAR_CREATE_SUBRACE_SIZE);
+							button:SetWidth(CHAR_CREATE_ICON_SIZE);
+							button:SetHeight(CHAR_CREATE_ICON_SIZE);
 							button:SetScript("OnEnter", function(self)
 								CharacterCreateTooltip:SetOwner(self);
 								CharacterCreateTooltip:SetText(self.tooltip);
@@ -1919,7 +1962,8 @@ function CharCreateLayout_RefreshRaces()
 					if ( subRaces ) then
 						medal:Hide();	-- the inner ring is the middle
 					else
-						medal.icon:SetTexture(raceButton.raceTexture);
+						medal.icon:SetTexture(raceButton.roundTexture);
+						medal.ring:SetTexture(CHAR_CREATE_ROUND.."RingChecked");
 					end
 					if ( not subRaces ) then
 						CHAR_CREATE_RING_OPEN = nil;
@@ -1935,6 +1979,31 @@ function CharCreateLayout_RefreshRaces()
 	end
 	CharCreateLayout_RingUpdate(0);
 	CharCreate_UpdatePanelHeadings();
+	CharCreateLayout_ShowPicked();
+end
+
+-- the creator opens on the two factions with no race picked (CharacterCreate.racePicked): until one is, the Race step
+-- shows only the rings and "Choose a race", and Customize waits
+CHAR_CREATE_CHOOSE_RACE = "Choose a race";
+function CharCreateLayout_ShowPicked()
+	if ( CharacterCreate.step ~= 1 ) then
+		return;
+	end
+	local picked = CharacterCreate.racePicked;
+	for _, frame in ipairs({ CharCreateRaceLore, CharCreateClassLore, CharCreateClassFrame }) do
+		if ( picked ) then
+			frame:Show();
+		else
+			frame:Hide();
+		end
+	end
+	if ( picked ) then
+		CharCreateOkayButton:Enable();
+		CharCreateClassName:SetText(GetSelectedClass() or "");
+	else
+		CharCreateOkayButton:Disable();
+		CharCreateClassName:SetText(CHAR_CREATE_CHOOSE_RACE);
+	end
 end
 
 -- places the open inner ring, easing its radius out over CHAR_CREATE_RING_FAN_TIME (CharacterCreateFrame_OnUpdate)
@@ -1966,9 +2035,11 @@ function CharCreateLayout_RefreshRaceInfo()
 	fileString = strupper(fileString or "");
 	local title = race;
 	local subRaces = CharacterCreate.subRaces;
+	local lore;
 	if ( subRaces and subRaces[CharacterCreate.subRace] ) then
 		local subRace = subRaces[CharacterCreate.subRace];
 		title = subRace.title or subRace.name;
+		lore = subRace.lore;	-- a sub-race's own backstory (the base sub-race uses the race's)
 	end
 	CharacterCreate.raceTitle = title;
 	local racials = {};
@@ -1978,7 +2049,7 @@ function CharCreateLayout_RefreshRaceInfo()
 		index = index + 1;
 	end
 	CharCreateRaceLore.title:SetText(title);
-	CharCreateRaceLore.text:SetText(GetFlavorText("RACE_INFO_"..fileString, GetSelectedSex()) or "");
+	CharCreateRaceLore.text:SetText(lore or GetFlavorText("RACE_INFO_"..fileString, GetSelectedSex()) or "");
 	CharCreateRaceLore.bullets:SetText(table.concat(racials, "\n"));
 	CharCreateLayout_PlaceLore();
 	CharCreate_UpdatePanelHeadings();
@@ -2054,7 +2125,7 @@ function CharCreate_SetStep(step)
 	Shown(CharCreateRaceFrame, race);
 	Shown(CharCreateRaceLore, race);
 	Shown(CharCreateClassLore, race);
-	Shown(CharCreateClassFrame, race);
+	Shown(CharCreateClassFrame, race);	-- CharCreateLayout_ShowPicked hides these again until a race is picked
 	Shown(CharCreateClassName, race);
 	Shown(CharCreateMaleButton, race);
 	Shown(CharCreateFemaleButton, race);
@@ -2081,4 +2152,5 @@ function CharCreate_SetStep(step)
 		CharCreateLayout_RefreshOptions();
 	end
 	CharCreate_UpdatePanelHeadings();
+	CharCreateLayout_ShowPicked();
 end
