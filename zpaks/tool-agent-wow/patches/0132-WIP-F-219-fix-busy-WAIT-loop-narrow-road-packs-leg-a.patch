@@ -1,0 +1,129 @@
+From 4fa6caef7db45bb8c440054c5da80d195b39bb8c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 27 Oct 2026 08:03:13 +0000
+Subject: [PATCH] WIP: F-219 - fix busy [WAIT] loop, narrow road packs,
+ leg-aware displaced check, broke repairs
+
+- route_guard: "back at level" is never our own level (a live patrol came back as ours and the
+  priest printed [WAIT] 1 million times); giver refusals also retry no sooner than 2 min
+- road packs: only mobs a level above us (level-4 Defias/Vile Familiar packs shut the starting
+  valleys at level 4)
+- displaced check: any leg box of the area counts and the map is compared (Kezan -> Lost Isles
+  hop was failed as "displaced"); fleet passes AW_AREA_BOXES
+- maybe_repair: after a short (unaffordable) repair, no new walk until money grows 50c
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/fleet.py      |  3 +++
+ zeppelin/tests/start_area.py | 37 +++++++++++++++++++++++++++++-------
+ 2 files changed, 33 insertions(+), 7 deletions(-)
+
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index 9989341..29995c9 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -235,6 +235,9 @@ def cmd_drive(name):
+         start = os.path.getsize(flog)
+         env = env_for(name)
+         env["AW_ZONE"] = str(zone)
++        # every leg's box: the runner's "displaced" check must not fail the hop to the next leg (Kezan's
++        # last quest ships the goblin to the Lost Isles, and the check called that a displacement)
++        env["AW_AREA_BOXES"] = ";".join(f"{m}," + ",".join(map(str, b)) for m, b, _, _ in legs)
+         subprocess.run([os.path.join(HERE, "supervise.sh"), char, str(mapid), *map(str, bx), str(minutes), flog],
+                        env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+         with open(flog) as f:
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 8b29489..aba0599 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -13,6 +13,7 @@ Prints a PASS/FAIL line per step and a summary; exit 0 when every eligible quest
+ import argparse
+ import json
+ import math
++import os
+ import re
+ import struct
+ import subprocess
+@@ -1535,6 +1536,11 @@ class Runner:
+         worst = min(it.get("durability", 0) / it["maxDurability"] for it in worn)
+         if worst >= below:
+             return False
++        # a repair that came back short (not enough money) is not worth another walk until we have earned
++        # more: Teldrassil's broke hunter walked to a repairer 35 times for "now 0 %"
++        poor = getattr(self, "_repair_poor", None)
++        if poor and call("interact.self").get("money", 0) < poor + 50:
++            return False
+         me = self.me()
+         pts = [(math.dist(p[:2], (me["x"], me["y"])), v, p) for v in self.w.repairers
+                for p in [self.w.nearest("c", v, me, self.phase_mask())] if p]
+@@ -1550,7 +1556,9 @@ class Runner:
+         time.sleep(0.5)
+         worn = [it for it in call("interact.inventory").get("equipped", []) if it.get("maxDurability")]
+         after = min((it.get("durability", 0) / it["maxDurability"] for it in worn), default=1)
+-        print(f"  repair: now {after:.0%}, cost {before - call('interact.self').get('money', 0)}c", flush=True)
++        left = call("interact.self").get("money", 0)
++        print(f"  repair: now {after:.0%}, cost {before - left}c", flush=True)
++        self._repair_poor = left if after < 0.9 else None
+         return True
+ 
+     def sell_junk(self, max_walk=150):
+@@ -2777,7 +2785,9 @@ class Runner:
+         # ...and PACKS at our level or above: 3+ hostile spawns within 15 yd of each other. Below 10 a
+         # triple is death whatever the level (Teldrassil's level-6 hunter met level-7 Vicious Grells
+         # three at a time on one road, 18 times) - the user's universal 2+/3+ rule, applied to roads
+-        near = [t for t in self.threats() if t[2] >= level and t[2] < level + gap]
++        # stronger than us only: packs at OUR level (level-4 Defias Thugs, Vile Familiars at 4) shut every
++        # Northshire/Valley of Trials road and parked the priest and warlock - the detour skirts those
++        near = [t for t in self.threats() if t[2] >= level + 1 and t[2] < level + gap]
+         grid = {}
+         for t in near:
+             grid.setdefault((int(t[0] // 15), int(t[1] // 15)), []).append(t)
+@@ -2844,6 +2854,9 @@ class Runner:
+                     # back at the first level where it no longer counts: hit - gap + 1 (melee: one below
+                     # it; "hit - 2" was our own level for melee - a busy loop that ended the run)
+                     back = hit[2] + 1 if hit in packs else hit[2] - gap + 1  # a pack: out-level it
++                    # never our own level: a live patrol (t[6]) came back as "back at level <ours>" and the
++                    # quest was offered again at once - Elwynn's priest printed that [WAIT] 1 million times
++                    back = max(back, level + 1)
+                     q = getattr(self, "current_qid", None)
+                     if q:
+                         self.defer_until[q] = max(self.defer_until.get(q, 0), back)
+@@ -3265,6 +3278,7 @@ class Runner:
+                 # stands in the pirate party - two deaths there blocked Charge for the rest of the run,
+                 # and the linear zone ended at level 4)
+                 self.defer_until[qid] = max(self.defer_until.get(qid, 0), int(m.group(1)))
++                self.retry_at[qid] = max(self.retry_at.get(qid, 0), time.time() + 120)  # never a tight loop
+                 print(f"[WAIT] accept {qid}: giver {kind}{entry} - {why[:90]}", flush=True)
+                 return
+             print(f"[SKIP] accept {qid}: cannot reach giver {kind}{entry}", flush=True)
+@@ -4544,12 +4558,21 @@ class Runner:
+                 # displaced far outside the area (Kezan's Hot Rod summon has twice put a level-2 goblin
+                 # in the Barrens: 69 deaths in 2 h among level-15 mobs) - stop and say so, never farm deaths
+                 me = self.me()
+-                bx1, by1, bx2, by2 = self.w.box
+-                ox = max(min(bx1, bx2) - me["x"], 0, me["x"] - max(bx1, bx2))
+-                oy = max(min(by1, by2) - me["y"], 0, me["y"] - max(by1, by2))
+-                if math.hypot(ox, oy) > 1000:
++                # this leg's box and the area's other legs' (the hop to the next leg is no displacement)
++                boxes = [(self.w.map, *self.w.box)] + [tuple(float(v) for v in b.split(",")) for b in
++                                                       os.environ.get("AW_AREA_BOXES", "").split(";") if b]
++
++                def outside(m, bx1, by1, bx2, by2):
++                    if int(m) != me.get("map", self.w.map):
++                        return 1e9
++                    ox = max(min(bx1, bx2) - me["x"], 0, me["x"] - max(bx1, bx2))
++                    oy = max(min(by1, by2) - me["y"], 0, me["y"] - max(by1, by2))
++                    return math.hypot(ox, oy)
++                far = min(outside(*b) for b in boxes)
++                if far > 1000:
++                    where = "on another map" if far >= 1e9 else f"{far:.0f} yd outside the area"
+                     print(f"[FAIL] displaced to ({me['x']:.0f},{me['y']:.0f}) on map {me.get('map', self.w.map)}, "
+-                          f"{math.hypot(ox, oy):.0f} yd outside the area box", flush=True)
++                          f"{where}", flush=True)
+                     raise SystemExit("RESULT: FAIL - displaced outside the area")
+             log = self.log()
+             level = call("interact.self").get("level", 1)
+-- 
+2.34.1
+
