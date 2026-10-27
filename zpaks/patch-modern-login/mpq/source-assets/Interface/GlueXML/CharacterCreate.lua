@@ -1556,18 +1556,24 @@ end
 -- CharCreate_SetStep switches them. The stock CharCreateCustomizationButtons stay the source of which options a race
 -- has and what they are called, but are never drawn.
 CHAR_CREATE_CUSTOMIZE = "Customize";
-CHAR_CREATE_PANEL_WIDTH = 380;
+CHAR_CREATE_PANEL_WIDTH = 300;
 CHAR_CREATE_ROW_HEIGHT = 44;
 CHAR_CREATE_ROWS_TOP = -84;
 CHAR_CREATE_APPEARANCE_ROWS = {1, 2, 3, 4, 6};	-- skin, face, hair style, hair colour, eye colour
 CHAR_CREATE_DETAIL_ROWS = {5, 7, 8, 9};		-- features, tattoo, scars, war paint
 CHAR_CREATE_CLASS_ORDER = {1, 2, 3, 4, 5, 7, 8, 9, 10, 6, 11};	-- enumerate index; death knight (6) last
 CHAR_CREATE_CLASS_SPACING = 56;
-CHAR_CREATE_CLASS_SCALE = 0.75;
-CHAR_CREATE_RACE_PITCH = 64;			-- one race row; the lore starts under the sixth
-CHAR_CREATE_SUBRACE_GAP = 26;			-- between portraits on a row, room for the names under them
-CHAR_CREATE_RACE_COLUMNS = { {1, 2, 3, 4, 5, 6}, {7, 8, 9, 10, 12, 11} };	-- Alliance, Horde, top down
-CHAR_CREATE_LORE_TOP = CHAR_CREATE_ROWS_TOP - 6 * CHAR_CREATE_RACE_PITCH - 16;
+CHAR_CREATE_CLASS_SCALE = 0.85;
+-- step 1's race grid (user design 2026-10-27): per faction, rows of three primary races, each with its sub-races
+-- stacked under it; a row is as deep as its deepest column
+CHAR_CREATE_RACE_ROWS = { { {1, 2, 3}, {4, 5, 6} }, { {7, 8, 9}, {10, 12, 11} } };	-- Alliance, Horde
+CHAR_CREATE_RACE_SCALE = 0.75;			-- the 52 px race portrait drawn at 39
+CHAR_CREATE_RACE_HEIGHT = 39 + 16;		-- portrait and its name
+CHAR_CREATE_SUBRACE_SIZE = 32;
+CHAR_CREATE_SUBRACE_PITCH = 32 + 16;		-- portrait and its name
+CHAR_CREATE_ROW_GAP = 14;				-- between two rows of primary races
+CHAR_CREATE_INFO_WIDTH = CHAR_CREATE_PANEL_WIDTH - 40;
+CHAR_CREATE_INFO_BOTTOM = 80;			-- the info blocks stop above the Back / Customize buttons
 
 local function CharCreateLayout_Line(parent, r, g, b, a)
 	local line = parent:CreateTexture(nil, "ARTWORK");
@@ -1681,40 +1687,24 @@ function CharCreateLayout_Build()
 	link:SetPoint("LEFT", step1, "RIGHT", 0, 0);
 	link:SetPoint("RIGHT", step2, "LEFT", 0, 0);
 
-	-- step 1: the race rows start under the headings, gender sits under the step strip
-	for column, races in ipairs(CHAR_CREATE_RACE_COLUMNS) do
-		local side = (column == 1) and "LEFT" or "RIGHT";
-		for row, index in ipairs(races) do
-			local button = _G["CharCreateRaceButton"..index];
-			button:ClearAllPoints();
-			button:SetPoint("TOP"..side, CharacterCreateFrame, "TOP"..side, (column == 1) and 32 or -32,
-				CHAR_CREATE_ROWS_TOP - (row - 1) * CHAR_CREATE_RACE_PITCH);
-		end
+	-- step 1: the race grid is placed by CharCreateLayout_RefreshRaces; gender sits under the step strip
+	for i = 1, MAX_RACES do
+		_G["CharCreateRaceButton"..i]:SetScale(CHAR_CREATE_RACE_SCALE);
 	end
 	CharCreateMaleButton:ClearAllPoints();
 	CharCreateMaleButton:SetPoint("TOP", CharacterCreateFrame, "TOP", -25, -46);
 	CharCreateFemaleButton:ClearAllPoints();
 	CharCreateFemaleButton:SetPoint("TOP", CharacterCreateFrame, "TOP", 25, -46);
-	-- Hide Armor under the step strip on both steps (bottom right is the lore's on step 1)
+	-- Hide Armor (step 2 only) under the step strip
 	CharCreateOutfitButton:ClearAllPoints();
-	CharCreateOutfitButton:SetPoint("TOP", CharacterCreateFrame, "TOP", 0, -92);
+	CharCreateOutfitButton:SetPoint("TOP", CharacterCreateFrame, "TOP", 0, -50);
 	CharCreateOutfitButton:SetWidth(130);
 	CharCreateOutfitButton:SetHeight(40);
 
-	-- the selected race's lore and racials, under its own faction's rows (CharCreateLayout_RefreshRaceInfo)
-	local lore = CreateFrame("Frame", "CharCreateRaceLore", CharacterCreateFrame);
-	lore:SetWidth(CHAR_CREATE_PANEL_WIDTH - 48);
-	lore:SetHeight(220);
-	lore.title = lore:CreateFontString(nil, "OVERLAY", "GlueFontNormalLarge");
-	lore.title:SetPoint("TOPLEFT");
-	lore.text = lore:CreateFontString(nil, "OVERLAY", "GlueFontHighlightSmall");
-	lore.text:SetWidth(CHAR_CREATE_PANEL_WIDTH - 48);
-	lore.text:SetJustifyH("LEFT");
-	lore.text:SetPoint("TOPLEFT", lore.title, "BOTTOMLEFT", 0, -8);
-	lore.racials = lore:CreateFontString(nil, "OVERLAY", "GlueFontNormalSmall");
-	lore.racials:SetWidth(CHAR_CREATE_PANEL_WIDTH - 48);
-	lore.racials:SetJustifyH("LEFT");
-	lore.racials:SetPoint("TOPLEFT", lore.text, "BOTTOMLEFT", 0, -10);
+	-- the selected race's lore and racials under its own faction's grid, the selected class's text under the other
+	-- (CharCreateLayout_RefreshRaceInfo, CharCreateLayout_RefreshClass)
+	CharCreateLayout_InfoBlock("CharCreateRaceLore");
+	CharCreateLayout_InfoBlock("CharCreateClassLore");
 
 	-- class: one row of icons under the model, the selected class's name above it (names under each would collide)
 	CharCreateClassFrame:SetBackdrop(nil);
@@ -1735,6 +1725,37 @@ function CharCreateLayout_Build()
 	CharacterCreateNameEdit:ClearAllPoints();
 	CharacterCreateNameEdit:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 16, 96);
 	CharCreateCustomizationFrame:Hide();
+end
+
+-- a title, a paragraph and a bullet list, CHAR_CREATE_INFO_WIDTH wide
+function CharCreateLayout_InfoBlock(name)
+	local block = CreateFrame("Frame", name, CharacterCreateFrame);
+	block:SetWidth(CHAR_CREATE_INFO_WIDTH);
+	block:SetHeight(200);
+	block.title = block:CreateFontString(nil, "OVERLAY", "GlueFontNormalLarge");
+	block.title:SetPoint("TOPLEFT");
+	block.text = block:CreateFontString(nil, "OVERLAY", "GlueFontHighlightSmall");
+	block.text:SetWidth(CHAR_CREATE_INFO_WIDTH);
+	block.text:SetJustifyH("LEFT");
+	block.text:SetPoint("TOPLEFT", block.title, "BOTTOMLEFT", 0, -8);
+	block.bullets = block:CreateFontString(nil, "OVERLAY", "GlueFontNormalSmall");
+	block.bullets:SetWidth(CHAR_CREATE_INFO_WIDTH);
+	block.bullets:SetJustifyH("LEFT");
+	block.bullets:SetPoint("TOPLEFT", block.text, "BOTTOMLEFT", 0, -10);
+	return block;
+end
+
+-- puts an info block under a faction panel's race grid (CharCreateLayout_RefreshRaces sets the panel's gridBottom); the
+-- paragraph gets what room is left above the Back / Customize buttons once the title and the bullets are placed, so a
+-- long racial list (worgen) never runs into them
+function CharCreateLayout_PlaceInfo(block, panel)
+	local top = (panel.gridBottom or -400) - 18;
+	block:ClearAllPoints();
+	block:SetPoint("TOPLEFT", panel, "TOPLEFT", 20, top);
+	local room = CharacterCreateFrame:GetHeight() + top - CHAR_CREATE_INFO_BOTTOM - block.title:GetHeight() - 18
+		- block.bullets:GetHeight();
+	block.text:SetHeight(0);
+	block.text:SetHeight(math.max(1, math.min(block.text:GetStringHeight(), room)));
 end
 
 -- the class icons in one centred row, in CHAR_CREATE_CLASS_ORDER, skipping the ones this client hides
@@ -1760,65 +1781,98 @@ function CharCreateLayout_RefreshClass()
 		return;
 	end
 	CharCreateLayout_PlaceClasses();
-	CharCreateClassName:SetText(GetSelectedClass() or "");
+	local className, classFileName = GetSelectedClass();
+	CharCreateClassName:SetText(className or "");
+	classFileName = strupper(classFileName or "WARRIOR");
+	local abilities = {};
+	local index = 0;
+	while ( _G["CLASS_INFO_"..classFileName..index] ) do
+		tinsert(abilities, _G["CLASS_INFO_"..classFileName..index]);
+		index = index + 1;
+	end
+	CharCreateClassLore.title:SetText(className or "");
+	CharCreateClassLore.text:SetText(GetFlavorText("CLASS_"..classFileName, GetSelectedSex()) or "");
+	CharCreateClassLore.bullets:SetText(table.concat(abilities, "\n"));
+	CharCreateLayout_PlaceLore();
 end
 
--- every race's row: its portrait, then its sub-races inward (right of the Alliance column, left of the Horde one),
--- each with its name under it; the selected race's current sub-race is the checked portrait
+-- race lore under the selected race's faction grid, class text under the other faction's
+function CharCreateLayout_PlaceLore()
+	local _, faction = GetFactionForRace(CharacterCreate.selectedRace);
+	local racePanel, classPanel = CharCreateLeftPanel, CharCreateRightPanel;
+	if ( faction == "Horde" ) then
+		racePanel, classPanel = CharCreateRightPanel, CharCreateLeftPanel;
+	end
+	CharCreateLayout_PlaceInfo(CharCreateRaceLore, racePanel);
+	CharCreateLayout_PlaceInfo(CharCreateClassLore, classPanel);
+end
+
+-- the race grid: per faction panel, rows of three primary races (CHAR_CREATE_RACE_ROWS), each primary's sub-races stacked
+-- under it with their names; a row is as deep as its deepest column. The selected race's current sub-race is the checked
+-- portrait (the primary is sub-race 1). Sets each panel's gridBottom for the info blocks under it.
 function CharCreateLayout_RefreshRaces()
 	if ( not CharCreateLeftPanel or not CharacterCreate.numRaces ) then
 		return;
 	end
 	local gender = CharCreate_SubRaceGender();
-	local alliance, horde = 0, 0;
-	for i = 1, CharacterCreate.numRaces do
-		local raceButton = _G["CharCreateRaceButton"..i];
-		local _, faction = GetFactionForRace(i);
-		if ( faction == "Horde" ) then
-			horde = horde + 1;
-		else
-			alliance = alliance + 1;
-		end
-		local subRaces = SetCharCustomizationFilter and raceButton.fileString and CHAR_CREATE_SUBRACES[raceButton.fileString];
-		local current = 0;
-		if ( i == CharacterCreate.selectedRace ) then
-			current = (subRaces and CharacterCreate.subRace) or 1;
-		end
-		raceButton:SetChecked(current == 1 and 1 or 0);
-		if ( subRaces ) then
-			raceButton.nameFrame.text:SetText(subRaces[1].name);
-		end
-		local point, relativePoint, gap = "LEFT", "RIGHT", CHAR_CREATE_SUBRACE_GAP;
-		if ( faction == "Horde" ) then
-			point, relativePoint, gap = "RIGHT", "LEFT", -CHAR_CREATE_SUBRACE_GAP;
-		end
-		local previous = raceButton;
-		for k = 2, MAX_SUBRACES do
-			local name = "CharCreateRaceSub"..i.."_"..k;
-			local button = _G[name];
-			local subRace = subRaces and subRaces[k];
-			if ( subRace ) then
-				if ( not button ) then
-					button = CreateFrame("CheckButton", name, CharCreateRaceButtonsFrame, "CharCreateSubRaceButtonTemplate");
-					button:SetID(k);
-					button.label = button:CreateFontString(nil, "OVERLAY", "GlueFontNormalExtraSmall");
-					button.label:SetPoint("TOP", button, "BOTTOM", 0, -3);
+	local scale = CHAR_CREATE_RACE_SCALE;
+	for faction, rows in ipairs(CHAR_CREATE_RACE_ROWS) do
+		local panel = (faction == 1) and CharCreateLeftPanel or CharCreateRightPanel;
+		local count = 0;
+		local top = CHAR_CREATE_ROWS_TOP;
+		for _, row in ipairs(rows) do
+			local depth = 0;
+			for column, i in ipairs(row) do
+				local raceButton = _G["CharCreateRaceButton"..i];
+				if ( i <= CharacterCreate.numRaces ) then
+					count = count + 1;
+					local x = (column - 0.5) * CHAR_CREATE_PANEL_WIDTH / #row;
+					raceButton:ClearAllPoints();
+					raceButton:SetPoint("TOP", panel, "TOPLEFT", x / scale, top / scale);	-- offsets are in its own scale
+
+					local subRaces = SetCharCustomizationFilter and raceButton.fileString and CHAR_CREATE_SUBRACES[raceButton.fileString];
+					local current = 0;
+					if ( i == CharacterCreate.selectedRace ) then
+						current = (subRaces and CharacterCreate.subRace) or 1;
+					end
+					raceButton:SetChecked(current == 1 and 1 or 0);
+					if ( subRaces ) then
+						raceButton.nameFrame.text:SetText(subRaces[1].name);
+					end
+					local previous, gap = raceButton, -(CHAR_CREATE_RACE_HEIGHT - 39);
+					for k = 2, MAX_SUBRACES do
+						local name = "CharCreateRaceSub"..i.."_"..k;
+						local button = _G[name];
+						local subRace = subRaces and subRaces[k];
+						if ( subRace ) then
+							if ( not button ) then
+								button = CreateFrame("CheckButton", name, CharCreateRaceButtonsFrame, "CharCreateSubRaceButtonTemplate");
+								button:SetID(k);
+								button:SetWidth(CHAR_CREATE_SUBRACE_SIZE);
+								button:SetHeight(CHAR_CREATE_SUBRACE_SIZE);
+								button.label = button:CreateFontString(nil, "OVERLAY", "GlueFontNormalExtraSmall");
+								button.label:SetPoint("TOP", button, "BOTTOM", 0, -2);
+							end
+							button.raceIndex = i;
+							button:ClearAllPoints();
+							button:SetPoint("TOP", previous, "BOTTOM", 0, gap);
+							button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-"..subRace.icon.."_"..gender);
+							button.label:SetText(subRace.name);
+							button:SetChecked(current == k and 1 or 0);
+							button:Show();
+							previous, gap = button, -(CHAR_CREATE_SUBRACE_PITCH - CHAR_CREATE_SUBRACE_SIZE);
+							depth = math.max(depth, k - 1);
+						elseif ( button ) then
+							button:Hide();
+						end
+					end
 				end
-				button.raceIndex = i;
-				button:ClearAllPoints();
-				button:SetPoint(point, previous, relativePoint, gap, 0);
-				button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-"..subRace.icon.."_"..gender);
-				button.label:SetText(subRace.name);
-				button:SetChecked(current == k and 1 or 0);
-				button:Show();
-				previous = button;
-			elseif ( button ) then
-				button:Hide();
 			end
+			top = top - CHAR_CREATE_RACE_HEIGHT - depth * CHAR_CREATE_SUBRACE_PITCH - CHAR_CREATE_ROW_GAP;
 		end
+		panel.raceCount = count;
+		panel.gridBottom = top;
 	end
-	CharCreateLeftPanel.raceCount = alliance;
-	CharCreateRightPanel.raceCount = horde;
 	CharCreate_UpdatePanelHeadings();
 end
 
@@ -1844,15 +1898,8 @@ function CharCreateLayout_RefreshRaceInfo()
 	end
 	CharCreateRaceLore.title:SetText(title);
 	CharCreateRaceLore.text:SetText(GetFlavorText("RACE_INFO_"..fileString, GetSelectedSex()) or "");
-	CharCreateRaceLore.racials:SetText(table.concat(racials, "\n"));
-
-	local _, faction = GetFactionForRace(CharacterCreate.selectedRace);
-	CharCreateRaceLore:ClearAllPoints();
-	if ( faction == "Horde" ) then
-		CharCreateRaceLore:SetPoint("TOPRIGHT", CharacterCreateFrame, "TOPRIGHT", -24, CHAR_CREATE_LORE_TOP);
-	else
-		CharCreateRaceLore:SetPoint("TOPLEFT", CharacterCreateFrame, "TOPLEFT", 24, CHAR_CREATE_LORE_TOP);
-	end
+	CharCreateRaceLore.bullets:SetText(table.concat(racials, "\n"));
+	CharCreateLayout_PlaceLore();
 	CharCreate_UpdatePanelHeadings();
 end
 
@@ -1911,7 +1958,8 @@ function CharCreate_UpdatePanelHeadings()
 	end
 end
 
--- 1 = Race (races, sub-races, lore, gender, class), 2 = Appearance (option rows, name)
+-- 1 = Race (races, sub-races, lore, gender, class; dressed in CharStartOutfit's display column, the tier look),
+-- 2 = Appearance (option rows, name, Hide Armor; dressed in the items the character really starts with)
 function CharCreate_SetStep(step)
 	CharacterCreate.step = step;
 	local race = (step == 1);
@@ -1924,6 +1972,7 @@ function CharCreate_SetStep(step)
 	end
 	Shown(CharCreateRaceFrame, race);
 	Shown(CharCreateRaceLore, race);
+	Shown(CharCreateClassLore, race);
 	Shown(CharCreateClassFrame, race);
 	Shown(CharCreateClassName, race);
 	Shown(CharCreateMaleButton, race);
@@ -1936,6 +1985,13 @@ function CharCreate_SetStep(step)
 	CharCreateStep1.text:SetFontObject(race and GlueFontNormal or GlueFontDisable);
 	CharCreateStep2.text:SetFontObject(race and GlueFontDisable or GlueFontNormal);
 	CharCreateOkayButton:SetText(race and CHAR_CREATE_CUSTOMIZE or FINISH);
+	if ( SetCharacterCreateStartOutfit ) then	-- a source-client API (F-151)
+		SetCharacterCreateStartOutfit(not race);
+	end
+	if ( race ) then
+		CharacterCreate_ShowOutfit(true);	-- the Race step always shows the outfit, without the toggle
+	end
+	Shown(CharCreateOutfitButton, not race and SetCharacterCreateOutfitShown ~= nil);
 	if ( race ) then
 		CharacterCreateNameEdit:ClearFocus();
 		CharCreateLayout_RefreshClass();

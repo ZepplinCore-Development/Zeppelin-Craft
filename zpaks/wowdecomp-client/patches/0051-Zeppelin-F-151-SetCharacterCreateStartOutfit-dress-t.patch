@@ -1,0 +1,98 @@
+From 7bce77467d4a09c1aca86db5ef1b048a38e8f35e Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Tue, 27 Oct 2026 08:25:49 +0000
+Subject: [PATCH] Zeppelin F-151: SetCharacterCreateStartOutfit - dress the
+ character-create model in the items it really starts with (Item.dbc display
+ per CharStartOutfit item; item-less tier slots left off) instead of the
+ outfit's display column (the tier look)
+
+---
+ WoW/Source/Glue/CharacterCreation.cpp         | 15 +++++++++++++++
+ WoW/Source/Glue/CharacterCreation.h           |  1 +
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp | 18 ++++++++++++++++++
+ 3 files changed, 34 insertions(+)
+
+diff --git a/WoW/Source/Glue/CharacterCreation.cpp b/WoW/Source/Glue/CharacterCreation.cpp
+index c2d3a052..8a06b345 100644
+--- a/WoW/Source/Glue/CharacterCreation.cpp
++++ b/WoW/Source/Glue/CharacterCreation.cpp
+@@ -63,6 +63,7 @@ uint32_t CCharacterCreation::m_prevFacialHairIndex;
+ 
+ // Not in the original (F-151)
+ bool CCharacterCreation::s_outfitHidden;
++bool CCharacterCreation::s_startOutfit;
+ 
+ // STATIC: 0x00B6B1A0
+ CCharacterComponent* CCharacterCreation::m_character;
+@@ -523,6 +524,20 @@ void CCharacterCreation::Dress() {
+             int32_t displayID = outfit->m_displayItemID[j];
+             int32_t type = outfit->m_inventoryType[j];
+ 
++            // Not in the original (F-151): the glue's start-outfit switch (SetCharacterCreateStartOutfit) dresses the
++            // model in the items the character really starts with (Item.dbc's display for each outfit item), not the
++            // outfit's display column, which `zep dbc outfit tier` sets to a tier set's look. The tier look's extra
++            // slots (shoulders, gloves, head) have no item (-1) and are left off
++            if (CCharacterCreation::s_startOutfit) {
++                if (outfit->m_itemID[j] <= 0) {
++                    continue;
++                }
++                ItemRec* startItem = g_itemDB.GetRecord(outfit->m_itemID[j]);
++                if (startItem) {
++                    displayID = startItem->m_displayInfoID;
++                }
++            }
++
+             if (displayID <= 0 || type == INVTYPE_HEAD) {
+                 continue;
+             }
+diff --git a/WoW/Source/Glue/CharacterCreation.h b/WoW/Source/Glue/CharacterCreation.h
+index 600b9535..2e36f773 100644
+--- a/WoW/Source/Glue/CharacterCreation.h
++++ b/WoW/Source/Glue/CharacterCreation.h
+@@ -31,6 +31,7 @@ class CCharacterCreation {
+     static uint32_t m_prevHairStyleIndex;
+     static uint32_t m_prevFacialHairIndex;
+     static bool s_outfitHidden;     // Not in the original (F-151)
++    static bool s_startOutfit;      // Not in the original (F-151)
+ 
+     static void CalcClasses(int32_t raceID);
+     static void CreateCharacter(const char* name);
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index ce7bc7aa..c5eb814b 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -928,6 +928,23 @@ static int32_t Script_IsCharacterCreateOutfitShown(lua_State* L) {
+     return 1;
+ }
+ 
++// Not in the original (F-151): SetCharacterCreateStartOutfit(start) dresses the character-create model in the items it
++// really starts with (start) or in CharStartOutfit's display column (the tier look the Race step shows)
++static int32_t Script_SetCharacterCreateStartOutfit(lua_State* L) {
++    bool start = lua_toboolean(L, 1);
++
++    if (start != CCharacterCreation::s_startOutfit) {
++        CCharacterCreation::s_startOutfit = start;
++
++        if (CCharacterCreation::m_character) {
++            CCharacterCreation::Dress();
++            CGlueLoading::StartLoad(CCharacterCreation::m_character, 1);
++        }
++    }
++
++    return 0;
++}
++
+ // STATIC: 0x00AC4228
+ static FrameScript_Method s_scriptFunctions[] = {
+     { "SetCharCustomizeFrame", &Script_SetCharCustomizeFrame },
+@@ -966,6 +983,7 @@ static FrameScript_Method s_scriptFunctions[] = {
+     { "SetCharacterCreateZoom", &Script_SetCharacterCreateZoom },   // Not in the original (F-151)
+     { "SetCharacterCreateOutfitShown", &Script_SetCharacterCreateOutfitShown },   // Not in the original (F-151)
+     { "IsCharacterCreateOutfitShown", &Script_IsCharacterCreateOutfitShown },     // Not in the original (F-151)
++    { "SetCharacterCreateStartOutfit", &Script_SetCharacterCreateStartOutfit },   // Not in the original (F-151)
+     { "SetCharCustomizationFilter", &Script_SetCharCustomizationFilter },   // Not in the original (F-151)
+ };
+ 
+-- 
+2.34.1
+
