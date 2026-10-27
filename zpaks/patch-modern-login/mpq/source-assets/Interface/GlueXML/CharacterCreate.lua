@@ -485,6 +485,7 @@ end
 
 function CharacterCreateFrame_OnUpdate(self, elapsed)
 	CharacterCreate_UpdateZoom(elapsed);
+	CharCreateLayout_RingUpdate(elapsed);	-- F-151: the inner ring fanning out
 	CHAR_CREATE_COUNT_TIMER = CHAR_CREATE_COUNT_TIMER - elapsed;
 	if ( CHAR_CREATE_COUNT_TIMER <= 0 ) then
 		CHAR_CREATE_COUNT_TIMER = 0.15;
@@ -530,7 +531,8 @@ function CharacterCreateEnumerateRaces(...)
 		end
 
 		button.nameFrame.text:SetText(name);
-		button.fileString = unlocalizedname;	-- F-151: the row's sub-races (CharCreateLayout_RefreshRaces)
+		button.fileString = unlocalizedname;	-- F-151: the ring's sub-races (CharCreateLayout_RefreshRaces)
+		button.raceTexture = raceTexture;	-- F-151: the selected race's slot shows the faction crest instead
 		if ( select(i+2, ...) == 1 ) then
 			button:Enable();
 			SetButtonDesaturated(button);
@@ -1564,14 +1566,17 @@ CHAR_CREATE_DETAIL_ROWS = {5, 7, 8, 9};		-- features, tattoo, scars, war paint
 CHAR_CREATE_CLASS_ORDER = {1, 2, 3, 4, 5, 7, 8, 9, 10, 6, 11};	-- enumerate index; death knight (6) last
 CHAR_CREATE_CLASS_SPACING = 56;
 CHAR_CREATE_CLASS_SCALE = 0.85;
--- step 1's race grid (user design 2026-10-27): per faction, rows of three primary races, each with its sub-races
--- stacked under it; a row is as deep as its deepest column
-CHAR_CREATE_RACE_ROWS = { { {1, 2, 3}, {4, 5, 6} }, { {7, 8, 9}, {10, 12, 11} } };	-- Alliance, Horde
+-- step 1's race ring (user design 2026-10-27, option A): per faction panel, the six races on a ring around the faction
+-- crest. Picking a race swaps it with the crest: the crest takes the race's slot on the ring, and the race goes to the
+-- middle, alone when it has no sub-races, else as the inner ring of its sub-races (the race itself first)
+CHAR_CREATE_RACE_RINGS = { {1, 2, 3, 4, 5, 6}, {7, 8, 9, 10, 12, 11} };	-- Alliance, Horde, clockwise from the top
 CHAR_CREATE_RACE_SCALE = 0.75;			-- the 52 px race portrait drawn at 39
-CHAR_CREATE_RACE_HEIGHT = 39 + 16;		-- portrait and its name
+CHAR_CREATE_RING_RADIUS = 105;
+CHAR_CREATE_INNER_RADIUS = 58;
 CHAR_CREATE_SUBRACE_SIZE = 32;
-CHAR_CREATE_SUBRACE_PITCH = 32 + 16;		-- portrait and its name
-CHAR_CREATE_ROW_GAP = 14;				-- between two rows of primary races
+CHAR_CREATE_MEDAL_SIZE = 50;
+CHAR_CREATE_RING_TOP = 26;				-- from the headings' rule to the top of the ring
+CHAR_CREATE_RING_FAN_TIME = 0.2;		-- seconds for the inner ring to open
 CHAR_CREATE_INFO_WIDTH = CHAR_CREATE_PANEL_WIDTH - 40;
 CHAR_CREATE_INFO_BOTTOM = 80;			-- the info blocks stop above the Back / Customize buttons
 
@@ -1807,73 +1812,149 @@ function CharCreateLayout_PlaceLore()
 	CharCreateLayout_PlaceInfo(CharCreateClassLore, classPanel);
 end
 
--- the race grid: per faction panel, rows of three primary races (CHAR_CREATE_RACE_ROWS), each primary's sub-races stacked
--- under it with their names; a row is as deep as its deepest column. The selected race's current sub-race is the checked
--- portrait (the primary is sub-race 1). Sets each panel's gridBottom for the info blocks under it.
+-- the ring's centre in a faction panel, from its top left
+local function CharCreateLayout_RingCentre()
+	return CHAR_CREATE_PANEL_WIDTH / 2, CHAR_CREATE_ROWS_TOP - CHAR_CREATE_RING_TOP - CHAR_CREATE_RING_RADIUS;
+end
+
+-- the medallion in the middle of a faction's ring
+local function CharCreateLayout_Medal(panel)
+	if ( not panel.medal ) then
+		local medal = CreateFrame("Frame", nil, CharCreateRaceButtonsFrame);
+		medal:SetWidth(CHAR_CREATE_MEDAL_SIZE);
+		medal:SetHeight(CHAR_CREATE_MEDAL_SIZE);
+		local cx, cy = CharCreateLayout_RingCentre();
+		medal:SetPoint("CENTER", panel, "TOPLEFT", cx, cy);
+		medal.icon = medal:CreateTexture(nil, "ARTWORK");
+		medal.icon:SetAllPoints();
+		medal.ring = medal:CreateTexture(nil, "OVERLAY");
+		medal.ring:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-RingChecked");
+		medal.ring:SetAllPoints();
+		panel.medal = medal;
+	end
+	return panel.medal;
+end
+
+-- the race rings: per faction panel, CHAR_CREATE_RACE_RINGS on a circle, each with a "+n" badge when it has sub-races.
+-- The middle (the medallion) holds the faction crest; the selected race trades places with it: its ring slot shows the
+-- crest, and the middle shows the race alone, or, for a race with sub-races, nothing but the inner ring of its
+-- sub-races (its own first), fanning out from the race's side (CharCreateLayout_RingUpdate). Sets each panel's gridBottom.
 function CharCreateLayout_RefreshRaces()
 	if ( not CharCreateLeftPanel or not CharacterCreate.numRaces ) then
 		return;
 	end
 	local gender = CharCreate_SubRaceGender();
 	local scale = CHAR_CREATE_RACE_SCALE;
-	for faction, rows in ipairs(CHAR_CREATE_RACE_ROWS) do
+	local cx, cy = CharCreateLayout_RingCentre();
+	for faction, ring in ipairs(CHAR_CREATE_RACE_RINGS) do
 		local panel = (faction == 1) and CharCreateLeftPanel or CharCreateRightPanel;
+		local medal = CharCreateLayout_Medal(panel);
+		local crest = "Interface\\Glues\\CharacterCreate\\"..((faction == 1) and "AllianceLogo" or "HordeLogo");
+		medal.icon:SetTexture(crest);
+		medal:Show();
 		local count = 0;
-		local top = CHAR_CREATE_ROWS_TOP;
-		for _, row in ipairs(rows) do
-			local depth = 0;
-			for column, i in ipairs(row) do
-				local raceButton = _G["CharCreateRaceButton"..i];
-				if ( i <= CharacterCreate.numRaces ) then
-					count = count + 1;
-					local x = (column - 0.5) * CHAR_CREATE_PANEL_WIDTH / #row;
-					raceButton:ClearAllPoints();
-					raceButton:SetPoint("TOP", panel, "TOPLEFT", x / scale, top / scale);	-- offsets are in its own scale
+		for slot, i in ipairs(ring) do
+			local raceButton = _G["CharCreateRaceButton"..i];
+			if ( i <= CharacterCreate.numRaces ) then
+				count = count + 1;
+				local angle = math.rad(90 - (slot - 1) * 360 / #ring);
+				raceButton:ClearAllPoints();
+				raceButton:SetPoint("CENTER", panel, "TOPLEFT", (cx + CHAR_CREATE_RING_RADIUS * math.cos(angle)) / scale,
+					(cy + CHAR_CREATE_RING_RADIUS * math.sin(angle)) / scale);	-- offsets are in its own scale
+				raceButton.ringAngle = angle;
+				-- the name outside the ring: above a portrait on its top half, below on its bottom half
+				local label = raceButton.nameFrame.text;
+				label:ClearAllPoints();
+				if ( math.sin(angle) > 0.1 ) then
+					label:SetPoint("BOTTOM", raceButton, "TOP", 0, 3);
+				else
+					label:SetPoint("TOP", raceButton, "BOTTOM", 0, -3);
+				end
 
-					local subRaces = SetCharCustomizationFilter and raceButton.fileString and CHAR_CREATE_SUBRACES[raceButton.fileString];
-					local current = 0;
-					if ( i == CharacterCreate.selectedRace ) then
-						current = (subRaces and CharacterCreate.subRace) or 1;
-					end
-					raceButton:SetChecked(current == 1 and 1 or 0);
-					if ( subRaces ) then
-						raceButton.nameFrame.text:SetText(subRaces[1].name);
-					end
-					local previous, gap = raceButton, -(CHAR_CREATE_RACE_HEIGHT - 39);
-					for k = 2, MAX_SUBRACES do
-						local name = "CharCreateRaceSub"..i.."_"..k;
-						local button = _G[name];
-						local subRace = subRaces and subRaces[k];
-						if ( subRace ) then
-							if ( not button ) then
-								button = CreateFrame("CheckButton", name, CharCreateRaceButtonsFrame, "CharCreateSubRaceButtonTemplate");
-								button:SetID(k);
-								button:SetWidth(CHAR_CREATE_SUBRACE_SIZE);
-								button:SetHeight(CHAR_CREATE_SUBRACE_SIZE);
-								button.label = button:CreateFontString(nil, "OVERLAY", "GlueFontNormalExtraSmall");
-								button.label:SetPoint("TOP", button, "BOTTOM", 0, -2);
-							end
-							button.raceIndex = i;
-							button:ClearAllPoints();
-							button:SetPoint("TOP", previous, "BOTTOM", 0, gap);
-							button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-"..subRace.icon.."_"..gender);
-							button.label:SetText(subRace.name);
-							button:SetChecked(current == k and 1 or 0);
-							button:Show();
-							previous, gap = button, -(CHAR_CREATE_SUBRACE_PITCH - CHAR_CREATE_SUBRACE_SIZE);
-							depth = math.max(depth, k - 1);
-						elseif ( button ) then
-							button:Hide();
+				local subRaces = SetCharCustomizationFilter and raceButton.fileString and CHAR_CREATE_SUBRACES[raceButton.fileString];
+				local selected = (i == CharacterCreate.selectedRace);
+				raceButton:SetChecked(selected and 1 or 0);
+				local portrait = selected and crest or raceButton.raceTexture;
+				_G["CharCreateRaceButton"..i.."NormalTexture"]:SetTexture(portrait);
+				_G["CharCreateRaceButton"..i.."PushedTexture"]:SetTexture(portrait);
+				if ( subRaces ) then
+					raceButton.nameFrame.text:SetText(subRaces[1].name);
+				end
+				if ( not raceButton.badge ) then
+					raceButton.badge = raceButton:CreateFontString(nil, "OVERLAY", "GlueFontNormalSmall");
+					raceButton.badge:SetPoint("TOPRIGHT", raceButton, "TOPRIGHT", 6, 4);
+				end
+				raceButton.badge:SetText(subRaces and ("+"..(#subRaces - 1)) or "");
+
+				for k = 1, MAX_SUBRACES do
+					local name = "CharCreateRaceSub"..i.."_"..k;
+					local button = _G[name];
+					local subRace = selected and subRaces and subRaces[k];
+					if ( subRace ) then
+						if ( not button ) then
+							button = CreateFrame("CheckButton", name, CharCreateRaceButtonsFrame, "CharCreateSubRaceButtonTemplate");
+							button:SetID(k);
+							button:SetWidth(CHAR_CREATE_SUBRACE_SIZE);
+							button:SetHeight(CHAR_CREATE_SUBRACE_SIZE);
+							button:SetScript("OnEnter", function(self)
+								CharacterCreateTooltip:SetOwner(self);
+								CharacterCreateTooltip:SetText(self.tooltip);
+							end);
+							button:SetScript("OnLeave", function()
+								CharacterCreateTooltip:Hide();
+							end);
 						end
+						button.raceIndex = i;
+						button.panel = panel;
+						button.angle = angle + (k - 1) * 2 * math.pi / #subRaces;	-- the first (the race itself) sits towards its race
+						button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-"..subRace.icon.."_"..gender);
+						button.tooltip = subRace.title or subRace.name;
+						button:SetChecked(CharacterCreate.subRace == k and 1 or 0);
+						button:Show();
+					elseif ( button ) then
+						button:Hide();
+					end
+				end
+				if ( selected ) then
+					if ( subRaces ) then
+						medal:Hide();	-- the inner ring is the middle
+					else
+						medal.icon:SetTexture(raceButton.raceTexture);
+					end
+					if ( not subRaces ) then
+						CHAR_CREATE_RING_OPEN = nil;
+					elseif ( CHAR_CREATE_RING_OPEN ~= i ) then
+						CHAR_CREATE_RING_OPEN = i;	-- a newly picked race fans its sub-races out
+						CHAR_CREATE_RING_TIME = 0;
 					end
 				end
 			end
-			top = top - CHAR_CREATE_RACE_HEIGHT - depth * CHAR_CREATE_SUBRACE_PITCH - CHAR_CREATE_ROW_GAP;
 		end
 		panel.raceCount = count;
-		panel.gridBottom = top;
+		panel.gridBottom = cy - CHAR_CREATE_RING_RADIUS - 52;
 	end
+	CharCreateLayout_RingUpdate(0);
 	CharCreate_UpdatePanelHeadings();
+end
+
+-- places the open inner ring, easing its radius out over CHAR_CREATE_RING_FAN_TIME (CharacterCreateFrame_OnUpdate)
+CHAR_CREATE_RING_TIME = 0;
+function CharCreateLayout_RingUpdate(elapsed)
+	local i = CHAR_CREATE_RING_OPEN;
+	if ( not i or CHAR_CREATE_RING_TIME > CHAR_CREATE_RING_FAN_TIME and elapsed > 0 ) then
+		return;
+	end
+	CHAR_CREATE_RING_TIME = CHAR_CREATE_RING_TIME + elapsed;
+	local t = math.min(1, CHAR_CREATE_RING_TIME / CHAR_CREATE_RING_FAN_TIME);
+	local radius = CHAR_CREATE_INNER_RADIUS * (1 - (1 - t) * (1 - t));
+	local cx, cy = CharCreateLayout_RingCentre();
+	for k = 1, MAX_SUBRACES do
+		local button = _G["CharCreateRaceSub"..i.."_"..k];
+		if ( button and button:IsShown() ) then
+			button:ClearAllPoints();
+			button:SetPoint("CENTER", button.panel, "TOPLEFT", cx + radius * math.cos(button.angle), cy + radius * math.sin(button.angle));
+		end
+	end
 end
 
 -- the selected race's name (its sub-race's title), lore and racials, under its faction's rows
