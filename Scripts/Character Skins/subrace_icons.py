@@ -31,7 +31,7 @@ from lib import retail  # noqa: E402
 OUT = CRAFT / 'zpaks' / 'patch-modern-login' / 'mpq' / 'source-assets' / 'Interface' / 'Glues' / 'CharacterCreate'
 ATLAS_FDID = 1662186
 # the 130 px square portraits the Esteria creator's author shared (user, 2026-10-27), preferred over the atlas where
-# they have the race: <faction>/Charactercreate-races_<name>-<sex>[2].png
+# they have the race: [<faction>/]Charactercreate-races_<name>-<sex>[2].png|.gif (64 px wiki icons dropped in too)
 PACK = CRAFT.parent / 'Zeppelin-Tools' / 'Esteria-review' / 'Portraits'
 PACK_NAMES = {'orc': 'orc', 'magharorc': 'maghar', 'dwarf': 'dwarf', 'darkirondwarf': 'darkirondwarf',
               'bloodelf': 'bloodelf', 'voidelf': 'voidelf', 'draenei': 'draenei', 'lightforged': 'lightforged',
@@ -81,7 +81,8 @@ def pack_portrait(race, sex, own=False):
     dropped into the pack for that sub-race, used as it is), or None."""
     name = race if own else PACK_NAMES.get(race)
     for suffix in ('', '2'):
-        for f in sorted(PACK.glob(f'*/Charactercreate-races_{name}-{sex}{suffix}.png')) if name else []:
+        for f in (sorted(PACK.glob(f'**/Charactercreate-races_{name}-{sex}{suffix}.png'))
+                  + sorted(PACK.glob(f'**/Charactercreate-races_{name}-{sex}{suffix}.gif'))) if name else []:
             return Image.open(f).convert('RGBA')
     return None
 
