@@ -1575,7 +1575,8 @@ CHAR_CREATE_CLASS_SIZE = 34;			-- round class icons (UI-Classes-Circles), spread
 -- crest. Picking a race swaps it with the crest: the crest takes the race's slot on the ring, and the race goes to the
 -- middle, alone when it has no sub-races, else as the inner ring of its sub-races (the race itself first)
 CHAR_CREATE_RACE_RINGS = { {1, 2, 3, 4, 5, 6}, {7, 8, 9, 10, 12, 11} };	-- Alliance, Horde, clockwise from the top
-CHAR_CREATE_ICON_SIZE = 40;			-- every round portrait on the rings: race, sub-race, crest
+CHAR_CREATE_ICON_SIZE = 40;			-- every round portrait on the rings: race, sub-race
+CHAR_CREATE_CREST_SIZE = 52;			-- the faction crest, 30% larger (user, 2026-10-27)
 CHAR_CREATE_RING_RADIUS = 105;
 CHAR_CREATE_INNER_RADIUS = 44;
 CHAR_CREATE_RING_TOP = 26;				-- from the headings' rule to the top of the ring
@@ -1717,7 +1718,8 @@ function CharCreateLayout_Build()
 	-- class: one row of icons under the model, the selected class's name above it (names under each would collide)
 	CharCreateClassFrame:SetBackdrop(nil);
 	CharCreateClassFrame:ClearAllPoints();
-	CharCreateClassFrame:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 0, 80);
+	-- level with Back / Customize (their centre is 20 + 50 / 2 up)
+	CharCreateClassFrame:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 0, 20);
 	CharCreateClassFrame:SetHeight(50);
 	for i = 1, MAX_CLASSES_PER_RACE do
 		local button = _G["CharCreateClassButton"..i];
@@ -1727,7 +1729,7 @@ function CharCreateLayout_Build()
 		CharCreateLayout_RoundButton(button, CHAR_CREATE_CLASS_SIZE);
 	end
 	local className = CharacterCreateFrame:CreateFontString("CharCreateClassName", "OVERLAY", "GlueFontNormalLarge");
-	className:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 0, 118);
+	className:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 0, 20 + 25 + CHAR_CREATE_CLASS_SIZE / 2 + 12);
 
 	-- Back and Customize / Finish centred in their panels
 	CharCreateBackButton:ClearAllPoints();
@@ -1897,6 +1899,8 @@ function CharCreateLayout_RefreshRaces()
 		local crest = CHAR_CREATE_ROUND.."CREST_"..((faction == 1) and "ALLIANCE" or "HORDE");
 		medal.icon:SetTexture(crest);
 		medal.ring:SetTexture(CHAR_CREATE_ROUND.."Ring");
+		medal:SetWidth(CHAR_CREATE_CREST_SIZE);
+		medal:SetHeight(CHAR_CREATE_CREST_SIZE);
 		medal:Show();
 		local count = 0;
 		for slot, i in ipairs(ring) do
@@ -1923,6 +1927,13 @@ function CharCreateLayout_RefreshRaces()
 				-- the round portrait: the race's first sub-race icon, or its own file name's
 				raceButton.roundTexture = CHAR_CREATE_ROUND..((subRaces and subRaces[1].icon) or raceButton.fileString).."_"..gender;
 				local portrait = selected and crest or raceButton.roundTexture;
+				if ( selected ) then	-- the crest's slot needs no name (the race panel shows it) and is crest-sized
+					raceButton.nameFrame.text:Hide();
+				else
+					raceButton.nameFrame.text:Show();
+				end
+				raceButton:SetWidth(selected and CHAR_CREATE_CREST_SIZE or CHAR_CREATE_ICON_SIZE);
+				raceButton:SetHeight(selected and CHAR_CREATE_CREST_SIZE or CHAR_CREATE_ICON_SIZE);
 				_G["CharCreateRaceButton"..i.."NormalTexture"]:SetTexture(portrait);
 				_G["CharCreateRaceButton"..i.."PushedTexture"]:SetTexture(portrait);
 				if ( subRaces ) then
@@ -1964,6 +1975,8 @@ function CharCreateLayout_RefreshRaces()
 					else
 						medal.icon:SetTexture(raceButton.roundTexture);
 						medal.ring:SetTexture(CHAR_CREATE_ROUND.."RingChecked");
+						medal:SetWidth(CHAR_CREATE_ICON_SIZE);
+						medal:SetHeight(CHAR_CREATE_ICON_SIZE);
 					end
 					if ( not subRaces ) then
 						CHAR_CREATE_RING_OPEN = nil;

@@ -76,9 +76,10 @@ def tattoo(im):
     return Image.fromarray(a.astype(np.uint8), 'RGBA')
 
 
-def pack_portrait(race, sex):
-    """The pack's portrait of an atlas race name, or None."""
-    name = PACK_NAMES.get(race)
+def pack_portrait(race, sex, own=False):
+    """The pack's portrait of an atlas race name (or, own=True, of one of our icon names, e.g. felorc: a portrait
+    dropped into the pack for that sub-race, used as it is), or None."""
+    name = race if own else PACK_NAMES.get(race)
     for suffix in ('', '2'):
         for f in sorted(PACK.glob(f'*/Charactercreate-races_{name}-{sex}{suffix}.png')) if name else []:
             return Image.open(f).convert('RGBA')
@@ -177,9 +178,12 @@ def main():
     members = atlas_members()
     for name, (race, shift) in ICONS.items():
         for sex in ('male', 'female'):
-            im = pack_portrait(race, sex) or atlas.crop(members[f'raceicon128-{race}-{sex}'])
+            own = pack_portrait(name.lower(), sex, own=True)	# a portrait made for this sub-race itself
+            im = own or pack_portrait(race, sex) or atlas.crop(members[f'raceicon128-{race}-{sex}'])
             im = im.resize((SIZE, SIZE), Image.LANCZOS)
-            if shift == 'tattoo':
+            if own:
+                pass
+            elif shift == 'tattoo':
                 im = tattoo(im)
             elif shift:
                 im = shift_skin(im, shift)
