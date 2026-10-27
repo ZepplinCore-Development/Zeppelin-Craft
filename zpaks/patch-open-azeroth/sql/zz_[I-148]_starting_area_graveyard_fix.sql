@@ -146,3 +146,37 @@
         (91, 2322, 0, 'Teldrassil, Dolanaar GY - The Veiled Sea'),
         (93, 2322, 469, 'Teldrassil, Aldrassil GY - The Veiled Sea'),
         (129, 2322, 0, 'Teldrassil, Rut''theran Village GY - The Veiled Sea');
+
+-- ============================================================================
+-- Seas and stray areas inside the starting boxes with NO graveyard link
+-- (F-219 fleet scan of data/maps, 2026-10-27). With no link, GetClosestGraveyard
+-- falls back to GetDefaultGraveyard: Crossroads (Barrens, map 1) for the Horde,
+-- Westfall for the Alliance. Errors.log: "Zone 3455 Team 1 does not have a
+-- linked graveyard" - the blood elf bot died off Sunstrider Isle and woke in
+-- the Barrens. Area rows list every candidate (an area link shadows the zone
+-- fallback); the engine takes the nearest friendly one on the same map.
+-- ============================================================================
+
+-- The North Sea (3455): 8775 cells round Eversong / Sunstrider Isle (map 0)
+    DELETE FROM `graveyard_zone` WHERE `ID` IN (912, 914, 921, 922) AND `GhostZone` = 3455;
+    INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`) VALUES
+        (912, 3455, 0, 'Eversong Woods, Sunstrider Isle GY - The North Sea'),
+        (914, 3455, 0, 'Eversong Woods, Farstrider Lodge GY - The North Sea'),
+        (921, 3455, 0, 'Eversong Woods, Silvermoon City GY - The North Sea'),
+        (922, 3455, 0, 'Eversong Woods, Fairbreeze Village GY - The North Sea');
+
+-- The Great Sea (214): 3037 cells off Tirisfal, 197 off Dun Morogh (map 0)
+    DELETE FROM `graveyard_zone` WHERE `ID` IN (94, 289, 96, 1409, 100, 101) AND `GhostZone` = 214;
+    INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`) VALUES
+        (94, 214, 67, 'Tirisfal Glades, Deathknell GY - The Great Sea'),
+        (289, 214, 67, 'Tirisfal Glades, Brill GY - The Great Sea'),
+        (96, 214, 67, 'Tirisfal Glades, Undercity GY - The Great Sea'),
+        (1409, 214, 469, 'Undercity - Alliance GY - The Great Sea'),
+        (100, 214, 469, 'Dun Morogh, Anvilmar GY - The Great Sea'),
+        (101, 214, 469, 'Dun Morogh, Kharanos GY - The Great Sea');
+
+-- Northern Elwynn Mountains (6555, OA area with no parent): 28 cells north of Northshire
+    DELETE FROM `graveyard_zone` WHERE `ID` IN (105, 106) AND `GhostZone` = 6555;
+    INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`) VALUES
+        (105, 6555, 469, 'Elwynn Forest, Northshire GY - Northern Elwynn Mountains'),
+        (106, 6555, 469, 'Elwynn Forest, Goldshire GY - Northern Elwynn Mountains');
