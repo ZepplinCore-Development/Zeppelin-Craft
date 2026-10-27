@@ -55,6 +55,9 @@ ICONS = {
     'GNOME': ('gnome', None),
     'LEPERGNOME': ('gnome', 'leper'),
     'CULTISTGNOME': ('gnome', 'dusk'),
+    'GRIMTOTEM': ('tauren', None),			# the user's portraits in the pack (grimtotem-<sex>)
+    'DARKTROLL': ('troll', None),			# darktroll-<sex>
+    'SANDTROLL': ('troll', None),			# sandtroll-<sex>
     # races without sub-races, by their file name (GetNameForRace)
     'HUMAN': ('human', None),
     'NIGHTELF': ('nightelf', None),

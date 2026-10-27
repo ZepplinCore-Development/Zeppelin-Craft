@@ -162,6 +162,29 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {17, 18, 19, 20, 21, 22, 30, 31},
 			FEMALE = {15, 16, 17, 18, 19, 20, 30, 31} },
 	},
+	-- Grimtotem = the black-furred painted colours 39-41 (user, 2026-10-28)
+	["TAUREN"] = {
+		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
+		{ name = "Tauren", icon = "TAUREN",
+			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38},
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38} },
+		{ name = "Grimtotem", lore = "The Grimtotem clan never accepted Cairne Bloodhoof's peace with the younger races. They paint their black fur for war and hold to the old belief that the tauren must rule Kalimdor alone. Those who now walk with the Horde have broken with Magatha's schemes, but they still carry the clan's fierce pride and its war paint.", title = "Grimtotem Tauren", icon = "GRIMTOTEM",
+			MALE = {39, 40, 41},
+			FEMALE = {39, 40, 41} },
+	},
+	-- Dark trolls are the purples, Sand trolls the tans (trial, user 2026-10-28)
+	["TROLL"] = {
+		shared = { MALE = {15, 16, 17}, FEMALE = {15, 16, 17} },
+		{ name = "Troll", icon = "TROLL",
+			MALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 22, 23, 26, 29, 30, 31, 38},
+			FEMALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 22, 23, 26, 29, 30, 31, 38} },
+		{ name = "Dark Troll", lore = "The dark trolls are an ancient people of Kalimdor's forests, purple-skinned and close to the land. Long ago some of their tribes became the first night elves; those who stayed trolls kept to the shadows of Ashenvale and Feralas. A few now answer the Horde's call, bringing old magic and older grudges.", title = "Dark Troll", icon = "DARKTROLL",
+			MALE = {24, 25, 27, 28},
+			FEMALE = {24, 25, 27, 28} },
+		{ name = "Sand Troll", lore = "The Sandfury trolls of Zul'Farrak endured the deserts of Tanaris, their skin burned to the colour of the dunes. Hardened by heat and scarcity, they are cunning raiders and keepers of savage rites. Those who join the Horde trade raiding for war, and bring the desert's endurance with them.", title = "Sand Troll", icon = "SANDTROLL",
+			MALE = {32, 33, 34, 35, 36, 37},
+			FEMALE = {32, 33, 34, 35, 36, 37} },
+	},
 };
 MAX_SUBRACES = 4;
 
