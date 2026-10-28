@@ -91,6 +91,24 @@ def pack_portrait(race, sex, own=False):
     return None
 
 
+FRAMED = 0.85		# the wiki portraits are tight face crops: drawn at 85% inside the circle (user, 2026-10-28)
+
+
+def framed(im, scale=FRAMED, bg=(18, 14, 10)):
+    """A tight portrait shrunk to `scale` of the icon on a dark backdrop, its square edges faded into it, so the
+    round mask doesn't cut the face."""
+    from PIL import ImageDraw, ImageFilter
+    side = int(SIZE * scale)
+    im = im.convert('RGBA').resize((side, side), Image.LANCZOS)
+    fade = max(2, side // 10)
+    mask = Image.new('L', (side, side), 0)
+    ImageDraw.Draw(mask).rectangle((fade, fade, side - fade, side - fade), fill=255)
+    mask = mask.filter(ImageFilter.GaussianBlur(fade / 1.6))
+    out = Image.new('RGBA', (SIZE, SIZE), bg + (255,))
+    out.paste(im, ((SIZE - side) // 2, (SIZE - side) // 2 + int(SIZE * 0.03)), mask)
+    return out
+
+
 def crest(path):
     """A faction logo (its opaque part, 82% of the width) centred on a dark disc, SIZE square."""
     from lib.wardrobe.blp import read_blp
@@ -185,7 +203,7 @@ def main():
         for sex in ('male', 'female'):
             own = pack_portrait(name.lower(), sex, own=True)	# a portrait made for this sub-race itself
             im = own or pack_portrait(race, sex) or atlas.crop(members[f'raceicon128-{race}-{sex}'])
-            im = im.resize((SIZE, SIZE), Image.LANCZOS)
+            im = framed(im) if own else im.resize((SIZE, SIZE), Image.LANCZOS)
             if own:
                 pass
             elif shift == 'tattoo':
