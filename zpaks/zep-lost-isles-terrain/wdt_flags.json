@@ -1,0 +1,21 @@
+{
+  "_comment": "I-119: clear WDT MPHD flag 0x8 (doodad refs sorted by size category). With it set, the client's CullDoodadsExterior stops reading a chunk's MCRF list at the first doodad below the chunk's fade level, and model swaps (HD packs, retroports) break the sort, so doodads pop in and out with small camera moves. Stock 3.3.5 WDTs use 0x0. Apply with `zep build adt-place -r <this file>`.",
+  "target_zpak": "zep-lost-isles-terrain",
+  "wdt": {
+    "WORLD/MAPS/LOSTISLES/LostIsles.wdt": {
+      "base_sha256": "1a555ea2abadc4128c8e254e56ddbf70c31b27b4f80a6eff153b2f22cb3142ee",
+      "mphd_flags_clear": 8,
+      "result_sha256": "4b0979d00fa86b82eb8fba2a2a9d4acf48f5dbe5e0ebf0fd178dec57868c1e6f"
+    },
+    "WORLD/MAPS/LOSTISLESPHASE1/LostIslesPhase1.wdt": {
+      "base_sha256": "6a48fec57f9e7828bd897f1fd31a51c6c4b5cc3bb998161c253e751f6b72a017",
+      "mphd_flags_clear": 8,
+      "result_sha256": "ff8b49ef0497f9c70fbc84d37ab5dfc8d9cb23e76b4b65213358e9bc13257d17"
+    },
+    "WORLD/MAPS/LOSTISLESPHASE2/LostIslesPhase2.wdt": {
+      "base_sha256": "0d64fbb0222b1cfeb95d6ae7f8873c8ceaeaa0c82a52667358e9bc665b0fea96",
+      "mphd_flags_clear": 8,
+      "result_sha256": "7be62d357a68b492d78a38807700399c041e1d4c86b8cc30aedb1f2a77e2cfd8"
+    }
+  }
+}

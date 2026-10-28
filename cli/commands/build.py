@@ -481,9 +481,10 @@ def build_adt_place(ctx, recipe_path, dry_run, force):
 
     ADT binaries are gitignored, so a Noggit edit leaves nothing reviewable.
     This replays placements from JSON and records the resulting sha256, the
-    same provenance model as model_transforms.json (F-203).
+    same provenance model as model_transforms.json (F-203). A recipe's `wdt`
+    section sets or clears WDT MPHD flags the same way (I-119).
     """
-    from lib.adt_placement import apply_recipe, load_recipe, sha256
+    from lib.adt_placement import apply_recipe, apply_wdt_recipe, load_recipe, sha256
 
     craft_root = Path(__file__).resolve().parents[2]
     recipe_file = Path(recipe_path)
@@ -491,7 +492,29 @@ def build_adt_place(ctx, recipe_path, dry_run, force):
     target = craft_root / 'zpaks' / recipe['target_zpak'] / 'mpq' / 'parsed-assets'
 
     changed = False
-    for rel, entry in recipe['placements'].items():
+    for rel, entry in recipe.get('wdt', {}).items():
+        wdt = target / rel
+        if not wdt.exists():
+            raise click.ClickException(f'WDT not found: {wdt}')
+        try:
+            out, stats = apply_wdt_recipe(wdt, entry, strict=not force)
+        except ValueError as exc:
+            raise click.ClickException(str(exc))
+
+        if stats.get('skipped'):
+            click.echo(f'  {rel}: {stats["skipped"]}')
+            continue
+
+        click.echo(f'  {rel}: MPHD flags {stats["old_flags"]:#x} -> {stats["flags"]:#x}')
+        if dry_run:
+            click.echo(f'    [DRY RUN] would become {stats["result_sha256"][:16]}')
+            continue
+        wdt.write_bytes(out)
+        if entry.get('result_sha256') != stats['result_sha256']:
+            entry['result_sha256'] = stats['result_sha256']
+            changed = True
+
+    for rel, entry in recipe.get('placements', {}).items():
         adt = target / rel
         if not adt.exists():
             raise click.ClickException(f'tile not found: {adt}')

@@ -1,0 +1,26 @@
+{
+  "_comment": "I-119: clear WDT MPHD flag 0x8 (doodad refs sorted by size category). With it set, the client's CullDoodadsExterior stops reading a chunk's MCRF list at the first doodad below the chunk's fade level, and model swaps (HD packs, retroports) break the sort, so doodads pop in and out with small camera moves. Stock 3.3.5 WDTs use 0x0. Apply with `zep build adt-place -r <this file>`.",
+  "target_zpak": "patch-open-azeroth",
+  "wdt": {
+    "WORLD/MAPS/KALIMDOR/KALIMDOR.WDT": {
+      "base_sha256": "b762b809274512812946f1fdc760e1ffb4882fb946383d76ca136085701ddd15",
+      "mphd_flags_clear": 8,
+      "result_sha256": "ba0433555908d983253a41a7e85d61769bbb91b97423414886c782ced1dc5df6"
+    },
+    "WORLD/MAPS/AZEROTH/AZEROTH.WDT": {
+      "base_sha256": "54f9efb2a7363ded9e07687c549c9646c42b03e1383f965b1412d653a445a981",
+      "mphd_flags_clear": 8,
+      "result_sha256": "67ac05b234a715c43a86851d417430ffd388036878d659903b21af7af19801b7"
+    },
+    "WORLD/MAPS/DEEPHOME/DEEPHOME.WDT": {
+      "base_sha256": "fdd02a0e99d4a5c09af30ae1a131ebc3e314c4498bb716a95adc201324f99984",
+      "mphd_flags_clear": 8,
+      "result_sha256": "296056ab26fc8848e57c1985097fc95053fdfeaa1c0f1b34e12f722d538d558b"
+    },
+    "WORLD/MAPS/MAELSTROMSHAMAN/MAELSTROMSHAMAN.WDT": {
+      "base_sha256": "ca9ee71a0372ddd6806c0e8639af52b328192b62ad27240aa4ec7cd46c9f956d",
+      "mphd_flags_clear": 8,
+      "result_sha256": "e8b3673a8aabc5563ffaac29c5fb9d6b6dd4e92b73200d57729afe52b976479a"
+    }
+  }
+}

@@ -767,5 +767,41 @@ def load_wmo_floor(cfg: Dict) -> List[Tuple]:
     return tris
 
 
+def apply_wdt_recipe(wdt_path: Path, entry: Dict, *, strict: bool = True) -> Tuple[bytes, Dict]:
+    """Apply one recipe entry to one WDT (MPHD header flags). Returns (new_bytes, stats).
+
+    MPHD flag 0x8 tells the client each chunk's MCRF doodad list is sorted by size category;
+    CullDoodadsExterior then stops at the first doodad below the chunk's fade level and skips the
+    rest of the chunk. Any model swap breaks that order, so it is cleared here (I-119).
+    """
+    original = wdt_path.read_bytes()
+    base = sha256(original)
+    if entry.get('base_sha256') and base != entry['base_sha256']:
+        if base == entry.get('result_sha256'):
+            return original, {'skipped': 'already applied'}
+        msg = (f"{wdt_path.name}: base sha256 {base[:16]} does not match recipe "
+               f"{entry['base_sha256'][:16]}")
+        if strict:
+            raise ValueError(msg)
+
+    data = bytearray(original)
+    pos = 0
+    while pos + 8 <= len(data):
+        magic = bytes(data[pos:pos + 4][::-1]).decode('latin1')
+        size = struct.unpack_from('<I', data, pos + 4)[0]
+        if magic == 'MPHD':
+            break
+        pos += 8 + size
+    else:
+        raise ValueError(f'{wdt_path.name}: no MPHD chunk')
+
+    old_flags = struct.unpack_from('<I', data, pos + 8)[0]
+    flags = (old_flags & ~entry.get('mphd_flags_clear', 0)) | entry.get('mphd_flags_set', 0)
+    struct.pack_into('<I', data, pos + 8, flags)
+    out = bytes(data)
+    return out, {'old_flags': old_flags, 'flags': flags,
+                 'base_sha256': base, 'result_sha256': sha256(out)}
+
+
 def load_recipe(path: Path) -> Dict:
     return json.loads(Path(path).read_text())
