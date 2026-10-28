@@ -175,7 +175,7 @@ CHAR_CREATE_SUBRACES = {
 	-- Dark trolls are the purples, Sand trolls the tans (trial, user 2026-10-28)
 	["TROLL"] = {
 		shared = { MALE = {15, 16, 17}, FEMALE = {15, 16, 17} },
-		{ name = "Troll", icon = "TROLL",
+		{ name = "Darkspear", title = "Darkspear Troll", icon = "TROLL",
 			MALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 22, 23, 26, 29, 30, 31, 38},
 			FEMALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 22, 23, 26, 29, 30, 31, 38} },
 		{ name = "Dark Troll", lore = "The dark trolls are an ancient people of Kalimdor's forests, purple-skinned and close to the land. Long ago some of their tribes became the first night elves; those who stayed trolls kept to the shadows of Ashenvale and Feralas. A few now answer the Horde's call, bringing old magic and older grudges.", title = "Dark Troll", icon = "DARKTROLL",
@@ -1721,7 +1721,11 @@ function CharCreateLayout_Build()
 
 	-- step 1: the race grid is placed by CharCreateLayout_RefreshRaces; gender sits under the step strip
 	for i = 1, MAX_RACES do
-		CharCreateLayout_RoundButton(_G["CharCreateRaceButton"..i], CHAR_CREATE_ICON_SIZE);
+		local raceButton = _G["CharCreateRaceButton"..i];
+		CharCreateLayout_RoundButton(raceButton, CHAR_CREATE_ICON_SIZE);
+		-- no hover popup on the ring: the race panel describes the selection (user, 2026-10-28)
+		raceButton:SetScript("OnEnter", nil);
+		raceButton:SetScript("OnLeave", nil);
 	end
 	CharCreateMaleButton:ClearAllPoints();
 	CharCreateMaleButton:SetPoint("TOP", CharacterCreateFrame, "TOP", -25, -46);
@@ -1973,19 +1977,11 @@ function CharCreateLayout_RefreshRaces()
 							button:SetID(k);
 							button:SetWidth(CHAR_CREATE_ICON_SIZE);
 							button:SetHeight(CHAR_CREATE_ICON_SIZE);
-							button:SetScript("OnEnter", function(self)
-								CharacterCreateTooltip:SetOwner(self);
-								CharacterCreateTooltip:SetText(self.tooltip);
-							end);
-							button:SetScript("OnLeave", function()
-								CharacterCreateTooltip:Hide();
-							end);
 						end
 						button.raceIndex = i;
 						button.panel = panel;
 						button.angle = angle + (k - 1) * 2 * math.pi / #subRaces;	-- the first (the race itself) sits towards its race
 						button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-"..subRace.icon.."_"..gender);
-						button.tooltip = subRace.title or subRace.name;
 						button:SetChecked(CharacterCreate.subRace == k and 1 or 0);
 						button:Show();
 					elseif ( button ) then
