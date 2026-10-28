@@ -7,7 +7,7 @@ sub-race with no retail portrait is derived from one that has, by colour-shiftin
 the retail orc portrait shifted from green to red, Blackrock = shifted to dark grey).
 
 Writes zpaks/patch-modern-login/mpq/source-assets/Interface/Glues/CharacterCreate/
-UI-CharacterCreate-SubRace-<NAME>_<SEX>.blp (64x64, palettized BLP2 with 8-bit alpha, round mask; NAME is the
+UI-CharacterCreate-SubRace-<NAME>_<SEX>.blp (SIZE x SIZE, palettized BLP2 with 8-bit alpha, round mask; NAME is the
 sub-race icon, or for a race without sub-races its file name, e.g. SCOURGE), UI-CharacterCreate-SubRace-CREST_<FACTION>.blp
 (the glue's AllianceLogo / HordeLogo on a dark disc) and the two rings drawn over them:
 UI-CharacterCreate-SubRace-Ring.blp (always) and -RingChecked.blp (selected).
@@ -37,7 +37,7 @@ PACK_NAMES = {'orc': 'orc', 'magharorc': 'maghar', 'dwarf': 'dwarf', 'darkirondw
               'bloodelf': 'bloodelf', 'voidelf': 'voidelf', 'draenei': 'draenei', 'lightforged': 'lightforged',
               'gnome': 'gnome', 'human': 'human', 'nightelf': 'nightelf', 'undead': 'undead', 'tauren': 'tauren',
               'troll': 'troll', 'goblin': 'goblin', 'worgen': 'worgen', 'eredar': 'eredar'}
-SIZE = 64
+SIZE = 128			# sharp at 4K (the glue draws them at 40-52 units, ~110 px there; user 2026-10-28)
 # our icon name -> (retail atlas race, skin hue shift or None)
 ICONS = {
     'ORC': ('orc', None),
@@ -84,8 +84,9 @@ def pack_portrait(race, sex, own=False):
     dropped into the pack for that sub-race, used as it is), or None."""
     name = race if own else PACK_NAMES.get(race)
     for suffix in ('', '2'):
-        for f in (sorted(PACK.glob(f'**/Charactercreate-races_{name}-{sex}{suffix}.png'))
-                  + sorted(PACK.glob(f'**/Charactercreate-races_{name}-{sex}{suffix}.gif'))) if name else []:
+        found = [f for ext in ('png', 'gif') for f in sorted(PACK.glob(f'**/Charactercreate-races_{name}-{sex}{suffix}.{ext}'))
+                 if not any(part.startswith('_') for part in f.relative_to(PACK).parts)] if name else []	# _x/ = kept aside
+        for f in found:
             return Image.open(f).convert('RGBA')
     return None
 
@@ -198,7 +199,8 @@ def main():
         dst = OUT / f'UI-CharacterCreate-SubRace-CREST_{faction}.blp'
         write_blp_rgba(dst, round_mask(crest(OUT.parent / 'CHARACTERCREATE' / f'{logo}.blp')))
         print(dst.relative_to(CRAFT))
-    for name, im in (('Ring', ring(2, 0, (150, 120, 60))), ('RingChecked', ring(3, 8, (255, 210, 80)))):
+    k = SIZE // 64		# the rings were drawn for 64 px; keep their on-screen thickness
+    for name, im in (('Ring', ring(2 * k, 0, (150, 120, 60))), ('RingChecked', ring(3 * k, 8 * k, (255, 210, 80)))):
         dst = OUT / f'UI-CharacterCreate-SubRace-{name}.blp'
         write_blp_rgba(dst, im)
         print(dst.relative_to(CRAFT))
