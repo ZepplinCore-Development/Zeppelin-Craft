@@ -36,7 +36,10 @@ PACK = CRAFT.parent / 'Zeppelin-Tools' / 'Esteria-review' / 'Portraits'
 PACK_NAMES = {'orc': 'orc', 'magharorc': 'maghar', 'dwarf': 'dwarf', 'darkirondwarf': 'darkirondwarf',
               'bloodelf': 'bloodelf', 'voidelf': 'voidelf', 'draenei': 'draenei', 'lightforged': 'lightforged',
               'gnome': 'gnome', 'human': 'human', 'nightelf': 'nightelf', 'undead': 'undead', 'tauren': 'tauren',
-              'troll': 'troll', 'goblin': 'goblin', 'worgen': 'worgen', 'eredar': 'eredar'}
+              'troll': 'troll', 'goblin': 'goblin', 'worgen': 'worgen', 'eredar': 'eredar', 'illidari': 'illidari'}
+# own portraits recoloured from a pack portrait (already framed like the pack): no 85% shrink
+UNFRAMED = {('plaguebound', 'male'), ('plaguebound', 'female'), ('embalmed', 'male'), ('embalmed', 'female'),
+            ('cenarion', 'female'), ('bloodmoon', 'male'), ('bloodmoon', 'female')}
 SIZE = 128			# sharp at 4K (the glue draws them at 40-52 units, ~110 px there; user 2026-10-28)
 # our icon name -> (retail atlas race, skin hue shift or None)
 ICONS = {
@@ -58,6 +61,12 @@ ICONS = {
     'GRIMTOTEM': ('tauren', None),			# the user's portraits in the pack (grimtotem-<sex>)
     'DARKTROLL': ('troll', None),			# darktroll-<sex>
     'SANDTROLL': ('troll', None),			# sandtroll-<sex>
+    'ILLIDARI': ('illidari', None),			# pack illidari-<sex>
+    'CENARION': ('nightelf', None),			# cenarion-<sex>: wiki Cenarian male, female recoloured from the pack night elf
+    'RIMEBOUND': ('undead', None),			# rimebound-<sex>: wiki Forsaken death knight
+    'PLAGUEBOUND': ('undead', None),		# plaguebound-<sex>: pack undead recoloured olive
+    'EMBALMED': ('undead', None),			# embalmed-<sex>: pack undead recoloured tan
+    'BLOODMOON': ('worgen', None),			# bloodmoon-<sex>: pack worgen recoloured frost-white
     # races without sub-races, by their file name (GetNameForRace)
     'HUMAN': ('human', None),
     'NIGHTELF': ('nightelf', None),
@@ -203,7 +212,10 @@ def main():
         for sex in ('male', 'female'):
             own = pack_portrait(name.lower(), sex, own=True)	# a portrait made for this sub-race itself
             im = own or pack_portrait(race, sex) or atlas.crop(members[f'raceicon128-{race}-{sex}'])
-            im = framed(im) if own else im.resize((SIZE, SIZE), Image.LANCZOS)
+            if own and (name.lower(), sex) not in UNFRAMED:
+                im = framed(im)
+            else:
+                im = im.resize((SIZE, SIZE), Image.LANCZOS)
             if own:
                 pass
             elif shift == 'tattoo':
