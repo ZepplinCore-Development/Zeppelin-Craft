@@ -2,3 +2,4 @@
 ## One owner: zpak zep-options. Add further Zeppelin FrameXML files here.
 
 ZepAdvancedOptions.lua
+ZepHDOptions.lua

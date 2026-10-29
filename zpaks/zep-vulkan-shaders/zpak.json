@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-vulkan-shaders",
+  "version": "0.1.0",
+  "description": "F-234 Vulkan renderer data: base SPIR-V modules and the stock-shader translation (Vulkan\\shaders\\...), read by the x64 client through SFile",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-V",
+  "enabled": false,
+  "priority": 100,
+  "features": [
+    "F-234"
+  ]
+}
