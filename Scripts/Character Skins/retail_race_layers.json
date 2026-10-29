@@ -1,0 +1,5361 @@
+{
+ "fits": {
+  "6:0": {
+   "body_ncc": 0.998,
+   "face_fit": [
+    0.857,
+    2.0,
+    2.37,
+    0,
+    4
+   ]
+  },
+  "6:1": {
+   "body_ncc": 0.924,
+   "face_fit": [
+    0.482,
+    1.87,
+    1.68,
+    16,
+    82
+   ]
+  },
+  "3:0": {
+   "body_ncc": 0.995,
+   "face_fit": [
+    0.838,
+    2.0,
+    1.45,
+    0,
+    41
+   ]
+  },
+  "3:1": {
+   "body_ncc": 0.999,
+   "face_fit": [
+    0.647,
+    1.23,
+    1.42,
+    121,
+    113
+   ]
+  },
+  "4:0": {
+   "body_ncc": 0.999,
+   "face_fit": [
+    0.853,
+    1.68,
+    1.55,
+    15,
+    142
+   ]
+  },
+  "4:1": {
+   "body_ncc": 0.999,
+   "face_fit": [
+    0.799,
+    1.58,
+    1.38,
+    90,
+    130
+   ]
+  },
+  "8:0": {
+   "body_ncc": 0.921,
+   "face_fit": [
+    0.806,
+    1.8,
+    2.42,
+    9,
+    1
+   ]
+  },
+  "8:1": {
+   "body_ncc": 0.991,
+   "face_fit": [
+    0.813,
+    1.1,
+    1.86,
+    115,
+    65
+   ]
+  },
+  "1:1": {
+   "body_ncc": 0.999,
+   "face_fit": [
+    0.857,
+    1.75,
+    1.37,
+    50,
+    51
+   ]
+  },
+  "10:0": {
+   "body_ncc": 0.969,
+   "face_fit": [
+    0.907,
+    1.8,
+    1.5,
+    32,
+    41
+   ]
+  },
+  "10:1": {
+   "body_ncc": 0.998,
+   "face_fit": [
+    0.86,
+    1.18,
+    1.75,
+    135,
+    75
+   ]
+  }
+ },
+ "rows": [
+  {
+   "id": 101000,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 4,
+   "name": "Face Paint Kodo blue",
+   "retail_choices": [
+    7374,
+    7383
+   ],
+   "fdids": [
+    3618367
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101001,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 5,
+   "name": "Face Paint Kodo red",
+   "retail_choices": [
+    7374,
+    7384
+   ],
+   "fdids": [
+    3618368
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101002,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 6,
+   "name": "Face Paint Kodo dark teal",
+   "retail_choices": [
+    7374,
+    7385
+   ],
+   "fdids": [
+    3618369
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101003,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 7,
+   "name": "Face Paint Kodo teal",
+   "retail_choices": [
+    7374,
+    7387
+   ],
+   "fdids": [
+    3618371
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101004,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 8,
+   "name": "Face Paint Kodo orange",
+   "retail_choices": [
+    7374,
+    7388
+   ],
+   "fdids": [
+    3618372
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101005,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 9,
+   "name": "Face Paint Otter blue",
+   "retail_choices": [
+    7375,
+    7383
+   ],
+   "fdids": [
+    3618373
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101006,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 10,
+   "name": "Face Paint Otter red",
+   "retail_choices": [
+    7375,
+    7384
+   ],
+   "fdids": [
+    3618374
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101007,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 11,
+   "name": "Face Paint Otter dark teal",
+   "retail_choices": [
+    7375,
+    7385
+   ],
+   "fdids": [
+    3618375
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101008,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 12,
+   "name": "Face Paint Otter teal",
+   "retail_choices": [
+    7375,
+    7387
+   ],
+   "fdids": [
+    3618377
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101009,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 13,
+   "name": "Face Paint Otter orange",
+   "retail_choices": [
+    7375,
+    7388
+   ],
+   "fdids": [
+    3618378
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101010,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 14,
+   "name": "Face Paint Hawk blue",
+   "retail_choices": [
+    7376,
+    7383
+   ],
+   "fdids": [
+    3618379
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101011,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 15,
+   "name": "Face Paint Hawk red",
+   "retail_choices": [
+    7376,
+    7384
+   ],
+   "fdids": [
+    3618380
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101012,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 16,
+   "name": "Face Paint Hawk dark teal",
+   "retail_choices": [
+    7376,
+    7385
+   ],
+   "fdids": [
+    3618381
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101013,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 17,
+   "name": "Face Paint Hawk teal",
+   "retail_choices": [
+    7376,
+    7387
+   ],
+   "fdids": [
+    3618383
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101014,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 18,
+   "name": "Face Paint Hawk orange",
+   "retail_choices": [
+    7376,
+    7388
+   ],
+   "fdids": [
+    3618384
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101015,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 19,
+   "name": "Body Paint Kodo blue",
+   "retail_choices": [
+    7350,
+    7383
+   ],
+   "fdids": [
+    3618346
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101016,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 20,
+   "name": "Body Paint Kodo red",
+   "retail_choices": [
+    7350,
+    7384
+   ],
+   "fdids": [
+    3618348
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101017,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 21,
+   "name": "Body Paint Kodo dark teal",
+   "retail_choices": [
+    7350,
+    7385
+   ],
+   "fdids": [
+    3618349
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101018,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 22,
+   "name": "Body Paint Kodo teal",
+   "retail_choices": [
+    7350,
+    7387
+   ],
+   "fdids": [
+    3618351
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101019,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 23,
+   "name": "Body Paint Kodo orange",
+   "retail_choices": [
+    7350,
+    7388
+   ],
+   "fdids": [
+    3618352
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101020,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 24,
+   "name": "Body Paint Hawk blue",
+   "retail_choices": [
+    7351,
+    7383
+   ],
+   "fdids": [
+    3618353
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101021,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 25,
+   "name": "Body Paint Hawk red",
+   "retail_choices": [
+    7351,
+    7384
+   ],
+   "fdids": [
+    3618354
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101022,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 26,
+   "name": "Body Paint Hawk dark teal",
+   "retail_choices": [
+    7351,
+    7385
+   ],
+   "fdids": [
+    3618357
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101023,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 27,
+   "name": "Body Paint Hawk teal",
+   "retail_choices": [
+    7351,
+    7387
+   ],
+   "fdids": [
+    3618359
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101024,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 28,
+   "name": "Body Paint Hawk orange",
+   "retail_choices": [
+    7351,
+    7388
+   ],
+   "fdids": [
+    3618360
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101025,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 29,
+   "name": "Body Paint Otter blue",
+   "retail_choices": [
+    7352,
+    7383
+   ],
+   "fdids": [
+    3618361
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101026,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 30,
+   "name": "Body Paint Otter red",
+   "retail_choices": [
+    7352,
+    7384
+   ],
+   "fdids": [
+    3618362
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101027,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 31,
+   "name": "Body Paint Otter dark teal",
+   "retail_choices": [
+    7352,
+    7385
+   ],
+   "fdids": [
+    3618363
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101028,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 32,
+   "name": "Body Paint Otter teal",
+   "retail_choices": [
+    7352,
+    7387
+   ],
+   "fdids": [
+    3618365
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101029,
+   "race": 6,
+   "sex": 0,
+   "section": 8,
+   "type": 33,
+   "name": "Body Paint Otter orange",
+   "retail_choices": [
+    7352,
+    7388
+   ],
+   "fdids": [
+    3618366
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101030,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 4,
+   "name": "Face Paint Kodo blue",
+   "retail_choices": [
+    7370,
+    7377
+   ],
+   "fdids": [
+    3618268
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101031,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 5,
+   "name": "Face Paint Kodo red",
+   "retail_choices": [
+    7370,
+    7378
+   ],
+   "fdids": [
+    3618269
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101032,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 6,
+   "name": "Face Paint Kodo dark teal",
+   "retail_choices": [
+    7370,
+    7379
+   ],
+   "fdids": [
+    3618270
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101033,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 7,
+   "name": "Face Paint Kodo teal",
+   "retail_choices": [
+    7370,
+    7381
+   ],
+   "fdids": [
+    3618272
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101034,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 8,
+   "name": "Face Paint Kodo orange",
+   "retail_choices": [
+    7370,
+    7382
+   ],
+   "fdids": [
+    3618273
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101035,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 9,
+   "name": "Face Paint Otter blue",
+   "retail_choices": [
+    7371,
+    7377
+   ],
+   "fdids": [
+    3618274
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101036,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 10,
+   "name": "Face Paint Otter red",
+   "retail_choices": [
+    7371,
+    7378
+   ],
+   "fdids": [
+    3618275
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101037,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 11,
+   "name": "Face Paint Otter dark teal",
+   "retail_choices": [
+    7371,
+    7379
+   ],
+   "fdids": [
+    3618276
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101038,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 12,
+   "name": "Face Paint Otter teal",
+   "retail_choices": [
+    7371,
+    7381
+   ],
+   "fdids": [
+    3618278
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101039,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 13,
+   "name": "Face Paint Otter orange",
+   "retail_choices": [
+    7371,
+    7382
+   ],
+   "fdids": [
+    3618279
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101040,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 14,
+   "name": "Face Paint Hawk blue",
+   "retail_choices": [
+    7372,
+    7377
+   ],
+   "fdids": [
+    3618280
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101041,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 15,
+   "name": "Face Paint Hawk red",
+   "retail_choices": [
+    7372,
+    7378
+   ],
+   "fdids": [
+    3618281
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101042,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 16,
+   "name": "Face Paint Hawk dark teal",
+   "retail_choices": [
+    7372,
+    7379
+   ],
+   "fdids": [
+    3618282
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101043,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 17,
+   "name": "Face Paint Hawk teal",
+   "retail_choices": [
+    7372,
+    7381
+   ],
+   "fdids": [
+    3618284
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101044,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 18,
+   "name": "Face Paint Hawk orange",
+   "retail_choices": [
+    7372,
+    7382
+   ],
+   "fdids": [
+    3618285
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101045,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 19,
+   "name": "Body Paint Kodo blue",
+   "retail_choices": [
+    7354,
+    7377
+   ],
+   "fdids": [
+    3618250
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101046,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 20,
+   "name": "Body Paint Kodo red",
+   "retail_choices": [
+    7354,
+    7378
+   ],
+   "fdids": [
+    3618251
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101047,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 21,
+   "name": "Body Paint Kodo dark teal",
+   "retail_choices": [
+    7354,
+    7379
+   ],
+   "fdids": [
+    3618252
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101048,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 22,
+   "name": "Body Paint Kodo teal",
+   "retail_choices": [
+    7354,
+    7381
+   ],
+   "fdids": [
+    3618254
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101049,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 23,
+   "name": "Body Paint Kodo orange",
+   "retail_choices": [
+    7354,
+    7382
+   ],
+   "fdids": [
+    3618255
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101050,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 24,
+   "name": "Body Paint Hawk blue",
+   "retail_choices": [
+    7355,
+    7377
+   ],
+   "fdids": [
+    3618256
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101051,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 25,
+   "name": "Body Paint Hawk red",
+   "retail_choices": [
+    7355,
+    7378
+   ],
+   "fdids": [
+    3618257
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101052,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 26,
+   "name": "Body Paint Hawk dark teal",
+   "retail_choices": [
+    7355,
+    7379
+   ],
+   "fdids": [
+    3618258
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101053,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 27,
+   "name": "Body Paint Hawk teal",
+   "retail_choices": [
+    7355,
+    7381
+   ],
+   "fdids": [
+    3618260
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101054,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 28,
+   "name": "Body Paint Hawk orange",
+   "retail_choices": [
+    7355,
+    7382
+   ],
+   "fdids": [
+    3618261
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101055,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 29,
+   "name": "Body Paint Otter blue",
+   "retail_choices": [
+    7356,
+    7377
+   ],
+   "fdids": [
+    3618262
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101056,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 30,
+   "name": "Body Paint Otter red",
+   "retail_choices": [
+    7356,
+    7378
+   ],
+   "fdids": [
+    3618263
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101057,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 31,
+   "name": "Body Paint Otter dark teal",
+   "retail_choices": [
+    7356,
+    7379
+   ],
+   "fdids": [
+    3618264
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101058,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 32,
+   "name": "Body Paint Otter teal",
+   "retail_choices": [
+    7356,
+    7381
+   ],
+   "fdids": [
+    3618266
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101059,
+   "race": 6,
+   "sex": 1,
+   "section": 8,
+   "type": 33,
+   "name": "Body Paint Otter orange",
+   "retail_choices": [
+    7356,
+    7382
+   ],
+   "fdids": [
+    3618267
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101060,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 3,
+   "name": "Tattoo Gryphon Woad",
+   "retail_choices": [
+    6957,
+    6928
+   ],
+   "fdids": [
+    3590265
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101061,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 4,
+   "name": "Tattoo Gryphon Blood",
+   "retail_choices": [
+    6957,
+    6929
+   ],
+   "fdids": [
+    3610810
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101062,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 5,
+   "name": "Tattoo Gryphon Emerald",
+   "retail_choices": [
+    6957,
+    6930
+   ],
+   "fdids": [
+    3610811
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101063,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 6,
+   "name": "Tattoo Gryphon Mithril",
+   "retail_choices": [
+    6957,
+    6931
+   ],
+   "fdids": [
+    3610812
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101064,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 7,
+   "name": "Tattoo Ironforge Woad",
+   "retail_choices": [
+    6958,
+    6928
+   ],
+   "fdids": [
+    3610813
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101065,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 8,
+   "name": "Tattoo Ironforge Blood",
+   "retail_choices": [
+    6958,
+    6929
+   ],
+   "fdids": [
+    3610814
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101066,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 9,
+   "name": "Tattoo Ironforge Emerald",
+   "retail_choices": [
+    6958,
+    6930
+   ],
+   "fdids": [
+    3610815
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101067,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 10,
+   "name": "Tattoo Ironforge Mithril",
+   "retail_choices": [
+    6958,
+    6931
+   ],
+   "fdids": [
+    3610816
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101068,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 11,
+   "name": "Tattoo Aerie Woad",
+   "retail_choices": [
+    6959,
+    6928
+   ],
+   "fdids": [
+    3610817
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101069,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 12,
+   "name": "Tattoo Aerie Blood",
+   "retail_choices": [
+    6959,
+    6929
+   ],
+   "fdids": [
+    3610818
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101070,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 13,
+   "name": "Tattoo Aerie Emerald",
+   "retail_choices": [
+    6959,
+    6930
+   ],
+   "fdids": [
+    3610819
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101071,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 14,
+   "name": "Tattoo Aerie Mithril",
+   "retail_choices": [
+    6959,
+    6931
+   ],
+   "fdids": [
+    3610820
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101072,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 15,
+   "name": "Tattoo Highlands Woad",
+   "retail_choices": [
+    6960,
+    6928
+   ],
+   "fdids": [
+    3610821
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101073,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 16,
+   "name": "Tattoo Highlands Blood",
+   "retail_choices": [
+    6960,
+    6929
+   ],
+   "fdids": [
+    3610822
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101074,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 17,
+   "name": "Tattoo Highlands Emerald",
+   "retail_choices": [
+    6960,
+    6930
+   ],
+   "fdids": [
+    3610823
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101075,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 18,
+   "name": "Tattoo Highlands Mithril",
+   "retail_choices": [
+    6960,
+    6931
+   ],
+   "fdids": [
+    3610824
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101076,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 19,
+   "name": "Tattoo Hinterlands Woad",
+   "retail_choices": [
+    6961,
+    6928
+   ],
+   "fdids": [
+    3610825
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101077,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 20,
+   "name": "Tattoo Hinterlands Blood",
+   "retail_choices": [
+    6961,
+    6929
+   ],
+   "fdids": [
+    3610826
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101078,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 21,
+   "name": "Tattoo Hinterlands Emerald",
+   "retail_choices": [
+    6961,
+    6930
+   ],
+   "fdids": [
+    3610827
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101079,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 22,
+   "name": "Tattoo Hinterlands Mithril",
+   "retail_choices": [
+    6961,
+    6931
+   ],
+   "fdids": [
+    3610828
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101080,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 23,
+   "name": "Tattoo Thunder Woad",
+   "retail_choices": [
+    6962,
+    6928
+   ],
+   "fdids": [
+    3610829
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101081,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 24,
+   "name": "Tattoo Thunder Blood",
+   "retail_choices": [
+    6962,
+    6929
+   ],
+   "fdids": [
+    3610830
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101082,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 25,
+   "name": "Tattoo Thunder Emerald",
+   "retail_choices": [
+    6962,
+    6930
+   ],
+   "fdids": [
+    3610831
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101083,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 26,
+   "name": "Tattoo Thunder Mithril",
+   "retail_choices": [
+    6962,
+    6931
+   ],
+   "fdids": [
+    3610832
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101084,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 27,
+   "name": "Tattoo Sky Woad",
+   "retail_choices": [
+    6963,
+    6928
+   ],
+   "fdids": [
+    3610833
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101085,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 28,
+   "name": "Tattoo Sky Blood",
+   "retail_choices": [
+    6963,
+    6929
+   ],
+   "fdids": [
+    3610834
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101086,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 29,
+   "name": "Tattoo Sky Emerald",
+   "retail_choices": [
+    6963,
+    6930
+   ],
+   "fdids": [
+    3610835
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101087,
+   "race": 3,
+   "sex": 0,
+   "section": 6,
+   "type": 30,
+   "name": "Tattoo Sky Mithril",
+   "retail_choices": [
+    6963,
+    6931
+   ],
+   "fdids": [
+    3610836
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101088,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 2,
+   "name": "Tattoo Ironforge Woad",
+   "retail_choices": [
+    6885,
+    6857
+   ],
+   "fdids": [
+    3588497
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101089,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 3,
+   "name": "Tattoo Ironforge Blood",
+   "retail_choices": [
+    6885,
+    6858
+   ],
+   "fdids": [
+    3588498
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101090,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 4,
+   "name": "Tattoo Ironforge Emerald",
+   "retail_choices": [
+    6885,
+    6859
+   ],
+   "fdids": [
+    3588499
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101091,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 5,
+   "name": "Tattoo Ironforge Mithril",
+   "retail_choices": [
+    6885,
+    6860
+   ],
+   "fdids": [
+    3588500
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101092,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 6,
+   "name": "Tattoo Aerie Woad",
+   "retail_choices": [
+    6886,
+    6857
+   ],
+   "fdids": [
+    3588501
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101093,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 7,
+   "name": "Tattoo Aerie Blood",
+   "retail_choices": [
+    6886,
+    6858
+   ],
+   "fdids": [
+    3610837
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101094,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 8,
+   "name": "Tattoo Aerie Emerald",
+   "retail_choices": [
+    6886,
+    6859
+   ],
+   "fdids": [
+    3610838
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101095,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 9,
+   "name": "Tattoo Aerie Mithril",
+   "retail_choices": [
+    6886,
+    6860
+   ],
+   "fdids": [
+    3610839
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101096,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 10,
+   "name": "Tattoo Highlands Woad",
+   "retail_choices": [
+    6887,
+    6857
+   ],
+   "fdids": [
+    3610840
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101097,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 11,
+   "name": "Tattoo Highlands Blood",
+   "retail_choices": [
+    6887,
+    6858
+   ],
+   "fdids": [
+    3610841
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101098,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 12,
+   "name": "Tattoo Highlands Emerald",
+   "retail_choices": [
+    6887,
+    6859
+   ],
+   "fdids": [
+    3610842
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101099,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 13,
+   "name": "Tattoo Highlands Mithril",
+   "retail_choices": [
+    6887,
+    6860
+   ],
+   "fdids": [
+    3610843
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101100,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 14,
+   "name": "Tattoo Thunder Woad",
+   "retail_choices": [
+    6888,
+    6857
+   ],
+   "fdids": [
+    3610844
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101101,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 15,
+   "name": "Tattoo Thunder Blood",
+   "retail_choices": [
+    6888,
+    6858
+   ],
+   "fdids": [
+    3610845
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101102,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 16,
+   "name": "Tattoo Thunder Emerald",
+   "retail_choices": [
+    6888,
+    6859
+   ],
+   "fdids": [
+    3610846
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101103,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 17,
+   "name": "Tattoo Thunder Mithril",
+   "retail_choices": [
+    6888,
+    6860
+   ],
+   "fdids": [
+    3610847
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101104,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 18,
+   "name": "Tattoo Gryphon Woad",
+   "retail_choices": [
+    6889,
+    6857
+   ],
+   "fdids": [
+    3610848
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101105,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 19,
+   "name": "Tattoo Gryphon Blood",
+   "retail_choices": [
+    6889,
+    6858
+   ],
+   "fdids": [
+    3610849
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101106,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 20,
+   "name": "Tattoo Gryphon Emerald",
+   "retail_choices": [
+    6889,
+    6859
+   ],
+   "fdids": [
+    3610850
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101107,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 21,
+   "name": "Tattoo Gryphon Mithril",
+   "retail_choices": [
+    6889,
+    6860
+   ],
+   "fdids": [
+    3610851
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101108,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 22,
+   "name": "Tattoo Hinterlands Woad",
+   "retail_choices": [
+    6890,
+    6857
+   ],
+   "fdids": [
+    3610852
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101109,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 23,
+   "name": "Tattoo Hinterlands Blood",
+   "retail_choices": [
+    6890,
+    6858
+   ],
+   "fdids": [
+    3610853
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101110,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 24,
+   "name": "Tattoo Hinterlands Emerald",
+   "retail_choices": [
+    6890,
+    6859
+   ],
+   "fdids": [
+    3610854
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101111,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 25,
+   "name": "Tattoo Hinterlands Mithril",
+   "retail_choices": [
+    6890,
+    6860
+   ],
+   "fdids": [
+    3610855
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101112,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 26,
+   "name": "Tattoo Sky Woad",
+   "retail_choices": [
+    6891,
+    6857
+   ],
+   "fdids": [
+    3610856
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101113,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 27,
+   "name": "Tattoo Sky Blood",
+   "retail_choices": [
+    6891,
+    6858
+   ],
+   "fdids": [
+    3610857
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101114,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 28,
+   "name": "Tattoo Sky Emerald",
+   "retail_choices": [
+    6891,
+    6859
+   ],
+   "fdids": [
+    3610858
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101115,
+   "race": 3,
+   "sex": 1,
+   "section": 6,
+   "type": 29,
+   "name": "Tattoo Sky Mithril",
+   "retail_choices": [
+    6891,
+    6860
+   ],
+   "fdids": [
+    3610859
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0xffffffff"
+   ]
+  },
+  {
+   "id": 101116,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 1,
+   "name": "Tattoo Moon",
+   "retail_choices": [
+    8149
+   ],
+   "fdids": [
+    5326598
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101117,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 2,
+   "name": "Tattoo Ancient",
+   "retail_choices": [
+    8150
+   ],
+   "fdids": [
+    5326683
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101118,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 3,
+   "name": "Tattoo Wild",
+   "retail_choices": [
+    8151
+   ],
+   "fdids": [
+    5326804
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101119,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 4,
+   "name": "Tattoo Owl",
+   "retail_choices": [
+    8152
+   ],
+   "fdids": [
+    5326923
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101120,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 5,
+   "name": "Tattoo Suffering green",
+   "retail_choices": [
+    770,
+    775
+   ],
+   "fdids": [
+    1284994
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101121,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 6,
+   "name": "Tattoo Suffering purple",
+   "retail_choices": [
+    770,
+    777
+   ],
+   "fdids": [
+    1340736
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101122,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 7,
+   "name": "Tattoo Betrayer green",
+   "retail_choices": [
+    771,
+    775
+   ],
+   "fdids": [
+    1284995
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101123,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 8,
+   "name": "Tattoo Betrayer purple",
+   "retail_choices": [
+    771,
+    777
+   ],
+   "fdids": [
+    1340738
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101124,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 9,
+   "name": "Tattoo Pain green",
+   "retail_choices": [
+    772,
+    775
+   ],
+   "fdids": [
+    1284996
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101125,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 10,
+   "name": "Tattoo Pain purple",
+   "retail_choices": [
+    772,
+    777
+   ],
+   "fdids": [
+    1340740
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101126,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 11,
+   "name": "Tattoo Sacrifice green",
+   "retail_choices": [
+    773,
+    775
+   ],
+   "fdids": [
+    1284997
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101127,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 12,
+   "name": "Tattoo Sacrifice purple",
+   "retail_choices": [
+    773,
+    777
+   ],
+   "fdids": [
+    1340742
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101128,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 13,
+   "name": "Tattoo Revenge green",
+   "retail_choices": [
+    774,
+    775
+   ],
+   "fdids": [
+    1284998
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101129,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 14,
+   "name": "Tattoo Revenge purple",
+   "retail_choices": [
+    774,
+    777
+   ],
+   "fdids": [
+    1340744
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101130,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 15,
+   "name": "Tattoo Chaos green",
+   "retail_choices": [
+    3715,
+    775
+   ],
+   "fdids": [
+    1284999
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101131,
+   "race": 4,
+   "sex": 0,
+   "section": 6,
+   "type": 16,
+   "name": "Tattoo Chaos purple",
+   "retail_choices": [
+    3715,
+    777
+   ],
+   "fdids": [
+    1340746
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101132,
+   "race": 4,
+   "sex": 0,
+   "section": 7,
+   "type": 1,
+   "name": "Scars Teldrassil",
+   "retail_choices": [
+    8114
+   ],
+   "fdids": [
+    3623624
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101133,
+   "race": 4,
+   "sex": 0,
+   "section": 7,
+   "type": 2,
+   "name": "Scars Scratch",
+   "retail_choices": [
+    8115
+   ],
+   "fdids": [
+    3623625
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101134,
+   "race": 4,
+   "sex": 0,
+   "section": 7,
+   "type": 3,
+   "name": "Scars Claw",
+   "retail_choices": [
+    8116
+   ],
+   "fdids": [
+    3623626
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101135,
+   "race": 4,
+   "sex": 0,
+   "section": 7,
+   "type": 4,
+   "name": "Scars Swipe",
+   "retail_choices": [
+    8117
+   ],
+   "fdids": [
+    3623627
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101136,
+   "race": 4,
+   "sex": 0,
+   "section": 7,
+   "type": 5,
+   "name": "Scars Rip",
+   "retail_choices": [
+    8118
+   ],
+   "fdids": [
+    3623628
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101137,
+   "race": 4,
+   "sex": 0,
+   "section": 8,
+   "type": 1,
+   "name": "Markings Shadow",
+   "retail_choices": [
+    55375
+   ],
+   "fdids": [
+    5327052
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101138,
+   "race": 4,
+   "sex": 0,
+   "section": 8,
+   "type": 2,
+   "name": "Markings Moon",
+   "retail_choices": [
+    55376
+   ],
+   "fdids": [
+    5327144
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101139,
+   "race": 4,
+   "sex": 0,
+   "section": 8,
+   "type": 3,
+   "name": "Markings Ancient",
+   "retail_choices": [
+    55377
+   ],
+   "fdids": [
+    5327145
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101140,
+   "race": 4,
+   "sex": 0,
+   "section": 8,
+   "type": 4,
+   "name": "Markings Wild",
+   "retail_choices": [
+    55378
+   ],
+   "fdids": [
+    5327146
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101141,
+   "race": 4,
+   "sex": 0,
+   "section": 8,
+   "type": 5,
+   "name": "Markings Owl",
+   "retail_choices": [
+    55379
+   ],
+   "fdids": [
+    5327147
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101142,
+   "race": 4,
+   "sex": 0,
+   "section": 8,
+   "type": 6,
+   "name": "Markings Protector",
+   "retail_choices": [
+    55380
+   ],
+   "fdids": [
+    5327148
+   ],
+   "blend": [
+    4
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101143,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 1,
+   "name": "Tattoo Suffering green",
+   "retail_choices": [
+    882,
+    887
+   ],
+   "fdids": [
+    1286486
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101144,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 2,
+   "name": "Tattoo Suffering purple",
+   "retail_choices": [
+    882,
+    889
+   ],
+   "fdids": [
+    1339325
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101145,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 3,
+   "name": "Tattoo Betrayer green",
+   "retail_choices": [
+    883,
+    887
+   ],
+   "fdids": [
+    1280402
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101146,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 4,
+   "name": "Tattoo Betrayer purple",
+   "retail_choices": [
+    883,
+    889
+   ],
+   "fdids": [
+    1339326
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101147,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 5,
+   "name": "Tattoo Pain green",
+   "retail_choices": [
+    884,
+    887
+   ],
+   "fdids": [
+    1286487
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101148,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 6,
+   "name": "Tattoo Pain purple",
+   "retail_choices": [
+    884,
+    889
+   ],
+   "fdids": [
+    1339327
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101149,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 7,
+   "name": "Tattoo Sacrifice green",
+   "retail_choices": [
+    885,
+    887
+   ],
+   "fdids": [
+    1286488
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101150,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 8,
+   "name": "Tattoo Sacrifice purple",
+   "retail_choices": [
+    885,
+    889
+   ],
+   "fdids": [
+    1339328
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101151,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 9,
+   "name": "Tattoo Revenge green",
+   "retail_choices": [
+    886,
+    887
+   ],
+   "fdids": [
+    1286489
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101152,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 10,
+   "name": "Tattoo Revenge purple",
+   "retail_choices": [
+    886,
+    889
+   ],
+   "fdids": [
+    1339329
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101153,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 11,
+   "name": "Tattoo Chaos green",
+   "retail_choices": [
+    3716,
+    887
+   ],
+   "fdids": [
+    1286490
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101154,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 12,
+   "name": "Tattoo Chaos purple",
+   "retail_choices": [
+    3716,
+    889
+   ],
+   "fdids": [
+    1339330
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101155,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 13,
+   "name": "Tattoo Wild green",
+   "retail_choices": [
+    55072,
+    55360
+   ],
+   "fdids": [
+    5099024
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101156,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 14,
+   "name": "Tattoo Ancient green",
+   "retail_choices": [
+    55356,
+    55360
+   ],
+   "fdids": [
+    5099031
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101157,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 15,
+   "name": "Tattoo Owl green",
+   "retail_choices": [
+    55357,
+    55360
+   ],
+   "fdids": [
+    5099038
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101158,
+   "race": 4,
+   "sex": 1,
+   "section": 6,
+   "type": 16,
+   "name": "Tattoo Moon green",
+   "retail_choices": [
+    55358,
+    55360
+   ],
+   "fdids": [
+    5099045
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101159,
+   "race": 4,
+   "sex": 1,
+   "section": 7,
+   "type": 1,
+   "name": "Scars Teldrassil",
+   "retail_choices": [
+    8124
+   ],
+   "fdids": [
+    3623619
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101160,
+   "race": 4,
+   "sex": 1,
+   "section": 7,
+   "type": 2,
+   "name": "Scars Rip",
+   "retail_choices": [
+    8125
+   ],
+   "fdids": [
+    3623620
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101161,
+   "race": 4,
+   "sex": 1,
+   "section": 7,
+   "type": 3,
+   "name": "Scars Claw",
+   "retail_choices": [
+    8126
+   ],
+   "fdids": [
+    3623621
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101162,
+   "race": 4,
+   "sex": 1,
+   "section": 7,
+   "type": 4,
+   "name": "Scars Scratch",
+   "retail_choices": [
+    8127
+   ],
+   "fdids": [
+    3623622
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101163,
+   "race": 4,
+   "sex": 1,
+   "section": 7,
+   "type": 5,
+   "name": "Scars Swipe",
+   "retail_choices": [
+    8128
+   ],
+   "fdids": [
+    3623623
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101164,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 1,
+   "name": "Markings Bear green",
+   "retail_choices": [
+    871,
+    8175
+   ],
+   "fdids": [
+    5099054
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101165,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 2,
+   "name": "Markings Blades green",
+   "retail_choices": [
+    872,
+    8175
+   ],
+   "fdids": [
+    5099061
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101166,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 3,
+   "name": "Markings Crane green",
+   "retail_choices": [
+    873,
+    8175
+   ],
+   "fdids": [
+    5099068
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101167,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 4,
+   "name": "Markings Leaf green",
+   "retail_choices": [
+    874,
+    8175
+   ],
+   "fdids": [
+    5099075
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101168,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 5,
+   "name": "Markings Claws green",
+   "retail_choices": [
+    875,
+    8175
+   ],
+   "fdids": [
+    5099082
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101169,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 6,
+   "name": "Markings Wings green",
+   "retail_choices": [
+    876,
+    8175
+   ],
+   "fdids": [
+    5099089
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101170,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 7,
+   "name": "Markings Serpent green",
+   "retail_choices": [
+    877,
+    8175
+   ],
+   "fdids": [
+    5099096
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101171,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 8,
+   "name": "Markings Owl green",
+   "retail_choices": [
+    878,
+    8175
+   ],
+   "fdids": [
+    5099103
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101172,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 9,
+   "name": "Markings Shadow green",
+   "retail_choices": [
+    879,
+    8175
+   ],
+   "fdids": [
+    5099110
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101173,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 10,
+   "name": "Markings Hawk green",
+   "retail_choices": [
+    55353,
+    8175
+   ],
+   "fdids": [
+    5099117
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101174,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 11,
+   "name": "Markings Bear purple",
+   "retail_choices": [
+    871,
+    8177
+   ],
+   "fdids": [
+    5099056
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101175,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 12,
+   "name": "Markings Crane purple",
+   "retail_choices": [
+    873,
+    8177
+   ],
+   "fdids": [
+    5099070
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101176,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 13,
+   "name": "Markings Leaf purple",
+   "retail_choices": [
+    874,
+    8177
+   ],
+   "fdids": [
+    5099077
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101177,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 14,
+   "name": "Markings Wings purple",
+   "retail_choices": [
+    876,
+    8177
+   ],
+   "fdids": [
+    5099091
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101178,
+   "race": 4,
+   "sex": 1,
+   "section": 8,
+   "type": 15,
+   "name": "Markings Owl purple",
+   "retail_choices": [
+    878,
+    8177
+   ],
+   "fdids": [
+    5099105
+   ],
+   "blend": [
+    15
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101179,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 1,
+   "name": "Face Paint Berserker orange",
+   "retail_choices": [
+    8539,
+    8560
+   ],
+   "fdids": [
+    1016480
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101180,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 2,
+   "name": "Face Paint Berserker blue",
+   "retail_choices": [
+    8539,
+    8565
+   ],
+   "fdids": [
+    1016485
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101181,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 3,
+   "name": "Face Paint Fangs orange",
+   "retail_choices": [
+    8540,
+    8560
+   ],
+   "fdids": [
+    1016493
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101182,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 4,
+   "name": "Face Paint Fangs blue",
+   "retail_choices": [
+    8540,
+    8565
+   ],
+   "fdids": [
+    1016499
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101183,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 5,
+   "name": "Face Paint Mask orange",
+   "retail_choices": [
+    8541,
+    8560
+   ],
+   "fdids": [
+    1016507
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101184,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 6,
+   "name": "Face Paint Mask blue",
+   "retail_choices": [
+    8541,
+    8565
+   ],
+   "fdids": [
+    1016512
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101185,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 7,
+   "name": "Face Paint Oni orange",
+   "retail_choices": [
+    8542,
+    8560
+   ],
+   "fdids": [
+    1016520
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101186,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 8,
+   "name": "Face Paint Oni blue",
+   "retail_choices": [
+    8542,
+    8565
+   ],
+   "fdids": [
+    1016525
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101187,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 9,
+   "name": "Face Paint Prophet orange",
+   "retail_choices": [
+    8543,
+    8560
+   ],
+   "fdids": [
+    1016533
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101188,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 10,
+   "name": "Face Paint Prophet blue",
+   "retail_choices": [
+    8543,
+    8565
+   ],
+   "fdids": [
+    1016538
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101189,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 11,
+   "name": "Face Paint War orange",
+   "retail_choices": [
+    8544,
+    8560
+   ],
+   "fdids": [
+    1016546
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101190,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 12,
+   "name": "Face Paint War blue",
+   "retail_choices": [
+    8544,
+    8565
+   ],
+   "fdids": [
+    1016551
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101191,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 13,
+   "name": "Face Paint Voodoo white",
+   "retail_choices": [
+    8545,
+    8574
+   ],
+   "fdids": [
+    3669420
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101192,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 14,
+   "name": "Face Paint Voodoo red",
+   "retail_choices": [
+    8545,
+    8575
+   ],
+   "fdids": [
+    3669421
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101193,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 15,
+   "name": "Face Paint Skull white",
+   "retail_choices": [
+    8546,
+    8574
+   ],
+   "fdids": [
+    3669427
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101194,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 16,
+   "name": "Face Paint Skull red",
+   "retail_choices": [
+    8546,
+    8575
+   ],
+   "fdids": [
+    3669429
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101195,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 17,
+   "name": "Face Paint Ritual white",
+   "retail_choices": [
+    8547,
+    8574
+   ],
+   "fdids": [
+    3669434
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101196,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 18,
+   "name": "Face Paint Ritual red",
+   "retail_choices": [
+    8547,
+    8575
+   ],
+   "fdids": [
+    3669435
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101197,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 19,
+   "name": "Body Paint Voodoo white",
+   "retail_choices": [
+    8549,
+    8580
+   ],
+   "fdids": [
+    3669396
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101198,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 20,
+   "name": "Body Paint Voodoo red",
+   "retail_choices": [
+    8549,
+    8581
+   ],
+   "fdids": [
+    3669397
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101199,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 21,
+   "name": "Body Paint Bones white",
+   "retail_choices": [
+    8550,
+    8580
+   ],
+   "fdids": [
+    3669403
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101200,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 22,
+   "name": "Body Paint Bones red",
+   "retail_choices": [
+    8550,
+    8581
+   ],
+   "fdids": [
+    3669404
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101201,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 23,
+   "name": "Body Paint Ritual white",
+   "retail_choices": [
+    8551,
+    8580
+   ],
+   "fdids": [
+    3669412
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101202,
+   "race": 8,
+   "sex": 0,
+   "section": 8,
+   "type": 24,
+   "name": "Body Paint Ritual red",
+   "retail_choices": [
+    8551,
+    8581
+   ],
+   "fdids": [
+    3669413
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101203,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 1,
+   "name": "Face Paint Voodoo white",
+   "retail_choices": [
+    8557,
+    8586
+   ],
+   "fdids": [
+    3669376
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101204,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 2,
+   "name": "Face Paint Voodoo red",
+   "retail_choices": [
+    8557,
+    8587
+   ],
+   "fdids": [
+    3669377
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101205,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 3,
+   "name": "Face Paint Voodoo blue",
+   "retail_choices": [
+    8557,
+    8589
+   ],
+   "fdids": [
+    3669379
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101206,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 4,
+   "name": "Face Paint Skull white",
+   "retail_choices": [
+    8558,
+    8586
+   ],
+   "fdids": [
+    3669383
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101207,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 5,
+   "name": "Face Paint Skull red",
+   "retail_choices": [
+    8558,
+    8587
+   ],
+   "fdids": [
+    3669384
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101208,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 6,
+   "name": "Face Paint Skull blue",
+   "retail_choices": [
+    8558,
+    8589
+   ],
+   "fdids": [
+    3669386
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101209,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 7,
+   "name": "Face Paint Ritual white",
+   "retail_choices": [
+    8559,
+    8586
+   ],
+   "fdids": [
+    3669389
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101210,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 8,
+   "name": "Face Paint Ritual red",
+   "retail_choices": [
+    8559,
+    8587
+   ],
+   "fdids": [
+    3669390
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101211,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 9,
+   "name": "Face Paint Ritual blue",
+   "retail_choices": [
+    8559,
+    8589
+   ],
+   "fdids": [
+    3669392
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x800"
+   ]
+  },
+  {
+   "id": 101212,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 10,
+   "name": "Body Paint Voodoo white",
+   "retail_choices": [
+    8553,
+    8592
+   ],
+   "fdids": [
+    3669358
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101213,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 11,
+   "name": "Body Paint Voodoo red",
+   "retail_choices": [
+    8553,
+    8593
+   ],
+   "fdids": [
+    3669359
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101214,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 12,
+   "name": "Body Paint Voodoo blue",
+   "retail_choices": [
+    8553,
+    8595
+   ],
+   "fdids": [
+    3669361
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101215,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 13,
+   "name": "Body Paint Bones white",
+   "retail_choices": [
+    8554,
+    8592
+   ],
+   "fdids": [
+    3669364
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101216,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 14,
+   "name": "Body Paint Bones red",
+   "retail_choices": [
+    8554,
+    8593
+   ],
+   "fdids": [
+    3669365
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101217,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 15,
+   "name": "Body Paint Bones blue",
+   "retail_choices": [
+    8554,
+    8595
+   ],
+   "fdids": [
+    3669367
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101218,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 16,
+   "name": "Body Paint Ritual white",
+   "retail_choices": [
+    8555,
+    8592
+   ],
+   "fdids": [
+    3669370
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101219,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 17,
+   "name": "Body Paint Ritual red",
+   "retail_choices": [
+    8555,
+    8593
+   ],
+   "fdids": [
+    3669371
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101220,
+   "race": 8,
+   "sex": 1,
+   "section": 8,
+   "type": 18,
+   "name": "Body Paint Ritual blue",
+   "retail_choices": [
+    8555,
+    8595
+   ],
+   "fdids": [
+    3669373
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101221,
+   "race": 1,
+   "sex": 1,
+   "section": 8,
+   "type": 1,
+   "name": "Makeup Emerald",
+   "retail_choices": [
+    4939
+   ],
+   "fdids": [
+    3571510
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101222,
+   "race": 1,
+   "sex": 1,
+   "section": 8,
+   "type": 2,
+   "name": "Makeup Lavender",
+   "retail_choices": [
+    4940
+   ],
+   "fdids": [
+    3571511
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101223,
+   "race": 1,
+   "sex": 1,
+   "section": 8,
+   "type": 3,
+   "name": "Makeup Candy",
+   "retail_choices": [
+    4941
+   ],
+   "fdids": [
+    3571512
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101224,
+   "race": 1,
+   "sex": 1,
+   "section": 8,
+   "type": 4,
+   "name": "Makeup Smokey",
+   "retail_choices": [
+    4942
+   ],
+   "fdids": [
+    3571513
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101225,
+   "race": 1,
+   "sex": 1,
+   "section": 8,
+   "type": 5,
+   "name": "Makeup Silk",
+   "retail_choices": [
+    4943
+   ],
+   "fdids": [
+    3571514
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101226,
+   "race": 1,
+   "sex": 1,
+   "section": 8,
+   "type": 6,
+   "name": "Makeup Charcoal",
+   "retail_choices": [
+    4944
+   ],
+   "fdids": [
+    3571515
+   ],
+   "blend": [
+    6
+   ],
+   "mask": [
+    "0x200"
+   ]
+  },
+  {
+   "id": 101227,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 5,
+   "name": "Tattoo Suffering green",
+   "retail_choices": [
+    1701,
+    1707
+   ],
+   "fdids": [
+    1285000
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101228,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 6,
+   "name": "Tattoo Suffering purple",
+   "retail_choices": [
+    1701,
+    1709
+   ],
+   "fdids": [
+    1340676
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101229,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 7,
+   "name": "Tattoo Betrayer green",
+   "retail_choices": [
+    1702,
+    1707
+   ],
+   "fdids": [
+    1285001
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101230,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 8,
+   "name": "Tattoo Betrayer purple",
+   "retail_choices": [
+    1702,
+    1709
+   ],
+   "fdids": [
+    1340678
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101231,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 9,
+   "name": "Tattoo Pain green",
+   "retail_choices": [
+    1703,
+    1707
+   ],
+   "fdids": [
+    1285002
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101232,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 10,
+   "name": "Tattoo Pain purple",
+   "retail_choices": [
+    1703,
+    1709
+   ],
+   "fdids": [
+    1340680
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101233,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 11,
+   "name": "Tattoo Sacrifice green",
+   "retail_choices": [
+    1704,
+    1707
+   ],
+   "fdids": [
+    1285003
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101234,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 12,
+   "name": "Tattoo Sacrifice purple",
+   "retail_choices": [
+    1704,
+    1709
+   ],
+   "fdids": [
+    1340682
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101235,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 13,
+   "name": "Tattoo Revenge green",
+   "retail_choices": [
+    1705,
+    1707
+   ],
+   "fdids": [
+    1285004
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101236,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 14,
+   "name": "Tattoo Revenge purple",
+   "retail_choices": [
+    1705,
+    1709
+   ],
+   "fdids": [
+    1340684
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101237,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 15,
+   "name": "Tattoo Chaos green",
+   "retail_choices": [
+    3713,
+    1707
+   ],
+   "fdids": [
+    1285005
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101238,
+   "race": 10,
+   "sex": 0,
+   "section": 6,
+   "type": 16,
+   "name": "Tattoo Chaos purple",
+   "retail_choices": [
+    3713,
+    1709
+   ],
+   "fdids": [
+    1340686
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101239,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 5,
+   "name": "Tattoo Suffering green",
+   "retail_choices": [
+    1838,
+    1844
+   ],
+   "fdids": [
+    1286480
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101240,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 6,
+   "name": "Tattoo Suffering purple",
+   "retail_choices": [
+    1838,
+    1846
+   ],
+   "fdids": [
+    1339360
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101241,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 7,
+   "name": "Tattoo Betrayer green",
+   "retail_choices": [
+    1839,
+    1844
+   ],
+   "fdids": [
+    1286481
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101242,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 8,
+   "name": "Tattoo Betrayer purple",
+   "retail_choices": [
+    1839,
+    1846
+   ],
+   "fdids": [
+    1339361
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101243,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 9,
+   "name": "Tattoo Pain green",
+   "retail_choices": [
+    1840,
+    1844
+   ],
+   "fdids": [
+    1286482
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101244,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 10,
+   "name": "Tattoo Pain purple",
+   "retail_choices": [
+    1840,
+    1846
+   ],
+   "fdids": [
+    1339362
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101245,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 11,
+   "name": "Tattoo Sacrifice green",
+   "retail_choices": [
+    1841,
+    1844
+   ],
+   "fdids": [
+    1286483
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101246,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 12,
+   "name": "Tattoo Sacrifice purple",
+   "retail_choices": [
+    1841,
+    1846
+   ],
+   "fdids": [
+    1339363
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101247,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 13,
+   "name": "Tattoo Revenge green",
+   "retail_choices": [
+    1842,
+    1844
+   ],
+   "fdids": [
+    1286484
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101248,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 14,
+   "name": "Tattoo Revenge purple",
+   "retail_choices": [
+    1842,
+    1846
+   ],
+   "fdids": [
+    1339364
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101249,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 15,
+   "name": "Tattoo Chaos green",
+   "retail_choices": [
+    3714,
+    1844
+   ],
+   "fdids": [
+    1286485
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  },
+  {
+   "id": 101250,
+   "race": 10,
+   "sex": 1,
+   "section": 6,
+   "type": 16,
+   "name": "Tattoo Chaos purple",
+   "retail_choices": [
+    3714,
+    1846
+   ],
+   "fdids": [
+    1339365
+   ],
+   "blend": [
+    9
+   ],
+   "mask": [
+    "0x1000"
+   ]
+  }
+ ]
+}
