@@ -1,0 +1,1383 @@
+From e602c4b3292f70b674beb939549d869cced01de5 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Thu, 29 Oct 2026 13:24:11 +0000
+Subject: [PATCH] Zeppelin F-230: split facial features -
+ Zeppelin\CharCustomizations.txt geoset slots over the legacy facial row
+ (ApplyZepCustomizations from SetBeardStyle / RemoveItem(HEAD),
+ swap/imply/link, helmet hide), creator slot cycling (customization 11-16,
+ GetZepCustomizationSlot, GetZepFacialHairMode, texture-mode default filter,
+ hidden-mode base), ZEPO block in create/customize/faction/race change, ZEPD
+ n=11, OBJECT_FIELD_PADDING mirror handler
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ .../ComponentCore/CharacterComponent.cpp      | 144 +++++++
+ WoW/Common/ComponentCore/CharacterComponent.h |   2 +
+ .../ComponentCore/ZepCustomizations.cpp       | 351 ++++++++++++++++++
+ WoW/Common/ComponentCore/ZepCustomizations.h  |  57 +++
+ WoW/Source/Glue/CGlueMgr.cpp                  |  15 +
+ WoW/Source/Glue/CharacterCreation.cpp         |  12 +
+ WoW/Source/Glue/CharacterCreation.h           |   1 +
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp | 229 +++++++++++-
+ WoW/Source/Glue/CharacterSelection.cpp        |   2 +
+ WoW/Source/Glue/ComponentData.cpp             |   6 +
+ WoW/Source/Glue/Types.h                       |  15 +
+ WoW/Source/Object/ObjectClient/Player_C.cpp   |  37 ++
+ WoW/Source/Object/ObjectClient/Unit_C.cpp     |   2 +
+ WoW/Source/Ui/DressUpModelFrame.cpp           |   2 +
+ WoW/Source/WowServices/RealmConnection.cpp    |  13 +-
+ WoW/Source/WowServices/RealmConnection.h      |   5 +-
+ WoW/Source/WowServices/Types.h                |   3 +
+ .../WowSvcs/WowSvcsClient/ClientServices.cpp  |   7 +
+ 18 files changed, 891 insertions(+), 12 deletions(-)
+ create mode 100644 WoW/Common/ComponentCore/ZepCustomizations.cpp
+ create mode 100644 WoW/Common/ComponentCore/ZepCustomizations.h
+
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.cpp b/WoW/Common/ComponentCore/CharacterComponent.cpp
+index 76321bc6..fed02b8c 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.cpp
++++ b/WoW/Common/ComponentCore/CharacterComponent.cpp
+@@ -49,6 +49,7 @@
+ #include "WoW/Source/DB/Rec/ParticleColorRec.h"
+ #include "WoW/Source/Object/ObjectClient/Player_C.h"
+ #include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Common/ComponentCore/ZepCustomizations.h"    // Not in the original (F-230)
+ 
+ // STATIC: 0x009F6A00
+ static int32_t s_itemPriority[NUM_ITEM_SLOTS][NUM_COMPONENT_SECTIONS] = {
+@@ -1744,6 +1745,15 @@ void CCharacterComponent::ValidateComponentData(ComponentData* data, COMPONENT_C
+     if (!CCharacterComponent::FaceLayerValid(prefs, VARIATION_WAR_PAINT, prefs.m_warPaintId, context)) {
+         prefs.m_warPaintId = 0;
+     }
++
++    // Not in the original (F-230): a geoset slot the race/sex does not have, or a value past its choices, is unset
++    const ZepRaceDef* zepDef = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++
++    for (uint32_t s = 0; s < 6; s++) {
++        if (!ZepSlotValue(zepDef, prefs, s)) {
++            prefs.m_zepSlot[s] = 0;
++        }
++    }
+ }
+ 
+ // Not in the original (F-151): an eye colour (CharSections base_section 5, colour 0) or marking (base_section 6,
+@@ -2165,6 +2175,8 @@ void CCharacterComponent::SetBeardStyle(int32_t facialHairID, bool loadVariation
+         if ((styleRec->m_geoset[0] || styleRec->m_geoset[1] || styleRec->m_geoset[2]) && (!this->m_baseVariation[VARIATION_HAIR].m_texture[1] || !this->m_baseVariation[VARIATION_HAIR].m_texture[2])) {
+             this->ReplaceHairTexture(1, debug);
+         }
++
++        this->ApplyZepCustomizations();     // Not in the original (F-230)
+     }
+ 
+     if (this->m_data.m_flags & 0x1) {
+@@ -3997,6 +4009,7 @@ void CCharacterComponent::RemoveItem(ITEM_SLOT itemSlot) {
+                 this->m_data.m_geosets[7] = 702;
+                 this->m_data.m_geosets[16] = styleRec->m_geoset[3] + 1600;
+                 this->m_data.m_geosets[17] = styleRec->m_geoset[4] + 1700;
++                this->ApplyZepCustomizations();     // Not in the original (F-230)
+             }
+ 
+             this->m_itemDisplayID[itemSlot] = 0;
+@@ -4173,6 +4186,137 @@ void CCharacterComponent::AddHelm(int32_t itemVisual) {
+     if (raceMask & visRec->m_hideGeoset[6]) {
+         this->m_data.m_geosets[17] = 1701;
+     }
++
++    this->HideZepCustomizationsUnderHelm(raceMask, visRec->m_hideGeoset);   // Not in the original (F-230)
++}
++
++// Not in the original (F-230): split facial features. The legacy CharacterFacialHairStyles row has set groups
++// 1, 2, 3, 16 and 17; every geoset slot the character has set (Zeppelin\CharCustomizations.txt) overrides the
++// group it owns, a chosen piece of jewellery may swap its host mesh (pierced ear), unset slots keep the legacy
++// look through the file's imply lines, and on/off link slots copy a variant from one group into another.
++void CCharacterComponent::ApplyZepCustomizations() {
++    const CharacterPreferences& prefs = this->m_data.m_preferences;
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++
++    if (!def) {
++        return;
++    }
++
++    uint32_t* geosets = this->m_data.m_geosets;
++    geosets[14] = 1400;     // no legacy column feeds group 14
++
++    for (uint32_t s = 0; s < 6; s++) {
++        const ZepSlotDef* slot = def->slots[s];
++        uint32_t v = ZepSlotValue(def, prefs, s);
++
++        if (slot && !slot->link && v) {
++            uint32_t geoset = slot->choices[v - 1].geoset;
++            geosets[slot->group] = geoset ? geoset : slot->group * 100;
++        }
++    }
++
++    for (uint32_t s = 0; s < 6; s++) {
++        const ZepSlotDef* slot = def->slots[s];
++        uint32_t v = ZepSlotValue(def, prefs, s);
++
++        if (slot && !slot->link && v && slot->choices[v - 1].swapFrom) {
++            for (int32_t i = 0; i < 19; i++) {
++                if (geosets[i] == slot->choices[v - 1].swapFrom) {
++                    geosets[i] = slot->choices[v - 1].swapTo;
++                }
++            }
++        }
++    }
++
++    for (const auto& imply : def->implies) {
++        uint32_t target = imply.second / 100;
++        bool owned = false;
++
++        for (uint32_t s = 0; s < 6 && !owned; s++) {
++            const ZepSlotDef* slot = def->slots[s];
++
++            if (!slot || !ZepSlotValue(def, prefs, s)) {
++                continue;
++            }
++
++            if (!slot->link) {
++                owned = slot->group == target;
++            } else {
++                for (const auto& pair : slot->linkPairs) {
++                    owned = owned || pair.first == target;
++                }
++            }
++        }
++
++        if (!owned && geosets[imply.first / 100] == imply.first) {
++            geosets[target] = imply.second;
++        }
++    }
++
++    for (uint32_t s = 0; s < 6; s++) {
++        const ZepSlotDef* slot = def->slots[s];
++        uint32_t v = ZepSlotValue(def, prefs, s);
++
++        if (!slot || !slot->link || !v) {
++            continue;
++        }
++
++        for (const auto& pair : slot->linkPairs) {
++            geosets[pair.first] = v == 2 ? pair.first * 100 + geosets[pair.second] % 100 : pair.first * 100;
++        }
++    }
++
++    this->m_flags |= 0x4;
++}
++
++// Not in the original (F-230): AddHelm's m_hideGeoset[] rule for the groups the geoset slots own. A set slot hides
++// when the helm hides the stock group it follows; an implied geoset hides with its source group.
++void CCharacterComponent::HideZepCustomizationsUnderHelm(uint32_t raceMask, const int32_t* hideGeoset) {
++    const CharacterPreferences& prefs = this->m_data.m_preferences;
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++
++    if (!def) {
++        return;
++    }
++
++    uint32_t* geosets = this->m_data.m_geosets;
++    bool ownedSet[19] = {};
++
++    for (uint32_t s = 0; s < 6; s++) {
++        const ZepSlotDef* slot = def->slots[s];
++
++        if (!slot || !ZepSlotValue(def, prefs, s)) {
++            continue;
++        }
++
++        int32_t bit = ZepFollowBit(slot->follow);
++        bool hide = bit >= 0 && (raceMask & hideGeoset[bit]);
++
++        if (!slot->link) {
++            ownedSet[slot->group] = true;
++
++            if (hide) {
++                geosets[slot->group] = slot->group * 100;
++            }
++        } else {
++            for (const auto& pair : slot->linkPairs) {
++                ownedSet[pair.first] = true;
++
++                if (hide) {
++                    geosets[pair.first] = pair.first * 100;
++                }
++            }
++        }
++    }
++
++    for (const auto& imply : def->implies) {
++        uint32_t target = imply.second / 100;
++        int32_t bit = ZepFollowBit(imply.first / 100);
++
++        if (!ownedSet[target] && geosets[target] == imply.second && bit >= 0 && (raceMask & hideGeoset[bit])) {
++            geosets[target] = target * 100;
++        }
++    }
+ }
+ 
+ // VERIFY: 596646c0 manual
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.h b/WoW/Common/ComponentCore/CharacterComponent.h
+index 6b077c70..e5fdfd9b 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.h
++++ b/WoW/Common/ComponentCore/CharacterComponent.h
+@@ -208,6 +208,8 @@ class CCharacterComponent {
+     void PasteFullLayers(COMPONENT_SECTIONS section); // Not in the original (F-151)
+     bool CycleFaceLayer(COMPONENT_VARIATIONS variation, int32_t delta, COMPONENT_CONTEXT context); // Not in the original (F-151)
+     bool SetRandomFaceLayer(COMPONENT_VARIATIONS variation, COMPONENT_CONTEXT context); // Not in the original (F-151)
++    void ApplyZepCustomizations(); // Not in the original (F-230)
++    void HideZepCustomizationsUnderHelm(uint32_t raceMask, const int32_t* hideGeoset); // Not in the original (F-230)
+     void* LoadItemComponentTexture(const ItemDisplayInfoRec* displayRec, COMPONENT_SECTIONS section);
+     void Prep();
+     void PrepSections();
+diff --git a/WoW/Common/ComponentCore/ZepCustomizations.cpp b/WoW/Common/ComponentCore/ZepCustomizations.cpp
+new file mode 100644
+index 00000000..77e1ce6b
+--- /dev/null
++++ b/WoW/Common/ComponentCore/ZepCustomizations.cpp
+@@ -0,0 +1,351 @@
++// Not in the original (F-230): loader and lookups for Zeppelin\CharCustomizations.txt (split facial features).
++// Grammar (one record per line, '#' comments, unknown keywords ignored, first record "version 1"):
++//   facial <race> <sex> legacy  <labelType>
++//   facial <race> <sex> texture <labelType> <v>[,<v>...]
++//   facial <race> <sex> hidden  <baseVariation>
++//   slot   <race> <sex> <slot> <type> <group> <follow>
++//   choice <race> <sex> <slot> <geoset> [host=<geoset>] [swap=<from>:<to>]
++//   link   <race> <sex> <slot> <type> <follow> <dest>:<src>[,<dest>:<src>...]
++//   imply  <race> <sex> <srcGeoset> <dstGeoset>
++
++#include "WoW/Common/ComponentCore/ZepCustomizations.h"
++#include <cstdlib>
++#include <cstring>
++#include <mutex>
++#include <sstream>
++#include <string>
++#include "Engine/Source/BlizzardCore/SFile2-Core.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++#include "WoW/Source/Glue/Types.h"
++
++namespace {
++
++constexpr uint32_t kMaxRace = 64;
++
++std::mutex s_lock;
++bool s_loaded = false;
++ZepRaceDef* s_defs[kMaxRace][2] = {};
++
++bool GroupOk(uint32_t group) {
++    return group == 1 || group == 2 || group == 3 || group == 14 || group == 16;
++}
++
++bool FollowOk(uint32_t follow) {
++    return ZepFollowBit(follow) >= 0;
++}
++
++ZepRaceDef* Def(uint32_t race, uint32_t sex, bool create) {
++    if (race >= kMaxRace || sex > 1) {
++        return nullptr;
++    }
++
++    if (!s_defs[race][sex] && create) {
++        s_defs[race][sex] = new ZepRaceDef();
++    }
++
++    return s_defs[race][sex];
++}
++
++std::vector<std::string> Split(const std::string& text, char sep) {
++    std::vector<std::string> out;
++    std::string item;
++    std::istringstream in(text);
++
++    while (std::getline(in, item, sep)) {
++        if (!item.empty()) {
++            out.push_back(item);
++        }
++    }
++
++    return out;
++}
++
++uint32_t Num(const std::string& token) {
++    return static_cast<uint32_t>(std::strtoul(token.c_str(), nullptr, 10));
++}
++
++void Parse(const std::string& text) {
++    std::istringstream lines(text);
++    std::string line;
++    bool versionSeen = false;
++    uint32_t lineNo = 0;
++    uint32_t records = 0;
++
++    while (std::getline(lines, line)) {
++        lineNo++;
++        size_t hash = line.find('#');
++
++        if (hash != std::string::npos) {
++            line.resize(hash);
++        }
++
++        std::vector<std::string> t;
++        {
++            std::istringstream words(line);
++            std::string word;
++
++            while (words >> word) {
++                t.push_back(word);
++            }
++        }
++
++        if (t.empty()) {
++            continue;
++        }
++
++        if (!versionSeen) {
++            if (t[0] != "version" || t.size() < 2) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: first record is not 'version', file ignored", lineNo);
++                return;
++            }
++
++            if (Num(t[1]) > 1) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt version %u is newer than this client (1), file ignored", Num(t[1]));
++                return;
++            }
++
++            versionSeen = true;
++            continue;
++        }
++
++        const std::string& kw = t[0];
++
++        if (kw != "facial" && kw != "slot" && kw != "choice" && kw != "link" && kw != "imply") {
++            continue;   // forward compatible
++        }
++
++        if (t.size() < 4) {
++            sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: too few tokens", lineNo);
++            continue;
++        }
++
++        ZepRaceDef* def = Def(Num(t[1]), Num(t[2]), true);
++
++        if (!def) {
++            sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: bad race/sex", lineNo);
++            continue;
++        }
++
++        records++;
++
++        if (kw == "facial") {
++            def->hasFacial = true;
++
++            if (t[3] == "legacy" && t.size() >= 5) {
++                def->mode = ZepRaceDef::LEGACY;
++                def->labelType = static_cast<uint8_t>(Num(t[4]));
++            } else if (t[3] == "texture" && t.size() >= 6) {
++                def->mode = ZepRaceDef::TEXTURE;
++                def->labelType = static_cast<uint8_t>(Num(t[4]));
++                def->textureFilter.clear();
++
++                for (const std::string& v : Split(t[5], ',')) {
++                    def->textureFilter.push_back(static_cast<int32_t>(Num(v)));
++                }
++            } else if (t[3] == "hidden" && t.size() >= 5) {
++                def->mode = ZepRaceDef::HIDDEN;
++                def->baseVariation = static_cast<int32_t>(Num(t[4]));
++            } else {
++                def->hasFacial = false;
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: bad facial record", lineNo);
++            }
++        } else if (kw == "slot") {
++            if (t.size() < 7) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: bad slot record", lineNo);
++                continue;
++            }
++
++            uint32_t slot = Num(t[3]), group = Num(t[5]), follow = Num(t[6]);
++
++            if (slot >= 6 || !GroupOk(group) || !FollowOk(follow) || def->slots[slot]) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: slot %u rejected (range, group, follow or duplicate)", lineNo, slot);
++                continue;
++            }
++
++            ZepSlotDef* s = new ZepSlotDef();
++            s->slot = static_cast<uint8_t>(slot);
++            s->type = static_cast<uint8_t>(Num(t[4]));
++            s->group = static_cast<uint8_t>(group);
++            s->follow = static_cast<uint8_t>(follow);
++            s->link = false;
++            def->slots[slot] = s;
++        } else if (kw == "choice") {
++            if (t.size() < 5) {
++                continue;
++            }
++
++            uint32_t slot = Num(t[3]);
++            ZepSlotDef* s = slot < 6 ? def->slots[slot] : nullptr;
++
++            if (!s || s->link) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: choice for an undefined slot %u", lineNo, slot);
++                continue;
++            }
++
++            ZepChoice c = {};
++            c.geoset = static_cast<uint16_t>(Num(t[4]));
++
++            if (c.geoset != 0 && c.geoset / 100 != s->group) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: geoset %u is not in group %u", lineNo, c.geoset, s->group);
++                continue;
++            }
++
++            for (size_t i = 5; i < t.size(); i++) {
++                if (t[i].compare(0, 5, "swap=") == 0) {
++                    size_t colon = t[i].find(':');
++
++                    if (colon != std::string::npos) {
++                        uint32_t from = Num(t[i].substr(5, colon - 5));
++                        uint32_t to = Num(t[i].substr(colon + 1));
++
++                        if (from / 100 < 19 && to / 100 == from / 100) {
++                            c.swapFrom = static_cast<uint16_t>(from);
++                            c.swapTo = static_cast<uint16_t>(to);
++                        }
++                    }
++                }
++                // host= is documentation for the fit check; ignored in v1
++            }
++
++            s->choices.push_back(c);
++        } else if (kw == "link") {
++            if (t.size() < 7) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: bad link record", lineNo);
++                continue;
++            }
++
++            uint32_t slot = Num(t[3]), follow = Num(t[5]);
++
++            if (slot >= 6 || !FollowOk(follow) || def->slots[slot]) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: link slot %u rejected", lineNo, slot);
++                continue;
++            }
++
++            ZepSlotDef* s = new ZepSlotDef();
++            s->slot = static_cast<uint8_t>(slot);
++            s->type = static_cast<uint8_t>(Num(t[4]));
++            s->group = 0;
++            s->follow = static_cast<uint8_t>(follow);
++            s->link = true;
++
++            for (const std::string& pair : Split(t[6], ',')) {
++                size_t colon = pair.find(':');
++
++                if (colon == std::string::npos) {
++                    continue;
++                }
++
++                uint32_t dest = Num(pair.substr(0, colon)), src = Num(pair.substr(colon + 1));
++
++                if (GroupOk(dest) && src < 19) {
++                    s->linkPairs.emplace_back(static_cast<uint8_t>(dest), static_cast<uint8_t>(src));
++                }
++            }
++
++            if (s->linkPairs.empty()) {
++                delete s;
++                continue;
++            }
++
++            def->slots[slot] = s;
++        } else if (kw == "imply") {
++            uint32_t src = Num(t[3]);
++            uint32_t dst = t.size() >= 5 ? Num(t[4]) : 0;
++
++            if (src / 100 >= 19 || !GroupOk(dst / 100)) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: bad imply", lineNo);
++                continue;
++            }
++
++            def->implies.emplace_back(static_cast<uint16_t>(src), static_cast<uint16_t>(dst));
++        }
++    }
++
++    // a slot holds a nibble: more than 15 choices cannot be stored
++    uint32_t slots = 0;
++
++    for (auto& races : s_defs) {
++        for (ZepRaceDef* def : races) {
++            if (!def) {
++                continue;
++            }
++
++            for (ZepSlotDef*& s : def->slots) {
++                if (s && (s->Count() == 0 || s->Count() > 15)) {
++                    sExtensionMgr->Log("F-230: CharCustomizations.txt: slot %u with %u choices dropped (1..15 allowed)", s->slot, s->Count());
++                    delete s;
++                    s = nullptr;
++                }
++
++                slots += s ? 1 : 0;
++            }
++        }
++    }
++
++    sExtensionMgr->Log("F-230: CharCustomizations.txt loaded, %u records, %u slots", records, slots);
++}
++
++void Load() {
++    SFileImpl* file = nullptr;
++
++    if (!SFileOpenFile("Zeppelin\\CharCustomizations.txt", &file) || !file) {
++        sExtensionMgr->Log("F-230: no Zeppelin\\CharCustomizations.txt, legacy facial features only");
++        return;
++    }
++
++    std::string text(SFileGetFileSize(file, nullptr), '\0');
++    uint32_t read = 0;
++
++    if (!text.empty()) {
++        SFileReadFile(file, text.data(), static_cast<uint32_t>(text.size()), &read, nullptr, 0);
++    }
++
++    SFileCloseFile(file);
++    text.resize(read);
++    Parse(text);
++}
++
++}   // namespace
++
++const ZepRaceDef* ZepCustomizationsGet(uint32_t race, uint32_t sex) {
++    {
++        std::lock_guard<std::mutex> guard(s_lock);
++
++        if (!s_loaded) {
++            s_loaded = true;
++            Load();
++        }
++    }
++
++    return Def(race, sex, false);
++}
++
++uint32_t ZepSlotValue(const ZepRaceDef* def, const CharacterPreferences& prefs, uint32_t slot) {
++    if (!def || slot >= 6 || !def->slots[slot]) {
++        return 0;
++    }
++
++    uint32_t v = prefs.m_zepSlot[slot];
++    return v >= 1 && v <= def->slots[slot]->Count() ? v : 0;
++}
++
++void ZepUnpackPadding(uint32_t pad, CharacterPreferences& prefs) {
++    for (uint32_t s = 0; s < 6; s++) {
++        prefs.m_zepSlot[s] = static_cast<uint8_t>((pad >> (4 * s)) & 0xF);
++    }
++
++    prefs.m_jewelleryId = static_cast<uint8_t>(pad >> 24);
++}
++
++int32_t ZepFollowBit(uint32_t group) {
++    switch (group) {
++        case 0: return 0;
++        case 1: return 1;
++        case 2: return 2;
++        case 3: return 3;
++        case 7: return 4;
++        case 16: return 5;
++        case 17: return 6;
++        default: return -1;
++    }
++}
+diff --git a/WoW/Common/ComponentCore/ZepCustomizations.h b/WoW/Common/ComponentCore/ZepCustomizations.h
+new file mode 100644
+index 00000000..d26ee8a3
+--- /dev/null
++++ b/WoW/Common/ComponentCore/ZepCustomizations.h
+@@ -0,0 +1,57 @@
++#ifndef WOW_COMMON_COMPONENTCORE_ZEPCUSTOMIZATIONS_H
++#define WOW_COMMON_COMPONENTCORE_ZEPCUSTOMIZATIONS_H
++
++// Not in the original (F-230): split facial features. Zeppelin\CharCustomizations.txt says, per race and sex,
++// which geoset slots a player may set on top of the legacy CharacterFacialHairStyles row, the geoset group each
++// slot owns and the geoset each of its choices shows. Without the file every lookup is nullptr and characters
++// render exactly as stock.
++
++#include <cstdint>
++#include <utility>
++#include <vector>
++
++struct CharacterPreferences;
++
++struct ZepChoice {
++    uint16_t geoset;
++    uint16_t swapFrom;      // 0 = no swap
++    uint16_t swapTo;
++};
++
++struct ZepSlotDef {
++    uint8_t slot;
++    uint8_t type;           // option type id (label), §1 of the F-230 spec
++    uint8_t group;          // geoset group owned (non-link slots)
++    uint8_t follow;         // the stock helmet-hide group this slot obeys
++    bool link;              // on/off slot: value 1 off, 2 on
++    std::vector<ZepChoice> choices;
++    std::vector<std::pair<uint8_t, uint8_t>> linkPairs;    // dest group, src group
++
++    // choices the creator cycles through (a link slot has off / on)
++    uint32_t Count() const { return this->link ? 2 : static_cast<uint32_t>(this->choices.size()); }
++};
++
++struct ZepRaceDef {
++    enum Mode { LEGACY, TEXTURE, HIDDEN };
++    Mode mode = LEGACY;
++    bool hasFacial = false;     // a "facial" line exists
++    uint8_t labelType = 0;
++    int32_t baseVariation = 0;
++    std::vector<int32_t> textureFilter;
++    ZepSlotDef* slots[6] = {};
++    std::vector<std::pair<uint16_t, uint16_t>> implies;    // src geoset, dst geoset
++};
++
++// Lazy-loads the file on the first call. nullptr when the file is missing or the race/sex has no lines.
++const ZepRaceDef* ZepCustomizationsGet(uint32_t race, uint32_t sex);
++
++// The active slot value of a slot (1..Count()), 0 when unset, undefined or out of range.
++uint32_t ZepSlotValue(const ZepRaceDef* def, const CharacterPreferences& prefs, uint32_t slot);
++
++// OBJECT_FIELD_PADDING of a player: nibble s = slot s (s = 0..5), byte 3 = jewellery layer.
++void ZepUnpackPadding(uint32_t pad, CharacterPreferences& prefs);
++
++// The HelmetGeosetVisData m_hideGeoset[] index of a stock geoset group, -1 when the group has none.
++int32_t ZepFollowBit(uint32_t group);
++
++#endif
+diff --git a/WoW/Source/Glue/CGlueMgr.cpp b/WoW/Source/Glue/CGlueMgr.cpp
+index ae140c52..55a6772c 100644
+--- a/WoW/Source/Glue/CGlueMgr.cpp
++++ b/WoW/Source/Glue/CGlueMgr.cpp
+@@ -2312,6 +2312,18 @@ void CGlueMgr::UpdateWaitQueue(int32_t position) {
+     }
+ }
+ 
++// Not in the original (F-230): the ZEPO block after the last stock field of CMSG_CHAR_CUSTOMIZE /
++// CMSG_CHAR_FACTION_CHANGE / CMSG_CHAR_RACE_CHANGE - 'ZEPO', n = 7, jewellery (id 5), geoset slots 0..5 (ids 10..15)
++static void ZepPutCustomizationBlock(CDataStore& msg, const CHARACTER_CREATE_INFO* info) {
++    msg.Put(static_cast<uint32_t>(0x4F50455A));
++    msg.Put(static_cast<uint8_t>(7));
++    msg.Put(info->m_jewelleryID);
++
++    for (int32_t s = 0; s < 6; s++) {
++        msg.Put(info->m_zepSlot[s]);
++    }
++}
++
+ // VERIFY: 13f80fa2 manual
+ // OFFSET: 0x004D8E10
+ void CGlueMgr::CustomizeCharacter(WOWGUID guid, const CHARACTER_CREATE_INFO* info) {
+@@ -2332,6 +2344,7 @@ void CGlueMgr::CustomizeCharacter(WOWGUID guid, const CHARACTER_CREATE_INFO* inf
+     msg.Put(info->m_hairStyleID);
+     msg.Put(info->m_facialHairStyleID);
+     msg.Put(info->m_faceID);
++    ZepPutCustomizationBlock(msg, info);    // Not in the original (F-230)
+     msg.Finalize();
+     ClientServices::Send2(&msg);
+ }
+@@ -2357,6 +2370,7 @@ void CGlueMgr::FactionChange(WOWGUID guid, const CHARACTER_CREATE_INFO* info) {
+     msg.Put(info->m_facialHairStyleID);
+     msg.Put(info->m_faceID);
+     msg.Put(info->m_raceID);
++    ZepPutCustomizationBlock(msg, info);    // Not in the original (F-230)
+     msg.Finalize();
+     ClientServices::Send2(&msg);
+ }
+@@ -2382,6 +2396,7 @@ void CGlueMgr::RaceChange(WOWGUID guid, const CHARACTER_CREATE_INFO* info) {
+     msg.Put(info->m_facialHairStyleID);
+     msg.Put(info->m_faceID);
+     msg.Put(info->m_raceID);
++    ZepPutCustomizationBlock(msg, info);    // Not in the original (F-230)
+     msg.Finalize();
+     ClientServices::Send2(&msg);
+ }
+diff --git a/WoW/Source/Glue/CharacterCreation.cpp b/WoW/Source/Glue/CharacterCreation.cpp
+index 8a06b345..9838926d 100644
+--- a/WoW/Source/Glue/CharacterCreation.cpp
++++ b/WoW/Source/Glue/CharacterCreation.cpp
+@@ -363,6 +363,8 @@ void CCharacterCreation::CreateCharacter(const char* name) {
+     info.m_markingID = static_cast<uint8_t>(CCharacterCreation::m_character->m_data.m_preferences.m_markingId);   // Not in the original (F-151)
+     info.m_bodyMarkingID = static_cast<uint8_t>(CCharacterCreation::m_character->m_data.m_preferences.m_bodyMarkingId);
+     info.m_warPaintID = static_cast<uint8_t>(CCharacterCreation::m_character->m_data.m_preferences.m_warPaintId);
++    info.m_jewelleryID = CCharacterCreation::m_character->m_data.m_preferences.m_jewelleryId;   // Not in the original (F-230)
++    memcpy(info.m_zepSlot, CCharacterCreation::m_character->m_data.m_preferences.m_zepSlot, sizeof(info.m_zepSlot));
+ 
+     if (guid && display) {
+         uint32_t flags = display->m_characterInfo.m_customizeFlags;
+@@ -634,6 +636,7 @@ void CCharacterCreation::InitCharacterComponents(ComponentData* data, bool rando
+         CCharacterCreation::m_character->SetRandomFace(COMPONENT_CONTEXT_0);
+         CCharacterCreation::m_character->SetRandomFacialFeature(COMPONENT_CONTEXT_0);
+         CCharacterCreation::m_character->SetRandomFaceLayer(VARIATION_EYES, COMPONENT_CONTEXT_0);       // Not in the original (F-151)
++        CCharacterCreation::ZepApplyDefaults(false);     // Not in the original (F-230): a fresh race/sex starts on each slot's first choice
+     }
+ 
+     CCharacterCreation::m_prevSkinIndex = CCharacterCreation::m_character->m_data.m_preferences.m_skinID;
+@@ -689,6 +692,8 @@ void CCharacterCreation::SetSelectedSex(uint32_t sexID) {
+             data.m_preferences.m_markingId = display->m_characterInfo.m_markingID;     // Not in the original (F-151)
+             data.m_preferences.m_bodyMarkingId = display->m_characterInfo.m_bodyMarkingID;
+             data.m_preferences.m_warPaintId = display->m_characterInfo.m_warPaintID;
++            data.m_preferences.m_jewelleryId = display->m_characterInfo.m_jewelleryID;     // Not in the original (F-230)
++            memcpy(data.m_preferences.m_zepSlot, display->m_characterInfo.m_zepSlot, sizeof(data.m_preferences.m_zepSlot));
+             CCharacterCreation::InitCharacterComponents(&data, false);
+ 
+             CCharacterCreation::m_nameGen.LoadNames(CCharacterCreation::m_races.m_data[CCharacterCreation::m_raceIndex], sexID);
+@@ -739,6 +744,8 @@ void CCharacterCreation::SetSelectedClass(int32_t classID) {
+     data.m_preferences.m_markingId = CCharacterCreation::m_character->m_data.m_preferences.m_markingId;   // Not in the original (F-151)
+     data.m_preferences.m_bodyMarkingId = CCharacterCreation::m_character->m_data.m_preferences.m_bodyMarkingId;
+     data.m_preferences.m_warPaintId = CCharacterCreation::m_character->m_data.m_preferences.m_warPaintId;
++    data.m_preferences.m_jewelleryId = CCharacterCreation::m_character->m_data.m_preferences.m_jewelleryId;   // Not in the original (F-230)
++    memcpy(data.m_preferences.m_zepSlot, CCharacterCreation::m_character->m_data.m_preferences.m_zepSlot, sizeof(data.m_preferences.m_zepSlot));
+     CCharacterComponent::ValidateComponentData(&data, COMPONENT_CONTEXT_0);
+     CCharacterCreation::InitCharacterComponents(&data, false);
+     CCharacterCreation::Dress();
+@@ -757,6 +764,7 @@ void CCharacterCreation::RandomizeCharCustomization() {
+     CCharacterCreation::m_character->SetRandomFaceLayer(VARIATION_MARKINGS, COMPONENT_CONTEXT_0);   // Not in the original (F-151)
+     CCharacterCreation::m_character->SetRandomFaceLayer(VARIATION_BODY_MARKINGS, COMPONENT_CONTEXT_0);
+     CCharacterCreation::m_character->SetRandomFaceLayer(VARIATION_WAR_PAINT, COMPONENT_CONTEXT_0);
++    CCharacterCreation::ZepApplyDefaults(true);      // Not in the original (F-230)
+ 
+     CCharacterCreation::m_prevSkinIndex = CCharacterCreation::m_character->m_data.m_preferences.m_skinID;
+     CCharacterCreation::m_prevFaceIndex = CCharacterCreation::m_character->m_data.m_preferences.m_faceId;
+@@ -864,6 +872,8 @@ void CCharacterCreation::SetSelectedRace(uint32_t raceIndex) {
+         data.m_preferences.m_markingId = display->m_characterInfo.m_markingID;     // Not in the original (F-151)
+         data.m_preferences.m_bodyMarkingId = display->m_characterInfo.m_bodyMarkingID;
+         data.m_preferences.m_warPaintId = display->m_characterInfo.m_warPaintID;
++        data.m_preferences.m_jewelleryId = display->m_characterInfo.m_jewelleryID;     // Not in the original (F-230)
++        memcpy(data.m_preferences.m_zepSlot, display->m_characterInfo.m_zepSlot, sizeof(data.m_preferences.m_zepSlot));
+         CCharacterCreation::InitCharacterComponents(&data, false);
+         CCharacterCreation::SetSelectedSex(display->m_characterInfo.m_sexID);
+     } else {
+@@ -926,6 +936,8 @@ void CCharacterCreation::SetToExistingCharacter(uint32_t index) {
+     data.m_preferences.m_markingId = display->m_characterInfo.m_markingID;     // Not in the original (F-151)
+     data.m_preferences.m_bodyMarkingId = display->m_characterInfo.m_bodyMarkingID;
+     data.m_preferences.m_warPaintId = display->m_characterInfo.m_warPaintID;
++    data.m_preferences.m_jewelleryId = display->m_characterInfo.m_jewelleryID;     // Not in the original (F-230)
++    memcpy(data.m_preferences.m_zepSlot, display->m_characterInfo.m_zepSlot, sizeof(data.m_preferences.m_zepSlot));
+     CCharacterCreation::InitCharacterComponents(&data, false);
+     CCharacterCreation::CalcClasses(data.m_preferences.m_raceID);
+     CCharacterCreation::InitCharacterComponents(&data, false);
+diff --git a/WoW/Source/Glue/CharacterCreation.h b/WoW/Source/Glue/CharacterCreation.h
+index 2e36f773..df51e2ec 100644
+--- a/WoW/Source/Glue/CharacterCreation.h
++++ b/WoW/Source/Glue/CharacterCreation.h
+@@ -37,6 +37,7 @@ class CCharacterCreation {
+     static void CreateCharacter(const char* name);
+     static void CycleCharCustomization(CHAR_CUSTOMIZATION_TYPE type, int32_t delta);
+     static void ZepSetSkin(int32_t skinID);     // Not in the original (F-151)
++    static void ZepApplyDefaults(bool random);  // Not in the original (F-230), CharacterCreation_Scripts.cpp
+     static void Dress();
+     static void Undress();          // Not in the original (F-151)
+     static int32_t GetExistingClassIndex();
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index c5eb814b..05c001e8 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -15,6 +15,8 @@
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "WoW/Common/ComponentCore/CharacterComponent.h"
+ #include "WoW/Common/ComponentCore/ComponentUtils.h"
++#include "WoW/Common/ComponentCore/ZepCustomizations.h"    // Not in the original (F-230)
++#include "Engine/Source/Tempest/CRandom.h"                  // Not in the original (F-230)
+ #include "WoW/Source/DB/DBClient/DBClient.h"
+ #include "WoW/Source/DB/Rec/ChrClassesRec.h"
+ #include "WoW/Source/DB/Rec/ChrRacesRec.h"
+@@ -581,17 +583,42 @@ struct ZepCustomizationFilter {
+     std::vector<int32_t> values;
+ };
+ 
+-static ZepCustomizationFilter s_customizationFilter[CHAR_CUSTOMIZATION_WAR_PAINT + 1];
++static ZepCustomizationFilter s_customizationFilter[CHAR_CUSTOMIZATION_ZEP_SLOT5 + 1];   // Not in the original (F-230): was WAR_PAINT + 1
+ 
+-static bool CharCustomizationAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t value) {
++// Not in the original (F-230): the geoset slot (0..5) of a customization type, -1 for the stock / F-151 ones
++static int32_t ZepSlotOfType(CHAR_CUSTOMIZATION_TYPE type) {
++    return type >= CHAR_CUSTOMIZATION_ZEP_SLOT0 && type <= CHAR_CUSTOMIZATION_ZEP_SLOT5 ? type - CHAR_CUSTOMIZATION_ZEP_SLOT0 : -1;
++}
++
++// The allow-list in force for a type: the Lua one for this race and sex, else (Not in the original, F-230) a
++// texture-mode race's default facial-feature list from Zeppelin\CharCustomizations.txt, else none.
++static const std::vector<int32_t>* CharCustomizationFilterValues(CHAR_CUSTOMIZATION_TYPE type) {
+     const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
+     const ZepCustomizationFilter& filter = s_customizationFilter[type];
+ 
+-    if (!filter.active || filter.raceID != static_cast<int32_t>(prefs.m_raceID) || filter.sexID != static_cast<int32_t>(prefs.m_sexID)) {
++    if (filter.active && filter.raceID == static_cast<int32_t>(prefs.m_raceID) && filter.sexID == static_cast<int32_t>(prefs.m_sexID)) {
++        return &filter.values;
++    }
++
++    if (type == CHAR_CUSTOMIZATION_FACIAL_FEATURE) {
++        const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++
++        if (def && def->mode == ZepRaceDef::TEXTURE && !def->textureFilter.empty()) {
++            return &def->textureFilter;
++        }
++    }
++
++    return nullptr;
++}
++
++static bool CharCustomizationAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t value) {
++    const std::vector<int32_t>* values = CharCustomizationFilterValues(type);
++
++    if (!values) {
+         return true;
+     }
+ 
+-    return std::find(filter.values.begin(), filter.values.end(), value) != filter.values.end();
++    return std::find(values->begin(), values->end(), value) != values->end();
+ }
+ 
+ static int32_t CharCustomizationCurrent(CHAR_CUSTOMIZATION_TYPE type) {
+@@ -616,11 +643,119 @@ static int32_t CharCustomizationCurrent(CHAR_CUSTOMIZATION_TYPE type) {
+             return prefs.m_bodyMarkingId;
+         case CHAR_CUSTOMIZATION_WAR_PAINT:
+             return prefs.m_warPaintId;
++        case CHAR_CUSTOMIZATION_ZEP_SLOT0:      // Not in the original (F-230): the choice index (unset shows as 0)
++        case CHAR_CUSTOMIZATION_ZEP_SLOT1:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT2:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT3:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT4:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT5: {
++            uint8_t v = prefs.m_zepSlot[ZepSlotOfType(type)];
++            return v ? v - 1 : 0;
++        }
+         default:
+             return 0;
+     }
+ }
+ 
++// Not in the original (F-230): the number of choices of a geoset slot for the current race and sex, 0 if it has none
++static uint32_t ZepSlotCount(int32_t slot) {
++    const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++    return def && slot >= 0 && slot < 6 && def->slots[slot] ? def->slots[slot]->Count() : 0;
++}
++
++// Not in the original (F-230): re-applies the legacy facial row and the geoset slots after a slot change
++static void ZepReapplyFacial() {
++    CCharacterComponent* character = CCharacterCreation::m_character;
++    character->SetBeardStyle(character->m_data.m_preferences.m_facialHairId, true, nullptr);
++    character->ApplyZepCustomizations();    // also when the legacy row is missing (SetBeardStyle applies only with a row)
++}
++
++// Not in the original (F-230): steps a geoset slot by one choice in the direction of delta, past choices the
++// filter does not allow, wrapping; stores choice index + 1
++static void ZepCycleSlot(int32_t slot, int32_t delta) {
++    uint32_t count = ZepSlotCount(slot);
++
++    if (!count) {
++        return;
++    }
++
++    CHAR_CUSTOMIZATION_TYPE type = static_cast<CHAR_CUSTOMIZATION_TYPE>(CHAR_CUSTOMIZATION_ZEP_SLOT0 + slot);
++    CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    int32_t step = delta >= 0 ? 1 : -1;
++    int32_t index = prefs.m_zepSlot[slot] ? prefs.m_zepSlot[slot] - 1 : (step > 0 ? -1 : 0);
++
++    for (uint32_t i = 0; i < count; i++) {
++        index = (index + step + static_cast<int32_t>(count)) % static_cast<int32_t>(count);
++
++        if (CharCustomizationAllowed(type, index)) {
++            prefs.m_zepSlot[slot] = static_cast<uint8_t>(index + 1);
++            ZepReapplyFacial();
++            CGlueLoading::StartLoad(CCharacterCreation::m_character, 1);
++            return;
++        }
++    }
++}
++
++// Not in the original (F-230): creator defaults for the geoset slots and the legacy facial button of the current
++// race and sex. Every defined slot gets its first allowed choice (random: a random allowed one), undefined slots
++// are unset; a "hidden" race's facial style is forced to its base variation; a "texture" race's facial style is
++// moved into its allowed list (random: a random allowed style).
++void CCharacterCreation::ZepApplyDefaults(bool random) {
++    if (!CCharacterCreation::m_character) {
++        return;
++    }
++
++    CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++
++    if (!def) {
++        return;
++    }
++
++    for (int32_t s = 0; s < 6; s++) {
++        uint32_t count = def->slots[s] ? def->slots[s]->Count() : 0;
++        CHAR_CUSTOMIZATION_TYPE type = static_cast<CHAR_CUSTOMIZATION_TYPE>(CHAR_CUSTOMIZATION_ZEP_SLOT0 + s);
++        std::vector<int32_t> allowed;
++
++        for (uint32_t i = 0; i < count; i++) {
++            if (CharCustomizationAllowed(type, static_cast<int32_t>(i))) {
++                allowed.push_back(static_cast<int32_t>(i));
++            }
++        }
++
++        if (allowed.empty()) {
++            prefs.m_zepSlot[s] = count ? 1 : 0;
++        } else {
++            uint32_t pick = random ? CRandom::dice_(static_cast<uint32_t>(allowed.size()), g_rndSeed) : 0;
++            prefs.m_zepSlot[s] = static_cast<uint8_t>(allowed[pick] + 1);
++        }
++    }
++
++    int32_t facial = static_cast<int32_t>(prefs.m_facialHairId);
++
++    if (def->mode == ZepRaceDef::HIDDEN) {
++        facial = def->baseVariation;
++    } else if (def->mode == ZepRaceDef::TEXTURE) {
++        std::vector<int32_t> allowed;
++        int32_t numFeatures = static_cast<int32_t>(CCharacterComponent::s_characterFacialHairStylesList[prefs.m_raceID * 2 + prefs.m_sexID]);
++
++        for (int32_t value : def->textureFilter) {
++            if (value < numFeatures && CharCustomizationAllowed(CHAR_CUSTOMIZATION_FACIAL_FEATURE, value)) {
++                allowed.push_back(value);
++            }
++        }
++
++        if (!allowed.empty() && (random || std::find(allowed.begin(), allowed.end(), facial) == allowed.end())) {
++            facial = allowed[CRandom::dice_(static_cast<uint32_t>(allowed.size()), g_rndSeed)];
++        }
++    }
++
++    prefs.m_facialHairId = static_cast<uint32_t>(facial);
++    ZepReapplyFacial();
++}
++
++
+ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t value) {
+     if (!CharCustomizationAllowed(type, value)) {
+         return false;
+@@ -674,8 +809,15 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+         case CHAR_CUSTOMIZATION_BODY_MARKINGS:
+         case CHAR_CUSTOMIZATION_WAR_PAINT:
+             return CCharacterComponent::FaceLayerValid(prefs, ZepLayerVariation(type), value, COMPONENT_CONTEXT_0);
++        case CHAR_CUSTOMIZATION_ZEP_SLOT0:      // Not in the original (F-230)
++        case CHAR_CUSTOMIZATION_ZEP_SLOT1:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT2:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT3:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT4:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT5:
++            return value >= 0 && static_cast<uint32_t>(value) < ZepSlotCount(ZepSlotOfType(type));
+         default:
+-            return false;
++            return false;   // CHAR_CUSTOMIZATION_JEWELLERY: not in v1
+     }
+ }
+ 
+@@ -683,15 +825,26 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+ // class with none of the listed colours) it is a single stock step. A skin goes straight to the next allowed
+ // colour instead, since each stock skin step reloads the body textures. The bound covers every value an option can have.
+ static void CharCustomizationCycleAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t delta) {
+-    if (type < CHAR_CUSTOMIZATION_SKIN || type > CHAR_CUSTOMIZATION_WAR_PAINT) {
++    // Not in the original (F-230): geoset slots are cycled here, never by the stock CycleCharCustomization;
++    // the jewellery layer has no choices in v1
++    if (ZepSlotOfType(type) >= 0) {
++        ZepCycleSlot(ZepSlotOfType(type), delta);
++        return;
++    }
++
++    if (type == CHAR_CUSTOMIZATION_JEWELLERY) {
++        return;
++    }
++
++    if (type < CHAR_CUSTOMIZATION_SKIN || type > CHAR_CUSTOMIZATION_ZEP_SLOT5) {     // Not in the original (F-230): was WAR_PAINT
+         CCharacterCreation::CycleCharCustomization(type, delta);
+         return;
+     }
+ 
+-    const ZepCustomizationFilter& filter = s_customizationFilter[type];
++    const std::vector<int32_t>* values = CharCustomizationFilterValues(type);    // Not in the original (F-230): was filter.values
+     bool reachable = false;
+ 
+-    for (int32_t value : filter.values) {
++    for (int32_t value : values ? *values : std::vector<int32_t>()) {
+         reachable = reachable || CharCustomizationReachable(type, value);
+     }
+ 
+@@ -777,6 +930,15 @@ static int32_t Script_GetCharCustomizationInfo(lua_State* L) {
+             current = CharCustomizationCurrent(type);
+             total = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, ZepLayerVariation(type));
+             break;
++        case CHAR_CUSTOMIZATION_ZEP_SLOT0:      // Not in the original (F-230): current = choice index
++        case CHAR_CUSTOMIZATION_ZEP_SLOT1:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT2:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT3:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT4:
++        case CHAR_CUSTOMIZATION_ZEP_SLOT5:
++            current = CharCustomizationCurrent(type);
++            total = static_cast<int32_t>(ZepSlotCount(ZepSlotOfType(type)));
++            break;
+         default:
+             return 0;
+     }
+@@ -808,7 +970,7 @@ static int32_t Script_SetCharCustomizationFilter(lua_State* L) {
+ 
+     int32_t index = static_cast<int32_t>(lua_tonumber(L, 1)) - 1;
+ 
+-    if (!CCharacterCreation::m_character || index < CHAR_CUSTOMIZATION_SKIN || index > CHAR_CUSTOMIZATION_WAR_PAINT) {
++    if (!CCharacterCreation::m_character || index < CHAR_CUSTOMIZATION_SKIN || index > CHAR_CUSTOMIZATION_ZEP_SLOT5) {   // Not in the original (F-230): was WAR_PAINT
+         return 0;
+     }
+ 
+@@ -834,6 +996,53 @@ static int32_t Script_SetCharCustomizationFilter(lua_State* L) {
+     return 0;
+ }
+ 
++// Not in the original (F-230): GetZepCustomizationSlot(slot 0..5) -> type, count. The option type id (label,
++// GlueStrings ZEP_CUSTOMIZATION_TYPE_<type>) and number of choices of a geoset slot for the selected race and sex
++// (an on/off link slot has 2); nothing when the race/sex has no such slot. The slot's customization index for
++// CycleCharCustomization / GetCharCustomizationInfo / SetCharCustomizationFilter is 11 + slot.
++static int32_t Script_GetZepCustomizationSlot(lua_State* L) {
++    if (!lua_isnumber(L, 1)) {
++        luaL_error(L, "Usage: GetZepCustomizationSlot(slot)");
++        return 0;
++    }
++
++    if (!CCharacterCreation::m_character) {
++        return 0;
++    }
++
++    int32_t slot = static_cast<int32_t>(lua_tonumber(L, 1));
++    const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++
++    if (!def || slot < 0 || slot >= 6 || !def->slots[slot]) {
++        return 0;
++    }
++
++    lua_pushnumber(L, def->slots[slot]->type);
++    lua_pushnumber(L, def->slots[slot]->Count());
++    return 2;
++}
++
++// Not in the original (F-230): GetZepFacialHairMode() -> "legacy" | "texture" | "hidden", labelType. How the stock
++// facial-feature button (customization 5) is shown for the selected race and sex; nothing when the race/sex has no
++// "facial" line (stock button, stock label).
++static int32_t Script_GetZepFacialHairMode(lua_State* L) {
++    if (!CCharacterCreation::m_character) {
++        return 0;
++    }
++
++    const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++
++    if (!def || !def->hasFacial) {
++        return 0;
++    }
++
++    lua_pushstring(L, def->mode == ZepRaceDef::HIDDEN ? "hidden" : def->mode == ZepRaceDef::TEXTURE ? "texture" : "legacy");
++    lua_pushnumber(L, def->labelType);
++    return 2;
++}
++
+ // Not in the original (F-151): SetCharacterCreateZoom(zoom 0..1) moves the character-create camera toward the
+ // character's eyes, see ZepSetCameraZoomFocus in CSimpleModel.cpp.
+ void ZepSetCameraZoomFocus(CSimpleModel* model, float zoom, bool (*focus)(C3Vector& point));
+@@ -985,6 +1194,8 @@ static FrameScript_Method s_scriptFunctions[] = {
+     { "IsCharacterCreateOutfitShown", &Script_IsCharacterCreateOutfitShown },     // Not in the original (F-151)
+     { "SetCharacterCreateStartOutfit", &Script_SetCharacterCreateStartOutfit },   // Not in the original (F-151)
+     { "SetCharCustomizationFilter", &Script_SetCharCustomizationFilter },   // Not in the original (F-151)
++    { "GetZepCustomizationSlot", &Script_GetZepCustomizationSlot },         // Not in the original (F-230)
++    { "GetZepFacialHairMode", &Script_GetZepFacialHairMode },               // Not in the original (F-230)
+ };
+ 
+ // VERIFY: 88b9bf9d auto
+diff --git a/WoW/Source/Glue/CharacterSelection.cpp b/WoW/Source/Glue/CharacterSelection.cpp
+index 3c41156f..1df6a172 100644
+--- a/WoW/Source/Glue/CharacterSelection.cpp
++++ b/WoW/Source/Glue/CharacterSelection.cpp
+@@ -455,6 +455,8 @@ void CCharacterSelection::ShowCharacter() {
+         data.m_preferences.m_markingId = info.m_markingID;     // Not in the original (F-151)
+         data.m_preferences.m_bodyMarkingId = info.m_bodyMarkingID;
+         data.m_preferences.m_warPaintId = info.m_warPaintID;
++        data.m_preferences.m_jewelleryId = info.m_jewelleryID;     // Not in the original (F-230)
++        memcpy(data.m_preferences.m_zepSlot, info.m_zepSlot, sizeof(data.m_preferences.m_zepSlot));
+         data.m_model = CCharacterSelection::m_modelFrame->GetScene()->CreateModel(playerRec->m_modelName, 0);
+         data.m_flags |= 0x2;
+ 
+diff --git a/WoW/Source/Glue/ComponentData.cpp b/WoW/Source/Glue/ComponentData.cpp
+index 933930aa..95de97d8 100644
+--- a/WoW/Source/Glue/ComponentData.cpp
++++ b/WoW/Source/Glue/ComponentData.cpp
+@@ -1,4 +1,5 @@
+ #include "ComponentData.h"
++#include <cstring>     // Not in the original (F-230)
+ 
+ // VERIFY: 84ef6cc9 auto
+ // OFFSET: 0x004DFDA0
+@@ -16,6 +17,9 @@ ComponentData::ComponentData() {
+     this->m_preferences.m_markingId = 0;
+     this->m_preferences.m_bodyMarkingId = 0;
+     this->m_preferences.m_warPaintId = 0;
++    this->m_preferences.m_jewelleryId = 0;      // Not in the original (F-230)
++    memset(this->m_preferences.m_zepSlot, 0, sizeof(this->m_preferences.m_zepSlot));
++    this->m_preferences.unused_0037 = 0;
+     this->m_npcSkinTexture[0] = 0;
+     this->m_model = nullptr;
+     this->m_geosets[0] = 1;
+@@ -58,4 +62,6 @@ void ComponentData::SetPreferences(const CharacterPreferences* preferences) {
+     this->m_preferences.m_markingId = preferences->m_markingId;
+     this->m_preferences.m_bodyMarkingId = preferences->m_bodyMarkingId;
+     this->m_preferences.m_warPaintId = preferences->m_warPaintId;
++    this->m_preferences.m_jewelleryId = preferences->m_jewelleryId;     // Not in the original (F-230)
++    memcpy(this->m_preferences.m_zepSlot, preferences->m_zepSlot, sizeof(this->m_preferences.m_zepSlot));
+ }
+diff --git a/WoW/Source/Glue/Types.h b/WoW/Source/Glue/Types.h
+index b5aa5bb6..e3c404a8 100644
+--- a/WoW/Source/Glue/Types.h
++++ b/WoW/Source/Glue/Types.h
+@@ -17,8 +17,18 @@ enum CHAR_CUSTOMIZATION_TYPE {
+     CHAR_CUSTOMIZATION_MARKINGS = 6,
+     CHAR_CUSTOMIZATION_BODY_MARKINGS = 7,   // CycleCharCustomization(8, delta)
+     CHAR_CUSTOMIZATION_WAR_PAINT = 8,       // CycleCharCustomization(9, delta)
++    // Not in the original (F-230): Lua index 10 = jewellery layer (reserved, not cycled in v1), 11..16 = geoset slots 0..5
++    CHAR_CUSTOMIZATION_JEWELLERY = 9,
++    CHAR_CUSTOMIZATION_ZEP_SLOT0 = 10,
++    CHAR_CUSTOMIZATION_ZEP_SLOT1 = 11,
++    CHAR_CUSTOMIZATION_ZEP_SLOT2 = 12,
++    CHAR_CUSTOMIZATION_ZEP_SLOT3 = 13,
++    CHAR_CUSTOMIZATION_ZEP_SLOT4 = 14,
++    CHAR_CUSTOMIZATION_ZEP_SLOT5 = 15,
+ };
+ 
++#define ZEP_NUM_SLOTS 6     // Not in the original (F-230)
++
+ enum CharEnumFlags : uint32_t {
+     CHARACTER_FLAG_NONE = 0,
+     CHARACTER_FLAG_UNK1 = 1,
+@@ -71,6 +81,11 @@ struct CharacterPreferences {
+     /* 0024 */ uint32_t m_markingId;
+     /* 0028 */ uint32_t m_bodyMarkingId;   // CharSections base_section 7; UNIT_FIELD_PADDING byte 2
+     /* 002C */ uint32_t m_warPaintId;      // CharSections base_section 8; UNIT_FIELD_PADDING byte 3
++    // Not in the original (F-230): character_customizations 5 (jewellery layer, reserved) and 10..15 (geoset slots,
++    // 0 = unset -> the legacy CharacterFacialHairStyles row decides, v -> choice v-1). OBJECT_FIELD_PADDING for players.
++    /* 0030 */ uint8_t m_jewelleryId;
++    /* 0031 */ uint8_t m_zepSlot[6];
++    /* 0037 */ uint8_t unused_0037;
+ };
+ 
+ #define GLUE_SCRIPT_EVENTS(EVENT) \
+diff --git a/WoW/Source/Object/ObjectClient/Player_C.cpp b/WoW/Source/Object/ObjectClient/Player_C.cpp
+index fd98084d..96beb00b 100644
+--- a/WoW/Source/Object/ObjectClient/Player_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Player_C.cpp
+@@ -11,6 +11,7 @@
+ #include "Engine/Source/Tempest/CMath.h"
+ #include "Engine/Source/Tempest/CRandom.h"
+ #include "WoW/Common/ComponentCore/CharacterComponent.h"
++#include "WoW/Common/ComponentCore/ZepCustomizations.h"    // Not in the original (F-230)
+ #include "WoW/Source/Client.h"
+ #include "WoW/Source/DB/DBClient/DBCacheInstances.h"
+ #include "WoW/Source/DB/DBClient/DBClient.h"
+@@ -612,6 +613,40 @@ static int32_t OnUpdatePlayerFacialStyle(WOWGUID guid, uint32_t fieldOffset, uin
+     return 1;
+ }
+ 
++// Not in the original (F-230): OBJECT_FIELD_PADDING carries a player's geoset slots (nibbles 0..5) and the
++// jewellery layer (byte 3). A copy of OnUpdatePlayerFacialStyle that first takes the new values.
++static int32_t OnUpdatePlayerZepSlots(WOWGUID guid, uint32_t fieldOffset, uint32_t fieldSize, const void* oldValue, void* param) {
++    CGPlayer_C* player = static_cast<CGPlayer_C*>(ClntObjMgrObjectPtr(guid, TYPEMASK_PLAYER, __FILE__, __LINE__));
++
++    if (!player) {
++        return 1;
++    }
++
++    bool activePlayer = ClntObjMgrGetActivePlayer() == guid;
++    CCharacterComponent* component = player->m_characterComponent;
++
++    if (component) {
++        ZepUnpackPadding(player->m_obj->m_pad, component->m_data.m_preferences);
++        component->SetBeardStyle(player->m_player->m_playerBytes2[0], true, nullptr);
++
++        if (!(player->m_player->m_playerFlags & 0x400) && (!activePlayer || !CGBarberShop::m_barberShopEnabled)) {
++            VisibleItem_C* head = &player->m_player->m_playerVisibleItems[0];
++
++            if (head && head->GetDisplayID() && player->CanEquipItemsInThisForm()) {
++                component->AddItemBySlot(static_cast<INVENTORY_SLOTS>(0), head->GetDisplayID(), 0);
++            }
++        }
++    }
++
++    if (activePlayer) {
++        CGBarberShop::AppearanceApplied();
++        return 1;
++    }
++
++    CGGameUI::UnitModelUpdate(guid, 3);
++    return 1;
++}
++
+ // VERIFY: 48d07e5a auto
+ // OFFSET: 0x006E0340
+ static void InitWeaponSkills() {
+@@ -813,6 +848,7 @@ void CGPlayer_C::Initialize() {
+     ClntObjMgrSetTypeMirrorHandler(ID_PLAYER, offsetof(CGPlayerData, m_playerBytes) + 2, sizeof(uint8_t), OnUpdatePlayerHairStyle, nullptr, HANDLER_PRIORITY_NORMAL, 0);
+     ClntObjMgrSetTypeMirrorHandler(ID_PLAYER, offsetof(CGPlayerData, m_playerBytes2), sizeof(uint8_t), OnUpdatePlayerFacialStyle, nullptr, HANDLER_PRIORITY_NORMAL, 0);
+     ClntObjMgrSetTypeMirrorHandler(ID_PLAYER, offsetof(CGPlayerData, m_playerBytes), sizeof(uint8_t), OnUpdatePlayerSkinID, nullptr, HANDLER_PRIORITY_NORMAL, 0);
++    ClntObjMgrSetTypeMirrorHandler(ID_OBJECT, offsetof(CGObjectData, m_pad), sizeof(uint32_t), OnUpdatePlayerZepSlots, nullptr, HANDLER_PRIORITY_NORMAL, 0);   // Not in the original (F-230)
+ }
+ 
+ // VERIFY: 22f04900 manual
+@@ -846,6 +882,7 @@ void CGPlayer_C::Shutdown() {
+     ClntObjMgrUnsetTypeMirrorHandler(ID_PLAYER, offsetof(CGPlayerData, m_playerBytes) + 3, OnUpdatePlayerHairColor, nullptr);
+     ClntObjMgrUnsetTypeMirrorHandler(ID_PLAYER, offsetof(CGPlayerData, m_playerBytes) + 2, OnUpdatePlayerHairStyle, nullptr);
+     ClntObjMgrUnsetTypeMirrorHandler(ID_PLAYER, offsetof(CGPlayerData, m_playerBytes2), OnUpdatePlayerFacialStyle, nullptr);
++    ClntObjMgrUnsetTypeMirrorHandler(ID_OBJECT, offsetof(CGObjectData, m_pad), OnUpdatePlayerZepSlots, nullptr);   // Not in the original (F-230)
+ }
+ 
+ // VERIFY: 78b02f45 auto
+diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+index 0904c287..341b40a0 100644
+--- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+@@ -16,6 +16,7 @@
+ #include "Engine/Source/Tempest/CMath.h"
+ #include "Engine/Source/Tempest/CRandom.h"
+ #include "WoW/Common/ComponentCore/CharacterComponent.h"
++#include "WoW/Common/ComponentCore/ZepCustomizations.h"    // Not in the original (F-230)
+ #include "WoW/Source/DB/DBClient/CreatureStats_C.h"
+ #include "WoW/Source/DB/DBClient/DBCacheInstances.h"
+ #include "WoW/Source/DB/DBClient/DBClient.h"
+@@ -13869,6 +13870,7 @@ int32_t CGUnit_C::InitializeExtendedDisplay(CGPlayer_C* player, int32_t hasDispl
+         data.m_preferences.m_markingId = (player->m_unit->m_unitFieldPadding >> 8) & 0xFF;
+         data.m_preferences.m_bodyMarkingId = (player->m_unit->m_unitFieldPadding >> 16) & 0xFF;
+         data.m_preferences.m_warPaintId = (player->m_unit->m_unitFieldPadding >> 24) & 0xFF;
++        ZepUnpackPadding(player->m_obj->m_pad, data.m_preferences);     // Not in the original (F-230): OBJECT_FIELD_PADDING
+     } else {
+         data.m_preferences.m_skinID = this->m_displayInfoExtra->m_skinID;
+         data.m_preferences.m_faceId = this->m_displayInfoExtra->m_faceID;
+diff --git a/WoW/Source/Ui/DressUpModelFrame.cpp b/WoW/Source/Ui/DressUpModelFrame.cpp
+index 078cf7f6..652e9fb9 100644
+--- a/WoW/Source/Ui/DressUpModelFrame.cpp
++++ b/WoW/Source/Ui/DressUpModelFrame.cpp
+@@ -8,6 +8,7 @@
+ #include "Engine/Source/lua-5.1/src/lua.h"
+ #include "Engine/Source/Model2/M2Model.h"
+ #include "WoW/Common/ComponentCore/CharacterComponent.h"
++#include "WoW/Common/ComponentCore/ZepCustomizations.h"    // Not in the original (F-230)
+ #include "Engine/Source/Frame/CSimpleModel.h"
+ #include "Engine/Source/Model2/M2Scene.h"
+ #include "WoW/Source/DB/DBClient/DBClient.h"
+@@ -528,6 +529,7 @@ void CGDressUpModelFrame::SetModel(CM2Model* model) {
+         data.m_preferences.m_markingId = (player->m_unit->m_unitFieldPadding >> 8) & 0xFF;
+         data.m_preferences.m_bodyMarkingId = (player->m_unit->m_unitFieldPadding >> 16) & 0xFF;
+         data.m_preferences.m_warPaintId = (player->m_unit->m_unitFieldPadding >> 24) & 0xFF;
++        ZepUnpackPadding(player->m_obj->m_pad, data.m_preferences);     // Not in the original (F-230): OBJECT_FIELD_PADDING
+         data.m_model = model;
+         data.m_flags ^= (data.m_flags ^ (static_cast<uint32_t>(player->m_obj->m_guid == ClntObjMgrGetActivePlayer()) << 1)) & 0x2;
+         CCharacterComponent::ValidateComponentData(&data, COMPONENT_CONTEXT_2);
+diff --git a/WoW/Source/WowServices/RealmConnection.cpp b/WoW/Source/WowServices/RealmConnection.cpp
+index 48ac0789..9f35a148 100644
+--- a/WoW/Source/WowServices/RealmConnection.cpp
++++ b/WoW/Source/WowServices/RealmConnection.cpp
+@@ -6,6 +6,7 @@
+ #include "WoW/Source/DB/DBClient/DBCacheInstances.h"
+ #include "WoW/Source/UIUtil/AddOns.h"
+ #include "WoW/Source/WowServices/WDataStore.h"
++#include <cstring>     // Not in the original (F-230)
+ 
+ // STATIC: 0x00AB953C
+ TSList<RealmConnection::REALMCONNECTIONNODE> RealmConnection::s_allRealmConnections;
+@@ -77,11 +78,14 @@ int32_t RealmConnection::HandleCharEnum(uint32_t msgId, uint32_t time, CDataStor
+         info->m_markingID = 0;
+         info->m_bodyMarkingID = 0;
+         info->m_warPaintID = 0;
++        info->m_jewelleryID = 0;    // Not in the original (F-230)
++        memset(info->m_zepSlot, 0, sizeof(info->m_zepSlot));
+     }
+ 
+     // Not in the original (F-151): Zeppelin's server appends its character_customizations after the list:
+     //   'ZEPC', count, per character: guid, eye colour, marking
+     //   'ZEPD', count, per character: guid, n, then n choices (customization 1 eye, 2 tattoo, 3 scars, 4 war paint)
++    //   Not in the original (F-230): n = 11 adds c[4] = 5 jewellery and c[5..10] = 10..15 geoset slots 0..5
+     // Without either magic the read position is put back for the stock tail.
+     if (msg->m_size - msg->m_read >= 5) {
+         uint32_t start = msg->m_read;
+@@ -94,7 +98,7 @@ int32_t RealmConnection::HandleCharEnum(uint32_t msgId, uint32_t time, CDataStor
+ 
+             for (uint8_t i = 0; i < extra; i++) {
+                 uint64_t guid = 0;
+-                uint8_t choices[4] = { 0, 0, 0, 0 };
++                uint8_t choices[11] = {};     // Not in the original (F-230): was 4
+                 uint8_t n = 2;
+                 msg->Get(guid);
+ 
+@@ -106,7 +110,7 @@ int32_t RealmConnection::HandleCharEnum(uint32_t msgId, uint32_t time, CDataStor
+                     uint8_t choice = 0;
+                     msg->Get(choice);
+ 
+-                    if (k < 4) {
++                    if (k < 11) {   // Not in the original (F-230): was 4
+                         choices[k] = choice;
+                     }
+                 }
+@@ -117,6 +121,11 @@ int32_t RealmConnection::HandleCharEnum(uint32_t msgId, uint32_t time, CDataStor
+                         this->m_characterList.m_data[c].m_markingID = choices[1];
+                         this->m_characterList.m_data[c].m_bodyMarkingID = choices[2];
+                         this->m_characterList.m_data[c].m_warPaintID = choices[3];
++                        // Not in the original (F-230): a slot byte above 15 is not a slot value -> unset
++                        this->m_characterList.m_data[c].m_jewelleryID = choices[4];
++                        for (int32_t s = 0; s < 6; s++) {
++                            this->m_characterList.m_data[c].m_zepSlot[s] = choices[5 + s] <= 15 ? choices[5 + s] : 0;
++                        }
+                     }
+                 }
+             }
+diff --git a/WoW/Source/WowServices/RealmConnection.h b/WoW/Source/WowServices/RealmConnection.h
+index 82ecdc61..fd30ee49 100644
+--- a/WoW/Source/WowServices/RealmConnection.h
++++ b/WoW/Source/WowServices/RealmConnection.h
+@@ -45,7 +45,10 @@ class CHARACTER_INFO {
+     /* 0183 */ uint8_t m_markingID;
+     /* 0184 */ uint8_t m_bodyMarkingID;
+     /* 0185 */ uint8_t m_warPaintID;
+-    /* 0186 */ uint8_t unused_0186[2];
++    // Not in the original (F-230): ZEPD c[4] (jewellery, id 5) and c[5..10] (geoset slots, ids 10..15)
++    /* 0186 */ uint8_t m_jewelleryID;
++    /* 0187 */ uint8_t m_zepSlot[6];
++    /* 018D */ uint8_t unused_018D[1];
+ };
+ 
+ class RealmConnection : public NetClient {
+diff --git a/WoW/Source/WowServices/Types.h b/WoW/Source/WowServices/Types.h
+index 4121a5da..7cd91359 100644
+--- a/WoW/Source/WowServices/Types.h
++++ b/WoW/Source/WowServices/Types.h
+@@ -157,6 +157,9 @@ struct CHARACTER_CREATE_INFO {
+     /* 003A */ uint8_t m_markingID;
+     /* 003B */ uint8_t m_bodyMarkingID;
+     /* 003C */ uint8_t m_warPaintID;
++    // Not in the original (F-230): sent in the ZEPO block after the war paint
++    /* 003D */ uint8_t m_jewelleryID;
++    /* 003E */ uint8_t m_zepSlot[6];
+ };
+ 
+ struct REALM_INFO {
+diff --git a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
+index 572d78e0..e4462a74 100644
+--- a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
++++ b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
+@@ -1371,6 +1371,13 @@ void ClientConnection::RequestCharacterCreate(const CHARACTER_CREATE_INFO& info)
+     msg.Put(info.m_markingID);
+     msg.Put(info.m_bodyMarkingID);
+     msg.Put(info.m_warPaintID);
++    // Not in the original (F-230): ZEPO block - 'ZEPO', n = 7, jewellery (id 5), geoset slots 0..5 (ids 10..15)
++    msg.Put(static_cast<uint32_t>(0x4F50455A));
++    msg.Put(static_cast<uint8_t>(7));
++    msg.Put(info.m_jewelleryID);
++    for (int32_t s = 0; s < 6; s++) {
++        msg.Put(info.m_zepSlot[s]);
++    }
+     msg.Finalize();
+     this->Send(&msg);
+ }
+-- 
+2.34.1
+
