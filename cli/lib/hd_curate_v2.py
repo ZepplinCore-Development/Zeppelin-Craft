@@ -11,6 +11,7 @@
          the picked bake's CDX row, the picked character mesh's race tables
          (hair/facial geosets, CharSections), retail display skins (CDI)
 """
+import re
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
@@ -213,7 +214,8 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
         f = want.get(fpath)
         if f is None:
             continue
-        fx = hcf.fixed(fpath, f.read_bytes(), log)
+        mf = want.get(re.sub(r'\d\d\.skin$', '.m2', fpath)) if fpath.endswith('.skin') else None
+        fx = hcf.fixed(fpath, f.read_bytes(), log, model=mf.read_bytes() if mf else None)
         if not fx:
             continue
         out_f = fixed_dir / fpath

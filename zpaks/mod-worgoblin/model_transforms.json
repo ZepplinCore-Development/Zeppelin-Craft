@@ -6,5 +6,541 @@
     "ops": [
       { "op": "m2.camera.fov", "index": 0, "value": 0.75 }
     ]
+  },
+  "CHARACTER/GOBLIN/MALE/GOBLINMALE00.SKIN": {
+    "note": "F-230: the male goblin earrings / nose rings (texture type 6) shared their geoset id with the ear / nose mesh they hang on; moved to their own groups 14xx / 16xx so a geoset slot picks them on their own. NPC looks kept by the imply lines in Zeppelin\\\\CharCustomizations.txt.",
+    "base_sha256": "2f551c69d9cf80a4e802afaa8437c5abf4fa072be439dfc42bb3e86af3fad3e4",
+    "result_sha256": "f58727752c333076eba0d2daf75081ac112340acaa16f061c3837b6888d7e6e2",
+    "ops": [
+      {
+        "op": "skin.geoset.relabel",
+        "relabel": [
+          {
+            "from": 209,
+            "tex_type": 6,
+            "to": 1402
+          },
+          {
+            "from": 210,
+            "tex_type": 6,
+            "to": 1403
+          },
+          {
+            "from": 211,
+            "tex_type": 6,
+            "to": 1404
+          },
+          {
+            "from": 212,
+            "tex_type": 6,
+            "to": 1405
+          },
+          {
+            "from": 213,
+            "tex_type": 6,
+            "to": 1406
+          },
+          {
+            "from": 309,
+            "tex_type": 6,
+            "to": 1602
+          },
+          {
+            "from": 310,
+            "tex_type": 6,
+            "to": 1603
+          },
+          {
+            "from": 311,
+            "tex_type": 6,
+            "to": 1604
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/GOBLIN/MALE/GOBLINMALE01.SKIN": {
+    "note": "F-230: the male goblin earrings / nose rings (texture type 6) shared their geoset id with the ear / nose mesh they hang on; moved to their own groups 14xx / 16xx so a geoset slot picks them on their own. NPC looks kept by the imply lines in Zeppelin\\\\CharCustomizations.txt.",
+    "base_sha256": "336b828dedc3d9c757b3f030205047a6b7c2f2b1ef24d6109e9de2abe6f8cd5d",
+    "result_sha256": "1d41cc35e94a3f14f434561b0af76897fa17eeb70c8be8883dc331623a5fce28",
+    "ops": [
+      {
+        "op": "skin.geoset.relabel",
+        "relabel": [
+          {
+            "from": 209,
+            "tex_type": 6,
+            "to": 1402
+          },
+          {
+            "from": 210,
+            "tex_type": 6,
+            "to": 1403
+          },
+          {
+            "from": 211,
+            "tex_type": 6,
+            "to": 1404
+          },
+          {
+            "from": 212,
+            "tex_type": 6,
+            "to": 1405
+          },
+          {
+            "from": 213,
+            "tex_type": 6,
+            "to": 1406
+          },
+          {
+            "from": 309,
+            "tex_type": 6,
+            "to": 1602
+          },
+          {
+            "from": 310,
+            "tex_type": 6,
+            "to": 1603
+          },
+          {
+            "from": 311,
+            "tex_type": 6,
+            "to": 1604
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/GOBLIN/MALE/GOBLINMALE02.SKIN": {
+    "note": "F-230: the male goblin earrings / nose rings (texture type 6) shared their geoset id with the ear / nose mesh they hang on; moved to their own groups 14xx / 16xx so a geoset slot picks them on their own. NPC looks kept by the imply lines in Zeppelin\\\\CharCustomizations.txt.",
+    "base_sha256": "03eeabb9b09ff617790dcea4378b21d192bf3726e94c03870d37d9b46051b86c",
+    "result_sha256": "00ad536b8d0fd85c87fbc1f73a5076754f85190f8d1fcfe3b11503e9db0969f1",
+    "ops": [
+      {
+        "op": "skin.geoset.relabel",
+        "relabel": [
+          {
+            "from": 209,
+            "tex_type": 6,
+            "to": 1402
+          },
+          {
+            "from": 210,
+            "tex_type": 6,
+            "to": 1403
+          },
+          {
+            "from": 211,
+            "tex_type": 6,
+            "to": 1404
+          },
+          {
+            "from": 212,
+            "tex_type": 6,
+            "to": 1405
+          },
+          {
+            "from": 213,
+            "tex_type": 6,
+            "to": 1406
+          },
+          {
+            "from": 309,
+            "tex_type": 6,
+            "to": 1602
+          },
+          {
+            "from": 310,
+            "tex_type": 6,
+            "to": 1603
+          },
+          {
+            "from": 311,
+            "tex_type": 6,
+            "to": 1604
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/GOBLIN/MALE/GOBLINMALE03.SKIN": {
+    "note": "F-230: the male goblin earrings / nose rings (texture type 6) shared their geoset id with the ear / nose mesh they hang on; moved to their own groups 14xx / 16xx so a geoset slot picks them on their own. NPC looks kept by the imply lines in Zeppelin\\\\CharCustomizations.txt.",
+    "base_sha256": "09d85fffc5aa027da0b42e960682d01c4f44fb67b18035839d8713c880b8a28e",
+    "result_sha256": "cae02d2fb16bf581d53711d0e211bec50ffc593bb790d1bbdfa2e3d44a53a7e2",
+    "ops": [
+      {
+        "op": "skin.geoset.relabel",
+        "relabel": [
+          {
+            "from": 209,
+            "tex_type": 6,
+            "to": 1402
+          },
+          {
+            "from": 210,
+            "tex_type": 6,
+            "to": 1403
+          },
+          {
+            "from": 211,
+            "tex_type": 6,
+            "to": 1404
+          },
+          {
+            "from": 212,
+            "tex_type": 6,
+            "to": 1405
+          },
+          {
+            "from": 213,
+            "tex_type": 6,
+            "to": 1406
+          },
+          {
+            "from": 309,
+            "tex_type": 6,
+            "to": 1602
+          },
+          {
+            "from": 310,
+            "tex_type": 6,
+            "to": 1603
+          },
+          {
+            "from": 311,
+            "tex_type": 6,
+            "to": 1604
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/GOBLIN/FEMALE/GOBLINFEMALE00.SKIN": {
+    "note": "F-230: the female goblin earrings / nose rings (texture type 6) shared their geoset id with the ear / nose mesh they hang on; moved to their own groups 14xx / 16xx so a geoset slot picks them on their own. NPC looks kept by the imply lines in Zeppelin\\\\CharCustomizations.txt.",
+    "base_sha256": "01c604a39e809ba15df0da005a3b8e8d1c820e770ad6468165ca82146022deff",
+    "result_sha256": "598471b44aee4e30f9a0ab2f7742d862fb1326aedf6cfc7907dc6309e5c49341",
+    "ops": [
+      {
+        "op": "skin.geoset.relabel",
+        "relabel": [
+          {
+            "from": 205,
+            "tex_type": 6,
+            "to": 1402
+          },
+          {
+            "from": 206,
+            "tex_type": 6,
+            "to": 1403
+          },
+          {
+            "from": 207,
+            "tex_type": 6,
+            "to": 1404
+          },
+          {
+            "from": 208,
+            "tex_type": 6,
+            "to": 1405
+          },
+          {
+            "from": 209,
+            "tex_type": 6,
+            "to": 1406
+          },
+          {
+            "from": 210,
+            "tex_type": 6,
+            "to": 1407
+          },
+          {
+            "from": 211,
+            "tex_type": 6,
+            "to": 1408
+          },
+          {
+            "from": 212,
+            "tex_type": 6,
+            "to": 1409
+          },
+          {
+            "from": 213,
+            "tex_type": 6,
+            "to": 1410
+          },
+          {
+            "from": 307,
+            "tex_type": 6,
+            "to": 1602
+          },
+          {
+            "from": 308,
+            "tex_type": 6,
+            "to": 1603
+          },
+          {
+            "from": 309,
+            "tex_type": 6,
+            "to": 1604
+          },
+          {
+            "from": 310,
+            "tex_type": 6,
+            "to": 1605
+          },
+          {
+            "from": 311,
+            "tex_type": 6,
+            "to": 1606
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/GOBLIN/FEMALE/GOBLINFEMALE01.SKIN": {
+    "note": "F-230: the female goblin earrings / nose rings (texture type 6) shared their geoset id with the ear / nose mesh they hang on; moved to their own groups 14xx / 16xx so a geoset slot picks them on their own. NPC looks kept by the imply lines in Zeppelin\\\\CharCustomizations.txt.",
+    "base_sha256": "20764fd8fc7355f0db9cffec6f16f53c3060bb7f365879f4a436705cb4a1a6c4",
+    "result_sha256": "c047ebf5381637b7b64212b2479bc8ff09a93a247f7b9651405d6eae65834362",
+    "ops": [
+      {
+        "op": "skin.geoset.relabel",
+        "relabel": [
+          {
+            "from": 205,
+            "tex_type": 6,
+            "to": 1402
+          },
+          {
+            "from": 206,
+            "tex_type": 6,
+            "to": 1403
+          },
+          {
+            "from": 207,
+            "tex_type": 6,
+            "to": 1404
+          },
+          {
+            "from": 208,
+            "tex_type": 6,
+            "to": 1405
+          },
+          {
+            "from": 209,
+            "tex_type": 6,
+            "to": 1406
+          },
+          {
+            "from": 210,
+            "tex_type": 6,
+            "to": 1407
+          },
+          {
+            "from": 211,
+            "tex_type": 6,
+            "to": 1408
+          },
+          {
+            "from": 212,
+            "tex_type": 6,
+            "to": 1409
+          },
+          {
+            "from": 213,
+            "tex_type": 6,
+            "to": 1410
+          },
+          {
+            "from": 307,
+            "tex_type": 6,
+            "to": 1602
+          },
+          {
+            "from": 308,
+            "tex_type": 6,
+            "to": 1603
+          },
+          {
+            "from": 309,
+            "tex_type": 6,
+            "to": 1604
+          },
+          {
+            "from": 310,
+            "tex_type": 6,
+            "to": 1605
+          },
+          {
+            "from": 311,
+            "tex_type": 6,
+            "to": 1606
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/GOBLIN/FEMALE/GOBLINFEMALE02.SKIN": {
+    "note": "F-230: the female goblin earrings / nose rings (texture type 6) shared their geoset id with the ear / nose mesh they hang on; moved to their own groups 14xx / 16xx so a geoset slot picks them on their own. NPC looks kept by the imply lines in Zeppelin\\\\CharCustomizations.txt.",
+    "base_sha256": "a34b171f686dd0512ab2debc51a780fc13dac0b5248e211b5404bd5e86828e8f",
+    "result_sha256": "5e6ddc0b4ea426723e95ea2ef614a43255e0bda84baea52c3465c75b83d4f8f4",
+    "ops": [
+      {
+        "op": "skin.geoset.relabel",
+        "relabel": [
+          {
+            "from": 205,
+            "tex_type": 6,
+            "to": 1402
+          },
+          {
+            "from": 206,
+            "tex_type": 6,
+            "to": 1403
+          },
+          {
+            "from": 207,
+            "tex_type": 6,
+            "to": 1404
+          },
+          {
+            "from": 208,
+            "tex_type": 6,
+            "to": 1405
+          },
+          {
+            "from": 209,
+            "tex_type": 6,
+            "to": 1406
+          },
+          {
+            "from": 210,
+            "tex_type": 6,
+            "to": 1407
+          },
+          {
+            "from": 211,
+            "tex_type": 6,
+            "to": 1408
+          },
+          {
+            "from": 212,
+            "tex_type": 6,
+            "to": 1409
+          },
+          {
+            "from": 213,
+            "tex_type": 6,
+            "to": 1410
+          },
+          {
+            "from": 307,
+            "tex_type": 6,
+            "to": 1602
+          },
+          {
+            "from": 308,
+            "tex_type": 6,
+            "to": 1603
+          },
+          {
+            "from": 309,
+            "tex_type": 6,
+            "to": 1604
+          },
+          {
+            "from": 310,
+            "tex_type": 6,
+            "to": 1605
+          },
+          {
+            "from": 311,
+            "tex_type": 6,
+            "to": 1606
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/GOBLIN/FEMALE/GOBLINFEMALE03.SKIN": {
+    "note": "F-230: the female goblin earrings / nose rings (texture type 6) shared their geoset id with the ear / nose mesh they hang on; moved to their own groups 14xx / 16xx so a geoset slot picks them on their own. NPC looks kept by the imply lines in Zeppelin\\\\CharCustomizations.txt.",
+    "base_sha256": "539b2b31beb31893183d86ec6e0e025d879508e2a2539bd7d8ec63a8c2eb5830",
+    "result_sha256": "66314dafd0d101496cb86d54dc2a37dc72a12661769127d6e676c3c321e14287",
+    "ops": [
+      {
+        "op": "skin.geoset.relabel",
+        "relabel": [
+          {
+            "from": 205,
+            "tex_type": 6,
+            "to": 1402
+          },
+          {
+            "from": 206,
+            "tex_type": 6,
+            "to": 1403
+          },
+          {
+            "from": 207,
+            "tex_type": 6,
+            "to": 1404
+          },
+          {
+            "from": 208,
+            "tex_type": 6,
+            "to": 1405
+          },
+          {
+            "from": 209,
+            "tex_type": 6,
+            "to": 1406
+          },
+          {
+            "from": 210,
+            "tex_type": 6,
+            "to": 1407
+          },
+          {
+            "from": 211,
+            "tex_type": 6,
+            "to": 1408
+          },
+          {
+            "from": 212,
+            "tex_type": 6,
+            "to": 1409
+          },
+          {
+            "from": 213,
+            "tex_type": 6,
+            "to": 1410
+          },
+          {
+            "from": 307,
+            "tex_type": 6,
+            "to": 1602
+          },
+          {
+            "from": 308,
+            "tex_type": 6,
+            "to": 1603
+          },
+          {
+            "from": 309,
+            "tex_type": 6,
+            "to": 1604
+          },
+          {
+            "from": 310,
+            "tex_type": 6,
+            "to": 1605
+          },
+          {
+            "from": 311,
+            "tex_type": 6,
+            "to": 1606
+          }
+        ]
+      }
+    ]
   }
 }

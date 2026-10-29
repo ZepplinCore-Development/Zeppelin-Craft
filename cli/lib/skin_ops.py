@@ -28,6 +28,17 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
   {"op": "skin.geoset.remap", "map": {"402": -1, "105": 100}}
       Submesh ids renamed; -1 drops the submesh and its batches.
 
+  {"op": "skin.geoset.relabel", "relabel": [{"from": 209, "tex_type": 6, "to": 1402}, ...]}
+      Submeshes moved to another geoset id IN PLACE: the skin's bytes are patched, never repacked
+      (only the 2-byte id changes; layout, size and every other byte stay as the donor had them).
+      Each entry renames every submesh with id `from` whose batches all draw a texture of type
+      `tex_type` (the model's texture table via the batch's textureComboIndex; omit it to take every
+      submesh with that id). An entry that matches nothing, or a submesh whose batches mix the wanted
+      type with others, is an error. F-230: the jewellery that shared a geoset id with the ear / nose /
+      beard it was modelled on (goblin 209 = ear t1 + earring t6) moves to its own group 14xx / 16xx,
+      so a geoset slot can pick it independently. LOD skins split a piece into several submeshes; the
+      same entry renames all of them.
+
   {"op": "skin.geoset.copy", "from": 401, "to": [402, 403]}
       Every submesh with id `from` (and its batches) copied under each id in `to`: a piece that
       shows with every variant of the group (I-392: the one ear set kept on each wing variant).
@@ -570,6 +581,42 @@ def _op_geoset_copy(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     return f'geoset.copy: {src} ({len(js)} submesh) -> {to}'
 
 
+def _op_geoset_relabel(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    """skin.geoset.relabel: see the module doc. Only edits submesh ids (in place in sk.subs)."""
+    types = None
+    if any('tex_type' in e for e in cfg['relabel']):
+        if not model:
+            raise ValueError('skin.geoset.relabel: tex_type needs the model')
+        nt, ot = _arr(model, 0x50)
+        ttype = [struct.unpack_from('<I', model, ot + 16 * i)[0] for i in range(nt)]
+        nl, ol = _arr(model, 0x80)
+        tlook = struct.unpack_from('<%dH' % nl, model, ol)
+        types = collections.defaultdict(set)
+        for b in sk.batches:
+            si, tci = struct.unpack_from('<H', b, 4)[0], struct.unpack_from('<H', b, 16)[0]
+            types[si].add(ttype[tlook[tci]] if tci < len(tlook) and tlook[tci] < len(ttype) else -1)
+    out = []
+    for e in cfg['relabel']:
+        src, dst, tt = int(e['from']), int(e['to']), e.get('tex_type')
+        hit = []
+        for j in range(len(sk.subs)):
+            if sk.sub(j)['id'] != src:
+                continue
+            if tt is not None:
+                have = types.get(j, set())
+                if int(tt) not in have:
+                    continue
+                if have != {int(tt)}:
+                    raise ValueError(f'skin.geoset.relabel: submesh {j} ({src}) mixes texture types {sorted(have)}')
+            hit.append(j)
+        if not hit:
+            raise ValueError(f'skin.geoset.relabel: no submesh {src}' + (f' with texture type {tt}' if tt is not None else ''))
+        for j in hit:
+            struct.pack_into('<H', sk.subs[j], 0, dst)
+        out.append(f'{src}' + (f'/t{tt}' if tt is not None else '') + f'->{dst} x{len(hit)}')
+    return 'geoset.relabel: ' + ', '.join(out)
+
+
 def _rigid_plan(cfg: Dict[str, Any]):
     """The donor triangles and vertices import_rigid places (shared by the model and skin ops)."""
     donor = cfg['_donor_model']
@@ -1072,6 +1119,7 @@ OPS = {
     'skin.import_rigid': _op_import_rigid,
     'skin.geoset.remap': _op_geoset_remap,
     'skin.geoset.copy': _op_geoset_copy,
+    'skin.geoset.relabel': _op_geoset_relabel,
     'skin.batch.set': _op_batch_set,
 }
 
@@ -1084,4 +1132,17 @@ def apply_ops_bytes(skin: bytes, model: bytes, ops: List[Dict[str, Any]]) -> Tup
         if fn is None:
             raise ValueError(f'unknown skin op {cfg.get("op")!r} (known: {", ".join(OPS)})')
         log.append(fn(sk, model, cfg))
+    if ops and all(cfg.get('op') in _IN_PLACE for cfg in ops):
+        # nothing changed the skin's arrays: write the submeshes back where they were, keep every other byte
+        out = bytearray(skin)
+        n, o = _arr(skin, 28)
+        if len(sk.subs) != n:
+            raise ValueError('in-place skin ops changed the submesh count')
+        for j, raw in enumerate(sk.subs):
+            out[o + 48 * j:o + 48 * j + 48] = raw
+        return bytes(out), log
     return sk.pack(), log
+
+
+# ops that only rewrite submesh records in place: a recipe made only of these keeps the donor's layout
+_IN_PLACE = {'skin.geoset.relabel'}

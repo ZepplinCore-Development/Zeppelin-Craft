@@ -5459,5 +5459,541 @@
   "ship": [
    "world/environment/doodad/6.0/ashrand/rocks/textures/6ar_wmocladding02.blp"
   ]
+ },
+ "character/orc/male/orcmale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: orc male beard rings (texture type 8) moved out of their beard geosets 104-108 to 1404-1408 (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "c55c0d88f6956865409b7bd4230115088507e55d35d30d3a5ddb05d9361ebc94",
+  "result_sha256": "3f07190d29a0038a2d2e5175a840817c523305aef2449f72cc5ea370b145cb51",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 104,
+      "tex_type": 8,
+      "to": 1404
+     },
+     {
+      "from": 105,
+      "tex_type": 8,
+      "to": 1405
+     },
+     {
+      "from": 106,
+      "tex_type": 8,
+      "to": 1406
+     },
+     {
+      "from": 107,
+      "tex_type": 8,
+      "to": 1407
+     },
+     {
+      "from": 108,
+      "tex_type": 8,
+      "to": 1408
+     }
+    ]
+   }
+  ]
+ },
+ "character/orc/male/orcmale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: orc male beard rings (texture type 8) moved out of their beard geosets 104-108 to 1404-1408 (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "c81144a948167a9e1616ec09d809a759ad7abcbc605183501ba55718b4469201",
+  "result_sha256": "2bad4cc2f80daaec33d3075451301a304cc68893f5f64f4f6b1346f484d57e1e",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 104,
+      "tex_type": 8,
+      "to": 1404
+     },
+     {
+      "from": 105,
+      "tex_type": 8,
+      "to": 1405
+     },
+     {
+      "from": 106,
+      "tex_type": 8,
+      "to": 1406
+     },
+     {
+      "from": 107,
+      "tex_type": 8,
+      "to": 1407
+     },
+     {
+      "from": 108,
+      "tex_type": 8,
+      "to": 1408
+     }
+    ]
+   }
+  ]
+ },
+ "character/orc/male/orcmale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: orc male beard rings (texture type 8) moved out of their beard geosets 104-108 to 1404-1408 (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "95b885326f8167abbc749000c36f2191fd4887109bd0161930f34e84a22bf134",
+  "result_sha256": "b3b78c381ff18442861dacbf8b0162c5cac95e2b02260c21978bc3b23b2f24ad",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 104,
+      "tex_type": 8,
+      "to": 1404
+     },
+     {
+      "from": 105,
+      "tex_type": 8,
+      "to": 1405
+     },
+     {
+      "from": 106,
+      "tex_type": 8,
+      "to": 1406
+     },
+     {
+      "from": 107,
+      "tex_type": 8,
+      "to": 1407
+     },
+     {
+      "from": 108,
+      "tex_type": 8,
+      "to": 1408
+     }
+    ]
+   }
+  ]
+ },
+ "character/orc/male/orcmale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: orc male beard rings (texture type 8) moved out of their beard geosets 104-108 to 1404-1408 (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "7c1b798f000ebda69d5dbb03e82bfa3298cfaa7e7bc7b3a8f00cbb1aeb793bd0",
+  "result_sha256": "d3899036b482bd0077f13e351752911ef6f95b8b64b4dd4cc1dadc2b3768cd9f",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 104,
+      "tex_type": 8,
+      "to": 1404
+     },
+     {
+      "from": 105,
+      "tex_type": 8,
+      "to": 1405
+     },
+     {
+      "from": 106,
+      "tex_type": 8,
+      "to": 1406
+     },
+     {
+      "from": 107,
+      "tex_type": 8,
+      "to": 1407
+     },
+     {
+      "from": 108,
+      "tex_type": 8,
+      "to": 1408
+     }
+    ]
+   }
+  ]
+ },
+ "character/dwarf/male/dwarfmale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: dwarf male beard rings / moustache clasps (texture type 8) moved to 14xx / 16xx (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "7bb4bb6aed24a32f06ea2c8e8eb9ab7f22fb18875c62b9301373397571a4ac1b",
+  "result_sha256": "faae41964a87dc0646245317f66700be57800f190b936dcae45e028ed0b2eed1",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 102,
+      "tex_type": 8,
+      "to": 1402
+     },
+     {
+      "from": 103,
+      "tex_type": 8,
+      "to": 1403
+     },
+     {
+      "from": 104,
+      "tex_type": 8,
+      "to": 1404
+     },
+     {
+      "from": 107,
+      "tex_type": 8,
+      "to": 1407
+     },
+     {
+      "from": 110,
+      "tex_type": 8,
+      "to": 1410
+     },
+     {
+      "from": 112,
+      "tex_type": 8,
+      "to": 1412
+     },
+     {
+      "from": 305,
+      "tex_type": 8,
+      "to": 1605
+     },
+     {
+      "from": 307,
+      "tex_type": 8,
+      "to": 1607
+     },
+     {
+      "from": 310,
+      "tex_type": 8,
+      "to": 1610
+     }
+    ]
+   }
+  ]
+ },
+ "character/dwarf/male/dwarfmale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: dwarf male beard rings / moustache clasps (texture type 8) moved to 14xx / 16xx (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "c08e904d1eb0162f74c5d83b7c4890ecbca8fe1c03d04f3cff1c58cd00ade11b",
+  "result_sha256": "51193b7da932974f5c126ba37a1e021cbc702e249355ff48f55c0e5ff41ad565",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 102,
+      "tex_type": 8,
+      "to": 1402
+     },
+     {
+      "from": 103,
+      "tex_type": 8,
+      "to": 1403
+     },
+     {
+      "from": 104,
+      "tex_type": 8,
+      "to": 1404
+     },
+     {
+      "from": 107,
+      "tex_type": 8,
+      "to": 1407
+     },
+     {
+      "from": 110,
+      "tex_type": 8,
+      "to": 1410
+     },
+     {
+      "from": 112,
+      "tex_type": 8,
+      "to": 1412
+     },
+     {
+      "from": 305,
+      "tex_type": 8,
+      "to": 1605
+     },
+     {
+      "from": 307,
+      "tex_type": 8,
+      "to": 1607
+     },
+     {
+      "from": 310,
+      "tex_type": 8,
+      "to": 1610
+     }
+    ]
+   }
+  ]
+ },
+ "character/dwarf/male/dwarfmale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: dwarf male beard rings / moustache clasps (texture type 8) moved to 14xx / 16xx (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "d11c914992ce525911592bd32182292d0ff6230b14215bd71427c2ed07748d85",
+  "result_sha256": "3fba52871561c2764adc35e6e122c40f4c1917a0b1db9bbc975feeb5d7e1c8e8",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 102,
+      "tex_type": 8,
+      "to": 1402
+     },
+     {
+      "from": 103,
+      "tex_type": 8,
+      "to": 1403
+     },
+     {
+      "from": 104,
+      "tex_type": 8,
+      "to": 1404
+     },
+     {
+      "from": 107,
+      "tex_type": 8,
+      "to": 1407
+     },
+     {
+      "from": 110,
+      "tex_type": 8,
+      "to": 1410
+     },
+     {
+      "from": 112,
+      "tex_type": 8,
+      "to": 1412
+     },
+     {
+      "from": 305,
+      "tex_type": 8,
+      "to": 1605
+     },
+     {
+      "from": 307,
+      "tex_type": 8,
+      "to": 1607
+     },
+     {
+      "from": 310,
+      "tex_type": 8,
+      "to": 1610
+     }
+    ]
+   }
+  ]
+ },
+ "character/dwarf/male/dwarfmale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: dwarf male beard rings / moustache clasps (texture type 8) moved to 14xx / 16xx (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "4ec9472f2c56847a806637ca1321faa8999d7a2ba8fc88448dd92b206ea54db3",
+  "result_sha256": "8445b4dc559c82f47bc6096bc0236f33de7138e40987afa7d5b1138b7d6636cb",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 102,
+      "tex_type": 8,
+      "to": 1402
+     },
+     {
+      "from": 103,
+      "tex_type": 8,
+      "to": 1403
+     },
+     {
+      "from": 104,
+      "tex_type": 8,
+      "to": 1404
+     },
+     {
+      "from": 107,
+      "tex_type": 8,
+      "to": 1407
+     },
+     {
+      "from": 110,
+      "tex_type": 8,
+      "to": 1410
+     },
+     {
+      "from": 112,
+      "tex_type": 8,
+      "to": 1412
+     },
+     {
+      "from": 305,
+      "tex_type": 8,
+      "to": 1605
+     },
+     {
+      "from": 307,
+      "tex_type": 8,
+      "to": 1607
+     },
+     {
+      "from": 310,
+      "tex_type": 8,
+      "to": 1610
+     }
+    ]
+   }
+  ]
+ },
+ "character/dwarf/female/dwarffemale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: dwarf female nose ring 305 (its only submesh) moved to 1602 (slot \"Nose Ring\"); CharacterFacialHairStyles 3/1/4 now names geoset_4 = 2 instead of geoset_2 = 5.",
+  "base_sha256": "941721c05c32db673d53667268153ae07c858b2e0103f5b4fb897ac606713fb7",
+  "result_sha256": "5fb29cf3203b6d279c2c8aefbe7ae6de49784ad7bfe460fd0fb48483f5e1f09e",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 305,
+      "to": 1602
+     }
+    ]
+   }
+  ]
+ },
+ "character/dwarf/female/dwarffemale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: dwarf female nose ring 305 (its only submesh) moved to 1602 (slot \"Nose Ring\"); CharacterFacialHairStyles 3/1/4 now names geoset_4 = 2 instead of geoset_2 = 5.",
+  "base_sha256": "aa96faf2f2dc4aaff120ee0e57ae6aeaff2fa53cbfbae7360283b699166b48f7",
+  "result_sha256": "5826496bae181f478aefbb133e8298f3a22abe7ba336433575f633e0f70504fc",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 305,
+      "to": 1602
+     }
+    ]
+   }
+  ]
+ },
+ "character/dwarf/female/dwarffemale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: dwarf female nose ring 305 (its only submesh) moved to 1602 (slot \"Nose Ring\"); CharacterFacialHairStyles 3/1/4 now names geoset_4 = 2 instead of geoset_2 = 5.",
+  "base_sha256": "fb98cefdd921c8a237339fbab6e92b24a5684efcb977b5044fe104d1d3500fdd",
+  "result_sha256": "594fbe44e1059ae2504cf4efc3f348a0048982143ebfc8f8edb7efd77bb98794",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 305,
+      "to": 1602
+     }
+    ]
+   }
+  ]
+ },
+ "character/dwarf/female/dwarffemale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: dwarf female nose ring 305 (its only submesh) moved to 1602 (slot \"Nose Ring\"); CharacterFacialHairStyles 3/1/4 now names geoset_4 = 2 instead of geoset_2 = 5.",
+  "base_sha256": "d1215af676bdd8cfccc2cc4c72b1800503305759946dbc6b7a3c060d2cb89bf4",
+  "result_sha256": "a6fe8035f32e257554cd48877b161d14b9a776fc4e5f64b313e7c09ab23f5040",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 305,
+      "to": 1602
+     }
+    ]
+   }
+  ]
+ },
+ "character/scourge/male/scourgemale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6.",
+  "base_sha256": "041ad44157eea28b40d2ed3a4e40563ebaa4e007d0158c8de11a973db76f7cdf",
+  "result_sha256": "95868f7defb65df1546d212d77f4ae6556c47235a700ba5c333aa4959b067c78",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 203,
+      "to": 105
+     },
+     {
+      "from": 205,
+      "to": 106
+     }
+    ]
+   }
+  ]
+ },
+ "character/scourge/male/scourgemale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6.",
+  "base_sha256": "1471f6348a337821b305d4a771bda09f5e9b18b99bb9fb4228331beebc95fc01",
+  "result_sha256": "b0d7fbf9538238a9f9364ad58fb189a7e6177b08decb4f9c15526891de97d701",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 203,
+      "to": 105
+     },
+     {
+      "from": 205,
+      "to": 106
+     }
+    ]
+   }
+  ]
+ },
+ "character/scourge/male/scourgemale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6.",
+  "base_sha256": "ca55dd2cd2e1623281fd89d6960217b4882d54a80c8eba0192ffbf6c9de651c2",
+  "result_sha256": "5fb0a2eb4459d64c5617c27a7bb67db4c0491257ada57b726c6c570a33e62bbc",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 203,
+      "to": 105
+     },
+     {
+      "from": 205,
+      "to": 106
+     }
+    ]
+   }
+  ]
+ },
+ "character/scourge/male/scourgemale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6.",
+  "base_sha256": "42e47e33fcccacaeabe3097977aca4f84c0c236ade77d6c959e5880408adba5f",
+  "result_sha256": "866771f362ce395cd771aec8834f1d931d11b497f40e11588e393d703810365c",
+  "ops": [
+   {
+    "op": "skin.geoset.relabel",
+    "relabel": [
+     {
+      "from": 203,
+      "to": 105
+     },
+     {
+      "from": 205,
+      "to": 106
+     }
+    ]
+   }
+  ]
  }
 }

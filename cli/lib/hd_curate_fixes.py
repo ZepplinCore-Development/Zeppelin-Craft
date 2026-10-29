@@ -25,9 +25,11 @@ def recipes() -> Dict[str, dict]:
     return _cache
 
 
-def fixed(path: str, data: bytes, log=None) -> Optional[Tuple[bytes, dict]]:
+def fixed(path: str, data: bytes, log=None, model: Optional[bytes] = None) -> Optional[Tuple[bytes, dict]]:
     """(fixed bytes, recipe) when `path` has a recipe written for exactly these bytes, else None.
-    A path may carry several recipes (one per pack file), matched by base_sha256."""
+    A path may carry several recipes (one per pack file), matched by base_sha256.
+    A .skin recipe runs cli/lib/skin_ops; its ops may need the model the skin belongs to (`model`,
+    the bytes curate ships at the skin's stem + .m2), e.g. skin.geoset.relabel's tex_type (F-230)."""
     rs = recipes().get(path.lower())
     if not rs:
         return None
@@ -37,7 +39,11 @@ def fixed(path: str, data: bytes, log=None) -> Optional[Tuple[bytes, dict]]:
     if r is None:
         return None
     from lib import m2_ops
-    out, _ = m2_ops.apply_ops_bytes(data, r.get('ops') or [])
+    if path.lower().endswith('.skin'):
+        from lib import skin_ops
+        out, _ = skin_ops.apply_ops_bytes(data, model or b'', r.get('ops') or [])
+    else:
+        out, _ = m2_ops.apply_ops_bytes(data, r.get('ops') or [])
     if r.get('result_sha256') and hashlib.sha256(out).hexdigest() != r['result_sha256']:
         raise m2_ops.M2OpError(f'{path}: recipe result does not match result_sha256')
     return out, r
