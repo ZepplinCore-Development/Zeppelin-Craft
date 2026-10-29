@@ -1,0 +1,352 @@
+From aba53830e5b2efa40c8cc80b5635204834280111 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 29 Oct 2026 13:00:43 +0000
+Subject: [PATCH] CUSTOM: split facial features - geoset slots in
+ character_customizations 5, 10-15 (F-230)
+
+- ZEPO block (uint32 'ZEPO', n, bytes) read after the last field of CMSG_CHAR_CREATE, CMSG_CHAR_CUSTOMIZE,
+  CMSG_CHAR_FACTION_CHANGE / RACE_CHANGE; CMSG_ALTER_APPEARANCE accepts and ignores it (barber phase 2). Absent = unchanged.
+- create saves jewellery (5) and slots 0-5 (10-15), non-zero only; customize / race / faction change replace them
+  from the block, or clear them when race or gender changed without one (CHAR_DEL_CHARACTER_ZEP_GEOSETS)
+- SMSG_CHAR_ENUM ZEPD trailer carries n = 11 (ids 1-5, 10-15); CHAR_SEL_ENUM(_DECLINED_NAME) joins the 7 new ids
+- login packs slots into OBJECT_FIELD_PADDING (slot s bits 4s..4s+3, jewellery bits 24-31); field now PUBLIC
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ .../Implementation/CharacterDatabase.cpp      | 20 ++++--
+ .../Implementation/CharacterDatabase.h        |  1 +
+ .../Object/Updates/UpdateFieldFlags.cpp       |  2 +-
+ src/server/game/Entities/Player/Player.h      |  1 +
+ .../game/Entities/Player/PlayerMisc.cpp       | 29 +++++++++
+ .../game/Entities/Player/PlayerStorage.cpp    | 10 ++-
+ src/server/game/Handlers/CharacterHandler.cpp | 62 ++++++++++++++++---
+ src/server/game/Server/WorldSession.h         |  8 +++
+ 8 files changed, 120 insertions(+), 13 deletions(-)
+
+diff --git a/src/server/database/Database/Implementation/CharacterDatabase.cpp b/src/server/database/Database/Implementation/CharacterDatabase.cpp
+index e7aa1ec70..baddbf34a 100644
+--- a/src/server/database/Database/Implementation/CharacterDatabase.cpp
++++ b/src/server/database/Database/Implementation/CharacterDatabase.cpp
+@@ -42,18 +42,28 @@ void CharacterDatabaseConnection::DoPrepareStatements()
+     PrepareStatement(CHAR_SEL_BANNED_NAME, "SELECT characters.name FROM characters, character_banned WHERE character_banned.guid = ? AND character_banned.guid = characters.guid", CONNECTION_SYNCH);
+     PrepareStatement(CHAR_SEL_ENUM, "SELECT c.guid, c.name, c.race, c.class, c.gender, c.skin, c.face, c.hairStyle, c.hairColor, c.facialStyle, c.level, c.zone, c.map, c.position_x, c.position_y, c.position_z, "
+                      "gm.guildid, c.playerFlags, c.at_login, cp.entry, cp.modelid, cp.level, c.equipmentCache, cb.guid, c.extra_flags, "
+-                     "ce.choice, cm.choice, cbm.choice, cwp.choice "     // CUSTOM (F-151): eye colour, tattoo, scars, war paint (NULL reads 0) - the last four columns
++                     "ce.choice, cm.choice, cbm.choice, cwp.choice, "   // CUSTOM (F-151): eye colour, tattoo, scars, war paint (NULL reads 0)
++                     "cj.choice, z0.choice, z1.choice, z2.choice, z3.choice, z4.choice, z5.choice "   // CUSTOM (F-230): jewellery (5), geoset slots 0..5 (10..15) - the last eleven columns are ids 1-5, 10-15
+                      "FROM characters AS c LEFT JOIN character_pet AS cp ON c.guid = cp.owner AND cp.slot = ? LEFT JOIN guild_member AS gm ON c.guid = gm.guid "
+                      "LEFT JOIN character_banned AS cb ON c.guid = cb.guid AND cb.active = 1 "
+-                     "LEFT JOIN character_customizations AS ce ON c.guid = ce.guid AND ce.customization = 1 LEFT JOIN character_customizations AS cm ON c.guid = cm.guid AND cm.customization = 2 LEFT JOIN character_customizations AS cbm ON c.guid = cbm.guid AND cbm.customization = 3 LEFT JOIN character_customizations AS cwp ON c.guid = cwp.guid AND cwp.customization = 4 WHERE c.account = ? AND c.deleteInfos_Name IS NULL ORDER BY COALESCE(c.order, c.guid)", CONNECTION_ASYNC);
++                     "LEFT JOIN character_customizations AS ce ON c.guid = ce.guid AND ce.customization = 1 LEFT JOIN character_customizations AS cm ON c.guid = cm.guid AND cm.customization = 2 LEFT JOIN character_customizations AS cbm ON c.guid = cbm.guid AND cbm.customization = 3 LEFT JOIN character_customizations AS cwp ON c.guid = cwp.guid AND cwp.customization = 4 "
++                     "LEFT JOIN character_customizations AS cj ON c.guid = cj.guid AND cj.customization = 5 LEFT JOIN character_customizations AS z0 ON c.guid = z0.guid AND z0.customization = 10 "
++                     "LEFT JOIN character_customizations AS z1 ON c.guid = z1.guid AND z1.customization = 11 LEFT JOIN character_customizations AS z2 ON c.guid = z2.guid AND z2.customization = 12 "
++                     "LEFT JOIN character_customizations AS z3 ON c.guid = z3.guid AND z3.customization = 13 LEFT JOIN character_customizations AS z4 ON c.guid = z4.guid AND z4.customization = 14 "
++                     "LEFT JOIN character_customizations AS z5 ON c.guid = z5.guid AND z5.customization = 15 WHERE c.account = ? AND c.deleteInfos_Name IS NULL ORDER BY COALESCE(c.order, c.guid)", CONNECTION_ASYNC);
+     PrepareStatement(CHAR_SEL_ENUM_DECLINED_NAME, "SELECT c.guid, c.name, c.race, c.class, c.gender, c.skin, c.face, c.hairStyle, c.hairColor, c.facialStyle, c.level, c.zone, c.map, "
+                      "c.position_x, c.position_y, c.position_z, gm.guildid, c.playerFlags, c.at_login, cp.entry, cp.modelid, cp.level, c.equipmentCache, "
+                      "cb.guid, c.extra_flags, cd.genitive, "
+-                     "ce.choice, cm.choice, cbm.choice, cwp.choice "     // CUSTOM (F-151): eye colour, tattoo, scars, war paint (NULL reads 0) - the last four columns
++                     "ce.choice, cm.choice, cbm.choice, cwp.choice, "   // CUSTOM (F-151): eye colour, tattoo, scars, war paint (NULL reads 0)
++                     "cj.choice, z0.choice, z1.choice, z2.choice, z3.choice, z4.choice, z5.choice "   // CUSTOM (F-230): jewellery (5), geoset slots 0..5 (10..15) - the last eleven columns are ids 1-5, 10-15
+                      "FROM characters AS c LEFT JOIN character_pet AS cp ON c.guid = cp.owner AND cp.slot = ? "
+                      "LEFT JOIN character_declinedname AS cd ON c.guid = cd.guid LEFT JOIN guild_member AS gm ON c.guid = gm.guid "
+                      "LEFT JOIN character_banned AS cb ON c.guid = cb.guid AND cb.active = 1 "
+-                     "LEFT JOIN character_customizations AS ce ON c.guid = ce.guid AND ce.customization = 1 LEFT JOIN character_customizations AS cm ON c.guid = cm.guid AND cm.customization = 2 LEFT JOIN character_customizations AS cbm ON c.guid = cbm.guid AND cbm.customization = 3 LEFT JOIN character_customizations AS cwp ON c.guid = cwp.guid AND cwp.customization = 4 WHERE c.account = ? AND c.deleteInfos_Name IS NULL ORDER BY COALESCE(c.order, c.guid)", CONNECTION_ASYNC);
++                     "LEFT JOIN character_customizations AS ce ON c.guid = ce.guid AND ce.customization = 1 LEFT JOIN character_customizations AS cm ON c.guid = cm.guid AND cm.customization = 2 LEFT JOIN character_customizations AS cbm ON c.guid = cbm.guid AND cbm.customization = 3 LEFT JOIN character_customizations AS cwp ON c.guid = cwp.guid AND cwp.customization = 4 "
++                     "LEFT JOIN character_customizations AS cj ON c.guid = cj.guid AND cj.customization = 5 LEFT JOIN character_customizations AS z0 ON c.guid = z0.guid AND z0.customization = 10 "
++                     "LEFT JOIN character_customizations AS z1 ON c.guid = z1.guid AND z1.customization = 11 LEFT JOIN character_customizations AS z2 ON c.guid = z2.guid AND z2.customization = 12 "
++                     "LEFT JOIN character_customizations AS z3 ON c.guid = z3.guid AND z3.customization = 13 LEFT JOIN character_customizations AS z4 ON c.guid = z4.guid AND z4.customization = 14 "
++                     "LEFT JOIN character_customizations AS z5 ON c.guid = z5.guid AND z5.customization = 15 WHERE c.account = ? AND c.deleteInfos_Name IS NULL ORDER BY COALESCE(c.order, c.guid)", CONNECTION_ASYNC);
+     PrepareStatement(CHAR_SEL_FREE_NAME, "SELECT guid, name, at_login FROM characters WHERE guid = ? AND account = ? AND NOT EXISTS (SELECT NULL FROM characters WHERE name = ?)", CONNECTION_ASYNC);
+     PrepareStatement(CHAR_SEL_CHAR_ZONE, "SELECT zone FROM characters WHERE guid = ?", CONNECTION_SYNCH);
+     PrepareStatement(CHAR_SEL_CHARACTER_NAME_DATA, "SELECT race, class, gender, level FROM characters WHERE guid = ?", CONNECTION_SYNCH);
+@@ -659,6 +669,8 @@ void CharacterDatabaseConnection::DoPrepareStatements()
+     PrepareStatement(CHAR_SEL_CHARACTER_CUSTOMIZATIONS, "SELECT customization, choice FROM character_customizations WHERE guid = ?", CONNECTION_ASYNC);
+     PrepareStatement(CHAR_REP_CHARACTER_CUSTOMIZATION, "REPLACE INTO character_customizations (guid, customization, choice) VALUES (?, ?, ?)", CONNECTION_ASYNC);
+     PrepareStatement(CHAR_DEL_CHARACTER_CUSTOMIZATIONS, "DELETE FROM character_customizations WHERE guid = ?", CONNECTION_ASYNC);
++    // CUSTOM (F-230): jewellery layer (5) and geoset slots (10..15) - race/sex specific, cleared on race or gender change
++    PrepareStatement(CHAR_DEL_CHARACTER_ZEP_GEOSETS, "DELETE FROM character_customizations WHERE guid = ? AND (customization = 5 OR customization BETWEEN 10 AND 15)", CONNECTION_ASYNC);
+ }
+ 
+ CharacterDatabaseConnection::CharacterDatabaseConnection(MySQLConnectionInfo& connInfo) : MySQLConnection(connInfo)
+diff --git a/src/server/database/Database/Implementation/CharacterDatabase.h b/src/server/database/Database/Implementation/CharacterDatabase.h
+index a8c204dd9..815bc4896 100644
+--- a/src/server/database/Database/Implementation/CharacterDatabase.h
++++ b/src/server/database/Database/Implementation/CharacterDatabase.h
+@@ -552,6 +552,7 @@ enum CharacterDatabaseStatements : uint32
+     CHAR_SEL_CHARACTER_CUSTOMIZATIONS,
+     CHAR_REP_CHARACTER_CUSTOMIZATION,
+     CHAR_DEL_CHARACTER_CUSTOMIZATIONS,
++    CHAR_DEL_CHARACTER_ZEP_GEOSETS,         // CUSTOM (F-230)
+ 
+     MAX_CHARACTERDATABASE_STATEMENTS
+ };
+diff --git a/src/server/game/Entities/Object/Updates/UpdateFieldFlags.cpp b/src/server/game/Entities/Object/Updates/UpdateFieldFlags.cpp
+index b9ffa1e08..394b78ffa 100644
+--- a/src/server/game/Entities/Object/Updates/UpdateFieldFlags.cpp
++++ b/src/server/game/Entities/Object/Updates/UpdateFieldFlags.cpp
+@@ -166,7 +166,7 @@ uint32 UnitUpdateFieldFlags[PLAYER_END] =
+     UF_FLAG_PUBLIC,                                         // OBJECT_FIELD_TYPE
+     UF_FLAG_PUBLIC,                                         // OBJECT_FIELD_ENTRY
+     UF_FLAG_PUBLIC,                                         // OBJECT_FIELD_SCALE_X
+-    UF_FLAG_NONE,                                           // OBJECT_FIELD_PADDING
++    UF_FLAG_PUBLIC,                                         // OBJECT_FIELD_PADDING (CUSTOM F-230: geoset slots + jewellery; was NONE)
+     UF_FLAG_PUBLIC,                                         // UNIT_FIELD_CHARM
+     UF_FLAG_PUBLIC,                                         // UNIT_FIELD_CHARM+1
+     UF_FLAG_PUBLIC,                                         // UNIT_FIELD_SUMMON
+diff --git a/src/server/game/Entities/Player/Player.h b/src/server/game/Entities/Player/Player.h
+index 93007bd6f..8ff70f28f 100644
+--- a/src/server/game/Entities/Player/Player.h
++++ b/src/server/game/Entities/Player/Player.h
+@@ -1617,6 +1617,7 @@ public:
+     void _SaveSkills(CharacterDatabaseTransaction trans);
+ 
+     static void Customize(CharacterCustomizeInfo const* customizeInfo, CharacterDatabaseTransaction trans);
++    static void SaveZepCustomizations(ObjectGuid::LowType lowGuid, uint8 const (&zep)[7], CharacterDatabaseTransaction trans);   // CUSTOM (F-230)
+     static void SavePositionInDB(uint32 mapid, float x, float y, float z, float o, uint32 zone, ObjectGuid guid);
+     static void SavePositionInDB(WorldLocation const& loc, uint16 zoneId, ObjectGuid guid, CharacterDatabaseTransaction trans);
+ 
+diff --git a/src/server/game/Entities/Player/PlayerMisc.cpp b/src/server/game/Entities/Player/PlayerMisc.cpp
+index 4b5f063d0..87cd57845 100644
+--- a/src/server/game/Entities/Player/PlayerMisc.cpp
++++ b/src/server/game/Entities/Player/PlayerMisc.cpp
+@@ -125,6 +125,35 @@ void Player::Customize(CharacterCustomizeInfo const* customizeInfo, CharacterDat
+     stmt->SetData(6, customizeInfo->Guid.GetCounter());
+ 
+     CharacterDatabase.ExecuteOrAppend(trans, stmt);
++
++    // CUSTOM (F-230): geoset slots are race/sex specific - a sent ZEPO block replaces them, a race or gender
++    // change without one clears them (the legacy facial hair row decides again)
++    if (customizeInfo->HasZep || customizeInfo->ZepReset)
++    {
++        stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_CHARACTER_ZEP_GEOSETS);
++        stmt->SetData(0, customizeInfo->Guid.GetCounter());
++        CharacterDatabase.ExecuteOrAppend(trans, stmt);
++
++        if (customizeInfo->HasZep)
++            SaveZepCustomizations(customizeInfo->Guid.GetCounter(), customizeInfo->Zep, trans);
++    }
++}
++
++// CUSTOM (F-230): zep[0] = jewellery (customization 5), zep[1 + s] = geoset slot s (customization 10 + s); 0 = unset, no row
++void Player::SaveZepCustomizations(ObjectGuid::LowType lowGuid, uint8 const (&zep)[7], CharacterDatabaseTransaction trans)
++{
++    for (uint8 i = 0; i < 7; ++i)
++    {
++        uint8 choice = i == 0 ? zep[i] : uint8(zep[i] & 0x0F);
++        if (!choice)
++            continue;
++
++        CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_CHARACTER_CUSTOMIZATION);
++        stmt->SetData(0, lowGuid);
++        stmt->SetData(1, uint8(i == 0 ? 5 : 9 + i));
++        stmt->SetData(2, choice);
++        CharacterDatabase.ExecuteOrAppend(trans, stmt);
++    }
+ }
+ 
+ void Player::SendAttackSwingDeadTarget()
+diff --git a/src/server/game/Entities/Player/PlayerStorage.cpp b/src/server/game/Entities/Player/PlayerStorage.cpp
+index 7e30d089d..2842e6931 100644
+--- a/src/server/game/Entities/Player/PlayerStorage.cpp
++++ b/src/server/game/Entities/Player/PlayerStorage.cpp
+@@ -5130,15 +5130,23 @@ bool Player::LoadFromDB(ObjectGuid playerGuid, CharacterDatabaseQueryHolder cons
+     SetByteValue(PLAYER_BYTES_2, 2, fields[14].Get<uint8>());
+ 
+     // CUSTOM (F-151): eye colour (byte 0), tattoo (byte 1), scars (byte 2) and war paint (byte 3), drawn by the Zeppelin client
++    // CUSTOM (F-230): OBJECT_FIELD_PADDING = geoset slot s (customization 10 + s) in bits 4s..4s+3, jewellery (5) in bits 24-31
++    uint32 zepPadding = 0;
+     if (PreparedQueryResult customizations = holder.GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CUSTOMIZATIONS))
+     {
+         do
+         {
+             uint8 customization = (*customizations)[0].Get<uint8>();
++            uint8 choice = (*customizations)[1].Get<uint8>();
+             if (customization >= 1 && customization <= 4)
+-                SetByteValue(UNIT_FIELD_PADDING, customization - 1, (*customizations)[1].Get<uint8>());
++                SetByteValue(UNIT_FIELD_PADDING, customization - 1, choice);
++            else if (customization == 5)
++                zepPadding |= uint32(choice) << 24;
++            else if (customization >= 10 && customization <= 15)
++                zepPadding |= uint32(choice & 0x0F) << (4 * (customization - 10));
+         } while (customizations->NextRow());
+     }
++    SetUInt32Value(OBJECT_FIELD_PADDING, zepPadding);
+     SetByteValue(PLAYER_BYTES_2, 3, fields[15].Get<uint8>());
+     SetByteValue(PLAYER_BYTES_3, 0, fields[5].Get<uint8>());
+     SetByteValue(PLAYER_BYTES_3, 1, fields[54].Get<uint8>());
+diff --git a/src/server/game/Handlers/CharacterHandler.cpp b/src/server/game/Handlers/CharacterHandler.cpp
+index eab9a2360..d79867db2 100644
+--- a/src/server/game/Handlers/CharacterHandler.cpp
++++ b/src/server/game/Handlers/CharacterHandler.cpp
+@@ -63,6 +63,31 @@
+ #include "WorldSession.h"
+ #include "WorldSessionMgr.h"
+ 
++// CUSTOM (F-230): optional ZEPO block the Zeppelin client appends to CMSG_CHAR_CREATE / CUSTOMIZE / FACTION_CHANGE /
++// ALTER_APPEARANCE: uint32 'ZEPO', uint8 n, n bytes (b[0] jewellery = customization 5, b[1 + s] geoset slot s = customization 10 + s).
++// Absent block = unchanged; bytes beyond the 7 known are skipped; a slot value above 15 reads as unset.
++static void ReadZepBlock(WorldPacket& recvData, bool& hasZep, uint8 (&zep)[7])
++{
++    if (recvData.rpos() + 5 > recvData.size())
++        return;
++
++    if (recvData.read<uint32>() != 0x4F50455A)
++    {
++        recvData.rpos(recvData.rpos() - 4);
++        return;
++    }
++
++    uint8 n = recvData.read<uint8>();
++    for (uint8 k = 0; k < n && recvData.rpos() < recvData.size(); ++k)
++    {
++        uint8 b = recvData.read<uint8>();
++        if (k < 7)
++            zep[k] = (k == 0 || b <= 15) ? b : 0;
++    }
++
++    hasZep = true;
++}
++
+ LoginQueryHolder::LoginQueryHolder(uint32 accountId, ObjectGuid guid)
+     : _accountId(accountId), _guid(guid) { }
+ 
+@@ -229,8 +254,9 @@ void WorldSession::HandleCharEnum(PreparedQueryResult result)
+ 
+     data << num;
+ 
+-    // CUSTOM (F-151): per listed character its eye colour, tattoo, scars and war paint, the last four query columns
+-    std::vector<std::tuple<uint64, uint8, uint8, uint8, uint8>> customizations;
++    // CUSTOM (F-151, F-230): per listed character the last eleven query columns - customization 1 eye colour, 2 tattoo, 3 scars,
++    // 4 war paint, 5 jewellery, 10..15 geoset slots 0..5
++    std::vector<std::pair<uint64, std::array<uint8, 11>>> customizations;
+ 
+     _legitCharacters.clear();
+     if (result)
+@@ -245,7 +271,10 @@ void WorldSession::HandleCharEnum(PreparedQueryResult result)
+                 ++num;
+ 
+                 uint32 columns = result->GetFieldCount();
+-                customizations.emplace_back(guid.GetRawValue(), (*result)[columns - 4].Get<uint8>(), (*result)[columns - 3].Get<uint8>(), (*result)[columns - 2].Get<uint8>(), (*result)[columns - 1].Get<uint8>());
++                std::array<uint8, 11> choices{};
++                for (uint32 i = 0; i < choices.size(); ++i)
++                    choices[i] = (*result)[columns - choices.size() + i].Get<uint8>();
++                customizations.emplace_back(guid.GetRawValue(), choices);
+             }
+         } while (result->NextRow());
+     }
+@@ -253,12 +282,17 @@ void WorldSession::HandleCharEnum(PreparedQueryResult result)
+     data.put<uint8>(0, num);
+ 
+     // CUSTOM (F-151): trailer after the character list, read by the Zeppelin client (RealmConnection::HandleCharEnum):
+-    // "ZEPD", count, then per character guid, n, n choices (customization 1 eye colour, 2 tattoo, 3 scars, 4 war paint).
++    // "ZEPD", count, then per character guid, n, n choices (customization 1 eye colour, 2 tattoo, 3 scars, 4 war paint,
++    // F-230: 5 jewellery, 10..15 geoset slots 0..5 - n = 11).
+     // A client before WowClient64 v11 knows only "ZEPC" (guid, eye, marking) and shows no characters with this;
+-    // v11 / v12 read the first three choices and skip the rest.
++    // older ZEPD readers read the choices they know and skip the rest.
+     data << uint32(0x4450455A) << uint8(customizations.size());
+-    for (auto const& [rawGuid, eye, tattoo, scars, warPaint] : customizations)
+-        data << uint64(rawGuid) << uint8(4) << uint8(eye) << uint8(tattoo) << uint8(scars) << uint8(warPaint);
++    for (auto const& [rawGuid, choices] : customizations)
++    {
++        data << uint64(rawGuid) << uint8(choices.size());
++        for (uint8 choice : choices)
++            data << uint8(choice);
++    }
+ 
+     SendPacket(&data);
+ }
+@@ -302,6 +336,7 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
+         recvData >> createInfo->BodyMarkingId;
+     if (recvData.rpos() + 1 <= recvData.size())
+         recvData >> createInfo->WarPaintId;
++    ReadZepBlock(recvData, createInfo->HasZep, createInfo->Zep);     // CUSTOM (F-230)
+ 
+     if (!HasPermission(rbac::RBAC_PERM_SKIP_CHECK_CHARACTER_CREATION_TEAMMASK))
+     {
+@@ -612,6 +647,10 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
+                 customStmt->SetData(2, choice);
+                 characterTransaction->Append(customStmt);
+             }
++
++            // CUSTOM (F-230): jewellery and geoset slots (no block = all unset, the legacy facial hair row decides)
++            if (createInfo->HasZep)
++                Player::SaveZepCustomizations(newChar->GetGUID().GetCounter(), createInfo->Zep, characterTransaction);
+             createInfo->CharCount++;
+ 
+             LoginDatabasePreparedStatement* stmt = LoginDatabase.GetPreparedStatement(LOGIN_REP_REALM_CHARACTERS);
+@@ -1569,6 +1608,11 @@ void WorldSession::HandleAlterAppearance(WorldPacket& recvData)
+     uint32 Hair, Color, FacialHair, SkinColor;
+     recvData >> Hair >> Color >> FacialHair >> SkinColor;
+ 
++    // CUSTOM (F-230): barber geoset slots are phase 2 - a ZEPO block is accepted and ignored (slots stay as they are)
++    bool hasZep = false;
++    uint8 zep[7] = {};
++    ReadZepBlock(recvData, hasZep, zep);
++
+     BarberShopStyleEntry const* bs_hair = sBarberShopStyleStore.LookupEntry(Hair);
+ 
+     if (!bs_hair || bs_hair->type != 0 || bs_hair->race != _player->getRace() || bs_hair->gender != _player->getGender())
+@@ -1706,6 +1750,7 @@ void WorldSession::HandleCharCustomize(WorldPacket& recvData)
+              >> customizeInfo->HairStyle
+              >> customizeInfo->FacialHair
+              >> customizeInfo->Face;
++    ReadZepBlock(recvData, customizeInfo->HasZep, customizeInfo->Zep);     // CUSTOM (F-230)
+ 
+     CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_SEL_CHAR_CUSTOMIZE_INFO);
+     stmt->SetData(0, customizeInfo->Guid.GetCounter());
+@@ -1736,6 +1781,7 @@ void WorldSession::HandleCharCustomizeCallback(std::shared_ptr<CharacterCustomiz
+     //uint8 plrClass = fields[2].Get<uint8>();
+     //uint8 plrGender = fields[3].Get<uint8>();
+     uint32 atLoginFlags = fields[4].Get<uint16>();
++    customizeInfo->ZepReset = fields[3].Get<uint8>() != customizeInfo->Gender;     // CUSTOM (F-230): gender change resets geoset slots
+ 
+     if (!(atLoginFlags & AT_LOGIN_CUSTOMIZE))
+     {
+@@ -2005,6 +2051,7 @@ void WorldSession::HandleCharFactionOrRaceChange(WorldPacket& recvData)
+              >> factionChangeInfo->FacialHair
+              >> factionChangeInfo->Face
+              >> factionChangeInfo->Race;
++    ReadZepBlock(recvData, factionChangeInfo->HasZep, factionChangeInfo->Zep);     // CUSTOM (F-230)
+ 
+     // pussywizard:
+     if (ObjectAccessor::FindConnectedPlayer(factionChangeInfo->Guid) || sWorldSessionMgr->FindOfflineSessionForCharacterGUID(factionChangeInfo->Guid.GetCounter()))
+@@ -2196,6 +2243,7 @@ void WorldSession::HandleCharFactionOrRaceChangeCallback(std::shared_ptr<Charact
+     }
+ 
+     // Customize
++    factionChangeInfo->ZepReset = oldRace != factionChangeInfo->Race || playerData->Sex != factionChangeInfo->Gender;     // CUSTOM (F-230)
+     Player::Customize(factionChangeInfo.get(), trans);
+ 
+     // Race Change
+diff --git a/src/server/game/Server/WorldSession.h b/src/server/game/Server/WorldSession.h
+index 3e7a49018..044d0996c 100644
+--- a/src/server/game/Server/WorldSession.h
++++ b/src/server/game/Server/WorldSession.h
+@@ -386,6 +386,9 @@ protected:
+     uint8 MarkingId = 0;
+     uint8 BodyMarkingId = 0;
+     uint8 WarPaintId = 0;
++    // CUSTOM (F-230): optional ZEPO block - Zep[0] = jewellery (customization 5), Zep[1 + s] = geoset slot s (customization 10 + s)
++    bool HasZep = false;
++    uint8 Zep[7] = {};
+ 
+     /// Server side data
+     uint8 CharCount = 0;
+@@ -412,6 +415,11 @@ protected:
+     uint8 HairStyle = 0;
+     uint8 HairColor = 0;
+     uint8 FacialHair = 0;
++    // CUSTOM (F-230): optional ZEPO block (layout as CharacterCreateInfo::Zep); ZepReset = race or gender changed, so
++    // without a block the race/sex specific geoset slots go back to the legacy facial hair row
++    bool HasZep = false;
++    uint8 Zep[7] = {};
++    bool ZepReset = false;
+ };
+ 
+ struct CharacterFactionChangeInfo : public CharacterCustomizeInfo
+-- 
+2.34.1
+
