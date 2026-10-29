@@ -1,0 +1,51 @@
+From 07fda4cebdb50c7c00b5b38899675ab18c2d5a07 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 29 Oct 2026 23:01:45 +0000
+Subject: [PATCH] fix: SmartAI casters chase during a school lockout from an
+ interrupted secondary spell (I-428)
+
+- OnSpellFailed checked only the failed spell against the main spell, so kicking a secondary
+  COMBAT_MOVE spell (Healing Wave, Rain of Fire) that locks the main spell's school left the
+  creature standing idle for the whole lockout
+- Now re-checks the main spell after any failed cast and resumes combat movement if it is prevented
+- Verified F-219: Mo'grosh Mystic kicked on Healing Wave chased 18 yd in 3 s; Dark Strand Adept
+  main-spell Kick still chases
+
+Closes I-428
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJR6GYwPcBkVcbHKeJa
+---
+ src/server/game/AI/SmartScripts/SmartAI.cpp | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/src/server/game/AI/SmartScripts/SmartAI.cpp b/src/server/game/AI/SmartScripts/SmartAI.cpp
+index ff6bb892e..d32eed64f 100644
+--- a/src/server/game/AI/SmartScripts/SmartAI.cpp
++++ b/src/server/game/AI/SmartScripts/SmartAI.cpp
+@@ -1467,13 +1467,16 @@ void SmartAI::OnSpellFailed(SpellInfo const* spell)
+     if (me->IsMovementPreventedByCasting())
+         return;
+ 
+-    if (_mainSpellId == spell->Id)
++    // Check the main spell, not the failed one: an interrupt of a secondary spell (Rain of Fire) locks the
++    // school of the main spell (Fireball) too, and the creature would stand idle for the whole lockout
++    if (!_currentRangeMode || !_mainSpellId)
++        return;
++
++    SpellInfo const* mainSpell = _mainSpellId == spell->Id ? spell : sSpellMgr->GetSpellInfo(_mainSpellId);
++    if (mainSpell && IsMainSpellPrevented(mainSpell))
+     {
+-        if (_currentRangeMode && IsMainSpellPrevented(spell))
+-        {
+-            SetCombatMovement(true, false);
+-            SetCurrentRangeMode(false, 0.f);
+-        }
++        SetCombatMovement(true, false);
++        SetCurrentRangeMode(false, 0.f);
+     }
+ }
+ 
+-- 
+2.34.1
+
