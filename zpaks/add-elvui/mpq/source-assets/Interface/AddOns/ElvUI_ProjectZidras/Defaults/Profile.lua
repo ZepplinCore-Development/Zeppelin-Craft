@@ -2,7 +2,7 @@ local PZ, T, E, L, V, P, G = unpack(select(2, ...))
 
 local ZUF_AbsorbPrediction = {
 	enable = true,
-	absorbStyle = "REVERSED",
+	absorbStyle = "SCALED",
 	anchorPoint = "BOTTOM",
 	absorbTexture = "ElvUI Norm",
 	absorbOverlay = "None",

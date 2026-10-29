@@ -62,6 +62,7 @@ L["Raid"] = true
 L["Raid-40"] = true
 L["Ranged Slot"] = true
 L["Reversed"] = true
+L["Scaled"] = true
 L["Secondary Hand Slot"] = true
 L["Separator"] = true
 L["Stacked"] = true

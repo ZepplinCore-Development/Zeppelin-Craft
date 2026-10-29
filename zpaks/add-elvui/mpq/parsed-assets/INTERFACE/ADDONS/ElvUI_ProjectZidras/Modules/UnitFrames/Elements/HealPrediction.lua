@@ -72,6 +72,18 @@ function ZUF:Construct_HealComm(frame)
 	ZUF:SetFrameLevel_HealComm(prediction, 12)
 	ZUF:SetTexture_HealComm(prediction, E.media.blankTex)
 	dbUpdater(frame)
+
+	-- SCALED rescales the health bar; the health element resets its max on every update, so re-apply the scale after it
+	local healthPostUpdate = health.PostUpdate
+	health.PostUpdate = function(bar, unit, cur, max)
+		if healthPostUpdate then healthPostUpdate(bar, unit, cur, max) end
+
+		local db = frame.db and frame.db.healPrediction
+		if db and db.absorbStyle == "SCALED" and prediction.ForceUpdate and frame:IsElementEnabled("HealthPrediction") then
+			prediction:ForceUpdate()
+		end
+	end
+
 	return prediction
 end
 
@@ -220,7 +232,7 @@ function ZUF:Configure_HealComm(frame)
 
 			if db.absorbStyle == "REVERSED" then
 				absorbBar:Point(p2, healthBarTexture, p2)
-			elseif db.absorbStyle == "STACKED" then
+			elseif db.absorbStyle == "STACKED" or db.absorbStyle == "SCALED" then
 				absorbBar:Point(p1, pred.otherBarTexture, p2)
 			else
 				absorbBar:Point(p1, healthBarTexture, p2)
@@ -261,7 +273,7 @@ function ZUF:Configure_HealComm(frame)
 
 			if db.absorbStyle == "REVERSED" then
 				absorbBar:Point(p2, healthBarTexture, p2)
-			elseif db.absorbStyle == "STACKED" then
+			elseif db.absorbStyle == "STACKED" or db.absorbStyle == "SCALED" then
 				absorbBar:Point(p1, pred.otherBarTexture, p2)
 			else
 				absorbBar:Point(p1, healthBarTexture, p2)
@@ -287,6 +299,17 @@ function ZUF:UpdateHealComm(_, myIncomingHeal, otherIncomingHeal, absorb, _, has
 	end
 
 	ZUF:SetSize_HealComm(frame)
+
+	-- leaving SCALED: put the bars back on the max health scale
+	if pred.scaled and db.absorbStyle ~= "SCALED" then
+		pred.scaled = nil
+		frame.Health:SetMinMaxValues(0, maxHealth)
+		frame.Health:SetValue(health)
+		pred.myBar:SetMinMaxValues(0, maxHealth)
+		pred.otherBar:SetMinMaxValues(0, maxHealth)
+		absorbBar:SetMinMaxValues(0, maxHealth)
+		healAbsorbBar:SetMinMaxValues(0, maxHealth)
+	end
 
 	-- absorbs is set to none so hide both and kill code execution
 	if db.absorbStyle == "NONE" then
@@ -344,6 +367,19 @@ function ZUF:UpdateHealComm(_, myIncomingHeal, otherIncomingHeal, absorb, _, has
 				absorbBar:SetValue(maxHealth - healthPostHeal)
 			end
 		end
+	elseif db.absorbStyle == "SCALED" then
+		-- the bar keeps its size but its scale grows to health + heals + absorb, so the shield always sits right of the health
+		local scale = healthPostHeal + absorb
+		if scale < maxHealth or frame.isForced or frame.Health.disconnected then scale = maxHealth end
+
+		pred.scaled = true
+		frame.Health:SetMinMaxValues(0, scale)
+		frame.Health:SetValue(health > 0 and health or 0.0001)
+		pred.myBar:SetMinMaxValues(0, scale)
+		pred.otherBar:SetMinMaxValues(0, scale)
+		absorbBar:SetMinMaxValues(0, scale)
+		healAbsorbBar:SetMinMaxValues(0, scale)
+		overAbsorb:Hide() -- nothing overflows, the whole shield is on the bar
 	elseif db.absorbStyle == "REVERSED" then
 		if absorb > health then
 			absorbBar:SetValue(health)
