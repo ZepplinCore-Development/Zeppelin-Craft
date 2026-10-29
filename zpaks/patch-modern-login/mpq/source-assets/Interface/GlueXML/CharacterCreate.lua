@@ -2179,11 +2179,14 @@ function CharCreateLayout_RefreshOptions()
 		for _, id in ipairs(list) do
 			local row = _G["CharCreateOptionRow"..id];
 			local shown, label = CharCreateLayout_OptionLabel(id);
-			if ( shown ) then
-				local position, count;
-				if ( GetCharCustomizationInfo ) then
-					position, count = GetCharCustomizationInfo(id);
+			local position, count;
+			if ( shown and GetCharCustomizationInfo ) then
+				position, count = GetCharCustomizationInfo(id);
+				if ( id >= 11 and count and count <= 1 ) then
+					shown = false;	-- a feature slot with a single choice has nothing to pick
 				end
+			end
+			if ( shown ) then
 				row.label:SetText(label);
 				if ( count and count > 0 ) then
 					row.value:SetText(position.." / "..count);
