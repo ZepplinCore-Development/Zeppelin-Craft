@@ -11,6 +11,10 @@ piercings. Each marking is the difference between a marked colour's skin texture
 CharSections base_section 7 = body markings: type = marking (1-9; 0 = none, no row), color_index 0,
 texture_1 = the layer. The source client pastes it over the skin in every body section, under underwear and items.
 
+F-230 plan A: SPLITS does the same for the other races (dwarf, tauren, human, undead, blood elf): their mod 907 colours
+that are a base colour plus paint / tattoo become base_section 6 / 7 / 8 layers (ids 89300-89499), body and face
+(the type-0 face pasted into the atlas head sections, eyeball island left clear). See split_markings().
+
 Also writes the skin repair for colour 9 (its red loincloth was painted into the skin: user rule "plain skin")
 and the old-colour -> (base colour, marking) table used by the migration.
 
@@ -32,6 +36,7 @@ sys.path.insert(0, str(CRAFT))
 from commands.wardrobe import EXTERNAL_ROOTS, _dbc_query_fn  # noqa: E402
 from lib.wardrobe.blp import read_blp  # noqa: E402
 from lib.wardrobe.compositor import FileResolver  # noqa: E402
+from lib.wardrobe.eye_islands import island  # noqa: E402
 
 _spec = importlib.util.spec_from_file_location('icons', Path(__file__).with_name('subrace_icons.py'))
 icons = importlib.util.module_from_spec(_spec)
@@ -221,6 +226,256 @@ def repair(skin, filler):
     return (skin * (1 - a) + fill * a).astype(np.uint8), mask.mean()
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# F-230 plan A (step 1): the other races' skin colours that are a plain base colour plus a marking, unbundled into
+# the same full-atlas layers (base_section 6 tattoo, 7 scars / body markings, 8 war paint; type = choice, 0 = none,
+# color_index 0, flags 0x11). Each layer is cut from the marked colour's atlas (skin with its type-0 face pasted
+# into the head sections) against its base colour's, tone-matched per region (body / head) so the cut carries no
+# base skin colour, the eyeball island left clear. A design baked on several bases is cut from the first pair; the
+# others are checked against it (base + layer vs the marked colour) and reported.
+SPLIT_ID_BASE, SPLIT_ID_END = 89300, 89499       # inside F-151's 80000-89999, after retail_layers.py
+FOLDERS = {1: 'Human', 3: 'Dwarf', 5: 'Scourge', 6: 'Tauren', 10: 'BloodElf'}
+LAYER_NAMES = {6: 'Tattoo', 7: 'Scars', 8: 'WarPaint'}
+HEAD_BOX = (0, 320, 256, 192)                    # FaceUpper (0,320,256,64) over FaceLower (0,384,256,128), atlas 512
+# (race, sex) -> [(section, type, name, [(marked colour, base colour), ...], parts, strength[, mode[, (race, sex)]])]
+#   parts: 'body', 'face', 'body+face' or 'arms'; strength: (peak, p90) a marking region's diff must reach (orc
+#   STRONG); mode 'paint' (default): an opaque fixed colour on every skin, the orc user rule for paint and coloured
+#   ink, the pair whose cut fits all the marked colours best; 'shade': the marking only darkens (bat paint, tear
+#   streaks, black ink), black with alpha so it follows the skin, or the matte if that fits the marked colours
+#   better; (race, sex): also try that race's layer of the same section and type (same art on the same UVs)
+SPLITS = {
+    (3, 0): [(8, 1, 'Wildhammer eye band', [(22, 2), (23, 4)], 'body+face', (150, 100)),
+             (6, 1, 'Wildhammer brow tattoo', [(24, 2), (25, 4)], 'body+face', (150, 100)),
+             (8, 2, 'Wildhammer red claws', [(30, 0)], 'body+face', (150, 100)),
+             (8, 3, 'Wildhammer green chevrons', [(31, 0)], 'body+face', (150, 100)),
+             (6, 2, 'Dark Iron tattoo', [(32, 27)], 'body+face', (120, 80))],
+    (3, 1): [(8, 1, 'Wildhammer eye stripes', [(22, 2), (23, 4)], 'body+face', (150, 100)),
+             (6, 1, 'Wildhammer brow tattoo', [(24, 2), (25, 4)], 'body+face', (150, 100)),
+             (8, 2, 'Wildhammer red claws', [(30, 0)], 'body+face', (150, 100)),
+             (8, 3, 'Wildhammer green chevrons', [(31, 0)], 'body+face', (150, 100))],
+    (6, 0): [(8, 1, 'Grimtotem paint red', [(39, 0)], 'body+face', (120, 80)),
+             (8, 2, 'Grimtotem paint blue', [(40, 0)], 'body+face', (120, 80)),
+             (8, 3, 'Grimtotem paint white', [(41, 0)], 'body+face', (120, 80))],
+    (6, 1): [(8, 1, 'Grimtotem paint red', [(39, 0)], 'body+face', (120, 80)),
+             (8, 2, 'Grimtotem paint blue', [(40, 0)], 'body+face', (120, 80)),
+             (8, 3, 'Grimtotem paint white', [(41, 0)], 'body+face', (120, 80))],
+    (1, 0): [(8, 1, 'Bat eye paint', [(18, 0), (19, 7)], 'face', (100, 60), 'shade'),
+             (8, 2, 'Tear streaks', [(20, 0), (21, 4), (22, 8), (23, 1), (24, 5), (25, 9)], 'face', (70, 45), 'shade')],
+    (1, 1): [(6, 1, 'Thorn tattoo', [(18, 0), (19, 7)], 'body', (150, 100), 'shade')],
+    (5, 1): [(6, 1, 'Thorn tattoo', [(23, 4), (22, 6)], 'body', (150, 100), 'shade', (1, 1))],
+    (10, 0): [(6, 1, 'Arcane swirls red', [(48, 2), (49, 0)], 'arms', (150, 100)),
+              (6, 2, 'Arcane swirls blue', [(50, 8), (51, 4)], 'arms', (150, 100)),
+              (6, 3, 'Arcane swirls black', [(52, 8), (53, 3), (56, 8), (57, 3)], 'arms', (150, 100), 'shade'),
+              (6, 4, 'Arcane swirls purple', [(54, 2), (55, 0), (58, 8), (59, 3)], 'arms', (150, 100)),
+              (7, 1, 'Fel veins', [(60, 7)], 'body', (100, 60))],
+    (10, 1): [(6, 1, 'Arcane swirls red', [(48, 2), (49, 0)], 'arms', (150, 100)),
+              (6, 2, 'Arcane swirls blue', [(50, 8), (51, 4)], 'arms', (150, 100)),
+              (6, 3, 'Arcane swirls black', [(52, 8), (53, 3), (56, 8), (57, 3)], 'arms', (150, 100), 'shade'),
+              (6, 4, 'Arcane swirls purple', [(54, 2), (55, 0)], 'arms', (150, 100)),
+              (7, 1, 'Fel veins', [(60, 2)], 'body', (100, 60))],
+}
+
+
+def atlas_rgb(files, query, race, sex, colour):
+    """512 RGB atlas of a colour: its skin with its type-0 face in the head sections (highest id wins, F-225)."""
+    def row(section):
+        r = query(f'SELECT texture_1, texture_2 FROM charsections WHERE race = {race} AND gender = {sex} AND '
+                  f'base_section = {section} AND type = 0 AND color_index = {colour} ORDER BY id DESC LIMIT 1')
+        if not r:
+            raise SystemExit(f'race {race} sex {sex} colour {colour}: no section {section} row')
+        return r[0]
+
+    def img(path, size):
+        f = files.find(path)
+        if not f:
+            raise FileNotFoundError(path)
+        return read_blp(f).convert('RGB').resize(size, Image.LANCZOS)
+
+    canvas = img(row(0)['texture_1'], (SIZE, SIZE))
+    face = row(1)
+    canvas.paste(img(face['texture_2'], (256, 64)), (0, 320))
+    canvas.paste(img(face['texture_1'], (256, 128)), (0, 384))
+    return np.asarray(canvas).astype(np.float32)
+
+
+def regions(race, sex):
+    """(body, head, eye) masks on the 512 atlas."""
+    head = np.zeros((SIZE, SIZE), bool)
+    x, y, w, h = HEAD_BOX
+    head[y:y + h, x:x + w] = True
+    eye = np.zeros_like(head)
+    eye[y:y + h, x:x + w] = island(race, sex)
+    return ~head, head, ndimage.binary_dilation(eye, iterations=3)
+
+
+def local_tone(donor, base, keep, region, sigma=TONE_SIGMA):
+    """base moved to donor's tone: the donor - base offset averaged over keep pixels of the same region."""
+    w = (keep & region).astype(np.float32)
+    loc = np.dstack([ndimage.gaussian_filter((donor - base)[..., k] * w, sigma) for k in range(3)])
+    norm = ndimage.gaussian_filter(w, sigma)
+    loc /= np.maximum(norm, 1e-3)[..., None]
+    fallback = np.median((donor - base)[region & keep], axis=0) if (region & keep).any() else np.zeros(3)
+    loc = np.where((norm < 0.02)[..., None], fallback, loc)
+    return np.clip(base + loc, 0, 255)
+
+
+def tone_matched(donor, base, body, head, valid):
+    off = np.median((donor - base)[valid], axis=0)
+    first = np.abs(donor - np.clip(base + off, 0, 255)).sum(axis=2) > MARK_DIFF
+    first = ndimage.binary_dilation(ndimage.binary_opening(first), iterations=3)
+    m = np.zeros_like(donor)
+    for region in (body, head):
+        m = np.where(region[..., None], local_tone(donor, base, ~first, region), m)
+    return m
+
+
+def cut(donor, base, race, sex, parts, strength):
+    """(512 RGBA layer, mask) of donor's marking over base."""
+    body, head, eye = regions(race, sex)
+    valid = np.zeros_like(body)
+    if 'body' in parts:
+        valid |= body
+    if 'face' in parts:
+        valid |= head
+    if 'arms' in parts:                          # ArmUpper, ArmLower, Hand: the left column above the face
+        valid[:320, :256] = True
+    valid &= ~eye
+    matched = tone_matched(donor, base, body, head, ~eye)
+    diff = np.abs(donor - matched).sum(axis=2)
+    mask = (diff > MARK_DIFF) & valid
+    mask = ndimage.binary_opening(np.pad(mask, 2, mode='edge'), iterations=1)
+    mask = ndimage.binary_closing(mask, iterations=2)[2:-2, 2:-2] & valid
+    labels, n = ndimage.label(mask)
+    if n:
+        idx = range(1, n + 1)
+        peak = ndimage.maximum(diff, labels, idx)
+        p90 = ndimage.labeled_comprehension(diff, labels, idx, lambda v: np.percentile(v, 90), float, 0)
+        sizes = ndimage.sum(mask, labels, idx)
+        mask = np.isin(labels, 1 + np.flatnonzero((peak >= strength[0]) & (p90 >= strength[1]) & (sizes >= 12)))
+    holes, n = ndimage.label(ndimage.binary_fill_holes(mask) & ~mask)
+    if n:
+        mask |= np.isin(holes, 1 + np.flatnonzero(ndimage.sum(holes > 0, holes, range(1, n + 1)) < 200))
+    mask &= valid
+    layer = soft_layer(donor, matched, mask)
+    layer = np.asarray(Image.fromarray(layer, 'RGBA').resize((SIZE, SIZE), Image.LANCZOS)).copy()
+    layer[..., 3][~ndimage.binary_dilation(valid, iterations=1) | eye] = 0
+    return layer, mask, valid & ~eye, matched
+
+
+def matte(donors, matched, mask, valid):
+    """512 RGBA layer of one marking baked over several bases (triangulation matting): each marked colour is
+    d_i = a * c + (1 - a) * m_i over its tone-matched base m_i, solved per pixel by least squares for the layer
+    colour c and alpha a. So paint that only darkens or tints (the human bat paint is the skin at ~0.7) comes out
+    as a translucent layer that follows any skin, and opaque paint as opaque. Where the bases are too alike to
+    tell (|m_i - m| small) the alpha is borrowed from its neighbours."""
+    d, m = np.stack(donors), np.stack(matched)
+    dm, mm = d.mean(axis=0), m.mean(axis=0)
+    num = ((d - dm) * (m - mm)).sum(axis=(0, 3))
+    den = ((m - mm) ** 2).sum(axis=(0, 3))
+    beta = np.clip(num / np.maximum(den, 1e-3), 0, 1)
+    region = ndimage.binary_dilation(mask, iterations=2) & valid
+    w = np.clip(den / (len(donors) * 30.0 ** 2), 0, 1) * region
+    fill = ndimage.gaussian_filter(beta * w, 6) / np.maximum(ndimage.gaussian_filter(w, 6), 1e-3)
+    beta = np.where(w > 0.5, beta, w * beta + (1 - w) * fill)
+    beta = ndimage.gaussian_filter(beta, 0.7)
+    a = np.where(region, 1 - beta, 0)
+    a = np.where(ndimage.binary_dilation(mask, iterations=1), a, a * 0)   # nothing outside the marking
+    ac = dm - (1 - a)[..., None] * mm
+    c = ac / np.maximum(a, 0.05)[..., None]
+    core = mask & (a > 0.15)
+    if core.any():
+        _, (iy, ix) = ndimage.distance_transform_edt(~core, return_indices=True)
+        c = np.where(core[..., None], c, c[iy, ix])
+    return np.dstack([np.clip(c, 0, 255), np.clip(a * 255, 0, 255)]).astype(np.uint8)
+
+
+def shade(donors, matched, mask, valid):
+    """512 RGBA darkening layer: black at alpha 1 - (marked / base brightness), the mean over the pairs (orc 'shade')."""
+    region = ndimage.binary_dilation(mask, iterations=1) & valid
+    ratios = [(d.mean(axis=2) + 1) / (m.mean(axis=2) + 1) for d, m in zip(donors, matched)]
+    a = np.clip(1 - np.mean(ratios, axis=0), 0, 1) * region
+    a = ndimage.gaussian_filter(a, 0.6) * region
+    return np.dstack([np.zeros(a.shape + (3,)), np.clip(a * 255, 0, 255)]).astype(np.uint8)
+
+
+def over(base, layer):
+    a = layer[..., 3:].astype(np.float32) / 255
+    return base * (1 - a) + layer[..., :3].astype(np.float32) * a
+
+
+def residual(donor, base, layer, race, sex, mask=None):
+    """How far base + layer is from the marked colour (eyeball left out): (mean, p99, mean inside the marking) of
+    |rgb| sum, tone-matched the way the cut is, so a colour whose base differs by a global tint still reads as base +
+    layer; untoned mean last (0 = the marked colour IS its base + the layer, pixel for pixel)."""
+    body, head, eye = regions(race, sex)
+    comp = over(base, layer)
+    matched = tone_matched(donor, comp, body, head, ~eye)
+    full = np.abs(donor - matched).sum(axis=2)
+    d = full[~eye]
+    inside = full[ndimage.binary_dilation(mask, iterations=2) & ~eye].mean() if mask is not None and mask.any() else 0.0
+    raw = np.abs(donor - comp).sum(axis=2)[~eye]
+    return float(d.mean()), float(np.percentile(d, 99)), float(inside), float(raw.mean())
+
+
+def split_markings(files, query, preview=None):
+    """F-230: SQL lines for the other races' unbundled markings; writes their BLPs."""
+    for old in ASSETS.glob('Character/*/*/*Split*.blp'):
+        old.unlink()
+    sql = [f'-- F-230 plan A: other races\' baked markings as layers (Scripts/Character Skins/body_markings.py SPLITS).',
+           f'DELETE FROM charsections WHERE id BETWEEN {SPLIT_ID_BASE} AND {SPLIT_ID_END};']
+    rid, report = SPLIT_ID_BASE, []
+    cache, chosen = {}, {}
+
+    def atlas(race, sex, c):
+        if (race, sex, c) not in cache:
+            cache[(race, sex, c)] = atlas_rgb(files, query, race, sex, c)
+        return cache[(race, sex, c)]
+
+    for (race, g), designs in SPLITS.items():
+        folder, sex = FOLDERS[race], SEXES[g]
+        for section, kind, name, pairs, parts, strength, *opt in designs:
+            mode, also = (opt[0] if opt else 'paint'), (opt[1] if len(opt) > 1 else None)
+            donor, base = pairs[0]
+            cuts = [cut(atlas(race, g, d), atlas(race, g, b), race, g, parts, strength) for d, b in pairs]
+            mask = np.logical_or.reduce([c[1] for c in cuts])
+            # candidates: the opaque cut from each pair, and (several bases) the matte; the one closest to every
+            # marked colour inside the marking wins
+            cands = [(f'cut {d}/{b}', c[0]) for (d, b), c in zip(pairs, cuts)]
+            if mode == 'shade':
+                donors, bases = [atlas(race, g, d) for d, _ in pairs], [c[3] for c in cuts]
+                cands = [('shade', shade(donors, bases, mask, cuts[0][2]))]
+                if len(pairs) > 1:
+                    cands.append(('matte', matte(donors, bases, mask, cuts[0][2])))
+            if also and (*also, section, kind) in chosen:
+                cands.append((f'{FOLDERS[also[0]]} {SEXES[also[1]]} layer', chosen[(*also, section, kind)]))
+            scores = [np.mean([residual(atlas(race, g, d), atlas(race, g, b), lay, race, g, mask)[2] for d, b in pairs])
+                      for _, lay in cands]
+            how, layer = cands[int(np.argmin(scores))]
+            chosen[(race, g, section, kind)] = layer
+            report.append(f'{folder} {sex} s{section} t{kind} {name}: ' + ', '.join(
+                f'{n} {sc:.1f}' for (n, _), sc in zip(cands, scores)) + f' -> {how}')
+            rel = f'Character\\{folder}\\{sex}\\{folder}{sex}{LAYER_NAMES[section]}Split{kind:02d}.blp'
+            icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), Image.fromarray(layer, 'RGBA'))
+            sql.append(f"INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, texture_3, flags, "
+                       f"type, color_index) VALUES ({rid}, {race}, {g}, {section}, '{rel.replace(chr(92), chr(92) * 2)}', "
+                       f"'', '', {FLAGS_ANY}, {kind}, 0);  -- {name} ({how}, {parts})")
+            rid += 1
+            ink = np.median(layer[..., :3][layer[..., 3] > 200], axis=0) if (layer[..., 3] > 200).any() else (0, 0, 0)
+            for d, b in pairs:
+                mean, p99, inside, raw = residual(atlas(race, g, d), atlas(race, g, b), layer, race, g, mask)
+                report.append(f'    colour {d} vs {b} + layer: residual mean {mean:.1f} p99 {p99:.0f} in-marking {inside:.1f} '
+                              f'(untoned mean {raw:.1f}); cover {mask.mean():.2%}, ink {tuple(int(v) for v in ink)}')
+            if preview:
+                preview.mkdir(parents=True, exist_ok=True)
+                Image.fromarray(layer, 'RGBA').save(preview / f'{folder}{sex}_{section}_{kind:02d}.png')
+                Image.fromarray(np.clip(over(atlas(race, g, base), layer), 0, 255).astype(np.uint8)).save(
+                    preview / f'{folder}{sex}_{section}_{kind:02d}_on{base}.png')
+    if rid > SPLIT_ID_END + 1:
+        raise SystemExit('split rows overflow their id range')
+    print('\n'.join(report))
+    return sql
+
+
 # skin colours whose faces baked in face paint, now facial marking BAKED_MARK (eyes_markings.py BAKED)
 BAKED_FACE = {'colours': (44, 45), 'marking': 8}
 
@@ -295,6 +550,7 @@ def main():
                        f"AND gender = {g} AND base_section = {SECTION_SKIN} AND type = 0 AND color_index = {c};  -- plain skin")
             if preview:
                 Image.fromarray(fixed, 'RGB').save(preview / f'{sex}_skin{c}_plain.png')
+    sql += split_markings(files, _dbc_query_fn('live'), preview)
     SQL.write_text('\n'.join(sql) + '\n')
     SPLIT.write_text(json.dumps({str(c): v for c, v in SPLIT_COLOURS.items()}, indent=1) + '\n')
     print(f'-> {SQL.relative_to(CRAFT)}, {SPLIT.name}')

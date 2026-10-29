@@ -1,7 +1,13 @@
 {
  "3_0": {
   "full": [
-   11
+   11,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18
   ],
   "white": [
    0,
@@ -15,11 +21,25 @@
    8,
    9,
    10
-  ]
+  ],
+  "tints": {
+   "13": "Molten Orange",
+   "14": "Forge Gold",
+   "15": "White-Hot",
+   "16": "Magma Crimson",
+   "17": "Fel Green",
+   "18": "Shadowflame"
+  }
  },
  "3_1": {
   "full": [
-   6
+   6,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
   ],
   "white": [
    0,
@@ -28,6 +48,14 @@
    3,
    4,
    5
-  ]
+  ],
+  "tints": {
+   "8": "Molten Orange",
+   "9": "Forge Gold",
+   "10": "White-Hot",
+   "11": "Magma Crimson",
+   "12": "Fel Green",
+   "13": "Shadowflame"
+  }
  }
 }

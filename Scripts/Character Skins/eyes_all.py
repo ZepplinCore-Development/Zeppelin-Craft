@@ -5,6 +5,10 @@ fits every face and every skin colour. This script cuts the island out of every 
 distinct eyes as choices (CharSections base_section 5, colour 0; the source client pastes it after the face,
 CharacterComponent::FaceLayerValid / PasteOverlay), and adds the death knight eye: the glow eye of the race's DK
 colours, death knights only, with the eye glow geoset's texture recoloured to it (texture_3).
+Night elf eyes glow: every night elf eye gets the race's own eye glow (NightElf<Sex>EyeGlow.blp) in its colour as
+texture_3, which the source client puts on geoset 1703 (CharacterComponent GeosRenderPrep / LoadFaceLayers). The Dark
+Iron full eye (dwarf male 11, female 6) gets six tints of itself (DARK_IRON_TINTS, appended after the death knight eye
+so the older values keep their meaning), each with the dwarf death knight glow in its colour.
 
   island       per race and sex, an ellipse read off the faces (ISLAND)
   rows         texture_1 = FaceLower layer, texture_2 = FaceUpper layer ('' where the island has none)
@@ -61,6 +65,16 @@ FOLDERS = {1: 'Human', 3: 'Dwarf', 4: 'NightElf', 5: 'Scourge', 6: 'Tauren', 7: 
 SEXES = {0: 'Male', 1: 'Female'}
 FULL_EYE_SUBRACE = {(3, 0), (3, 1)}     # races whose full-colour eyes go to one sub-race (dwarf: Dark Iron)
 REPORT = Path(__file__).with_name('eyes_all.json')
+GLOW_RACES = {4}                         # races whose every eye glows: texture_3 = the race's own glow in the eye's colour
+RACE_GLOW = 'Character\\{folder}\\{sex}\\{folder}{sex}EyeGlow.blp'   # the M2's type-0 eye glow (geoset 1702)
+DARK_IRON_GLOW = 'Character\\Dwarf\\{sex}\\deathKnightEyeGlow.blp'
+# the Dark Iron full eye's tints: a gradient map of its luminance (dark, mid, bright sRGB), values after the DK eye
+DARK_IRON_TINTS = [('Molten Orange', [(90, 18, 0), (230, 90, 10), (255, 200, 90)]),
+                   ('Forge Gold', [(80, 40, 0), (225, 160, 20), (255, 240, 150)]),
+                   ('White-Hot', [(150, 70, 20), (255, 210, 150), (255, 255, 245)]),
+                   ('Magma Crimson', [(60, 0, 0), (190, 10, 10), (255, 110, 60)]),
+                   ('Fel Green', [(10, 50, 0), (80, 200, 20), (220, 255, 140)]),
+                   ('Shadowflame', [(40, 0, 60), (150, 40, 200), (255, 170, 255)])]
 
 
 def face(files, row):
@@ -102,18 +116,40 @@ def _lab(rgb):
 
 
 def soft(mask):
-    a = ndimage.uniform_filter(mask.astype(float), 3)
-    return (np.where(mask, 1.0, a) * 255).astype(np.uint8)
+    """Alpha feathered inward only: full two pixels in from the rim, half on the rim, nothing outside the mask (an
+    outward feather pasted the source face's skin round the eye). The distance runs to the nearest unmasked pixel
+    inside the image, so an island on the texture's edge is not feathered against the edge."""
+    d = ndimage.distance_transform_edt(mask)
+    return (np.clip(d / 2.0, 0, 1) * 255).astype(np.uint8)
 
 
-def glow_texture(files, eye_pixels):
-    """The stock death knight eye glow, brightness kept, colour set to the eye's brightest pixels."""
-    src = np.asarray(read_blp(files.find(STOCK_GLOW)).convert('RGBA')).astype(float)
-    lum = src[..., :3].mean(2)
+def glow_texture(files, eye_pixels, source=STOCK_GLOW, normalise=False):
+    """A stock eye glow (default the death knight one) with its luminance kept and its colour set to the eye's
+    brightest pixels. normalise: every pixel keeps the source's brightness (max channel), so each colour glows as
+    bright as the stock glow (the glow draws additive); otherwise the colour's own brightness scales it (DK eyes)."""
+    src = np.asarray(read_blp(files.find(source)).convert('RGBA')).astype(float)
     target = eye_pixels[eye_pixels.mean(1) >= np.percentile(eye_pixels.mean(1), 80)].mean(0)
-    ref = lum[src[..., 3] > 40].mean()
-    rgb = np.clip(target[None, None, :] * (lum / max(ref, 1))[..., None], 0, 255)
+    if normalise:
+        rgb = np.clip(target[None, None, :] / max(target.max(), 1) * src[..., :3].max(2)[..., None], 0, 255)
+    else:
+        lum = src[..., :3].mean(2)
+        ref = lum[src[..., 3] > 40].mean()
+        rgb = np.clip(target[None, None, :] * (lum / max(ref, 1))[..., None], 0, 255)
     return Image.fromarray(np.dstack([rgb, src[..., 3]]).astype(np.uint8), 'RGBA')
+
+
+def tint(im, mask, stops):
+    """A full-colour eye recoloured by a gradient map of its luminance (max channel): black to the dark stop to the
+    island's median on the mid stop (the eye's body), the brightest pixels on the bright stop (its hot centre). A
+    stretch from the darkest pixels put the body on the dark stop (a near-black eye)."""
+    lum = im.max(axis=2)
+    med, hi = np.percentile(lum[mask], 50), np.percentile(lum[mask], 99.5)
+    t = np.where(lum <= med, lum / max(med, 1), 1 + (lum - med) / max(hi - med, 1))
+    t = np.clip(t, 0, 2)
+    st = np.asarray(stops, np.float32)     # dark (t 0), mid (t 1), bright (t 2)
+    i = np.where(t < 1, 0, 1)
+    f = (t - i)[..., None]
+    return st[i] * (1 - f) + st[i + 1] * f
 
 
 def main():
@@ -149,8 +185,9 @@ def main():
             cands += [live[(1, 0, c)] for c in natural if c != 0 and (1, 0, c) in live]
             cands = [r for r in cands if r['flags'] & 0x1 and ok(r)]
             imgs = [face(files, r) for r in cands]
-            mask = island(race, g)
-            inner = island(race, g, 0.7)
+            mask = island(race, g)                  # the cut: the eyeball's UV island
+            pick = island(race, g, pick=True)       # the choice: the ellipses the values were first picked with (PICK)
+            inner = island(race, g, 0.7, pick=True)
             # the eyeball inside the island: what stays put when only the skin colour changes (face 0 of the stock
             # colours). The ellipse also covers skin the face uses (ear, cheek), which showed through another skin
             # colour as a patch of the source's skin (user report: trolls, Void Elf)
@@ -158,12 +195,14 @@ def main():
             eyeball = mask
             if len(stock) >= 3:
                 still = np.median(np.stack([np.abs(f - stock[0]).sum(axis=2) for f in stock[1:]]), axis=0) < EYE_STILL
-                m = ndimage.binary_fill_holes(ndimage.binary_opening(still & mask, iterations=1)) & mask
+                # padded: the opening treats outside the image as empty and would eat an island on the texture's edge
+                m = np.pad(still & mask, 2, mode='edge')
+                m = ndimage.binary_fill_holes(ndimage.binary_opening(m, iterations=1))[2:-2, 2:-2] & mask
                 if m.sum() >= 0.3 * mask.sum():
                     eyeball = m
             eyes = []
             for im in imgs:
-                px = im[mask]
+                px = im[pick]
                 # a natural eye has an iris and a white: a flat ball is a glow or a black socket painted on (measured
                 # inside the island, the skin round its rim would pass any ball)
                 core = im[inner]
@@ -171,7 +210,7 @@ def main():
                     continue
                 # the same eye: close over the island, or the same colour at its centre (the draenei faces paint one eye
                 # in a dozen faint tints: user report, duplicates)
-                if all(np.abs(px - e[mask]).sum(1).mean() >= SAME_EYE
+                if all(np.abs(px - e[pick]).sum(1).mean() >= SAME_EYE
                        and np.linalg.norm(_lab(iris(core)) - _lab(iris(e[inner]))) >= SAME_EYE_DE for e in eyes):
                     eyes.append(im)
                 if len(eyes) == MAX_EYES:
@@ -191,8 +230,21 @@ def main():
             has_up, has_lo = mask[:64].any(), mask[64:].any()
             # a race without death knight colours (undead) has no glow eye: its death knights pick the natural ones
             natural_flags = FLAGS_EYE if dk_face is not None else FLAGS_ANY
-            choices = [(im, natural_flags) for im in eyes] + ([(dk_face, FLAGS_DK)] if dk_face is not None else [])
-            for i, (im, flags) in enumerate(choices):
+            glow_src = DARK_IRON_GLOW.format(sex=sex)
+            choices = [(im, natural_flags, RACE_GLOW.format(folder=folder, sex=sex) if race in GLOW_RACES else None)
+                       for im in eyes]
+            full_vals = report.get(f'{race}_{g}', {}).get('full', [])
+            for v in full_vals:                    # the Dark Iron full eye glows in its own colour too
+                choices[v] = (choices[v][0], choices[v][1], glow_src)
+            choices += [(dk_face, FLAGS_DK, STOCK_GLOW)] if dk_face is not None else []
+            if full_vals:                          # its tints, after the DK eye: values 0..DK keep their meaning
+                tints = {}
+                for name, stops in DARK_IRON_TINTS:
+                    tints[len(choices)] = name
+                    choices.append((tint(eyes[full_vals[0]], eyeball, stops), FLAGS_EYE, glow_src))
+                report[f'{race}_{g}']['full'] = full_vals + list(tints)
+                report[f'{race}_{g}']['tints'] = tints
+            for i, (im, flags, glow_from) in enumerate(choices):
                 rgba = np.dstack([np.clip(im, 0, 255).astype(np.uint8), soft(eyeball)])
                 up = lo = glow = ''
                 if has_up:
@@ -201,9 +253,13 @@ def main():
                 if has_lo:
                     lo = f'{stem}Eyes{i:02d}Lower.blp'
                     icons.write_blp_rgba(ASSETS / lo.replace('\\', '/'), Image.fromarray(rgba[64:], 'RGBA'))
-                if flags == FLAGS_DK:
+                if glow_from:
                     glow = f'{stem}EyeGlow{i:02d}.blp'
-                    icons.write_blp_rgba(ASSETS / glow.replace('\\', '/'), glow_texture(files, im[mask]))
+                    # the eye's colour from the layer's own pixels (the eyeball), not the ellipse's skin (the DK
+                    # glows keep their stock read over the whole ellipse)
+                    px = im[pick] if flags == FLAGS_DK else im[eyeball]
+                    icons.write_blp_rgba(ASSETS / glow.replace('\\', '/'),
+                                         glow_texture(files, px, glow_from, normalise=flags != FLAGS_DK))
                 values.append(f"({rid}, {race}, {g}, {SECTION_EYES}, '{esc(lo)}', '{esc(up)}', '{esc(glow)}', {flags}, {i}, 0)")
                 rid += 1
             print(f'{folder} {sex}: {len(eyes)} eye colours from {len(cands)} faces'
