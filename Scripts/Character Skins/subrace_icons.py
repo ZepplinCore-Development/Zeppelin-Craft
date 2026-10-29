@@ -66,6 +66,7 @@ ICONS = {
     'RIMEBOUND': ('undead', None),			# rimebound-<sex>: wiki Forsaken death knight
     'PLAGUEBOUND': ('undead', None),		# plaguebound-<sex>: pack undead recoloured olive
     'EMBALMED': ('undead', None),			# embalmed-<sex>: pack undead recoloured tan
+    'CULTISTHUMAN': ('human', None),		# cultisthuman-<sex>: wiki Cultist
     'BLOODMOON': ('worgen', None),			# bloodmoon-<sex>: pack worgen recoloured frost-white
     # races without sub-races, by their file name (GetNameForRace)
     'HUMAN': ('human', None),
