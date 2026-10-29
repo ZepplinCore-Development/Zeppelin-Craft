@@ -94,7 +94,7 @@ MAGHAR_WAR_PAINT = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 -- eye colour (CharSections base_section 5 types; the last is the death knight eye, which only DKs see): the dwarves'
 -- full-colour eye (male 11, female 6; eyes_all.json) is Dark Iron only (user review 2026-10-25)
 DWARF_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}, FEMALE = {0, 1, 2, 3, 4, 5, 7} };
-DARKIRON_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, FEMALE = {0, 1, 2, 3, 4, 5, 6, 7} };
+DARKIRON_EYES = { MALE = {11, 13, 14, 15, 16, 17, 18, 12}, FEMALE = {6, 8, 9, 10, 11, 12, 13, 7} };	-- the full glowing eye and its 6 tints (+ DK eye)
 CHAR_CREATE_SUBRACES = {
 	-- orc colours 28-43 bake markings (not offered: retail tattoos, scars and war paint now); Blackrock 15, 44, 45 and
 	-- Mag'har clan colours 46, 48, 49, 51, 52, 54, 55, 57 bake tattoos or paint (user review 2026-10-24)
@@ -185,16 +185,32 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {22, 32, 33, 34, 35, 36, 37, 38},
 			FEMALE = {22, 32, 33, 34, 35, 36, 37, 38} },
 	},
+	-- Cultist (user, 2026-10-29): the pale, painted and tattooed skins; the marked faces (blood tears, dark sockets)
+	-- are Cultist's own. Cultist itself offers every face, because its skins 18-25 have no rows for the marked ones.
+	["HUMAN"] = {
+		shared = { MALE = {12, 13, 14}, FEMALE = {12, 13, 14} },
+		{ name = "Human", icon = "HUMAN",
+			faces = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 35, 38},
+				FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 32, 35} },
+			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15},
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15} },
+		{ name = "Cultist", lore = "Some of Lordaeron's survivors found answers in the Cult of the Damned's whispers and kept the marks long after they turned away. Pale, painted and tattooed with old rites, they are feared in every human city. Those who fight for the Alliance swear the darkness now serves the light, and few dare ask them twice.", title = "Cultist", icon = "CULTISTHUMAN",
+			MALE = {16, 17, 18, 19, 20, 21, 22, 23, 24, 25},
+			FEMALE = {16, 17, 18, 19, 20, 21, 22, 23, 24, 25} },
+	},
 	-- night elf, undead and worgen sub-races from the 2026-10-28 skin review (marked colours allowed, like Wildhammer)
 	["NIGHTELF"] = {
 		shared = { MALE = {9, 10, 11}, FEMALE = {9, 10, 11} },
 		{ name = "Kaldorei", title = "Night Elf", icon = "NIGHTELF",
+			faces = { MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17} },	-- plain faces; masked and tattooed are Illidari / Cenarion
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24} },
 		{ name = "Illidari", lore = "The Illidari are night elves who followed Illidan Stormrage and drank the fel to hunt the Burning Legion with its own power. Scarred and rune-marked, they emerged from the Black Temple and Mardum as the Legion's most hated foes. Their people still distrust them, but Tyrande has let them return to fight beside the Alliance.", title = "Illidari", icon = "ILLIDARI",
+			faces = { MALE = {5, 20, 14, 27} },	-- the blindfolded faces
 			MALE = {33, 34, 35, 36, 37},
 			FEMALE = {25, 26, 27, 28, 29} },
 		{ name = "Cenarion", lore = "Sworn to the Cenarion Circle and the Emerald Dream, these night elves bear the marks of Moonglade's rites on their skin. They are the guardians of Kalimdor's wild places, from Ashenvale's glades to the slopes of Mount Hyjal. Where the Alliance marches into the wild, they walk beside it as its keepers.", title = "Cenarion Circle", icon = "CENARION",
+			faces = { MALE = {18, 19, 21, 22, 23, 24, 25, 26, 28, 29, 30, 31} },	-- the tattooed faces
 			MALE = {25, 26, 27, 28, 29, 30, 31, 32},
 			FEMALE = {30, 31, 32, 33, 34} },
 	},
@@ -489,6 +505,13 @@ function CharCreate_ApplySubRace()
 	SetCharCustomizationFilter(1, unpack(colours));
 	SetCharCustomizationFilter(7);	-- every sub-race has every tattoo and scar (retail's set, for testing)
 	SetCharCustomizationFilter(8);
+	-- faces (CharSections face types; each list includes the death knight copies) a sub-race keeps to itself
+	local faces = subRaces[CharacterCreate.subRace].faces;
+	if ( faces and faces[gender] ) then
+		SetCharCustomizationFilter(2, unpack(faces[gender]));
+	else
+		SetCharCustomizationFilter(2);
+	end
 	local eyes = subRaces[CharacterCreate.subRace].eyes;
 	if ( eyes ) then
 		SetCharCustomizationFilter(6, unpack(eyes[gender]));
@@ -509,6 +532,7 @@ function CharCreate_UpdateSubRaces()
 	if ( not subRaces ) then
 		if ( CharacterCreate.subRaces ) then
 			SetCharCustomizationFilter(1);
+			SetCharCustomizationFilter(2);
 			SetCharCustomizationFilter(6);
 			SetCharCustomizationFilter(7);
 			SetCharCustomizationFilter(8);
@@ -1626,7 +1650,7 @@ CHAR_CREATE_PANEL_WIDTH = 300;
 CHAR_CREATE_ROW_HEIGHT = 44;
 CHAR_CREATE_ROWS_TOP = -84;
 CHAR_CREATE_APPEARANCE_ROWS = {1, 2, 3, 4, 6};	-- skin, face, hair style, hair colour, eye colour
-CHAR_CREATE_DETAIL_ROWS = {5, 7, 8, 9};		-- features, tattoo, scars, war paint
+CHAR_CREATE_DETAIL_ROWS = {5, 11, 12, 13, 14, 15, 16, 7, 8, 9};	-- features, F-230 feature slots 0-5 (11+s), tattoo, scars, war paint
 CHAR_CREATE_CLASS_ORDER = {1, 2, 3, 4, 5, 7, 8, 9, 10, 6, 11};	-- enumerate index; death knight (6) last
 CHAR_CREATE_CLASS_SPACING = 58;
 CHAR_CREATE_CLASS_SIZE = 34;			-- round class icons (UI-Classes-Circles), spread across the centre
@@ -2123,6 +2147,29 @@ end
 
 -- step 2's rows: an option shows when its stock button would (CharCreate_UpdateFaceLayerButtons, the hair
 -- checks), with that button's label and "position / count"; shown rows stack from the top of their panel
+-- whether an option row shows and its label. 1-9 follow their stock button (and its label); F-230:
+-- 5 (facial hair) follows the client's mode for the race (hidden when the race's features are all split into
+-- slots), and 11-16 are the race's feature slots from Zeppelin\CharCustomizations.txt (GetZepCustomizationSlot)
+function CharCreateLayout_OptionLabel(id)
+	if ( id >= 11 ) then
+		local slotType = GetZepCustomizationSlot and GetZepCustomizationSlot(id - 11);
+		if ( not slotType ) then
+			return false;
+		end
+		return true, _G["ZEP_CUSTOMIZATION_TYPE_"..slotType] or "";
+	end
+	local source = _G["CharCreateCustomizationButton"..id];
+	if ( id == 5 and GetZepFacialHairMode ) then
+		local mode, labelType = GetZepFacialHairMode();
+		if ( mode == "hidden" ) then
+			return false;
+		elseif ( mode and labelType and _G["ZEP_CUSTOMIZATION_TYPE_"..labelType] ) then
+			return source:IsShown(), _G["ZEP_CUSTOMIZATION_TYPE_"..labelType];
+		end
+	end
+	return source:IsShown(), source.text:GetText();
+end
+
 function CharCreateLayout_RefreshOptions()
 	if ( not CharCreateLeftPanel ) then
 		return;
@@ -2131,13 +2178,13 @@ function CharCreateLayout_RefreshOptions()
 		local y = CHAR_CREATE_ROWS_TOP;
 		for _, id in ipairs(list) do
 			local row = _G["CharCreateOptionRow"..id];
-			local source = _G["CharCreateCustomizationButton"..id];
-			if ( source:IsShown() ) then
+			local shown, label = CharCreateLayout_OptionLabel(id);
+			if ( shown ) then
 				local position, count;
 				if ( GetCharCustomizationInfo ) then
 					position, count = GetCharCustomizationInfo(id);
 				end
-				row.label:SetText(source.text:GetText());
+				row.label:SetText(label);
 				if ( count and count > 0 ) then
 					row.value:SetText(position.." / "..count);
 				else
