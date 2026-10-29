@@ -133,7 +133,7 @@ CHAR_CREATE_SUBRACES = {
 		{ name = "Blood Elf", icon = "BLOODELF",
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85} },
-		{ name = "Void Elf", lore = "The void elves were exiled from Silvermoon for studying the forbidden powers of the Void. Saved from the brink of madness by the Alliance, they learned to walk the line between shadow and self. They now lend their dark gifts to the Alliance's cause, ever watchful of the whispers within.", icon = "VOIDELF",
+		{ name = "Void Elf", lore = "The void elves were sin'dorei who studied the forbidden powers of the Void and were cast out of Silvermoon for it. Pulled back from the brink of madness by their own iron will, they learned to walk the line between shadow and self. Unwelcome at home but too useful to ignore, they lend their dark gifts to the Horde, ever watchful of the whispers within.", icon = "VOIDELF",
 			MALE = {34, 35, 62, 63, 64, 65, 66, 67, 68},
 			FEMALE = {34, 35, 62, 63, 64, 65, 66, 67, 68} },
 	},
@@ -176,14 +176,14 @@ CHAR_CREATE_SUBRACES = {
 	["TROLL"] = {
 		shared = { MALE = {15, 16, 17}, FEMALE = {15, 16, 17} },
 		{ name = "Darkspear", title = "Darkspear Troll", icon = "TROLL",
-			MALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 22, 23, 26, 29, 30, 31, 38},
-			FEMALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 22, 23, 26, 29, 30, 31, 38} },
+			MALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 23, 31},
+			FEMALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 23, 31} },
 		{ name = "Dark Troll", lore = "The dark trolls are an ancient people of Kalimdor's forests, purple-skinned and close to the land. Long ago some of their tribes became the first night elves; those who stayed trolls kept to the shadows of Ashenvale and Feralas. A few now answer the Horde's call, bringing old magic and older grudges.", title = "Dark Troll", icon = "DARKTROLL",
-			MALE = {24, 25, 27, 28},
-			FEMALE = {24, 25, 27, 28} },
+			MALE = {24, 25, 26, 27, 28, 29, 30},
+			FEMALE = {24, 25, 26, 27, 28, 29, 30} },
 		{ name = "Sand Troll", lore = "The Sandfury trolls of Zul'Farrak endured the deserts of Tanaris, their skin burned to the colour of the dunes. Hardened by heat and scarcity, they are cunning raiders and keepers of savage rites. Those who join the Horde trade raiding for war, and bring the desert's endurance with them.", title = "Sand Troll", icon = "SANDTROLL",
-			MALE = {32, 33, 34, 35, 36, 37},
-			FEMALE = {32, 33, 34, 35, 36, 37} },
+			MALE = {22, 32, 33, 34, 35, 36, 37, 38},
+			FEMALE = {22, 32, 33, 34, 35, 36, 37, 38} },
 	},
 	-- night elf, undead and worgen sub-races from the 2026-10-28 skin review (marked colours allowed, like Wildhammer)
 	["NIGHTELF"] = {
@@ -1999,9 +1999,7 @@ function CharCreateLayout_RefreshRaces()
 				raceButton:SetHeight(selected and CHAR_CREATE_CREST_SIZE or CHAR_CREATE_ICON_SIZE);
 				_G["CharCreateRaceButton"..i.."NormalTexture"]:SetTexture(portrait);
 				_G["CharCreateRaceButton"..i.."PushedTexture"]:SetTexture(portrait);
-				if ( subRaces ) then
-					raceButton.nameFrame.text:SetText(subRaces[1].name);
-				end
+				raceButton.nameFrame.text:SetText(raceButton.name);	-- the race's own name; the panel title names the sub-race
 
 				for k = 1, MAX_SUBRACES do
 					local name = "CharCreateRaceSub"..i.."_"..k;
