@@ -33,4 +33,7 @@
 -- Loads after [AUTO,F-011]_creaturedisplayinfoextra.sql (I > A in filename sort).
 -- Requires: zep dbc edit modify <this file> + a PATCH-Z rebuild to reach the client.
 
-UPDATE creaturedisplayinfoextra SET race = 12 WHERE id = 20864;
+-- F-030 (2026-10-31): the worgen M2 now draws its mane from the hair texture (type 6), so hair_color picks this
+-- NPC's mane even though it is baked. 4 (dark) is the mane colour closest to its old skin-0 _Extra fur (Lab
+-- distance 3.3 vs 6.9 for colour 0); with 0 the mane came out a light grey it never had.
+UPDATE creaturedisplayinfoextra SET race = 12, hair_color = 4 WHERE id = 20864;

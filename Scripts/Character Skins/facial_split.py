@@ -73,10 +73,13 @@ SLOTS = {
                 slots=[(0, 'BEARD', 1, 1, C(0, *range(102, 113))), (1, 'MOUSTACHE', 3, 3, C(0, *range(302, 311)))]),
     '3_1': dict(facial=('hidden', 0, None),
                 slots=[(0, 'EARRINGS', 3, 3, C(0, 302, 303, 304, 306)), (1, 'NOSERING', 16, 3, C(0, 1602))]),
-    # group 3 is the eyebrows; 304's moustache is cut out to 1604
-    '4_0': dict(facial=('texture', None, 'STUBBLE'),
-                slots=[(0, 'BEARD', 1, 1, C(0, 103, 106, 107)), (1, 'EYEBROWS', 3, 3, C(0, *range(302, 308))),
-                       (2, 'SIDEBURNS', 2, 2, C(0, 204, 205, 207)), (3, 'MOUSTACHE', 16, 3, C(0, 1604))],
+    # group 3 is the eyebrows; 304's moustache is cut out to 1604. The painted facial hair (the old "Stubble" row)
+    # is cut into pieces that travel with each choice (PIECE_OF, facial_pieces.py), so the row has no button of its
+    # own (hidden 0). Appended paint-only choices (geoset 0 + a piece) keep the stock looks whose paint has no mesh
+    # in the HD model: beard 5 = look 1's full painted beard, beard 6 = look 4's chin, sideburns 5 = look 5's.
+    '4_0': dict(facial=('hidden', 0, None),
+                slots=[(0, 'BEARD', 1, 1, C(0, 103, 106, 107, 0, 0)), (1, 'EYEBROWS', 3, 3, C(0, *range(302, 308))),
+                       (2, 'SIDEBURNS', 2, 2, C(0, 204, 205, 207, 0)), (3, 'MOUSTACHE', 16, 3, C(0, 1604))],
                 imply=[(304, 1604)]),
     '4_1': dict(facial=('legacy', None, 'MARKINGS'), slots=[]),
     # undead male: the jaw is the legacy facial row, never a slot. Each row is one jaw shape + the jaw skin painted
@@ -135,6 +138,16 @@ SLOTS = {
                         (1, 'EARS', 2, 2, C(*range(202, 214)))]),
     '12_1': dict(facial=('legacy', None, 'EARS'), slots=[]),
 }
+
+# race_sex -> slot -> the facial_pieces.py piece painted under each choice (None = no paint), aligned with the
+# slot's choices. Written as `tex=<piece>`; the client then draws the pieces of a player's set slots instead of the
+# legacy facial-hair texture (CharSections base_section 10, keyed by hair colour).
+PIECE_OF = {
+    '4_0': {0: [None, 1, 2, 3, 4, 3], 1: [None, 8, 9, 10, 11, 12, 13], 2: [None, 5, 6, 7, 7], 3: [None, 14]},
+}
+
+# migration: a legacy variation whose paint has no mesh in that slot takes a paint-only choice (choice index)
+MIG_PAINT = {'4_0': {1: {0: 4}, 4: {0: 5}, 5: {2: 4}}}
 
 # slots taken out of a race/sex: never reused; the migration deletes their stored values (character_customizations
 # 10 + slot). Orc / dwarf male "Beard Rings" link slots: the rings close gaps in their beards (see the doc).
@@ -213,6 +226,10 @@ def main():
             problems.append(f'CharacterFacialHairStyles {race}/{sex}/{var} = {cur}, expected {after}')
         rows[f'{race}_{sex}'][var] = list(after)
 
+    pieces = defaultdict(set)
+    for p in dbc_query('SELECT race, gender, type FROM charsections WHERE base_section = 10 AND race BETWEEN 1 AND 12'):
+        pieces[f'{p[0]}_{p[1]}'].add(int(p[2]))
+
     tex = defaultdict(lambda: defaultdict(set))
     for p in dbc_query('SELECT race, gender, type, texture_1, texture_2, texture_3 FROM charsections '
                        'WHERE base_section = 2 AND race BETWEEN 1 AND 12'):
@@ -253,7 +270,10 @@ def main():
             if len(sl[4]) > 15:
                 problems.append(f'{k} slot {sl[0]}: {len(sl[4])} choices (max 15)')
             out.append(f'slot {r} {s} {sl[0]} {T[sl[1]]} {sl[2]} {sl[3]}')
-            for g, h, sf, st in sl[4]:
+            pof = PIECE_OF.get(k, {}).get(sl[0])
+            if pof is not None and len(pof) != len(sl[4]):
+                problems.append(f'{k} slot {sl[0]}: PIECE_OF has {len(pof)} entries for {len(sl[4])} choices')
+            for ci, (g, h, sf, st) in enumerate(sl[4]):
                 if g and g not in have[k]:
                     problems.append(f'{k} slot {sl[0]}: geoset {g} not in every LOD skin')
                 for x in (h, sf, st):
@@ -264,6 +284,12 @@ def main():
                     line += f' host={h}'
                 if sf:
                     line += f' swap={sf}:{st}'
+                piece = pof[ci] if pof and ci < len(pof) else None
+                if piece is not None:
+                    if piece not in pieces[k]:
+                        problems.append(f'{k} slot {sl[0]} choice {ci}: piece {piece} has no CharSections section 10 rows '
+                                        '(run facial_pieces.py and apply its SQL)')
+                    line += f' tex={piece}'
                 out.append(line)
         legacy = {100 * g + v for row in rows[k].values() for g, v in zip((1, 3, 2, 16), row) if v}
         for src, dst in spec.get('imply', []):
@@ -308,6 +334,10 @@ def main():
                     cur = vis.get(grp) or 0
                     cur = ALIAS.get(k, {}).get(cur, cur)
                 geos = [c[0] for c in sl[4]]
+                paint = MIG_PAINT.get(k, {}).get(v, {}).get(sl[0])
+                if paint is not None:
+                    vals.append((sl[0], paint + 1))
+                    continue
                 if cur not in geos:
                     problems.append(f'{k} variation {v} slot {sl[0]}: legacy geoset {cur} is no choice')
                     continue

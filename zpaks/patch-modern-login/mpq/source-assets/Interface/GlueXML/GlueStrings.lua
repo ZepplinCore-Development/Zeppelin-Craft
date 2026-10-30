@@ -202,6 +202,7 @@ CHAR_CUSTOMIZATION_EYES_DESC = "Eye Color";	-- F-151
 CHAR_CUSTOMIZATION_MARKINGS_DESC = "Face Markings";	-- F-151 / F-230: section 6, face paint and tattoos
 CHAR_CUSTOMIZATION_BODY_MARKINGS_DESC = "Body Markings";	-- F-151 / F-230: section 7, body paint and tattoos
 CHAR_CUSTOMIZATION_WAR_PAINT_DESC = "Scars";	-- F-151 / F-230: section 8, scars
+CHAR_CUSTOMIZATION_ACCESSORIES_DESC = "Accessories";	-- F-230: section 9, clothing and jewellery that can be off (customization 10)
 ZEP_CUSTOMIZATION_TYPE_1 = "Beard";	-- F-230 split facial features
 ZEP_CUSTOMIZATION_TYPE_2 = "Moustache";	-- F-230 split facial features
 ZEP_CUSTOMIZATION_TYPE_3 = "Sideburns";	-- F-230 split facial features

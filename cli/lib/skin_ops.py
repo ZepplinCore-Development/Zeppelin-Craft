@@ -88,6 +88,9 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       show together); the source's batches are copied per part with textureComboIndex +=
       combo_add, so the model's texture lookup must hold each part's (skin, layer...) run at that
       offset (m2.texlookup.set).
+      Optional "texcombo": n restricts the split to the batches drawing textureComboIndex n: a submesh
+      with no such batch passes through whole, and combo_add changes only those batches (F-030 worgen:
+      the mane's _Extra batches move to a hair texture while the body, mouth and hair ties keep theirs).
 
   {"op": "skin.overlay", "submesh": 2, "expect_id": 0,
    "variants": [{"id": 101}, {"id": 102, "batch": {"material": 4, "texcombo": 6}}, ...]}
@@ -292,6 +295,7 @@ def _op_uv_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     if max(sk.lookup, default=0) >= n:
         raise ValueError('skin.uv_split: skin indexes past the model\'s vertices (wrong model?)')
     uv = [struct.unpack_from('<2f', model, o + 48 * i + 32) for i in range(n)]
+    only = int(cfg['texcombo']) if 'texcombo' in cfg else None
 
     def part_of(island: List[tuple]) -> int:
         pts = [uv[sk.lookup[v]] for t in island for v in t]
@@ -325,8 +329,12 @@ def _op_uv_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
         for t in tris:
             islands[find(t[0])].append(t)
         split = collections.defaultdict(list)
-        for isl in islands.values():
-            split[part_of(isl)] += isl
+        through = only is not None and not any(struct.unpack_from('<H', b, 16)[0] == only for b in by_sub[j])
+        if through:
+            split[default[0]] = tris            # not a submesh this split is about: through whole, combos kept
+        else:
+            for isl in islands.values():
+                split[part_of(isl)] += isl
         for i in sorted(split):
             start = len(idx)
             if start > 0xFFFF:
@@ -340,13 +348,15 @@ def _op_uv_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
             subs.append(nr)
             for b in by_sub[j]:
                 nb = bytearray(b)
-                combo = struct.unpack_from('<H', nb, 16)[0] + int(parts[i].get('combo_add', 0))
+                combo = struct.unpack_from('<H', nb, 16)[0]
+                if only is None or combo == only:
+                    combo += int(parts[i].get('combo_add', 0))
                 struct.pack_into('<H', nb, 4, len(subs) - 1)
                 if struct.unpack_from('<H', b, 6)[0] == j:       # geosetIndex mirrors the submesh
                     struct.pack_into('<H', nb, 6, len(subs) - 1)
                 struct.pack_into('<H', nb, 16, combo)
                 batches.append(nb)
-            count[parts[i].get('name', str(i))] += len(split[i])
+            count['through' if through else parts[i].get('name', str(i))] += len(split[i])
     sk.subs, sk.idx, sk.batches = subs, idx, batches
     return 'uv_split: ' + ', '.join(f'{k} {v} tris' for k, v in count.items())
 

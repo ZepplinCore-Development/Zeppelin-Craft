@@ -213,12 +213,12 @@ CHAR_CREATE_SUBRACES = {
 		{ name = "Cenarion", lore = "Sworn to the Cenarion Circle and the Emerald Dream, these night elves bear the marks of Moonglade's rites on their skin. They are the guardians of Kalimdor's wild places, from Ashenvale's glades to the slopes of Mount Hyjal. Where the Alliance marches into the wild, they walk beside it as its keepers.", title = "Cenarion Circle", icon = "CENARION",
 			faces = { MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17} },	-- plain faces: the tattooed faces 18-31 are plain faces + Face Markings 15-20 now
 			MALE = {38, 39},	-- copies of 0 and 5: colours 25-32 were 0 / 5 + body tattoos, now Body Markings 29-36 (F-230 round 2)
-			FEMALE = {33, 34, 39, 40, 41} },	-- 39-41 = 30-32 without the leaf tattoos (Body Markings 37-39); 33 / 34 keep their jewellery
+			FEMALE = {39, 40, 41, 42, 43} },	-- 39-41 = 30-32 without the leaf tattoos (Body Markings 37-39); 42, 43 = 33, 34 without the moonsilver (Accessories 1, 2)
 	},
 	["SCOURGE"] = {
 		{ name = "Forsaken", icon = "SCOURGE",
 			MALE = {0, 1, 2, 3, 4, 5, 6, 12, 13, 20, 21},
-			FEMALE = {0, 1, 2, 3, 4, 5, 6, 12, 13, 20, 21, 25, 26, 27} },	-- 27 = 22 without its baked thorn tattoo
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 12, 13, 20, 21, 27, 28, 29} },	-- 27 = 22 without its baked thorn tattoo; 28, 29 = 25, 26 without the harness (Accessories 1, 2)
 		{ name = "Rimebound", lore = "These Forsaken were raised in Northrend and served in the Lich King's armies before they broke free. The cold of Icecrown never left their flesh, and they know the Scourge's ways from the inside. They serve the Horde as scouts and watchers against the dead they once marched with.", title = "Rimebound Forsaken", icon = "RIMEBOUND",
 			MALE = {7, 16, 17},
 			FEMALE = {7, 16, 17} },
@@ -382,6 +382,14 @@ for race, subs in pairs(CHAR_CREATE_MARK_GATES) do
 	end
 end
 -- END GENERATED marking gates
+
+-- F-230 Accessories (customization 10, CharSections base_section 9: clothing and jewellery the baked skins carried,
+-- Scripts/Character Skins/accessories.py): the values a sub-race may wear. A race / sex / sub-race not listed gets
+-- none, so the row stays hidden there.
+CHAR_CREATE_ACCESSORY_GATES = {
+	["SCOURGE"] = { ["Forsaken"] = { FEMALE = {0, 1, 2} } },
+	["NIGHTELF"] = { ["Cenarion"] = { FEMALE = {0, 1, 2} } },
+};
 MAX_SUBRACES = 4;
 
 function CharacterCreate_OnLoad(self)
@@ -670,6 +678,19 @@ function CharCreate_ApplySubRace()
 	else
 		SetCharCustomizationFilter(6);
 	end
+	CharCreate_ApplyAccessoryGate(subRaces[CharacterCreate.subRace].name);
+end
+
+-- F-230: Accessories (10) only where CHAR_CREATE_ACCESSORY_GATES lists the sub-race; elsewhere none (value 0)
+function CharCreate_ApplyAccessoryGate(subRaceName)
+	local _, fileString = GetNameForRace();
+	local race = CHAR_CREATE_ACCESSORY_GATES[strupper(fileString or "")];
+	local values = race and subRaceName and race[subRaceName] and race[subRaceName][CharCreate_SubRaceGender()];
+	if ( values ) then
+		SetCharCustomizationFilter(10, unpack(values));
+	else
+		SetCharCustomizationFilter(10, 0);
+	end
 end
 
 function CharCreate_UpdateSubRaces()
@@ -685,6 +706,7 @@ function CharCreate_UpdateSubRaces()
 			SetCharCustomizationFilter(9);
 			CharacterCreate.subRaces = nil;
 		end
+		CharCreate_ApplyAccessoryGate(nil);	-- F-230: no sub-races, no accessories
 		CharCreateLayout_RefreshRaces();
 		return;
 	end
@@ -1796,7 +1818,7 @@ CHAR_CREATE_PANEL_WIDTH = 300;
 CHAR_CREATE_ROW_HEIGHT = 44;
 CHAR_CREATE_ROWS_TOP = -84;
 CHAR_CREATE_APPEARANCE_ROWS = {1, 2, 3, 4, 6};	-- skin, face, hair style, hair colour, eye colour
-CHAR_CREATE_DETAIL_ROWS = {5, 11, 12, 13, 14, 15, 16, 7, 8, 9};	-- features, F-230 feature slots 0-5 (11+s), tattoo, scars, war paint
+CHAR_CREATE_DETAIL_ROWS = {5, 11, 12, 13, 14, 15, 16, 7, 8, 9, 10};	-- features, F-230 feature slots 0-5 (11+s), tattoo, scars, war paint, F-230 accessories
 CHAR_CREATE_CLASS_ORDER = {1, 2, 3, 4, 5, 7, 8, 9, 10, 6, 11};	-- enumerate index; death knight (6) last
 CHAR_CREATE_CLASS_SPACING = 58;
 CHAR_CREATE_CLASS_SIZE = 34;			-- round class icons (UI-Classes-Circles), spread across the centre
@@ -2307,6 +2329,13 @@ end
 -- 5 (facial hair) follows the client's mode for the race (hidden when the race's features are all split into
 -- slots), and 11-16 are the race's feature slots from Zeppelin\CharCustomizations.txt (GetZepCustomizationSlot)
 function CharCreateLayout_OptionLabel(id)
+	if ( id == 10 ) then	-- F-230 Accessories: shown where the sub-race may wear one (GetCharCustomizationInfo count > 1)
+		local count;
+		if ( GetCharCustomizationInfo ) then
+			_, count = GetCharCustomizationInfo(10);
+		end
+		return (count or 0) > 1, CHAR_CUSTOMIZATION_ACCESSORIES_DESC;
+	end
 	if ( id >= 11 ) then
 		local slotType = GetZepCustomizationSlot and GetZepCustomizationSlot(id - 11);
 		if ( not slotType ) then

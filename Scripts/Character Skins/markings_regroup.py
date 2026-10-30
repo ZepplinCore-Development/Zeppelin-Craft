@@ -590,11 +590,19 @@ def retire_baked(sources, src_values, files, query, bm, preview):
     retire, sql, rid = [], [], SKIN_ID
     next_colour = {}
 
+    # accessories.py's clean colours (ids 108100-108999) are left out of the count, so the shipped numbering here never
+    # moves, and skipped when numbering a new colour
+    acc = {(int(r['race']), int(r['gender']), int(r['color_index'])) for r in
+           query('SELECT DISTINCT race, gender, color_index FROM charsections WHERE id BETWEEN 108100 AND 108999')}
+
     def take_colour(race, g):
         if (race, g) not in next_colour:
             top = query(f'SELECT MAX(color_index) AS m FROM charsections WHERE race = {race} AND gender = {g} '
-                        f'AND id NOT BETWEEN {SKIN_ID} AND {SKIN_END} AND id NOT BETWEEN {SKIN2_ID} AND {SKIN2_END}')[0]['m']
+                        f'AND id NOT BETWEEN {SKIN_ID} AND {SKIN_END} AND id NOT BETWEEN {SKIN2_ID} AND {SKIN2_END} '
+                        f'AND id NOT BETWEEN 108100 AND 108999')[0]['m']
             next_colour[(race, g)] = int(top) + 1
+        while (race, g, next_colour[(race, g)]) in acc:
+            next_colour[(race, g)] += 1
         next_colour[(race, g)] += 1
         return next_colour[(race, g)] - 1
     def make_clean(entry, rid):

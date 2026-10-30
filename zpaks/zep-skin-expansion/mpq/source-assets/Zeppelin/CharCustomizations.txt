@@ -48,28 +48,31 @@ choice 3 1 0 306
 slot 3 1 1 9 16 3
 choice 3 1 1 0
 choice 3 1 1 1602
-facial 4 0 texture 23 0,1,2,3,4,5
+facial 4 0 hidden 0
 slot 4 0 0 1 1 1
 choice 4 0 0 0
-choice 4 0 0 103
-choice 4 0 0 106
-choice 4 0 0 107
+choice 4 0 0 103 tex=1
+choice 4 0 0 106 tex=2
+choice 4 0 0 107 tex=3
+choice 4 0 0 0 tex=4
+choice 4 0 0 0 tex=3
 slot 4 0 1 22 3 3
 choice 4 0 1 0
-choice 4 0 1 302
-choice 4 0 1 303
-choice 4 0 1 304
-choice 4 0 1 305
-choice 4 0 1 306
-choice 4 0 1 307
+choice 4 0 1 302 tex=8
+choice 4 0 1 303 tex=9
+choice 4 0 1 304 tex=10
+choice 4 0 1 305 tex=11
+choice 4 0 1 306 tex=12
+choice 4 0 1 307 tex=13
 slot 4 0 2 3 2 2
 choice 4 0 2 0
-choice 4 0 2 204
-choice 4 0 2 205
-choice 4 0 2 207
+choice 4 0 2 204 tex=5
+choice 4 0 2 205 tex=6
+choice 4 0 2 207 tex=7
+choice 4 0 2 0 tex=7
 slot 4 0 3 2 16 3
 choice 4 0 3 0
-choice 4 0 3 1604
+choice 4 0 3 1604 tex=14
 imply 4 0 304 1604
 facial 4 1 legacy 19
 facial 5 0 texture 5 0,1,3,4,8,9,10,11,12,13,16

@@ -542,5 +542,469 @@
         ]
       }
     ]
+  },
+  "CHARACTER/WORGEN/MALE/WORGENMALE.M2": {
+    "note": "F-030: Hair Color recolours the mane. The model had no hair texture (type 6): every mane, hair style and beard batch drew the skin's _Extra (type 8), so the mane followed skin colour and CharSections hair rows did nothing. Adds a type-6 texture and a texture-lookup combo for it; the .SKIN recipes point the fur batches at that combo. Textures: Scripts/Character Skins/worgen_mane_colour.py.",
+    "base_sha256": "e64dcc6298d87e1f5b5e30bc47a666c3e767dab9729470571781a59d97c3c498",
+    "result_sha256": "959e479199d145d4d33bb701742a333242ab5fe751946ea16e93b617f43b9e62",
+    "ops": [
+      {
+        "op": "m2.texture.add",
+        "type": 6,
+        "flags": 0,
+        "expect_count": 9
+      },
+      {
+        "op": "m2.texlookup.set",
+        "expect": [
+          0,
+          6,
+          8,
+          1,
+          4,
+          1,
+          2,
+          3,
+          5,
+          7
+        ],
+        "values": [
+          0,
+          6,
+          8,
+          1,
+          4,
+          1,
+          2,
+          3,
+          5,
+          7,
+          9
+        ]
+      }
+    ]
+  },
+  "CHARACTER/WORGEN/MALE/WORGENMALE00.SKIN": {
+    "note": "F-030: the mane / hair style / beard fur batches (textureComboIndex 1 = the skin's _Extra) move to the hair texture combo the .M2 recipe adds, split by UV island: the mouth, teeth and the braid bands / wraps stay on _Extra (they follow the skin), every other island (mane, ruff, braids, tufts, beards) follows Hair Color.",
+    "model": "CHARACTER/WORGEN/MALE/WORGENMALE.M2",
+    "base_sha256": "3776be10fb7e2d95fde9678abc88a173b4b4db787d47f9de0472c15e9a7b5c70",
+    "result_sha256": "a71f53162d280b6b39da2717eeb9f4b152c1fe8cdd236c35439106c87f00cc2c",
+    "ops": [
+      {
+        "op": "skin.uv_split",
+        "texcombo": 1,
+        "parts": [
+          {
+            "name": "mouth",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.0,
+                0.1,
+                0.18,
+                0.66
+              ]
+            ]
+          },
+          {
+            "name": "hair ties",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.44,
+                0.9,
+                0.72,
+                1.0
+              ],
+              [
+                0.72,
+                0.86,
+                0.84,
+                1.0
+              ]
+            ]
+          },
+          {
+            "name": "fur",
+            "combo_add": 9
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/WORGEN/MALE/WORGENMALE01.SKIN": {
+    "note": "F-030: the mane / hair style / beard fur batches (textureComboIndex 1 = the skin's _Extra) move to the hair texture combo the .M2 recipe adds, split by UV island: the mouth, teeth and the braid bands / wraps stay on _Extra (they follow the skin), every other island (mane, ruff, braids, tufts, beards) follows Hair Color.",
+    "model": "CHARACTER/WORGEN/MALE/WORGENMALE.M2",
+    "base_sha256": "2359860d032170375c96214a595605eacc522ded9db5b524da4612f66afea58f",
+    "result_sha256": "62dae8585de63537df0d00b724c83edc30b09ad0f1fb5e38bc0f3ea90826391c",
+    "ops": [
+      {
+        "op": "skin.uv_split",
+        "texcombo": 1,
+        "parts": [
+          {
+            "name": "mouth",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.0,
+                0.1,
+                0.18,
+                0.66
+              ]
+            ]
+          },
+          {
+            "name": "hair ties",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.44,
+                0.9,
+                0.72,
+                1.0
+              ],
+              [
+                0.72,
+                0.86,
+                0.84,
+                1.0
+              ]
+            ]
+          },
+          {
+            "name": "fur",
+            "combo_add": 9
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/WORGEN/MALE/WORGENMALE02.SKIN": {
+    "note": "F-030: the mane / hair style / beard fur batches (textureComboIndex 1 = the skin's _Extra) move to the hair texture combo the .M2 recipe adds, split by UV island: the mouth, teeth and the braid bands / wraps stay on _Extra (they follow the skin), every other island (mane, ruff, braids, tufts, beards) follows Hair Color.",
+    "model": "CHARACTER/WORGEN/MALE/WORGENMALE.M2",
+    "base_sha256": "0b474a9d1ebcd4e6f70e5fdaeb0e8619dda9b76e825ec516f399e4fbdce08f05",
+    "result_sha256": "9a0db0f2e3940fbc97547585c3cac96bfbc2e987cb20a76fdb14e37cf59d94c6",
+    "ops": [
+      {
+        "op": "skin.uv_split",
+        "texcombo": 1,
+        "parts": [
+          {
+            "name": "mouth",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.0,
+                0.1,
+                0.18,
+                0.66
+              ]
+            ]
+          },
+          {
+            "name": "hair ties",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.44,
+                0.9,
+                0.72,
+                1.0
+              ],
+              [
+                0.72,
+                0.86,
+                0.84,
+                1.0
+              ]
+            ]
+          },
+          {
+            "name": "fur",
+            "combo_add": 9
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/WORGEN/MALE/WORGENMALE03.SKIN": {
+    "note": "F-030: the mane / hair style / beard fur batches (textureComboIndex 1 = the skin's _Extra) move to the hair texture combo the .M2 recipe adds, split by UV island: the mouth, teeth and the braid bands / wraps stay on _Extra (they follow the skin), every other island (mane, ruff, braids, tufts, beards) follows Hair Color.",
+    "model": "CHARACTER/WORGEN/MALE/WORGENMALE.M2",
+    "base_sha256": "8869002a470b760c63ad9e5306f0a6d59d7baa6f941a75b155a7dc6cf092d4c6",
+    "result_sha256": "c7e46a2ec919a027abc3af6c32d706b7333a5931c0d88ce587939503444f3f46",
+    "ops": [
+      {
+        "op": "skin.uv_split",
+        "texcombo": 1,
+        "parts": [
+          {
+            "name": "mouth",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.0,
+                0.1,
+                0.18,
+                0.66
+              ]
+            ]
+          },
+          {
+            "name": "hair ties",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.44,
+                0.9,
+                0.72,
+                1.0
+              ],
+              [
+                0.72,
+                0.86,
+                0.84,
+                1.0
+              ]
+            ]
+          },
+          {
+            "name": "fur",
+            "combo_add": 9
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/WORGEN/FEMALE/WORGENFEMALE.M2": {
+    "note": "F-030: Hair Color recolours the mane. The model had no hair texture (type 6): every mane, hair style and beard batch drew the skin's _Extra (type 8), so the mane followed skin colour and CharSections hair rows did nothing. Adds a type-6 texture and a texture-lookup combo for it; the .SKIN recipes point the fur batches at that combo. Textures: Scripts/Character Skins/worgen_mane_colour.py.",
+    "base_sha256": "9fc6a8a01c83dcbae1c3b0aaf8c37c3786f232472e7cfde72698644c7d933082",
+    "result_sha256": "de38c99022d64aa16af1e82357833b0848cd4f2f580a0db477bfff04210da105",
+    "ops": [
+      {
+        "op": "m2.texture.add",
+        "type": 6,
+        "flags": 0,
+        "expect_count": 8
+      },
+      {
+        "op": "m2.texlookup.set",
+        "expect": [
+          0,
+          6,
+          1,
+          4,
+          1,
+          2,
+          3,
+          5,
+          7
+        ],
+        "values": [
+          0,
+          6,
+          1,
+          4,
+          1,
+          2,
+          3,
+          5,
+          7,
+          8
+        ]
+      }
+    ]
+  },
+  "CHARACTER/WORGEN/FEMALE/WORGENFEMALE00.SKIN": {
+    "note": "F-030: the mane / hair style / beard fur batches (textureComboIndex 1 = the skin's _Extra) move to the hair texture combo the .M2 recipe adds, split by UV island: the mouth, teeth and the braid bands / wraps stay on _Extra (they follow the skin), every other island (mane, ruff, braids, tufts, beards) follows Hair Color.",
+    "model": "CHARACTER/WORGEN/FEMALE/WORGENFEMALE.M2",
+    "base_sha256": "feeb533b4cc6e85b8490ab8569cd0d8d488e7e0400313505d6bfebc189054cd9",
+    "result_sha256": "85fbf4d09a623c641f685759561c0fd8315c769349910e211bc0d4e77893f07f",
+    "ops": [
+      {
+        "op": "skin.uv_split",
+        "texcombo": 1,
+        "parts": [
+          {
+            "name": "mouth",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.8,
+                0.1,
+                1.0,
+                0.66
+              ]
+            ]
+          },
+          {
+            "name": "hair ties",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.44,
+                0.9,
+                0.72,
+                1.0
+              ],
+              [
+                0.72,
+                0.86,
+                0.84,
+                1.0
+              ]
+            ]
+          },
+          {
+            "name": "fur",
+            "combo_add": 8
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/WORGEN/FEMALE/WORGENFEMALE01.SKIN": {
+    "note": "F-030: the mane / hair style / beard fur batches (textureComboIndex 1 = the skin's _Extra) move to the hair texture combo the .M2 recipe adds, split by UV island: the mouth, teeth and the braid bands / wraps stay on _Extra (they follow the skin), every other island (mane, ruff, braids, tufts, beards) follows Hair Color.",
+    "model": "CHARACTER/WORGEN/FEMALE/WORGENFEMALE.M2",
+    "base_sha256": "dce164978cc71cfd65c4f47630935042b7ac853633c3da53ca2e3e56574186c2",
+    "result_sha256": "07c93cfefd78d9f50b94d17ab79141f0c581a91200c34ffa0a36fdabf9d4356e",
+    "ops": [
+      {
+        "op": "skin.uv_split",
+        "texcombo": 1,
+        "parts": [
+          {
+            "name": "mouth",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.8,
+                0.1,
+                1.0,
+                0.66
+              ]
+            ]
+          },
+          {
+            "name": "hair ties",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.44,
+                0.9,
+                0.72,
+                1.0
+              ],
+              [
+                0.72,
+                0.86,
+                0.84,
+                1.0
+              ]
+            ]
+          },
+          {
+            "name": "fur",
+            "combo_add": 8
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/WORGEN/FEMALE/WORGENFEMALE02.SKIN": {
+    "note": "F-030: the mane / hair style / beard fur batches (textureComboIndex 1 = the skin's _Extra) move to the hair texture combo the .M2 recipe adds, split by UV island: the mouth, teeth and the braid bands / wraps stay on _Extra (they follow the skin), every other island (mane, ruff, braids, tufts, beards) follows Hair Color.",
+    "model": "CHARACTER/WORGEN/FEMALE/WORGENFEMALE.M2",
+    "base_sha256": "a4cfa822fc519860588c452b9ddb4aed4adbc7240714348dd3d0a0b0e364a63e",
+    "result_sha256": "5a1afe77706a41ab79aa6204c46b41deae1079a9b5a15a961134f3a22b191f93",
+    "ops": [
+      {
+        "op": "skin.uv_split",
+        "texcombo": 1,
+        "parts": [
+          {
+            "name": "mouth",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.8,
+                0.1,
+                1.0,
+                0.66
+              ]
+            ]
+          },
+          {
+            "name": "hair ties",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.44,
+                0.9,
+                0.72,
+                1.0
+              ],
+              [
+                0.72,
+                0.86,
+                0.84,
+                1.0
+              ]
+            ]
+          },
+          {
+            "name": "fur",
+            "combo_add": 8
+          }
+        ]
+      }
+    ]
+  },
+  "CHARACTER/WORGEN/FEMALE/WORGENFEMALE03.SKIN": {
+    "note": "F-030: the mane / hair style / beard fur batches (textureComboIndex 1 = the skin's _Extra) move to the hair texture combo the .M2 recipe adds, split by UV island: the mouth, teeth and the braid bands / wraps stay on _Extra (they follow the skin), every other island (mane, ruff, braids, tufts, beards) follows Hair Color.",
+    "model": "CHARACTER/WORGEN/FEMALE/WORGENFEMALE.M2",
+    "base_sha256": "d9e76328e3b60152fec8d13938de183bfb45f2e5a353e815f979774d971b90f1",
+    "result_sha256": "e5e88658f11590b5faf25749c076deecd2d2ed54ab50f92988e9de0fe4eb7bce",
+    "ops": [
+      {
+        "op": "skin.uv_split",
+        "texcombo": 1,
+        "parts": [
+          {
+            "name": "mouth",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.8,
+                0.1,
+                1.0,
+                0.66
+              ]
+            ]
+          },
+          {
+            "name": "hair ties",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.44,
+                0.9,
+                0.72,
+                1.0
+              ],
+              [
+                0.72,
+                0.86,
+                0.84,
+                1.0
+              ]
+            ]
+          },
+          {
+            "name": "fur",
+            "combo_add": 8
+          }
+        ]
+      }
+    ]
   }
 }
