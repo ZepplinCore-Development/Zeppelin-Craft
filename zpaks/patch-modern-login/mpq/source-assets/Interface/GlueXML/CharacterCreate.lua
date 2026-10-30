@@ -87,28 +87,39 @@ CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 -- so a character's sub-race follows from its skin colour and needs no stored field. Colours are CharSections
 -- color_index values per sex; "shared" lists the ones every sub-race offers (death knight skins).
 -- Keyed by the race's file name (GetNameForRace).
--- war paint (CharSections base_section 8 types, 0 = none): retail's 1-12 for every orc; the Ascension paints 13-14
--- for the Mag'har only (user review 2026-10-25)
-ORC_WAR_PAINT = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-MAGHAR_WAR_PAINT = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+-- marking layers by region (F-230 regroup): customization 7 = face markings (section 6), 8 = body markings
+-- (section 7), 9 = scars (section 8). A sub-race's faceMarks / bodyMarks list limits that row to the listed values
+-- (0 = none); without a list every value is offered. Orc body 16, 17 (Ascension handprints and war paint) are Mag'har's.
+-- The gates follow markings_regroup.json "gates": each sub-race only gets the marks drawn for its skins.
+function CharCreate_Marks(last, ...)
+	local marks = {};
+	for value = 0, last do
+		tinsert(marks, value);
+	end
+	for _, value in ipairs({...}) do
+		tinsert(marks, value);
+	end
+	return marks;
+end
+ORC_BODY_MARKS = CharCreate_Marks(15);
 -- eye colour (CharSections base_section 5 types; the last is the death knight eye, which only DKs see): the dwarves'
 -- full-colour eye (male 11, female 6; eyes_all.json) is Dark Iron only (user review 2026-10-25)
 DWARF_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}, FEMALE = {0, 1, 2, 3, 4, 5, 7} };
-DARKIRON_EYES = { MALE = {11, 13, 14, 15, 16, 17, 18, 12}, FEMALE = {6, 8, 9, 10, 11, 12, 13, 7} };	-- the full glowing eye and its 6 tints (+ DK eye)
+DARKIRON_EYES = { MALE = {11, 13, 14, 15, 16, 17, 12}, FEMALE = {6, 8, 9, 10, 11, 12, 7} };	-- the full glowing eye and its 5 tints (+ DK eye)
 CHAR_CREATE_SUBRACES = {
 	-- orc colours 28-43 bake markings (not offered: retail tattoos, scars and war paint now); Blackrock 15, 44, 45 and
 	-- Mag'har clan colours 46, 48, 49, 51, 52, 54, 55, 57 bake tattoos or paint (user review 2026-10-24)
 	["ORC"] = {
-		{ name = "Orc", icon = "ORC", warPaint = ORC_WAR_PAINT,
+		{ name = "Orc", icon = "ORC", bodyMarks = { MALE = ORC_BODY_MARKS, FEMALE = ORC_BODY_MARKS },
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
-		{ name = "Mag'har", lore = "The Mag'har are the orcs who never drank the blood of Mannoroth. Untouched by the demonic taint, they kept the old ways of Draenor: shamanism, the hunt and the honour of the clans. Now they stand with the Horde as living proof of what the orcs were before the fall.", title = "Mag'har Orc", icon = "MAGHAR", warPaint = MAGHAR_WAR_PAINT,
+		{ name = "Mag'har", lore = "The Mag'har are the orcs who never drank the blood of Mannoroth. Untouched by the demonic taint, they kept the old ways of Draenor: shamanism, the hunt and the honour of the clans. Now they stand with the Horde as living proof of what the orcs were before the fall.", title = "Mag'har Orc", icon = "MAGHAR",
 			MALE = {12, 16, 20, 21, 22, 23, 24, 50, 53},
 			FEMALE = {12, 20, 21, 22, 23, 24, 50, 53} },	-- every skin has a home (user, 2026-10-28)
-		{ name = "Blackrock", lore = "Forged in the fires of Blackrock Mountain, the Blackrock clan is the iron fist of the orcish war machine. Their smiths turned war into an industry and their warlords led the Horde's first invasions. Those who march under the Horde's banner today trade old conquest for discipline and steel.", title = "Blackrock Orc", icon = "BLACKROCK", warPaint = ORC_WAR_PAINT,
+		{ name = "Blackrock", lore = "Forged in the fires of Blackrock Mountain, the Blackrock clan is the iron fist of the orcish war machine. Their smiths turned war into an industry and their warlords led the Horde's first invasions. Those who march under the Horde's banner today trade old conquest for discipline and steel.", title = "Blackrock Orc", icon = "BLACKROCK", bodyMarks = { MALE = ORC_BODY_MARKS, FEMALE = ORC_BODY_MARKS },
 			MALE = {9, 14, 17, 18, 19, 47},
 			FEMALE = {11, 13, 18, 19, 47} },
-		{ name = "Fel Orc", lore = "Fel orcs carry the Legion's corruption in their very blood, their skin burned red by fel power. Many were bred for war in Hellfire Citadel, but some broke free of their masters' grip. They fight beside the Horde, shunned by many and feared by more, to turn the demons' gift against them.", icon = "FELORC", warPaint = ORC_WAR_PAINT,
+		{ name = "Fel Orc", lore = "Fel orcs carry the Legion's corruption in their very blood, their skin burned red by fel power. Many were bred for war in Hellfire Citadel, but some broke free of their masters' grip. They fight beside the Horde, shunned by many and feared by more, to turn the demons' gift against them.", icon = "FELORC", bodyMarks = { MALE = ORC_BODY_MARKS, FEMALE = ORC_BODY_MARKS },
 			MALE = {10, 25, 26, 27},
 			FEMALE = {25, 26, 27} },
 	},
@@ -118,14 +129,20 @@ CHAR_CREATE_SUBRACES = {
 	["DWARF"] = {
 		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
 		{ name = "Bronzebeard", title = "Bronzebeard Dwarf", icon = "DWARF", eyes = DWARF_EYES,
+			faceMarks = { MALE = CharCreate_Marks(28), FEMALE = CharCreate_Marks(16) },
+			bodyMarks = { MALE = CharCreate_Marks(28), FEMALE = CharCreate_Marks(28) },
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
 		{ name = "Dark Iron", lore = "The Dark Iron dwarves were once the bitter rivals of Ironforge, ruled from the burning halls of Shadowforge City. Tempered by fire and magma, they are master smiths and fierce warriors. With old enmities set aside, they now stand with the Alliance.", title = "Dark Iron Dwarf", icon = "DARKIRON", eyes = DARKIRON_EYES,
-			MALE = {26, 27, 28, 29, 32, 33, 34, 35, 36, 38, 39, 40, 41},
+			faceMarks = { MALE = CharCreate_Marks(28, 33), FEMALE = CharCreate_Marks(16) },
+			bodyMarks = { MALE = CharCreate_Marks(28, 33), FEMALE = CharCreate_Marks(28) },
+			MALE = {26, 27, 28, 29, 33, 34, 35, 36, 38, 39, 40, 41},
 			FEMALE = {26, 27, 28, 29, 32, 33, 34, 35, 36, 38, 39, 40, 41} },
 		{ name = "Wildhammer", lore = "The Wildhammer dwarves left Ironforge long ago for the cliffs of Grim Batol and later the Hinterlands. They live close to nature, ride gryphons into battle and mark their bodies with tribal tattoos. Proud and free, they answer to no king but their own thanes.", title = "Wildhammer Dwarf", icon = "WILDHAMMER", eyes = DWARF_EYES,
-			MALE = {22, 23, 24, 25, 30, 31},
-			FEMALE = {22, 23, 24, 25, 30, 31} },
+			faceMarks = { MALE = CharCreate_Marks(32), FEMALE = CharCreate_Marks(20) },
+			bodyMarks = { MALE = CharCreate_Marks(32), FEMALE = CharCreate_Marks(31) },
+			MALE = {42, 43, 44, 45, 46, 47, 48, 49, 50},	-- plain copies of 0-8; the tattoos are layers now
+			FEMALE = {42, 43, 44, 45, 46, 47, 48, 49, 50} },
 	},
 	-- blood elf 36-61 bake jewellery, tattoos or veins; 87-93 have no faces
 	["BLOODELF"] = {
@@ -166,11 +183,15 @@ CHAR_CREATE_SUBRACES = {
 	["TAUREN"] = {
 		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
 		{ name = "Tauren", icon = "TAUREN",
+			faceMarks = { MALE = CharCreate_Marks(15), FEMALE = CharCreate_Marks(15) },
+			bodyMarks = { MALE = CharCreate_Marks(15), FEMALE = CharCreate_Marks(15) },
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38} },
 		{ name = "Grimtotem", lore = "The Grimtotem clan never accepted Cairne Bloodhoof's peace with the younger races. They paint their black fur for war and hold to the old belief that the tauren must rule Kalimdor alone. Those who now walk with the Horde have broken with Magatha's schemes, but they still carry the clan's fierce pride and its war paint.", title = "Grimtotem Tauren", icon = "GRIMTOTEM",
-			MALE = {39, 40, 41},
-			FEMALE = {39, 40, 41} },
+			faceMarks = { MALE = CharCreate_Marks(18), FEMALE = CharCreate_Marks(18) },
+			bodyMarks = { MALE = CharCreate_Marks(18), FEMALE = CharCreate_Marks(18) },
+			MALE = {42, 43, 44, 45, 46, 47},	-- black and near-black fur copies; the paint is a layer now
+			FEMALE = {42, 43, 44, 45, 46} },
 	},
 	-- Dark trolls are the purples, Sand trolls the tans (trial, user 2026-10-28)
 	["TROLL"] = {
@@ -195,8 +216,8 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15} },
 		{ name = "Cultist", lore = "Some of Lordaeron's survivors found answers in the Cult of the Damned's whispers and kept the marks long after they turned away. Pale, painted and tattooed with old rites, they are feared in every human city. Those who fight for the Alliance swear the darkness now serves the light, and few dare ask them twice.", title = "Cultist", icon = "CULTISTHUMAN",
-			MALE = {16, 17, 18, 19, 20, 21, 22, 23, 24, 25},
-			FEMALE = {16, 17, 18, 19, 20, 21, 22, 23, 24, 25} },
+			MALE = {16, 17},
+			FEMALE = {16, 17, 20, 21, 22, 23, 24, 25} },
 	},
 	-- night elf, undead and worgen sub-races from the 2026-10-28 skin review (marked colours allowed, like Wildhammer)
 	["NIGHTELF"] = {
@@ -217,13 +238,13 @@ CHAR_CREATE_SUBRACES = {
 	["SCOURGE"] = {
 		{ name = "Forsaken", icon = "SCOURGE",
 			MALE = {0, 1, 2, 3, 4, 5, 6, 12, 13, 20, 21},
-			FEMALE = {0, 1, 2, 3, 4, 5, 6, 12, 13, 20, 21, 22, 25, 26} },
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 12, 13, 20, 21, 25, 26, 27} },	-- 27 = 22 without its baked thorn tattoo
 		{ name = "Rimebound", lore = "These Forsaken were raised in Northrend and served in the Lich King's armies before they broke free. The cold of Icecrown never left their flesh, and they know the Scourge's ways from the inside. They serve the Horde as scouts and watchers against the dead they once marched with.", title = "Rimebound Forsaken", icon = "RIMEBOUND",
 			MALE = {7, 16, 17},
 			FEMALE = {7, 16, 17} },
 		{ name = "Plaguebound", lore = "Left to rot in the plague-soaked bogs of the Plaguelands before the Banshee Queen called them back, the Plaguebound wear their decay openly. Many serve the Royal Apothecary Society, steeped in the very blight that killed them. To the Horde they are a reminder that the plague can be turned on its makers.", title = "Plaguebound Forsaken", icon = "PLAGUEBOUND",
 			MALE = {9, 18, 19},
-			FEMALE = {9, 18, 19, 23} },
+			FEMALE = {9, 18, 19} },
 		{ name = "Embalmed", lore = "Raised from dry crypts far from Lordaeron's rot, the Embalmed are dead that dried rather than decayed. Their sun-cured flesh holds together better than most Forsaken. They serve the Horde as tomb-wardens and envoys to the desert peoples.", title = "Embalmed Forsaken", icon = "EMBALMED",
 			MALE = {8, 10, 11, 14, 15},
 			FEMALE = {8, 10, 11, 14, 15} },
@@ -503,8 +524,16 @@ function CharCreate_ApplySubRace()
 		end
 	end
 	SetCharCustomizationFilter(1, unpack(colours));
-	SetCharCustomizationFilter(7);	-- every sub-race has every tattoo and scar (retail's set, for testing)
-	SetCharCustomizationFilter(8);
+	-- face and body markings a sub-race keeps to itself (faceMarks / bodyMarks), scars open to all
+	for index, key in pairs({ [7] = "faceMarks", [8] = "bodyMarks" }) do
+		local marks = subRaces[CharacterCreate.subRace][key];
+		if ( marks and marks[gender] ) then
+			SetCharCustomizationFilter(index, unpack(marks[gender]));
+		else
+			SetCharCustomizationFilter(index);
+		end
+	end
+	SetCharCustomizationFilter(9);
 	-- faces (CharSections face types; each list includes the death knight copies) a sub-race keeps to itself
 	local faces = subRaces[CharacterCreate.subRace].faces;
 	if ( faces and faces[gender] ) then
@@ -517,12 +546,6 @@ function CharCreate_ApplySubRace()
 		SetCharCustomizationFilter(6, unpack(eyes[gender]));
 	else
 		SetCharCustomizationFilter(6);
-	end
-	local warPaint = subRaces[CharacterCreate.subRace].warPaint;
-	if ( warPaint ) then
-		SetCharCustomizationFilter(9, unpack(warPaint));
-	else
-		SetCharCustomizationFilter(9);
 	end
 end
 
@@ -1667,6 +1690,16 @@ CHAR_CREATE_RING_FAN_TIME = 0.2;		-- seconds for the inner ring to open
 CHAR_CREATE_INFO_WIDTH = CHAR_CREATE_PANEL_WIDTH - 40;
 CHAR_CREATE_INFO_BOTTOM = 80;			-- the info blocks stop above the Back / Customize buttons
 
+-- headings: the glue's large fonts draw a thick outline that crowds the letters together at this size (user,
+-- 2026-10-30); the same face with a soft drop shadow instead keeps the gaps open
+function CharCreateLayout_Heading(fontString, size)
+	fontString:SetFont("Fonts\\FRIZQT__.TTF", size or 17, "");
+	fontString:SetShadowColor(0, 0, 0, 1);
+	fontString:SetShadowOffset(1, -1);
+	fontString:SetTextColor(1, 0.82, 0);
+	return fontString;
+end
+
 local function CharCreateLayout_Line(parent, r, g, b, a)
 	local line = parent:CreateTexture(nil, "ARTWORK");
 	line:SetTexture(r, g, b, a);
@@ -1691,7 +1724,7 @@ local function CharCreateLayout_Panel(name, side)
 	local panel = CreateFrame("Frame", name, CharacterCreateFrame);
 	panel:SetAllPoints(shade);
 	local x = (side == "LEFT") and 24 or -24;
-	panel.title = panel:CreateFontString(nil, "OVERLAY", "GlueFontNormalLarge");
+	panel.title = CharCreateLayout_Heading(panel:CreateFontString(nil, "OVERLAY", "GlueFontNormalLarge"), 18);
 	panel.title:SetPoint("TOP"..side, panel, "TOP"..side, x, -20);
 	panel.subtitle = panel:CreateFontString(nil, "OVERLAY", "GlueFontHighlightSmall");
 	panel.subtitle:SetPoint("TOP"..side, panel.title, "BOTTOM"..side, 0, -4);
@@ -1733,9 +1766,9 @@ local function CharCreateLayout_OptionRow(panel, id)
 	row.label = row:CreateFontString(nil, "OVERLAY", "GlueFontHighlight");
 	row.label:SetPoint("LEFT", row, "LEFT", 8, 0);
 	row.value = row:CreateFontString(nil, "OVERLAY", "GlueFontNormal");
-	row.value:SetPoint("CENTER", row, "RIGHT", -74, 0);
+	row.value:SetPoint("CENTER", row, "RIGHT", -64, 0);
 	row.left = CharCreateLayout_Arrow(row, id, -1, "PrevPage");
-	row.left:SetPoint("CENTER", row, "RIGHT", -136, 0);
+	row.left:SetPoint("CENTER", row, "RIGHT", -116, 0);	-- leaves "Body Markings" room
 	row.right = CharCreateLayout_Arrow(row, id, 1, "NextPage");
 	row.right:SetPoint("CENTER", row, "RIGHT", -12, 0);
 	local rule = CharCreateLayout_Line(row, 1, 0.82, 0, 0.15);
@@ -1815,7 +1848,7 @@ function CharCreateLayout_Build()
 		_G[button:GetName().."PushedTexture"]:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles");
 		CharCreateLayout_RoundButton(button, CHAR_CREATE_CLASS_SIZE);
 	end
-	local className = CharacterCreateFrame:CreateFontString("CharCreateClassName", "OVERLAY", "GlueFontNormalLarge");
+	local className = CharCreateLayout_Heading(CharacterCreateFrame:CreateFontString("CharCreateClassName", "OVERLAY", "GlueFontNormalLarge"));
 	className:SetPoint("BOTTOM", CharacterCreateFrame, "BOTTOM", 0, 20 + 25 + CHAR_CREATE_CLASS_SIZE / 2 + 12);
 
 	-- Back and Customize / Finish centred in their panels
@@ -1872,7 +1905,7 @@ function CharCreateLayout_InfoBlock(name)
 	local block = CreateFrame("Frame", name, CharacterCreateFrame);
 	block:SetWidth(CHAR_CREATE_INFO_WIDTH);
 	block:SetHeight(200);
-	block.title = block:CreateFontString(nil, "OVERLAY", "GlueFontNormalLarge");
+	block.title = CharCreateLayout_Heading(block:CreateFontString(nil, "OVERLAY", "GlueFontNormalLarge"));
 	block.title:SetPoint("TOPLEFT");
 	block.text = block:CreateFontString(nil, "OVERLAY", "GlueFontHighlightSmall");
 	block.text:SetWidth(CHAR_CREATE_INFO_WIDTH);

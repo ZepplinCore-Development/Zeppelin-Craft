@@ -8,7 +8,10 @@ The viewer is not the client: no eye glow, the hair texture and mesh are the pan
 over the whole atlas at once (the client pastes them section by section). Check a sheet before testing in game.
 
   python3 "Scripts/Character Skins/skin_preview.py" --race 11 --sex 0 --colours 33,34,35|all [--face 0]
-      [--layers tattoo,scars,warpaint] [--out sheet.png]
+      [--layers FACE,BODY,SCARS] [--out sheet.png]
+
+--layers: the layer values (CharSections base_section 6 face markings, 7 body markings, 8 scars since the F-230
+regroup; 0 = none), e.g. --layers 3,0,0. markings_regroup.json `values` names them.
 """
 import argparse
 import functools

@@ -6,8 +6,7 @@
    14,
    15,
    16,
-   17,
-   18
+   17
   ],
   "white": [
    0,
@@ -27,9 +26,13 @@
    "14": "Forge Gold",
    "15": "White-Hot",
    "16": "Magma Crimson",
-   "17": "Fel Green",
-   "18": "Shadowflame"
-  }
+   "17": "Sulfur Yellow"
+  },
+  "glow_faces": [
+   26,
+   27,
+   32
+  ]
  },
  "3_1": {
   "full": [
@@ -38,8 +41,7 @@
    9,
    10,
    11,
-   12,
-   13
+   12
   ],
   "white": [
    0,
@@ -54,8 +56,12 @@
    "9": "Forge Gold",
    "10": "White-Hot",
    "11": "Magma Crimson",
-   "12": "Fel Green",
-   "13": "Shadowflame"
-  }
+   "12": "Sulfur Yellow"
+  },
+  "glow_faces": [
+   26,
+   27,
+   32
+  ]
  }
 }

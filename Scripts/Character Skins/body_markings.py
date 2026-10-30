@@ -18,6 +18,10 @@ that are a base colour plus paint / tattoo become base_section 6 / 7 / 8 layers 
 Also writes the skin repair for colour 9 (its red loincloth was painted into the skin: user rule "plain skin")
 and the old-colour -> (base colour, marking) table used by the migration.
 
+F-230 regroup (2026-10-30): the layers are SOURCES only. layer_sources() hands them to markings_regroup.py, which cuts
+each into a face part and a body part, dedupes and owns every layer row (base_section 6-8) and shipped layer BLP. This
+script's SQL keeps only the colour-9 plain-skin UPDATE.
+
   python3 "Scripts/Character Skins/body_markings.py" [--preview DIR] [--migration]
 """
 import importlib.util
@@ -52,7 +56,6 @@ SPLIT = Path(__file__).with_name('orc_body_split.json')
 MIGRATION = ZPAK / 'sql_characters' / 'zz_[F-151]_orc_body_split.sql'
 RACE, SEXES = 2, {0: 'Male', 1: 'Female'}
 SECTION_SKIN, SECTION_BODY_MARKINGS = 0, 7
-ID_BASE = 89000                                  # 89000-89099, inside F-151's 80000-89999
 FLAGS_ANY = 0x11
 SKIN_TEX = 'Character\\Orc\\{sex}\\Orc{sex}Skin00_{colour:02d}.blp'
 MARK_DIFF = 42                                   # |rgb| sum over which a marked skin differs from its base
@@ -233,9 +236,7 @@ def repair(skin, filler):
 # into the head sections) against its base colour's, tone-matched per region (body / head) so the cut carries no
 # base skin colour, the eyeball island left clear. A design baked on several bases is cut from the first pair; the
 # others are checked against it (base + layer vs the marked colour) and reported.
-SPLIT_ID_BASE, SPLIT_ID_END = 89300, 89499       # inside F-151's 80000-89999, after retail_layers.py
 FOLDERS = {1: 'Human', 3: 'Dwarf', 5: 'Scourge', 6: 'Tauren', 10: 'BloodElf'}
-LAYER_NAMES = {6: 'Tattoo', 7: 'Scars', 8: 'WarPaint'}
 HEAD_BOX = (0, 320, 256, 192)                    # FaceUpper (0,320,256,64) over FaceLower (0,384,256,128), atlas 512
 # (race, sex) -> [(section, type, name, [(marked colour, base colour), ...], parts, strength[, mode[, (race, sex)]])]
 #   parts: 'body', 'face', 'body+face' or 'arms'; strength: (peak, p90) a marking region's diff must reach (orc
@@ -418,12 +419,9 @@ def residual(donor, base, layer, race, sex, mask=None):
 
 
 def split_markings(files, query, preview=None):
-    """F-230: SQL lines for the other races' unbundled markings; writes their BLPs."""
-    for old in ASSETS.glob('Character/*/*/*Split*.blp'):
-        old.unlink()
-    sql = [f'-- F-230 plan A: other races\' baked markings as layers (Scripts/Character Skins/body_markings.py SPLITS).',
-           f'DELETE FROM charsections WHERE id BETWEEN {SPLIT_ID_BASE} AND {SPLIT_ID_END};']
-    rid, report = SPLIT_ID_BASE, []
+    """F-230: the other races' unbundled markings as sources for markings_regroup.py:
+    [{race, sex, old_section, old_type, kind, design, colour, pairs, source, image (512 RGBA)}]. Writes nothing to the zpak."""
+    report, out = [], []
     cache, chosen = {}, {}
 
     def atlas(race, sex, c):
@@ -454,26 +452,48 @@ def split_markings(files, query, preview=None):
             chosen[(race, g, section, kind)] = layer
             report.append(f'{folder} {sex} s{section} t{kind} {name}: ' + ', '.join(
                 f'{n} {sc:.1f}' for (n, _), sc in zip(cands, scores)) + f' -> {how}')
-            rel = f'Character\\{folder}\\{sex}\\{folder}{sex}{LAYER_NAMES[section]}Split{kind:02d}.blp'
-            icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), Image.fromarray(layer, 'RGBA'))
-            sql.append(f"INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, texture_3, flags, "
-                       f"type, color_index) VALUES ({rid}, {race}, {g}, {section}, '{rel.replace(chr(92), chr(92) * 2)}', "
-                       f"'', '', {FLAGS_ANY}, {kind}, 0);  -- {name} ({how}, {parts})")
-            rid += 1
-            ink = np.median(layer[..., :3][layer[..., 3] > 200], axis=0) if (layer[..., 3] > 200).any() else (0, 0, 0)
-            for d, b in pairs:
-                mean, p99, inside, raw = residual(atlas(race, g, d), atlas(race, g, b), layer, race, g, mask)
-                report.append(f'    colour {d} vs {b} + layer: residual mean {mean:.1f} p99 {p99:.0f} in-marking {inside:.1f} '
-                              f'(untoned mean {raw:.1f}); cover {mask.mean():.2%}, ink {tuple(int(v) for v in ink)}')
+            words = name.split()
+            colour = words[-1] if words[-1] in ('red', 'blue', 'black', 'purple', 'white') else ''
+            design = ' '.join(words[:-1]) if colour else name
+            out.append({'race': race, 'sex': g, 'old_section': section, 'old_type': kind, 'kind': 'marking',
+                        'design': design, 'colour': colour, 'pairs': pairs,
+                        'source': f'baked split of colour(s) {", ".join(str(d) for d, _ in pairs)} ({how}, {parts})',
+                        'image': Image.fromarray(layer, 'RGBA')})
             if preview:
                 preview.mkdir(parents=True, exist_ok=True)
                 Image.fromarray(layer, 'RGBA').save(preview / f'{folder}{sex}_{section}_{kind:02d}.png')
-                Image.fromarray(np.clip(over(atlas(race, g, base), layer), 0, 255).astype(np.uint8)).save(
-                    preview / f'{folder}{sex}_{section}_{kind:02d}_on{base}.png')
-    if rid > SPLIT_ID_END + 1:
-        raise SystemExit('split rows overflow their id range')
     print('\n'.join(report))
-    return sql
+    return out
+
+
+def layer_sources(files=None, query=None):
+    """F-230: every layer this script cuts, as sources for markings_regroup.py (which owns the CharSections rows and
+    the shipped BLPs): the two orc paints kept (Handprints, War paint: were war paint 13 / 14) and SPLITS."""
+    files = files or resolver()
+    query = query or _dbc_query_fn('live')
+    out = []
+    for g, sex in SEXES.items():
+        skins = {}
+
+        def skin(c):
+            if c not in skins:
+                skins[c] = load(files, SKIN_TEX.format(sex=sex, colour=c))
+            return skins[c]
+
+        for n, (name, donor, base, mode, *opts) in ((n, v) for n, v in MARKINGS.items() if n in WAR_PAINT):
+            layer, cover = marking(skin(donor), skin(base), mode, *opts[:2], *(skin(c) for c in opts[2:3]))
+            layer = Image.fromarray(layer, 'RGBA').resize((SIZE, SIZE), Image.LANCZOS)
+            out.append({'race': RACE, 'sex': g, 'old_section': SECTION_WAR_PAINT, 'old_type': WAR_PAINT[n],
+                        'kind': 'marking', 'design': f'Ascension {name.lower()}', 'colour': '',
+                        'pairs': [(c, b) for c, (b, m) in SPLIT_COLOURS.items() if m == n],
+                        'source': f'baked split of orc colour {donor} over {base} ({mode})', 'image': layer})
+    return out + split_markings(files, query)
+
+
+def resolver():
+    # the HD art lives in the curated pack and its COMMUNITY sources, not in EXTERNAL_ROOTS (PATCH-Q split)
+    first = [ASSETS, CURATED] + [p for p in COMMUNITY if p.is_dir()]
+    return FileResolver(first + [r for r in EXTERNAL_ROOTS if Path(r).resolve() not in {f.resolve() for f in first}])
 
 
 # skin colours whose faces baked in face paint, now facial marking BAKED_MARK (eyes_markings.py BAKED)
@@ -513,44 +533,24 @@ def migration_sql(split, cutoff):
 
 def main():
     preview = Path(sys.argv[sys.argv.index('--preview') + 1]) if '--preview' in sys.argv else None
-    # the HD art lives in the curated pack and its COMMUNITY sources, not in EXTERNAL_ROOTS (PATCH-Q split)
-    first = [ASSETS, CURATED] + [p for p in COMMUNITY if p.is_dir()]
-    files = FileResolver(first + [r for r in EXTERNAL_ROOTS if Path(r).resolve() not in {f.resolve() for f in first}])
-    sql = ['-- F-151 Modern Character Creator: orc body markings (CharSections base_section 7).',
-           '-- GENERATED by Scripts/Character Skins/body_markings.py - do not edit, re-run the script.',
-           f'DELETE FROM charsections WHERE id BETWEEN {ID_BASE} AND {ID_BASE + 99};']
-    rid = ID_BASE
+    files = resolver()
+    sql = ['-- F-151 Modern Character Creator: orc colour 9 plain skin (its painted-in loincloth removed).',
+           '-- The body markings this script cuts are sources for markings_regroup.py (F-230), which owns the layer rows.',
+           '-- GENERATED by Scripts/Character Skins/body_markings.py - do not edit, re-run the script.']
     for g, sex in SEXES.items():
-        skins = {}
-
-        def skin(c):
-            if c not in skins:
-                skins[c] = load(files, SKIN_TEX.format(sex=sex, colour=c))
-            return skins[c]
-
-        for n, (name, donor, base, mode, *opts) in ((n, v) for n, v in MARKINGS.items() if n in WAR_PAINT):
-            layer, cover = marking(skin(donor), skin(base), mode, *opts[:2], *(skin(c) for c in opts[2:3]))
-            rel = f'Character\\Orc\\{sex}\\Orc{sex}BodyMarking{n:02d}.blp'
-            layer = np.asarray(Image.fromarray(layer, 'RGBA').resize((SIZE, SIZE), Image.LANCZOS))
-            icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), Image.fromarray(layer, 'RGBA'))
-            print(f'{sex} {n} {name}: colour {donor} over {base} ({mode}), {cover:.1%} of the body')
-            sql.append(f"INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, texture_3, flags, "
-                       f"type, color_index) VALUES ({rid}, {RACE}, {g}, {SECTION_WAR_PAINT}, "
-                       f"'{rel.replace(chr(92), chr(92) * 2)}', '', '', {FLAGS_ANY}, {WAR_PAINT[n]}, 0);  -- {name}")
-            rid += 1
-            if preview:
-                preview.mkdir(parents=True, exist_ok=True)
-                Image.fromarray(layer, 'RGBA').save(preview / f'{sex}_{n:02d}.png')
         for c, (original, filler) in PLAIN_REPAIR.get(g, {}).items():
-            fixed, cover = repair(load(files, original), skin(filler))
+            fixed, cover = repair(load(files, original), load(files, SKIN_TEX.format(sex=sex, colour=filler)))
             rel = f'Character\\Orc\\{sex}\\Orc{sex}Skin00_{c:02d}Plain.blp'
             icons.write_blp_rgba(ASSETS / rel.replace('\\', '/'), Image.fromarray(fixed, 'RGB').convert('RGBA'))
             print(f'{sex} colour {c}: painted-in cloth ({cover:.1%}) replaced with colour {filler} shading')
             sql.append(f"UPDATE charsections SET texture_1 = '{rel.replace(chr(92), chr(92) * 2)}' WHERE race = {RACE} "
                        f"AND gender = {g} AND base_section = {SECTION_SKIN} AND type = 0 AND color_index = {c};  -- plain skin")
             if preview:
+                preview.mkdir(parents=True, exist_ok=True)
                 Image.fromarray(fixed, 'RGB').save(preview / f'{sex}_skin{c}_plain.png')
-    sql += split_markings(files, _dbc_query_fn('live'), preview)
+    if preview:
+        for src in layer_sources(files):
+            src['image'].save(preview / f"{src['race']}_{src['sex']}_{src['old_section']}_{src['old_type']:02d}.png")
     SQL.write_text('\n'.join(sql) + '\n')
     SPLIT.write_text(json.dumps({str(c): v for c, v in SPLIT_COLOURS.items()}, indent=1) + '\n')
     print(f'-> {SQL.relative_to(CRAFT)}, {SPLIT.name}')

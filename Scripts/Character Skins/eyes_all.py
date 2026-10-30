@@ -7,8 +7,10 @@ CharacterComponent::FaceLayerValid / PasteOverlay), and adds the death knight ey
 colours, death knights only, with the eye glow geoset's texture recoloured to it (texture_3).
 Night elf eyes glow: every night elf eye gets the race's own eye glow (NightElf<Sex>EyeGlow.blp) in its colour as
 texture_3, which the source client puts on geoset 1703 (CharacterComponent GeosRenderPrep / LoadFaceLayers). The Dark
-Iron full eye (dwarf male 11, female 6) gets six tints of itself (DARK_IRON_TINTS, appended after the death knight eye
-so the older values keep their meaning), each with the dwarf death knight glow in its colour.
+Iron full eye (dwarf male 11, female 6) gets five fire tints of itself (DARK_IRON_TINTS, after the death knight eye
+so the older values keep their meaning), each with the dwarf death knight glow in its colour. These full-eye layers
+cover the whole glow the glowing Dark Iron faces bake round the eyeball (glow_region), not the eyeball alone: an
+eyeball-only layer left a red-orange ring of the baked glow round every other colour (user report).
 
   island       per race and sex, an ellipse read off the faces (ISLAND)
   rows         texture_1 = FaceLower layer, texture_2 = FaceUpper layer ('' where the island has none)
@@ -69,12 +71,14 @@ GLOW_RACES = {4}                         # races whose every eye glows: texture_
 RACE_GLOW = 'Character\\{folder}\\{sex}\\{folder}{sex}EyeGlow.blp'   # the M2's type-0 eye glow (geoset 1702)
 DARK_IRON_GLOW = 'Character\\Dwarf\\{sex}\\deathKnightEyeGlow.blp'
 # the Dark Iron full eye's tints: a gradient map of its luminance (dark, mid, bright sRGB), values after the DK eye
+# fire tones only (user review 2026-10-30: Fel Green and Shadowflame dropped, Sulfur Yellow took Fel Green's value)
 DARK_IRON_TINTS = [('Molten Orange', [(90, 18, 0), (230, 90, 10), (255, 200, 90)]),
                    ('Forge Gold', [(80, 40, 0), (225, 160, 20), (255, 240, 150)]),
                    ('White-Hot', [(150, 70, 20), (255, 210, 150), (255, 255, 245)]),
                    ('Magma Crimson', [(60, 0, 0), (190, 10, 10), (255, 110, 60)]),
-                   ('Fel Green', [(10, 50, 0), (80, 200, 20), (220, 255, 140)]),
-                   ('Shadowflame', [(40, 0, 60), (150, 40, 200), (255, 170, 255)])]
+                   ('Sulfur Yellow', [(90, 75, 0), (235, 215, 30), (255, 255, 180)])]
+GLOW_FACE = 0.6                          # share of the island a face paints saturated red / orange: a glowing face
+GLOW_REACH = 20                          # px round the island the baked glow is looked for (the eye's own glint dot)
 
 
 def face(files, row):
@@ -136,6 +140,55 @@ def glow_texture(files, eye_pixels, source=STOCK_GLOW, normalise=False):
         ref = lum[src[..., 3] > 40].mean()
         rgb = np.clip(target[None, None, :] * (lum / max(ref, 1))[..., None], 0, 255)
     return Image.fromarray(np.dstack([rgb, src[..., 3]]).astype(np.uint8), 'RGBA')
+
+
+def glowing(f):
+    """Saturated red / orange pixels: the glow the Dark Iron fire faces bake round the eye."""
+    r, g, b = f[..., 0], f[..., 1], f[..., 2]
+    return (r > 100) & (r - b > 70) & (r - g > 45)
+
+
+def glow_region(files, live, mask, eyeball):
+    """Where the race's glowing faces (their island mostly glow: Dark Iron 26, 27, 32) paint glow, over every face
+    type: in and round the eyeball (ring, glint dot) and in the eye sockets the face art paints (dwarf male: the lids
+    round the eyeball sample the painted red eyes in the middle of the face, across the FaceUpper / FaceLower seam,
+    and showed as a red rim round every other colour in game). Pixels that glow on the same face type of a plain
+    colour (lips, skin reds) are left out. Returns (region, glowing colours, a glowing face as the glow's source);
+    (None, [], None) when no face glows."""
+    near = ndimage.binary_dilation(np.pad(mask, GLOW_REACH + 2), iterations=GLOW_REACH)[GLOW_REACH + 2:-GLOW_REACH - 2,
+                                                                                      GLOW_REACH + 2:-GLOW_REACH - 2]
+    usable = lambda r: r['flags'] & 0x1 and all(r[k] and files.find(r[k]) for k in ('texture_1', 'texture_2'))  # noqa: E731
+    rows = {c: r for (s, t, c), r in live.items() if s == 1 and t == 0 and usable(r)}
+    lit = [c for c, r in rows.items() if glowing(face(files, r))[mask].mean() > GLOW_FACE]
+    if not lit:
+        return None, [], None
+    plain = sorted(c for c in rows if c not in lit)
+    region = np.zeros(mask.shape, bool)
+    plain_red = {}                          # per face type: red on every plain colour (lips, skin), not glow
+    for (s, t, c), r in live.items():
+        if s == 1 and c in lit and usable(r):
+            f = face(files, r)
+            g = glowing(f)
+            if t not in plain_red:
+                bases = [glowing(face(files, live[(1, t, p)])) for p in plain if (1, t, p) in live and usable(live[(1, t, p)])]
+                plain_red[t] = np.logical_and.reduce(bases) if bases else ~near
+            region |= (g & near) | (g & ~plain_red[t])
+            # the glow's darker red edge (sockets): grown from the glow into the dim red next to it
+            dim = (f[..., 0] > 70) & (f[..., 0] - f[..., 2] > 45) & (f[..., 0] - f[..., 1] > 30) & ~plain_red[t]
+            region |= ndimage.binary_propagation(g & ~plain_red[t], mask=dim | (g & ~plain_red[t]))
+    region = ndimage.binary_fill_holes(ndimage.binary_closing(np.pad(region | eyeball, 2), iterations=1))[2:-2, 2:-2]
+    return region, sorted(lit), face(files, rows[lit[0]])
+
+
+def cover(im, region):
+    """A full-glow layer: the image filled outward from the region's glow (so the rim is glow colour, not the source
+    face's skin), alpha full over the region and half one pixel beyond it, so no baked glow shows at its edge."""
+    lit = region & glowing(im) if (region & glowing(im)).any() else region
+    idx = ndimage.distance_transform_edt(~lit, return_distances=False, return_indices=True)
+    filled = im[idx[0], idx[1]]
+    out = ndimage.distance_transform_edt(~region)
+    alpha = np.where(region, 1.0, np.where(out <= 1.5, 0.5, 0.0))
+    return filled, (alpha * 255).astype(np.uint8)
 
 
 def tint(im, mask, stops):
@@ -228,25 +281,43 @@ def main():
             dk_face = next((face(files, live[(1, 0, c)]) for c in dk if (1, 0, c) in live and ok(live[(1, 0, c)])), None)
             stem = f'Character\\{folder}\\{sex}\\{folder}{sex}'
             has_up, has_lo = mask[:64].any(), mask[64:].any()
+            region, lit, lit_face = (glow_region(files, live, mask, eyeball) if (race, g) in FULL_EYE_SUBRACE
+                                     else (None, [], None))
             # a race without death knight colours (undead) has no glow eye: its death knights pick the natural ones
             natural_flags = FLAGS_EYE if dk_face is not None else FLAGS_ANY
             glow_src = DARK_IRON_GLOW.format(sex=sex)
-            choices = [(im, natural_flags, RACE_GLOW.format(folder=folder, sex=sex) if race in GLOW_RACES else None)
-                       for im in eyes]
+            # (image, flags, glow source, alpha): alpha None = the eyeball, feathered inward
+            choices = [(im, natural_flags, RACE_GLOW.format(folder=folder, sex=sex) if race in GLOW_RACES else None,
+                        None) for im in eyes]
             full_vals = report.get(f'{race}_{g}', {}).get('full', [])
+            full_alpha = None
+            if full_vals and region is not None:   # the full eye covers the faces' whole baked glow
+                # the full eye where it glows, the glowing face's own glow elsewhere (the painted sockets)
+                im = eyes[full_vals[0]]
+                im = np.where((glowing(im) | ~region)[..., None], im, lit_face)
+                src, full_alpha = cover(im, region)
+                eyes[full_vals[0]] = src
             for v in full_vals:                    # the Dark Iron full eye glows in its own colour too
-                choices[v] = (choices[v][0], choices[v][1], glow_src)
-            choices += [(dk_face, FLAGS_DK, STOCK_GLOW)] if dk_face is not None else []
+                choices[v] = (eyes[v], choices[v][1], glow_src, full_alpha if v == full_vals[0] else None)
+            choices += [(dk_face, FLAGS_DK, STOCK_GLOW, None)] if dk_face is not None else []
             if full_vals:                          # its tints, after the DK eye: values 0..DK keep their meaning
                 tints = {}
                 for name, stops in DARK_IRON_TINTS:
                     tints[len(choices)] = name
-                    choices.append((tint(eyes[full_vals[0]], eyeball, stops), FLAGS_EYE, glow_src))
+                    choices.append((tint(eyes[full_vals[0]], eyeball, stops), FLAGS_EYE, glow_src, full_alpha))
                 report[f'{race}_{g}']['full'] = full_vals + list(tints)
                 report[f'{race}_{g}']['tints'] = tints
-            for i, (im, flags, glow_from) in enumerate(choices):
-                rgba = np.dstack([np.clip(im, 0, 255).astype(np.uint8), soft(eyeball)])
+                report[f'{race}_{g}']['glow_faces'] = lit
+            for i, (im, flags, glow_from, alpha) in enumerate(choices):
+                rgba = np.dstack([np.clip(im, 0, 255).astype(np.uint8), soft(eyeball) if alpha is None else alpha])
                 up = lo = glow = ''
+                if alpha is not None:              # a full-glow layer may reach the other face half
+                    has_up, has_lo = (has_up or alpha[:64].any()), (has_lo or alpha[64:].any())
+                    if not (mask[:64].any() and mask[64:].any()):
+                        print(f'  {folder} {sex} eye {i}: glow layer in {"upper" if alpha[:64].any() else ""}'
+                              f'{"+lower" if alpha[64:].any() else ""}')
+                else:
+                    has_up, has_lo = mask[:64].any(), mask[64:].any()
                 if has_up:
                     up = f'{stem}Eyes{i:02d}Upper.blp'
                     icons.write_blp_rgba(ASSETS / up.replace('\\', '/'), Image.fromarray(rgba[:64], 'RGBA'))
