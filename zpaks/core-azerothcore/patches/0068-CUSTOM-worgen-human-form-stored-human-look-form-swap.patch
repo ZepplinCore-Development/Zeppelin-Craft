@@ -1,0 +1,535 @@
+From 630d9c8686692087db7870877162bf1e97edc9af Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Oct 2026 23:09:05 +0000
+Subject: [PATCH] CUSTOM: worgen human form - stored human look, form swap,
+ ZEPF block, barber (F-236)
+
+- character_customizations 100-115 = the human form look (16-byte look: skin, face, hair style,
+  hair colour, facial hair, eye/markings, jewellery, geoset slots); loaded with the other customizations
+- Player::SetZepAlteredForm swaps the human look into PLAYER_BYTES / PLAYER_BYTES_2 / UNIT_FIELD_PADDING /
+  OBJECT_FIELD_PADDING and sets bit 31 of OBJECT_FIELD_PADDING (jewellery now 7-bit) in one update tick
+- SaveToDB, corpse and shapeshift model colour always use the native (worgen) look; mirror image copies
+  a human-form worgen as race 1
+- CMSG_CHAR_CREATE: optional ZEPF block (uint32 'ZEPF', form, n, look) after ZEPO; a worgen's form 1 look
+  is checked against the human CharSections and stored
+- CMSG_ALTER_APPEARANCE: in the human form the styles are validated against race 1 and the human look is
+  saved at once; a ZEPF block for the form showing sets eye / markings / jewellery / geoset slots
+  (also the F-230 barber slots for every race)
+- customize / race / faction change with a race or gender change drops the human look
+
+Design follows Medviten's Cataclysm-style altered form (https://github.com/Medviten/wowdecomp-32-bit,
+https://github.com/Medviten/WHE-256-bit), used with the author's permission.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ .../Implementation/CharacterDatabase.cpp      |   2 +
+ .../Implementation/CharacterDatabase.h        |   1 +
+ src/server/game/Entities/Player/Player.cpp    |  25 ++-
+ src/server/game/Entities/Player/Player.h      |  26 +++
+ .../game/Entities/Player/PlayerMisc.cpp       | 171 ++++++++++++++++++
+ .../game/Entities/Player/PlayerStorage.cpp    |   4 +-
+ src/server/game/Globals/ObjectMgr.cpp         |   4 +-
+ src/server/game/Handlers/CharacterHandler.cpp |  59 +++++-
+ src/server/game/Handlers/SpellHandler.cpp     |  14 +-
+ src/server/game/Server/WorldSession.h         |   4 +
+ 10 files changed, 286 insertions(+), 24 deletions(-)
+
+diff --git a/src/server/database/Database/Implementation/CharacterDatabase.cpp b/src/server/database/Database/Implementation/CharacterDatabase.cpp
+index baddbf34a..840a2b2ff 100644
+--- a/src/server/database/Database/Implementation/CharacterDatabase.cpp
++++ b/src/server/database/Database/Implementation/CharacterDatabase.cpp
+@@ -671,6 +671,8 @@ void CharacterDatabaseConnection::DoPrepareStatements()
+     PrepareStatement(CHAR_DEL_CHARACTER_CUSTOMIZATIONS, "DELETE FROM character_customizations WHERE guid = ?", CONNECTION_ASYNC);
+     // CUSTOM (F-230): jewellery layer (5) and geoset slots (10..15) - race/sex specific, cleared on race or gender change
+     PrepareStatement(CHAR_DEL_CHARACTER_ZEP_GEOSETS, "DELETE FROM character_customizations WHERE guid = ? AND (customization = 5 OR customization BETWEEN 10 AND 15)", CONNECTION_ASYNC);
++    // CUSTOM (F-236): the worgen human form look (100 + look index 0..15), cleared on race or gender change
++    PrepareStatement(CHAR_DEL_CHARACTER_ZEP_FORM, "DELETE FROM character_customizations WHERE guid = ? AND customization BETWEEN 100 AND 115", CONNECTION_ASYNC);
+ }
+ 
+ CharacterDatabaseConnection::CharacterDatabaseConnection(MySQLConnectionInfo& connInfo) : MySQLConnection(connInfo)
+diff --git a/src/server/database/Database/Implementation/CharacterDatabase.h b/src/server/database/Database/Implementation/CharacterDatabase.h
+index 815bc4896..d682d94f0 100644
+--- a/src/server/database/Database/Implementation/CharacterDatabase.h
++++ b/src/server/database/Database/Implementation/CharacterDatabase.h
+@@ -553,6 +553,7 @@ enum CharacterDatabaseStatements : uint32
+     CHAR_REP_CHARACTER_CUSTOMIZATION,
+     CHAR_DEL_CHARACTER_CUSTOMIZATIONS,
+     CHAR_DEL_CHARACTER_ZEP_GEOSETS,         // CUSTOM (F-230)
++    CHAR_DEL_CHARACTER_ZEP_FORM,            // CUSTOM (F-236)
+ 
+     MAX_CHARACTERDATABASE_STATEMENTS
+ };
+diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
+index dc10d7f40..84777ee88 100644
+--- a/src/server/game/Entities/Player/Player.cpp
++++ b/src/server/game/Entities/Player/Player.cpp
+@@ -4712,6 +4712,11 @@ Corpse* Player::CreateCorpse()
+     _uf = getRace();
+     _pb = GetUInt32Value(PLAYER_BYTES);
+     _pb2 = GetUInt32Value(PLAYER_BYTES_2);
++    if (_zepAltered)    // CUSTOM (F-236): the corpse is the native (worgen) body
++    {
++        _pb = uint32(_zepNativeLook[0]) | uint32(_zepNativeLook[1]) << 8 | uint32(_zepNativeLook[2]) << 16 | uint32(_zepNativeLook[3]) << 24;
++        _pb2 = (_pb2 & ~0xFFu) | _zepNativeLook[4];
++    }
+ 
+     uint8 race       = (uint8)(_uf);
+     uint8 skin       = (uint8)(_pb);
+@@ -15285,11 +15290,11 @@ void Player::_SaveCharacter(bool create, CharacterDatabaseTransaction trans)
+         stmt->SetData(index++, GetLevel());
+         stmt->SetData(index++, GetUInt32Value(PLAYER_XP));
+         stmt->SetData(index++, GetMoney());
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES, 0));
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES, 1));
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES, 2));
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES, 3));
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES_2, 0));
++        stmt->SetData(index++, GetNativeLookByte(0));      // CUSTOM (F-236): the native look, also in the human form
++        stmt->SetData(index++, GetNativeLookByte(1));
++        stmt->SetData(index++, GetNativeLookByte(2));
++        stmt->SetData(index++, GetNativeLookByte(3));
++        stmt->SetData(index++, GetNativeLookByte(4));
+         stmt->SetData(index++, GetByteValue(PLAYER_BYTES_2, 2));
+         stmt->SetData(index++, GetByteValue(PLAYER_BYTES_2, 3));
+         stmt->SetData(index++, (uint32)GetPlayerFlags());
+@@ -15403,11 +15408,11 @@ void Player::_SaveCharacter(bool create, CharacterDatabaseTransaction trans)
+         stmt->SetData(index++, GetLevel());
+         stmt->SetData(index++, GetUInt32Value(PLAYER_XP));
+         stmt->SetData(index++, GetMoney());
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES, 0));
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES, 1));
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES, 2));
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES, 3));
+-        stmt->SetData(index++, GetByteValue(PLAYER_BYTES_2, 0));
++        stmt->SetData(index++, GetNativeLookByte(0));      // CUSTOM (F-236): the native look, also in the human form
++        stmt->SetData(index++, GetNativeLookByte(1));
++        stmt->SetData(index++, GetNativeLookByte(2));
++        stmt->SetData(index++, GetNativeLookByte(3));
++        stmt->SetData(index++, GetNativeLookByte(4));
+         stmt->SetData(index++, GetByteValue(PLAYER_BYTES_2, 2));
+         stmt->SetData(index++, GetByteValue(PLAYER_BYTES_2, 3));
+         stmt->SetData(index++, GetPlayerFlags());
+diff --git a/src/server/game/Entities/Player/Player.h b/src/server/game/Entities/Player/Player.h
+index 8ff70f28f..a12ef1616 100644
+--- a/src/server/game/Entities/Player/Player.h
++++ b/src/server/game/Entities/Player/Player.h
+@@ -1618,6 +1618,25 @@ public:
+ 
+     static void Customize(CharacterCustomizeInfo const* customizeInfo, CharacterDatabaseTransaction trans);
+     static void SaveZepCustomizations(ObjectGuid::LowType lowGuid, uint8 const (&zep)[7], CharacterDatabaseTransaction trans);   // CUSTOM (F-230)
++
++    // CUSTOM (F-236): worgen human form (Two Forms). A look = 16 bytes: 0 skin, 1 face, 2 hair style, 3 hair colour,
++    // 4 facial hair, 5-8 UNIT_FIELD_PADDING bytes (eye, face marking, body marking, scars), 9 jewellery, 10-15 geoset
++    // slots 0-5. The human look is stored as character_customizations 100 + index. While the human form is up its
++    // look is in the update fields (bit 31 of OBJECT_FIELD_PADDING set) and the native look is kept aside, so every
++    // save, corpse and shapeshift model still uses the native (worgen) look.
++    static constexpr uint8 ZEP_LOOK_SIZE = 16;
++    static constexpr uint8 ZEP_FORM_CUSTOMIZATION = 100;
++    static constexpr uint32 ZEP_FORM_PADDING_BIT = 0x80000000;
++    static void SaveZepFormLook(ObjectGuid::LowType lowGuid, uint8 const (&look)[ZEP_LOOK_SIZE], CharacterDatabaseTransaction trans);
++    static bool HasZepCharSection(uint8 race, uint8 gender, uint8 section, uint8 variation, uint8 color);
++    static void ValidateZepHumanLook(uint8 gender, uint8 (&look)[ZEP_LOOK_SIZE]);
++    void SetZepAlteredForm(bool on);
++    [[nodiscard]] bool IsInZepAlteredForm() const { return _zepAltered; }
++    // index 0-4 of the native look (see above); the update fields outside the human form
++    [[nodiscard]] uint8 GetNativeLookByte(uint8 index) const;
++    // the barber's choices for the form showing: skin < 0 = unchanged; extra = look index 5-15 (ZEPF block) or nullptr.
++    // The human form's look is saved at once (SaveToDB keeps the native look); the native extras are saved here too.
++    void ApplyZepBarberLook(uint8 hairStyle, uint8 hairColor, uint8 facialHair, int16 skin, uint8 const* extra);
+     static void SavePositionInDB(uint32 mapid, float x, float y, float z, float o, uint32 zone, ObjectGuid guid);
+     static void SavePositionInDB(WorldLocation const& loc, uint16 zoneId, ObjectGuid guid, CharacterDatabaseTransaction trans);
+ 
+@@ -3093,6 +3112,13 @@ private:
+ 
+     PlayerSettingMap m_charSettingsMap;
+ 
++    // CUSTOM (F-236): worgen human form (see SetZepAlteredForm)
++    bool _zepAltered = false;
++    uint8 _zepHumanLook[ZEP_LOOK_SIZE] = {};
++    uint8 _zepNativeLook[ZEP_LOOK_SIZE] = {};
++    void CaptureZepLook(uint8 (&look)[ZEP_LOOK_SIZE]) const;
++    void WriteZepLook(uint8 const (&look)[ZEP_LOOK_SIZE], bool altered);
++
+     Seconds m_creationTime;
+ 
+     bool _expectingChangeTransport;
+diff --git a/src/server/game/Entities/Player/PlayerMisc.cpp b/src/server/game/Entities/Player/PlayerMisc.cpp
+index 87cd57845..26bb18954 100644
+--- a/src/server/game/Entities/Player/PlayerMisc.cpp
++++ b/src/server/game/Entities/Player/PlayerMisc.cpp
+@@ -16,6 +16,7 @@
+  */
+ 
+ #include "AccountMgr.h"
++#include "DBCStores.h"
+ #include "GameTime.h"
+ #include "InstancePackets.h"
+ #include "MapMgr.h"
+@@ -137,6 +138,176 @@ void Player::Customize(CharacterCustomizeInfo const* customizeInfo, CharacterDat
+         if (customizeInfo->HasZep)
+             SaveZepCustomizations(customizeInfo->Guid.GetCounter(), customizeInfo->Zep, trans);
+     }
++
++    // CUSTOM (F-236): the stored human form look is sex specific (and only a worgen has one) - a race or gender
++    // change drops it, so the next human form uses the default look until the creator / barber sets one
++    if (customizeInfo->ZepReset)
++    {
++        stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_CHARACTER_ZEP_FORM);
++        stmt->SetData(0, customizeInfo->Guid.GetCounter());
++        CharacterDatabase.ExecuteOrAppend(trans, stmt);
++    }
++}
++
++// CUSTOM (F-236): worgen human form - see Player.h (ZEP_LOOK_SIZE)
++void Player::SaveZepFormLook(ObjectGuid::LowType lowGuid, uint8 const (&look)[ZEP_LOOK_SIZE], CharacterDatabaseTransaction trans)
++{
++    for (uint8 i = 0; i < ZEP_LOOK_SIZE; ++i)
++    {
++        CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_CHARACTER_CUSTOMIZATION);
++        stmt->SetData(0, lowGuid);
++        stmt->SetData(1, uint8(ZEP_FORM_CUSTOMIZATION + i));
++        stmt->SetData(2, look[i]);
++        CharacterDatabase.ExecuteOrAppend(trans, stmt);
++    }
++}
++
++bool Player::HasZepCharSection(uint8 race, uint8 gender, uint8 section, uint8 variation, uint8 color)
++{
++    for (uint32 i = 0; i < sCharSectionsStore.GetNumRows(); ++i)
++    {
++        CharSectionsEntry const* entry = sCharSectionsStore.LookupEntry(i);
++        if (entry && entry->RaceID == race && entry->SexID == gender && entry->BaseSection == section
++            && entry->VariationIndex == variation && entry->ColorIndex == color)
++            return true;
++    }
++
++    return false;
++}
++
++// Choices the human CharSections do not have fall back to 0 (skin 0, face 0, hair style 0 colour 0); slot values are
++// 4-bit and jewellery 7-bit (bit 31 of OBJECT_FIELD_PADDING is the form bit)
++void Player::ValidateZepHumanLook(uint8 gender, uint8 (&look)[ZEP_LOOK_SIZE])
++{
++    if (!HasZepCharSection(RACE_HUMAN, gender, SECTION_TYPE_SKIN, 0, look[0]))
++        look[0] = 0;
++    if (!HasZepCharSection(RACE_HUMAN, gender, SECTION_TYPE_FACE, look[1], look[0]))
++        look[1] = 0;
++    if (!HasZepCharSection(RACE_HUMAN, gender, SECTION_TYPE_HAIR, look[2], look[3]))
++        look[2] = look[3] = 0;
++
++    look[9] &= 0x7F;
++    for (uint8 i = 10; i < ZEP_LOOK_SIZE; ++i)
++        look[i] &= 0x0F;
++}
++
++void Player::CaptureZepLook(uint8 (&look)[ZEP_LOOK_SIZE]) const
++{
++    for (uint8 i = 0; i < 4; ++i)
++        look[i] = GetByteValue(PLAYER_BYTES, i);
++    look[4] = GetByteValue(PLAYER_BYTES_2, 0);
++    for (uint8 i = 0; i < 4; ++i)
++        look[5 + i] = GetByteValue(UNIT_FIELD_PADDING, i);
++
++    uint32 pad = GetUInt32Value(OBJECT_FIELD_PADDING);
++    look[9] = uint8((pad >> 24) & 0x7F);
++    for (uint8 s = 0; s < 6; ++s)
++        look[10 + s] = uint8((pad >> (4 * s)) & 0x0F);
++}
++
++// All in one update tick, so a viewer gets the form bit and the look in the same values update
++void Player::WriteZepLook(uint8 const (&look)[ZEP_LOOK_SIZE], bool altered)
++{
++    for (uint8 i = 0; i < 4; ++i)
++        SetByteValue(PLAYER_BYTES, i, look[i]);
++    SetByteValue(PLAYER_BYTES_2, 0, look[4]);
++    for (uint8 i = 0; i < 4; ++i)
++        SetByteValue(UNIT_FIELD_PADDING, i, look[5 + i]);
++
++    uint32 pad = uint32(look[9] & 0x7F) << 24;
++    for (uint8 s = 0; s < 6; ++s)
++        pad |= uint32(look[10 + s] & 0x0F) << (4 * s);
++    if (altered)
++        pad |= ZEP_FORM_PADDING_BIT;
++    SetUInt32Value(OBJECT_FIELD_PADDING, pad);
++}
++
++void Player::SetZepAlteredForm(bool on)
++{
++    if (on == _zepAltered)
++        return;
++
++    if (on)
++    {
++        if (getRace(true) != RACE_WORGEN)
++            return;
++
++        CaptureZepLook(_zepNativeLook);
++        _zepAltered = true;
++        WriteZepLook(_zepHumanLook, true);
++    }
++    else
++    {
++        _zepAltered = false;
++        WriteZepLook(_zepNativeLook, false);
++    }
++}
++
++uint8 Player::GetNativeLookByte(uint8 index) const
++{
++    if (index >= ZEP_LOOK_SIZE)
++        return 0;
++
++    if (_zepAltered)
++        return _zepNativeLook[index];
++
++    uint8 look[ZEP_LOOK_SIZE];
++    CaptureZepLook(look);
++    return look[index];
++}
++
++void Player::ApplyZepBarberLook(uint8 hairStyle, uint8 hairColor, uint8 facialHair, int16 skin, uint8 const* extra)
++{
++    uint8 look[ZEP_LOOK_SIZE];
++    CaptureZepLook(look);
++    look[2] = hairStyle;
++    look[3] = hairColor;
++    look[4] = facialHair;
++    if (skin >= 0)
++        look[0] = uint8(skin);
++    if (extra)
++    {
++        for (uint8 i = 5; i < ZEP_LOOK_SIZE; ++i)
++            look[i] = extra[i - 5];
++        look[9] &= 0x7F;
++        for (uint8 i = 10; i < ZEP_LOOK_SIZE; ++i)
++            look[i] &= 0x0F;
++    }
++
++    WriteZepLook(look, _zepAltered);
++
++    if (_zepAltered)
++    {
++        for (uint8 i = 0; i < ZEP_LOOK_SIZE; ++i)
++            _zepHumanLook[i] = look[i];
++        SaveZepFormLook(GetGUID().GetCounter(), _zepHumanLook, nullptr);
++        return;
++    }
++
++    if (!extra)
++        return;
++
++    // native form: eye / markings (customization 1-4), jewellery (5) and geoset slots (10-15) - the F-230 barber slots
++    CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
++    for (uint8 i = 0; i < 4; ++i)
++    {
++        CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_CHARACTER_CUSTOMIZATION);
++        stmt->SetData(0, GetGUID().GetCounter());
++        stmt->SetData(1, uint8(1 + i));
++        stmt->SetData(2, look[5 + i]);
++        trans->Append(stmt);
++    }
++
++    CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_CHARACTER_ZEP_GEOSETS);
++    stmt->SetData(0, GetGUID().GetCounter());
++    trans->Append(stmt);
++
++    uint8 zep[7];
++    zep[0] = look[9];
++    for (uint8 s = 0; s < 6; ++s)
++        zep[1 + s] = look[10 + s];
++    SaveZepCustomizations(GetGUID().GetCounter(), zep, trans);
++    CharacterDatabase.CommitTransaction(trans);
+ }
+ 
+ // CUSTOM (F-230): zep[0] = jewellery (customization 5), zep[1 + s] = geoset slot s (customization 10 + s); 0 = unset, no row
+diff --git a/src/server/game/Entities/Player/PlayerStorage.cpp b/src/server/game/Entities/Player/PlayerStorage.cpp
+index 2842e6931..d0f1f6e7f 100644
+--- a/src/server/game/Entities/Player/PlayerStorage.cpp
++++ b/src/server/game/Entities/Player/PlayerStorage.cpp
+@@ -5141,9 +5141,11 @@ bool Player::LoadFromDB(ObjectGuid playerGuid, CharacterDatabaseQueryHolder cons
+             if (customization >= 1 && customization <= 4)
+                 SetByteValue(UNIT_FIELD_PADDING, customization - 1, choice);
+             else if (customization == 5)
+-                zepPadding |= uint32(choice) << 24;
++                zepPadding |= uint32(choice & 0x7F) << 24;      // CUSTOM (F-236): bit 31 = human form bit
+             else if (customization >= 10 && customization <= 15)
+                 zepPadding |= uint32(choice & 0x0F) << (4 * (customization - 10));
++            else if (customization >= ZEP_FORM_CUSTOMIZATION && customization < ZEP_FORM_CUSTOMIZATION + ZEP_LOOK_SIZE)
++                _zepHumanLook[customization - ZEP_FORM_CUSTOMIZATION] = choice;     // CUSTOM (F-236): human form look
+         } while (customizations->NextRow());
+     }
+     SetUInt32Value(OBJECT_FIELD_PADDING, zepPadding);
+diff --git a/src/server/game/Globals/ObjectMgr.cpp b/src/server/game/Globals/ObjectMgr.cpp
+index 4a07e74dd..bd617771e 100644
+--- a/src/server/game/Globals/ObjectMgr.cpp
++++ b/src/server/game/Globals/ObjectMgr.cpp
+@@ -1891,9 +1891,9 @@ uint32 ObjectMgr::GetModelForShapeshift(ShapeshiftForm form, Player* player) con
+     uint8 customizationID;
+ 
+     if (player->GetTeamId() == TEAM_ALLIANCE)
+-        customizationID = player->GetByteValue(PLAYER_BYTES, 3); // Use Hair Color
++        customizationID = player->GetNativeLookByte(3); // Use Hair Color (CUSTOM F-236: native look, not the human form's)
+     else
+-        customizationID = player->GetByteValue(PLAYER_BYTES, 0); // Use Skin Color
++        customizationID = player->GetNativeLookByte(0); // Use Skin Color
+ 
+     // getGender() tracks the active display model; real gender lives in PLAYER_BYTES_3
+     uint8 gender = player->GetByteValue(PLAYER_BYTES_3, PLAYER_BYTES_3_OFFSET_GENDER);
+diff --git a/src/server/game/Handlers/CharacterHandler.cpp b/src/server/game/Handlers/CharacterHandler.cpp
+index d79867db2..03d905131 100644
+--- a/src/server/game/Handlers/CharacterHandler.cpp
++++ b/src/server/game/Handlers/CharacterHandler.cpp
+@@ -88,6 +88,32 @@ static void ReadZepBlock(WorldPacket& recvData, bool& hasZep, uint8 (&zep)[7])
+     hasZep = true;
+ }
+ 
++// CUSTOM (F-236): optional ZEPF block after ZEPO in CMSG_CHAR_CREATE / CMSG_ALTER_APPEARANCE: uint32 'ZEPF', uint8 form,
++// uint8 n, n bytes = a look in the Player::ZEP_LOOK_SIZE layout (bytes beyond 16 skipped, missing ones 0).
++// Create: form 1 = the worgen's human form look. Barber: the form showing (0 native, 1 human); look bytes 5-15 apply.
++static void ReadZepFormBlock(WorldPacket& recvData, bool& hasForm, uint8& form, uint8 (&look)[Player::ZEP_LOOK_SIZE])
++{
++    if (recvData.rpos() + 6 > recvData.size())
++        return;
++
++    if (recvData.read<uint32>() != 0x4650455A)
++    {
++        recvData.rpos(recvData.rpos() - 4);
++        return;
++    }
++
++    form = recvData.read<uint8>();
++    uint8 n = recvData.read<uint8>();
++    for (uint8 k = 0; k < n && recvData.rpos() < recvData.size(); ++k)
++    {
++        uint8 b = recvData.read<uint8>();
++        if (k < Player::ZEP_LOOK_SIZE)
++            look[k] = b;
++    }
++
++    hasForm = true;
++}
++
+ LoginQueryHolder::LoginQueryHolder(uint32 accountId, ObjectGuid guid)
+     : _accountId(accountId), _guid(guid) { }
+ 
+@@ -337,6 +363,7 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
+     if (recvData.rpos() + 1 <= recvData.size())
+         recvData >> createInfo->WarPaintId;
+     ReadZepBlock(recvData, createInfo->HasZep, createInfo->Zep);     // CUSTOM (F-230)
++    ReadZepFormBlock(recvData, createInfo->HasZepForm, createInfo->ZepForm, createInfo->ZepFormLook);  // CUSTOM (F-236)
+ 
+     if (!HasPermission(rbac::RBAC_PERM_SKIP_CHECK_CHARACTER_CREATION_TEAMMASK))
+     {
+@@ -651,6 +678,13 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
+             // CUSTOM (F-230): jewellery and geoset slots (no block = all unset, the legacy facial hair row decides)
+             if (createInfo->HasZep)
+                 Player::SaveZepCustomizations(newChar->GetGUID().GetCounter(), createInfo->Zep, characterTransaction);
++
++            // CUSTOM (F-236): a worgen's human form look, checked against the human CharSections
++            if (createInfo->HasZepForm && createInfo->ZepForm == 1 && createInfo->Race == RACE_WORGEN)
++            {
++                Player::ValidateZepHumanLook(createInfo->Gender, createInfo->ZepFormLook);
++                Player::SaveZepFormLook(newChar->GetGUID().GetCounter(), createInfo->ZepFormLook, characterTransaction);
++            }
+             createInfo->CharCount++;
+ 
+             LoginDatabasePreparedStatement* stmt = LoginDatabase.GetPreparedStatement(LOGIN_REP_REALM_CHARACTERS);
+@@ -1608,24 +1642,32 @@ void WorldSession::HandleAlterAppearance(WorldPacket& recvData)
+     uint32 Hair, Color, FacialHair, SkinColor;
+     recvData >> Hair >> Color >> FacialHair >> SkinColor;
+ 
+-    // CUSTOM (F-230): barber geoset slots are phase 2 - a ZEPO block is accepted and ignored (slots stay as they are)
++    // CUSTOM (F-230): a ZEPO block is accepted and ignored; the barber's slots and markings come in the ZEPF block (F-236)
+     bool hasZep = false;
+     uint8 zep[7] = {};
+     ReadZepBlock(recvData, hasZep, zep);
+ 
++    // CUSTOM (F-236): the look of the form showing - in the worgen human form the styles are the human race's
++    bool hasForm = false;
++    uint8 form = 0;
++    uint8 formLook[Player::ZEP_LOOK_SIZE] = {};
++    ReadZepFormBlock(recvData, hasForm, form, formLook);
++    bool const altered = _player->IsInZepAlteredForm();
++    uint8 const styleRace = altered ? uint8(RACE_HUMAN) : _player->getRace();
++
+     BarberShopStyleEntry const* bs_hair = sBarberShopStyleStore.LookupEntry(Hair);
+ 
+-    if (!bs_hair || bs_hair->type != 0 || bs_hair->race != _player->getRace() || bs_hair->gender != _player->getGender())
++    if (!bs_hair || bs_hair->type != 0 || bs_hair->race != styleRace || bs_hair->gender != _player->getGender())
+         return;
+ 
+     BarberShopStyleEntry const* bs_facialHair = sBarberShopStyleStore.LookupEntry(FacialHair);
+ 
+-    if (!bs_facialHair || bs_facialHair->type != 2 || bs_facialHair->race != _player->getRace() || bs_facialHair->gender != _player->getGender())
++    if (!bs_facialHair || bs_facialHair->type != 2 || bs_facialHair->race != styleRace || bs_facialHair->gender != _player->getGender())
+         return;
+ 
+     BarberShopStyleEntry const* bs_skinColor = sBarberShopStyleStore.LookupEntry(SkinColor);
+ 
+-    if (bs_skinColor && (bs_skinColor->type != 3 || bs_skinColor->race != _player->getRace() || bs_skinColor->gender != _player->getGender()))
++    if (bs_skinColor && (bs_skinColor->type != 3 || bs_skinColor->race != styleRace || bs_skinColor->gender != _player->getGender()))
+         return;
+ 
+     GameObject* go = _player->FindNearestGameObjectOfType(GAMEOBJECT_TYPE_BARBER_CHAIR, 5.0f);
+@@ -1667,11 +1709,10 @@ void WorldSession::HandleAlterAppearance(WorldPacket& recvData)
+     _player->ModifyMoney(-int32(cost));                     // it isn't free
+     _player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_GOLD_SPENT_AT_BARBER, cost);
+ 
+-    _player->SetByteValue(PLAYER_BYTES, 2, uint8(bs_hair->hair_id));
+-    _player->SetByteValue(PLAYER_BYTES, 3, uint8(Color));
+-    _player->SetByteValue(PLAYER_BYTES_2, 0, uint8(bs_facialHair->hair_id));
+-    if (bs_skinColor)
+-        _player->SetByteValue(PLAYER_BYTES, 0, uint8(bs_skinColor->hair_id));
++    // CUSTOM (F-236): writes the form showing (the human form's look is saved at once); a ZEPF block for that form
++    // also sets eye / markings / jewellery / geoset slots (F-230 barber slots)
++    _player->ApplyZepBarberLook(uint8(bs_hair->hair_id), uint8(Color), uint8(bs_facialHair->hair_id),
++        bs_skinColor ? int16(bs_skinColor->hair_id) : int16(-1), hasForm && form == (altered ? 1 : 0) ? &formLook[5] : nullptr);
+ 
+     _player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_VISIT_BARBER_SHOP, 1);
+ 
+diff --git a/src/server/game/Handlers/SpellHandler.cpp b/src/server/game/Handlers/SpellHandler.cpp
+index 8668f5cad..a0e9e9b3f 100644
+--- a/src/server/game/Handlers/SpellHandler.cpp
++++ b/src/server/game/Handlers/SpellHandler.cpp
+@@ -765,10 +765,20 @@ void WorldSession::HandleMirrorImageDataRequest(WorldPacket& recvData)
+     if (!creator)
+         return;
+ 
++    // CUSTOM (F-236): a worgen in the human form is copied as a human (the look in the fields is the human one)
++    uint32 mirrorDisplay = creator->GetDisplayId();
++    uint8 mirrorRace = creator->getRace();
++    if (creator->IsPlayer() && creator->ToPlayer()->IsInZepAlteredForm() && creator->GetDisplayId() == creator->GetNativeDisplayId())
++        if (ChrRacesEntry const* human = sChrRacesStore.LookupEntry(RACE_HUMAN))
++        {
++            mirrorRace = RACE_HUMAN;
++            mirrorDisplay = creator->getGender() == GENDER_FEMALE ? human->model_f : human->model_m;
++        }
++
+     WorldPacket data(SMSG_MIRRORIMAGE_DATA, 68);
+     data << guid;
+-    data << uint32(creator->GetDisplayId());
+-    data << uint8(creator->getRace());
++    data << uint32(mirrorDisplay);
++    data << uint8(mirrorRace);
+     data << uint8(creator->getGender());
+     data << uint8(creator->getClass());
+ 
+diff --git a/src/server/game/Server/WorldSession.h b/src/server/game/Server/WorldSession.h
+index 044d0996c..f6ebbc36d 100644
+--- a/src/server/game/Server/WorldSession.h
++++ b/src/server/game/Server/WorldSession.h
+@@ -389,6 +389,10 @@ protected:
+     // CUSTOM (F-230): optional ZEPO block - Zep[0] = jewellery (customization 5), Zep[1 + s] = geoset slot s (customization 10 + s)
+     bool HasZep = false;
+     uint8 Zep[7] = {};
++    // CUSTOM (F-236): optional ZEPF block - ZepForm 1 = the worgen human form look (Player::ZEP_LOOK_SIZE layout)
++    bool HasZepForm = false;
++    uint8 ZepForm = 0;
++    uint8 ZepFormLook[16] = {};
+ 
+     /// Server side data
+     uint8 CharCount = 0;
+-- 
+2.34.1
+

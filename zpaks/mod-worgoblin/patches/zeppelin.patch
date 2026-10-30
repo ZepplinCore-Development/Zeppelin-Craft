@@ -1,7 +1,7 @@
-From b30c63edbcb8d25e7229a7e18a7b6541562484c5 Mon Sep 17 00:00:00 2001
+From a23f6f745acaf6289bed9176d9362661dc03cc8b Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 20 Feb 2026 12:08:57 +0000
-Subject: [PATCH 1/2] chore: Accept upstream trainer column removal, apply
+Subject: [PATCH 1/3] chore: Accept upstream trainer column removal, apply
  dk-quests fix (I-092)
 
 - worgoblin.sql trainer column removal now handled by upstream
@@ -31,10 +31,10 @@ index 912f0a2..de973ab 100644
 2.34.1
 
 
-From 2c149ce9b161b139678f8bd88ef92bcea0b16d7d Mon Sep 17 00:00:00 2001
+From ba5adefce2ebeb26b30e4ca8e7b21ba82d4443e4 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 12 Apr 2026 05:48:36 +0000
-Subject: [PATCH 2/2] I-167: Add DELETE before INSERT for idempotent
+Subject: [PATCH 2/3] I-167: Add DELETE before INSERT for idempotent
  skillraceclassinfo_dbc
 
 ---
@@ -50,6 +50,223 @@ index 0ccf81f..919fabd 100644
  INSERT INTO `skillraceclassinfo_dbc` (`ID`, `SkillID`, `RaceMask`, `ClassMask`, `Flags`, `MinLevel`, `SkillTierID`, `SkillCostIndex`) VALUES
  (21, 293, 4095, 3, 128, 40, 0, 0), -- redo this
  (27, 356, 4095, 1535, 128, 0, 23, 0),
+-- 
+2.34.1
+
+
+From 77b91bbf1bcb4be5fbd0001885b177e9760809f7 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Oct 2026 23:09:15 +0000
+Subject: [PATCH 3/3] feat: Two Forms human form and Running Wild scripts
+ (F-236)
+
+- spell_worgen_two_forms: casting again ends the human form; aura 302 apply/remove calls
+  Player::SetZepAlteredForm (core F-236)
+- spell_worgen_running_wild: needs Apprentice Riding, mounts the native display, 60% / 100% from riding
+- player_worgen_forms: teaches Two Forms (1) and Running Wild (20); entering combat ends the human form
+- unit_worgen_forms: shapeshifts and Darkflight end the human form
+
+Running Wild ported from Medviten's WHE-256-bit (https://github.com/Medviten/WHE-256-bit, AGPL-3.0),
+used with the author's permission.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ src/Worgoblin.cpp | 172 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 172 insertions(+)
+
+diff --git a/src/Worgoblin.cpp b/src/Worgoblin.cpp
+index 732c7ab..3a129da 100644
+--- a/src/Worgoblin.cpp
++++ b/src/Worgoblin.cpp
+@@ -2,6 +2,7 @@
+ #include "Chat.h"
+ #include "Player.h"
+ #include "ScriptMgr.h"
++#include "SpellAuraEffects.h"
+ #include "SpellScript.h"
+ #include "Config.h"
+ 
+@@ -50,8 +51,179 @@ class spell_rocket_barrage : public SpellScript
+     }
+ };
+ 
++// CUSTOM (F-236): worgen human form (Two Forms) and Running Wild. Ported from Medviten's WHE-256-bit
++// (https://github.com/Medviten/WHE-256-bit, AGPL-3.0, src/Worgoblin.cpp), used with the author's permission.
++// Two Forms applies aura 302 (a no-op in the core); its apply / remove swap the stored human look into the update
++// fields (Player::SetZepAlteredForm) and the Zeppelin client draws a race 1 character for the unit while the form bit is set.
++enum WorgenForms
++{
++    SPELL_TWO_FORMS          = 68996,
++    SPELL_TWO_FORMS_FEMALE   = 68995,   // same spell since F-236 (was the female illusion); not taught
++    SPELL_DARKFLIGHT         = 68992,
++    SPELL_RUNNING_WILD       = 87840,
++
++    RUNNING_WILD_LEVEL       = 20,
++    RIDING_SKILL_APPRENTICE  = 75,
++    RIDING_SKILL_JOURNEYMAN  = 150,
++};
++
++static void CancelWorgenHumanForm(Unit* unit)
++{
++    if (!unit || !unit->IsPlayer() || !unit->ToPlayer()->IsInZepAlteredForm())
++        return;
++
++    unit->RemoveAurasDueToSpell(SPELL_TWO_FORMS);
++    unit->RemoveAurasDueToSpell(SPELL_TWO_FORMS_FEMALE);
++}
++
++// casting Two Forms while in the human form goes back to the worgen form
++class spell_worgen_two_forms : public SpellScript
++{
++    PrepareSpellScript(spell_worgen_two_forms);
++
++    SpellCastResult CheckToggle()
++    {
++        Unit* caster = GetCaster();
++        if (caster && (caster->HasAura(SPELL_TWO_FORMS) || caster->HasAura(SPELL_TWO_FORMS_FEMALE)))
++        {
++            caster->RemoveAurasDueToSpell(SPELL_TWO_FORMS);
++            caster->RemoveAurasDueToSpell(SPELL_TWO_FORMS_FEMALE);
++            return SPELL_FAILED_DONT_REPORT;
++        }
++
++        if (caster && caster->IsPlayer() && caster->ToPlayer()->getRace(true) != RACE_WORGEN)
++            return SPELL_FAILED_DONT_REPORT;
++
++        return SPELL_CAST_OK;
++    }
++
++    void Register() override
++    {
++        OnCheckCast += SpellCheckCastFn(spell_worgen_two_forms::CheckToggle);
++    }
++};
++
++class spell_worgen_two_forms_aura : public AuraScript
++{
++    PrepareAuraScript(spell_worgen_two_forms_aura);
++
++    void HandleApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
++    {
++        if (Player* player = GetTarget()->ToPlayer())
++            player->SetZepAlteredForm(true);
++    }
++
++    void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
++    {
++        if (Player* player = GetTarget()->ToPlayer())
++            player->SetZepAlteredForm(false);
++    }
++
++    void Register() override
++    {
++        OnEffectApply += AuraEffectApplyFn(spell_worgen_two_forms_aura::HandleApply, EFFECT_0, SPELL_AURA_302, AURA_EFFECT_HANDLE_REAL);
++        OnEffectRemove += AuraEffectRemoveFn(spell_worgen_two_forms_aura::HandleRemove, EFFECT_0, SPELL_AURA_302, AURA_EFFECT_HANDLE_REAL);
++    }
++};
++
++// Running Wild: a mount whose display is the worgen's own (the Zeppelin client draws it running on all fours, no mount
++// model). Taken in the worgen form. Needs Apprentice Riding; +60% speed, +100% from Journeyman Riding.
++class spell_worgen_running_wild : public SpellScript
++{
++    PrepareSpellScript(spell_worgen_running_wild);
++
++    SpellCastResult CheckRiding()
++    {
++        Player* player = GetCaster() ? GetCaster()->ToPlayer() : nullptr;
++        if (!player || player->GetSkillValue(SKILL_RIDING) >= RIDING_SKILL_APPRENTICE)
++            return SPELL_CAST_OK;
++
++        ChatHandler(player->GetSession()).SendNotification("Requires Apprentice Riding");
++        return SPELL_FAILED_DONT_REPORT;
++    }
++
++    void Register() override
++    {
++        OnCheckCast += SpellCheckCastFn(spell_worgen_running_wild::CheckRiding);
++    }
++};
++
++class spell_worgen_running_wild_aura : public AuraScript
++{
++    PrepareAuraScript(spell_worgen_running_wild_aura);
++
++    void HandleMount(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
++    {
++        PreventDefaultAction();
++
++        Unit* target = GetTarget();
++        CancelWorgenHumanForm(target);
++        target->Mount(target->GetNativeDisplayId());
++    }
++
++    void CalculateSpeed(AuraEffect const* /*aurEff*/, int32& amount, bool& /*canBeRecalculated*/)
++    {
++        Player* player = GetUnitOwner() ? GetUnitOwner()->ToPlayer() : nullptr;
++        if (!player)
++            return;
++
++        amount = player->GetSkillValue(SKILL_RIDING) >= RIDING_SKILL_JOURNEYMAN ? 100 : 60;
++    }
++
++    void Register() override
++    {
++        // same modes as the default mounted aura handler, so it never runs for this spell
++        OnEffectApply += AuraEffectApplyFn(spell_worgen_running_wild_aura::HandleMount, EFFECT_0, SPELL_AURA_MOUNTED, AURA_EFFECT_HANDLE_SEND_FOR_CLIENT_MASK);
++        DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_worgen_running_wild_aura::CalculateSpeed, EFFECT_1, SPELL_AURA_MOD_INCREASE_MOUNTED_SPEED);
++    }
++};
++
++// teaches Two Forms (level 1) and Running Wild (level 20) to every worgen; entering combat ends the human form
++class player_worgen_forms : public PlayerScript
++{
++public:
++    player_worgen_forms() : PlayerScript("player_worgen_forms", { PLAYERHOOK_ON_LOGIN, PLAYERHOOK_ON_LEVEL_CHANGED, PLAYERHOOK_ON_PLAYER_ENTER_COMBAT }) { }
++
++    void OnPlayerLogin(Player* player) override { Teach(player); }
++    void OnPlayerLevelChanged(Player* player, uint8 /*oldLevel*/) override { Teach(player); }
++    void OnPlayerEnterCombat(Player* player, Unit* /*enemy*/) override { CancelWorgenHumanForm(player); }
++
++private:
++    static void Teach(Player* player)
++    {
++        if (player->getRace(true) != RACE_WORGEN)
++            return;
++
++        if (!player->HasSpell(SPELL_TWO_FORMS))
++            player->learnSpell(SPELL_TWO_FORMS);
++
++        if (player->GetLevel() >= RUNNING_WILD_LEVEL && !player->HasSpell(SPELL_RUNNING_WILD))
++            player->learnSpell(SPELL_RUNNING_WILD);
++    }
++};
++
++// druid / shaman shapeshifts and Darkflight end the human form
++class unit_worgen_forms : public UnitScript
++{
++public:
++    unit_worgen_forms() : UnitScript("unit_worgen_forms", true, { UNITHOOK_ON_AURA_APPLY }) { }
++
++    void OnAuraApply(Unit* unit, Aura* aura) override
++    {
++        if (!unit || !aura || !unit->IsPlayer() || !unit->ToPlayer()->IsInZepAlteredForm())
++            return;
++
++        if (aura->GetId() == SPELL_DARKFLIGHT || aura->GetSpellInfo()->HasAura(SPELL_AURA_MOD_SHAPESHIFT))
++            CancelWorgenHumanForm(unit);
++    }
++};
++
+ void Add_Worgoblin()
+ {
+     new worgoblin();
+     RegisterSpellScript(spell_rocket_barrage);
++    RegisterSpellAndAuraScriptPair(spell_worgen_two_forms, spell_worgen_two_forms_aura);
++    RegisterSpellAndAuraScriptPair(spell_worgen_running_wild, spell_worgen_running_wild_aura);
++    new player_worgen_forms();
++    new unit_worgen_forms();
+ }
 -- 
 2.34.1
 
