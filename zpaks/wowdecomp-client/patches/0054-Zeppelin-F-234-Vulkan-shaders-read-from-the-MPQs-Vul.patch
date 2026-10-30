@@ -1,0 +1,597 @@
+From 246936eaa9d7e1c9a6fee8e7db446356d5628f9c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 29 Oct 2026 23:56:53 +0000
+Subject: [PATCH] Zeppelin F-234: Vulkan shaders read from the MPQs
+ (Vulkan\shaders\..., PATCH-V) before loose files; hd*Info status CVars not
+ archived (a value over SaveCvar's 260-byte line swallowed the next SET)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp      |  2 +-
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanBloom.cpp   |  2 +-
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanData.cpp    | 45 +++++++++++++++++
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanData.h      |  9 ++++
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp     |  2 +-
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp   |  2 +-
+ .../hd/HdVulkanModelLights.cpp                |  2 +-
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp |  5 +-
+ .../wxl/src/vulkan/Manifest.cpp               | 38 +-------------
+ .../wxl/src/vulkan/Shaders.cpp                | 50 ++++++-------------
+ WoW/Source/WorldClient/HD/HdAO.cpp            |  2 +-
+ WoW/Source/WorldClient/HD/HdBloom.cpp         |  2 +-
+ .../WorldClient/HD/HdCataHorizonIndex.cpp     |  2 +-
+ .../WorldClient/HD/HdCataRenderPerf.cpp       |  2 +-
+ .../WorldClient/HD/HdCataViewDistance.cpp     |  2 +-
+ WoW/Source/WorldClient/HD/HdCataWater.cpp     |  4 +-
+ WoW/Source/WorldClient/HD/HdContactShadow.cpp |  2 +-
+ WoW/Source/WorldClient/HD/HdDetailDoodad.cpp  |  2 +-
+ WoW/Source/WorldClient/HD/HdFog.cpp           |  2 +-
+ WoW/Source/WorldClient/HD/HdForever.cpp       |  2 +-
+ WoW/Source/WorldClient/HD/HdGI.cpp            |  2 +-
+ WoW/Source/WorldClient/HD/HdGrade.cpp         |  2 +-
+ WoW/Source/WorldClient/HD/HdLights.cpp        |  2 +-
+ WoW/Source/WorldClient/HD/HdMapObj.cpp        |  2 +-
+ WoW/Source/WorldClient/HD/HdSky.cpp           |  2 +-
+ WoW/Source/WorldClient/HD/HdTerrain.cpp       |  2 +-
+ WoW/Source/WorldClient/HD/HdWater.cpp         |  2 +-
+ WoW/Source/WorldClient/HD/HdWaterPlanar.cpp   |  2 +-
+ 28 files changed, 97 insertions(+), 98 deletions(-)
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.cpp
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.h
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp
+index 0c70bc7a..812b2b08 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp
+@@ -293,7 +293,7 @@ bool Init() {
+     normals=Var("hdAONormals","HD: 0 depth normals (reference) / 1 valid wxl G-buffer normals","0");
+     quality=Var("hdAOQuality","HD: XeGTAO 0 low / 1 medium / 2 high / 3 ultra","1");
+     temporal=Var("hdAOTemporal","HD: GTAO 1 accumulates over frames (removes the grain) / 0 single frame","1");
+-    info=Var("hdAOInfo","HD: ambient occlusion status","off",0);
++    info=Var("hdAOInfo","HD: ambient occlusion status","off",0x80);
+     renderApi=wxl::ScriptMgr::GetInterface<const WXL_VkRenderApi>(WXL_VK_RENDER_API_NAME,WXL_VK_RENDER_API_VERSION);
+     if(!renderApi || renderApi->structSize<offsetof(WXL_VkRenderApi,UnregisterStage)+sizeof(renderApi->UnregisterStage) ||
+         !renderApi->RegisterStage || !renderApi->UnregisterStage || !effect.Init(renderApi)) {Info("AO Vulkan: Init failed");return false;}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanBloom.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanBloom.cpp
+index 9ab47c71..7d1772b1 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanBloom.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanBloom.cpp
+@@ -166,7 +166,7 @@ void __cdecl Stage(void*,const WXL_VkStageContext* source){if(!source)return;saw
+ }
+ }
+ bool Init(){
+-    if(stage)return true;bloom=Var("hdBloom","HD: bright world halos","0");strength=Var("hdBloomStrength","HD: halo strength 0..5","1");threshold=Var("hdBloomThreshold","HD: bright threshold 0..1","0.7");rays=Var("hdRays","HD: sun rays","0");rayStrength=Var("hdRaysStrength","HD: rays strength 0..5","1");debug=Var("hdBloomDebug","HD: 1 mask, 2 rays, 3 halo","0",0);info=Var("hdBloomInfo","HD: bloom status","off",0);
++    if(stage)return true;bloom=Var("hdBloom","HD: bright world halos","0");strength=Var("hdBloomStrength","HD: halo strength 0..5","1");threshold=Var("hdBloomThreshold","HD: bright threshold 0..1","0.7");rays=Var("hdRays","HD: sun rays","0");rayStrength=Var("hdRaysStrength","HD: rays strength 0..5","1");debug=Var("hdBloomDebug","HD: 1 mask, 2 rays, 3 halo","0",0);info=Var("hdBloomInfo","HD: bloom status","off",0x80);
+     api=wxl::ScriptMgr::GetInterface<const WXL_VkRenderApi>(WXL_VK_RENDER_API_NAME,WXL_VK_RENDER_API_VERSION);
+     if(!api || api->structSize<offsetof(WXL_VkRenderApi,UnregisterStage)+sizeof(api->UnregisterStage) || !api->RegisterStage||!api->UnregisterStage||!effect.Init(api)){Info("Vulkan bloom: Init failed");return false;}
+     WXL_VkStageDesc desc{};desc.structSize=sizeof desc;desc.point=Point;desc.order=100;desc.flags=WXL_VK_STAGE_WRITES_COLOR;desc.Wanted=Wanted;desc.Run=Stage;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.cpp
+new file mode 100644
+index 00000000..5f85f617
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.cpp
+@@ -0,0 +1,45 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#include "HdVulkanData.h"
++#include <cstdio>
++#include "Engine/Source/BlizzardCore/SFile2-Core.h"
++#include "common/ModulePath.hpp"
++
++namespace HD::VulkanData {
++namespace {
++// The whole loose file, plain CRT I/O.
++bool ReadLoose(const std::string& path, std::string& out) {
++    FILE* f = nullptr;
++    if (fopen_s(&f, path.c_str(), "rb") != 0 || !f) return false;
++    bool ok = false;
++    if (std::fseek(f, 0, SEEK_END) == 0) {
++        const long size = std::ftell(f);
++        if (size >= 0 && std::fseek(f, 0, SEEK_SET) == 0) {
++            out.resize(static_cast<size_t>(size));
++            ok = size == 0 || std::fread(&out[0], 1, out.size(), f) == out.size();
++        }
++    }
++    std::fclose(f);
++    if (!ok) out.clear();
++    return ok;
++}
++}
++
++bool Read(const char* relative, std::string& out) {
++    out.clear();
++    if (!relative || !*relative) return false;
++
++    // MPQ names use backslashes; the manifest writes forward ones.
++    std::string name = "Vulkan\\";
++    name += relative;
++    for (char& c : name) if (c == '/') c = '\\';
++
++    void* data = nullptr;
++    uint32_t size = 0;
++    if (SFile::LoadFile(name.c_str(), &data, &size, 0, nullptr) && data) {
++        out.assign(static_cast<const char*>(data), size);
++        SFile::Unload(data);
++        return true;
++    }
++    return ReadLoose(wxlvk::path::Resolve(name.c_str() + 7), out);
++}
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.h b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.h
+new file mode 100644
+index 00000000..5f794072
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.h
+@@ -0,0 +1,9 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#pragma once
++#include <string>
++namespace HD::VulkanData {
++// F-234: the Vulkan backend's data files (shaders\*.spv, shaders\translated\...) ship in an MPQ as
++// Vulkan\<relative>. Read() looks there first, then for the loose file in Vulkan\ next to the exe
++// (a developer's tree). relative uses either slash, e.g. "shaders\\translated\\manifest.txt".
++bool Read(const char* relative, std::string& out);
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp
+index bf3fce0e..2d398575 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp
+@@ -405,7 +405,7 @@ bool Init() {
+     enabled=Var("hdFog","HD: global volumetric fog, 0 off / 1 on","0");
+     density=Var("hdFogDensity","HD: fog density multiplier, 0..5","1");sunScale=Var("hdFogSun","HD: sun scattering multiplier, 0..5","1");
+     ambient=Var("hdFogAmbient","HD: ambient fog multiplier, 0..5","1");shadow=Var("hdFogShadow","HD: sun shadow cascades in the fog","1");
+-    debug=Var("hdFogDebug","HD: 1 distance, 2 depth, 3 fog alone, 4 sun shadows","0",0);info=Var("hdFogInfo","HD: fog status","off",0);
++    debug=Var("hdFogDebug","HD: 1 distance, 2 depth, 3 fog alone, 4 sun shadows","0",0);info=Var("hdFogInfo","HD: fog status","off",0x80);
+     api=wxl::ScriptMgr::GetInterface<const WXL_VkRenderApi>(WXL_VK_RENDER_API_NAME,WXL_VK_RENDER_API_VERSION);
+     if(!api || api->structSize<offsetof(WXL_VkRenderApi,UnregisterStage)+sizeof(api->UnregisterStage) || !api->RegisterStage || !api->UnregisterStage || !effect.Init(api)) {Info("Vulkan fog: Init failed");return false;}
+     WXL_VkStageDesc desc{};desc.structSize=sizeof desc;desc.point=Point;desc.order=100;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp
+index 6c4f124b..3caba85e 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp
+@@ -280,7 +280,7 @@ void __cdecl Stage(void*,const WXL_VkStageContext* ctx) {
+ bool Init() {
+     if(stage)return true;
+     enabled=Var("hdGrade","HD: colour grading, 0 off / 1 on","0");strength=Var("hdGradeStrength","HD: grading strength 0..2","1");
+-    debug=Var("hdGradeDebug","HD: left original / right graded","0",0);forced=Var("hdGradeLut","HD: positive LUT ID overrides zone choice","0");info=Var("hdGradeInfo","HD: grading status","off",0);
++    debug=Var("hdGradeDebug","HD: left original / right graded","0",0);forced=Var("hdGradeLut","HD: positive LUT ID overrides zone choice","0");info=Var("hdGradeInfo","HD: grading status","off",0x80);
+     api=wxl::ScriptMgr::GetInterface<const WXL_VkRenderApi>(WXL_VK_RENDER_API_NAME,WXL_VK_RENDER_API_VERSION);
+     if(!api || api->structSize<offsetof(WXL_VkRenderApi,UnregisterStage)+sizeof(api->UnregisterStage) || !api->RegisterStage || !api->UnregisterStage || !effect.Init(api)){Info("Vulkan grade: Init failed");return false;}
+     if(!Cache(0)){effect.Shutdown(0);Info("Vulkan grade: identity LUT failed");return false;}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanModelLights.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanModelLights.cpp
+index 2d9a72be..c7cafb5b 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanModelLights.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanModelLights.cpp
+@@ -46,7 +46,7 @@ bool Vulkan(){return active && g_theGxDevicePtr && g_theGxDevicePtr->DeviceApi()
+ void Init(){
+     mode=Var("hdModelLightTest","HD: existing M2 point-light diagnostic: 0 off, 1 observe, 2 cut lamps, 3 gain","0",0);
+     gain=Var("hdModelLightGain","HD: diagnostic gain in mode 3, 0..4 (1 unchanged)","1",0);
+-    info=Var("hdModelLightInfo","HD: local model-light diagnostics (constant blocks, not draw counts)","off",0);
++    info=Var("hdModelLightInfo","HD: local model-light diagnostics (constant blocks, not draw counts)","off",0x80);
+     active=true;window={};lastReport=0;lastMode=0;Info("off");
+ }
+ void InspectAndFilter(LocalLights& native,uint32_t selected){
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp
+index bde81948..07760813 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-3.0-or-later
+ // HD: Vulkan AO port. Original equations/constants: WoW/Source/WorldClient/HD/HdAO.cpp.
+ #include "HdVulkanShadows.h"
++#include "HdVulkanData.h"
+ #include <cstring>
+ #include <new>
+ #include <cstdio>
+@@ -291,12 +292,12 @@ bool Init(){
+  enabled=Var("hdSunShadows","HD Vulkan: PCSS sun + contact shadows","0");contact=Var("hdSunContact","HD Vulkan: contact shadow supplement","1");quality=Var("hdSunQuality","HD Vulkan: 0 8/16 taps, 1 12/24 taps","1");
+  debug=Var("hdSunDebug","0 normal, 1 sun, 2 contact, 3 combined, 4 coverage, 5 shaded colour, 6 sunlit colour, 7 engine colour","0",0);strength=Var("hdSunStrength","HD Vulkan shadow replacement strength 0..1","1");
+  angle=Var("hdSunAngle","HD Vulkan sun angular radius (radians)","0.00465");penumbra=Var("hdSunPenumbra","HD Vulkan maximum penumbra radius (yards)","1.5");bias=Var("hdSunNormalBias","HD Vulkan receiver normal bias (yards)","0.015");
+- length=Var("hdSunContactLength","HD Vulkan contact ray length (yards)","1.5");thickness=Var("hdSunContactThickness","HD Vulkan contact thickness (yards)","0.08");contactStrength=Var("hdSunContactStrength","HD Vulkan contact shadow darkness 0..1 (thin grass blades lets light through: lower = lighter)","1");tagTolerance=Var("hdSunTagTolerance","HD Vulkan: how far (log2 depth units) a G-buffer record may be from the pixel and still be its own; 1 = old loose test (grass took the terrain's shading)","0.03");grassShade=Var("hdSunGrassShade","HD Vulkan: grass brightness in the sun's shadow 0..1 (1 = grass left to its own shader)","1");info=Var("hdSunInfo","HD Vulkan shadow status","off",0);
++ length=Var("hdSunContactLength","HD Vulkan contact ray length (yards)","1.5");thickness=Var("hdSunContactThickness","HD Vulkan contact thickness (yards)","0.08");contactStrength=Var("hdSunContactStrength","HD Vulkan contact shadow darkness 0..1 (thin grass blades lets light through: lower = lighter)","1");tagTolerance=Var("hdSunTagTolerance","HD Vulkan: how far (log2 depth units) a G-buffer record may be from the pixel and still be its own; 1 = old loose test (grass took the terrain's shading)","0.03");grassShade=Var("hdSunGrassShade","HD Vulkan: grass brightness in the sun's shadow 0..1 (1 = grass left to its own shader)","1");info=Var("hdSunInfo","HD Vulkan shadow status","off",0x80);
+  renderApi=wxl::ScriptMgr::GetInterface<const WXL_VkRenderApi>(WXL_VK_RENDER_API_NAME,WXL_VK_RENDER_API_VERSION);
+  if(!renderApi||renderApi->structSize<offsetof(WXL_VkRenderApi,GetGBuffer)+sizeof(renderApi->GetGBuffer)||!renderApi->RegisterStage||!renderApi->RequestGBuffer||!renderApi->GetGBuffer||!effect.Init(renderApi)){Info("shadow Init failed");return false;}
+  WXL_VkStageDesc desc{};desc.structSize=sizeof desc;desc.point=WXL_VK_POINT_AFTER_OPAQUE_WORLD;desc.order=50;desc.flags=WXL_VK_STAGE_NEEDS_DEPTH|WXL_VK_STAGE_WRITES_COLOR;desc.Wanted=Wanted;desc.Run=Stage;
+  registration=renderApi->RegisterStage(&desc,"HD.SunShadows");if(!registration){effect.Shutdown(0);return false;}
+- std::ifstream manifest("Vulkan/shaders/translated/manifest.txt");std::string first;std::getline(manifest,first);
++ std::string text,first;HD::VulkanData::Read("shaders\\translated\\manifest.txt",text);first=text.substr(0,text.find('\n')); // HD: F-234 the MPQs first
+  receiverReady=first=="# HD-SUN-RECEIVERS 4"||first=="# HD-SUN-RECEIVERS 4\r";
+  Info(receiverReady?"off":"receiver shaders missing: run generation + restart");return true;
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Manifest.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Manifest.cpp
+index 23d09816..262fa769 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Manifest.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Manifest.cpp
+@@ -17,6 +17,7 @@
+ #include "vulkan/Manifest.hpp"
+ 
+ #include "common/ModulePath.hpp"
++#include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.h" // HD: F-234 shaders from the MPQs
+ 
+ #include "wxl/Script.hpp"
+ 
+@@ -66,41 +67,6 @@ namespace
+     };
+     State s;
+ 
+-    /**
+-     * Reads a whole file. Plain CRT I/O, once per session; the file is tens of kilobytes.
+-     *
+-     * @param string path : the file
+-     * @param string& out : receives the bytes
+-     * @return bool ok : false when the file could not be opened or read
+-     */
+-    bool ReadWhole(const std::string& path, std::string& out)
+-    {
+-        FILE* f = nullptr;
+-        if (fopen_s(&f, path.c_str(), "rb") != 0 || !f) return false;
+-
+-        bool ok = false;
+-        do
+-        {
+-            if (std::fseek(f, 0, SEEK_END) != 0) break;
+-            const long size = std::ftell(f);
+-            if (size < 0) break;
+-            if (std::fseek(f, 0, SEEK_SET) != 0) break;
+-            try
+-            {
+-                out.resize(static_cast<size_t>(size));
+-            }
+-            catch (const std::bad_alloc&)
+-            {
+-                break;
+-            }
+-            if (size > 0 && std::fread(&out[0], 1, out.size(), f) != out.size()) break;
+-            ok = true;
+-        } while (false);
+-
+-        std::fclose(f);
+-        return ok;
+-    }
+-
+     /**
+      * Splits one line into at most `cap` tokens on spaces and tabs, dropping a '#' comment.
+      * The line is modified in place (NULs written at token ends).
+@@ -476,7 +442,7 @@ namespace wxlvk::vk::manifest
+ 
+         const std::string path = wxlvk::path::Resolve(kManifestRelative);
+         std::string       text;
+-        if (!ReadWhole(path, text))
++        if (!HD::VulkanData::Read(kManifestRelative, text)) // HD: F-234 the MPQs first, then the loose file
+         {
+             // A deployment without the translator's output: only the hand-written rows can draw.
+             wxl::ScriptMgr::Log(WXL_LOG_WARN,
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp
+index ed95c9fc..fb4493fb 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp
+@@ -17,6 +17,7 @@
+ #include "vulkan/Shaders.hpp"
+ 
+ #include "common/ModulePath.hpp"
++#include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanData.h" // HD: F-234 shaders from the MPQs
+ #include "vulkan/Context.hpp"
+ #include "vulkan/Loader.hpp"
+ 
+@@ -133,54 +134,31 @@ namespace
+     }
+ 
+     /**
+-     * Reads a whole file into `out`. Plain CRT I/O: the file is a few kilobytes, read once per
+-     * session, and nothing about it wants a mapping or an async read.
++     * Reads a whole file into `out`. HD (F-234): from the MPQs as Vulkan\<relative>, else the
++     * loose file under Vulkan\ next to the exe (HD::VulkanData::Read).
+      *
+-     * @param string path : the file
++     * @param string relative : the file under Vulkan\, e.g. "shaders\\blit.vert.spv"
+      * @param vector& out : receives the bytes; cleared on failure
+      * @param string& why : receives the reason on failure, for the one log line
+      * @return bool ok
+      */
+-    bool ReadFile(const std::string& path, std::vector<uint8_t>& out, const char*& why)
++    bool ReadFile(const char* relative, std::vector<uint8_t>& out, const char*& why)
+     {
+         out.clear();
+ 
+-        FILE* f = nullptr;
+-        if (fopen_s(&f, path.c_str(), "rb") != 0 || !f)
++        std::string bytes;
++        if (!HD::VulkanData::Read(relative, bytes))
+         {
+             why = "the file could not be opened";
+             return false;
+         }
+-
+-        bool ok = false;
+-        do
++        if (bytes.empty())
+         {
+-            if (std::fseek(f, 0, SEEK_END) != 0) { why = "seek failed"; break; }
+-            const long size = std::ftell(f);
+-            if (size <= 0) { why = "the file is empty"; break; }
+-            if (std::fseek(f, 0, SEEK_SET) != 0) { why = "seek failed"; break; }
+-
+-            try
+-            {
+-                out.resize(static_cast<size_t>(size));
+-            }
+-            catch (const std::bad_alloc&)
+-            {
+-                why = "no address space for the file";
+-                break;
+-            }
+-
+-            if (std::fread(out.data(), 1, out.size(), f) != out.size())
+-            {
+-                why = "the read came up short";
+-                break;
+-            }
+-            ok = true;
+-        } while (false);
+-
+-        std::fclose(f);
+-        if (!ok) out.clear();
+-        return ok;
++            why = "the file is empty";
++            return false;
++        }
++        out.assign(bytes.begin(), bytes.end());
++        return true;
+     }
+ }
+ 
+@@ -221,7 +199,7 @@ namespace
+ 
+         std::vector<uint8_t> bytes;
+         const char* why = "";
+-        if (!ReadFile(path, bytes, why))
++        if (!ReadFile(relative, bytes, why))
+         {
+             wxl::ScriptMgr::Log(WXL_LOG_WARN, "vulkan: shaders: \"%s\": %s (\"%s\")", key, why,
+                                 path.c_str());
+diff --git a/WoW/Source/WorldClient/HD/HdAO.cpp b/WoW/Source/WorldClient/HD/HdAO.cpp
+index 421484a0..4f1ef1b0 100644
+--- a/WoW/Source/WorldClient/HD/HdAO.cpp
++++ b/WoW/Source/WorldClient/HD/HdAO.cpp
+@@ -158,7 +158,7 @@ float4 Apply(float2 vpos : VPOS) : COLOR0
+         s_radius = CVar::Register("hdAORadius", "HD: ambient occlusion reach in yards, 1.5 = normal", 1, "1.5", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_strength = CVar::Register("hdAOStrength", "HD: ambient occlusion strength, 1 = normal", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_debug = CVar::Register("hdAODebug", "HD: 1 = test view, the ambient occlusion alone", 0, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdAOInfo", "HD: hdAO status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdAOInfo", "HD: hdAO status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void SetInfo(const char* text) {
+diff --git a/WoW/Source/WorldClient/HD/HdBloom.cpp b/WoW/Source/WorldClient/HD/HdBloom.cpp
+index a8447f23..7df47df9 100644
+--- a/WoW/Source/WorldClient/HD/HdBloom.cpp
++++ b/WoW/Source/WorldClient/HD/HdBloom.cpp
+@@ -149,7 +149,7 @@ float4 Composite(float2 vpos : VPOS) : COLOR0 {
+         s_rays = CVar::Register("hdRays", "HD: 1 = sun rays", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_raysStrength = CVar::Register("hdRaysStrength", "HD: sun rays strength, 1 = normal", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_debug = CVar::Register("hdBloomDebug", "HD: test view, 1 = where rays start, 2 = rays only, 3 = halo only", 0, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdBloomInfo", "HD: hdBloom status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdBloomInfo", "HD: hdBloom status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void SetInfo(const char* text) {
+diff --git a/WoW/Source/WorldClient/HD/HdCataHorizonIndex.cpp b/WoW/Source/WorldClient/HD/HdCataHorizonIndex.cpp
+index 5aea9fda..cab7d8d3 100644
+--- a/WoW/Source/WorldClient/HD/HdCataHorizonIndex.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataHorizonIndex.cpp
+@@ -26,7 +26,7 @@ void Initialize(){
+  if(initialized)return;
+  auto*t=CVar::Register("hdCataHorizonIndex","HD: Cata-style WDL WMO spatial selection, 0 native; built at map load",1,"0",Toggle,CATEGORY_GRAPHICS,false,nullptr,false);
+  auto*v=CVar::Register("hdCataHorizonVerify","HD: compare every omitted WDL WMO to native frustum; fallback on first mismatch (debug cost)",1,"0",Verify,CATEGORY_GRAPHICS,false,nullptr,false);
+- info=CVar::Register("hdCataHorizonInfo","HD: index status and memory",0,"not loaded",nullptr,CATEGORY_GRAPHICS,false,nullptr,false);
++ info=CVar::Register("hdCataHorizonInfo","HD: index status and memory",0x80,"not loaded",nullptr,CATEGORY_GRAPHICS,false,nullptr,false);
+  initialized=true;enabled=t&&t->m_intValue!=0;verify=v&&v->m_intValue!=0;Status("initialized");
+ }
+ void Shutdown(){Clear(owner);enabled=verify=initialized=false;info=nullptr;}
+diff --git a/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp b/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
+index b5ff9e8a..ea7e8559 100644
+--- a/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
+@@ -30,7 +30,7 @@ double Ms(Stage s,double f){return timing[size_t(s)].ns/1e6/f;}
+ void Initialize(){
+  if(initialized)return;
+  CVar*toggle=CVar::Register("hdCataRenderPerf","HD: CPU stages; Logs/CataRenderPerf.log every 2s, no FPS limit changes",1,"0",Toggle,CATEGORY_GRAPHICS,false,nullptr,false);
+- info=CVar::Register("hdCataRenderPerfInfo","HD: last CPU measurements (milliseconds per scene render)",0,"off",nullptr,CATEGORY_GRAPHICS,false,nullptr,false);
++ info=CVar::Register("hdCataRenderPerfInfo","HD: last CPU measurements (milliseconds per scene render)",0x80,"off",nullptr,CATEGORY_GRAPHICS,false,nullptr,false);
+  initialized=true;enabled=toggle&&toggle->m_intValue!=0;Reset();
+ }
+ void Shutdown(){enabled=false;initialized=false;CloseLog();info=nullptr;Reset();}
+diff --git a/WoW/Source/WorldClient/HD/HdCataViewDistance.cpp b/WoW/Source/WorldClient/HD/HdCataViewDistance.cpp
+index dabf47bc..766bbf45 100644
+--- a/WoW/Source/WorldClient/HD/HdCataViewDistance.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataViewDistance.cpp
+@@ -36,7 +36,7 @@ void Initialize(){
+  toggle=Register("hdCataViewDistance","HD: Cata terrain/horizon/large-object view policy, 0 native / 1 Cata","0",Toggle);
+  quality=Register("hdCataViewQuality","HD: Cata presets 0 low, 1 fair, 2 good, 3 high, 4 ultra","4",Quality);
+  farOverride=Register("hdCataViewFar","HD: exact Cata-mode far clip in yards, 0 = quality preset, max 1583","0",Far);
+- info=Register("hdCataViewInfo","HD: effective view policy and pool estimate","off",nullptr,0);
++ info=Register("hdCataViewInfo","HD: effective view policy and pool estimate","off",nullptr,0x80);
+  initialized=true;uint32_t n=0;enabled=toggle&&Parse(toggle->m_stringValue.m_str,1,n)&&n!=0;
+  preset=4;if(quality&&Parse(quality->m_stringValue.m_str,4,n))preset=n;
+  customFar=0;if(farOverride)ParseFar(farOverride->m_stringValue.m_str,customFar);
+diff --git a/WoW/Source/WorldClient/HD/HdCataWater.cpp b/WoW/Source/WorldClient/HD/HdCataWater.cpp
+index d58b9f3e..6bc84307 100644
+--- a/WoW/Source/WorldClient/HD/HdCataWater.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataWater.cpp
+@@ -504,7 +504,7 @@ namespace {
+ 
+ void HD::CataWaterBeginLiquidPass() {
+     if (!s_info) {
+-        s_info = CVar::Register("hdCataWaterInfo", "HD: hdCataWater status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdCataWaterInfo", "HD: hdCataWater status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+     g_gxCataWater.m_ready = 0;
+     g_gxCataWater.m_mirror = 0;
+@@ -782,7 +782,7 @@ bool HD::CataMagmaRender(Liquid::IEnvironment* environment, Liquid::IGeomFactory
+     if (!s_magma) {
+         s_magma = CVar::Register("hdCataMagma", "HD: 1 = Cata 4.3.4 lava and slime (Vulkan), 0 = the 3.3.5 ones", 1, "1", nullptr,
+                                  CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_magmaInfo = CVar::Register("hdCataMagmaInfo", "HD: hdCataMagma status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS,
++        s_magmaInfo = CVar::Register("hdCataMagmaInfo", "HD: hdCataMagma status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS,
+                                      false, nullptr, false);
+     }
+     if (!s_magma || s_magma->m_intValue != 1) { MagmaInfo("off"); return false; }
+diff --git a/WoW/Source/WorldClient/HD/HdContactShadow.cpp b/WoW/Source/WorldClient/HD/HdContactShadow.cpp
+index 382018e0..da9fcc1f 100644
+--- a/WoW/Source/WorldClient/HD/HdContactShadow.cpp
++++ b/WoW/Source/WorldClient/HD/HdContactShadow.cpp
+@@ -313,7 +313,7 @@ float4 Apply(float2 vpos : VPOS) : COLOR0
+         s_strength = CVar::Register("hdContactShadowStrength", "HD: contact shadow strength, 1 = as dark as the shaders' own shadows (normal), 0 = none", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_units = CVar::Register("hdContactShadowUnits", "HD: 1 = characters cast contact shadows too, 0 = they only receive them (default)", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_debug = CVar::Register("hdContactShadowDebug", "HD: 1 = test view, the shadow alone, 2 = the same without the shadow-map check (red = shadow maps)", 0, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdContactShadowInfo", "HD: hdContactShadow status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdContactShadowInfo", "HD: hdContactShadow status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void SetInfo(const char* text) {
+diff --git a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+index 1e02c185..0c70bffd 100644
+--- a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
++++ b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+@@ -398,7 +398,7 @@ void main(
+         registered = true;
+         HD::ShaderCVars(); // HD: hdShaderDump
+         s_light = CVar::Register("hdGrassLight", "HD: 1 = WoW Forever lighting on grass, 2 = our shaders with 3.3.5 lighting, 3 = test view (sun after shadow only), 0 = Blizzard shaders", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdGrassInfo", "HD: hdGrassLight status (read only)", 0, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdGrassInfo", "HD: hdGrassLight status (read only)", 0x80, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         HD::GrassWindRegister(); // HD: grass wind cvars
+     }
+ 
+diff --git a/WoW/Source/WorldClient/HD/HdFog.cpp b/WoW/Source/WorldClient/HD/HdFog.cpp
+index 35e5e3c7..dee1b521 100644
+--- a/WoW/Source/WorldClient/HD/HdFog.cpp
++++ b/WoW/Source/WorldClient/HD/HdFog.cpp
+@@ -318,7 +318,7 @@ float4 main(float2 vpos : VPOS) : COLOR0 {
+         g_hdBeforeReleaseD3d = &HD::FogReleaseDeviceResources;
+         g_hdDepthOverride = &DepthOverride;
+         g_hdOnClear = &OnClear;
+-        s_info = CVar::Register("hdFogInfo", "HD: hdFog status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdFogInfo", "HD: hdFog status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void SetInfo(const char* text) {
+diff --git a/WoW/Source/WorldClient/HD/HdForever.cpp b/WoW/Source/WorldClient/HD/HdForever.cpp
+index d87720d7..2855cbb7 100644
+--- a/WoW/Source/WorldClient/HD/HdForever.cpp
++++ b/WoW/Source/WorldClient/HD/HdForever.cpp
+@@ -72,7 +72,7 @@ namespace {
+         s_enabled = CVar::Register("hdForever", "HD: 1 = WoW Forever light colours where Forever has the light, 0 = original", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_force = CVar::Register("hdForeverForce", "HD: 0 = Forever setting by light, else use this Forever setting everywhere (test)", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_light = CVar::Register("hdForeverLight", "HD: 1 = Forever's sun and ambient on the world, 0 = 3.3.5, between = mix", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdForeverInfo", "HD: what hdForever loaded (read only)", 0, "not loaded yet", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdForeverInfo", "HD: what hdForever loaded (read only)", 0x80, "not loaded yet", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void SetInfo(const char* text) {
+diff --git a/WoW/Source/WorldClient/HD/HdGI.cpp b/WoW/Source/WorldClient/HD/HdGI.cpp
+index d4bb1fce..ae5d4a83 100644
+--- a/WoW/Source/WorldClient/HD/HdGI.cpp
++++ b/WoW/Source/WorldClient/HD/HdGI.cpp
+@@ -198,7 +198,7 @@ float4 Apply(float2 vpos : VPOS) : COLOR0
+         s_radius = CVar::Register("hdGIRadius", "HD: bounce reach in yards, 4 = normal", 1, "4", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_strength = CVar::Register("hdGIStrength", "HD: bounce strength, 1 = normal", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_debug = CVar::Register("hdGIDebug", "HD: 1 = test view, the bounced light alone, 2 = test view, the surface colour estimate", 0, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdGIInfo", "HD: hdGI status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdGIInfo", "HD: hdGI status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void SetInfo(const char* text) {
+diff --git a/WoW/Source/WorldClient/HD/HdGrade.cpp b/WoW/Source/WorldClient/HD/HdGrade.cpp
+index 9c429852..cdeb4f8a 100644
+--- a/WoW/Source/WorldClient/HD/HdGrade.cpp
++++ b/WoW/Source/WorldClient/HD/HdGrade.cpp
+@@ -78,7 +78,7 @@ float4 main(float2 vpos : VPOS) : COLOR0 {
+         s_strength = CVar::Register("hdGradeStrength", "HD: colour grading strength, 1 = Forever", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_debug = CVar::Register("hdGradeDebug", "HD: 1 = split screen, left original, right graded", 0, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_force = CVar::Register("hdGradeLut", "HD: 0 = Forever's LUT for this place, else force this LUT id everywhere", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdGradeInfo", "HD: hdGrade status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdGradeInfo", "HD: hdGrade status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void SetInfo(const char* text) {
+diff --git a/WoW/Source/WorldClient/HD/HdLights.cpp b/WoW/Source/WorldClient/HD/HdLights.cpp
+index 2a723821..ae02fb39 100644
+--- a/WoW/Source/WorldClient/HD/HdLights.cpp
++++ b/WoW/Source/WorldClient/HD/HdLights.cpp
+@@ -62,7 +62,7 @@ namespace {
+         registered = true;
+         s_mode = CVar::Register("hdLights", "HD: 1 = lamps and fires light the ground per pixel (WoW Forever), 2 = light path with no light (must equal 0), 3 = test view (lights only), 0 = 3.3.5 per-vertex lights", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_radius = CVar::Register("hdLightsRadius", "HD: yards where a lamp's light ends, 0 = from its colour", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdLightsInfo", "HD: hdLights status (read only)", 0, "no light yet", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdLightsInfo", "HD: hdLights status (read only)", 0x80, "no light yet", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     float Radius(float strength) {
+diff --git a/WoW/Source/WorldClient/HD/HdMapObj.cpp b/WoW/Source/WorldClient/HD/HdMapObj.cpp
+index 54bfe62b..b27edfb6 100644
+--- a/WoW/Source/WorldClient/HD/HdMapObj.cpp
++++ b/WoW/Source/WorldClient/HD/HdMapObj.cpp
+@@ -497,7 +497,7 @@ void main(
+         registered = true;
+         HD::ShaderCVars(); // HD: hdShaderDump
+         s_light = CVar::Register("hdWmoLight", "HD: 1 = WoW Forever lighting on buildings (exterior-lit parts), 2 = our shaders with 3.3.5 lighting, 3 = test view (sun after shadow only), 0 = Blizzard shaders", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdWmoInfo", "HD: hdWmoLight status (read only)", 0, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdWmoInfo", "HD: hdWmoLight status (read only)", 0x80, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     // Our code index for vertex slot p (0..89): unlit ignores the light count, light counts 5..14 repeat 0..4
+diff --git a/WoW/Source/WorldClient/HD/HdSky.cpp b/WoW/Source/WorldClient/HD/HdSky.cpp
+index 086260e3..86d06a76 100644
+--- a/WoW/Source/WorldClient/HD/HdSky.cpp
++++ b/WoW/Source/WorldClient/HD/HdSky.cpp
+@@ -160,7 +160,7 @@ float4 CloudPS(CloudVertex i, float2 vpos : VPOS) : COLOR0 {
+         s_glowSize = CVar::Register("hdSkyGlowSize", "HD: sun glow cone half-angle in degrees", 1, "50", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_cloudSun = CVar::Register("hdSkyCloudSun", "HD: sun shining through thin clouds near the sun (0 = off)", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_dither = CVar::Register("hdSkyDither", "HD: sky dither in 1/255 steps (0 = off)", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdSkyInfo", "HD: hdSky status (read only)", 0, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdSkyInfo", "HD: hdSky status (read only)", 0x80, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void SetInfo(const char* text) {
+diff --git a/WoW/Source/WorldClient/HD/HdTerrain.cpp b/WoW/Source/WorldClient/HD/HdTerrain.cpp
+index a03e45d4..0132e031 100644
+--- a/WoW/Source/WorldClient/HD/HdTerrain.cpp
++++ b/WoW/Source/WorldClient/HD/HdTerrain.cpp
+@@ -645,7 +645,7 @@ void main(
+         s_light = CVar::Register("hdTerrainLight", "HD: 1 = WoW Forever terrain lighting, 2 = our shaders with 3.3.5 lighting, 3 = test view (sun after shadow only), 0 = Blizzard shaders", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_ambient = CVar::Register("hdLightAmbient", "HD: ambient strength on the ground in Forever lighting, 1 = Forever's (test only)", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_hemi = CVar::Register("hdTerrainHemi", "HD test: 1 = Forever hemisphere ambient, 0 = none (horizon = ground = sky), 2 = ratios frozen", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdTerrainInfo", "HD: hdTerrainLight status (read only)", 0, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdTerrainInfo", "HD: hdTerrainLight status (read only)", 0x80, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     float Clamp(float v, float lo, float hi) {
+diff --git a/WoW/Source/WorldClient/HD/HdWater.cpp b/WoW/Source/WorldClient/HD/HdWater.cpp
+index 6e95f783..a6e4c056 100644
+--- a/WoW/Source/WorldClient/HD/HdWater.cpp
++++ b/WoW/Source/WorldClient/HD/HdWater.cpp
+@@ -837,7 +837,7 @@ float4 main(float2 vpos : VPOS) : COLOR0
+         s_body = CVar::Register("hdWaterBody", "HD: strength of the water's own colour, 1 = Forever", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_reflect = CVar::Register("hdWaterReflect", "HD: screen-space reflections of the world on the water, 1 = on (Forever), 0 = sky only", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_color = CVar::Register("hdWaterColor", "HD: water colour, 1 = the game's own colours (follow the hour, dark at night), 0 = Forever's scattering", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdWaterInfo", "HD: hdWater status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdWaterInfo", "HD: hdWater status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void SetInfo(const char* text) {
+diff --git a/WoW/Source/WorldClient/HD/HdWaterPlanar.cpp b/WoW/Source/WorldClient/HD/HdWaterPlanar.cpp
+index 79524efa..99a35ba6 100644
+--- a/WoW/Source/WorldClient/HD/HdWaterPlanar.cpp
++++ b/WoW/Source/WorldClient/HD/HdWaterPlanar.cpp
+@@ -47,7 +47,7 @@ namespace {
+     void RegisterCVars() {
+         if (s_enabled) return;
+         s_enabled = CVar::Register("hdWaterPlanar", "HD: planar reflection of the sky and terrain on flat outdoor water (half resolution), 1 = on, 0 = screen-space only", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_info = CVar::Register("hdWaterPlanarInfo", "HD: planar water reflection status (read only)", 0, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_info = CVar::Register("hdWaterPlanarInfo", "HD: planar water reflection status (read only)", 0x80, "off", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+     void Info(const char* value) {
+-- 
+2.34.1
+
