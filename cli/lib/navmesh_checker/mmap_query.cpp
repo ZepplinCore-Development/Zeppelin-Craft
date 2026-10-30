@@ -35,7 +35,7 @@
 // ── Constants from AzerothCore ──────────────────────────────────────────────
 
 #define MMAP_MAGIC   0x4d4d4150  // 'MMAP'
-#define MMAP_VERSION 19
+#define MMAP_VERSION 20  // AC f839009e9 (core sync 2026-10-18); header layout unchanged from 19
 #define SIZE_OF_GRIDS 533.3333f
 #define MAX_QUERY_SEARCH_NODES 65535
 
