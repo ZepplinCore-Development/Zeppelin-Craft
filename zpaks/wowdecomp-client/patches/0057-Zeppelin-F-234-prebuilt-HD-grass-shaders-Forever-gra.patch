@@ -1,0 +1,711 @@
+From 3f4e7f6ba3505bcc68d9797ba19dba5ba79cfc91 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Oct 2026 15:30:32 +0000
+Subject: [PATCH] Zeppelin F-234: prebuilt HD grass shaders (Forever grass with
+ wxl wind on Vulkan), GPU frame time and settings in the perf log
+
+- HD::ShaderPrebuilt: a material's bytecode from Vulkan\hd-blobs\<material>-<vs|ps>-<a>-<b>-<key>.bin (MPQ first),
+  key = FNV-1a of its HLSL; HdGrass uses it before compiling, so every machine draws the bytes the Vulkan manifest
+  knows (a runtime compile depends on the player's d3dcompiler_47); hdShaderDump writes the keyed names
+- g_gxGpuFrame (GxSeam): the GPU frame time, from wxl GetFrameStats on Vulkan (HdVulkanPerf) and timestamp queries
+  Present to Present on D3D9 / D3D9Ex (GpuFrameTimerD3d9, armed only while hdCataRenderPerf is on)
+- CataRenderPerf.log: a session header (renderer, adapter, GPU timer, settings), one stamped line per window (FPS,
+  frame-time avg/p50/p95/p99/max, CPU world/scene, GPU avg/max), and a line whenever a setting changes
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp   |   7 +
+ .../Gx/CGxDeviceD3d/GpuFrameTimerD3d9.cpp     | 134 ++++++++++++++++++
+ .../Gx/CGxDeviceD3d/GpuFrameTimerD3d9.h       |  15 ++
+ .../Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp    |   7 +
+ .../Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp    |   5 +
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp    |  49 +++++++
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanPerf.h      |   8 ++
+ Engine/Source/Gx/GxSeam.cpp                   |   4 +
+ Engine/Source/Gx/GxSeam.h                     |  13 ++
+ .../WorldClient/HD/HdCataRenderPerf.cpp       |  79 +++++++++--
+ WoW/Source/WorldClient/HD/HdDetailDoodad.cpp  |  20 ++-
+ WoW/Source/WorldClient/HD/HdGxShader.cpp      |  31 +++-
+ WoW/Source/WorldClient/HD/HdGxShader.h        |  15 +-
+ 13 files changed, 371 insertions(+), 16 deletions(-)
+ create mode 100644 Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.cpp
+ create mode 100644 Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.h
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.h
+
+diff --git a/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp b/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp
+index f77ab783..a8a8d152 100644
+--- a/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp
++++ b/Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.cpp
+@@ -3,6 +3,7 @@
+ #include <cstring>
+ #include <malloc.h>
+ #include "Engine/Source/Gx/CGxDeviceD3d/CGxDeviceD3d.h"
++#include "Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.h"
+ #include "Engine/Source/Gx/Blit.h"
+ #include "Engine/Source/Gx/CGxBuf.h"
+ #include "Engine/Source/Gx/CGxPool.h"
+@@ -2728,6 +2729,8 @@ int32_t CGxDeviceD3d::DeviceWM(EGxWM wm, uintptr_t param1, uintptr_t param2) {
+                 D3DPRESENT_PARAMETERS d3dpp;
+                 this->ISetPresentParms(d3dpp, this->m_format);
+ 
++                GpuFrameTimerD3d9::Release(); // Zeppelin F-234: its queries go before the device resets
++
+                 if (this->m_d3dDevice->Reset(&d3dpp) == D3D_OK) {
+                     this->IStateSetD3DDefaults();
+                     this->ISetWindowFocus(1);
+@@ -2801,6 +2804,7 @@ void CGxDeviceD3d::IDestroyD3d() {
+     }
+ 
+     if (this->m_d3dDevice) {
++        GpuFrameTimerD3d9::Release(); // Zeppelin F-234: its queries go before the device
+         this->m_d3dDevice->Release();
+         this->m_d3dDevice = nullptr;
+     }
+@@ -3215,6 +3219,8 @@ void CGxDeviceD3d::ISceneBegin() {
+             D3DPRESENT_PARAMETERS d3dpp;
+             this->ISetPresentParms(d3dpp, this->m_format);
+ 
++            GpuFrameTimerD3d9::Release(); // Zeppelin F-234: its queries go before the device resets
++
+             if (this->m_d3dDevice->Reset(&d3dpp) == D3D_OK) {
+                 this->IStateSetD3DDefaults();
+                 this->ISetWindowFocus(1);
+@@ -3278,6 +3284,7 @@ void CGxDeviceD3d::ScenePresent() {
+ 
+         this->WaitForFPSCap();
+ 
++        GpuFrameTimerD3d9::Present(this->m_d3dDevice); // Zeppelin F-234: GPU frame time for the perf log
+         if (FAILED(this->m_d3dDevice->Present(nullptr, nullptr, nullptr, nullptr))) {
+             this->m_context = 0;
+         }
+diff --git a/Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.cpp b/Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.cpp
+new file mode 100644
+index 00000000..2fbe6db6
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.cpp
+@@ -0,0 +1,134 @@
++#include "Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.h"
++#include <cstdio>
++#include <cstring>
++#include "Engine/Source/Gx/GxSeam.h"
++
++namespace GpuFrameTimerD3d9 {
++namespace {
++constexpr int kSets = 4;
++
++struct Set {
++    IDirect3DQuery9* disjoint = nullptr;
++    IDirect3DQuery9* frequency = nullptr;
++    IDirect3DQuery9* begin = nullptr;
++    IDirect3DQuery9* end = nullptr;
++    bool open = false;      // begun, waiting for its end
++    bool pending = false;   // ended, waiting for its results
++};
++
++IDirect3DDevice9* s_device = nullptr;
++Set s_sets[kSets];
++int s_current = -1;
++bool s_failed = false;
++char s_adapter[128] = "";
++double s_sumMs = 0.0, s_maxMs = 0.0;
++uint32_t s_frames = 0;
++
++void Free(IDirect3DQuery9*& q) {
++    if (q) q->Release();
++    q = nullptr;
++}
++
++bool Create() {
++    for (Set& s : s_sets) {
++        if (FAILED(s_device->CreateQuery(D3DQUERYTYPE_TIMESTAMPDISJOINT, &s.disjoint)) ||
++            FAILED(s_device->CreateQuery(D3DQUERYTYPE_TIMESTAMPFREQ, &s.frequency)) ||
++            FAILED(s_device->CreateQuery(D3DQUERYTYPE_TIMESTAMP, &s.begin)) ||
++            FAILED(s_device->CreateQuery(D3DQUERYTYPE_TIMESTAMP, &s.end))) {
++            return false;
++        }
++    }
++    IDirect3D9* d3d = nullptr;
++    D3DDEVICE_CREATION_PARAMETERS creation;
++    if (SUCCEEDED(s_device->GetDirect3D(&d3d)) && d3d) {
++        D3DADAPTER_IDENTIFIER9 identifier;
++        if (SUCCEEDED(s_device->GetCreationParameters(&creation)) && SUCCEEDED(d3d->GetAdapterIdentifier(creation.AdapterOrdinal, 0, &identifier))) {
++            snprintf(s_adapter, sizeof(s_adapter), "%s", identifier.Description);
++        }
++        d3d->Release();
++    }
++    return true;
++}
++
++// A finished set's frame time, without waiting: false while the GPU has not got there.
++void Harvest(Set& s) {
++    if (!s.pending) return;
++    BOOL disjoint = TRUE;
++    UINT64 frequency = 0, begin = 0, end = 0;
++    if (s.end->GetData(&end, sizeof(end), 0) != S_OK) return;
++    if (s.begin->GetData(&begin, sizeof(begin), 0) != S_OK || s.frequency->GetData(&frequency, sizeof(frequency), 0) != S_OK ||
++        s.disjoint->GetData(&disjoint, sizeof(disjoint), 0) != S_OK) {
++        return;
++    }
++    s.pending = false;
++    if (disjoint || !frequency || end < begin) return;
++    const double ms = double(end - begin) * 1000.0 / double(frequency);
++    s_sumMs += ms;
++    if (ms > s_maxMs) s_maxMs = ms;
++    s_frames++;
++}
++
++bool Read(GxGpuFrame* out) {
++    if (!out) return false;
++    for (Set& s : s_sets) Harvest(s);
++    memset(out, 0, sizeof(*out));
++    snprintf(out->m_adapter, sizeof(out->m_adapter), "%s", s_adapter);
++    out->m_frames = s_frames;
++    const bool timed = s_frames != 0;
++    if (timed) {
++        out->m_avgMs = static_cast<float>(s_sumMs / s_frames);
++        out->m_maxMs = static_cast<float>(s_maxMs);
++    }
++    s_sumMs = s_maxMs = 0.0;
++    s_frames = 0;
++    return timed;
++}
++}
++
++void Release() {
++    for (Set& s : s_sets) {
++        Free(s.disjoint);
++        Free(s.frequency);
++        Free(s.begin);
++        Free(s.end);
++        s.open = s.pending = false;
++    }
++    s_device = nullptr;
++    s_current = -1;
++    if (g_gxGpuFrame == &Read) g_gxGpuFrame = nullptr;
++}
++
++void Present(IDirect3DDevice9* device) {
++    if (!g_gxGpuTimerWanted || s_failed || !device) {
++        if (s_device) Release();
++        return;
++    }
++    if (device != s_device) {
++        Release();
++        s_device = device;
++        if (!Create()) {
++            Release();
++            s_failed = true;   // no timestamp queries on this adapter: the log says so (no GPU column)
++            return;
++        }
++        g_gxGpuFrame = &Read;
++    }
++    // The frame that ends here.
++    if (s_current >= 0 && s_sets[s_current].open) {
++        Set& s = s_sets[s_current];
++        s.end->Issue(D3DISSUE_END);
++        s.frequency->Issue(D3DISSUE_END);
++        s.disjoint->Issue(D3DISSUE_END);
++        s.open = false;
++        s.pending = true;
++    }
++    for (Set& s : s_sets) Harvest(s);
++    // The next frame, on a set whose results are in (or dropped if the GPU is that far behind).
++    s_current = (s_current + 1) % kSets;
++    Set& next = s_sets[s_current];
++    next.pending = false;
++    next.disjoint->Issue(D3DISSUE_BEGIN);
++    next.begin->Issue(D3DISSUE_END);
++    next.open = true;
++}
++}
+diff --git a/Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.h b/Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.h
+new file mode 100644
+index 00000000..4f8aa87e
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.h
+@@ -0,0 +1,15 @@
++#ifndef ENGINE_SOURCE_GX_CGXDEVICED3D_GPUFRAMETIMERD3D9_H
++#define ENGINE_SOURCE_GX_CGXDEVICED3D_GPUFRAMETIMERD3D9_H
++
++#include <d3d9.h>
++
++// Zeppelin F-234: the D3D9 devices' GPU frame time for the perf log (g_gxGpuFrame, GxSeam.h). Timestamp queries
++// from one Present to the next, read back a few frames later without waiting. D3D9 timestamps are taken where the
++// GPU reaches them, so a frame the CPU is slow to feed counts its idle gaps: CPU-bound, it reads as the frame time.
++// Only while g_gxGpuTimerWanted; Release() before the device is reset or released.
++namespace GpuFrameTimerD3d9 {
++void Present(IDirect3DDevice9* device);
++void Release();
++}
++
++#endif
+diff --git a/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp b/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp
+index 86041b12..5b583ede 100644
+--- a/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp
++++ b/Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.cpp
+@@ -4,6 +4,7 @@
+ #include <malloc.h>
+ #include <new>
+ #include "Engine/Source/Gx/CGxDeviceD3d9Ex/CGxDeviceD3d9Ex.h"
++#include "Engine/Source/Gx/CGxDeviceD3d/GpuFrameTimerD3d9.h"
+ #include "Engine/Source/Gx/Blit.h"
+ #include "Engine/Source/Gx/CGxBuf.h"
+ #include "Engine/Source/Gx/CGxPool.h"
+@@ -2687,6 +2688,8 @@ int32_t CGxDeviceD3d9Ex::DeviceWM(EGxWM wm, uintptr_t param1, uintptr_t param2)
+                 D3DPRESENT_PARAMETERS d3dpp;
+                 this->ISetPresentParms(d3dpp, this->m_format);
+ 
++                GpuFrameTimerD3d9::Release(); // Zeppelin F-234: its queries go before the device resets
++
+                 if (this->m_d3dDevice->Reset(&d3dpp) == D3D_OK) {
+                     this->IStateSetD3DDefaults();
+                     this->ISetWindowFocus(1);
+@@ -2755,6 +2758,7 @@ void CGxDeviceD3d9Ex::IDestroyD3d() {
+     }
+ 
+     if (this->m_d3dDevice) {
++        GpuFrameTimerD3d9::Release(); // Zeppelin F-234: its queries go before the device
+         this->m_d3dDevice->Release();
+         this->m_d3dDevice = nullptr;
+     }
+@@ -3005,6 +3009,8 @@ void CGxDeviceD3d9Ex::ISceneBegin() {
+             D3DPRESENT_PARAMETERS d3dpp;
+             this->ISetPresentParms(d3dpp, this->m_format);
+ 
++            GpuFrameTimerD3d9::Release(); // Zeppelin F-234: its queries go before the device resets
++
+             if (this->m_d3dDevice->Reset(&d3dpp) == D3D_OK) {
+                 this->IStateSetD3DDefaults();
+                 this->ISetWindowFocus(1);
+@@ -3068,6 +3074,7 @@ void CGxDeviceD3d9Ex::ScenePresent() {
+ 
+         this->WaitForFPSCap();
+ 
++        GpuFrameTimerD3d9::Present(this->m_d3dDevice); // Zeppelin F-234: GPU frame time for the perf log
+         if (FAILED(this->m_d3dDevice->Present(nullptr, nullptr, nullptr, nullptr))) {
+             this->m_context = 0;
+         }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp b/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp
+index 1e5b23a9..5fac8680 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp
+@@ -18,6 +18,7 @@
+ #include "native/render/WmoGroups.hpp"
+ #include "native/render/WorldPass.hpp"
+ #include "host/Host.hpp"
++#include "hd/HdVulkanPerf.h"
+ #include "hd/CataWaterService.h" // HD: Cata water
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.h" // HD: step 4 sun shadows (hdSunShadows)
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.h" // HD: hdAO
+@@ -95,6 +96,7 @@ CGxDeviceVulkan::~CGxDeviceVulkan() {
+     HD::VulkanBloom::Shutdown(); // HD: idempotent
+     HD::VulkanGrade::Shutdown(); // HD: idempotent
+     HD::VulkanModelLights::Shutdown(); // HD: idempotent
++    HD::VulkanPerf::Shutdown(); // Zeppelin F-234
+     HD::CataWater::Service::Shutdown(); // HD: a no-op once DeviceDestroy ran
+     wxlcompat::SeamsEnable(false);
+ }
+@@ -455,6 +457,7 @@ int32_t CGxDeviceVulkan::DeviceCreate(GxWindowProc windowProc, const CGxFormat&
+     wxlcompat::SeamsEnable(created != 0);
+     if (created) HD::CataWater::Service::Startup(); // HD: Cata water, step A (hd/CataWaterService.h)
+     if (created) HD::VulkanModelLights::Init(); // HD: hdModelLightTest diagnostic (hd/HdVulkanModelLights.h)
++    if (created) HD::VulkanPerf::Init(); // Zeppelin F-234: GPU frame time for the perf log (hd/HdVulkanPerf.h)
+     if (created && !HD::VulkanShadows::Init()) { // HD step 4: hdSunShadows (hd/HdVulkanShadows.h)
+         CGxDevice::Log("HD Vulkan sun shadows: initialization failed");
+     }
+@@ -495,6 +498,7 @@ void CGxDeviceVulkan::DeviceDestroy() {
+         return;
+     }
+     HD::VulkanModelLights::Shutdown(); // HD
++    HD::VulkanPerf::Shutdown(); // Zeppelin F-234
+     HD::CataWater::Service::Shutdown(); // HD: its stages and images go before the device
+     wxlcompat::SeamsEnable(false);
+     impl::DeviceDestroy(this, nullptr);                                          // Device.cpp
+@@ -643,6 +647,7 @@ int32_t CGxDeviceVulkan::DeviceCreate(void* window, const CGxFormat& format) {
+     wxlcompat::SeamsEnable(created != 0);
+     if (created) HD::CataWater::Service::Startup(); // HD: Cata water, step A (hd/CataWaterService.h)
+     if (created) HD::VulkanModelLights::Init(); // HD: hdModelLightTest diagnostic (hd/HdVulkanModelLights.h)
++    if (created) HD::VulkanPerf::Init(); // Zeppelin F-234: GPU frame time for the perf log (hd/HdVulkanPerf.h)
+     if (created && !HD::VulkanShadows::Init()) { // HD step 4: hdSunShadows (hd/HdVulkanShadows.h)
+         CGxDevice::Log("HD Vulkan sun shadows: initialization failed");
+     }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp
+new file mode 100644
+index 00000000..5a483293
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp
+@@ -0,0 +1,49 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#include "HdVulkanPerf.h"
++#include <cstdio>
++#include <cstring>
++#include "Engine/Source/Gx/GxSeam.h"
++#include "wxl/Script.hpp"
++#include "wxl/VkRenderApi.h"
++
++namespace HD::VulkanPerf {
++namespace {
++const WXL_VkRenderApi* s_api = nullptr;
++char s_adapter[128] = "";
++
++bool Read(GxGpuFrame* out) {
++    if (!out || !s_api || !s_api->GetFrameStats) return false;
++    WXL_VkFrameStats stats{};
++    stats.structSize = sizeof stats;
++    std::memset(out, 0, sizeof *out);
++    std::snprintf(out->m_adapter, sizeof out->m_adapter, "%s", s_adapter);
++    if (!s_api->GetFrameStats(&stats) || !(stats.flags & WXL_VK_FRAME_GPU_TIMED) || stats.gpuFrameAvgMs < 0) return false;
++    out->m_avgMs = stats.gpuFrameAvgMs;
++    out->m_maxMs = stats.gpuFrameMaxMs;
++    out->m_frames = static_cast<uint32_t>(stats.frames);
++    return true;
++}
++}
++
++void Init() {
++    s_api = wxl::ScriptMgr::GetInterface<const WXL_VkRenderApi>(WXL_VK_RENDER_API_NAME, WXL_VK_RENDER_API_VERSION);
++    if (!s_api) return;
++    s_adapter[0] = '\0';
++    WXL_VkDeviceInfo info{};
++    info.structSize = sizeof info;
++    if (s_api->GetDeviceInfo && s_api->GetDeviceInfo(&info) && info.physicalDevice && info.getInstanceProcAddr) {
++        auto properties = reinterpret_cast<PFN_vkGetPhysicalDeviceProperties>(info.getInstanceProcAddr(info.instance, "vkGetPhysicalDeviceProperties"));
++        if (properties) {
++            VkPhysicalDeviceProperties props{};
++            properties(info.physicalDevice, &props);
++            std::snprintf(s_adapter, sizeof s_adapter, "%s", props.deviceName);
++        }
++    }
++    g_gxGpuFrame = &Read;
++}
++
++void Shutdown() {
++    if (g_gxGpuFrame == &Read) g_gxGpuFrame = nullptr;
++    s_api = nullptr;
++}
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.h b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.h
+new file mode 100644
+index 00000000..dcf36eb2
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.h
+@@ -0,0 +1,8 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#pragma once
++// Zeppelin F-234: the Vulkan device's GPU frame time for the perf log (g_gxGpuFrame, Engine/Source/Gx/GxSeam.h), from
++// wxl.vk.render GetFrameStats: the timestamps of the frame's submission, averaged over its last 128 frames.
++namespace HD::VulkanPerf {
++void Init();
++void Shutdown();
++}
+diff --git a/Engine/Source/Gx/GxSeam.cpp b/Engine/Source/Gx/GxSeam.cpp
+index 2b221784..d3858f09 100644
+--- a/Engine/Source/Gx/GxSeam.cpp
++++ b/Engine/Source/Gx/GxSeam.cpp
+@@ -5,6 +5,10 @@ GxSeam g_gxSeams[GxSeams_Last] = {};
+ 
+ int32_t (*g_gxShaderKnown)(const void* code, uint32_t size) = nullptr;
+ 
++// Zeppelin F-234: the GPU frame time for the perf log (GxSeam.h).
++bool (*g_gxGpuFrame)(GxGpuFrame* out) = nullptr;
++int32_t g_gxGpuTimerWanted = 0;
++
+ // HD: the Cata water reflection plane (GxSeam.h).
+ GxCataPlane g_gxCataPlane = {};
+ 
+diff --git a/Engine/Source/Gx/GxSeam.h b/Engine/Source/Gx/GxSeam.h
+index 9b0845dc..4441c20c 100644
+--- a/Engine/Source/Gx/GxSeam.h
++++ b/Engine/Source/Gx/GxSeam.h
+@@ -45,6 +45,19 @@ inline Fn GxSeamBracket(EGxSeam seam) {
+ // Vulkan\shaders\translated\manifest.txt); null otherwise. The HD materials ask it before swapping their code in.
+ extern int32_t (*g_gxShaderKnown)(const void* code, uint32_t size);
+ 
++// Zeppelin F-234: the GPU's time per frame for the perf log (hdCataRenderPerf), from timestamp queries: the window's
++// average and maximum in milliseconds since the last call, and the adapter's name. Set by the device that measures it
++// (Vulkan: CGxDeviceVulkan/hd/HdVulkanPerf.cpp; D3D9: CGxDeviceD3d/GpuFrameTimerD3d9.cpp, armed by g_gxGpuTimerWanted);
++// null otherwise. False when no frame was timed since the last call.
++struct GxGpuFrame {
++    float m_avgMs;
++    float m_maxMs;
++    uint32_t m_frames;
++    char m_adapter[128];
++};
++extern bool (*g_gxGpuFrame)(GxGpuFrame* out);
++extern int32_t g_gxGpuTimerWanted;   // the perf log is on: the D3D9 device times its frames
++
+ // HD: the Cata water's reflection plane, shared by the engine (WoW/Source/WorldClient/HD/HdCataMirror.cpp) and the
+ // Vulkan device (CGxDeviceVulkan/hd/CataMirror.cpp). The device sets m_wanted while hdCataWater is on and its mirror
+ // is up; the engine then picks the plane of the nearest flat outdoor water each frame, before the liquid pass, and
+diff --git a/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp b/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
+index ea7e8559..211525c1 100644
+--- a/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
+@@ -1,11 +1,21 @@
+-// HD: main-thread CPU times, inclusive scopes; no Vulkan queries or presentation waits.
++// HD: main-thread CPU times, inclusive scopes, plus (Zeppelin F-234) the GPU's frame time from the device's timestamp
++// queries, frame-time percentiles, wall-clock stamps, and the renderer and graphics settings in force: one session
++// header when the log opens, a line whenever a setting changes, so a Vulkan run and a D3D9 run can be compared.
+ #include "HdCataRenderPerf.h"
++#include <algorithm>
+ #include <array>
+ #include <chrono>
+ #include <cstdio>
+ #include <cstring>
++#include <map>
++#include <string>
++#include <vector>
++#include <windows.h>
+ #include "Engine/Source/ConsoleBase/ConsoleVar.h"
+ #include "Engine/Source/ConsoleBase/Types.h"
++#include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
++#include "Engine/Source/Gx/GxSeam.h"
++#include "Engine/Source/Gx/Types.h"
+ namespace HD::CataRenderPerf {
+ namespace {
+ constexpr size_t NS=size_t(Stage::Count),NC=size_t(Counter::Count);
+@@ -18,22 +28,59 @@ constexpr const char* names[NS]={"render","prepareMap","wmoPrepare","terrain","w
+  "cullVolumes","cullChunks","cullGroups","cullLiquid","cullEntitys","cullDoodads","cullOcclusion","cullHorizon","cullChunkDoodads","cullChunkPrep"};
+ constexpr const char* counterNames[NC]={"wmoDefs","wmoGroups","rootWaits","groupWaits","asyncReads","horizonAll","horizonCandidates","horizonFallbacks","horizonMismatch","grassChunks","grassDraws","grassFills","grassSingleModel","grassMixedModels","grassInsts","grassPackVertices","grassPackAcquires","grassPackFull","grassPackIndices","grassPackIndexFull","grassPackEvicts","grassFillSkipped","cullChunksTested","cullChunksKept","cullClipUpdates","cullDoodadsTested"};
+ uint64_t Now(){return uint64_t(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count());}
+-void Reset(){timing={};counters={};frames=0;window=Now();}
+-void CloseLog(){if(logFile){std::fclose(logFile);logFile=nullptr;}}
++// Zeppelin F-234: each image's wall time this window, for the percentiles.
++std::vector<float> frameMs;
++void Reset(){timing={};counters={};frames=0;window=Now();frameMs.clear();}
++
++// --- Zeppelin F-234: what the log needs to tell two runs apart ---------------------------------------------------
++using Settings=std::map<std::string,std::string>;
++Settings lastSettings;
++// Shown whatever their value; every other hd* / gx* CVar only when it differs from its default.
++constexpr const char* keySettings[]={"gxResolution","gxWindow","gxMaximize","gxMultisample","gxVSync","gxTripleBuffer","maxFPS",
++ "maxFPSBk","farclip","horizonFarclipScale","environmentDetail","groundEffectDensity","groundEffectDist","shadowLevel","extShadowQuality",
++ "shadowMode","textureFilteringMode","componentTextureLevel","specular","projectedTextures","weatherDensity","particleDensity",
++ "spellEffectLevel","SkyCloudLOD","texLodBias"};
++const char* Value(CVar*v){return !v?nullptr:v->m_latchedValue.m_str?v->m_latchedValue.m_str:v->m_stringValue.m_str?v->m_stringValue.m_str:v->m_defaultValue.m_str;}
++int32_t Collect(const char*name,const char*value,void*arg){
++ if(name&&value&&(!_strnicmp(name,"hd",2)||!_strnicmp(name,"gx",2)))(*static_cast<Settings*>(arg))[name]=value;return 1;
++}
++Settings Snapshot(){
++ Settings s;CVar::IterateForArchive(0,0,Collect,&s);
++ for(const char*n:keySettings)if(const char*v=Value(CVar::Lookup(n)))s[n]=v;
++ s.erase("gxApi"); // the renderer actually running is in every line
++ return s;
++}
++const char* Renderer(){
++ if(!g_theGxDevicePtr)return "none";
++ switch(g_theGxDevicePtr->DeviceApi()){case GxApi_D3d9:return "d3d9";case GxApi_D3d9Ex:return "d3d9ex";case GxApi_Vulkan:return "vulkan";case GxApi_OpenGl:return "opengl";default:return "other";}
++}
++void Stamp(char*out,size_t size){SYSTEMTIME t;GetLocalTime(&t);std::snprintf(out,size,"%04u-%02u-%02u %02u:%02u:%02u.%03u",t.wYear,t.wMonth,t.wDay,t.wHour,t.wMinute,t.wSecond,t.wMilliseconds);}
++void WriteSettings(const char*stamp,const Settings&now){
++ std::fprintf(logFile,"%s settings:",stamp);for(const auto&kv:now)std::fprintf(logFile," %s=%s",kv.first.c_str(),kv.second.c_str());std::fputs("\r\n",logFile);
++}
++void OpenLog(){
++ logFile=std::fopen("Logs/CataRenderPerf.log","ab");if(!logFile)return;
++ char stamp[32];Stamp(stamp,sizeof stamp);GxGpuFrame gpu{};if(g_gxGpuFrame)g_gxGpuFrame(&gpu);
++ std::fprintf(logFile,"\r\n=== %s session: renderer=%s adapter=\"%s\" gpu_timer=%s ===\r\n",stamp,Renderer(),gpu.m_adapter[0]?gpu.m_adapter:"unknown",
++  g_gxGpuFrame?(std::strcmp(Renderer(),"vulkan")?"timestamps from Present to Present (CPU-bound frames include the GPU's idle wait)":"timestamps of the frame's submission, last 128 frames"):"none");
++ lastSettings=Snapshot();WriteSettings(stamp,lastSettings);
++}
++void CloseLog(){if(logFile){std::fclose(logFile);logFile=nullptr;}lastSettings.clear();}
+ bool Toggle(CVar*,const char*,const char*s,void*){
+  if(!s||!(std::strcmp(s,"0")==0||std::strcmp(s,"1")==0))return false;
+- enabled=s[0]=='1';Reset();lastFrame=0;
++ enabled=s[0]=='1';Reset();lastFrame=0;g_gxGpuTimerWanted=enabled?1:0;
+  if(!enabled){CloseLog();if(info)info->Set("off",true,false,false,false);}return true;
+ }
++float Percentile(std::vector<float>&v,double q){if(v.empty())return 0;size_t i=std::min(v.size()-1,size_t(q*(v.size()-1)+0.5));std::nth_element(v.begin(),v.begin()+i,v.end());return v[i];}
+ double Ms(Stage s,double f){return timing[size_t(s)].ns/1e6/f;}
+ }
+ void Initialize(){
+  if(initialized)return;
+  CVar*toggle=CVar::Register("hdCataRenderPerf","HD: CPU stages; Logs/CataRenderPerf.log every 2s, no FPS limit changes",1,"0",Toggle,CATEGORY_GRAPHICS,false,nullptr,false);
+  info=CVar::Register("hdCataRenderPerfInfo","HD: last CPU measurements (milliseconds per scene render)",0x80,"off",nullptr,CATEGORY_GRAPHICS,false,nullptr,false);
+- initialized=true;enabled=toggle&&toggle->m_intValue!=0;Reset();
++ initialized=true;enabled=toggle&&toggle->m_intValue!=0;g_gxGpuTimerWanted=enabled?1:0;Reset();
+ }
+-void Shutdown(){enabled=false;initialized=false;CloseLog();info=nullptr;Reset();}
++void Shutdown(){enabled=false;initialized=false;g_gxGpuTimerWanted=0;CloseLog();info=nullptr;Reset();}
+ bool Enabled(){return enabled;}
+ uint64_t Begin(){return enabled?Now():0;}
+ void End(Stage stage,uint64_t start){
+@@ -44,7 +91,7 @@ void Add(Counter c,uint64_t n){if(enabled&&size_t(c)<NC)counters[size_t(c)]+=n;}
+ // Wall time from one scene render to the next: everything the client does for one image, present and caps included.
+ void FrameStart(){
+  if(!enabled){lastFrame=0;return;}
+- const uint64_t now=Now();if(lastFrame)End(Stage::Frame,lastFrame);lastFrame=now;
++ const uint64_t now=Now();if(lastFrame){End(Stage::Frame,lastFrame);frameMs.push_back(float((now-lastFrame)/1e6));}lastFrame=now;
+ }
+ void FrameEnd(){
+  if(!enabled)return;++frames;const uint64_t now=Now();if(now-window<2000000000ull)return;
+@@ -55,8 +102,24 @@ void FrameEnd(){
+  Ms(Stage::GrassLights,f),Ms(Stage::GrassConstants,f),Ms(Stage::GrassDraw,f),Ms(Stage::GrassFill,f),
+  counters[size_t(Counter::GrassChunks)]/f,counters[size_t(Counter::GrassDraws)]/f,counters[size_t(Counter::GrassFills)]/f,static_cast<unsigned long long>(frames));
+  if(info)info->Set(text,true,false,false,false);
+- if(!logFile)logFile=std::fopen("Logs/CataRenderPerf.log","ab");
++ if(!logFile)OpenLog();
+  if(logFile){
++  // Zeppelin F-234: one summary line a window (wall clock, renderer, FPS, frame-time percentiles, CPU, GPU), then the
++  // settings that changed since the last window, then the detail lines as before.
++  char stamp[32];Stamp(stamp,sizeof stamp);const double seconds=(now-window)/1e9;
++  const float p50=Percentile(frameMs,.5),p95=Percentile(frameMs,.95),p99=Percentile(frameMs,.99);
++  const float fmax=frameMs.empty()?0.f:*std::max_element(frameMs.begin(),frameMs.end());
++  char gpuText[96]="gpu n/a";GxGpuFrame gpu{};
++  if(g_gxGpuFrame&&g_gxGpuFrame(&gpu))std::snprintf(gpuText,sizeof gpuText,"gpu_ms avg=%.2f max=%.2f",gpu.m_avgMs,gpu.m_maxMs);
++  std::fprintf(logFile,"%s renderer=%s fps=%.1f frame_ms avg=%.2f p50=%.2f p95=%.2f p99=%.2f max=%.2f | cpu_ms world=%.2f scene=%.2f outside_world=%.2f | %s\r\n",
++   stamp,Renderer(),seconds>0?frames/seconds:0.0,Ms(Stage::Frame,f),p50,p95,p99,fmax,Ms(Stage::WorldFrame,f),Ms(Stage::Render,f),Ms(Stage::Frame,f)-Ms(Stage::WorldFrame,f),gpuText);
++  const Settings current=Snapshot();
++  if(current!=lastSettings){
++   std::fprintf(logFile,"%s settings changed:",stamp);
++   for(const auto&kv:current){auto it=lastSettings.find(kv.first);if(it==lastSettings.end())std::fprintf(logFile," %s=(default)->%s",kv.first.c_str(),kv.second.c_str());else if(it->second!=kv.second)std::fprintf(logFile," %s=%s->%s",kv.first.c_str(),it->second.c_str(),kv.second.c_str());}
++   for(const auto&kv:lastSettings)if(!current.count(kv.first))std::fprintf(logFile," %s=%s->(default)",kv.first.c_str(),kv.second.c_str());
++   std::fputs("\r\n",logFile);lastSettings=current;
++  }
+   std::fprintf(logFile,"window_ms=%.3f scenes=%llu; inclusive CPU scopes, render excludes present/cap\r\n",(now-window)/1e6,static_cast<unsigned long long>(frames));
+   for(size_t i=0;i<NS;++i)std::fprintf(logFile,"%s ms/scene=%.5f max_call_ms=%.5f calls=%llu\r\n",names[i],timing[i].ns/1e6/f,timing[i].maximum/1e6,static_cast<unsigned long long>(timing[i].calls));
+   for(size_t i=0;i<NC;++i)std::fprintf(logFile,"%s=%llu ",counterNames[i],static_cast<unsigned long long>(counters[i]));
+diff --git a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+index 0c70bffd..d55467a8 100644
+--- a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
++++ b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+@@ -435,8 +435,15 @@ void main(
+             s_state.store(StateFailed);
+             return;
+         }
+-        int32_t total = 0;
++        int32_t total = 0, prebuilt = 0;
++        // Zeppelin F-234: the bytecode shipped in PATCH-V first (the Vulkan manifest knows those bytes), else compiled.
++        const uint32_t vertexKey = HD::ShaderSourceKey(kVertexShader), pixelKey = HD::ShaderSourceKey(kPixelShader);
+         for (int32_t p = 0; p < kVertexSlots; p++) {
++            if (HD::ShaderPrebuilt("HdGrass", false, 0, p, vertexKey, s_vertexCode[p])) {
++                prebuilt++;
++                total++;
++                continue;
++            }
+             D3D_SHADER_MACRO macros[3];
+             char values[2][4];
+             SetMacro(macros, 0, "SHADOW", p % 3, values);
+@@ -447,10 +454,15 @@ void main(
+                 s_state.store(StateFailed);
+                 return;
+             }
+-            HD::ShaderDump("HdGrass", false, 0, p, &s_vertexCode[p][0], s_vertexCode[p].size()); // HD
++            HD::ShaderDump("HdGrass", false, 0, p, &s_vertexCode[p][0], s_vertexCode[p].size(), vertexKey); // HD
+             total++;
+         }
+         for (int32_t p = 0; p < kPixelSlots; p++) {
++            if (HD::ShaderPrebuilt("HdGrass", true, 0, p, pixelKey, s_pixelCode[p])) {
++                prebuilt++;
++                total++;
++                continue;
++            }
+             D3D_SHADER_MACRO macros[3];
+             char values[2][4];
+             SetMacro(macros, 0, "SHADOW", p & 3, values);
+@@ -461,10 +473,10 @@ void main(
+                 s_state.store(StateFailed);
+                 return;
+             }
+-            HD::ShaderDump("HdGrass", true, 0, p, &s_pixelCode[p][0], s_pixelCode[p].size()); // HD
++            HD::ShaderDump("HdGrass", true, 0, p, &s_pixelCode[p][0], s_pixelCode[p].size(), pixelKey); // HD
+             total++;
+         }
+-        snprintf(s_threadInfo, sizeof(s_threadInfo), "%d shaders compiled in %u ms", total, static_cast<uint32_t>(GetTickCount64() - start));
++        snprintf(s_threadInfo, sizeof(s_threadInfo), "%d shaders (%d prebuilt) ready in %u ms", total, prebuilt, static_cast<uint32_t>(GetTickCount64() - start));
+         s_state.store(StateReady);
+     }
+ 
+diff --git a/WoW/Source/WorldClient/HD/HdGxShader.cpp b/WoW/Source/WorldClient/HD/HdGxShader.cpp
+index 424f0878..12570659 100644
+--- a/WoW/Source/WorldClient/HD/HdGxShader.cpp
++++ b/WoW/Source/WorldClient/HD/HdGxShader.cpp
+@@ -8,6 +8,7 @@
+ #include "Engine/Source/Gx/Gx.h"
+ #include "Engine/Source/Gx/GxSeam.h"
+ #include "Engine/Source/Gx/Types.h"
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
+ 
+ namespace {
+     // The first pixel register the translated modules do not carry, and the vertex row it is read from.
+@@ -64,12 +65,38 @@ void HD::PixelConstantsSet(uint32_t first, const float* data, uint32_t count) {
+     g_theGxDevicePtr->ShaderConstantsSet(GxSh_Vertex, kPixelHighRow + (start - kPixelHighFirst), data + 4 * skip, rows);
+ }
+ 
+-void HD::ShaderDump(const char* material, bool pixel, int32_t a, int32_t b, const uint8_t* code, size_t size) {
++namespace {
++    void BlobPath(char* path, size_t size, const char* material, bool pixel, int32_t a, int32_t b, uint32_t key) {
++        if (key) snprintf(path, size, "Vulkan\\hd-blobs\\%s-%s-%d-%d-%08x.bin", material, pixel ? "ps" : "vs", a, b, key);
++        else snprintf(path, size, "Vulkan\\hd-blobs\\%s-%s-%d-%d.bin", material, pixel ? "ps" : "vs", a, b);
++    }
++}
++
++uint32_t HD::ShaderSourceKey(const char* source) {
++    uint32_t hash = 2166136261u;
++    for (const char* p = source; p && *p; ++p) hash = (hash ^ static_cast<uint8_t>(*p)) * 16777619u;
++    return hash ? hash : 1;
++}
++
++bool HD::ShaderPrebuilt(const char* material, bool pixel, int32_t a, int32_t b, uint32_t key, std::vector<uint8_t>& out) {
++    if (!material || !key) return false;
++    char path[MAX_PATH];
++    BlobPath(path, sizeof(path), material, pixel, a, b, key);
++    std::string data;
++    // A version token (vs_3_0 / ps_3_0) and a whole number of tokens, or it is not bytecode.
++    if (!HD::DataFile::Read(path, data) || data.size() < 8 || data.size() % 4) return false;
++    const uint32_t token = static_cast<uint8_t>(data[0]) | (static_cast<uint8_t>(data[1]) << 8) | (static_cast<uint8_t>(data[2]) << 16) | (static_cast<uint32_t>(static_cast<uint8_t>(data[3])) << 24);
++    if (token != (pixel ? 0xFFFF0300u : 0xFFFE0300u)) return false;
++    out.assign(data.begin(), data.end());
++    return true;
++}
++
++void HD::ShaderDump(const char* material, bool pixel, int32_t a, int32_t b, const uint8_t* code, size_t size, uint32_t key) {
+     if (!s_dumpOn.load() || !material || !code || !size) return;
+     CreateDirectoryA("Vulkan", nullptr);
+     CreateDirectoryA("Vulkan\\hd-blobs", nullptr);
+     char path[MAX_PATH];
+-    snprintf(path, sizeof(path), "Vulkan\\hd-blobs\\%s-%s-%d-%d.bin", material, pixel ? "ps" : "vs", a, b);
++    BlobPath(path, sizeof(path), material, pixel, a, b, key);
+     FILE* file = fopen(path, "wb");
+     if (!file) return;
+     fwrite(code, 1, size, file);
+diff --git a/WoW/Source/WorldClient/HD/HdGxShader.h b/WoW/Source/WorldClient/HD/HdGxShader.h
+index 793dab02..b6981fd7 100644
+--- a/WoW/Source/WorldClient/HD/HdGxShader.h
++++ b/WoW/Source/WorldClient/HD/HdGxShader.h
+@@ -8,9 +8,13 @@
+ //   - The translated pixel modules read c0..c12 only; an HD pixel shader's c13 and up are read from vertex rows
+ //     64 + (N - 13) instead (tools/bls_tools/hd_blobs.py), which PixelConstantsSet fills too under Vulkan.
+ //   hdShaderDump   1 = write every HD shader the materials compile to Vulkan\hd-blobs\ (the translator's input)
++//   Zeppelin F-234: a material may ship its bytecode prebuilt in the MPQs, Vulkan\hd-blobs\<material>-<vs|ps>-<a>-<b>-
++//   <key>.bin with key = ShaderSourceKey(its HLSL). Then every machine draws the same bytes, which the manifest knows; a
++//   runtime compile's bytes depend on the player's d3dcompiler_47. A missing file, or a changed source, compiles.
+ 
+ #include <cstddef>
+ #include <cstdint>
++#include <vector>
+ 
+ class CGxShader;
+ 
+@@ -33,8 +37,15 @@ namespace HD {
+     // ShaderConstantsSet(GxSh_Pixel, ...), plus the vertex-row copy of c13 and up under Vulkan.
+     void PixelConstantsSet(uint32_t first, const float* data, uint32_t count);
+ 
+-    // hdShaderDump 1: Vulkan\hd-blobs\<material>-<vs|ps>-<a>-<b>.bin. Safe on the compile threads.
+-    void ShaderDump(const char* material, bool pixel, int32_t a, int32_t b, const uint8_t* code, size_t size);
++    // hdShaderDump 1: Vulkan\hd-blobs\<material>-<vs|ps>-<a>-<b>[-<key>].bin. Safe on the compile threads.
++    void ShaderDump(const char* material, bool pixel, int32_t a, int32_t b, const uint8_t* code, size_t size, uint32_t key = 0);
++
++    // Zeppelin F-234: FNV-1a of a material's HLSL source, the prebuilt bytecode's key.
++    uint32_t ShaderSourceKey(const char* source);
++
++    // Zeppelin F-234: the prebuilt bytecode of one permutation from the MPQs (or loose), false when there is none.
++    // Safe on the compile threads.
++    bool ShaderPrebuilt(const char* material, bool pixel, int32_t a, int32_t b, uint32_t key, std::vector<uint8_t>& out);
+ }
+ 
+ #endif
+-- 
+2.34.1
+

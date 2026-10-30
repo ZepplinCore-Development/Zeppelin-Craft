@@ -72,13 +72,13 @@ local EFFECTS = {
 local PERFORMANCE = {
 	checks = {
 		{ cvar = "hdCataViewDistance", text = "Cataclysm View Distance",
-		  tooltip = "Draw terrain, the horizon and large objects with Cataclysm's distance rules instead of the original ones." },
+		  tooltip = "Draw terrain, the horizon and large objects with Cataclysm's distance rules instead of the original ones. While it is on, View Quality sets the distance: the View Distance (Effects) and Horizon Distance (Advanced) sliders are greyed out." },
 		{ cvar = "hdCataWmoStreaming", text = "Background Building Loading",
 		  tooltip = "Load buildings in the background, as Cataclysm does, and wait only for those close to you." },
 		{ cvar = "hdCataHorizonIndex", text = "Fast Horizon Culling",
 		  tooltip = "Pick the distant buildings to draw from a spatial index built when the map loads, instead of testing each one." },
 		{ cvar = "hdCataRenderPerf", text = "Performance Log",
-		  tooltip = "Write the time each part of the scene takes to Logs\\CataRenderPerf.log every 2 seconds." },
+		  tooltip = "Every 2 seconds, write the frame rate, frame times, CPU and GPU time and the settings in use to Logs\\CataRenderPerf.log, with the time of day, to compare renderers and settings." },
 	},
 	sliders = {
 		{ cvar = "hdCataViewQuality", parent = "hdCataViewDistance", text = "View Quality", minValue = 0, maxValue = 4, valueStep = 1, names = VIEW_QUALITY,
@@ -259,3 +259,45 @@ end
 
 BuildPage("ZepHDEffectsPanel", "HD Effects", "Lighting and post-processing.", EFFECTS);
 BuildPage("ZepHDPerformancePanel", "HD Performance", "Cataclysm-era drawing and loading. Compare frame rates.", PERFORMANCE);
+
+-- Cataclysm View Distance takes the far clip from its View Quality preset and the horizon from that, so Effects' View
+-- Distance and Advanced's Horizon Distance (ZepAdvancedOptions.lua, F-232) do nothing while it is on: greyed out then.
+-- The checkbox's unsaved state counts once the page is built, the CVar before.
+local function CataViewDistanceOn ()
+	for _, control in ipairs(ZepHDPerformancePanel.controls or {}) do
+		if ( control.cvar == "hdCataViewDistance" ) then
+			return control:GetChecked() and true or false;
+		end
+	end
+	return GetCVar("hdCataViewDistance") == "1";
+end
+
+local function LockViewDistance ()
+	local sliders = { VideoOptionsEffectsPanelViewDistance };
+	for _, control in ipairs(ZepAdvancedOptionsPanel and ZepAdvancedOptionsPanel.controls or {}) do
+		if ( control.cvar == "horizonFarclipScale" ) then
+			tinsert(sliders, control);
+		end
+	end
+	local locked = CataViewDistanceOn();
+	for _, slider in ipairs(sliders) do
+		if ( locked ) then
+			BlizzardOptionsPanel_Slider_Disable(slider);
+		else
+			BlizzardOptionsPanel_Slider_Enable(slider);
+		end
+	end
+end
+
+VideoOptionsEffectsPanel:HookScript("OnShow", LockViewDistance);
+if ( ZepAdvancedOptionsPanel ) then
+	ZepAdvancedOptionsPanel:HookScript("OnShow", LockViewDistance);
+end
+ZepHDPerformancePanel:HookScript("OnShow", function ()
+	for _, control in ipairs(ZepHDPerformancePanel.controls) do
+		if ( control.cvar == "hdCataViewDistance" and not control.zepLockHooked ) then
+			control.zepLockHooked = true;
+			control:HookScript("OnClick", LockViewDistance);
+		end
+	end
+end);

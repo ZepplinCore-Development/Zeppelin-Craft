@@ -8,16 +8,23 @@ The x64 client reads these from the MPQs first (loose files next to the exe seco
   CataWater\\...        Cata water shaders.txt, bytecode, textures and its own LiquidType.dbc
 
 The pack is the Azeroth-Remastered release of 2026-10-28, kept unpacked in Zeppelin-Tools. Its generators were
-lost with the upstream repo, so it is the only source of this data. Left out: optim-cata\\ (nothing reads it),
-Data\\patch-w.mpq (a global LiquidType.dbc change), the exe, the installer and the WaystoneHD addon.
+lost with the upstream repo, so it is the only source of this data. Data\\patch-w.mpq's textures (XTextures\\...) are
+staged too; its LiquidType.dbc goes through the DBC pipeline instead (dbc/[F-234]_liquidtype.sql). Left out:
+optim-cata\\ (nothing reads it), the exe, the installer and the WaystoneHD addon.
+
+Then hd_blobs.py adds the HD materials' prebuilt bytecode (hd-blobs/, Vulkan\\hd-blobs\\...) and its translation.
 
 Usage: stage_hd_data.py [--pack /workspace/project/Zeppelin-Tools/wow-hd-2026-10-28]
 """
 import argparse
 import shutil
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+CRAFT = HERE.parent.parent
 DEFAULT_PACK = Path('/workspace/project/Zeppelin-Tools/wow-hd-2026-10-28')
 TREES = (('Vulkan/shaders', 'Vulkan/shaders'), ('forever_data', 'forever_data'), ('CataWater', 'CataWater'))
 
@@ -45,6 +52,19 @@ def main():
         files = [f for f in dst.rglob('*') if f.is_file()]
         size = sum(f.stat().st_size for f in files)
         print(f'staged {len(files):6d} files ({size / 1048576:6.1f} MB) {dst_rel}')
+
+    # patch-w.mpq's water textures, at their own paths (its DBFilesClient\\ is the DBC pipeline's).
+    xtex = assets / 'XTextures'
+    if xtex.exists():
+        shutil.rmtree(xtex)
+    with tempfile.TemporaryDirectory() as tmp:
+        subprocess.run([sys.executable, '-m', 'cli.zep', 'build', 'mpq-tools', 'extract', str(client / 'Data' / 'patch-w.mpq'), tmp],
+                       cwd=CRAFT, check=True, stdout=subprocess.DEVNULL)
+        src = next(p for p in Path(tmp).iterdir() if p.name.lower() == 'xtextures')
+        shutil.copytree(src, xtex)
+    print(f'staged {sum(1 for f in xtex.rglob("*") if f.is_file()):6d} files from patch-w.mpq       XTextures')
+
+    subprocess.run([sys.executable, str(HERE / 'hd_blobs.py'), str(assets / 'Vulkan' / 'shaders' / 'translated')], check=True)
 
 
 if __name__ == '__main__':
