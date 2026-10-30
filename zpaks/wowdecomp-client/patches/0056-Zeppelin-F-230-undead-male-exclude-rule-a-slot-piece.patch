@@ -1,0 +1,490 @@
+From 9a124572d4932ca8d36752895bff727a201e4695 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Fri, 30 Oct 2026 12:37:47 +0000
+Subject: [PATCH] Zeppelin F-230: undead male - exclude rule (a slot piece
+ hidden beside a jaw / head wrap it does not fit: render, creator skip +
+ revalidate, so the barber and old characters are covered), eyeglow eyerow (a
+ player's eye row alone decides the glow, NPCs keep the stock facial-row glow
+ via CharacterPreferences::m_zepNpc), ReplaceTexture ZEP_REPLACE_EYEGLOW (a
+ glow eye replaces only *EyeGlow* type-0 textures, not the undead features
+ atlas / goblin rag)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ Engine/Source/Model2/M2Model.cpp              | 31 ++++++++
+ Engine/Source/Model2/M2Model.h                |  4 +
+ .../ComponentCore/CharacterComponent.cpp      | 35 ++++++++-
+ .../ComponentCore/ZepCustomizations.cpp       | 63 +++++++++++++++-
+ WoW/Common/ComponentCore/ZepCustomizations.h  | 16 ++++
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp | 74 ++++++++++++++++++-
+ WoW/Source/Glue/ComponentData.cpp             |  2 +-
+ WoW/Source/Glue/Types.h                       |  4 +-
+ WoW/Source/Object/ObjectClient/Unit_C.cpp     |  2 +
+ WoW/Source/Ui/DressUpModelFrame.cpp           |  1 +
+ 10 files changed, 222 insertions(+), 10 deletions(-)
+
+diff --git a/Engine/Source/Model2/M2Model.cpp b/Engine/Source/Model2/M2Model.cpp
+index 1556af65..ee0c5c05 100644
+--- a/Engine/Source/Model2/M2Model.cpp
++++ b/Engine/Source/Model2/M2Model.cpp
+@@ -749,6 +749,26 @@ void CM2Model::SetWorldTransform(const C3Vector& position, float rotation, float
+     matrix.d2 = position.z;
+ }
+ 
++// Not in the original (F-230): whether an M2 texture's file name names an eye glow ("...EyeGlow...", any case)
++static bool ZepIsEyeGlowName(const M2Array<char>& name) {
++    static const char kNeedle[] = "eyeglow";
++    const char* s = name.m_count ? name.Data() : nullptr;
++
++    for (uint32_t i = 0; s && i + 7 <= name.m_count; i++) {
++        uint32_t k = 0;
++
++        while (k < 7 && s[i + k] && (s[i + k] | 0x20) == kNeedle[k]) {
++            k++;
++        }
++
++        if (k == 7) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
+ // VERIFY: ceb10740 manual
+ // OFFSET: 0x00825260
+ void CM2Model::ReplaceTexture(uint32_t type, CTexture* texture) {
+@@ -769,12 +789,18 @@ void CM2Model::ReplaceTexture(uint32_t type, CTexture* texture) {
+     }
+ 
+     M2Data* data = this->m_shared->m_data;
++    bool glowOnly = (type & CM2Model::ZEP_REPLACE_EYEGLOW) != 0;     // Not in the original (F-230)
++    type &= ~CM2Model::ZEP_REPLACE_EYEGLOW;
+ 
+     for (uint32_t i = 0; i < data->m_textures.m_count; i++) {
+         if (data->m_textures[i].m_type != type) {
+             continue;
+         }
+ 
++        if (glowOnly && !ZepIsEyeGlowName(data->m_textures[i].m_filename)) {     // Not in the original (F-230)
++            continue;
++        }
++
+         if (this->m_textures[i]) {
+             HandleClose(reinterpret_cast<HOBJECT>(this->m_textures[i]));
+         }
+@@ -790,6 +816,11 @@ void CM2Model::ReplaceTexture(uint32_t type, CTexture* texture) {
+         }
+     }
+ 
++    if (glowOnly) {     // Not in the original (F-230): eye glow planes only
++        this->m_fFlags &= ~0x10u;
++        return;
++    }
++
+     for (uint32_t i = 0; i < data->m_ribbons.m_count; i++) {
+         this->m_ribbonEmitters[i]->ReplaceTexture(type, texture);
+     }
+diff --git a/Engine/Source/Model2/M2Model.h b/Engine/Source/Model2/M2Model.h
+index 6ed0fceb..46c3824a 100644
+--- a/Engine/Source/Model2/M2Model.h
++++ b/Engine/Source/Model2/M2Model.h
+@@ -335,6 +335,10 @@ class CM2Model {
+     void LinkToAsyncHeadRecursive(int32_t textures);
+     void ReplaceParticleColor(uint32_t id, CImVector color0, CImVector color1, CImVector color2);
+     void ReplaceTexture(uint32_t type, CTexture* texture);
++    // Not in the original (F-230): with this bit in ReplaceTexture's type, only the textures of that type whose file
++    // name has "EyeGlow" in it (a character's eye-glow planes) are replaced, not the model's other textures of the type
++    // (the undead features atlas, the goblin rag are hardcoded type 0 too); ribbons and particles are left alone
++    static constexpr uint32_t ZEP_REPLACE_EYEGLOW = 0x80000000u;
+     void SetAnimating(int32_t animating);
+     void SetEventCallback(void* callback, uint64_t param);
+     void SetLightEnabled(uint32_t index, uint32_t enabled);
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.cpp b/WoW/Common/ComponentCore/CharacterComponent.cpp
+index fed02b8c..8b3c6043 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.cpp
++++ b/WoW/Common/ComponentCore/CharacterComponent.cpp
+@@ -1882,15 +1882,16 @@ void CCharacterComponent::LoadFaceLayers(const char* debug) {
+     this->LoadBaseVariation(VARIATION_EYES, 0, prefs.m_eyeId, 0, SECTION_HEAD_LOWER, debug);
+     this->LoadBaseVariation(VARIATION_EYES, 1, prefs.m_eyeId, 0, SECTION_HEAD_UPPER, debug);
+ 
+-    // a glow eye recolours the eye-glow geoset: its texture is the model's hardcoded (type 0) one
++    // a glow eye recolours the eye-glow geoset: its texture is the model's hardcoded (type 0) one. F-230: only the
++    // *EyeGlow* textures - the undead features atlas (head wraps, face features) is type 0 too
+     CharSectionsRec* eyeRec = ComponentGetSectionsRecord(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_EYES, prefs.m_eyeId, 0, nullptr);
+ 
+-    if (eyeRec && *eyeRec->m_textureName[2] && this->m_data.m_model) {
++    if (eyeRec && *eyeRec->m_textureName[2] && this->m_data.m_model && !ZepNpcLegacyGlow(prefs)) {
+         strcpy(s_pathEnd, eyeRec->m_textureName[2]);
+         CTexture* glow = CreateTexture(s_path, &s_status);
+ 
+         if (glow) {
+-            this->m_data.m_model->ReplaceTexture(0, glow);
++            this->m_data.m_model->ReplaceTexture(0 | CM2Model::ZEP_REPLACE_EYEGLOW, glow);
+             HandleClose(reinterpret_cast<HOBJECT>(glow));
+         }
+     }
+@@ -3714,7 +3715,8 @@ void CCharacterComponent::GeosRenderPrep() {
+ 
+     // Not in the original (F-151): for a race with eye colour choices, the glow shows exactly when the chosen eye is a
+     // glow eye (its CharSections row names a glow texture, texture_3)
+-    if (ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_EYES) > 0) {
++    // (F-230: not for an NPC of a race whose file says "eyeglow eyerow": it keeps the stock glow)
++    if (ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_EYES) > 0 && !ZepNpcLegacyGlow(prefs)) {
+         CharSectionsRec* eyeRec = ComponentGetSectionsRecord(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_EYES, prefs.m_eyeId, 0, nullptr);
+         eyeGlow = eyeRec && *eyeRec->m_textureName[2];
+     } else if (this->m_data.m_preferences.m_classId == 6) {
+@@ -3734,6 +3736,9 @@ void CCharacterComponent::GeosRenderPrep() {
+     for (int32_t i = 0; i < 19; i++) {
+         if (i == 17 && eyeGlow) {
+             this->m_data.m_model->SetGeometryVisible(1703, 1703, 1);
++        } else if (i == 17 && ZepEyeRowGlowOnly(prefs)) {
++            // Not in the original (F-230): "eyeglow eyerow" - a player's eye without a glow has none, whatever the
++            // facial row's group 17 says
+         } else {
+             this->m_data.m_model->SetGeometryVisible(this->m_data.m_geosets[i], this->m_data.m_geosets[i], 1);
+         }
+@@ -4266,6 +4271,28 @@ void CCharacterComponent::ApplyZepCustomizations() {
+         }
+     }
+ 
++    // exclude: a slot piece that does not fit what else shows (a jaw spike on a missing jaw, forehead bolts under
++    // a head wrap) is hidden, whatever set it: the creator skips it, but the barber or an old character may not
++    for (const auto& ex : def->excludes) {
++        if (geosets[ex.first / 100] != ex.first) {
++            continue;
++        }
++
++        for (uint16_t drop : ex.second) {
++            uint32_t group = drop / 100;
++            bool owned = false;
++
++            for (uint32_t s = 0; s < 6 && !owned; s++) {
++                const ZepSlotDef* slot = def->slots[s];
++                owned = slot && !slot->link && slot->group == group && ZepSlotValue(def, prefs, s);
++            }
++
++            if (owned && geosets[group] == drop) {
++                geosets[group] = group * 100;
++            }
++        }
++    }
++
+     this->m_flags |= 0x4;
+ }
+ 
+diff --git a/WoW/Common/ComponentCore/ZepCustomizations.cpp b/WoW/Common/ComponentCore/ZepCustomizations.cpp
+index 77e1ce6b..5af8ad96 100644
+--- a/WoW/Common/ComponentCore/ZepCustomizations.cpp
++++ b/WoW/Common/ComponentCore/ZepCustomizations.cpp
+@@ -7,6 +7,8 @@
+ //   choice <race> <sex> <slot> <geoset> [host=<geoset>] [swap=<from>:<to>]
+ //   link   <race> <sex> <slot> <type> <follow> <dest>:<src>[,<dest>:<src>...]
+ //   imply  <race> <sex> <srcGeoset> <dstGeoset>
++//   exclude <race> <sex> <keepGeoset> <dropGeoset>[,<dropGeoset>...]
++//   eyeglow <race> <sex> eyerow
+ 
+ #include "WoW/Common/ComponentCore/ZepCustomizations.h"
+ #include <cstdlib>
+@@ -110,7 +112,8 @@ void Parse(const std::string& text) {
+ 
+         const std::string& kw = t[0];
+ 
+-        if (kw != "facial" && kw != "slot" && kw != "choice" && kw != "link" && kw != "imply") {
++        if (kw != "facial" && kw != "slot" && kw != "choice" && kw != "link" && kw != "imply" && kw != "exclude"
++            && kw != "eyeglow") {
+             continue;   // forward compatible
+         }
+ 
+@@ -258,6 +261,26 @@ void Parse(const std::string& text) {
+             }
+ 
+             def->implies.emplace_back(static_cast<uint16_t>(src), static_cast<uint16_t>(dst));
++        } else if (kw == "exclude") {
++            uint32_t keep = Num(t[3]);
++            std::vector<uint16_t> drops;
++
++            for (const std::string& d : t.size() >= 5 ? Split(t[4], ',') : std::vector<std::string>()) {
++                uint32_t drop = Num(d);
++
++                if (drop && GroupOk(drop / 100)) {
++                    drops.push_back(static_cast<uint16_t>(drop));
++                }
++            }
++
++            if (!keep || keep / 100 >= 19 || drops.empty()) {
++                sExtensionMgr->Log("F-230: CharCustomizations.txt line %u: bad exclude", lineNo);
++                continue;
++            }
++
++            def->excludes.emplace_back(static_cast<uint16_t>(keep), drops);
++        } else if (kw == "eyeglow") {
++            def->eyeRowGlow = t[3] == "eyerow";
+         }
+     }
+ 
+@@ -337,6 +360,44 @@ void ZepUnpackPadding(uint32_t pad, CharacterPreferences& prefs) {
+     prefs.m_jewelleryId = static_cast<uint8_t>(pad >> 24);
+ }
+ 
++bool ZepGeosetExcluded(const ZepRaceDef* def, const uint32_t* geosets, uint32_t geoset) {
++    if (!def || !geoset) {
++        return false;
++    }
++
++    for (const auto& ex : def->excludes) {
++        if (geosets[ex.first / 100] != ex.first) {
++            continue;
++        }
++
++        for (uint16_t drop : ex.second) {
++            if (drop == geoset) {
++                return true;
++            }
++        }
++    }
++
++    return false;
++}
++
++bool ZepNpcLegacyGlow(const CharacterPreferences& prefs) {
++    if (!prefs.m_zepNpc) {
++        return false;
++    }
++
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++    return def && def->eyeRowGlow;
++}
++
++bool ZepEyeRowGlowOnly(const CharacterPreferences& prefs) {
++    if (prefs.m_zepNpc) {
++        return false;
++    }
++
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++    return def && def->eyeRowGlow;
++}
++
+ int32_t ZepFollowBit(uint32_t group) {
+     switch (group) {
+         case 0: return 0;
+diff --git a/WoW/Common/ComponentCore/ZepCustomizations.h b/WoW/Common/ComponentCore/ZepCustomizations.h
+index d26ee8a3..d0326af7 100644
+--- a/WoW/Common/ComponentCore/ZepCustomizations.h
++++ b/WoW/Common/ComponentCore/ZepCustomizations.h
+@@ -40,6 +40,12 @@ struct ZepRaceDef {
+     std::vector<int32_t> textureFilter;
+     ZepSlotDef* slots[6] = {};
+     std::vector<std::pair<uint16_t, uint16_t>> implies;    // src geoset, dst geoset
++    // exclude: while the keep geoset shows, none of the drop geosets may (a drop is hidden only in a group a set
++    // slot owns, so a legacy row / NPC is never changed)
++    std::vector<std::pair<uint16_t, std::vector<uint16_t>>> excludes;
++    // eyeglow eyerow: a player's eye row alone decides the eye glow (glow eye: 1703 in its colour, other eyes: no glow,
++    // never the facial row's group 17); NPCs (no eye choice) keep the stock glow (facial row / death knight)
++    bool eyeRowGlow = false;
+ };
+ 
+ // Lazy-loads the file on the first call. nullptr when the file is missing or the race/sex has no lines.
+@@ -51,6 +57,16 @@ uint32_t ZepSlotValue(const ZepRaceDef* def, const CharacterPreferences& prefs,
+ // OBJECT_FIELD_PADDING of a player: nibble s = slot s (s = 0..5), byte 3 = jewellery layer.
+ void ZepUnpackPadding(uint32_t pad, CharacterPreferences& prefs);
+ 
++// Whether `geoset` is a drop of an exclude record whose keep geoset `geosets` (m_geosets[19]) shows.
++bool ZepGeosetExcluded(const ZepRaceDef* def, const uint32_t* geosets, uint32_t geoset);
++
++// Whether a character's eye glow comes from the stock rules, not its eye row: a CreatureDisplayInfoExtra NPC of a
++// race / sex whose file says "eyeglow eyerow".
++bool ZepNpcLegacyGlow(const CharacterPreferences& prefs);
++
++// Whether a player's eye row alone decides its eye glow ("eyeglow eyerow"; false for an NPC of that race).
++bool ZepEyeRowGlowOnly(const CharacterPreferences& prefs);
++
+ // The HelmetGeosetVisData m_hideGeoset[] index of a stock geoset group, -1 when the group has none.
+ int32_t ZepFollowBit(uint32_t group);
+ 
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index 05c001e8..5ab708a3 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -308,6 +308,7 @@ static int32_t Script_GetSelectedClass(lua_State* L) {
+ }
+ 
+ static void CharCustomizationCycleAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t delta);
++static bool ZepRevalidateSlots();     // Not in the original (F-230)
+ 
+ // VERIFY: 8c236267 manual
+ // OFFSET: 0x004E0B50
+@@ -320,6 +321,11 @@ static int32_t Script_CycleCharCustomization(lua_State* L) {
+     CHAR_CUSTOMIZATION_TYPE type = static_cast<CHAR_CUSTOMIZATION_TYPE>(static_cast<int32_t>(lua_tonumber(L, 1)) - 1);
+     int32_t delta = static_cast<int32_t>(lua_tonumber(L, 2));
+     CharCustomizationCycleAllowed(type, delta);     // Zeppelin F-151: was CCharacterCreation::CycleCharCustomization
++
++    if (ZepRevalidateSlots()) {     // Not in the original (F-230): exclude records
++        CGlueLoading::StartLoad(CCharacterCreation::m_character, 1);
++    }
++
+     return 0;
+ }
+ 
+@@ -614,11 +620,26 @@ static const std::vector<int32_t>* CharCustomizationFilterValues(CHAR_CUSTOMIZAT
+ static bool CharCustomizationAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t value) {
+     const std::vector<int32_t>* values = CharCustomizationFilterValues(type);
+ 
+-    if (!values) {
+-        return true;
++    if (values && std::find(values->begin(), values->end(), value) == values->end()) {
++        return false;
++    }
++
++    // Not in the original (F-230): a geoset slot choice an exclude record hides beside what shows now (a jaw spike
++    // on a missing jaw, forehead bolts under a head wrap) is not offered
++    int32_t slot = ZepSlotOfType(type);
++
++    if (slot >= 0) {
++        const CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++        const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++        const ZepSlotDef* s = def ? def->slots[slot] : nullptr;
++
++        if (s && !s->link && value >= 0 && static_cast<uint32_t>(value) < s->choices.size()
++            && ZepGeosetExcluded(def, CCharacterCreation::m_character->m_data.m_geosets, s->choices[value].geoset)) {
++            return false;
++        }
+     }
+ 
+-    return std::find(values->begin(), values->end(), value) != values->end();
++    return true;
+ }
+ 
+ static int32_t CharCustomizationCurrent(CHAR_CUSTOMIZATION_TYPE type) {
+@@ -671,6 +692,48 @@ static void ZepReapplyFacial() {
+     character->ApplyZepCustomizations();    // also when the legacy row is missing (SetBeardStyle applies only with a row)
+ }
+ 
++// Not in the original (F-230): after any change, a slot whose choice is no longer allowed (an exclude record hides
++// it beside the new jaw or head wrap) moves to its first allowed choice (index 0 = none). True when one moved.
++static bool ZepRevalidateSlots() {
++    if (!CCharacterCreation::m_character) {
++        return false;
++    }
++
++    CharacterPreferences& prefs = CCharacterCreation::m_character->m_data.m_preferences;
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++    bool moved = false;
++
++    for (int32_t pass = 0; def && pass < 6; pass++) {
++        bool changed = false;
++
++        for (int32_t s = 0; s < 6; s++) {
++            uint32_t count = def->slots[s] ? def->slots[s]->Count() : 0;
++            CHAR_CUSTOMIZATION_TYPE type = static_cast<CHAR_CUSTOMIZATION_TYPE>(CHAR_CUSTOMIZATION_ZEP_SLOT0 + s);
++
++            if (!count || !prefs.m_zepSlot[s] || CharCustomizationAllowed(type, prefs.m_zepSlot[s] - 1)) {
++                continue;
++            }
++
++            for (uint32_t i = 0; i < count; i++) {
++                if (CharCustomizationAllowed(type, static_cast<int32_t>(i))) {
++                    prefs.m_zepSlot[s] = static_cast<uint8_t>(i + 1);
++                    changed = true;
++                    break;
++                }
++            }
++        }
++
++        if (!changed) {
++            break;
++        }
++
++        ZepReapplyFacial();
++        moved = true;
++    }
++
++    return moved;
++}
++
+ // Not in the original (F-230): steps a geoset slot by one choice in the direction of delta, past choices the
+ // filter does not allow, wrapping; stores choice index + 1
+ static void ZepCycleSlot(int32_t slot, int32_t delta) {
+@@ -753,6 +816,7 @@ void CCharacterCreation::ZepApplyDefaults(bool random) {
+ 
+     prefs.m_facialHairId = static_cast<uint32_t>(facial);
+     ZepReapplyFacial();
++    ZepRevalidateSlots();   // exclude records: a slot default that does not fit the jaw moves on
+ }
+ 
+ 
+@@ -993,6 +1057,10 @@ static int32_t Script_SetCharCustomizationFilter(lua_State* L) {
+         CharCustomizationCycleAllowed(type, 1);
+     }
+ 
++    if (ZepRevalidateSlots()) {     // Not in the original (F-230): exclude records
++        CGlueLoading::StartLoad(CCharacterCreation::m_character, 1);
++    }
++
+     return 0;
+ }
+ 
+diff --git a/WoW/Source/Glue/ComponentData.cpp b/WoW/Source/Glue/ComponentData.cpp
+index 95de97d8..1aa1fa4c 100644
+--- a/WoW/Source/Glue/ComponentData.cpp
++++ b/WoW/Source/Glue/ComponentData.cpp
+@@ -19,7 +19,7 @@ ComponentData::ComponentData() {
+     this->m_preferences.m_warPaintId = 0;
+     this->m_preferences.m_jewelleryId = 0;      // Not in the original (F-230)
+     memset(this->m_preferences.m_zepSlot, 0, sizeof(this->m_preferences.m_zepSlot));
+-    this->m_preferences.unused_0037 = 0;
++    this->m_preferences.m_zepNpc = 0;
+     this->m_npcSkinTexture[0] = 0;
+     this->m_model = nullptr;
+     this->m_geosets[0] = 1;
+diff --git a/WoW/Source/Glue/Types.h b/WoW/Source/Glue/Types.h
+index e3c404a8..e8330120 100644
+--- a/WoW/Source/Glue/Types.h
++++ b/WoW/Source/Glue/Types.h
+@@ -85,7 +85,9 @@ struct CharacterPreferences {
+     // 0 = unset -> the legacy CharacterFacialHairStyles row decides, v -> choice v-1). OBJECT_FIELD_PADDING for players.
+     /* 0030 */ uint8_t m_jewelleryId;
+     /* 0031 */ uint8_t m_zepSlot[6];
+-    /* 0037 */ uint8_t unused_0037;
++    // Not in the original (F-230): 1 = a CreatureDisplayInfoExtra NPC (no eye choice of its own; a race whose
++    // Zeppelin\CharCustomizations.txt says "eyeglow eyerow" keeps the stock eye glow on its NPCs)
++    /* 0037 */ uint8_t m_zepNpc;
+ };
+ 
+ #define GLUE_SCRIPT_EVENTS(EVENT) \
+diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+index 3591d680..b6938a63 100644
+--- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+@@ -13895,6 +13895,7 @@ int32_t CGUnit_C::InitializeExtendedDisplay(CGPlayer_C* player, int32_t hasDispl
+         data.m_preferences.m_hairStyleId = this->m_displayInfoExtra->m_hairStyleID;
+         data.m_preferences.m_hairColorId = this->m_displayInfoExtra->m_hairColorID;
+         data.m_preferences.m_facialHairId = this->m_displayInfoExtra->m_facialHairID;
++        data.m_preferences.m_zepNpc = 1;    // Not in the original (F-230)
+ 
+         if (!CGPlayer_C::IsXRayVisionActive() || !this->UsesNpcBakedTexture()) {
+             if (!this->m_displayInfoExtra) {
+@@ -23849,6 +23850,7 @@ void CGUnit_C::OnReceiveMirrorImageDataFromServer(CDataStore* msg) {
+         data.m_preferences.m_hairColorId = extra->m_hairColorID;
+         data.m_flags |= 0x1;
+         data.m_preferences.m_facialHairId = extra->m_facialHairID;
++        data.m_preferences.m_zepNpc = 1;    // Not in the original (F-230)
+         SStrPrintf(data.m_npcSkinTexture, sizeof(data.m_npcSkinTexture), "%s%s", "Textures\\BakedNpcTextures\\", bakeName);
+         data.m_model = this->m_worldModel;
+         data.m_model->m_refCount++;
+diff --git a/WoW/Source/Ui/DressUpModelFrame.cpp b/WoW/Source/Ui/DressUpModelFrame.cpp
+index 652e9fb9..53a089e3 100644
+--- a/WoW/Source/Ui/DressUpModelFrame.cpp
++++ b/WoW/Source/Ui/DressUpModelFrame.cpp
+@@ -631,6 +631,7 @@ void CGDressUpModelFrame::SetModel(CM2Model* model) {
+     data.m_preferences.m_classId = 1;
+     data.m_preferences.m_hairStyleId = extra->m_hairStyleID;
+     data.m_preferences.m_facialHairId = extra->m_facialHairID;
++    data.m_preferences.m_zepNpc = 1;    // Not in the original (F-230)
+     data.m_model = model;
+     SStrPrintf(data.m_npcSkinTexture, sizeof(data.m_npcSkinTexture), "%s%s", "Textures\\BakedNpcTextures\\", bakeName);
+     data.m_model->m_refCount++;
+-- 
+2.34.1
+
