@@ -1,0 +1,539 @@
+From 3d14bc0109c302ef2c28caeaa3837245bc778fd0 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Oct 2026 12:06:50 +0000
+Subject: [PATCH] Zeppelin F-234: HD data files read from the MPQs
+
+- HD::DataFile::Read: forever_data\... and CataWater\... come from the MPQs
+  first, the loose file next to the exe (or two levels up) second
+- Forever lights/ambient/sky/fog/grading, hdWater liquid, FFT waves, Cata
+  water runtime and ripples, and both grading LUT readers use it
+- Vulkan grading prewarm takes its LUT ids from hd_forever_grading.txt
+  (an MPQ cannot be listed)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp   | 30 ++++-----
+ WoW/Source/WorldClient/HD/HdCataRipples.cpp   | 23 ++-----
+ WoW/Source/WorldClient/HD/HdCataWater.cpp     | 26 ++------
+ WoW/Source/WorldClient/HD/HdDataFile.cpp      | 53 +++++++++++++++
+ WoW/Source/WorldClient/HD/HdDataFile.h        | 15 +++++
+ WoW/Source/WorldClient/HD/HdForever.cpp       | 66 +++++++------------
+ WoW/Source/WorldClient/HD/HdGrade.cpp         | 17 ++---
+ WoW/Source/WorldClient/HD/HdWater.cpp         | 16 ++---
+ WoW/Source/WorldClient/HD/HdWaterWaves.cpp    | 16 ++---
+ 9 files changed, 134 insertions(+), 128 deletions(-)
+ create mode 100644 WoW/Source/WorldClient/HD/HdDataFile.cpp
+ create mode 100644 WoW/Source/WorldClient/HD/HdDataFile.h
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp
+index 3caba85e..30fb51db 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.cpp
+@@ -8,8 +8,7 @@
+ #include <new>
+ #ifndef HD_GRADE_STANDALONE
+ #include <cstdio>
+-#include <charconv>
+-#include <filesystem>
++#include <cstdlib>
+ #include <set>
+ #include <vector>
+ #include "Engine/Source/ConsoleBase/ConsoleVar.h"
+@@ -17,6 +16,7 @@
+ #include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
+ #include "Engine/Source/Gx/Types.h"
+ #include "WoW/Source/WorldClient/DayNight__DNInfo.h"
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
+ #include "WoW/Source/WorldClient/HD/HdForever.h"
+ #include "WoW/Source/WorldClient/HD/HdGrade.h"
+ #include "WoW/Source/DB/Rec/LightRec.h"
+@@ -249,25 +249,21 @@ bool Cache(int32_t id) {
+     if(effect.HasLut(id))return true;if(id<0 || missing.count(id))return false;
+     Texels pixels{};
+     if(id==0)Identity(pixels);else {
+-        char paths[2][96];std::snprintf(paths[0],sizeof paths[0],"forever_data\\grading\\%d.blp",id);std::snprintf(paths[1],sizeof paths[1],"..\\..\\forever_data\\grading\\%d.blp",id);
+-        FILE* file=nullptr;for(int i=0;i<2 && !file;++i)file=std::fopen(paths[i],"rb");
+-        if(!file){missing.insert(id);return false;}
+-        // Bounded BLP read; the reference needs only the first uncompressed mip.
+-        std::vector<uint8_t> data(2*1024*1024);size_t got=std::fread(data.data(),1,data.size(),file);bool bad=std::ferror(file)!=0;std::fclose(file);
+-        if(bad || !DecodeLut(data.data(),got,pixels)){missing.insert(id);return false;}
++        char path[96];std::snprintf(path,sizeof path,"forever_data\\grading\\%d.blp",id);
++        // Zeppelin F-234: from the MPQ, else loose. The reference needs only the first uncompressed mip.
++        std::string data;
++        if(!HD::DataFile::Read(path,data) || !DecodeLut(reinterpret_cast<const uint8_t*>(data.data()),std::min<size_t>(data.size(),2*1024*1024),pixels)){missing.insert(id);return false;}
+     }
+     if(!effect.AddLut(id,pixels))return false;return true;
+ }
++// Zeppelin F-234: an MPQ cannot be listed, so the LUT ids come from the grading keys ("G setting time lut").
+ void Prewarm() {
+-    for(const char* directory:{"forever_data/grading","../../forever_data/grading"}) {
+-        std::error_code error;std::filesystem::directory_iterator it(directory,error),end;
+-        while(!error && it!=end) {
+-            auto path=it->path();if(path.extension()==".blp") {
+-                auto name=path.stem().string();int32_t id=0;auto parsed=std::from_chars(name.data(),name.data()+name.size(),id);
+-                if(parsed.ec==std::errc{} && parsed.ptr==name.data()+name.size() && id>0)Cache(id);
+-            }
+-            it.increment(error);
+-        }
++    std::string text;if(!HD::DataFile::Read("forever_data\\hd_forever_grading.txt",text))return;
++    char line[128];size_t pos=0;
++    while(HD::DataFile::Gets(text,pos,line,sizeof line)) {
++        if(line[0]!='G')continue;
++        char* p=line+1;std::strtol(p,&p,10);std::strtol(p,&p,10);const long id=std::strtol(p,&p,10);
++        if(id>0)Cache(static_cast<int32_t>(id));
+     }
+ }
+ int __cdecl Wanted(void*){return wanted?1:0;}
+diff --git a/WoW/Source/WorldClient/HD/HdCataRipples.cpp b/WoW/Source/WorldClient/HD/HdCataRipples.cpp
+index f629c72b..7361e193 100644
+--- a/WoW/Source/WorldClient/HD/HdCataRipples.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataRipples.cpp
+@@ -25,6 +25,7 @@
+ #include "WoW/Source/WorldClient/MapObjGroup.h"
+ #include "WoW/Source/WorldClient/MapWeather.h"
+ #include "WoW/Source/WorldClient/World.h"
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
+ 
+ namespace {
+     constexpr uint32_t kMaxUnits = 256;     // Liquid::CreatePerturbator, unless it is the active player's
+@@ -63,15 +64,6 @@ namespace {
+         return uint32_t(p[0]) | (uint32_t(p[1]) << 8) | (uint32_t(p[2]) << 16) | (uint32_t(p[3]) << 24);
+     }
+ 
+-    FILE* OpenRuntime(const char* relative) {
+-        char path[512];
+-        snprintf(path, sizeof(path), "CataWater\\%s", relative);
+-        FILE* file = fopen(path, "rb");
+-        if (file) return file;
+-        snprintf(path, sizeof(path), "..\\..\\CataWater\\%s", relative);
+-        return fopen(path, "rb");
+-    }
+-
+     void DecodeDxt1Block(const uint8_t* block, uint8_t* out, uint32_t stride, uint32_t w, uint32_t h) {
+         const uint32_t c0 = block[0] | (block[1] << 8), c1 = block[2] | (block[3] << 8);
+         uint8_t rgb[4][4];
+@@ -103,17 +95,10 @@ namespace {
+     void LoadPerturbTex() {
+         if (s_texTried) return;
+         s_texTried = true;
+-        FILE* file = OpenRuntime("Textures\\XTEXTURES\\Ripples\\PERTURBTEX.BLP");
+-        if (!file) return;
++        std::string data;
++        if (!HD::DataFile::Read("CataWater\\Textures\\XTEXTURES\\Ripples\\PERTURBTEX.BLP", data)) return;
+         std::vector<uint8_t> d;
+-        fseek(file, 0, SEEK_END);
+-        const long size = ftell(file);
+-        fseek(file, 0, SEEK_SET);
+-        if (size > 148 && size < 4 * 1024 * 1024) {
+-            d.resize(static_cast<size_t>(size));
+-            if (fread(d.data(), 1, d.size(), file) != d.size()) d.clear();
+-        }
+-        fclose(file);
++        if (data.size() > 148 && data.size() < 4 * 1024 * 1024) d.assign(data.begin(), data.end());
+         // BLP2, compression 2 (DXT), alpha encoding 0 or 1 bit: DXT1, as the runtime's file is.
+         if (d.size() < 148 || memcmp(d.data(), "BLP2", 4) || d[8] != 2 || (d[10] != 0 && d[10] != 1 && d[9] > 1)) return;
+         const uint32_t width = Word(d.data() + 12), height = Word(d.data() + 16);
+diff --git a/WoW/Source/WorldClient/HD/HdCataWater.cpp b/WoW/Source/WorldClient/HD/HdCataWater.cpp
+index 6bc84307..fb7ae23b 100644
+--- a/WoW/Source/WorldClient/HD/HdCataWater.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataWater.cpp
+@@ -32,6 +32,7 @@
+ #include "WoW/Source/WorldClient/HD/HdCataMirror.h"
+ #include "WoW/Source/WorldClient/HD/HdCataRipples.h"
+ #include "WoW/Source/WorldClient/HD/HdGxShader.h"
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
+ #include "WoW/Source/WorldClient/CPortalView.h"
+ #include "WoW/Source/WorldClient/World.h"
+ 
+@@ -102,28 +103,13 @@ namespace {
+         s_info->Set(text, true, false, false, false);
+     }
+ 
+-    FILE* OpenRuntime(const char* relative) {
++    bool ReadRuntime(const char* relative, std::vector<uint8_t>& out) {
+         char path[512];
+         snprintf(path, sizeof(path), "CataWater\\%s", relative);
+-        FILE* file = fopen(path, "rb");
+-        if (file) return file;
+-        snprintf(path, sizeof(path), "..\\..\\CataWater\\%s", relative);
+-        return fopen(path, "rb");
+-    }
+-
+-    bool ReadRuntime(const char* relative, std::vector<uint8_t>& out) {
+-        FILE* file = OpenRuntime(relative);
+-        if (!file) return false;
+-        fseek(file, 0, SEEK_END);
+-        long size = ftell(file);
+-        fseek(file, 0, SEEK_SET);
+-        bool ok = size > 0 && size < 64 * 1024 * 1024;
+-        if (ok) {
+-            out.resize(static_cast<size_t>(size));
+-            ok = fread(out.data(), 1, out.size(), file) == out.size();
+-        }
+-        fclose(file);
+-        return ok;
++        std::string data;
++        if (!HD::DataFile::Read(path, data) || data.empty() || data.size() >= 64 * 1024 * 1024) return false;
++        out.assign(data.begin(), data.end());
++        return true;
+     }
+ 
+     uint32_t Word(const uint8_t* p) {
+diff --git a/WoW/Source/WorldClient/HD/HdDataFile.cpp b/WoW/Source/WorldClient/HD/HdDataFile.cpp
+new file mode 100644
+index 00000000..76e516c5
+--- /dev/null
++++ b/WoW/Source/WorldClient/HD/HdDataFile.cpp
+@@ -0,0 +1,53 @@
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
++#include <cstdio>
++#include <cstring>
++#include "Engine/Source/BlizzardCore/SFile2-Core.h"
++
++namespace HD::DataFile {
++namespace {
++bool ReadLoose(const char* path, std::string& out) {
++    FILE* file = fopen(path, "rb");
++    if (!file) return false;
++    bool ok = false;
++    if (fseek(file, 0, SEEK_END) == 0) {
++        const long size = ftell(file);
++        if (size >= 0 && fseek(file, 0, SEEK_SET) == 0) {
++            out.resize(static_cast<size_t>(size));
++            ok = size == 0 || fread(&out[0], 1, out.size(), file) == out.size();
++        }
++    }
++    fclose(file);
++    if (!ok) out.clear();
++    return ok;
++}
++}
++
++bool Read(const char* path, std::string& out) {
++    out.clear();
++    if (!path || !*path) return false;
++
++    void* data = nullptr;
++    uint32_t size = 0;
++    if (SFile::LoadFile(path, &data, &size, 0, nullptr) && data) {
++        out.assign(static_cast<const char*>(data), size);
++        SFile::Unload(data);
++        return true;
++    }
++    if (ReadLoose(path, out)) return true;
++    std::string up = "..\\..\\";
++    up += path;
++    return ReadLoose(up.c_str(), out);
++}
++
++bool Gets(const std::string& text, size_t& pos, char* line, size_t size) {
++    if (!line || size < 2 || pos >= text.size()) return false;
++    size_t n = 0;
++    while (n + 1 < size && pos < text.size()) {
++        const char c = text[pos++];
++        line[n++] = c;
++        if (c == '\n') break;
++    }
++    line[n] = '\0';
++    return true;
++}
++}
+diff --git a/WoW/Source/WorldClient/HD/HdDataFile.h b/WoW/Source/WorldClient/HD/HdDataFile.h
+new file mode 100644
+index 00000000..f57251f0
+--- /dev/null
++++ b/WoW/Source/WorldClient/HD/HdDataFile.h
+@@ -0,0 +1,15 @@
++#ifndef WOW_SOURCE_WORLDCLIENT_HD_HDDATAFILE_H
++#define WOW_SOURCE_WORLDCLIENT_HD_HDDATAFILE_H
++
++#include <cstddef>
++#include <string>
++
++// Zeppelin F-234: the HD data files (forever_data\..., CataWater\...) ship in an MPQ under the same path.
++// Read() looks there first, then for the loose file next to the exe or two levels up (a developer's tree).
++namespace HD::DataFile {
++bool Read(const char* path, std::string& out);
++// fgets over a Read() buffer: copies the next line (with its '\n') into line; false at the end.
++bool Gets(const std::string& text, size_t& pos, char* line, size_t size);
++}
++
++#endif
+diff --git a/WoW/Source/WorldClient/HD/HdForever.cpp b/WoW/Source/WorldClient/HD/HdForever.cpp
+index 2855cbb7..698f8c4b 100644
+--- a/WoW/Source/WorldClient/HD/HdForever.cpp
++++ b/WoW/Source/WorldClient/HD/HdForever.cpp
+@@ -10,6 +10,7 @@
+ #include "Engine/Source/Tempest/CMath.h"
+ #include "WoW/Source/DB/Rec/LightParamsRec.h"
+ #include "WoW/Source/DB/Rec/LightRec.h"
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
+ 
+ namespace {
+     // HD records get IDs above every real LightParams ID: kMarker + index into s_records.
+@@ -81,21 +82,19 @@ namespace {
+         }
+     }
+ 
+-    FILE* OpenData(const char* name) {
++    bool ReadData(const char* name, std::string& text) {
+         char path[260];
+         snprintf(path, sizeof(path), "forever_data\\%s", name);
+-        FILE* file = fopen(path, "rb");
+-        if (file) return file;
+-        snprintf(path, sizeof(path), "..\\..\\forever_data\\%s", name);
+-        return fopen(path, "rb");
++        return HD::DataFile::Read(path, text);
+     }
+ 
+     // "L light map slot0..slot7" and "B setting band count time colour ..." lines (hd_forever_light.txt,
+     // hd_forever_ambient.txt). Returns the number of lines skipped.
+-    int32_t LoadBands(FILE* file) {
++    int32_t LoadBands(const std::string& text) {
+         static char line[8192];
+         int32_t badLines = 0;
+-        while (fgets(line, sizeof(line), file)) {
++        size_t pos = 0;
++        while (HD::DataFile::Gets(text, pos, line, sizeof(line))) {
+             char* p = line;
+             if (*p == 'L') {
+                 LightEntry entry;
+@@ -121,7 +120,6 @@ namespace {
+                 }
+             }
+         }
+-        fclose(file);
+         return badLines;
+     }
+ 
+@@ -134,20 +132,13 @@ namespace {
+     // forever_data\hd_forever_fog.txt (V 2): "F setting time layer flags diffuse emissive shadow start density
+     // shadowMul topRate topHeight bottomRate bottomHeight intensity g strength exponent"
+     int32_t LoadFog() {
+-        static const char* paths[] = {
+-            "forever_data\\hd_forever_fog.txt",
+-            "..\\..\\forever_data\\hd_forever_fog.txt",
+-        };
+-        FILE* file = nullptr;
+-        for (const char* path : paths) {
+-            file = fopen(path, "rb");
+-            if (file) break;
+-        }
+-        if (!file) return -1;
++        std::string text;
++        if (!ReadData("hd_forever_fog.txt", text)) return -1;
+ 
+         char line[512];
+         int32_t layers = 0;
+-        while (fgets(line, sizeof(line), file)) {
++        size_t pos = 0;
++        while (HD::DataFile::Gets(text, pos, line, sizeof(line))) {
+             if (line[0] != 'F') continue;
+             char* p = line + 1;
+             int32_t setting = strtol(p, &p, 10);
+@@ -183,26 +174,18 @@ namespace {
+             if (key.count < index + 1) key.count = index + 1;
+             layers++;
+         }
+-        fclose(file);
+         return layers;
+     }
+ 
+     // forever_data\hd_forever_grading.txt: "G setting time lut"
+     int32_t LoadGrading() {
+-        static const char* paths[] = {
+-            "forever_data\\hd_forever_grading.txt",
+-            "..\\..\\forever_data\\hd_forever_grading.txt",
+-        };
+-        FILE* file = nullptr;
+-        for (const char* path : paths) {
+-            file = fopen(path, "rb");
+-            if (file) break;
+-        }
+-        if (!file) return -1;
++        std::string text;
++        if (!ReadData("hd_forever_grading.txt", text)) return -1;
+ 
+         char line[128];
+         int32_t count = 0;
+-        while (fgets(line, sizeof(line), file)) {
++        size_t pos = 0;
++        while (HD::DataFile::Gets(text, pos, line, sizeof(line))) {
+             if (line[0] != 'G') continue;
+             char* p = line + 1;
+             GradeKey key;
+@@ -213,25 +196,22 @@ namespace {
+             s_grading[setting].push_back(key);
+             count++;
+         }
+-        fclose(file);
+         return count;
+     }
+ 
+     void Load() {
+         s_triedLoad = true;
+-        FILE* file = OpenData("hd_forever_light.txt");
+-        if (!file) {
+-            SetInfo("ERROR: forever_data\\hd_forever_light.txt not found next to WowClient64.exe");
++        std::string text;
++        if (!ReadData("hd_forever_light.txt", text)) {
++            SetInfo("ERROR: forever_data\\hd_forever_light.txt not found (MPQ or next to WowClient64.exe)");
+             return;
+         }
+-        int32_t badLines = LoadBands(file);
+-        FILE* ambientFile = OpenData("hd_forever_ambient.txt"); // HD: horizon and ground ambient (bands 18, 19)
+-        bool haveAmbient = ambientFile != nullptr;
+-        if (haveAmbient) badLines += LoadBands(ambientFile);
+-
+-        FILE* skyFile = OpenData("hd_forever_sky.txt"); // HD: hdSky, cloud base colour (band 12) from Forever's CloudEmissiveColor
+-        bool haveSky = skyFile != nullptr;
+-        if (haveSky) badLines += LoadBands(skyFile);
++        int32_t badLines = LoadBands(text);
++        bool haveAmbient = ReadData("hd_forever_ambient.txt", text); // HD: horizon and ground ambient (bands 18, 19)
++        if (haveAmbient) badLines += LoadBands(text);
++
++        bool haveSky = ReadData("hd_forever_sky.txt", text); // HD: hdSky, cloud base colour (band 12) from Forever's CloudEmissiveColor
++        if (haveSky) badLines += LoadBands(text);
+ 
+         int32_t fogLayers = LoadFog(); // HD: Forever fog for hdFog
+         int32_t gradeKeys = LoadGrading(); // HD: Forever colour grading for hdGrade
+diff --git a/WoW/Source/WorldClient/HD/HdGrade.cpp b/WoW/Source/WorldClient/HD/HdGrade.cpp
+index cdeb4f8a..f690e4cf 100644
+--- a/WoW/Source/WorldClient/HD/HdGrade.cpp
++++ b/WoW/Source/WorldClient/HD/HdGrade.cpp
+@@ -14,6 +14,7 @@
+ #include "Engine/Source/Gx/Types.h"
+ #include "WoW/Source/WorldClient/DayNight__DNInfo.h"
+ #include "WoW/Source/WorldClient/HD/HdForever.h"
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
+ #include "WoW/Source/DB/Rec/LightRec.h"
+ 
+ namespace {
+@@ -146,17 +147,11 @@ float4 main(float2 vpos : VPOS) : COLOR0 {
+ 
+     // Reads forever_data\grading\<id>.blp (BLP2, uncompressed BGRA, 1024x32) into texels (BGRA, 1024x32).
+     bool ReadLutFile(int32_t id, std::vector<uint8_t>& texels) {
+-        char path[2][96];
+-        snprintf(path[0], sizeof(path[0]), "forever_data\\grading\\%d.blp", id);
+-        snprintf(path[1], sizeof(path[1]), "..\\..\\forever_data\\grading\\%d.blp", id);
+-        FILE* file = nullptr;
+-        for (int i = 0; i < 2 && !file; i++) file = fopen(path[i], "rb");
+-        if (!file) return false;
+-        std::vector<uint8_t> data;
+-        uint8_t buffer[4096];
+-        size_t got;
+-        while ((got = fread(buffer, 1, sizeof(buffer), file)) > 0) data.insert(data.end(), buffer, buffer + got);
+-        fclose(file);
++        char path[96];
++        snprintf(path, sizeof(path), "forever_data\\grading\\%d.blp", id);
++        std::string file;
++        if (!HD::DataFile::Read(path, file)) return false;
++        std::vector<uint8_t> data(file.begin(), file.end());
+ 
+         const size_t size = static_cast<size_t>(kLutWidth) * kLutHeight * 4;
+         if (data.size() < 148 || memcmp(data.data(), "BLP2", 4) != 0 || data[8] != 3) return false;
+diff --git a/WoW/Source/WorldClient/HD/HdWater.cpp b/WoW/Source/WorldClient/HD/HdWater.cpp
+index a6e4c056..ba593921 100644
+--- a/WoW/Source/WorldClient/HD/HdWater.cpp
++++ b/WoW/Source/WorldClient/HD/HdWater.cpp
+@@ -23,6 +23,7 @@
+ #include "WoW/Source/WorldClient/DayNight.h"
+ #include "WoW/Source/WorldClient/DayNight__DNInfo.h"
+ #include "WoW/Source/WorldClient/HD/HdFog.h"
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
+ #include "WoW/Source/WorldClient/HD/HdWaterWaves.h"
+ #include "WoW/Source/WorldClient/HD/HdWaterRipples.h" // HD: ripples around swimmers and waders
+ 
+@@ -943,24 +944,22 @@ float4 main(float2 vpos : VPOS) : COLOR0
+     }
+ 
+     // ---------------------------------------------------------------------------------------------------------------
+-    FILE* OpenData(const char* name) {
++    bool ReadData(const char* name, std::string& text) {
+         char path[260];
+         snprintf(path, sizeof(path), "forever_data\\%s", name);
+-        FILE* file = fopen(path, "rb");
+-        if (file) return file;
+-        snprintf(path, sizeof(path), "..\\..\\forever_data\\%s", name);
+-        return fopen(path, "rb");
++        return HD::DataFile::Read(path, text);
+     }
+ 
+     // forever_data\hd_forever_liquid.txt (V 1): "T type 28 numbers" and "M legacyType foreverType flags"
+     void LoadTypes() {
+         if (s_typesLoaded) return;
+         s_typesLoaded = true;
+-        FILE* file = OpenData("hd_forever_liquid.txt");
+-        if (file) {
++        std::string text;
++        if (ReadData("hd_forever_liquid.txt", text)) {
+             s_fileFound = true;
+             char line[1024];
+-            while (fgets(line, sizeof(line), file)) {
++            size_t pos = 0;
++            while (HD::DataFile::Gets(text, pos, line, sizeof(line))) {
+                 if (line[0] == 'T' && line[1] == ' ') {
+                     char* p = line + 2;
+                     char* end = nullptr;
+@@ -985,7 +984,6 @@ float4 main(float2 vpos : VPOS) : COLOR0
+                     }
+                 }
+             }
+-            fclose(file);
+         }
+         if (s_legacy.empty()) {
+             for (size_t i = 0; i < sizeof(kLegacyDefault) / sizeof(kLegacyDefault[0]); i++) {
+diff --git a/WoW/Source/WorldClient/HD/HdWaterWaves.cpp b/WoW/Source/WorldClient/HD/HdWaterWaves.cpp
+index 67d7a076..899f3657 100644
+--- a/WoW/Source/WorldClient/HD/HdWaterWaves.cpp
++++ b/WoW/Source/WorldClient/HD/HdWaterWaves.cpp
+@@ -11,6 +11,7 @@
+ #include "Engine/Source/ConsoleBase/ConsoleVar.h"
+ #include "Engine/Source/ConsoleBase/Types.h"
+ #include "Engine/Source/Os/TimeManager.h"
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
+ 
+ namespace {
+     const int32_t kN = 64;                 // FFT size (texels per tile side)
+@@ -86,23 +87,21 @@ namespace {
+         }
+     }
+ 
+-    FILE* OpenData(const char* name) {
++    bool ReadData(const char* name, std::string& text) {
+         char path[260];
+         snprintf(path, sizeof(path), "forever_data\\%s", name);
+-        FILE* file = fopen(path, "rb");
+-        if (file) return file;
+-        snprintf(path, sizeof(path), "..\\..\\forever_data\\%s", name);
+-        return fopen(path, "rb");
++        return HD::DataFile::Read(path, text);
+     }
+ 
+     void Load() {
+         if (s_loaded) return;
+         s_loaded = true;
+         BuiltinTiles();
+-        FILE* file = OpenData("hd_forever_fft.txt");
+-        if (!file) return;
++        std::string text;
++        if (!ReadData("hd_forever_fft.txt", text)) return;
+         char line[512];
+-        while (fgets(line, sizeof(line), file)) {
++        size_t pos = 0;
++        while (HD::DataFile::Gets(text, pos, line, sizeof(line))) {
+             if (line[0] == 'F' && line[1] == ' ') {
+                 int id = 0;
+                 Tile t;
+@@ -125,7 +124,6 @@ namespace {
+                 if (!tiles.empty()) s_typeTiles[static_cast<int32_t>(type)] = tiles;
+             }
+         }
+-        fclose(file);
+     }
+ 
+     // deterministic normal random numbers per tile (the tile's seed)
+-- 
+2.34.1
+

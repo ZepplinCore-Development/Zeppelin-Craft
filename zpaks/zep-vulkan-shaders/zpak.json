@@ -2,7 +2,7 @@
   "$schema": "../../schemas/zpak.schema.json",
   "name": "zep-vulkan-shaders",
   "version": "0.1.0",
-  "description": "F-234 Vulkan renderer data: base SPIR-V modules and the stock-shader translation (Vulkan\\shaders\\...), read by the x64 client through SFile",
+  "description": "F-234 HD renderer data from the WoW-HD 2026-10-28 pack: Vulkan shaders with sun receivers (Vulkan\\shaders\\...), Forever data (forever_data\\...) and Cata water (CataWater\\...), read by the x64 client through SFile",
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-V",

@@ -22,8 +22,10 @@
 *.tex
 *.trs
 
-# F-234: the shader tree is generated (stage_shaders.sh), never hand-edited
+# F-234: the HD data is staged from the WoW-HD pack (stage_hd_data.py), never hand-edited
 *.spv
 *.SPV
 mpq/source-assets/Vulkan/
+mpq/source-assets/forever_data/
+mpq/source-assets/CataWater/
 mpq/parsed-assets/
