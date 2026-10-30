@@ -2468,13 +2468,49 @@
      "sources": [
       "baked split of colour(s) 32 (cut 32/5, body)"
      ]
+    },
+    {
+     "value": 37,
+     "name": "Illidari fel slashes",
+     "id": 102269,
+     "file": "Character\\NightElf\\Male\\NightElfMaleMarkBody37.blp",
+     "sources": [
+      "baked split of colour(s) 34 (cut 34/19 - hue, body)"
+     ]
+    },
+    {
+     "value": 38,
+     "name": "Illidari runes (white)",
+     "id": 102270,
+     "file": "Character\\NightElf\\Male\\NightElfMaleMarkBody38.blp",
+     "sources": [
+      "baked split of colour(s) 35 (cut 35/23, body)"
+     ]
+    },
+    {
+     "value": 39,
+     "name": "Illidari runes (violet)",
+     "id": 102271,
+     "file": "Character\\NightElf\\Male\\NightElfMaleMarkBody39.blp",
+     "sources": [
+      "baked split of colour(s) 36 (cut 36/19, body)"
+     ]
+    },
+    {
+     "value": 40,
+     "name": "Illidari runes (blue)",
+     "id": 102272,
+     "file": "Character\\NightElf\\Male\\NightElfMaleMarkBody40.blp",
+     "sources": [
+      "baked split of colour(s) 37 (cut 37/19, body)"
+     ]
     }
    ],
    "Scars": [
     {
      "value": 1,
      "name": "Teldrassil scars",
-     "id": 102269,
+     "id": 102273,
      "file": "Character\\NightElf\\Male\\NightElfMaleMarkScar01.blp",
      "sources": [
       "retail Scars Teldrassil (retail 3623624)"
@@ -2483,7 +2519,7 @@
     {
      "value": 2,
      "name": "Scratch scars",
-     "id": 102270,
+     "id": 102274,
      "file": "Character\\NightElf\\Male\\NightElfMaleMarkScar02.blp",
      "sources": [
       "retail Scars Scratch (retail 3623625)"
@@ -2492,7 +2528,7 @@
     {
      "value": 3,
      "name": "Claw scars",
-     "id": 102271,
+     "id": 102275,
      "file": "Character\\NightElf\\Male\\NightElfMaleMarkScar03.blp",
      "sources": [
       "retail Scars Claw (retail 3623626)"
@@ -2501,7 +2537,7 @@
     {
      "value": 4,
      "name": "Swipe scars",
-     "id": 102272,
+     "id": 102276,
      "file": "Character\\NightElf\\Male\\NightElfMaleMarkScar04.blp",
      "sources": [
       "retail Scars Swipe (retail 3623627)"
@@ -2510,7 +2546,7 @@
     {
      "value": 5,
      "name": "Rip scars",
-     "id": 102273,
+     "id": 102277,
      "file": "Character\\NightElf\\Male\\NightElfMaleMarkScar05.blp",
      "sources": [
       "retail Scars Rip (retail 3623628)"
@@ -2523,7 +2559,7 @@
     {
      "value": 1,
      "name": "Bear markings (green)",
-     "id": 102274,
+     "id": 102278,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace01.blp",
      "sources": [
       "retail Markings Bear green (retail 5099054)"
@@ -2532,7 +2568,7 @@
     {
      "value": 2,
      "name": "Bear markings (purple)",
-     "id": 102275,
+     "id": 102279,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace02.blp",
      "sources": [
       "retail Markings Bear purple (retail 5099056)"
@@ -2541,7 +2577,7 @@
     {
      "value": 3,
      "name": "Blades markings (green)",
-     "id": 102276,
+     "id": 102280,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace03.blp",
      "sources": [
       "retail Markings Blades green (retail 5099061)"
@@ -2550,7 +2586,7 @@
     {
      "value": 4,
      "name": "Crane markings (green)",
-     "id": 102277,
+     "id": 102281,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace04.blp",
      "sources": [
       "retail Markings Crane green (retail 5099068)"
@@ -2559,7 +2595,7 @@
     {
      "value": 5,
      "name": "Crane markings (purple)",
-     "id": 102278,
+     "id": 102282,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace05.blp",
      "sources": [
       "retail Markings Crane purple (retail 5099070)"
@@ -2568,7 +2604,7 @@
     {
      "value": 6,
      "name": "Leaf markings (green)",
-     "id": 102279,
+     "id": 102283,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace06.blp",
      "sources": [
       "retail Markings Leaf green (retail 5099075)"
@@ -2577,7 +2613,7 @@
     {
      "value": 7,
      "name": "Leaf markings (purple)",
-     "id": 102280,
+     "id": 102284,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace07.blp",
      "sources": [
       "retail Markings Leaf purple (retail 5099077)"
@@ -2586,7 +2622,7 @@
     {
      "value": 8,
      "name": "Claws markings (green)",
-     "id": 102281,
+     "id": 102285,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace08.blp",
      "sources": [
       "retail Markings Claws green (retail 5099082)"
@@ -2595,7 +2631,7 @@
     {
      "value": 9,
      "name": "Wings markings (green)",
-     "id": 102282,
+     "id": 102286,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace09.blp",
      "sources": [
       "retail Markings Wings green (retail 5099089)"
@@ -2604,7 +2640,7 @@
     {
      "value": 10,
      "name": "Wings markings (purple)",
-     "id": 102283,
+     "id": 102287,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace10.blp",
      "sources": [
       "retail Markings Wings purple (retail 5099091)"
@@ -2613,7 +2649,7 @@
     {
      "value": 11,
      "name": "Serpent markings (green)",
-     "id": 102284,
+     "id": 102288,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace11.blp",
      "sources": [
       "retail Markings Serpent green (retail 5099096)"
@@ -2622,7 +2658,7 @@
     {
      "value": 12,
      "name": "Owl markings (green)",
-     "id": 102285,
+     "id": 102289,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace12.blp",
      "sources": [
       "retail Markings Owl green (retail 5099103)"
@@ -2631,7 +2667,7 @@
     {
      "value": 13,
      "name": "Owl markings (purple)",
-     "id": 102286,
+     "id": 102290,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace13.blp",
      "sources": [
       "retail Markings Owl purple (retail 5099105)"
@@ -2640,7 +2676,7 @@
     {
      "value": 14,
      "name": "Shadow markings (green)",
-     "id": 102287,
+     "id": 102291,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace14.blp",
      "sources": [
       "retail Markings Shadow green (retail 5099110)"
@@ -2649,7 +2685,7 @@
     {
      "value": 15,
      "name": "Hawk markings (green)",
-     "id": 102288,
+     "id": 102292,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace15.blp",
      "sources": [
       "retail Markings Hawk green (retail 5099117)"
@@ -2658,7 +2694,7 @@
     {
      "value": 16,
      "name": "Nightborne Runic face tattoo",
-     "id": 102289,
+     "id": 102293,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace16.blp",
      "sources": [
       "retail Nightborne Face Tattoo Runic (retail 4228360)"
@@ -2667,7 +2703,7 @@
     {
      "value": 17,
      "name": "Nightborne Arcane face tattoo",
-     "id": 102290,
+     "id": 102294,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace17.blp",
      "sources": [
       "retail Nightborne Face Tattoo Arcane (retail 4228362)"
@@ -2676,7 +2712,7 @@
     {
      "value": 18,
      "name": "Nightborne Astronomer face tattoo",
-     "id": 102291,
+     "id": 102295,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace18.blp",
      "sources": [
       "retail Nightborne Face Tattoo Astronomer (retail 4228364)"
@@ -2685,7 +2721,7 @@
     {
      "value": 19,
      "name": "Nightborne Suramar face tattoo",
-     "id": 102292,
+     "id": 102296,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace19.blp",
      "sources": [
       "retail Nightborne Face Tattoo Suramar (retail 4228366)"
@@ -2694,7 +2730,7 @@
     {
      "value": 20,
      "name": "Nightborne Insight face tattoo",
-     "id": 102293,
+     "id": 102297,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace20.blp",
      "sources": [
       "retail Nightborne Face Tattoo Insight (retail 4228368)"
@@ -2703,7 +2739,7 @@
     {
      "value": 21,
      "name": "Nightborne Eternity face tattoo",
-     "id": 102294,
+     "id": 102298,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace21.blp",
      "sources": [
       "retail Nightborne Face Tattoo Eternity (retail 4228370)"
@@ -2712,7 +2748,7 @@
     {
      "value": 22,
      "name": "Nightborne Duskwatch face tattoo",
-     "id": 102295,
+     "id": 102299,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace22.blp",
      "sources": [
       "retail Nightborne Face Tattoo Duskwatch (retail 4228372)"
@@ -2721,7 +2757,7 @@
     {
      "value": 23,
      "name": "Nightborne Augur face tattoo",
-     "id": 102296,
+     "id": 102300,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkFace23.blp",
      "sources": [
       "retail Nightborne Face Tattoo Augur (retail 4228374)"
@@ -2732,7 +2768,7 @@
     {
      "value": 1,
      "name": "Suffering tattoo (green)",
-     "id": 102297,
+     "id": 102301,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody01.blp",
      "sources": [
       "retail Tattoo Suffering green (retail 1286486)"
@@ -2741,7 +2777,7 @@
     {
      "value": 2,
      "name": "Suffering tattoo (purple)",
-     "id": 102298,
+     "id": 102302,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody02.blp",
      "sources": [
       "retail Tattoo Suffering purple (retail 1339325)"
@@ -2750,7 +2786,7 @@
     {
      "value": 3,
      "name": "Betrayer tattoo (green)",
-     "id": 102299,
+     "id": 102303,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody03.blp",
      "sources": [
       "retail Tattoo Betrayer green (retail 1280402)"
@@ -2759,7 +2795,7 @@
     {
      "value": 4,
      "name": "Betrayer tattoo (purple)",
-     "id": 102300,
+     "id": 102304,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody04.blp",
      "sources": [
       "retail Tattoo Betrayer purple (retail 1339326)"
@@ -2768,7 +2804,7 @@
     {
      "value": 5,
      "name": "Pain tattoo (green)",
-     "id": 102301,
+     "id": 102305,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody05.blp",
      "sources": [
       "retail Tattoo Pain green (retail 1286487)"
@@ -2777,7 +2813,7 @@
     {
      "value": 6,
      "name": "Pain tattoo (purple)",
-     "id": 102302,
+     "id": 102306,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody06.blp",
      "sources": [
       "retail Tattoo Pain purple (retail 1339327)"
@@ -2786,7 +2822,7 @@
     {
      "value": 7,
      "name": "Sacrifice tattoo (green)",
-     "id": 102303,
+     "id": 102307,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody07.blp",
      "sources": [
       "retail Tattoo Sacrifice green (retail 1286488)"
@@ -2795,7 +2831,7 @@
     {
      "value": 8,
      "name": "Sacrifice tattoo (purple)",
-     "id": 102304,
+     "id": 102308,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody08.blp",
      "sources": [
       "retail Tattoo Sacrifice purple (retail 1339328)"
@@ -2804,7 +2840,7 @@
     {
      "value": 9,
      "name": "Revenge tattoo (green)",
-     "id": 102305,
+     "id": 102309,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody09.blp",
      "sources": [
       "retail Tattoo Revenge green (retail 1286489)"
@@ -2813,7 +2849,7 @@
     {
      "value": 10,
      "name": "Revenge tattoo (purple)",
-     "id": 102306,
+     "id": 102310,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody10.blp",
      "sources": [
       "retail Tattoo Revenge purple (retail 1339329)"
@@ -2822,7 +2858,7 @@
     {
      "value": 11,
      "name": "Chaos tattoo (green)",
-     "id": 102307,
+     "id": 102311,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody11.blp",
      "sources": [
       "retail Tattoo Chaos green (retail 1286490)"
@@ -2831,7 +2867,7 @@
     {
      "value": 12,
      "name": "Chaos tattoo (purple)",
-     "id": 102308,
+     "id": 102312,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody12.blp",
      "sources": [
       "retail Tattoo Chaos purple (retail 1339330)"
@@ -2840,7 +2876,7 @@
     {
      "value": 13,
      "name": "Wild tattoo (green)",
-     "id": 102309,
+     "id": 102313,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody13.blp",
      "sources": [
       "retail Tattoo Wild green (retail 5099024)"
@@ -2849,7 +2885,7 @@
     {
      "value": 14,
      "name": "Ancient tattoo (green)",
-     "id": 102310,
+     "id": 102314,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody14.blp",
      "sources": [
       "retail Tattoo Ancient green (retail 5099031)"
@@ -2858,7 +2894,7 @@
     {
      "value": 15,
      "name": "Owl tattoo (green)",
-     "id": 102311,
+     "id": 102315,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody15.blp",
      "sources": [
       "retail Tattoo Owl green (retail 5099038)"
@@ -2867,7 +2903,7 @@
     {
      "value": 16,
      "name": "Moon tattoo (green)",
-     "id": 102312,
+     "id": 102316,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody16.blp",
      "sources": [
       "retail Tattoo Moon green (retail 5099045)"
@@ -2876,7 +2912,7 @@
     {
      "value": 17,
      "name": "Suffering tattoo (red)",
-     "id": 102313,
+     "id": 102317,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody17.blp",
      "sources": [
       "retail own race Tattoo Suffering red (retail 1339337)"
@@ -2885,7 +2921,7 @@
     {
      "value": 18,
      "name": "Betrayer tattoo (red)",
-     "id": 102314,
+     "id": 102318,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody18.blp",
      "sources": [
       "retail own race Tattoo Betrayer red (retail 1339338)"
@@ -2894,7 +2930,7 @@
     {
      "value": 19,
      "name": "Pain tattoo (red)",
-     "id": 102315,
+     "id": 102319,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody19.blp",
      "sources": [
       "retail own race Tattoo Pain red (retail 1339339)"
@@ -2903,7 +2939,7 @@
     {
      "value": 20,
      "name": "Sacrifice tattoo (red)",
-     "id": 102316,
+     "id": 102320,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody20.blp",
      "sources": [
       "retail own race Tattoo Sacrifice red (retail 1339340)"
@@ -2912,7 +2948,7 @@
     {
      "value": 21,
      "name": "Revenge tattoo (red)",
-     "id": 102317,
+     "id": 102321,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody21.blp",
      "sources": [
       "retail own race Tattoo Revenge red (retail 1339341)"
@@ -2921,7 +2957,7 @@
     {
      "value": 22,
      "name": "Chaos tattoo (red)",
-     "id": 102318,
+     "id": 102322,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody22.blp",
      "sources": [
       "retail own race Tattoo Chaos red (retail 1339342)"
@@ -2930,7 +2966,7 @@
     {
      "value": 23,
      "name": "Wild tattoo (dark teal)",
-     "id": 102319,
+     "id": 102323,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody23.blp",
      "sources": [
       "retail own race Tattoo Wild dark teal (retail 5099027)"
@@ -2939,7 +2975,7 @@
     {
      "value": 24,
      "name": "Ancient tattoo (dark teal)",
-     "id": 102320,
+     "id": 102324,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody24.blp",
      "sources": [
       "retail own race Tattoo Ancient dark teal (retail 5099034)"
@@ -2948,7 +2984,7 @@
     {
      "value": 25,
      "name": "Owl tattoo (dark teal)",
-     "id": 102321,
+     "id": 102325,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody25.blp",
      "sources": [
       "retail own race Tattoo Owl dark teal (retail 5099041)"
@@ -2957,7 +2993,7 @@
     {
      "value": 26,
      "name": "Moon tattoo (dark teal)",
-     "id": 102322,
+     "id": 102326,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody26.blp",
      "sources": [
       "retail own race Tattoo Moon dark teal (retail 5099048)"
@@ -2966,7 +3002,7 @@
     {
      "value": 27,
      "name": "Nightborne Runic body tattoo",
-     "id": 102323,
+     "id": 102327,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody27.blp",
      "sources": [
       "retail Nightborne Body Tattoo Runic (retail 4228348) [not fitted: regions LegLower,TorsoLower]"
@@ -2975,7 +3011,7 @@
     {
      "value": 28,
      "name": "Nightborne Astronomer body tattoo",
-     "id": 102324,
+     "id": 102328,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody28.blp",
      "sources": [
       "retail Nightborne Body Tattoo Astronomer (retail 4228350) [not fitted: regions LegLower,TorsoLower]"
@@ -2984,7 +3020,7 @@
     {
      "value": 29,
      "name": "Nightborne Arcane body tattoo",
-     "id": 102325,
+     "id": 102329,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody29.blp",
      "sources": [
       "retail Nightborne Body Tattoo Arcane (retail 4228352) [not fitted: regions LegLower,TorsoLower]"
@@ -2993,7 +3029,7 @@
     {
      "value": 30,
      "name": "Nightborne Suramar body tattoo",
-     "id": 102326,
+     "id": 102330,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody30.blp",
      "sources": [
       "retail Nightborne Body Tattoo Suramar (retail 4228354) [not fitted: regions LegLower,TorsoLower]"
@@ -3002,7 +3038,7 @@
     {
      "value": 31,
      "name": "Nightborne Augur body tattoo",
-     "id": 102327,
+     "id": 102331,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody31.blp",
      "sources": [
       "retail Nightborne Body Tattoo Augur (retail 4228356) [not fitted: regions LegLower,TorsoLower]"
@@ -3011,10 +3047,73 @@
     {
      "value": 32,
      "name": "Nightborne Hand Glow luminous hands",
-     "id": 102328,
+     "id": 102332,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody32.blp",
      "sources": [
       "retail Nightborne Luminous Hands Hand Glow (retail 4237194)"
+     ]
+    },
+    {
+     "value": 33,
+     "name": "Illidari fel slashes",
+     "id": 102333,
+     "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody33.blp",
+     "sources": [
+      "baked split of colour(s) 26 (cut 26/20 - hue, body)"
+     ]
+    },
+    {
+     "value": 34,
+     "name": "Illidari runes (white)",
+     "id": 102334,
+     "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody34.blp",
+     "sources": [
+      "baked split of colour(s) 27 (cut 27/19, body)"
+     ]
+    },
+    {
+     "value": 35,
+     "name": "Illidari runes (violet)",
+     "id": 102335,
+     "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody35.blp",
+     "sources": [
+      "baked split of colour(s) 28 (cut 28/19, body)"
+     ]
+    },
+    {
+     "value": 36,
+     "name": "Illidari runes (blue)",
+     "id": 102336,
+     "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody36.blp",
+     "sources": [
+      "baked split of colour(s) 29 (cut 29/20, body)"
+     ]
+    },
+    {
+     "value": 37,
+     "name": "Cenarion leaf tattoo (green)",
+     "id": 102337,
+     "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody37.blp",
+     "sources": [
+      "baked split of colour(s) 30 (cut 30/33 - hue, body)"
+     ]
+    },
+    {
+     "value": 38,
+     "name": "Cenarion leaf tattoo (purple)",
+     "id": 102338,
+     "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody38.blp",
+     "sources": [
+      "baked split of colour(s) 31 (cut 31/8 - hue, body)"
+     ]
+    },
+    {
+     "value": 39,
+     "name": "Cenarion leaf tattoo (blue)",
+     "id": 102339,
+     "file": "Character\\NightElf\\Female\\NightElfFemaleMarkBody39.blp",
+     "sources": [
+      "baked split of colour(s) 32 (cut 32/19 - hue, body)"
      ]
     }
    ],
@@ -3022,7 +3121,7 @@
     {
      "value": 1,
      "name": "Teldrassil scars",
-     "id": 102329,
+     "id": 102340,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkScar01.blp",
      "sources": [
       "retail Scars Teldrassil (retail 3623619)"
@@ -3031,7 +3130,7 @@
     {
      "value": 2,
      "name": "Rip scars",
-     "id": 102330,
+     "id": 102341,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkScar02.blp",
      "sources": [
       "retail Scars Rip (retail 3623620)"
@@ -3040,7 +3139,7 @@
     {
      "value": 3,
      "name": "Claw scars",
-     "id": 102331,
+     "id": 102342,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkScar03.blp",
      "sources": [
       "retail Scars Claw (retail 3623621)"
@@ -3049,7 +3148,7 @@
     {
      "value": 4,
      "name": "Scratch scars",
-     "id": 102332,
+     "id": 102343,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkScar04.blp",
      "sources": [
       "retail Scars Scratch (retail 3623622)"
@@ -3058,7 +3157,7 @@
     {
      "value": 5,
      "name": "Swipe scars",
-     "id": 102333,
+     "id": 102344,
      "file": "Character\\NightElf\\Female\\NightElfFemaleMarkScar05.blp",
      "sources": [
       "retail Scars Swipe (retail 3623623)"
@@ -3071,7 +3170,7 @@
     {
      "value": 1,
      "name": "Thorn tattoo",
-     "id": 102334,
+     "id": 102345,
      "file": "Character\\Scourge\\Female\\ScourgeFemaleMarkBody01.blp",
      "sources": [
       "baked split of colour(s) 23, 22 (Human Female layer, body)"
@@ -3084,7 +3183,7 @@
     {
      "value": 1,
      "name": "Kodo face paint (blue)",
-     "id": 102335,
+     "id": 102346,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace01.blp",
      "sources": [
       "retail Face Paint Kodo blue (retail 3618367)"
@@ -3093,7 +3192,7 @@
     {
      "value": 2,
      "name": "Kodo face paint (red)",
-     "id": 102336,
+     "id": 102347,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace02.blp",
      "sources": [
       "retail Face Paint Kodo red (retail 3618368)"
@@ -3102,7 +3201,7 @@
     {
      "value": 3,
      "name": "Kodo face paint (dark teal)",
-     "id": 102337,
+     "id": 102348,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace03.blp",
      "sources": [
       "retail Face Paint Kodo dark teal (retail 3618369)"
@@ -3111,7 +3210,7 @@
     {
      "value": 4,
      "name": "Kodo face paint (teal)",
-     "id": 102338,
+     "id": 102349,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace04.blp",
      "sources": [
       "retail Face Paint Kodo teal (retail 3618371)"
@@ -3120,7 +3219,7 @@
     {
      "value": 5,
      "name": "Kodo face paint (orange)",
-     "id": 102339,
+     "id": 102350,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace05.blp",
      "sources": [
       "retail Face Paint Kodo orange (retail 3618372)"
@@ -3129,7 +3228,7 @@
     {
      "value": 6,
      "name": "Otter face paint (blue)",
-     "id": 102340,
+     "id": 102351,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace06.blp",
      "sources": [
       "retail Face Paint Otter blue (retail 3618373)"
@@ -3138,7 +3237,7 @@
     {
      "value": 7,
      "name": "Otter face paint (red)",
-     "id": 102341,
+     "id": 102352,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace07.blp",
      "sources": [
       "retail Face Paint Otter red (retail 3618374)"
@@ -3147,7 +3246,7 @@
     {
      "value": 8,
      "name": "Otter face paint (dark teal)",
-     "id": 102342,
+     "id": 102353,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace08.blp",
      "sources": [
       "retail Face Paint Otter dark teal (retail 3618375)"
@@ -3156,7 +3255,7 @@
     {
      "value": 9,
      "name": "Otter face paint (teal)",
-     "id": 102343,
+     "id": 102354,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace09.blp",
      "sources": [
       "retail Face Paint Otter teal (retail 3618377)"
@@ -3165,7 +3264,7 @@
     {
      "value": 10,
      "name": "Otter face paint (orange)",
-     "id": 102344,
+     "id": 102355,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace10.blp",
      "sources": [
       "retail Face Paint Otter orange (retail 3618378)"
@@ -3174,7 +3273,7 @@
     {
      "value": 11,
      "name": "Hawk face paint (blue)",
-     "id": 102345,
+     "id": 102356,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace11.blp",
      "sources": [
       "retail Face Paint Hawk blue (retail 3618379)"
@@ -3183,7 +3282,7 @@
     {
      "value": 12,
      "name": "Hawk face paint (red)",
-     "id": 102346,
+     "id": 102357,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace12.blp",
      "sources": [
       "retail Face Paint Hawk red (retail 3618380)"
@@ -3192,7 +3291,7 @@
     {
      "value": 13,
      "name": "Hawk face paint (dark teal)",
-     "id": 102347,
+     "id": 102358,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace13.blp",
      "sources": [
       "retail Face Paint Hawk dark teal (retail 3618381)"
@@ -3201,7 +3300,7 @@
     {
      "value": 14,
      "name": "Hawk face paint (teal)",
-     "id": 102348,
+     "id": 102359,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace14.blp",
      "sources": [
       "retail Face Paint Hawk teal (retail 3618383)"
@@ -3210,7 +3309,7 @@
     {
      "value": 15,
      "name": "Hawk face paint (orange)",
-     "id": 102349,
+     "id": 102360,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace15.blp",
      "sources": [
       "retail Face Paint Hawk orange (retail 3618384)"
@@ -3219,7 +3318,7 @@
     {
      "value": 16,
      "name": "Grimtotem paint (red)",
-     "id": 102350,
+     "id": 102361,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace16.blp",
      "sources": [
       "baked split of colour(s) 39 (cut 39/0, body+face)"
@@ -3228,7 +3327,7 @@
     {
      "value": 17,
      "name": "Grimtotem paint (blue)",
-     "id": 102351,
+     "id": 102362,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace17.blp",
      "sources": [
       "baked split of colour(s) 40 (cut 40/0, body+face)"
@@ -3237,7 +3336,7 @@
     {
      "value": 18,
      "name": "Grimtotem paint (white)",
-     "id": 102352,
+     "id": 102363,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace18.blp",
      "sources": [
       "baked split of colour(s) 41 (cut 41/0, body+face)"
@@ -3246,7 +3345,7 @@
     {
      "value": 19,
      "name": "Kodo face paint (red and blue)",
-     "id": 102353,
+     "id": 102364,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace19.blp",
      "sources": [
       "retail own race Face Paint Kodo red and blue (retail 3618370)"
@@ -3255,7 +3354,7 @@
     {
      "value": 20,
      "name": "Otter face paint (red and blue)",
-     "id": 102354,
+     "id": 102365,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace20.blp",
      "sources": [
       "retail own race Face Paint Otter red and blue (retail 3618376)"
@@ -3264,7 +3363,7 @@
     {
      "value": 21,
      "name": "Hawk face paint (red and blue)",
-     "id": 102355,
+     "id": 102366,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkFace21.blp",
      "sources": [
       "retail own race Face Paint Hawk red and blue (retail 3618382)"
@@ -3275,7 +3374,7 @@
     {
      "value": 1,
      "name": "Kodo body paint (blue)",
-     "id": 102356,
+     "id": 102367,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody01.blp",
      "sources": [
       "retail Body Paint Kodo blue (retail 3618346)"
@@ -3284,7 +3383,7 @@
     {
      "value": 2,
      "name": "Kodo body paint (red)",
-     "id": 102357,
+     "id": 102368,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody02.blp",
      "sources": [
       "retail Body Paint Kodo red (retail 3618348)"
@@ -3293,7 +3392,7 @@
     {
      "value": 3,
      "name": "Kodo body paint (dark teal)",
-     "id": 102358,
+     "id": 102369,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody03.blp",
      "sources": [
       "retail Body Paint Kodo dark teal (retail 3618349)"
@@ -3302,7 +3401,7 @@
     {
      "value": 4,
      "name": "Kodo body paint (teal)",
-     "id": 102359,
+     "id": 102370,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody04.blp",
      "sources": [
       "retail Body Paint Kodo teal (retail 3618351)"
@@ -3311,7 +3410,7 @@
     {
      "value": 5,
      "name": "Kodo body paint (orange)",
-     "id": 102360,
+     "id": 102371,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody05.blp",
      "sources": [
       "retail Body Paint Kodo orange (retail 3618352)"
@@ -3320,7 +3419,7 @@
     {
      "value": 6,
      "name": "Hawk body paint (blue)",
-     "id": 102361,
+     "id": 102372,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody06.blp",
      "sources": [
       "retail Body Paint Hawk blue (retail 3618353)"
@@ -3329,7 +3428,7 @@
     {
      "value": 7,
      "name": "Hawk body paint (red)",
-     "id": 102362,
+     "id": 102373,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody07.blp",
      "sources": [
       "retail Body Paint Hawk red (retail 3618354)"
@@ -3338,7 +3437,7 @@
     {
      "value": 8,
      "name": "Hawk body paint (dark teal)",
-     "id": 102363,
+     "id": 102374,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody08.blp",
      "sources": [
       "retail Body Paint Hawk dark teal (retail 3618357)"
@@ -3347,7 +3446,7 @@
     {
      "value": 9,
      "name": "Hawk body paint (teal)",
-     "id": 102364,
+     "id": 102375,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody09.blp",
      "sources": [
       "retail Body Paint Hawk teal (retail 3618359)"
@@ -3356,7 +3455,7 @@
     {
      "value": 10,
      "name": "Hawk body paint (orange)",
-     "id": 102365,
+     "id": 102376,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody10.blp",
      "sources": [
       "retail Body Paint Hawk orange (retail 3618360)"
@@ -3365,7 +3464,7 @@
     {
      "value": 11,
      "name": "Otter body paint (blue)",
-     "id": 102366,
+     "id": 102377,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody11.blp",
      "sources": [
       "retail Body Paint Otter blue (retail 3618361)"
@@ -3374,7 +3473,7 @@
     {
      "value": 12,
      "name": "Otter body paint (red)",
-     "id": 102367,
+     "id": 102378,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody12.blp",
      "sources": [
       "retail Body Paint Otter red (retail 3618362)"
@@ -3383,7 +3482,7 @@
     {
      "value": 13,
      "name": "Otter body paint (dark teal)",
-     "id": 102368,
+     "id": 102379,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody13.blp",
      "sources": [
       "retail Body Paint Otter dark teal (retail 3618363)"
@@ -3392,7 +3491,7 @@
     {
      "value": 14,
      "name": "Otter body paint (teal)",
-     "id": 102369,
+     "id": 102380,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody14.blp",
      "sources": [
       "retail Body Paint Otter teal (retail 3618365)"
@@ -3401,7 +3500,7 @@
     {
      "value": 15,
      "name": "Otter body paint (orange)",
-     "id": 102370,
+     "id": 102381,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody15.blp",
      "sources": [
       "retail Body Paint Otter orange (retail 3618366)"
@@ -3410,7 +3509,7 @@
     {
      "value": 16,
      "name": "Grimtotem paint (red)",
-     "id": 102371,
+     "id": 102382,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody16.blp",
      "sources": [
       "baked split of colour(s) 39 (cut 39/0, body+face)"
@@ -3419,7 +3518,7 @@
     {
      "value": 17,
      "name": "Grimtotem paint (blue)",
-     "id": 102372,
+     "id": 102383,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody17.blp",
      "sources": [
       "baked split of colour(s) 40 (cut 40/0, body+face)"
@@ -3428,7 +3527,7 @@
     {
      "value": 18,
      "name": "Grimtotem paint (white)",
-     "id": 102373,
+     "id": 102384,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody18.blp",
      "sources": [
       "baked split of colour(s) 41 (cut 41/0, body+face)"
@@ -3437,7 +3536,7 @@
     {
      "value": 19,
      "name": "Kodo body paint (red and blue)",
-     "id": 102374,
+     "id": 102385,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody19.blp",
      "sources": [
       "retail own race Body Paint Kodo red and blue (retail 3618350)"
@@ -3446,7 +3545,7 @@
     {
      "value": 20,
      "name": "Hawk body paint (red and blue)",
-     "id": 102375,
+     "id": 102386,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody20.blp",
      "sources": [
       "retail own race Body Paint Hawk red and blue (retail 3618358)"
@@ -3455,7 +3554,7 @@
     {
      "value": 21,
      "name": "Otter body paint (red and blue)",
-     "id": 102376,
+     "id": 102387,
      "file": "Character\\Tauren\\Male\\TaurenMaleMarkBody21.blp",
      "sources": [
       "retail own race Body Paint Otter red and blue (retail 3618364)"
@@ -3468,7 +3567,7 @@
     {
      "value": 1,
      "name": "Kodo face paint (blue)",
-     "id": 102377,
+     "id": 102388,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace01.blp",
      "sources": [
       "retail Face Paint Kodo blue (retail 3618268)"
@@ -3477,7 +3576,7 @@
     {
      "value": 2,
      "name": "Kodo face paint (red)",
-     "id": 102378,
+     "id": 102389,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace02.blp",
      "sources": [
       "retail Face Paint Kodo red (retail 3618269)"
@@ -3486,7 +3585,7 @@
     {
      "value": 3,
      "name": "Kodo face paint (dark teal)",
-     "id": 102379,
+     "id": 102390,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace03.blp",
      "sources": [
       "retail Face Paint Kodo dark teal (retail 3618270)"
@@ -3495,7 +3594,7 @@
     {
      "value": 4,
      "name": "Kodo face paint (teal)",
-     "id": 102380,
+     "id": 102391,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace04.blp",
      "sources": [
       "retail Face Paint Kodo teal (retail 3618272)"
@@ -3504,7 +3603,7 @@
     {
      "value": 5,
      "name": "Kodo face paint (orange)",
-     "id": 102381,
+     "id": 102392,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace05.blp",
      "sources": [
       "retail Face Paint Kodo orange (retail 3618273)"
@@ -3513,7 +3612,7 @@
     {
      "value": 6,
      "name": "Otter face paint (blue)",
-     "id": 102382,
+     "id": 102393,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace06.blp",
      "sources": [
       "retail Face Paint Otter blue (retail 3618274)"
@@ -3522,7 +3621,7 @@
     {
      "value": 7,
      "name": "Otter face paint (red)",
-     "id": 102383,
+     "id": 102394,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace07.blp",
      "sources": [
       "retail Face Paint Otter red (retail 3618275)"
@@ -3531,7 +3630,7 @@
     {
      "value": 8,
      "name": "Otter face paint (dark teal)",
-     "id": 102384,
+     "id": 102395,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace08.blp",
      "sources": [
       "retail Face Paint Otter dark teal (retail 3618276)"
@@ -3540,7 +3639,7 @@
     {
      "value": 9,
      "name": "Otter face paint (teal)",
-     "id": 102385,
+     "id": 102396,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace09.blp",
      "sources": [
       "retail Face Paint Otter teal (retail 3618278)"
@@ -3549,7 +3648,7 @@
     {
      "value": 10,
      "name": "Otter face paint (orange)",
-     "id": 102386,
+     "id": 102397,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace10.blp",
      "sources": [
       "retail Face Paint Otter orange (retail 3618279)"
@@ -3558,7 +3657,7 @@
     {
      "value": 11,
      "name": "Hawk face paint (blue)",
-     "id": 102387,
+     "id": 102398,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace11.blp",
      "sources": [
       "retail Face Paint Hawk blue (retail 3618280)"
@@ -3567,7 +3666,7 @@
     {
      "value": 12,
      "name": "Hawk face paint (red)",
-     "id": 102388,
+     "id": 102399,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace12.blp",
      "sources": [
       "retail Face Paint Hawk red (retail 3618281)"
@@ -3576,7 +3675,7 @@
     {
      "value": 13,
      "name": "Hawk face paint (dark teal)",
-     "id": 102389,
+     "id": 102400,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace13.blp",
      "sources": [
       "retail Face Paint Hawk dark teal (retail 3618282)"
@@ -3585,7 +3684,7 @@
     {
      "value": 14,
      "name": "Hawk face paint (teal)",
-     "id": 102390,
+     "id": 102401,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace14.blp",
      "sources": [
       "retail Face Paint Hawk teal (retail 3618284)"
@@ -3594,7 +3693,7 @@
     {
      "value": 15,
      "name": "Hawk face paint (orange)",
-     "id": 102391,
+     "id": 102402,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace15.blp",
      "sources": [
       "retail Face Paint Hawk orange (retail 3618285)"
@@ -3603,7 +3702,7 @@
     {
      "value": 16,
      "name": "Grimtotem paint (red)",
-     "id": 102392,
+     "id": 102403,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace16.blp",
      "sources": [
       "baked split of colour(s) 39 (cut 39/0, body+face)"
@@ -3612,7 +3711,7 @@
     {
      "value": 17,
      "name": "Grimtotem paint (blue)",
-     "id": 102393,
+     "id": 102404,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace17.blp",
      "sources": [
       "baked split of colour(s) 40 (cut 40/0, body+face)"
@@ -3621,7 +3720,7 @@
     {
      "value": 18,
      "name": "Grimtotem paint (white)",
-     "id": 102394,
+     "id": 102405,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace18.blp",
      "sources": [
       "baked split of colour(s) 41 (cut 41/0, body+face)"
@@ -3630,7 +3729,7 @@
     {
      "value": 19,
      "name": "Kodo face paint (red and blue)",
-     "id": 102395,
+     "id": 102406,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace19.blp",
      "sources": [
       "retail own race Face Paint Kodo red and blue (retail 3618271)"
@@ -3639,7 +3738,7 @@
     {
      "value": 20,
      "name": "Otter face paint (red and blue)",
-     "id": 102396,
+     "id": 102407,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace20.blp",
      "sources": [
       "retail own race Face Paint Otter red and blue (retail 3618277)"
@@ -3648,7 +3747,7 @@
     {
      "value": 21,
      "name": "Hawk face paint (red and blue)",
-     "id": 102397,
+     "id": 102408,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkFace21.blp",
      "sources": [
       "retail own race Face Paint Hawk red and blue (retail 3618283)"
@@ -3659,7 +3758,7 @@
     {
      "value": 1,
      "name": "Kodo body paint (blue)",
-     "id": 102398,
+     "id": 102409,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody01.blp",
      "sources": [
       "retail Body Paint Kodo blue (retail 3618250)"
@@ -3668,7 +3767,7 @@
     {
      "value": 2,
      "name": "Kodo body paint (red)",
-     "id": 102399,
+     "id": 102410,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody02.blp",
      "sources": [
       "retail Body Paint Kodo red (retail 3618251)"
@@ -3677,7 +3776,7 @@
     {
      "value": 3,
      "name": "Kodo body paint (dark teal)",
-     "id": 102400,
+     "id": 102411,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody03.blp",
      "sources": [
       "retail Body Paint Kodo dark teal (retail 3618252)"
@@ -3686,7 +3785,7 @@
     {
      "value": 4,
      "name": "Kodo body paint (teal)",
-     "id": 102401,
+     "id": 102412,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody04.blp",
      "sources": [
       "retail Body Paint Kodo teal (retail 3618254)"
@@ -3695,7 +3794,7 @@
     {
      "value": 5,
      "name": "Kodo body paint (orange)",
-     "id": 102402,
+     "id": 102413,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody05.blp",
      "sources": [
       "retail Body Paint Kodo orange (retail 3618255)"
@@ -3704,7 +3803,7 @@
     {
      "value": 6,
      "name": "Hawk body paint (blue)",
-     "id": 102403,
+     "id": 102414,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody06.blp",
      "sources": [
       "retail Body Paint Hawk blue (retail 3618256)"
@@ -3713,7 +3812,7 @@
     {
      "value": 7,
      "name": "Hawk body paint (red)",
-     "id": 102404,
+     "id": 102415,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody07.blp",
      "sources": [
       "retail Body Paint Hawk red (retail 3618257)"
@@ -3722,7 +3821,7 @@
     {
      "value": 8,
      "name": "Hawk body paint (dark teal)",
-     "id": 102405,
+     "id": 102416,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody08.blp",
      "sources": [
       "retail Body Paint Hawk dark teal (retail 3618258)"
@@ -3731,7 +3830,7 @@
     {
      "value": 9,
      "name": "Hawk body paint (teal)",
-     "id": 102406,
+     "id": 102417,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody09.blp",
      "sources": [
       "retail Body Paint Hawk teal (retail 3618260)"
@@ -3740,7 +3839,7 @@
     {
      "value": 10,
      "name": "Hawk body paint (orange)",
-     "id": 102407,
+     "id": 102418,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody10.blp",
      "sources": [
       "retail Body Paint Hawk orange (retail 3618261)"
@@ -3749,7 +3848,7 @@
     {
      "value": 11,
      "name": "Otter body paint (blue)",
-     "id": 102408,
+     "id": 102419,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody11.blp",
      "sources": [
       "retail Body Paint Otter blue (retail 3618262)"
@@ -3758,7 +3857,7 @@
     {
      "value": 12,
      "name": "Otter body paint (red)",
-     "id": 102409,
+     "id": 102420,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody12.blp",
      "sources": [
       "retail Body Paint Otter red (retail 3618263)"
@@ -3767,7 +3866,7 @@
     {
      "value": 13,
      "name": "Otter body paint (dark teal)",
-     "id": 102410,
+     "id": 102421,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody13.blp",
      "sources": [
       "retail Body Paint Otter dark teal (retail 3618264)"
@@ -3776,7 +3875,7 @@
     {
      "value": 14,
      "name": "Otter body paint (teal)",
-     "id": 102411,
+     "id": 102422,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody14.blp",
      "sources": [
       "retail Body Paint Otter teal (retail 3618266)"
@@ -3785,7 +3884,7 @@
     {
      "value": 15,
      "name": "Otter body paint (orange)",
-     "id": 102412,
+     "id": 102423,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody15.blp",
      "sources": [
       "retail Body Paint Otter orange (retail 3618267)"
@@ -3794,7 +3893,7 @@
     {
      "value": 16,
      "name": "Grimtotem paint (red)",
-     "id": 102413,
+     "id": 102424,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody16.blp",
      "sources": [
       "baked split of colour(s) 39 (cut 39/0, body+face)"
@@ -3803,7 +3902,7 @@
     {
      "value": 17,
      "name": "Grimtotem paint (blue)",
-     "id": 102414,
+     "id": 102425,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody17.blp",
      "sources": [
       "baked split of colour(s) 40 (cut 40/0, body+face)"
@@ -3812,7 +3911,7 @@
     {
      "value": 18,
      "name": "Grimtotem paint (white)",
-     "id": 102415,
+     "id": 102426,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody18.blp",
      "sources": [
       "baked split of colour(s) 41 (cut 41/0, body+face)"
@@ -3821,7 +3920,7 @@
     {
      "value": 19,
      "name": "Kodo body paint (red and blue)",
-     "id": 102416,
+     "id": 102427,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody19.blp",
      "sources": [
       "retail own race Body Paint Kodo red and blue (retail 3618253)"
@@ -3830,7 +3929,7 @@
     {
      "value": 20,
      "name": "Hawk body paint (red and blue)",
-     "id": 102417,
+     "id": 102428,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody20.blp",
      "sources": [
       "retail own race Body Paint Hawk red and blue (retail 3618259)"
@@ -3839,10 +3938,36 @@
     {
      "value": 21,
      "name": "Otter body paint (red and blue)",
-     "id": 102418,
+     "id": 102429,
      "file": "Character\\Tauren\\Female\\TaurenFemaleMarkBody21.blp",
      "sources": [
       "retail own race Body Paint Otter red and blue (retail 3618265)"
+     ]
+    }
+   ]
+  },
+  "7:0": {
+   "Face Markings": [
+    {
+     "value": 1,
+     "name": "Cultist mask paint",
+     "id": 102430,
+     "file": "Character\\Gnome\\Male\\GnomeMaleMarkFace01.blp",
+     "sources": [
+      "baked split of colour(s) 13, 14 (cut 14/4, face)"
+     ]
+    }
+   ]
+  },
+  "7:1": {
+   "Face Markings": [
+    {
+     "value": 1,
+     "name": "Cultist mask paint",
+     "id": 102431,
+     "file": "Character\\Gnome\\Female\\GnomeFemaleMarkFace01.blp",
+     "sources": [
+      "baked split of colour(s) 13, 14, 5 (cut 13/12, face)"
      ]
     }
    ]
@@ -3852,7 +3977,7 @@
     {
      "value": 1,
      "name": "Berserker face paint (orange)",
-     "id": 102419,
+     "id": 102432,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace01.blp",
      "sources": [
       "retail Face Paint Berserker orange (retail 1016480)",
@@ -3862,7 +3987,7 @@
     {
      "value": 2,
      "name": "Berserker face paint (blue)",
-     "id": 102420,
+     "id": 102433,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace02.blp",
      "sources": [
       "retail Face Paint Berserker blue (retail 1016485)"
@@ -3871,7 +3996,7 @@
     {
      "value": 3,
      "name": "Fangs face paint (orange)",
-     "id": 102421,
+     "id": 102434,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace03.blp",
      "sources": [
       "retail Face Paint Fangs orange (retail 1016493)",
@@ -3881,7 +4006,7 @@
     {
      "value": 4,
      "name": "Fangs face paint (blue)",
-     "id": 102422,
+     "id": 102435,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace04.blp",
      "sources": [
       "retail Face Paint Fangs blue (retail 1016499)"
@@ -3890,7 +4015,7 @@
     {
      "value": 5,
      "name": "Mask face paint (orange)",
-     "id": 102423,
+     "id": 102436,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace05.blp",
      "sources": [
       "retail Face Paint Mask orange (retail 1016507)"
@@ -3899,7 +4024,7 @@
     {
      "value": 6,
      "name": "Mask face paint (blue)",
-     "id": 102424,
+     "id": 102437,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace06.blp",
      "sources": [
       "retail Face Paint Mask blue (retail 1016512)"
@@ -3908,7 +4033,7 @@
     {
      "value": 7,
      "name": "Oni face paint (orange)",
-     "id": 102425,
+     "id": 102438,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace07.blp",
      "sources": [
       "retail Face Paint Oni orange (retail 1016520)",
@@ -3919,7 +4044,7 @@
     {
      "value": 8,
      "name": "Oni face paint (blue)",
-     "id": 102426,
+     "id": 102439,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace08.blp",
      "sources": [
       "retail Face Paint Oni blue (retail 1016525)"
@@ -3928,7 +4053,7 @@
     {
      "value": 9,
      "name": "Prophet face paint (orange)",
-     "id": 102427,
+     "id": 102440,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace09.blp",
      "sources": [
       "retail Face Paint Prophet orange (retail 1016533)"
@@ -3937,7 +4062,7 @@
     {
      "value": 10,
      "name": "Prophet face paint (blue)",
-     "id": 102428,
+     "id": 102441,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace10.blp",
      "sources": [
       "retail Face Paint Prophet blue (retail 1016538)"
@@ -3946,7 +4071,7 @@
     {
      "value": 11,
      "name": "War face paint (orange)",
-     "id": 102429,
+     "id": 102442,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace11.blp",
      "sources": [
       "retail Face Paint War orange (retail 1016546)",
@@ -3956,7 +4081,7 @@
     {
      "value": 12,
      "name": "War face paint (blue)",
-     "id": 102430,
+     "id": 102443,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace12.blp",
      "sources": [
       "retail Face Paint War blue (retail 1016551)"
@@ -3965,7 +4090,7 @@
     {
      "value": 13,
      "name": "Voodoo face paint (white)",
-     "id": 102431,
+     "id": 102444,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace13.blp",
      "sources": [
       "retail Face Paint Voodoo white (retail 3669420)"
@@ -3974,7 +4099,7 @@
     {
      "value": 14,
      "name": "Voodoo face paint (red)",
-     "id": 102432,
+     "id": 102445,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace14.blp",
      "sources": [
       "retail Face Paint Voodoo red (retail 3669421)"
@@ -3983,7 +4108,7 @@
     {
      "value": 15,
      "name": "Skull face paint (white)",
-     "id": 102433,
+     "id": 102446,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace15.blp",
      "sources": [
       "retail Face Paint Skull white (retail 3669427)"
@@ -3992,7 +4117,7 @@
     {
      "value": 16,
      "name": "Skull face paint (red)",
-     "id": 102434,
+     "id": 102447,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace16.blp",
      "sources": [
       "retail Face Paint Skull red (retail 3669429)"
@@ -4001,7 +4126,7 @@
     {
      "value": 17,
      "name": "Ritual face paint (white)",
-     "id": 102435,
+     "id": 102448,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace17.blp",
      "sources": [
       "retail Face Paint Ritual white (retail 3669434)"
@@ -4010,7 +4135,7 @@
     {
      "value": 18,
      "name": "Ritual face paint (red)",
-     "id": 102436,
+     "id": 102449,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace18.blp",
      "sources": [
       "retail Face Paint Ritual red (retail 3669435)"
@@ -4019,7 +4144,7 @@
     {
      "value": 19,
      "name": "Berserker face paint (black)",
-     "id": 102437,
+     "id": 102450,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace19.blp",
      "sources": [
       "retail own race Face Paint Berserker black (retail 1016489)"
@@ -4028,7 +4153,7 @@
     {
      "value": 20,
      "name": "Fangs face paint (black)",
-     "id": 102438,
+     "id": 102451,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace20.blp",
      "sources": [
       "retail own race Face Paint Fangs black (retail 1016503)"
@@ -4037,7 +4162,7 @@
     {
      "value": 21,
      "name": "Mask face paint (red)",
-     "id": 102439,
+     "id": 102452,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace21.blp",
      "sources": [
       "retail own race Face Paint Mask red (retail 1016514)",
@@ -4047,7 +4172,7 @@
     {
      "value": 22,
      "name": "Mask face paint (black)",
-     "id": 102440,
+     "id": 102453,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace22.blp",
      "sources": [
       "retail own race Face Paint Mask black (retail 1016516)",
@@ -4057,7 +4182,7 @@
     {
      "value": 23,
      "name": "Prophet face paint (red)",
-     "id": 102441,
+     "id": 102454,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace23.blp",
      "sources": [
       "retail own race Face Paint Prophet red (retail 1016540)"
@@ -4066,7 +4191,7 @@
     {
      "value": 24,
      "name": "Prophet face paint (black)",
-     "id": 102442,
+     "id": 102455,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace24.blp",
      "sources": [
       "retail own race Face Paint Prophet black (retail 1016542)"
@@ -4075,7 +4200,7 @@
     {
      "value": 25,
      "name": "War face paint (black)",
-     "id": 102443,
+     "id": 102456,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace25.blp",
      "sources": [
       "retail own race Face Paint War black (retail 1016555)"
@@ -4084,7 +4209,7 @@
     {
      "value": 26,
      "name": "Voodoo face paint (purple)",
-     "id": 102444,
+     "id": 102457,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace26.blp",
      "sources": [
       "retail own race Face Paint Voodoo purple (retail 3669426)"
@@ -4093,7 +4218,7 @@
     {
      "value": 27,
      "name": "Voodoo face paint (orange)",
-     "id": 102445,
+     "id": 102458,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace27.blp",
      "sources": [
       "retail own race Face Paint Voodoo orange (retail 3669425)"
@@ -4102,7 +4227,7 @@
     {
      "value": 28,
      "name": "Skull face paint (purple)",
-     "id": 102446,
+     "id": 102459,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace28.blp",
      "sources": [
       "retail own race Face Paint Skull purple (retail 3669433)"
@@ -4111,7 +4236,7 @@
     {
      "value": 29,
      "name": "Skull face paint (orange)",
-     "id": 102447,
+     "id": 102460,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace29.blp",
      "sources": [
       "retail own race Face Paint Skull orange (retail 3669432)"
@@ -4120,7 +4245,7 @@
     {
      "value": 30,
      "name": "Ritual face paint (purple)",
-     "id": 102448,
+     "id": 102461,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace30.blp",
      "sources": [
       "retail own race Face Paint Ritual purple (retail 3669439)"
@@ -4129,7 +4254,7 @@
     {
      "value": 31,
      "name": "Ritual face paint (orange)",
-     "id": 102449,
+     "id": 102462,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace31.blp",
      "sources": [
       "retail own race Face Paint Ritual orange (retail 3669438)"
@@ -4138,7 +4263,7 @@
     {
      "value": 32,
      "name": "Shadow brow paint",
-     "id": 102450,
+     "id": 102463,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace32.blp",
      "sources": [
       "baked split of face type 11 over 10 (colour 0)"
@@ -4147,7 +4272,7 @@
     {
      "value": 33,
      "name": "Shadow eye paint",
-     "id": 102451,
+     "id": 102464,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace33.blp",
      "sources": [
       "baked split of face type 12 over 1 (colour 0)"
@@ -4156,7 +4281,7 @@
     {
      "value": 34,
      "name": "Spiked skull paint (red)",
-     "id": 102452,
+     "id": 102465,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace34.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 26 (same paint: 0, 7, 11, 26)"
@@ -4165,7 +4290,7 @@
     {
      "value": 35,
      "name": "Spiked skull paint (orange)",
-     "id": 102453,
+     "id": 102466,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace35.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 27 (same paint: 1, 16, 17, 18, 27)"
@@ -4174,7 +4299,7 @@
     {
      "value": 36,
      "name": "Spiked skull paint (yellow)",
-     "id": 102454,
+     "id": 102467,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace36.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 2 (same paint: 2)"
@@ -4183,7 +4308,7 @@
     {
      "value": 37,
      "name": "Spiked skull paint (green)",
-     "id": 102455,
+     "id": 102468,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace37.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 3 (same paint: 3, 4, 25, 29)"
@@ -4192,7 +4317,7 @@
     {
      "value": 38,
      "name": "Spiked skull paint (blue)",
-     "id": 102456,
+     "id": 102469,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace38.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 14 (same paint: 5, 14, 28)"
@@ -4201,7 +4326,7 @@
     {
      "value": 39,
      "name": "Spiked skull paint (purple)",
-     "id": 102457,
+     "id": 102470,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace39.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 6 (same paint: 6, 13, 24)"
@@ -4210,7 +4335,7 @@
     {
      "value": 40,
      "name": "Spiked skull paint (grey)",
-     "id": 102458,
+     "id": 102471,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace40.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 12 (same paint: 8, 12, 15, 20)"
@@ -4219,7 +4344,7 @@
     {
      "value": 41,
      "name": "Spiked skull paint (black)",
-     "id": 102459,
+     "id": 102472,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace41.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 19 (same paint: 9, 10, 19)"
@@ -4228,7 +4353,7 @@
     {
      "value": 42,
      "name": "Spiked skull paint (teal)",
-     "id": 102460,
+     "id": 102473,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace42.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 23 (same paint: 21, 23, 30)"
@@ -4237,7 +4362,7 @@
     {
      "value": 43,
      "name": "Spiked skull paint (pink)",
-     "id": 102461,
+     "id": 102474,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace43.blp",
      "sources": [
       "troll male facial-hair paint style 5, hair colour 22 (same paint: 22)"
@@ -4246,7 +4371,7 @@
     {
      "value": 44,
      "name": "Ringed eye paint (red)",
-     "id": 102462,
+     "id": 102475,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace44.blp",
      "sources": [
       "troll male facial-hair paint style 6, hair colour 0 (same paint: 0, 7)"
@@ -4255,7 +4380,7 @@
     {
      "value": 45,
      "name": "Ringed eye paint (orange)",
-     "id": 102463,
+     "id": 102476,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace45.blp",
      "sources": [
       "troll male facial-hair paint style 6, hair colour 27 (same paint: 1, 16, 17, 18, 26, 27)"
@@ -4264,7 +4389,7 @@
     {
      "value": 46,
      "name": "Ringed eye paint (yellow)",
-     "id": 102464,
+     "id": 102477,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace46.blp",
      "sources": [
       "troll male facial-hair paint style 6, hair colour 2 (same paint: 2)"
@@ -4273,7 +4398,7 @@
     {
      "value": 47,
      "name": "Ringed eye paint (green)",
-     "id": 102465,
+     "id": 102478,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace47.blp",
      "sources": [
       "troll male facial-hair paint style 6, hair colour 25 (same paint: 3, 4, 25, 29)"
@@ -4282,7 +4407,7 @@
     {
      "value": 48,
      "name": "Ringed eye paint (blue)",
-     "id": 102466,
+     "id": 102479,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace48.blp",
      "sources": [
       "troll male facial-hair paint style 6, hair colour 14 (same paint: 5, 10, 14, 28)"
@@ -4291,7 +4416,7 @@
     {
      "value": 49,
      "name": "Ringed eye paint (purple)",
-     "id": 102467,
+     "id": 102480,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace49.blp",
      "sources": [
       "troll male facial-hair paint style 6, hair colour 6 (same paint: 6, 13, 24)",
@@ -4302,7 +4427,7 @@
     {
      "value": 50,
      "name": "Ringed eye paint (grey)",
-     "id": 102468,
+     "id": 102481,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace50.blp",
      "sources": [
       "troll male facial-hair paint style 6, hair colour 15 (same paint: 12, 15, 20)",
@@ -4312,7 +4437,7 @@
     {
      "value": 51,
      "name": "Warmask paint (orange)",
-     "id": 102469,
+     "id": 102482,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace51.blp",
      "sources": [
       "troll male facial-hair paint style 7, hair colour 1 (same paint: 0, 1, 16, 17, 18, 27)"
@@ -4321,7 +4446,7 @@
     {
      "value": 52,
      "name": "Warmask paint (yellow)",
-     "id": 102470,
+     "id": 102483,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace52.blp",
      "sources": [
       "troll male facial-hair paint style 7, hair colour 2 (same paint: 2)"
@@ -4330,7 +4455,7 @@
     {
      "value": 53,
      "name": "Warmask paint (green)",
-     "id": 102471,
+     "id": 102484,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace53.blp",
      "sources": [
       "troll male facial-hair paint style 7, hair colour 25 (same paint: 3, 25, 29)"
@@ -4339,7 +4464,7 @@
     {
      "value": 54,
      "name": "Warmask paint (teal)",
-     "id": 102472,
+     "id": 102485,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace54.blp",
      "sources": [
       "troll male facial-hair paint style 7, hair colour 23 (same paint: 4, 21, 23, 30)"
@@ -4348,7 +4473,7 @@
     {
      "value": 55,
      "name": "Warmask paint (blue)",
-     "id": 102473,
+     "id": 102486,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace55.blp",
      "sources": [
       "troll male facial-hair paint style 7, hair colour 14 (same paint: 5, 14, 28)"
@@ -4357,7 +4482,7 @@
     {
      "value": 56,
      "name": "Warmask paint (purple)",
-     "id": 102474,
+     "id": 102487,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace56.blp",
      "sources": [
       "troll male facial-hair paint style 7, hair colour 6 (same paint: 6, 13, 24)"
@@ -4366,7 +4491,7 @@
     {
      "value": 57,
      "name": "Warmask paint (grey)",
-     "id": 102475,
+     "id": 102488,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace57.blp",
      "sources": [
       "troll male facial-hair paint style 7, hair colour 12 (same paint: 8, 10, 11, 12, 15, 19, 20)"
@@ -4375,7 +4500,7 @@
     {
      "value": 58,
      "name": "Warmask paint (red)",
-     "id": 102476,
+     "id": 102489,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace58.blp",
      "sources": [
       "troll male facial-hair paint style 7, hair colour 26 (same paint: 26)"
@@ -4384,7 +4509,7 @@
     {
      "value": 59,
      "name": "Bone face paint (orange)",
-     "id": 102477,
+     "id": 102490,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace59.blp",
      "sources": [
       "troll male facial-hair paint style 8, hair colour 1 (same paint: 0, 1, 16, 17, 18, 27)",
@@ -4394,7 +4519,7 @@
     {
      "value": 60,
      "name": "Bone face paint (green)",
-     "id": 102478,
+     "id": 102491,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace60.blp",
      "sources": [
       "troll male facial-hair paint style 8, hair colour 25 (same paint: 3, 4, 25, 29)",
@@ -4405,7 +4530,7 @@
     {
      "value": 61,
      "name": "Bone face paint (blue)",
-     "id": 102479,
+     "id": 102492,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace61.blp",
      "sources": [
       "troll male facial-hair paint style 8, hair colour 14 (same paint: 5, 14, 28)",
@@ -4417,7 +4542,7 @@
     {
      "value": 62,
      "name": "Bone face paint (pink)",
-     "id": 102480,
+     "id": 102493,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace62.blp",
      "sources": [
       "troll male facial-hair paint style 8, hair colour 7 (same paint: 7, 22)"
@@ -4426,7 +4551,7 @@
     {
      "value": 63,
      "name": "Striped paint (orange)",
-     "id": 102481,
+     "id": 102494,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace63.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 1 (same paint: 0, 1, 16, 17, 18, 27)"
@@ -4435,7 +4560,7 @@
     {
      "value": 64,
      "name": "Striped paint (yellow)",
-     "id": 102482,
+     "id": 102495,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace64.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 2 (same paint: 2)"
@@ -4444,7 +4569,7 @@
     {
      "value": 65,
      "name": "Striped paint (green)",
-     "id": 102483,
+     "id": 102496,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace65.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 25 (same paint: 3, 25, 29)"
@@ -4453,7 +4578,7 @@
     {
      "value": 66,
      "name": "Striped paint (teal)",
-     "id": 102484,
+     "id": 102497,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace66.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 23 (same paint: 4, 21, 23, 30)"
@@ -4462,7 +4587,7 @@
     {
      "value": 67,
      "name": "Striped paint (blue)",
-     "id": 102485,
+     "id": 102498,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace67.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 14 (same paint: 5, 10, 14, 28)"
@@ -4471,7 +4596,7 @@
     {
      "value": 68,
      "name": "Striped paint (purple)",
-     "id": 102486,
+     "id": 102499,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace68.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 13 (same paint: 6, 13, 24)"
@@ -4480,7 +4605,7 @@
     {
      "value": 69,
      "name": "Striped paint (pink)",
-     "id": 102487,
+     "id": 102500,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace69.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 7 (same paint: 7, 22)"
@@ -4489,7 +4614,7 @@
     {
      "value": 70,
      "name": "Striped paint (grey)",
-     "id": 102488,
+     "id": 102501,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace70.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 12 (same paint: 8, 11, 12, 15, 19, 20)"
@@ -4498,7 +4623,7 @@
     {
      "value": 71,
      "name": "Striped paint (black)",
-     "id": 102489,
+     "id": 102502,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace71.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 9 (same paint: 9)"
@@ -4507,7 +4632,7 @@
     {
      "value": 72,
      "name": "Striped paint (red)",
-     "id": 102490,
+     "id": 102503,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace72.blp",
      "sources": [
       "troll male facial-hair paint style 9, hair colour 26 (same paint: 26)"
@@ -4516,7 +4641,7 @@
     {
      "value": 73,
      "name": "Splash paint (orange)",
-     "id": 102491,
+     "id": 102504,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace73.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 1 (same paint: 0, 1, 16, 17, 18, 27)"
@@ -4525,7 +4650,7 @@
     {
      "value": 74,
      "name": "Splash paint (yellow)",
-     "id": 102492,
+     "id": 102505,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace74.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 2 (same paint: 2)"
@@ -4534,7 +4659,7 @@
     {
      "value": 75,
      "name": "Splash paint (green)",
-     "id": 102493,
+     "id": 102506,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace75.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 25 (same paint: 3, 25, 29)"
@@ -4543,7 +4668,7 @@
     {
      "value": 76,
      "name": "Splash paint (teal)",
-     "id": 102494,
+     "id": 102507,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace76.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 23 (same paint: 4, 15, 21, 23, 30)"
@@ -4552,7 +4677,7 @@
     {
      "value": 77,
      "name": "Splash paint (blue)",
-     "id": 102495,
+     "id": 102508,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace77.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 14 (same paint: 5, 14, 28)",
@@ -4562,7 +4687,7 @@
     {
      "value": 78,
      "name": "Splash paint (pink)",
-     "id": 102496,
+     "id": 102509,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace78.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 7 (same paint: 7, 22)"
@@ -4571,7 +4696,7 @@
     {
      "value": 79,
      "name": "Splash paint (grey)",
-     "id": 102497,
+     "id": 102510,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace79.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 10 (same paint: 8, 10, 11, 12, 19)"
@@ -4580,7 +4705,7 @@
     {
      "value": 80,
      "name": "Splash paint (black)",
-     "id": 102498,
+     "id": 102511,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace80.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 9 (same paint: 9)"
@@ -4589,7 +4714,7 @@
     {
      "value": 81,
      "name": "Splash paint (white)",
-     "id": 102499,
+     "id": 102512,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace81.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 20 (same paint: 20)"
@@ -4598,10 +4723,28 @@
     {
      "value": 82,
      "name": "Splash paint (red)",
-     "id": 102500,
+     "id": 102513,
      "file": "Character\\Troll\\Male\\TrollMaleMarkFace82.blp",
      "sources": [
       "troll male facial-hair paint style 10, hair colour 26 (same paint: 26)"
+     ]
+    },
+    {
+     "value": 83,
+     "name": "Tiger stripes",
+     "id": 102514,
+     "file": "Character\\Troll\\Male\\TrollMaleMarkFace83.blp",
+     "sources": [
+      "baked split of colour(s) 37 (cut 37/2, body+face)"
+     ]
+    },
+    {
+     "value": 84,
+     "name": "Blood paint (red)",
+     "id": 102515,
+     "file": "Character\\Troll\\Male\\TrollMaleMarkFace84.blp",
+     "sources": [
+      "baked split of colour(s) 38 (cut 38/36, body+face)"
      ]
     }
    ],
@@ -4609,7 +4752,7 @@
     {
      "value": 1,
      "name": "Voodoo body paint (white)",
-     "id": 102501,
+     "id": 102516,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody01.blp",
      "sources": [
       "retail Body Paint Voodoo white (retail 3669396)"
@@ -4618,7 +4761,7 @@
     {
      "value": 2,
      "name": "Voodoo body paint (red)",
-     "id": 102502,
+     "id": 102517,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody02.blp",
      "sources": [
       "retail Body Paint Voodoo red (retail 3669397)"
@@ -4627,7 +4770,7 @@
     {
      "value": 3,
      "name": "Bones body paint (white)",
-     "id": 102503,
+     "id": 102518,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody03.blp",
      "sources": [
       "retail Body Paint Bones white (retail 3669403)"
@@ -4636,7 +4779,7 @@
     {
      "value": 4,
      "name": "Bones body paint (red)",
-     "id": 102504,
+     "id": 102519,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody04.blp",
      "sources": [
       "retail Body Paint Bones red (retail 3669404)"
@@ -4645,7 +4788,7 @@
     {
      "value": 5,
      "name": "Ritual body paint (white)",
-     "id": 102505,
+     "id": 102520,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody05.blp",
      "sources": [
       "retail Body Paint Ritual white (retail 3669412)"
@@ -4654,7 +4797,7 @@
     {
      "value": 6,
      "name": "Ritual body paint (red)",
-     "id": 102506,
+     "id": 102521,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody06.blp",
      "sources": [
       "retail Body Paint Ritual red (retail 3669413)"
@@ -4663,7 +4806,7 @@
     {
      "value": 7,
      "name": "Voodoo body paint (green)",
-     "id": 102507,
+     "id": 102522,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody07.blp",
      "sources": [
       "retail own race Body Paint Voodoo green (retail 3669398)"
@@ -4672,7 +4815,7 @@
     {
      "value": 8,
      "name": "Voodoo body paint (blue)",
-     "id": 102508,
+     "id": 102523,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody08.blp",
      "sources": [
       "retail own race Body Paint Voodoo blue (retail 3669399)"
@@ -4681,7 +4824,7 @@
     {
      "value": 9,
      "name": "Voodoo body paint (orange)",
-     "id": 102509,
+     "id": 102524,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody09.blp",
      "sources": [
       "retail own race Body Paint Voodoo orange (retail 3669401)"
@@ -4690,7 +4833,7 @@
     {
      "value": 10,
      "name": "Voodoo body paint (purple)",
-     "id": 102510,
+     "id": 102525,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody10.blp",
      "sources": [
       "retail own race Body Paint Voodoo purple (retail 3669402)"
@@ -4699,7 +4842,7 @@
     {
      "value": 11,
      "name": "Bones body paint (green)",
-     "id": 102511,
+     "id": 102526,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody11.blp",
      "sources": [
       "retail own race Body Paint Bones green (retail 3669405)"
@@ -4708,7 +4851,7 @@
     {
      "value": 12,
      "name": "Bones body paint (blue)",
-     "id": 102512,
+     "id": 102527,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody12.blp",
      "sources": [
       "retail own race Body Paint Bones blue (retail 3669408)"
@@ -4717,7 +4860,7 @@
     {
      "value": 13,
      "name": "Bones body paint (orange)",
-     "id": 102513,
+     "id": 102528,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody13.blp",
      "sources": [
       "retail own race Body Paint Bones orange (retail 3669409)"
@@ -4726,7 +4869,7 @@
     {
      "value": 14,
      "name": "Bones body paint (purple)",
-     "id": 102514,
+     "id": 102529,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody14.blp",
      "sources": [
       "retail own race Body Paint Bones purple (retail 3669410)"
@@ -4735,7 +4878,7 @@
     {
      "value": 15,
      "name": "Ritual body paint (green)",
-     "id": 102515,
+     "id": 102530,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody15.blp",
      "sources": [
       "retail own race Body Paint Ritual green (retail 3669414)"
@@ -4744,7 +4887,7 @@
     {
      "value": 16,
      "name": "Ritual body paint (blue)",
-     "id": 102516,
+     "id": 102531,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody16.blp",
      "sources": [
       "retail own race Body Paint Ritual blue (retail 3669415)"
@@ -4753,7 +4896,7 @@
     {
      "value": 17,
      "name": "Ritual body paint (orange)",
-     "id": 102517,
+     "id": 102532,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody17.blp",
      "sources": [
       "retail own race Body Paint Ritual orange (retail 3669416)"
@@ -4762,10 +4905,28 @@
     {
      "value": 18,
      "name": "Ritual body paint (purple)",
-     "id": 102518,
+     "id": 102533,
      "file": "Character\\Troll\\Male\\TrollMaleMarkBody18.blp",
      "sources": [
       "retail own race Body Paint Ritual purple (retail 3669417)"
+     ]
+    },
+    {
+     "value": 19,
+     "name": "Tiger stripes",
+     "id": 102534,
+     "file": "Character\\Troll\\Male\\TrollMaleMarkBody19.blp",
+     "sources": [
+      "baked split of colour(s) 37 (cut 37/2, body+face)"
+     ]
+    },
+    {
+     "value": 20,
+     "name": "Blood paint (red)",
+     "id": 102535,
+     "file": "Character\\Troll\\Male\\TrollMaleMarkBody20.blp",
+     "sources": [
+      "baked split of colour(s) 38 (cut 38/36, body+face)"
      ]
     }
    ]
@@ -4775,7 +4936,7 @@
     {
      "value": 1,
      "name": "Voodoo face paint (white)",
-     "id": 102519,
+     "id": 102536,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace01.blp",
      "sources": [
       "retail Face Paint Voodoo white (retail 3669376)"
@@ -4784,7 +4945,7 @@
     {
      "value": 2,
      "name": "Voodoo face paint (red)",
-     "id": 102520,
+     "id": 102537,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace02.blp",
      "sources": [
       "retail Face Paint Voodoo red (retail 3669377)"
@@ -4793,7 +4954,7 @@
     {
      "value": 3,
      "name": "Voodoo face paint (blue)",
-     "id": 102521,
+     "id": 102538,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace03.blp",
      "sources": [
       "retail Face Paint Voodoo blue (retail 3669379)"
@@ -4802,7 +4963,7 @@
     {
      "value": 4,
      "name": "Skull face paint (white)",
-     "id": 102522,
+     "id": 102539,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace04.blp",
      "sources": [
       "retail Face Paint Skull white (retail 3669383)"
@@ -4811,7 +4972,7 @@
     {
      "value": 5,
      "name": "Skull face paint (red)",
-     "id": 102523,
+     "id": 102540,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace05.blp",
      "sources": [
       "retail Face Paint Skull red (retail 3669384)"
@@ -4820,7 +4981,7 @@
     {
      "value": 6,
      "name": "Skull face paint (blue)",
-     "id": 102524,
+     "id": 102541,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace06.blp",
      "sources": [
       "retail Face Paint Skull blue (retail 3669386)"
@@ -4829,7 +4990,7 @@
     {
      "value": 7,
      "name": "Ritual face paint (white)",
-     "id": 102525,
+     "id": 102542,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace07.blp",
      "sources": [
       "retail Face Paint Ritual white (retail 3669389)"
@@ -4838,7 +4999,7 @@
     {
      "value": 8,
      "name": "Ritual face paint (red)",
-     "id": 102526,
+     "id": 102543,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace08.blp",
      "sources": [
       "retail Face Paint Ritual red (retail 3669390)"
@@ -4847,7 +5008,7 @@
     {
      "value": 9,
      "name": "Ritual face paint (blue)",
-     "id": 102527,
+     "id": 102544,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace09.blp",
      "sources": [
       "retail Face Paint Ritual blue (retail 3669392)"
@@ -4856,7 +5017,7 @@
     {
      "value": 10,
      "name": "Voodoo face paint (green)",
-     "id": 102528,
+     "id": 102545,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace10.blp",
      "sources": [
       "retail own race Face Paint Voodoo green (retail 3669378)"
@@ -4865,7 +5026,7 @@
     {
      "value": 11,
      "name": "Voodoo face paint (orange)",
-     "id": 102529,
+     "id": 102546,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace11.blp",
      "sources": [
       "retail own race Face Paint Voodoo orange (retail 3669381)"
@@ -4874,7 +5035,7 @@
     {
      "value": 12,
      "name": "Voodoo face paint (purple)",
-     "id": 102530,
+     "id": 102547,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace12.blp",
      "sources": [
       "retail own race Face Paint Voodoo purple (retail 3669382)"
@@ -4883,7 +5044,7 @@
     {
      "value": 13,
      "name": "Skull face paint (green)",
-     "id": 102531,
+     "id": 102548,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace13.blp",
      "sources": [
       "retail own race Face Paint Skull green (retail 3669385)"
@@ -4892,7 +5053,7 @@
     {
      "value": 14,
      "name": "Skull face paint (orange)",
-     "id": 102532,
+     "id": 102549,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace14.blp",
      "sources": [
       "retail own race Face Paint Skull orange (retail 3669387)"
@@ -4901,7 +5062,7 @@
     {
      "value": 15,
      "name": "Skull face paint (purple)",
-     "id": 102533,
+     "id": 102550,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace15.blp",
      "sources": [
       "retail own race Face Paint Skull purple (retail 3669388)"
@@ -4910,7 +5071,7 @@
     {
      "value": 16,
      "name": "Ritual face paint (green)",
-     "id": 102534,
+     "id": 102551,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace16.blp",
      "sources": [
       "retail own race Face Paint Ritual green (retail 3669391)"
@@ -4919,7 +5080,7 @@
     {
      "value": 17,
      "name": "Ritual face paint (orange)",
-     "id": 102535,
+     "id": 102552,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace17.blp",
      "sources": [
       "retail own race Face Paint Ritual orange (retail 3669393)"
@@ -4928,7 +5089,7 @@
     {
      "value": 18,
      "name": "Ritual face paint (purple)",
-     "id": 102536,
+     "id": 102553,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace18.blp",
      "sources": [
       "retail own race Face Paint Ritual purple (retail 3669395)"
@@ -4937,7 +5098,7 @@
     {
      "value": 19,
      "name": "Shadow brow paint",
-     "id": 102537,
+     "id": 102554,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace19.blp",
      "sources": [
       "baked split of face type 13 over 2 (colour 0)"
@@ -4946,10 +5107,28 @@
     {
      "value": 20,
      "name": "Shadow eye paint",
-     "id": 102538,
+     "id": 102555,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkFace20.blp",
      "sources": [
       "baked split of face type 14 over 0 (colour 0)"
+     ]
+    },
+    {
+     "value": 21,
+     "name": "Tiger stripes",
+     "id": 102556,
+     "file": "Character\\Troll\\Female\\TrollFemaleMarkFace21.blp",
+     "sources": [
+      "baked split of colour(s) 37 (cut 37/19, body+face)"
+     ]
+    },
+    {
+     "value": 22,
+     "name": "Blood paint (red)",
+     "id": 102557,
+     "file": "Character\\Troll\\Female\\TrollFemaleMarkFace22.blp",
+     "sources": [
+      "baked split of colour(s) 38 (cut 38/1, body+face)"
      ]
     }
    ],
@@ -4957,7 +5136,7 @@
     {
      "value": 1,
      "name": "Voodoo body paint (white)",
-     "id": 102539,
+     "id": 102558,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody01.blp",
      "sources": [
       "retail Body Paint Voodoo white (retail 3669358)"
@@ -4966,7 +5145,7 @@
     {
      "value": 2,
      "name": "Voodoo body paint (red)",
-     "id": 102540,
+     "id": 102559,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody02.blp",
      "sources": [
       "retail Body Paint Voodoo red (retail 3669359)"
@@ -4975,7 +5154,7 @@
     {
      "value": 3,
      "name": "Voodoo body paint (blue)",
-     "id": 102541,
+     "id": 102560,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody03.blp",
      "sources": [
       "retail Body Paint Voodoo blue (retail 3669361)"
@@ -4984,7 +5163,7 @@
     {
      "value": 4,
      "name": "Bones body paint (white)",
-     "id": 102542,
+     "id": 102561,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody04.blp",
      "sources": [
       "retail Body Paint Bones white (retail 3669364)"
@@ -4993,7 +5172,7 @@
     {
      "value": 5,
      "name": "Bones body paint (red)",
-     "id": 102543,
+     "id": 102562,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody05.blp",
      "sources": [
       "retail Body Paint Bones red (retail 3669365)"
@@ -5002,7 +5181,7 @@
     {
      "value": 6,
      "name": "Bones body paint (blue)",
-     "id": 102544,
+     "id": 102563,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody06.blp",
      "sources": [
       "retail Body Paint Bones blue (retail 3669367)"
@@ -5011,7 +5190,7 @@
     {
      "value": 7,
      "name": "Ritual body paint (white)",
-     "id": 102545,
+     "id": 102564,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody07.blp",
      "sources": [
       "retail Body Paint Ritual white (retail 3669370)"
@@ -5020,7 +5199,7 @@
     {
      "value": 8,
      "name": "Ritual body paint (red)",
-     "id": 102546,
+     "id": 102565,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody08.blp",
      "sources": [
       "retail Body Paint Ritual red (retail 3669371)"
@@ -5029,7 +5208,7 @@
     {
      "value": 9,
      "name": "Ritual body paint (blue)",
-     "id": 102547,
+     "id": 102566,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody09.blp",
      "sources": [
       "retail Body Paint Ritual blue (retail 3669373)"
@@ -5038,7 +5217,7 @@
     {
      "value": 10,
      "name": "Voodoo body paint (green)",
-     "id": 102548,
+     "id": 102567,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody10.blp",
      "sources": [
       "retail own race Body Paint Voodoo green (retail 3669360)"
@@ -5047,7 +5226,7 @@
     {
      "value": 11,
      "name": "Voodoo body paint (orange)",
-     "id": 102549,
+     "id": 102568,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody11.blp",
      "sources": [
       "retail own race Body Paint Voodoo orange (retail 3669362)"
@@ -5056,7 +5235,7 @@
     {
      "value": 12,
      "name": "Voodoo body paint (purple)",
-     "id": 102550,
+     "id": 102569,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody12.blp",
      "sources": [
       "retail own race Body Paint Voodoo purple (retail 3669363)"
@@ -5065,7 +5244,7 @@
     {
      "value": 13,
      "name": "Bones body paint (green)",
-     "id": 102551,
+     "id": 102570,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody13.blp",
      "sources": [
       "retail own race Body Paint Bones green (retail 3669366)"
@@ -5074,7 +5253,7 @@
     {
      "value": 14,
      "name": "Bones body paint (orange)",
-     "id": 102552,
+     "id": 102571,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody14.blp",
      "sources": [
       "retail own race Body Paint Bones orange (retail 3669368)"
@@ -5083,7 +5262,7 @@
     {
      "value": 15,
      "name": "Bones body paint (purple)",
-     "id": 102553,
+     "id": 102572,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody15.blp",
      "sources": [
       "retail own race Body Paint Bones purple (retail 3669369)"
@@ -5092,7 +5271,7 @@
     {
      "value": 16,
      "name": "Ritual body paint (green)",
-     "id": 102554,
+     "id": 102573,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody16.blp",
      "sources": [
       "retail own race Body Paint Ritual green (retail 3669372)"
@@ -5101,7 +5280,7 @@
     {
      "value": 17,
      "name": "Ritual body paint (orange)",
-     "id": 102555,
+     "id": 102574,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody17.blp",
      "sources": [
       "retail own race Body Paint Ritual orange (retail 3669374)"
@@ -5110,7 +5289,7 @@
     {
      "value": 18,
      "name": "Ritual body paint (purple)",
-     "id": 102556,
+     "id": 102575,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody18.blp",
      "sources": [
       "retail own race Body Paint Ritual purple (retail 3669375)"
@@ -5119,7 +5298,7 @@
     {
      "value": 19,
      "name": "Zandalari Zandalar Forever tattoo",
-     "id": 102557,
+     "id": 102576,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody19.blp",
      "sources": [
       "retail Zandalari Tattoo Zandalar Forever (retail 1699754) [not fitted: regions ArmUpper,Foot,Hand]"
@@ -5128,20 +5307,49 @@
     {
      "value": 20,
      "name": "Zandalari Radiant tattoo",
-     "id": 102558,
+     "id": 102577,
      "file": "Character\\Troll\\Female\\TrollFemaleMarkBody20.blp",
      "sources": [
       "retail Zandalari Tattoo Radiant (retail 1699756) [not fitted: regions ArmUpper,Foot,Hand]"
+     ]
+    },
+    {
+     "value": 21,
+     "name": "Tiger stripes",
+     "id": 102578,
+     "file": "Character\\Troll\\Female\\TrollFemaleMarkBody21.blp",
+     "sources": [
+      "baked split of colour(s) 37 (cut 37/19, body+face)"
+     ]
+    },
+    {
+     "value": 22,
+     "name": "Blood paint (red)",
+     "id": 102579,
+     "file": "Character\\Troll\\Female\\TrollFemaleMarkBody22.blp",
+     "sources": [
+      "baked split of colour(s) 38 (cut 38/1, body+face)"
      ]
     }
    ]
   },
   "10:0": {
+   "Face Markings": [
+    {
+     "value": 1,
+     "name": "Void star paint",
+     "id": 102580,
+     "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkFace01.blp",
+     "sources": [
+      "baked split of colour(s) 34, 35 (cut 34/2, face)"
+     ]
+    }
+   ],
    "Body Markings": [
     {
      "value": 1,
      "name": "Suffering tattoo (green)",
-     "id": 102559,
+     "id": 102581,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody01.blp",
      "sources": [
       "retail Tattoo Suffering green (retail 1285000)"
@@ -5150,7 +5358,7 @@
     {
      "value": 2,
      "name": "Suffering tattoo (purple)",
-     "id": 102560,
+     "id": 102582,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody02.blp",
      "sources": [
       "retail Tattoo Suffering purple (retail 1340676)",
@@ -5160,7 +5368,7 @@
     {
      "value": 3,
      "name": "Betrayer tattoo (green)",
-     "id": 102561,
+     "id": 102583,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody03.blp",
      "sources": [
       "retail Tattoo Betrayer green (retail 1285001)"
@@ -5169,7 +5377,7 @@
     {
      "value": 4,
      "name": "Betrayer tattoo (purple)",
-     "id": 102562,
+     "id": 102584,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody04.blp",
      "sources": [
       "retail Tattoo Betrayer purple (retail 1340678)"
@@ -5178,7 +5386,7 @@
     {
      "value": 5,
      "name": "Pain tattoo (green)",
-     "id": 102563,
+     "id": 102585,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody05.blp",
      "sources": [
       "retail Tattoo Pain green (retail 1285002)"
@@ -5187,7 +5395,7 @@
     {
      "value": 6,
      "name": "Pain tattoo (purple)",
-     "id": 102564,
+     "id": 102586,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody06.blp",
      "sources": [
       "retail Tattoo Pain purple (retail 1340680)",
@@ -5197,7 +5405,7 @@
     {
      "value": 7,
      "name": "Sacrifice tattoo (green)",
-     "id": 102565,
+     "id": 102587,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody07.blp",
      "sources": [
       "retail Tattoo Sacrifice green (retail 1285003)"
@@ -5206,7 +5414,7 @@
     {
      "value": 8,
      "name": "Sacrifice tattoo (purple)",
-     "id": 102566,
+     "id": 102588,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody08.blp",
      "sources": [
       "retail Tattoo Sacrifice purple (retail 1340682)"
@@ -5215,7 +5423,7 @@
     {
      "value": 9,
      "name": "Revenge tattoo (green)",
-     "id": 102567,
+     "id": 102589,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody09.blp",
      "sources": [
       "retail Tattoo Revenge green (retail 1285004)"
@@ -5224,7 +5432,7 @@
     {
      "value": 10,
      "name": "Revenge tattoo (purple)",
-     "id": 102568,
+     "id": 102590,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody10.blp",
      "sources": [
       "retail Tattoo Revenge purple (retail 1340684)"
@@ -5233,7 +5441,7 @@
     {
      "value": 11,
      "name": "Chaos tattoo (green)",
-     "id": 102569,
+     "id": 102591,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody11.blp",
      "sources": [
       "retail Tattoo Chaos green (retail 1285005)"
@@ -5242,7 +5450,7 @@
     {
      "value": 12,
      "name": "Chaos tattoo (purple)",
-     "id": 102570,
+     "id": 102592,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody12.blp",
      "sources": [
       "retail Tattoo Chaos purple (retail 1340686)"
@@ -5251,7 +5459,7 @@
     {
      "value": 13,
      "name": "Arcane swirls (red)",
-     "id": 102571,
+     "id": 102593,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody13.blp",
      "sources": [
       "baked split of colour(s) 48, 49 (cut 49/0, arms)"
@@ -5260,7 +5468,7 @@
     {
      "value": 14,
      "name": "Arcane swirls (blue)",
-     "id": 102572,
+     "id": 102594,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody14.blp",
      "sources": [
       "baked split of colour(s) 50, 51 (cut 51/4, arms)"
@@ -5269,7 +5477,7 @@
     {
      "value": 15,
      "name": "Arcane swirls (black)",
-     "id": 102573,
+     "id": 102595,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody15.blp",
      "sources": [
       "baked split of colour(s) 52, 53, 56, 57 (shade, arms)"
@@ -5278,7 +5486,7 @@
     {
      "value": 16,
      "name": "Arcane swirls (purple)",
-     "id": 102574,
+     "id": 102596,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody16.blp",
      "sources": [
       "baked split of colour(s) 54, 55, 58, 59 (cut 55/0, arms)"
@@ -5287,7 +5495,7 @@
     {
      "value": 17,
      "name": "Fel veins",
-     "id": 102575,
+     "id": 102597,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody17.blp",
      "sources": [
       "baked split of colour(s) 60 (cut 60/7, body)"
@@ -5296,7 +5504,7 @@
     {
      "value": 18,
      "name": "Suffering tattoo (green)",
-     "id": 102576,
+     "id": 102598,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody18.blp",
      "sources": [
       "retail own race Tattoo Suffering green (retail 1340664)"
@@ -5305,7 +5513,7 @@
     {
      "value": 19,
      "name": "Suffering tattoo (red)",
-     "id": 102577,
+     "id": 102599,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody19.blp",
      "sources": [
       "retail own race Tattoo Suffering red (retail 1340700)"
@@ -5314,7 +5522,7 @@
     {
      "value": 20,
      "name": "Betrayer tattoo (green)",
-     "id": 102578,
+     "id": 102600,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody20.blp",
      "sources": [
       "retail own race Tattoo Betrayer green (retail 1340666)"
@@ -5323,7 +5531,7 @@
     {
      "value": 21,
      "name": "Betrayer tattoo (red)",
-     "id": 102579,
+     "id": 102601,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody21.blp",
      "sources": [
       "retail own race Tattoo Betrayer red (retail 1340702)"
@@ -5332,7 +5540,7 @@
     {
      "value": 22,
      "name": "Betrayer tattoo (dark blue)",
-     "id": 102580,
+     "id": 102602,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody22.blp",
      "sources": [
       "retail own race Tattoo Betrayer dark blue (retail 1340714)"
@@ -5341,7 +5549,7 @@
     {
      "value": 23,
      "name": "Pain tattoo (green)",
-     "id": 102581,
+     "id": 102603,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody23.blp",
      "sources": [
       "retail own race Tattoo Pain green (retail 1340668)"
@@ -5350,7 +5558,7 @@
     {
      "value": 24,
      "name": "Pain tattoo (red)",
-     "id": 102582,
+     "id": 102604,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody24.blp",
      "sources": [
       "retail own race Tattoo Pain red (retail 1340704)"
@@ -5359,7 +5567,7 @@
     {
      "value": 25,
      "name": "Sacrifice tattoo (green)",
-     "id": 102583,
+     "id": 102605,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody25.blp",
      "sources": [
       "retail own race Tattoo Sacrifice green (retail 1340670)"
@@ -5368,7 +5576,7 @@
     {
      "value": 26,
      "name": "Sacrifice tattoo (red)",
-     "id": 102584,
+     "id": 102606,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody26.blp",
      "sources": [
       "retail own race Tattoo Sacrifice red (retail 1340706)"
@@ -5377,7 +5585,7 @@
     {
      "value": 27,
      "name": "Sacrifice tattoo (dark blue)",
-     "id": 102585,
+     "id": 102607,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody27.blp",
      "sources": [
       "retail own race Tattoo Sacrifice dark blue (retail 1340718)"
@@ -5386,7 +5594,7 @@
     {
      "value": 28,
      "name": "Revenge tattoo (green)",
-     "id": 102586,
+     "id": 102608,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody28.blp",
      "sources": [
       "retail own race Tattoo Revenge green (retail 1340672)"
@@ -5395,7 +5603,7 @@
     {
      "value": 29,
      "name": "Revenge tattoo (red)",
-     "id": 102587,
+     "id": 102609,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody29.blp",
      "sources": [
       "retail own race Tattoo Revenge red (retail 1340708)"
@@ -5404,7 +5612,7 @@
     {
      "value": 30,
      "name": "Revenge tattoo (dark blue)",
-     "id": 102588,
+     "id": 102610,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody30.blp",
      "sources": [
       "retail own race Tattoo Revenge dark blue (retail 1340720)"
@@ -5413,7 +5621,7 @@
     {
      "value": 31,
      "name": "Chaos tattoo (green)",
-     "id": 102589,
+     "id": 102611,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody31.blp",
      "sources": [
       "retail own race Tattoo Chaos green (retail 1340674)"
@@ -5422,7 +5630,7 @@
     {
      "value": 32,
      "name": "Chaos tattoo (red)",
-     "id": 102590,
+     "id": 102612,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody32.blp",
      "sources": [
       "retail own race Tattoo Chaos red (retail 1340710)"
@@ -5431,7 +5639,7 @@
     {
      "value": 33,
      "name": "Chaos tattoo (dark blue)",
-     "id": 102591,
+     "id": 102613,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody33.blp",
      "sources": [
       "retail own race Tattoo Chaos dark blue (retail 1340722)"
@@ -5440,11 +5648,22 @@
    ]
   },
   "10:1": {
+   "Face Markings": [
+    {
+     "value": 1,
+     "name": "Void tear paint",
+     "id": 102614,
+     "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkFace01.blp",
+     "sources": [
+      "baked split of colour(s) 34, 35 (cut 34/2, face)"
+     ]
+    }
+   ],
    "Body Markings": [
     {
      "value": 1,
      "name": "Suffering tattoo (green)",
-     "id": 102592,
+     "id": 102615,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody01.blp",
      "sources": [
       "retail Tattoo Suffering green (retail 1286480)"
@@ -5453,7 +5672,7 @@
     {
      "value": 2,
      "name": "Suffering tattoo (purple)",
-     "id": 102593,
+     "id": 102616,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody02.blp",
      "sources": [
       "retail Tattoo Suffering purple (retail 1339360)"
@@ -5462,7 +5681,7 @@
     {
      "value": 3,
      "name": "Betrayer tattoo (green)",
-     "id": 102594,
+     "id": 102617,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody03.blp",
      "sources": [
       "retail Tattoo Betrayer green (retail 1286481)"
@@ -5471,7 +5690,7 @@
     {
      "value": 4,
      "name": "Betrayer tattoo (purple)",
-     "id": 102595,
+     "id": 102618,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody04.blp",
      "sources": [
       "retail Tattoo Betrayer purple (retail 1339361)"
@@ -5480,7 +5699,7 @@
     {
      "value": 5,
      "name": "Pain tattoo (green)",
-     "id": 102596,
+     "id": 102619,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody05.blp",
      "sources": [
       "retail Tattoo Pain green (retail 1286482)"
@@ -5489,7 +5708,7 @@
     {
      "value": 6,
      "name": "Pain tattoo (purple)",
-     "id": 102597,
+     "id": 102620,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody06.blp",
      "sources": [
       "retail Tattoo Pain purple (retail 1339362)"
@@ -5498,7 +5717,7 @@
     {
      "value": 7,
      "name": "Sacrifice tattoo (green)",
-     "id": 102598,
+     "id": 102621,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody07.blp",
      "sources": [
       "retail Tattoo Sacrifice green (retail 1286483)"
@@ -5507,7 +5726,7 @@
     {
      "value": 8,
      "name": "Sacrifice tattoo (purple)",
-     "id": 102599,
+     "id": 102622,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody08.blp",
      "sources": [
       "retail Tattoo Sacrifice purple (retail 1339363)"
@@ -5516,7 +5735,7 @@
     {
      "value": 9,
      "name": "Revenge tattoo (green)",
-     "id": 102600,
+     "id": 102623,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody09.blp",
      "sources": [
       "retail Tattoo Revenge green (retail 1286484)"
@@ -5525,7 +5744,7 @@
     {
      "value": 10,
      "name": "Revenge tattoo (purple)",
-     "id": 102601,
+     "id": 102624,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody10.blp",
      "sources": [
       "retail Tattoo Revenge purple (retail 1339364)"
@@ -5534,7 +5753,7 @@
     {
      "value": 11,
      "name": "Chaos tattoo (green)",
-     "id": 102602,
+     "id": 102625,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody11.blp",
      "sources": [
       "retail Tattoo Chaos green (retail 1286485)"
@@ -5543,7 +5762,7 @@
     {
      "value": 12,
      "name": "Chaos tattoo (purple)",
-     "id": 102603,
+     "id": 102626,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody12.blp",
      "sources": [
       "retail Tattoo Chaos purple (retail 1339365)"
@@ -5552,7 +5771,7 @@
     {
      "value": 13,
      "name": "Arcane swirls (red)",
-     "id": 102604,
+     "id": 102627,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody13.blp",
      "sources": [
       "baked split of colour(s) 48, 49 (cut 49/0, arms)"
@@ -5561,7 +5780,7 @@
     {
      "value": 14,
      "name": "Arcane swirls (blue)",
-     "id": 102605,
+     "id": 102628,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody14.blp",
      "sources": [
       "baked split of colour(s) 50, 51 (cut 51/4, arms)"
@@ -5570,7 +5789,7 @@
     {
      "value": 15,
      "name": "Arcane swirls (black)",
-     "id": 102606,
+     "id": 102629,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody15.blp",
      "sources": [
       "baked split of colour(s) 52, 53, 56, 57 (shade, arms)"
@@ -5579,7 +5798,7 @@
     {
      "value": 16,
      "name": "Arcane swirls (purple)",
-     "id": 102607,
+     "id": 102630,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody16.blp",
      "sources": [
       "baked split of colour(s) 54, 55 (cut 55/0, arms)"
@@ -5588,7 +5807,7 @@
     {
      "value": 17,
      "name": "Fel veins",
-     "id": 102608,
+     "id": 102631,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody17.blp",
      "sources": [
       "baked split of colour(s) 60 (cut 60/2, body)"
@@ -5597,7 +5816,7 @@
     {
      "value": 18,
      "name": "Suffering tattoo (green)",
-     "id": 102609,
+     "id": 102632,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody18.blp",
      "sources": [
       "retail own race Tattoo Suffering green (retail 1339354)"
@@ -5606,7 +5825,7 @@
     {
      "value": 19,
      "name": "Suffering tattoo (red)",
-     "id": 102610,
+     "id": 102633,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody19.blp",
      "sources": [
       "retail own race Tattoo Suffering red (retail 1339372)"
@@ -5615,7 +5834,7 @@
     {
      "value": 20,
      "name": "Suffering tattoo (dark blue)",
-     "id": 102611,
+     "id": 102634,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody20.blp",
      "sources": [
       "retail own race Tattoo Suffering dark blue (retail 1339378)"
@@ -5624,7 +5843,7 @@
     {
      "value": 21,
      "name": "Betrayer tattoo (green)",
-     "id": 102612,
+     "id": 102635,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody21.blp",
      "sources": [
       "retail own race Tattoo Betrayer green (retail 1339355)"
@@ -5633,7 +5852,7 @@
     {
      "value": 22,
      "name": "Betrayer tattoo (red)",
-     "id": 102613,
+     "id": 102636,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody22.blp",
      "sources": [
       "retail own race Tattoo Betrayer red (retail 1339373)"
@@ -5642,7 +5861,7 @@
     {
      "value": 23,
      "name": "Betrayer tattoo (dark blue)",
-     "id": 102614,
+     "id": 102637,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody23.blp",
      "sources": [
       "retail own race Tattoo Betrayer dark blue (retail 1339379)"
@@ -5651,7 +5870,7 @@
     {
      "value": 24,
      "name": "Pain tattoo (green)",
-     "id": 102615,
+     "id": 102638,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody24.blp",
      "sources": [
       "retail own race Tattoo Pain green (retail 1339356)"
@@ -5660,7 +5879,7 @@
     {
      "value": 25,
      "name": "Pain tattoo (red)",
-     "id": 102616,
+     "id": 102639,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody25.blp",
      "sources": [
       "retail own race Tattoo Pain red (retail 1339374)"
@@ -5669,7 +5888,7 @@
     {
      "value": 26,
      "name": "Pain tattoo (dark blue)",
-     "id": 102617,
+     "id": 102640,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody26.blp",
      "sources": [
       "retail own race Tattoo Pain dark blue (retail 1339380)"
@@ -5678,7 +5897,7 @@
     {
      "value": 27,
      "name": "Sacrifice tattoo (green)",
-     "id": 102618,
+     "id": 102641,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody27.blp",
      "sources": [
       "retail own race Tattoo Sacrifice green (retail 1339357)"
@@ -5687,7 +5906,7 @@
     {
      "value": 28,
      "name": "Sacrifice tattoo (red)",
-     "id": 102619,
+     "id": 102642,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody28.blp",
      "sources": [
       "retail own race Tattoo Sacrifice red (retail 1339375)"
@@ -5696,7 +5915,7 @@
     {
      "value": 29,
      "name": "Sacrifice tattoo (dark blue)",
-     "id": 102620,
+     "id": 102643,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody29.blp",
      "sources": [
       "retail own race Tattoo Sacrifice dark blue (retail 1339381)"
@@ -5705,7 +5924,7 @@
     {
      "value": 30,
      "name": "Revenge tattoo (green)",
-     "id": 102621,
+     "id": 102644,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody30.blp",
      "sources": [
       "retail own race Tattoo Revenge green (retail 1339358)"
@@ -5714,7 +5933,7 @@
     {
      "value": 31,
      "name": "Revenge tattoo (red)",
-     "id": 102622,
+     "id": 102645,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody31.blp",
      "sources": [
       "retail own race Tattoo Revenge red (retail 1339376)"
@@ -5723,7 +5942,7 @@
     {
      "value": 32,
      "name": "Revenge tattoo (dark blue)",
-     "id": 102623,
+     "id": 102646,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody32.blp",
      "sources": [
       "retail own race Tattoo Revenge dark blue (retail 1339382)"
@@ -5732,7 +5951,7 @@
     {
      "value": 33,
      "name": "Chaos tattoo (green)",
-     "id": 102624,
+     "id": 102647,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody33.blp",
      "sources": [
       "retail own race Tattoo Chaos green (retail 1339359)"
@@ -5741,7 +5960,7 @@
     {
      "value": 34,
      "name": "Chaos tattoo (red)",
-     "id": 102625,
+     "id": 102648,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody34.blp",
      "sources": [
       "retail own race Tattoo Chaos red (retail 1339377)"
@@ -5750,7 +5969,7 @@
     {
      "value": 35,
      "name": "Chaos tattoo (dark blue)",
-     "id": 102626,
+     "id": 102649,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody35.blp",
      "sources": [
       "retail own race Tattoo Chaos dark blue (retail 1339383)"
@@ -5763,7 +5982,7 @@
     {
      "value": 1,
      "name": "Lightforged Exalted tattoo",
-     "id": 102627,
+     "id": 102650,
      "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody01.blp",
      "sources": [
       "retail Lightforged Tattoo Exalted (retail 1620698)"
@@ -5772,7 +5991,7 @@
     {
      "value": 2,
      "name": "Lightforged Illustrious tattoo",
-     "id": 102628,
+     "id": 102651,
      "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody02.blp",
      "sources": [
       "retail Lightforged Tattoo Illustrious (retail 1620699)"
@@ -5781,7 +6000,7 @@
     {
      "value": 3,
      "name": "Lightforged Radiant tattoo",
-     "id": 102629,
+     "id": 102652,
      "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody03.blp",
      "sources": [
       "retail Lightforged Tattoo Radiant (retail 1620700)"
@@ -5790,10 +6009,19 @@
     {
      "value": 4,
      "name": "Lightforged gilded markings (gold)",
-     "id": 102630,
+     "id": 102653,
      "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody04.blp",
      "sources": [
       "baked split of colour(s) 32 (cut 32/5 - Foot, body)"
+     ]
+    },
+    {
+     "value": 5,
+     "name": "Fel lines",
+     "id": 102654,
+     "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody05.blp",
+     "sources": [
+      "baked split of colour(s) 30, 31 (cut 31/40 - hue, body)"
      ]
     }
    ]
@@ -5803,7 +6031,7 @@
     {
      "value": 1,
      "name": "Lightforged Exalted tattoo",
-     "id": 102631,
+     "id": 102655,
      "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody01.blp",
      "sources": [
       "retail Lightforged Tattoo Exalted (retail 1594296)"
@@ -5812,7 +6040,7 @@
     {
      "value": 2,
      "name": "Lightforged Illustrious tattoo",
-     "id": 102632,
+     "id": 102656,
      "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody02.blp",
      "sources": [
       "retail Lightforged Tattoo Illustrious (retail 1606077)"
@@ -5821,7 +6049,7 @@
     {
      "value": 3,
      "name": "Lightforged Radiant tattoo",
-     "id": 102633,
+     "id": 102657,
      "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody03.blp",
      "sources": [
       "retail Lightforged Tattoo Radiant (retail 1606078)"
@@ -5830,10 +6058,19 @@
     {
      "value": 4,
      "name": "Lightforged gilded markings (gold)",
-     "id": 102634,
+     "id": 102658,
      "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody04.blp",
      "sources": [
       "baked split of colour(s) 32 (cut 32/37 - Foot, body)"
+     ]
+    },
+    {
+     "value": 5,
+     "name": "Fel lines",
+     "id": 102659,
+     "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody05.blp",
+     "sources": [
+      "baked split of colour(s) 30, 31 (cut 31/17 - hue, body)"
      ]
     }
    ]
@@ -9503,6 +9740,424 @@
    "replacement_sub_race": "Kaldorei"
   },
   {
+   "race": 4,
+   "sex": 0,
+   "colour": 34,
+   "sub_race": "Illidari",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 37,
+      "design": "Illidari fel slashes",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 14,
+     "dE_body": 4.04,
+     "dE_face": 6.93
+    },
+    {
+     "colour": 13,
+     "dE_body": 8.29,
+     "dE_face": 9.08
+    },
+    {
+     "colour": 2,
+     "dE_body": 8.16,
+     "dE_face": 10.12
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 14,
+   "replacement_sub_race": "Illidari",
+   "replacement": 40,
+   "map_error": 9.52
+  },
+  {
+   "race": 4,
+   "sex": 0,
+   "colour": 35,
+   "sub_race": "Illidari",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 38,
+      "design": "Illidari runes",
+      "colour": "white"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 15,
+     "dE_body": 7.14,
+     "dE_face": 7.11
+    },
+    {
+     "colour": 1,
+     "dE_body": 10.62,
+     "dE_face": 10.71
+    },
+    {
+     "colour": 0,
+     "dE_body": 10.83,
+     "dE_face": 9.85
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 15,
+   "replacement_sub_race": "Illidari",
+   "replacement": 41,
+   "map_error": 2.37
+  },
+  {
+   "race": 4,
+   "sex": 0,
+   "colour": 36,
+   "sub_race": "Illidari",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 39,
+      "design": "Illidari runes",
+      "colour": "violet"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 20,
+     "dE_body": 6.18,
+     "dE_face": 5.9
+    },
+    {
+     "colour": 18,
+     "dE_body": 6.41,
+     "dE_face": 7.37
+    },
+    {
+     "colour": 2,
+     "dE_body": 8.34,
+     "dE_face": 7.55
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 20,
+   "replacement_sub_race": "Illidari",
+   "replacement": 42,
+   "map_error": 1.14
+  },
+  {
+   "race": 4,
+   "sex": 0,
+   "colour": 37,
+   "sub_race": "Illidari",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 40,
+      "design": "Illidari runes",
+      "colour": "blue"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 19,
+     "dE_body": 13.78,
+     "dE_face": 14.2
+    },
+    {
+     "colour": 20,
+     "dE_body": 14.26,
+     "dE_face": 13.62
+    },
+    {
+     "colour": 14,
+     "dE_body": 17.85,
+     "dE_face": 18.43
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 19,
+   "replacement_sub_race": "Illidari",
+   "replacement": 43,
+   "map_error": 1.72
+  },
+  {
+   "race": 4,
+   "sex": 1,
+   "colour": 26,
+   "sub_race": "Illidari",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 33,
+      "design": "Illidari fel slashes",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 19,
+     "dE_body": 27.53,
+     "dE_face": 25.15
+    },
+    {
+     "colour": 14,
+     "dE_body": 28.68,
+     "dE_face": 24.88
+    },
+    {
+     "colour": 2,
+     "dE_body": 30.42,
+     "dE_face": 25.64
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 19,
+   "replacement_sub_race": "Illidari",
+   "replacement": 35,
+   "map_error": 9.77
+  },
+  {
+   "race": 4,
+   "sex": 1,
+   "colour": 27,
+   "sub_race": "Illidari",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 34,
+      "design": "Illidari runes",
+      "colour": "white"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 17,
+     "dE_body": 2.74,
+     "dE_face": 3.38
+    },
+    {
+     "colour": 5,
+     "dE_body": 6.32,
+     "dE_face": 7.99
+    },
+    {
+     "colour": 1,
+     "dE_body": 8.54,
+     "dE_face": 7.16
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 17,
+   "replacement_sub_race": "Illidari",
+   "replacement": 36,
+   "map_error": 3.04
+  },
+  {
+   "race": 4,
+   "sex": 1,
+   "colour": 28,
+   "sub_race": "Illidari",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 35,
+      "design": "Illidari runes",
+      "colour": "violet"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 18,
+     "dE_body": 4.06,
+     "dE_face": 4.07
+    },
+    {
+     "colour": 19,
+     "dE_body": 6.08,
+     "dE_face": 5.79
+    },
+    {
+     "colour": 34,
+     "dE_body": 6.57,
+     "dE_face": 9.71
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 18,
+   "replacement_sub_race": "Illidari",
+   "replacement": 37,
+   "map_error": 1.45
+  },
+  {
+   "race": 4,
+   "sex": 1,
+   "colour": 29,
+   "sub_race": "Illidari",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 36,
+      "design": "Illidari runes",
+      "colour": "blue"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 19,
+     "dE_body": 18.7,
+     "dE_face": 18.81
+    },
+    {
+     "colour": 14,
+     "dE_body": 21.69,
+     "dE_face": 21.71
+    },
+    {
+     "colour": 18,
+     "dE_body": 25.69,
+     "dE_face": 25.53
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 19,
+   "replacement_sub_race": "Illidari",
+   "replacement": 38,
+   "map_error": 1.72
+  },
+  {
+   "race": 4,
+   "sex": 1,
+   "colour": 30,
+   "sub_race": "Cenarion",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 37,
+      "design": "Cenarion leaf tattoo",
+      "colour": "green"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 3,
+     "dE_body": 5.06,
+     "dE_face": 6.15
+    },
+    {
+     "colour": 33,
+     "dE_body": 6.79,
+     "dE_face": 7.81
+    },
+    {
+     "colour": 6,
+     "dE_body": 7.86,
+     "dE_face": 8.36
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 3,
+   "replacement_sub_race": "Cenarion",
+   "replacement": 39,
+   "map_error": 9.15
+  },
+  {
+   "race": 4,
+   "sex": 1,
+   "colour": 31,
+   "sub_race": "Cenarion",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 38,
+      "design": "Cenarion leaf tattoo",
+      "colour": "purple"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 14,
+     "dE_body": 4.95,
+     "dE_face": 6.64
+    },
+    {
+     "colour": 13,
+     "dE_body": 8.31,
+     "dE_face": 8.27
+    },
+    {
+     "colour": 1,
+     "dE_body": 8.98,
+     "dE_face": 8.97
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 14,
+   "replacement_sub_race": "Cenarion",
+   "replacement": 40,
+   "map_error": 6.79
+  },
+  {
+   "race": 4,
+   "sex": 1,
+   "colour": 32,
+   "sub_race": "Cenarion",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 39,
+      "design": "Cenarion leaf tattoo",
+      "colour": "blue"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 19,
+     "dE_body": 0.34,
+     "dE_face": 7.82
+    },
+    {
+     "colour": 18,
+     "dE_body": 8.4,
+     "dE_face": 0.05
+    },
+    {
+     "colour": 34,
+     "dE_body": 12.84,
+     "dE_face": 7.21
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 19,
+   "replacement_sub_race": "Cenarion",
+   "replacement": 41,
+   "map_error": 7.55
+  },
+  {
    "race": 5,
    "sex": 1,
    "colour": 22,
@@ -9833,6 +10488,452 @@
    "action": "retired",
    "replacement": 0,
    "replacement_sub_race": "Tauren"
+  },
+  {
+   "race": 7,
+   "sex": 0,
+   "colour": 13,
+   "sub_race": "Cultist",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 1,
+      "design": "Cultist mask paint",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 12,
+     "dE_body": 33.43,
+     "dE_face": 33.39
+    },
+    {
+     "colour": 2,
+     "dE_body": 33.75,
+     "dE_face": 35.4
+    },
+    {
+     "colour": 0,
+     "dE_body": 35.56,
+     "dE_face": 36.54
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 12,
+   "replacement_sub_race": "Cultist",
+   "replacement": 21,
+   "map_error": 1.13
+  },
+  {
+   "race": 7,
+   "sex": 0,
+   "colour": 14,
+   "sub_race": "Cultist",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 1,
+      "design": "Cultist mask paint",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 3,
+     "dE_body": 33.75,
+     "dE_face": 35.21
+    },
+    {
+     "colour": 2,
+     "dE_body": 34.4,
+     "dE_face": 35.88
+    },
+    {
+     "colour": 11,
+     "dE_body": 37.18,
+     "dE_face": 39.08
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 3,
+   "replacement_sub_race": "Cultist",
+   "replacement": 22,
+   "map_error": 2.03
+  },
+  {
+   "race": 7,
+   "sex": 1,
+   "colour": 5,
+   "sub_race": "Cultist",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 1,
+      "design": "Cultist mask paint",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 10,
+     "dE_body": 25.43,
+     "dE_face": 26.25
+    },
+    {
+     "colour": 2,
+     "dE_body": 25.08,
+     "dE_face": 26.7
+    },
+    {
+     "colour": 6,
+     "dE_body": 26.51,
+     "dE_face": 27.86
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 10,
+   "replacement_sub_race": "Cultist",
+   "replacement": 21,
+   "map_error": 2.57
+  },
+  {
+   "race": 7,
+   "sex": 1,
+   "colour": 13,
+   "sub_race": "Cultist",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 1,
+      "design": "Cultist mask paint",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 12,
+     "dE_body": 30.3,
+     "dE_face": 32.33
+    },
+    {
+     "colour": 0,
+     "dE_body": 32.23,
+     "dE_face": 33.47
+    },
+    {
+     "colour": 1,
+     "dE_body": 33.25,
+     "dE_face": 34.08
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 12,
+   "replacement_sub_race": "Cultist",
+   "replacement": 22,
+   "map_error": 0.77
+  },
+  {
+   "race": 7,
+   "sex": 1,
+   "colour": 14,
+   "sub_race": "Cultist",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 1,
+      "design": "Cultist mask paint",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 2,
+     "dE_body": 32.08,
+     "dE_face": 32.83
+    },
+    {
+     "colour": 6,
+     "dE_body": 32.84,
+     "dE_face": 33.6
+    },
+    {
+     "colour": 10,
+     "dE_body": 33.33,
+     "dE_face": 33.7
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 2,
+   "replacement_sub_race": "Cultist",
+   "replacement": 23,
+   "map_error": 1.84
+  },
+  {
+   "race": 8,
+   "sex": 0,
+   "colour": 37,
+   "sub_race": "Sand Troll",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 83,
+      "design": "Tiger stripes",
+      "colour": ""
+     }
+    ],
+    "Body Markings": [
+     {
+      "value": 19,
+      "design": "Tiger stripes",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 33,
+     "dE_body": 10.5,
+     "dE_face": 9.62
+    },
+    {
+     "colour": 34,
+     "dE_body": 14.16,
+     "dE_face": 13.89
+    },
+    {
+     "colour": 19,
+     "dE_body": 15.89,
+     "dE_face": 15.92
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 33,
+   "replacement_sub_race": "Sand Troll",
+   "replacement": 39,
+   "map_error": 4.4
+  },
+  {
+   "race": 8,
+   "sex": 0,
+   "colour": 38,
+   "sub_race": "Sand Troll",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 84,
+      "design": "Blood paint",
+      "colour": "red"
+     }
+    ],
+    "Body Markings": [
+     {
+      "value": 20,
+      "design": "Blood paint",
+      "colour": "red"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 31,
+     "dE_body": 9.17,
+     "dE_face": 11.6
+    },
+    {
+     "colour": 32,
+     "dE_body": 7.03,
+     "dE_face": 14.07
+    },
+    {
+     "colour": 30,
+     "dE_body": 18.8,
+     "dE_face": 15.52
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 31,
+   "replacement_sub_race": "Sand Troll",
+   "replacement": 40,
+   "map_error": 2.83
+  },
+  {
+   "race": 8,
+   "sex": 1,
+   "colour": 37,
+   "sub_race": "Sand Troll",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 21,
+      "design": "Tiger stripes",
+      "colour": ""
+     }
+    ],
+    "Body Markings": [
+     {
+      "value": 21,
+      "design": "Tiger stripes",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 33,
+     "dE_body": 4.59,
+     "dE_face": 5.79
+    },
+    {
+     "colour": 34,
+     "dE_body": 7.59,
+     "dE_face": 10.36
+    },
+    {
+     "colour": 36,
+     "dE_body": 15.29,
+     "dE_face": 17.81
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 33,
+   "replacement_sub_race": "Sand Troll",
+   "replacement": 39,
+   "map_error": 4.49
+  },
+  {
+   "race": 8,
+   "sex": 1,
+   "colour": 38,
+   "sub_race": "Sand Troll",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 22,
+      "design": "Blood paint",
+      "colour": "red"
+     }
+    ],
+    "Body Markings": [
+     {
+      "value": 22,
+      "design": "Blood paint",
+      "colour": "red"
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 32,
+     "dE_body": 6.58,
+     "dE_face": 7.76
+    },
+    {
+     "colour": 31,
+     "dE_body": 8.56,
+     "dE_face": 6.33
+    },
+    {
+     "colour": 30,
+     "dE_body": 19.66,
+     "dE_face": 19.17
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 32,
+   "replacement_sub_race": "Sand Troll",
+   "replacement": 40,
+   "map_error": 1.72
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "colour": 34,
+   "sub_race": "Void Elf",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 1,
+      "design": "Void star paint",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 64,
+     "dE_body": 21.84,
+     "dE_face": 17.52
+    },
+    {
+     "colour": 67,
+     "dE_body": 21.85,
+     "dE_face": 18.46
+    },
+    {
+     "colour": 32,
+     "dE_body": 22.87,
+     "dE_face": 19.37
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 64,
+   "replacement_sub_race": "Void Elf",
+   "replacement": 94,
+   "map_error": 7.33
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "colour": 35,
+   "sub_race": "Void Elf",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 1,
+      "design": "Void star paint",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 65,
+     "dE_body": 7.45,
+     "dE_face": 13.71
+    },
+    {
+     "colour": 66,
+     "dE_body": 8.79,
+     "dE_face": 14.79
+    },
+    {
+     "colour": 33,
+     "dE_body": 20.62,
+     "dE_face": 20.94
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 65,
+   "replacement_sub_race": "Void Elf",
+   "replacement": 95,
+   "map_error": 7.07
   },
   {
    "race": 10,
@@ -10305,6 +11406,82 @@
   {
    "race": 10,
    "sex": 1,
+   "colour": 34,
+   "sub_race": "Void Elf",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 1,
+      "design": "Void tear paint",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 64,
+     "dE_body": 17.59,
+     "dE_face": 16.53
+    },
+    {
+     "colour": 67,
+     "dE_body": 17.86,
+     "dE_face": 17.01
+    },
+    {
+     "colour": 63,
+     "dE_body": 19.79,
+     "dE_face": 17.75
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 64,
+   "replacement_sub_race": "Void Elf",
+   "replacement": 94,
+   "map_error": 3.04
+  },
+  {
+   "race": 10,
+   "sex": 1,
+   "colour": 35,
+   "sub_race": "Void Elf",
+   "layers": {
+    "Face Markings": [
+     {
+      "value": 1,
+      "design": "Void tear paint",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 66,
+     "dE_body": 3.22,
+     "dE_face": 12.59
+    },
+    {
+     "colour": 65,
+     "dE_body": 8.8,
+     "dE_face": 15.88
+    },
+    {
+     "colour": 33,
+     "dE_body": 22.46,
+     "dE_face": 22.06
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 66,
+   "replacement_sub_race": "Void Elf",
+   "replacement": 95,
+   "map_error": 2.94
+  },
+  {
+   "race": 10,
+   "sex": 1,
    "colour": 48,
    "sub_race": null,
    "layers": {
@@ -10701,6 +11878,82 @@
   {
    "race": 11,
    "sex": 0,
+   "colour": 30,
+   "sub_race": "Eredar",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 5,
+      "design": "Fel lines",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 17,
+     "dE_body": 4.79,
+     "dE_face": 7.12
+    },
+    {
+     "colour": 18,
+     "dE_body": 19.63,
+     "dE_face": 12.22
+    },
+    {
+     "colour": 19,
+     "dE_body": 30.18,
+     "dE_face": 23.23
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 17,
+   "replacement_sub_race": "Eredar",
+   "replacement": 41,
+   "map_error": 8.42
+  },
+  {
+   "race": 11,
+   "sex": 0,
+   "colour": 31,
+   "sub_race": "Eredar",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 5,
+      "design": "Fel lines",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 28,
+     "dE_body": 9.7,
+     "dE_face": 11.04
+    },
+    {
+     "colour": 4,
+     "dE_body": 12.26,
+     "dE_face": 10.41
+    },
+    {
+     "colour": 27,
+     "dE_body": 14.66,
+     "dE_face": 15.72
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 28,
+   "replacement_sub_race": "Eredar",
+   "replacement": 42,
+   "map_error": 12.28
+  },
+  {
+   "race": 11,
+   "sex": 0,
    "colour": 32,
    "sub_race": null,
    "layers": {
@@ -10733,6 +11986,82 @@
    "action": "retired",
    "replacement": 5,
    "replacement_sub_race": "Lightforged"
+  },
+  {
+   "race": 11,
+   "sex": 1,
+   "colour": 30,
+   "sub_race": "Eredar",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 5,
+      "design": "Fel lines",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 15,
+     "dE_body": 13.29,
+     "dE_face": 15.75
+    },
+    {
+     "colour": 16,
+     "dE_body": 23.11,
+     "dE_face": 11.02
+    },
+    {
+     "colour": 17,
+     "dE_body": 32.07,
+     "dE_face": 23.13
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 15,
+   "replacement_sub_race": "Eredar",
+   "replacement": 42,
+   "map_error": 10.76
+  },
+  {
+   "race": 11,
+   "sex": 1,
+   "colour": 31,
+   "sub_race": "Eredar",
+   "layers": {
+    "Body Markings": [
+     {
+      "value": 5,
+      "design": "Fel lines",
+      "colour": ""
+     }
+    ]
+   },
+   "nearest_plain": [
+    {
+     "colour": 4,
+     "dE_body": 15.83,
+     "dE_face": 10.31
+    },
+    {
+     "colour": 27,
+     "dE_body": 18.29,
+     "dE_face": 13.86
+    },
+    {
+     "colour": 26,
+     "dE_body": 19.66,
+     "dE_face": 15.51
+    }
+   ],
+   "round": 3,
+   "action": "clean colour",
+   "clean_from": 4,
+   "replacement_sub_race": "Eredar",
+   "replacement": 43,
+   "map_error": 14.03
   },
   {
    "race": 11,
@@ -10854,6 +12183,7 @@
      41,
      51,
      52,
+     53,
      51,
      52,
      53
@@ -10894,6 +12224,84 @@
     ]
    }
   },
+  "NightElf Male": {
+   "Illidari": {
+    "remove": [
+     34,
+     35,
+     36,
+     37
+    ],
+    "add": [
+     40,
+     41,
+     42,
+     43
+    ],
+    "new_list": [
+     33,
+     40,
+     41,
+     42,
+     43
+    ]
+   },
+   "Cenarion": {
+    "remove": [],
+    "add": [
+     38,
+     39
+    ],
+    "new_list": [
+     38,
+     39,
+     38,
+     39
+    ]
+   }
+  },
+  "NightElf Female": {
+   "Illidari": {
+    "remove": [
+     26,
+     27,
+     28,
+     29
+    ],
+    "add": [
+     35,
+     36,
+     37,
+     38
+    ],
+    "new_list": [
+     25,
+     35,
+     36,
+     37,
+     38
+    ]
+   },
+   "Cenarion": {
+    "remove": [
+     30,
+     31,
+     32
+    ],
+    "add": [
+     39,
+     40,
+     41
+    ],
+    "new_list": [
+     33,
+     34,
+     39,
+     40,
+     41
+    ]
+   }
+  },
   "Scourge Female": {
    "Forsaken": {
     "remove": [],
@@ -10919,7 +12327,174 @@
     ]
    }
   },
+  "Gnome Male": {
+   "Cultist": {
+    "remove": [
+     13,
+     14
+    ],
+    "add": [
+     21,
+     22
+    ],
+    "new_list": [
+     21,
+     22
+    ]
+   }
+  },
+  "Gnome Female": {
+   "Cultist": {
+    "remove": [
+     5,
+     13,
+     14
+    ],
+    "add": [
+     21,
+     22,
+     23
+    ],
+    "new_list": [
+     21,
+     22,
+     23
+    ]
+   }
+  },
+  "Troll Male": {
+   "Sand Troll": {
+    "remove": [
+     37,
+     38
+    ],
+    "add": [
+     39,
+     40
+    ],
+    "new_list": [
+     22,
+     32,
+     33,
+     34,
+     35,
+     36,
+     39,
+     40
+    ]
+   }
+  },
+  "Troll Female": {
+   "Sand Troll": {
+    "remove": [
+     37,
+     38
+    ],
+    "add": [
+     39,
+     40
+    ],
+    "new_list": [
+     22,
+     32,
+     33,
+     34,
+     35,
+     36,
+     39,
+     40
+    ]
+   }
+  },
+  "BloodElf Male": {
+   "Void Elf": {
+    "remove": [
+     34,
+     35
+    ],
+    "add": [
+     94,
+     95
+    ],
+    "new_list": [
+     62,
+     63,
+     64,
+     65,
+     66,
+     67,
+     68,
+     94,
+     95
+    ]
+   }
+  },
+  "BloodElf Female": {
+   "Void Elf": {
+    "remove": [
+     34,
+     35
+    ],
+    "add": [
+     94,
+     95
+    ],
+    "new_list": [
+     62,
+     63,
+     64,
+     65,
+     66,
+     67,
+     68,
+     94,
+     95
+    ]
+   }
+  },
+  "Draenei Male": {
+   "Eredar": {
+    "remove": [
+     30,
+     31
+    ],
+    "add": [
+     41,
+     42
+    ],
+    "new_list": [
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     41,
+     42
+    ]
+   }
+  },
   "Draenei Female": {
+   "Eredar": {
+    "remove": [
+     30,
+     31
+    ],
+    "add": [
+     42,
+     43
+    ],
+    "new_list": [
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     42,
+     43
+    ]
+   },
    "Lightforged": {
     "remove": [],
     "add": [
@@ -10935,21 +12510,6 @@
      39,
      41,
      41
-    ]
-   }
-  },
-  "NightElf Male": {
-   "Cenarion": {
-    "remove": [],
-    "add": [
-     38,
-     39
-    ],
-    "new_list": [
-     38,
-     39,
-     38,
-     39
     ]
    }
   },
@@ -13171,7 +14731,11 @@
      "33": "Cenarion",
      "34": "Cenarion",
      "35": "Cenarion",
-     "36": "Cenarion"
+     "36": "Cenarion",
+     "37": "Illidari",
+     "38": "Illidari",
+     "39": "Illidari",
+     "40": "Illidari"
     },
     "Scars": {
      "1": "Kaldorei",
@@ -13243,7 +14807,11 @@
      25,
      26,
      27,
-     28
+     28,
+     37,
+     38,
+     39,
+     40
     ],
     "filter 9 (Scars)": [
      0
@@ -13346,7 +14914,14 @@
      "29": "Kaldorei",
      "30": "Kaldorei",
      "31": "Kaldorei",
-     "32": "Kaldorei"
+     "32": "Kaldorei",
+     "33": "Illidari",
+     "34": "Illidari",
+     "35": "Illidari",
+     "36": "Illidari",
+     "37": "Cenarion",
+     "38": "Cenarion",
+     "39": "Cenarion"
     },
     "Scars": {
      "1": "Kaldorei",
@@ -13432,7 +15007,11 @@
      21,
      22,
      25,
-     26
+     26,
+     33,
+     34,
+     35,
+     36
     ],
     "filter 9 (Scars)": [
      0,
@@ -13469,7 +15048,10 @@
      23,
      24,
      25,
-     26
+     26,
+     37,
+     38,
+     39
     ],
     "filter 9 (Scars)": [
      0,
@@ -13724,6 +15306,52 @@
     ]
    }
   },
+  "Gnome Male": {
+   "assign": {
+    "Face Markings": {
+     "1": "Cultist"
+    }
+   },
+   "Gnome": {
+    "filter 7 (Face Markings)": [
+     0
+    ]
+   },
+   "Leper": {
+    "filter 7 (Face Markings)": [
+     0
+    ]
+   },
+   "Cultist": {
+    "filter 7 (Face Markings)": [
+     0,
+     1
+    ]
+   }
+  },
+  "Gnome Female": {
+   "assign": {
+    "Face Markings": {
+     "1": "Cultist"
+    }
+   },
+   "Gnome": {
+    "filter 7 (Face Markings)": [
+     0
+    ]
+   },
+   "Leper": {
+    "filter 7 (Face Markings)": [
+     0
+    ]
+   },
+   "Cultist": {
+    "filter 7 (Face Markings)": [
+     0,
+     1
+    ]
+   }
+  },
   "Troll Male": {
    "assign": {
     "Face Markings": {
@@ -13808,7 +15436,9 @@
      "79": "Dark Troll",
      "80": "Dark Troll",
      "81": "Dark Troll",
-     "82": "Dark Troll"
+     "82": "Dark Troll",
+     "83": "Sand Troll",
+     "84": "Sand Troll"
     },
     "Body Markings": {
      "1": "Dark Troll",
@@ -13828,7 +15458,9 @@
      "15": "Dark Troll",
      "16": "Dark Troll",
      "17": "Dark Troll",
-     "18": "Dark Troll"
+     "18": "Dark Troll",
+     "19": "Sand Troll",
+     "20": "Sand Troll"
     }
    },
    "Darkspear": {
@@ -13947,7 +15579,9 @@
      59,
      60,
      61,
-     62
+     62,
+     83,
+     84
     ],
     "filter 8 (Body Markings)": [
      0,
@@ -13956,7 +15590,9 @@
      11,
      12,
      13,
-     14
+     14,
+     19,
+     20
     ]
    }
   },
@@ -13982,7 +15618,9 @@
      "17": "Dark Troll",
      "18": "Dark Troll",
      "19": "common",
-     "20": "common"
+     "20": "common",
+     "21": "Sand Troll",
+     "22": "Sand Troll"
     },
     "Body Markings": {
      "1": "Dark Troll",
@@ -14004,7 +15642,9 @@
      "17": "Dark Troll",
      "18": "Dark Troll",
      "19": "Sand Troll",
-     "20": "Sand Troll"
+     "20": "Sand Troll",
+     "21": "Sand Troll",
+     "22": "Sand Troll"
     }
    },
    "Darkspear": {
@@ -14061,7 +15701,9 @@
      14,
      15,
      19,
-     20
+     20,
+     21,
+     22
     ],
     "filter 8 (Body Markings)": [
      0,
@@ -14072,12 +15714,17 @@
      14,
      15,
      19,
-     20
+     20,
+     21,
+     22
     ]
    }
   },
   "BloodElf Male": {
    "assign": {
+    "Face Markings": {
+     "1": "Void Elf"
+    },
     "Body Markings": {
      "1": "Blood Elf",
      "2": "Void Elf",
@@ -14115,6 +15762,9 @@
     }
    },
    "Blood Elf": {
+    "filter 7 (Face Markings)": [
+     0
+    ],
     "filter 8 (Body Markings)": [
      0,
      1,
@@ -14141,6 +15791,10 @@
     ]
    },
    "Void Elf": {
+    "filter 7 (Face Markings)": [
+     0,
+     1
+    ],
     "filter 8 (Body Markings)": [
      0,
      2,
@@ -14161,6 +15815,9 @@
   },
   "BloodElf Female": {
    "assign": {
+    "Face Markings": {
+     "1": "Void Elf"
+    },
     "Body Markings": {
      "1": "Blood Elf",
      "2": "Void Elf",
@@ -14200,6 +15857,9 @@
     }
    },
    "Blood Elf": {
+    "filter 7 (Face Markings)": [
+     0
+    ],
     "filter 8 (Body Markings)": [
      0,
      1,
@@ -14226,6 +15886,10 @@
     ]
    },
    "Void Elf": {
+    "filter 7 (Face Markings)": [
+     0,
+     1
+    ],
     "filter 8 (Body Markings)": [
      0,
      2,
@@ -14252,7 +15916,8 @@
      "1": "Lightforged",
      "2": "Lightforged",
      "3": "Lightforged",
-     "4": "Lightforged"
+     "4": "Lightforged",
+     "5": "Eredar"
     }
    },
    "Draenei": {
@@ -14271,7 +15936,8 @@
    },
    "Eredar": {
     "filter 8 (Body Markings)": [
-     0
+     0,
+     5
     ]
    }
   },
@@ -14281,7 +15947,8 @@
      "1": "Lightforged",
      "2": "Lightforged",
      "3": "Lightforged",
-     "4": "Lightforged"
+     "4": "Lightforged",
+     "5": "Eredar"
     }
    },
    "Draenei": {
@@ -14300,7 +15967,8 @@
    },
    "Eredar": {
     "filter 8 (Body Markings)": [
-     0
+     0,
+     5
     ]
    }
   }
@@ -15416,5 +17084,6 @@
    "value": 76
   }
  ],
- "round2_guid_cutoff": 3536
+ "round2_guid_cutoff": 3536,
+ "round3_guid_cutoff": 3763
 }

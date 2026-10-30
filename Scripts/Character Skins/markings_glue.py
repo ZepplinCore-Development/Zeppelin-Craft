@@ -14,7 +14,7 @@ REPORT = Path(__file__).with_name('markings_regroup.json')
 BEGIN = '-- BEGIN GENERATED marking gates (Scripts/Character Skins/markings_glue.py) - do not edit by hand'
 END = '-- END GENERATED marking gates'
 RACES = {'Human': 'HUMAN', 'Orc': 'ORC', 'Dwarf': 'DWARF', 'NightElf': 'NIGHTELF', 'Scourge': 'SCOURGE',
-         'Tauren': 'TAUREN', 'Troll': 'TROLL', 'BloodElf': 'BLOODELF', 'Draenei': 'DRAENEI'}
+         'Tauren': 'TAUREN', 'Gnome': 'GNOME', 'Troll': 'TROLL', 'BloodElf': 'BLOODELF', 'Draenei': 'DRAENEI'}
 SEXES = {'Male': 'MALE', 'Female': 'FEMALE'}
 
 

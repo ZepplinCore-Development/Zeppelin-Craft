@@ -467,7 +467,7 @@ def split_markings(files, query, preview=None, table=None, extra=False):
             design = ' '.join(words[:-1]) if colour else name
             out.append({'race': race, 'sex': g, 'old_section': section, 'old_type': None if extra else kind,
                         'kind': 'marking', 'design': design, 'colour': colour, 'pairs': pairs,
-                        **({'extra': True, 'round2': True} if extra else {}),
+                        **({'extra': True, 'round2': True, 'round': 3 if kind >= 111 else 2} if extra else {}),
                         'source': f'baked split of colour(s) {", ".join(str(d) for d, _ in pairs)} ({how}, {parts})',
                         'image': Image.fromarray(layer, 'RGBA')})
             if preview:
@@ -501,7 +501,7 @@ ROUND2 = {
 # and jewellery (night elf F 33 / 34 chains, undead F 25 / 26 harness), death knight glow (dwarf M 20 / F 13, draenei
 # 13-16, gnome F 9). Bases are the plain colour
 # with the closest structure (affine fit), the cut is tone-matched to it. Same (race, sex) keys: the n values are new.
-ROUND3 = {
+ROUND3 = {                                       # n >= 111: the source is flagged round 3 (own migration)
     (4, 0): [(7, 112, 'Illidari fel slashes', [(34, 19)], 'body', (100, 60)),
              (7, 113, 'Illidari runes white', [(35, 23)], 'body', (100, 60)),
              (7, 114, 'Illidari runes violet', [(36, 19)], 'body', (100, 60)),
@@ -524,8 +524,6 @@ ROUND3 = {
     (11, 0): [(7, 111, 'Fel lines', [(30, 20), (31, 40)], 'body', (100, 60))],
     (11, 1): [(7, 111, 'Fel lines', [(30, 4), (31, 17)], 'body', (100, 60))],
 }
-for _k, _v in ROUND3.items():
-    ROUND2.setdefault(_k, []).extend(_v)
 # round-3 cuts whose marking shares regions with baked clothing: keep only the pixels near the design's own hue
 # (night elf female Cenarion 30-32 carry bead cords over the leaf tattoos)
 # night elf fel slashes and draenei fel lines: only the green fel glow, the cut otherwise takes the demon skin with it
@@ -682,8 +680,9 @@ def round2_sources(files=None, query=None, preview=None):
     troll male facial-hair paint."""
     files = files or resolver()
     query = query or _dbc_query_fn('live')
+    # round 3 last: values are numbered in source order, so the shipped round-2 values never move
     return (split_markings(files, query, preview, ROUND2, extra=True) + face_split_sources(files, query, preview)
-            + troll_paint_sources(files, query, preview))
+            + troll_paint_sources(files, query, preview) + split_markings(files, query, preview, ROUND3, extra=True))
 
 
 def layer_sources(files=None, query=None):

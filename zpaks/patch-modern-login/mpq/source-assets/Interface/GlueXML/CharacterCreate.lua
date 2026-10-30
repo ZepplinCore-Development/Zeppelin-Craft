@@ -135,8 +135,8 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85} },
 		{ name = "Void Elf", lore = "The void elves were sin'dorei who studied the forbidden powers of the Void and were cast out of Silvermoon for it. Pulled back from the brink of madness by their own iron will, they learned to walk the line between shadow and self. Unwelcome at home but too useful to ignore, they lend their dark gifts to the Horde, ever watchful of the whispers within.", icon = "VOIDELF",
-			MALE = {34, 35, 62, 63, 64, 65, 66, 67, 68},
-			FEMALE = {34, 35, 62, 63, 64, 65, 66, 67, 68} },
+			MALE = {62, 63, 64, 65, 66, 67, 68, 94, 95},	-- 94, 95 = 34, 35 without their void paint (Face Markings 1)
+			FEMALE = {62, 63, 64, 65, 66, 67, 68, 94, 95} },
 	},
 	-- gnome 5, 6 (male) are the NPC leper skins with no face rows
 	["GNOME"] = {
@@ -148,8 +148,8 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {15, 16, 17},
 			FEMALE = {15, 16, 17} },
 		{ name = "Cultist", lore = "Not every gnome who fled Gnomeregan returned to the light. The cultists found answers in forbidden tomes and whispered rites, marking their faces with ritual paint and trading tinkering for darker arts. Those who stand with the Alliance swear their knowledge now serves it, though few gnomes sleep easily beside them.", title = "Cultist Gnome", icon = "CULTISTGNOME",
-			MALE = {13, 14},
-			FEMALE = {5, 13, 14} },
+			MALE = {21, 22},	-- = 13, 14 without the cultist mask paint (Face Markings 1, F-230 round 3)
+			FEMALE = {21, 22, 23} },	-- = 5, 13, 14 clean
 	},
 	["DRAENEI"] = {
 		shared = { MALE = {14, 15, 16}, FEMALE = {12, 13, 14} },
@@ -160,8 +160,8 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {5, 33, 34, 35, 37, 38, 39},	-- 32 baked the gilded markings: retired to 5 + Body Markings 4 (F-230 round 2)
 			FEMALE = {5, 33, 34, 35, 37, 38, 39, 41} },	-- 41 = 32 without its gilded markings
 		{ name = "Eredar", lore = "Long before the draenei fled Argus, their people were the eredar, a race of brilliant mages and scholars. These eredar never bowed to Sargeras, yet still bear the old look of Argus. Wary of their own reflection in the Legion's ranks, they seek to prove that their people's legacy is not only darkness.", icon = "EREDAR",
-			MALE = {17, 18, 19, 20, 21, 22, 30, 31},
-			FEMALE = {15, 16, 17, 18, 19, 20, 30, 31} },
+			MALE = {17, 18, 19, 20, 21, 22, 41, 42},	-- 41, 42 = 30, 31 without the fel lines (Body Markings 5, F-230 round 3)
+			FEMALE = {15, 16, 17, 18, 19, 20, 42, 43} },
 	},
 	-- Grimtotem = the black-furred painted colours 39-41 (user, 2026-10-28)
 	["TAUREN"] = {
@@ -183,8 +183,8 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {24, 25, 26, 27, 28, 29, 30},
 			FEMALE = {24, 25, 26, 27, 28, 29, 30} },
 		{ name = "Sand Troll", lore = "The Sandfury trolls of Zul'Farrak endured the deserts of Tanaris, their skin burned to the colour of the dunes. Hardened by heat and scarcity, they are cunning raiders and keepers of savage rites. Those who join the Horde trade raiding for war, and bring the desert's endurance with them.", title = "Sand Troll", icon = "SANDTROLL", faces = TROLL_FACES,
-			MALE = {22, 32, 33, 34, 35, 36, 37, 38},
-			FEMALE = {22, 32, 33, 34, 35, 36, 37, 38} },
+			MALE = {22, 32, 33, 34, 35, 36, 39, 40},	-- 39, 40 = 37, 38 without tiger stripes / blood paint (F-230 round 3)
+			FEMALE = {22, 32, 33, 34, 35, 36, 39, 40} },
 	},
 	-- Cultist (user, 2026-10-29): the pale, painted and tattooed skins; the marked faces (blood tears, dark sockets)
 	-- are Cultist's own. Cultist itself offers every face, because its skins 18-25 have no rows for the marked ones.
@@ -208,12 +208,12 @@ CHAR_CREATE_SUBRACES = {
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24} },
 		{ name = "Illidari", lore = "The Illidari are night elves who followed Illidan Stormrage and drank the fel to hunt the Burning Legion with its own power. Scarred and rune-marked, they emerged from the Black Temple and Mardum as the Legion's most hated foes. Their people still distrust them, but Tyrande has let them return to fight beside the Alliance.", title = "Illidari", icon = "ILLIDARI",
 			faces = { MALE = {5, 14} },	-- the blindfolded face (20 / 27 = 5 / 14 + the cheek marks, now Face Markings 21)
-			MALE = {33, 34, 35, 36, 37},
-			FEMALE = {25, 26, 27, 28, 29} },
+			MALE = {33, 40, 41, 42, 43},	-- 40-43 = 34-37 without the fel slashes / runes, now Body Markings 37-40 (F-230 round 3)
+			FEMALE = {25, 35, 36, 37, 38} },	-- 35-38 = 26-29 clean (Body Markings 33-36); 33 / 25 keep their fire demon skin
 		{ name = "Cenarion", lore = "Sworn to the Cenarion Circle and the Emerald Dream, these night elves bear the marks of Moonglade's rites on their skin. They are the guardians of Kalimdor's wild places, from Ashenvale's glades to the slopes of Mount Hyjal. Where the Alliance marches into the wild, they walk beside it as its keepers.", title = "Cenarion Circle", icon = "CENARION",
 			faces = { MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17} },	-- plain faces: the tattooed faces 18-31 are plain faces + Face Markings 15-20 now
 			MALE = {38, 39},	-- copies of 0 and 5: colours 25-32 were 0 / 5 + body tattoos, now Body Markings 29-36 (F-230 round 2)
-			FEMALE = {30, 31, 32, 33, 34} },
+			FEMALE = {33, 34, 39, 40, 41} },	-- 39-41 = 30-32 without the leaf tattoos (Body Markings 37-39); 33 / 34 keep their jewellery
 	},
 	["SCOURGE"] = {
 		{ name = "Forsaken", icon = "SCOURGE",
@@ -245,12 +245,12 @@ CHAR_CREATE_SUBRACES = {
 CHAR_CREATE_MARK_GATES = {
 	["BLOODELF"] = {
 		["Blood Elf"] = {
-			MALE = { [8] = {0, 1, 3, 5, 7, 9, 11, 13, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26, 28, 29, 31, 32} },
-			FEMALE = { [8] = {0, 1, 3, 5, 7, 9, 11, 13, 14, 17, 18, 19, 21, 22, 24, 25, 27, 28, 30, 31, 33, 34} },
+			MALE = { [7] = {0}, [8] = {0, 1, 3, 5, 7, 9, 11, 13, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26, 28, 29, 31, 32} },
+			FEMALE = { [7] = {0}, [8] = {0, 1, 3, 5, 7, 9, 11, 13, 14, 17, 18, 19, 21, 22, 24, 25, 27, 28, 30, 31, 33, 34} },
 		},
 		["Void Elf"] = {
-			MALE = { [8] = {0, 2, 4, 6, 8, 10, 12, 14, 15, 16, 22, 27, 30, 33} },
-			FEMALE = { [8] = {0, 2, 4, 6, 8, 10, 12, 14, 15, 16, 20, 23, 26, 29, 32, 35} },
+			MALE = { [7] = {0, 1}, [8] = {0, 2, 4, 6, 8, 10, 12, 14, 15, 16, 22, 27, 30, 33} },
+			FEMALE = { [7] = {0, 1}, [8] = {0, 2, 4, 6, 8, 10, 12, 14, 15, 16, 20, 23, 26, 29, 32, 35} },
 		},
 	},
 	["DRAENEI"] = {
@@ -259,8 +259,8 @@ CHAR_CREATE_MARK_GATES = {
 			FEMALE = { [8] = {0} },
 		},
 		["Eredar"] = {
-			MALE = { [8] = {0} },
-			FEMALE = { [8] = {0} },
+			MALE = { [8] = {0, 5} },
+			FEMALE = { [8] = {0, 5} },
 		},
 		["Lightforged"] = {
 			MALE = { [8] = {0, 1, 2, 3, 4} },
@@ -281,6 +281,20 @@ CHAR_CREATE_MARK_GATES = {
 			FEMALE = { [7] = {0, 1, 4, 5, 8, 9, 12, 13, 16, 17, 18}, [8] = {0, 1, 4, 5, 8, 9, 12, 13, 16, 17, 20, 21, 24, 25, 28, 29, 30} },
 		},
 	},
+	["GNOME"] = {
+		["Cultist"] = {
+			MALE = { [7] = {0, 1} },
+			FEMALE = { [7] = {0, 1} },
+		},
+		["Gnome"] = {
+			MALE = { [7] = {0} },
+			FEMALE = { [7] = {0} },
+		},
+		["Leper"] = {
+			MALE = { [7] = {0} },
+			FEMALE = { [7] = {0} },
+		},
+	},
 	["HUMAN"] = {
 		["Cultist"] = {
 			MALE = { [7] = {0, 1, 2} },
@@ -294,11 +308,11 @@ CHAR_CREATE_MARK_GATES = {
 	["NIGHTELF"] = {
 		["Cenarion"] = {
 			MALE = { [7] = {0, 2, 3, 4, 5, 15, 16, 17, 18, 19, 20}, [8] = {0, 1, 2, 3, 4, 29, 30, 31, 32, 33, 34, 35, 36}, [9] = {0, 2, 3, 4, 5} },
-			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15}, [8] = {0, 13, 14, 15, 16, 23, 24, 25, 26}, [9] = {0, 2, 3, 4, 5} },
+			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15}, [8] = {0, 13, 14, 15, 16, 23, 24, 25, 26, 37, 38, 39}, [9] = {0, 2, 3, 4, 5} },
 		},
 		["Illidari"] = {
-			MALE = { [7] = {0, 21}, [8] = {0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28}, [9] = {0} },
-			FEMALE = { [7] = {0, 3, 8, 9, 10, 11, 12, 13}, [8] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 25, 26}, [9] = {0, 2, 3, 4, 5} },
+			MALE = { [7] = {0, 21}, [8] = {0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 37, 38, 39, 40}, [9] = {0} },
+			FEMALE = { [7] = {0, 3, 8, 9, 10, 11, 12, 13}, [8] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 25, 26, 33, 34, 35, 36}, [9] = {0, 2, 3, 4, 5} },
 		},
 		["Kaldorei"] = {
 			MALE = { [7] = {0, 1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}, [8] = {0, 1, 4}, [9] = {0, 1, 2, 3, 4, 5} },
@@ -357,8 +371,8 @@ CHAR_CREATE_MARK_GATES = {
 			FEMALE = { [7] = {0, 19, 20}, [8] = {0} },
 		},
 		["Sand Troll"] = {
-			MALE = { [7] = {0, 15, 16, 28, 29, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 59, 60, 61, 62}, [8] = {0, 3, 4, 11, 12, 13, 14} },
-			FEMALE = { [7] = {0, 4, 5, 6, 13, 14, 15, 19, 20}, [8] = {0, 4, 5, 6, 13, 14, 15, 19, 20} },
+			MALE = { [7] = {0, 15, 16, 28, 29, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 59, 60, 61, 62, 83, 84}, [8] = {0, 3, 4, 11, 12, 13, 14, 19, 20} },
+			FEMALE = { [7] = {0, 4, 5, 6, 13, 14, 15, 19, 20, 21, 22}, [8] = {0, 4, 5, 6, 13, 14, 15, 19, 20, 21, 22} },
 		},
 	},
 };
