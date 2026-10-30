@@ -1,0 +1,1056 @@
+From ebb0bba3af9a4640c0a3c2e64ab6bcded788c584 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Oct 2026 23:20:39 +0000
+Subject: [PATCH] Zeppelin F-236: worgen human form - altered form drawn from
+ the OBJECT_FIELD_PADDING form bit, Running Wild mount-self, two-form creator,
+ human-form barber
+
+- Unit_C: Cataclysm altered form / mount self ported from Medviten's wowdecomp fork
+  (https://github.com/Medviten/wowdecomp-32-bit, used with the author's permission): GetLocalDisplayID /
+  GetCurrentClientNativeDisplayID / IsInAlteredForm keyed on bit 31 of OBJECT_FIELD_PADDING (HasAlteredFormBit)
+  instead of aura 302; ClientGetAlteredFormRace (worgen 12 -> human 1); IsMountSelf / MountSelf anims for Running Wild
+- Player_C: a form-bit flip rebuilds the character as the other race; human emote voice in the human form
+- ZepUnpackPadding: accessories are 7-bit (bit 31 is the form bit)
+- DressUpModelFrame: the paperdoll / dressing room shows the human form
+- Creator: a new worgen has a second (human) component; SetViewingAlteredForm swaps it to the front so every
+  customization function edits it; HasAlteredForm / IsViewingAlteredForm / SetViewingAlteredForm / GetAlteredFormRace;
+  CMSG_CHAR_CREATE carries the human look in a ZEPF block after ZEPO
+- Barber: styles of the form showing (race 1 in the human form), rebuilt on open; CMSG_ALTER_APPEARANCE carries a
+  ZEPF block (form, markings, accessories, geoset slots)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ .../ComponentCore/ZepCustomizations.cpp       |   2 +-
+ WoW/Source/Client.h                           |   3 +
+ WoW/Source/Client_CVar.cpp                    |   5 +
+ WoW/Source/Glue/CharacterCreation.cpp         | 174 +++++++++++++++
+ WoW/Source/Glue/CharacterCreation.h           |  11 +
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp |  52 ++++-
+ WoW/Source/Object/ObjectClient/Player_C.cpp   |  16 +-
+ WoW/Source/Object/ObjectClient/Unit_C.cpp     | 207 +++++++++++++++---
+ WoW/Source/Object/ObjectClient/Unit_C.h       |  12 +
+ WoW/Source/Ui/BarberShop.cpp                  |  75 ++++++-
+ WoW/Source/Ui/DressUpModelFrame.cpp           |   8 +-
+ WoW/Source/WowServices/Types.h                |   5 +
+ .../WowSvcs/WowSvcsClient/ClientServices.cpp  |   9 +
+ 13 files changed, 537 insertions(+), 42 deletions(-)
+
+diff --git a/WoW/Common/ComponentCore/ZepCustomizations.cpp b/WoW/Common/ComponentCore/ZepCustomizations.cpp
+index 9537d135..1af6dbda 100644
+--- a/WoW/Common/ComponentCore/ZepCustomizations.cpp
++++ b/WoW/Common/ComponentCore/ZepCustomizations.cpp
+@@ -365,7 +365,7 @@ void ZepUnpackPadding(uint32_t pad, CharacterPreferences& prefs) {
+         prefs.m_zepSlot[s] = static_cast<uint8_t>((pad >> (4 * s)) & 0xF);
+     }
+ 
+-    prefs.m_jewelleryId = static_cast<uint8_t>(pad >> 24);
++    prefs.m_jewelleryId = static_cast<uint8_t>((pad >> 24) & 0x7F);    // Zeppelin F-236: bit 31 = human form bit
+ }
+ 
+ bool ZepGeosetExcluded(const ZepRaceDef* def, const uint32_t* geosets, uint32_t geoset) {
+diff --git a/WoW/Source/Client.h b/WoW/Source/Client.h
+index f215106c..d78fe552 100644
+--- a/WoW/Source/Client.h
++++ b/WoW/Source/Client.h
+@@ -93,6 +93,9 @@ uint32_t GetM2CvarFlags();
+ int32_t InitializeEngineCallback(const void* data, void* param);
+ bool InitializeGlobal();
+ bool LocaleCallback(CVar* var, const char* oldValue, const char* value, void* arg);
++// Not in the original (Zeppelin F-236): the race a race's altered (second) form is drawn as, 0 when it has none
++// (Worgen 12 -> Human 1). Cataclysm's ChrRaces.m_alteredFormRaceID, which this ChrRaces lacks.
++uint32_t ClientGetAlteredFormRace(uint32_t race);
+ int main();
+ int32_t Packet_SMSG_NOTIFICATION(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+ int32_t Packet_SMSG_PLAYED_TIME(void* param, NETMESSAGE msgId, uint32_t time, CDataStore* msg);
+diff --git a/WoW/Source/Client_CVar.cpp b/WoW/Source/Client_CVar.cpp
+index 8dc8c711..51b92756 100644
+--- a/WoW/Source/Client_CVar.cpp
++++ b/WoW/Source/Client_CVar.cpp
+@@ -727,3 +727,8 @@ uint32_t GetM2CvarFlags() {
+ 
+     return flags | 0x8;
+ }
++
++// Not in the original (Zeppelin F-236): see Client.h
++uint32_t ClientGetAlteredFormRace(uint32_t race) {
++    return race == 12 ? 1 : 0;
++}
+diff --git a/WoW/Source/Glue/CharacterCreation.cpp b/WoW/Source/Glue/CharacterCreation.cpp
+index ed559139..6b801a04 100644
+--- a/WoW/Source/Glue/CharacterCreation.cpp
++++ b/WoW/Source/Glue/CharacterCreation.cpp
+@@ -27,6 +27,7 @@
+ #include "WoW/Source/WowServices/Types.h"
+ #include "WoW/Source/WowSvcs/WowSvcsClient/ClientServices.h"
+ #include "WoW/Source/WowSvcs/WowSvcsClient/Types.h"
++#include "WoW/Source/Client.h"    // Not in the original (Zeppelin F-236): ClientGetAlteredFormRace
+ 
+ // STATIC: 0x00AC4220
+ int32_t CCharacterCreation::m_selectedClassID = 1;
+@@ -65,6 +66,11 @@ uint32_t CCharacterCreation::m_prevFacialHairIndex;
+ bool CCharacterCreation::s_outfitHidden;
+ bool CCharacterCreation::s_startOutfit;
+ 
++// Not in the original (Zeppelin F-236)
++CCharacterComponent* CCharacterCreation::m_alteredCharacter;
++bool CCharacterCreation::m_viewingAltered;
++CharacterPreferences* CCharacterCreation::s_alteredPrefs[2];
++
+ // STATIC: 0x00B6B1A0
+ CCharacterComponent* CCharacterCreation::m_character;
+ 
+@@ -118,6 +124,13 @@ void CCharacterCreation::Initialize() {
+ // VERIFY: 3b1595cf manual
+ // OFFSET: 0x004E1E20
+ void CCharacterCreation::Shutdown() {
++    CCharacterCreation::ZepAlteredFormDrop();     // Not in the original (Zeppelin F-236)
++
++    for (uint32_t i = 0; i < 2; i++) {
++        delete CCharacterCreation::s_alteredPrefs[i];
++        CCharacterCreation::s_alteredPrefs[i] = nullptr;
++    }
++
+     if (CCharacterCreation::m_character) {
+         CCharacterComponent::FreeComponent(CCharacterCreation::m_character);
+         CCharacterCreation::m_character = nullptr;
+@@ -318,6 +331,8 @@ void CCharacterCreation::CycleCharCustomization(CHAR_CUSTOMIZATION_TYPE type, in
+ // VERIFY: 0b8a8ec0 manual
+ // OFFSET: 0x004E0380
+ void CCharacterCreation::CreateCharacter(const char* name) {
++    CCharacterCreation::SetViewingAlteredForm(false);     // Not in the original (Zeppelin F-236): the native form in front
++
+     WOWGUID guid = WOWGUID();
+     CharacterSelectionDisplay* display = nullptr;
+     bool validate = true;
+@@ -367,6 +382,29 @@ void CCharacterCreation::CreateCharacter(const char* name) {
+     info.m_jewelleryID = CCharacterCreation::m_character->m_data.m_preferences.m_jewelleryId;   // Not in the original (F-230)
+     memcpy(info.m_zepSlot, CCharacterCreation::m_character->m_data.m_preferences.m_zepSlot, sizeof(info.m_zepSlot));
+ 
++    // Not in the original (Zeppelin F-236): a new character's human form look, sent in the ZEPF block
++    info.m_hasFormLook = 0;
++    memset(info.m_formLook, 0, sizeof(info.m_formLook));
++
++    if (!display && CCharacterCreation::m_alteredCharacter) {
++        const CharacterPreferences& altered = CCharacterCreation::m_alteredCharacter->m_data.m_preferences;
++        info.m_hasFormLook = 1;
++        info.m_formLook[0] = static_cast<uint8_t>(altered.m_skinID);
++        info.m_formLook[1] = static_cast<uint8_t>(altered.m_faceId);
++        info.m_formLook[2] = static_cast<uint8_t>(altered.m_hairStyleId);
++        info.m_formLook[3] = static_cast<uint8_t>(altered.m_hairColorId);
++        info.m_formLook[4] = static_cast<uint8_t>(altered.m_facialHairId);
++        info.m_formLook[5] = static_cast<uint8_t>(altered.m_eyeId);
++        info.m_formLook[6] = static_cast<uint8_t>(altered.m_markingId);
++        info.m_formLook[7] = static_cast<uint8_t>(altered.m_bodyMarkingId);
++        info.m_formLook[8] = static_cast<uint8_t>(altered.m_warPaintId);
++        info.m_formLook[9] = static_cast<uint8_t>(altered.m_jewelleryId & 0x7F);
++
++        for (uint32_t s = 0; s < 6; s++) {
++            info.m_formLook[10 + s] = altered.m_zepSlot[s];
++        }
++    }
++
+     if (guid && display) {
+         uint32_t flags = display->m_characterInfo.m_customizeFlags;
+ 
+@@ -601,6 +639,8 @@ void CCharacterCreation::Dress() {
+ // VERIFY: 6d456576 auto
+ // OFFSET: 0x004E13A0
+ void CCharacterCreation::InitCharacterComponents(ComponentData* data, bool randomize) {
++    CCharacterCreation::ZepAlteredFormDrop();     // Not in the original (Zeppelin F-236): rebuilt for the new character below
++
+     CreatureModelDataRec* modelRec = GetModelDataRec(data->m_preferences.m_raceID, data->m_preferences.m_sexID);
+ 
+     if (!modelRec || !*modelRec->m_modelName) {
+@@ -653,11 +693,15 @@ void CCharacterCreation::InitCharacterComponents(ComponentData* data, bool rando
+     if (CCharacterCreation::m_charCustomizeFrame->m_model) {
+         CCharacterCreation::m_character->m_data.m_model->AttachToParent(CCharacterCreation::m_charCustomizeFrame->m_model, 0, nullptr, 0);
+     }
++
++    CCharacterCreation::ZepAlteredFormBuild();    // Not in the original (Zeppelin F-236)
+ }
+ 
+ // VERIFY: 68a365e1 manual
+ // OFFSET: 0x004E1540
+ void CCharacterCreation::SetSelectedSex(uint32_t sexID) {
++    CCharacterCreation::SetViewingAlteredForm(false);     // Not in the original (Zeppelin F-236): the native form in front
++
+     if (sexID >= 3 || sexID == CCharacterCreation::m_character->m_data.m_preferences.m_sexID) {
+         return;
+     }
+@@ -726,6 +770,8 @@ void CCharacterCreation::SetSelectedSex(uint32_t sexID) {
+ // VERIFY: 60798dcb auto
+ // OFFSET: 0x004E1740
+ void CCharacterCreation::SetSelectedClass(int32_t classID) {
++    CCharacterCreation::SetViewingAlteredForm(false);     // Not in the original (Zeppelin F-236): the native form in front
++
+     if (!CCharacterCreation::IsClassAvailable(classID)) {
+         return;
+     }
+@@ -806,6 +852,8 @@ void CCharacterCreation::CalcClasses(int32_t raceID) {
+ // VERIFY: 32675449 auto
+ // OFFSET: 0x004E1FD0
+ void CCharacterCreation::ResetCharCustomizeInfo() {
++    CCharacterCreation::SetViewingAlteredForm(false);     // Not in the original (Zeppelin F-236): the native form in front
++
+     if (!CCharacterCreation::m_charCustomizeFrame) {
+         return;
+     }
+@@ -839,6 +887,8 @@ void CCharacterCreation::ResetCharCustomizeInfo() {
+ // VERIFY: 06f4239a manual
+ // OFFSET: 0x004E20B0
+ void CCharacterCreation::SetSelectedRace(uint32_t raceIndex) {
++    CCharacterCreation::SetViewingAlteredForm(false);     // Not in the original (Zeppelin F-236): the native form in front
++
+     if (raceIndex >= CCharacterCreation::m_races.Count() || raceIndex == CCharacterCreation::m_raceIndex) {
+         return;
+     }
+@@ -916,6 +966,8 @@ void CCharacterCreation::SetSelectedRace(uint32_t raceIndex) {
+ // VERIFY: abfffae0 auto
+ // OFFSET: 0x004E2330
+ void CCharacterCreation::SetToExistingCharacter(uint32_t index) {
++    CCharacterCreation::SetViewingAlteredForm(false);     // Not in the original (Zeppelin F-236): the native form in front
++
+     CharacterSelectionDisplay* display = CCharacterSelection::GetCharacterDisplay(index);
+ 
+     if (!display) {
+@@ -955,3 +1007,125 @@ void CCharacterCreation::SetToExistingCharacter(uint32_t index) {
+     CCharacterCreation::m_nameGen.LoadNames(CCharacterCreation::m_character->m_data.m_preferences.m_raceID, CCharacterCreation::m_character->m_data.m_preferences.m_sexID);
+     CGlueLoading::StartLoad(CCharacterCreation::m_character, 1);
+ }
++
++// Not in the original (Zeppelin F-236): the character's own (native) form, wherever it stands
++CCharacterComponent* CCharacterCreation::ZepNativeCharacter() {
++    return CCharacterCreation::m_viewingAltered ? CCharacterCreation::m_alteredCharacter : CCharacterCreation::m_character;
++}
++
++// Not in the original (Zeppelin F-236): the altered (human) form, or nullptr when the race has none
++CCharacterComponent* CCharacterCreation::ZepAlteredCharacter() {
++    return CCharacterCreation::m_viewingAltered ? CCharacterCreation::m_character : CCharacterCreation::m_alteredCharacter;
++}
++
++// Not in the original (Zeppelin F-236): puts the native or the altered form in front. The form in front is
++// m_character, attached to the scene; the other is kept unattached in m_alteredCharacter.
++void CCharacterCreation::SetViewingAlteredForm(bool altered) {
++    if (altered == CCharacterCreation::m_viewingAltered || !CCharacterCreation::m_alteredCharacter || !CCharacterCreation::m_character) {
++        return;
++    }
++
++    CM2Model* background = CCharacterCreation::m_charCustomizeFrame ? CCharacterCreation::m_charCustomizeFrame->m_model : nullptr;
++
++    if (CCharacterCreation::m_character->m_data.m_model && CCharacterCreation::m_character->m_data.m_model->m_attachParent) {
++        CCharacterCreation::m_character->m_data.m_model->DetachFromParent();
++    }
++
++    CCharacterComponent* front = CCharacterCreation::m_alteredCharacter;
++    CCharacterCreation::m_alteredCharacter = CCharacterCreation::m_character;
++    CCharacterCreation::m_character = front;
++    CCharacterCreation::m_viewingAltered = altered;
++
++    CCharacterCreation::m_prevSkinIndex = front->m_data.m_preferences.m_skinID;
++    CCharacterCreation::m_prevFaceIndex = front->m_data.m_preferences.m_faceId;
++    CCharacterCreation::m_prevHairColorIndex = front->m_data.m_preferences.m_hairColorId;
++    CCharacterCreation::m_prevHairStyleIndex = front->m_data.m_preferences.m_hairStyleId;
++    CCharacterCreation::m_prevFacialHairIndex = front->m_data.m_preferences.m_facialHairId;
++
++    CCharacterCreation::SetCharacterFacing(CCharacterCreation::m_charFacing);
++    CCharacterCreation::Dress();    // the outfit toggle and class outfit as the form now in front shows them
++    front->RenderPrep(0);
++
++    if (background && front->m_data.m_model) {
++        front->m_data.m_model->AttachToParent(background, 0, nullptr, 0);
++    }
++
++    CGlueLoading::StartLoad(front, 1);
++}
++
++// Not in the original (Zeppelin F-236): keeps the altered form's look (per sex) and frees it; the native form ends up in front
++void CCharacterCreation::ZepAlteredFormDrop() {
++    CCharacterCreation::SetViewingAlteredForm(false);
++
++    CCharacterComponent* altered = CCharacterCreation::m_alteredCharacter;
++
++    if (!altered) {
++        return;
++    }
++
++    uint32_t sex = altered->m_data.m_preferences.m_sexID < 2 ? altered->m_data.m_preferences.m_sexID : 0;
++
++    if (!CCharacterCreation::s_alteredPrefs[sex]) {
++        CCharacterCreation::s_alteredPrefs[sex] = new CharacterPreferences();
++    }
++
++    altered->GetPreferences(CCharacterCreation::s_alteredPrefs[sex]);
++
++    if (altered->m_data.m_model && altered->m_data.m_model->m_attachParent) {
++        altered->m_data.m_model->DetachFromParent();
++    }
++
++    CCharacterComponent::FreeComponent(altered);
++    CCharacterCreation::m_alteredCharacter = nullptr;
++}
++
++// Not in the original (Zeppelin F-236): builds the altered (human) form of a new character whose race has one, from the
++// look kept for that sex (first time: the altered race's defaults), dressed like the native form and not attached
++void CCharacterCreation::ZepAlteredFormBuild() {
++    if (CCharacterCreation::m_alteredCharacter || !CCharacterCreation::m_character || CCharacterCreation::m_existingCharacterIndex >= 0 || !CCharacterCreation::m_charCustomizeFrame) {
++        return;
++    }
++
++    const CharacterPreferences& native = CCharacterCreation::m_character->m_data.m_preferences;
++    uint32_t alteredRace = ClientGetAlteredFormRace(native.m_raceID);
++    uint32_t sex = native.m_sexID < 2 ? native.m_sexID : 0;
++    CreatureModelDataRec* modelRec = alteredRace ? GetModelDataRec(alteredRace, sex) : nullptr;
++
++    if (!modelRec || !*modelRec->m_modelName) {
++        return;
++    }
++
++    ComponentData data;
++
++    if (CCharacterCreation::s_alteredPrefs[sex]) {
++        data.SetPreferences(CCharacterCreation::s_alteredPrefs[sex]);
++    }
++
++    data.m_preferences.m_raceID = alteredRace;
++    data.m_preferences.m_sexID = sex;
++    data.m_preferences.m_classId = CCharacterCreation::m_selectedClassID;
++    CCharacterComponent::ValidateComponentData(&data, COMPONENT_CONTEXT_0);
++
++    data.m_model = CCharacterCreation::m_charCustomizeFrame->GetScene()->CreateModel(modelRec->m_modelName, 0);
++
++    if (!data.m_model) {
++        return;
++    }
++
++    data.m_model->m_lightingCallback = &CCharacterSelection::GenericLightingCallback;
++    data.m_model->m_lightingArg = CCharacterCreation::m_charCustomizeFrame->m_lightArray2;
++    data.m_model->SetBoneSequence(0xFFFFFFFF, 0, 0, 0, 1.0f, 1, 1);
++    data.m_flags |= 0x2;
++
++    CCharacterComponent* altered = CCharacterComponent::AllocComponent();
++    altered->Init(&data, nullptr);
++    CCharacterCreation::m_alteredCharacter = altered;
++
++    // Dress works on the form in front: put the altered form there for it, without attaching it
++    CCharacterComponent* native_ = CCharacterCreation::m_character;
++    CCharacterCreation::m_character = altered;
++    CCharacterCreation::Dress();
++    CCharacterCreation::m_character = native_;
++
++    altered->RenderPrep(0);
++}
+diff --git a/WoW/Source/Glue/CharacterCreation.h b/WoW/Source/Glue/CharacterCreation.h
+index 55561216..cf1114ac 100644
+--- a/WoW/Source/Glue/CharacterCreation.h
++++ b/WoW/Source/Glue/CharacterCreation.h
+@@ -32,6 +32,12 @@ class CCharacterCreation {
+     static uint32_t m_prevFacialHairIndex;
+     static bool s_outfitHidden;     // Not in the original (F-151)
+     static bool s_startOutfit;      // Not in the original (F-151)
++    // Not in the original (Zeppelin F-236): the worgen human form. m_alteredCharacter is the form not in front (built for a
++    // new character of a race with an altered form, ClientGetAlteredFormRace); SetViewingAlteredForm swaps the two, so
++    // every customization function works on the form in front. s_alteredPrefs keeps the human look per sex.
++    static CCharacterComponent* m_alteredCharacter;
++    static bool m_viewingAltered;
++    static CharacterPreferences* s_alteredPrefs[2];
+ 
+     static void CalcClasses(int32_t raceID);
+     static void CreateCharacter(const char* name);
+@@ -58,6 +64,11 @@ class CCharacterCreation {
+     static void SetSelectedSex(uint32_t sexID);
+     static void SetToExistingCharacter(uint32_t index);
+     static void Shutdown();
++    static CCharacterComponent* ZepNativeCharacter();       // Not in the original (Zeppelin F-236)
++    static CCharacterComponent* ZepAlteredCharacter();
++    static void SetViewingAlteredForm(bool altered);
++    static void ZepAlteredFormDrop();
++    static void ZepAlteredFormBuild();
+ };
+ 
+ bool IsRaceClassValid(int32_t raceID, int32_t classID);
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index ff857216..111dc3bd 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -160,8 +160,10 @@ static int32_t Script_SetCharCustomizeBackground(lua_State* L) {
+ // VERIFY: 63616981 auto
+ // OFFSET: 0x004E0670
+ static int32_t Script_GetNameForRace(lua_State* L) {
+-    ChrRacesRec* raceRec = g_chrRacesDB.GetRecord(CCharacterCreation::m_character->m_data.m_preferences.m_raceID);
+-    const char* name = CGUnit_C::GetDisplayRaceNameFromRecord(raceRec, CCharacterCreation::m_character->m_data.m_preferences.m_sexID, nullptr);
++    // Not in the original (Zeppelin F-236): the character's own race, also while its human form is in front
++    CCharacterComponent* native = CCharacterCreation::ZepNativeCharacter();
++    ChrRacesRec* raceRec = g_chrRacesDB.GetRecord(native->m_data.m_preferences.m_raceID);
++    const char* name = CGUnit_C::GetDisplayRaceNameFromRecord(raceRec, native->m_data.m_preferences.m_sexID, nullptr);
+ 
+     if (raceRec && name) {
+         lua_pushstring(L, name);
+@@ -235,6 +237,9 @@ static int32_t Script_GetAvailableClasses(lua_State* L) {
+ // OFFSET: 0x004E0900
+ int32_t Script_GetHairCustomization(lua_State* L) {
+     int32_t raceID = CCharacterCreation::m_raceIndex < CCharacterCreation::m_races.Count() ? CCharacterCreation::m_races.m_data[CCharacterCreation::m_raceIndex] : 0;
++    if (CCharacterCreation::m_viewingAltered) {     // Not in the original (Zeppelin F-236): the human form's labels
++        raceID = static_cast<int32_t>(CCharacterCreation::m_character->m_data.m_preferences.m_raceID);
++    }
+     ChrRacesRec* raceRec = g_chrRacesDB.GetRecord(raceID);
+ 
+     if (raceRec) {
+@@ -250,6 +255,9 @@ int32_t Script_GetHairCustomization(lua_State* L) {
+ // OFFSET: 0x004E0970
+ int32_t Script_GetFacialHairCustomization(lua_State* L) {
+     int32_t raceID = CCharacterCreation::m_raceIndex < CCharacterCreation::m_races.Count() ? CCharacterCreation::m_races.m_data[CCharacterCreation::m_raceIndex] : 0;
++    if (CCharacterCreation::m_viewingAltered) {     // Not in the original (Zeppelin F-236): the human form's labels
++        raceID = static_cast<int32_t>(CCharacterCreation::m_character->m_data.m_preferences.m_raceID);
++    }
+     ChrRacesRec* raceRec = g_chrRacesDB.GetRecord(raceID);
+ 
+     if (raceRec) {
+@@ -417,7 +425,7 @@ static int32_t Script_GetCreateBackgroundModel(lua_State* L) {
+             return 1;
+         }
+     } else {
+-        uint32_t raceID = CCharacterCreation::m_character->m_data.m_preferences.m_raceID;
++        uint32_t raceID = CCharacterCreation::ZepNativeCharacter()->m_data.m_preferences.m_raceID;     // Zeppelin F-236: native race's scene
+ 
+         if (raceID == 7) {
+             raceID = 3;
+@@ -1221,8 +1229,46 @@ static int32_t Script_SetCharacterCreateStartOutfit(lua_State* L) {
+     return 0;
+ }
+ 
++// Not in the original (Zeppelin F-236): Cataclysm's altered form API for the worgen human form.
++// HasAlteredForm() - a new character of a race with an altered form; IsViewingAlteredForm(); SetViewingAlteredForm(bool)
++// puts that form in front (every customization function then works on it); GetAlteredFormRace() = name, fileString.
++static int32_t Script_HasAlteredForm(lua_State* L) {
++    lua_pushboolean(L, CCharacterCreation::ZepAlteredCharacter() != nullptr);
++    return 1;
++}
++
++static int32_t Script_IsViewingAlteredForm(lua_State* L) {
++    lua_pushboolean(L, CCharacterCreation::m_viewingAltered);
++    return 1;
++}
++
++static int32_t Script_SetViewingAlteredForm(lua_State* L) {
++    CCharacterCreation::SetViewingAlteredForm(lua_toboolean(L, 1) != 0);
++    return 0;
++}
++
++static int32_t Script_GetAlteredFormRace(lua_State* L) {
++    CCharacterComponent* altered = CCharacterCreation::ZepAlteredCharacter();
++    ChrRacesRec* raceRec = altered ? g_chrRacesDB.GetRecord(altered->m_data.m_preferences.m_raceID) : nullptr;
++    const char* name = raceRec ? CGUnit_C::GetDisplayRaceNameFromRecord(raceRec, altered->m_data.m_preferences.m_sexID, nullptr) : nullptr;
++
++    if (!raceRec || !name) {
++        lua_pushnil(L);
++        lua_pushnil(L);
++        return 2;
++    }
++
++    lua_pushstring(L, name);
++    lua_pushstring(L, raceRec->m_clientFileString);
++    return 2;
++}
++
+ // STATIC: 0x00AC4228
+ static FrameScript_Method s_scriptFunctions[] = {
++    { "HasAlteredForm", &Script_HasAlteredForm },                   // Not in the original (Zeppelin F-236)
++    { "IsViewingAlteredForm", &Script_IsViewingAlteredForm },
++    { "SetViewingAlteredForm", &Script_SetViewingAlteredForm },
++    { "GetAlteredFormRace", &Script_GetAlteredFormRace },
+     { "SetCharCustomizeFrame", &Script_SetCharCustomizeFrame },
+     { "SetCharCustomizeBackground", &Script_SetCharCustomizeBackground },
+     { "ResetCharCustomize", &Script_ResetCharCustomize },
+diff --git a/WoW/Source/Object/ObjectClient/Player_C.cpp b/WoW/Source/Object/ObjectClient/Player_C.cpp
+index bed0f644..cee578bd 100644
+--- a/WoW/Source/Object/ObjectClient/Player_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Player_C.cpp
+@@ -622,6 +622,18 @@ static int32_t OnUpdatePlayerZepSlots(WOWGUID guid, uint32_t fieldOffset, uint32
+         return 1;
+     }
+ 
++    // Zeppelin F-236: bit 31 = the worgen human form. The server writes the form's look into the appearance fields in
++    // the same update, so a flip rebuilds the character as the other race (GetLocalDisplayID / InitializeComponent)
++    if (oldValue && ((*static_cast<const uint32_t*>(oldValue) ^ player->m_obj->m_pad) & 0x80000000u)) {
++        player->UpdateDisplayInfo(0);
++
++        if (ClntObjMgrGetActivePlayer() != guid) {
++            CGGameUI::UnitModelUpdate(guid, 3);
++        }
++
++        return 1;
++    }
++
+     bool activePlayer = ClntObjMgrGetActivePlayer() == guid;
+     CCharacterComponent* component = player->m_characterComponent;
+ 
+@@ -13302,7 +13314,9 @@ void CGPlayer_C::SendTextEmote(const EmotesTextRec* emote, WOWGUID target) {
+     uint32_t sound;
+ 
+     if (this->m_unit->m_unitFieldNativedisplayid == this->m_unit->m_unitFieldDisplayid) {
+-        sound = SI2::GetTextEmoteSoundIndex(emote->m_id, this->m_unit->m_unitFieldBytes0[0], this->m_unit->m_unitFieldBytes0[2]);
++        // Zeppelin F-236: a worgen in the human form uses the human voice
++        uint32_t race = this->HasAlteredFormBit() ? ClientGetAlteredFormRace(this->m_unit->m_unitFieldBytes0[0]) : 0;
++        sound = SI2::GetTextEmoteSoundIndex(emote->m_id, race ? race : this->m_unit->m_unitFieldBytes0[0], this->m_unit->m_unitFieldBytes0[2]);
+     } else {
+         uint32_t sex = this->GetDisplaySex();
+         uint32_t race = this->GetDisplayRace();
+diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+index b6938a63..725afaa3 100644
+--- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+@@ -25,6 +25,7 @@
+ #include "WoW/Source/DB/Rec/AreaTableRec.h"
+ #include "WoW/Source/DB/Rec/ChrClassesRec.h"
+ #include "WoW/Source/DB/Rec/ChrRacesRec.h"
++#include "WoW/Source/Client.h"
+ #include "WoW/Source/DB/Rec/CreatureDisplayInfoRec.h"
+ #include "WoW/Source/DB/Rec/CreatureModelDataRec.h"
+ #include "WoW/Source/DB/Rec/CreatureMovementInfoRec.h"
+@@ -1018,11 +1019,8 @@ int32_t CGUnit_C::IsDeadOrAttachmentDying() {
+ // VERIFY: 87f21e3d manual
+ // OFFSET: 0x0072A480
+ int32_t CGUnit_C::DisplayInfoNeedsUpdate() {
+-    int32_t displayId = this->m_displayId;
+-
+-    if (!displayId || this->m_unit->m_unitFieldNativedisplayid != this->m_unit->m_unitFieldDisplayid) {
+-        displayId = this->m_unit->m_unitFieldDisplayid;
+-    }
++    // Custom: resolve through GetLocalDisplayID so the altered form aura can swap the native display
++    int32_t displayId = this->GetLocalDisplayID();
+ 
+     CreatureDisplayInfoRec* displayInfo = g_creatureDisplayInfoDB.GetRecord(displayId);
+ 
+@@ -3650,6 +3648,17 @@ int32_t IsLocomotionAnimId(uint32_t animId) {
+         case 143:
+         case 187:
+         case 223:
++        // Custom: the MountSelf movement and jump anims (see GetMountSelfAnim), so they follow movement speed too
++        case 620:
++        case 622:
++        case 624:
++        case 630:
++        case 632:
++        case 634:
++        case 638:
++        case 640:
++        case 642:
++        case 644:
+             return 1;
+         default:
+             return 0;
+@@ -4428,6 +4437,12 @@ void CGUnit_C::PlayBaseAnimation(uint32_t animId, int32_t flags) {
+         anim = (flags & 0x4) ? animId : this->ResolveAnimForModel(animId, nullptr);
+     }
+ 
++    // Custom: a unit that is its own mount plays the MountSelf versions of its anims. Done after resolving, since the
++    // MountSelf IDs are past what AnimationData and the fallback lookups cover; the model plays them directly.
++    if (this->IsMountSelf()) {
++        anim = this->GetMountSelfAnim(anim);
++    }
++
+     M2BoneSequenceInfo mount;
+     M2BoneSequenceInfo base;
+     M2BoneSequenceInfo torso;
+@@ -7009,11 +7024,8 @@ int32_t CGUnit_C::FindDefaultAnimForTier(int32_t tier, uint32_t* anim) const {
+ // VERIFY: 272cc5b1 manual
+ // OFFSET: 0x00717A20
+ CreatureModelDataRec* CGUnit_C::GetModelData() const {
+-    int32_t displayId = this->m_displayId;
+-
+-    if (!displayId || this->m_unit->m_unitFieldNativedisplayid != this->m_unit->m_unitFieldDisplayid) {
+-        displayId = this->m_unit->m_unitFieldDisplayid;
+-    }
++    // Custom: resolve through GetLocalDisplayID so the altered form aura can swap the native display
++    int32_t displayId = this->GetLocalDisplayID();
+ 
+     CreatureDisplayInfoRec* displayInfo = g_creatureDisplayInfoDB.GetRecord(displayId);
+ 
+@@ -7208,6 +7220,11 @@ int32_t CGUnit_C::CanEquipItemsInThisForm() const {
+         return 1;
+     }
+ 
++    // Custom: the altered form is a full character, so it shows gear like the native form
++    if (this->IsInAlteredForm()) {
++        return 1;
++    }
++
+     if (this->m_shapeshiftSuppressed) {
+         return 1;
+     }
+@@ -7221,6 +7238,136 @@ int32_t CGUnit_C::CanEquipItemsInThisForm() const {
+     return unit->m_unitFieldNativedisplayid == unit->m_unitFieldDisplayid;
+ }
+ 
++// Custom (Zeppelin F-236, from Medviten's wowdecomp fork): see Unit_C.h. Any display using the altered race's character model (the model of its ChrRaces male/female
++// display) marks the altered form, so a transform aura into e.g. a human NPC creature counts too; the client then
++// builds the player's own character of that race instead of the NPC's fixed look.
++bool CGUnit_C::IsInAlteredForm() const {
++    if (!(this->m_obj->m_type & TYPEMASK_PLAYER)) {
++        return false;
++    }
++
++    uint32_t altered = ClientGetAlteredFormRace(this->m_unit->m_unitFieldBytes0[0]);
++    ChrRacesRec* alteredRec = altered ? g_chrRacesDB.GetRecord(altered) : nullptr;
++
++    if (!alteredRec) {
++        return false;
++    }
++
++    int32_t displayId = this->GetLocalDisplayID();
++
++    if (!displayId || displayId == static_cast<int32_t>(this->m_unit->m_unitFieldNativedisplayid)) {
++        return false;
++    }
++
++    if (displayId == alteredRec->m_maleDisplayID || displayId == alteredRec->m_femaleDisplayID) {
++        return true;
++    }
++
++    CreatureDisplayInfoRec* displayRec = g_creatureDisplayInfoDB.GetRecord(displayId);
++    CreatureDisplayInfoRec* maleRec = g_creatureDisplayInfoDB.GetRecord(alteredRec->m_maleDisplayID);
++    CreatureDisplayInfoRec* femaleRec = g_creatureDisplayInfoDB.GetRecord(alteredRec->m_femaleDisplayID);
++
++    return displayRec && ((maleRec && displayRec->m_modelID == maleRec->m_modelID) || (femaleRec && displayRec->m_modelID == femaleRec->m_modelID));
++}
++
++// Zeppelin F-236: the server sets bit 31 of OBJECT_FIELD_PADDING while a worgen is in the human form (Two Forms,
++// aura 302) and writes the stored human look into the appearance fields in the same update, so the bit and the look
++// always arrive together. Ported from Medviten's wowdecomp fork (aura-keyed there), used with the author's permission.
++bool CGUnit_C::HasAlteredFormBit() const {
++    return (this->m_obj->m_type & TYPEMASK_PLAYER) && (this->m_obj->m_pad & 0x80000000u);
++}
++
++// Custom: see Unit_C.h. Cataclysm 0x005B5070, keyed on the form bit and ClientGetAlteredFormRace instead of
++// m_currentClientRace(Flags)
++int32_t CGUnit_C::GetCurrentClientNativeDisplayID() const {
++    int32_t nativeId = this->m_unit->m_unitFieldNativedisplayid;
++
++    if (!this->HasAlteredFormBit()) {
++        return nativeId;
++    }
++
++    uint32_t altered = ClientGetAlteredFormRace(this->m_unit->m_unitFieldBytes0[0]);
++    ChrRacesRec* alteredRec = altered ? g_chrRacesDB.GetRecord(altered) : nullptr;
++
++    if (!alteredRec) {
++        return nativeId;
++    }
++
++    int32_t displayId = this->m_unit->m_unitFieldBytes0[2] ? alteredRec->m_femaleDisplayID : alteredRec->m_maleDisplayID;
++    return displayId ? displayId : nativeId;
++}
++
++// Custom: see Unit_C.h. Cataclysm 0x005BB8D0, keeping this client's m_displayId override
++int32_t CGUnit_C::GetLocalDisplayID() const {
++    int32_t displayId = this->m_displayId;
++
++    if (!displayId || this->m_unit->m_unitFieldNativedisplayid != this->m_unit->m_unitFieldDisplayid) {
++        displayId = this->m_unit->m_unitFieldDisplayid;
++    }
++
++    if (displayId == static_cast<int32_t>(this->m_unit->m_unitFieldNativedisplayid)) {
++        displayId = this->GetCurrentClientNativeDisplayID();
++    }
++
++    return displayId;
++}
++
++// Custom: see Unit_C.h. Cataclysm 0x005BEEA0 without the display transition and casting checks
++bool CGUnit_C::IsMountSelf() const {
++    int32_t mountDisplayId = this->m_mountDisplayId;
++
++    if (mountDisplayId <= 0) {
++        return false;
++    }
++
++    return mountDisplayId == static_cast<int32_t>(this->m_unit->m_unitFieldNativedisplayid) || mountDisplayId == this->GetLocalDisplayID();
++}
++
++// Custom: Cataclysm's s_animSetMountSelfGround (0x00CA7DC0) as a map from the anims this client chooses. Swimming and
++// flying keep the unit's own anims, which these models have no MountSelf versions of.
++static const uint32_t s_mountSelfAnims[][2] = {
++    { ANIM_STAND, 618 },
++    { ANIM_WALK, 620 },
++    { ANIM_RUN, 622 },
++    { ANIM_SPRINT, 624 },
++    { ANIM_SHUFFLE_LEFT, 630 },
++    { ANIM_SHUFFLE_RIGHT, 632 },
++    { ANIM_WALKBACKWARDS, 634 },
++    { ANIM_JUMP, 638 },
++    { ANIM_JUMP_START, 640 },
++    { ANIM_JUMP_END, 642 },
++    { ANIM_JUMP_LAND_RUN, 644 },
++    { ANIM_FALL, 648 },
++};
++
++// Custom: see Unit_C.h. Keeps the anim when the model has no MountSelf version of it (e.g. female Worgen have no
++// MountSelf sprint, so they sprint with the MountSelf run)
++uint32_t CGUnit_C::GetMountSelfAnim(uint32_t anim) const {
++    CM2Model* model = this->m_worldModel;
++
++    if (!model) {
++        return anim;
++    }
++
++    for (uint32_t i = 0; i < sizeof(s_mountSelfAnims) / sizeof(s_mountSelfAnims[0]); i++) {
++        if (s_mountSelfAnims[i][0] != anim) {
++            continue;
++        }
++
++        if (model->HasSequence(s_mountSelfAnims[i][1])) {
++            return s_mountSelfAnims[i][1];
++        }
++
++        if (anim == ANIM_SPRINT) {
++            return this->GetMountSelfAnim(ANIM_RUN);
++        }
++
++        return anim;
++    }
++
++    return anim;
++}
++
+ // VERIFY: 8b19ad28 manual
+ // OFFSET: 0x00720AF0
+ uint32_t CGUnit_C::GetVoiceSex() const {
+@@ -8099,7 +8246,8 @@ CAaBox CGUnit_C::GetStandBox() const {
+         box = *reinterpret_cast<const CAaBox*>(&modelData->m_geoBoxMinX);
+     }
+ 
+-    if (this->m_unit->m_unitFieldMountdisplayid > 0) {
++    // Custom: a unit that is its own mount does not sit higher
++    if (this->m_unit->m_unitFieldMountdisplayid > 0 && !this->IsMountSelf()) {
+         CreatureDisplayInfoRec* displayInfo = g_creatureDisplayInfoDB.GetRecord(this->m_mountDisplayId);
+ 
+         if (displayInfo) {
+@@ -8528,7 +8676,8 @@ bool CGUnit_C::CanCurrentFormMount() const {
+         return false;
+     }
+ 
+-    if (this->m_unit->m_unitFieldNativedisplayid == this->m_unit->m_unitFieldDisplayid) {
++    // Custom: the altered form can mount like the native form
++    if (this->m_unit->m_unitFieldNativedisplayid == this->m_unit->m_unitFieldDisplayid || this->IsInAlteredForm()) {
+         return true;
+     }
+ 
+@@ -9751,11 +9900,8 @@ void CGUnit_C::OnCollideFalling() {
+ // VERIFY: 8cfa7612 auto
+ // OFFSET: 0x0072D940
+ void CGUnit_C::RefreshDataPointers() {
+-    int32_t displayId = this->m_displayId;
+-
+-    if (!displayId || this->m_unit->m_unitFieldNativedisplayid != this->m_unit->m_unitFieldDisplayid) {
+-        displayId = this->m_unit->m_unitFieldDisplayid;
+-    }
++    // Custom: resolve through GetLocalDisplayID so the altered form aura can swap the native display
++    int32_t displayId = this->GetLocalDisplayID();
+ 
+     this->m_displayInfo = g_creatureDisplayInfoDB.GetRecord(displayId);
+ 
+@@ -13874,6 +14020,11 @@ int32_t CGUnit_C::InitializeExtendedDisplay(CGPlayer_C* player, int32_t hasDispl
+     } else {
+         data.m_preferences.m_raceID = this->m_unit->m_unitFieldBytes0[0];
+         data.m_preferences.m_sexID = this->m_unit->m_unitFieldBytes0[2];
++
++        // Custom: the altered form is built as the altered race from the same choices (Cataclysm Worgen/Human)
++        if (this->IsInAlteredForm()) {
++            data.m_preferences.m_raceID = ClientGetAlteredFormRace(this->m_unit->m_unitFieldBytes0[0]);
++        }
+     }
+ 
+     data.m_preferences.m_classId = this->m_unit->m_unitFieldBytes0[1];
+@@ -13964,7 +14115,11 @@ int32_t CGUnit_C::InitializeComponent() {
+         return 0;
+     }
+ 
+-    if (this->HasBakedNpcTexture()) {
++    // Custom: the altered form (ClientGetAlteredFormRace) is built from the appearance fields as the altered race, even when
++    // the transform's display is an NPC one with fixed (baked) looks
++    if (this->IsInAlteredForm()) {
++        this->InitializeExtendedDisplay(static_cast<CGPlayer_C*>(this), 0);
++    } else if (this->HasBakedNpcTexture()) {
+         this->InitializeExtendedDisplay(static_cast<CGPlayer_C*>(this), 1);
+     } else if (this->m_displayInfoExtra) {
+         int32_t result = this->InitializeExtendedDisplay(nullptr, 1);
+@@ -20904,11 +21059,8 @@ void CGUnit_C::CreateOrDestroyObjectEffectManager() {
+     int32_t displayId = this->m_mountDisplayId;
+ 
+     if (!displayId) {
+-        displayId = this->m_displayId;
+-
+-        if (!displayId || this->m_unit->m_unitFieldNativedisplayid != this->m_unit->m_unitFieldDisplayid) {
+-            displayId = this->m_unit->m_unitFieldDisplayid;
+-        }
++        // Custom: resolve through GetLocalDisplayID so the altered form aura can swap the native display
++        displayId = this->GetLocalDisplayID();
+     }
+ 
+     CreatureDisplayInfoRec* displayInfo = g_creatureDisplayInfoDB.GetRecord(displayId);
+@@ -21405,7 +21557,8 @@ void CGUnit_C::DestroyUnitMount(int32_t a2) {
+ void CGUnit_C::CreateUnitMount(int32_t a2, int32_t a3) {
+     this->m_wheelMask = 0;
+ 
+-    if (!this->m_mountModel) {
++    // Custom: a unit that is its own mount has no mount model (Cataclysm 0x005D6950)
++    if (!this->m_mountModel && !this->IsMountSelf()) {
+         CreatureDisplayInfoRec* displayInfo = g_creatureDisplayInfoDB.GetRecord(this->m_mountDisplayId);
+ 
+         if (!displayInfo) {
+@@ -22250,7 +22403,8 @@ void CGUnit_C::OnMountDisplayChanged(int32_t displayId) {
+     this->m_mountDisplayId = displayId;
+ 
+     if (displayId) {
+-        bool noTransition = this->m_mountTransition == nullptr;
++        // Custom: no mount summon effect when mounting oneself (Cataclysm 0x005D8550)
++        bool noTransition = this->m_mountTransition == nullptr && !this->IsMountSelf();
+         this->CreateUnitMount(0, wasMounted);
+ 
+         if (noTransition) {
+@@ -23649,7 +23803,8 @@ void CGUnit_C::HandleScaleUpdate(float scale) {
+     int32_t mountDisplayId = this->m_unit->m_unitFieldMountdisplayid;
+     int32_t updated = 0;
+ 
+-    if (mountDisplayId <= 0 || !(this->m_obj->m_type & TYPEMASK_PLAYER)) {
++    // Custom: a unit that is its own mount keeps its own collision box (Cataclysm 0x005C7B00)
++    if (mountDisplayId <= 0 || !(this->m_obj->m_type & TYPEMASK_PLAYER) || this->IsMountSelf()) {
+         updated = this->UpdateUnitCollisionBox(growing, 0);
+     } else {
+         CreatureDisplayInfoRec* displayRec = g_creatureDisplayInfoDB.GetRecord(mountDisplayId);
+diff --git a/WoW/Source/Object/ObjectClient/Unit_C.h b/WoW/Source/Object/ObjectClient/Unit_C.h
+index a61374ea..8040b49b 100644
+--- a/WoW/Source/Object/ObjectClient/Unit_C.h
++++ b/WoW/Source/Object/ObjectClient/Unit_C.h
+@@ -583,6 +583,18 @@ class CGUnit_C : public CGObject_C, public CGUnit {
+     int32_t IsControlledByViewer() const;
+     bool CanAttack(const CGUnit_C* unit) const;
+     int32_t CanEquipItemsInThisForm() const;
++    // Custom: true when a player whose race has an altered form (ClientGetAlteredFormRace) currently shows that race's
++    // own character model, so it is drawn as a full character of the altered race from the appearance fields
++    bool IsInAlteredForm() const;
++    // Custom: Cataclysm's pair. The native display, or the altered race's character display while the form bit is set
++    // (HasAlteredFormBit); and the display actually drawn, which uses that in place of the native display.
++    bool HasAlteredFormBit() const;    // Zeppelin F-236: OBJECT_FIELD_PADDING bit 31 (human form)
++    int32_t GetCurrentClientNativeDisplayID() const;
++    int32_t GetLocalDisplayID() const;
++    // Custom: Cataclysm's mount self (Running Wild): mounted on a display that is the unit's own, so no mount model is
++    // made and the unit plays the MountSelf anims in place of its own stand/move/jump/fall anims (GetMountSelfAnim)
++    bool IsMountSelf() const;
++    uint32_t GetMountSelfAnim(uint32_t anim) const;
+     uint32_t GetVoiceSex() const;
+     bool IsShapeShifted() const;
+     void PreemptivelyCancelShapeshift();
+diff --git a/WoW/Source/Ui/BarberShop.cpp b/WoW/Source/Ui/BarberShop.cpp
+index 7bf73bfa..4f74dcf9 100644
+--- a/WoW/Source/Ui/BarberShop.cpp
++++ b/WoW/Source/Ui/BarberShop.cpp
+@@ -19,6 +19,7 @@
+ #include "WoW/Source/Magic/MagicClient/Spell_C.h"
+ #include "Engine/Source/Model2/M2Model.h"
+ #include "WoW/Source/Net/Types.h"
++#include "WoW/Source/Client.h"    // Zeppelin F-236: ClientGetAlteredFormRace
+ 
+ // STATIC: 0x00BD19B8
+ uint8_t CGBarberShop::m_barberShopEnabled;
+@@ -50,6 +51,38 @@ STYLEREC* CGBarberShop::m_currentSkinColor;
+ // STATIC: 0x00BD19C4
+ TSHashTable<USEABLESTYLE, HASHKEY_NONE> CGBarberShop::m_useableStyles;
+ 
++// Not in the original (Zeppelin F-236): the race whose barber styles apply - a worgen in the human form (OBJECT_FIELD_PADDING
++// bit 31) is styled as a human, and the server checks the styles against race 1 then
++static int32_t ZepBarberStyleRace(CGPlayer_C* player) {
++    int32_t race = player->m_unit->m_unitFieldBytes0[0];
++    uint32_t altered = player->HasAlteredFormBit() ? ClientGetAlteredFormRace(race) : 0;
++    return altered ? static_cast<int32_t>(altered) : race;
++}
++
++// Not in the original (Zeppelin F-236): the useable styles of one race and sex (was built once in EnterWorld); the
++// barber rebuilds them on open, as the form showing decides the race
++static void ZepBuildUseableStyles(int32_t race, int32_t sex) {
++    CGBarberShop::m_useableStyles.InternalClear(0);
++
++    for (int32_t i = 0; i < g_barberShopStyleDB.m_numRecords; i++) {
++        BarberShopStyleRec* rec = g_barberShopStyleDB.GetRecordByIndex(i);
++
++        if (!rec || rec->m_race != race || (rec->m_sex != sex && rec->m_sex != -1)) {
++            continue;
++        }
++
++        HASHKEY_NONE key;
++        USEABLESTYLE* useable = CGBarberShop::m_useableStyles.Ptr(rec->m_type, key);
++
++        if (!useable) {
++            useable = CGBarberShop::m_useableStyles.New(rec->m_type, key, 0, 0);
++        }
++
++        STYLEREC* style = useable->m_styles.NewNode(2, 0, 0);
++        style->m_rec = rec;
++    }
++}
++
+ // VERIFY: 28b6e499 auto
+ // OFFSET: 0x0052E480
+ float CGBarberShop::GetMinCameraDistance() {
+@@ -198,9 +231,10 @@ int32_t Packet_SMSG_ENABLE_BARBER_SHOP(void* param, NETMESSAGE msgId, uint32_t t
+     }
+ 
+     component->AddItemBySlot(INVSLOT_TABARD, 54559, 0);
+-    CGBarberShop::m_currentHairStyle = CGBarberShop::GetStyle(0, player->m_unit->m_unitFieldBytes0[0], player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes[2]);
+-    CGBarberShop::m_currentFacialHair = CGBarberShop::GetStyle(2, player->m_unit->m_unitFieldBytes0[0], player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes2[0]);
+-    CGBarberShop::m_currentSkinColor = CGBarberShop::GetStyle(3, player->m_unit->m_unitFieldBytes0[0], player->m_player->m_playerBytes3[0], component->m_data.m_preferences.m_skinID);
++    ZepBuildUseableStyles(ZepBarberStyleRace(player), player->m_player->m_playerBytes3[0]);     // Zeppelin F-236
++    CGBarberShop::m_currentHairStyle = CGBarberShop::GetStyle(0, ZepBarberStyleRace(player), player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes[2]);
++    CGBarberShop::m_currentFacialHair = CGBarberShop::GetStyle(2, ZepBarberStyleRace(player), player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes2[0]);
++    CGBarberShop::m_currentSkinColor = CGBarberShop::GetStyle(3, ZepBarberStyleRace(player), player->m_player->m_playerBytes3[0], component->m_data.m_preferences.m_skinID);
+     CGBarberShop::m_barberShopEnabled = 1;
+     FrameScript_SignalEvent(SCRIPT_EVENT_BARBER_SHOP_OPEN, nullptr);
+     CGBarberShop::m_minCameraDistance = 1.0f;
+@@ -261,7 +295,7 @@ void CGBarberShop::SetNextBarberShopStyle(int32_t type, bool backward) {
+                 component->SetPrevHairStyle(COMPONENT_CONTEXT_1);
+             }
+ 
+-            CGBarberShop::m_currentHairStyle = CGBarberShop::GetStyle(0, player->m_unit->m_unitFieldBytes0[0], player->m_unit->m_unitFieldBytes0[2], component->m_data.m_preferences.m_hairStyleId);
++            CGBarberShop::m_currentHairStyle = CGBarberShop::GetStyle(0, ZepBarberStyleRace(player), player->m_unit->m_unitFieldBytes0[2], component->m_data.m_preferences.m_hairStyleId);
+             break;
+         case 1:
+             if (!backward) {
+@@ -278,7 +312,7 @@ void CGBarberShop::SetNextBarberShopStyle(int32_t type, bool backward) {
+                 component->SetPrevFacialFeature(COMPONENT_CONTEXT_1);
+             }
+ 
+-            CGBarberShop::m_currentFacialHair = CGBarberShop::GetStyle(2, player->m_unit->m_unitFieldBytes0[0], player->m_unit->m_unitFieldBytes0[2], component->m_data.m_preferences.m_facialHairId);
++            CGBarberShop::m_currentFacialHair = CGBarberShop::GetStyle(2, ZepBarberStyleRace(player), player->m_unit->m_unitFieldBytes0[2], component->m_data.m_preferences.m_facialHairId);
+             break;
+         case 3:
+             if (!backward) {
+@@ -287,7 +321,7 @@ void CGBarberShop::SetNextBarberShopStyle(int32_t type, bool backward) {
+                 component->SetPrevSkin(COMPONENT_CONTEXT_1);
+             }
+ 
+-            CGBarberShop::m_currentSkinColor = CGBarberShop::GetStyle(3, player->m_unit->m_unitFieldBytes0[0], player->m_unit->m_unitFieldBytes0[2], component->m_data.m_preferences.m_skinID);
++            CGBarberShop::m_currentSkinColor = CGBarberShop::GetStyle(3, ZepBarberStyleRace(player), player->m_unit->m_unitFieldBytes0[2], component->m_data.m_preferences.m_skinID);
+             break;
+         default:
+             break;
+@@ -334,7 +368,7 @@ void CGBarberShop::EnterWorld() {
+     }
+ 
+     CGPlayer_C* player = static_cast<CGPlayer_C*>(ClntObjMgrObjectPtr(ClntObjMgrGetActivePlayer(), TYPEMASK_PLAYER, __FILE__, __LINE__));
+-    int32_t race = player->m_unit->m_unitFieldBytes0[0];
++    int32_t race = ZepBarberStyleRace(player);     // Zeppelin F-236: the form showing (rebuilt again on barber open)
+     int32_t sex = player->m_player->m_playerBytes3[0];
+ 
+     for (int32_t i = 0; i < g_barberShopStyleDB.m_numRecords; i++) {
+@@ -355,9 +389,9 @@ void CGBarberShop::EnterWorld() {
+         style->m_rec = rec;
+     }
+ 
+-    CGBarberShop::m_currentHairStyle = CGBarberShop::GetStyle(0, player->m_unit->m_unitFieldBytes0[0], player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes[2]);
+-    CGBarberShop::m_currentFacialHair = CGBarberShop::GetStyle(2, player->m_unit->m_unitFieldBytes0[0], player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes2[0]);
+-    CGBarberShop::m_currentSkinColor = CGBarberShop::GetStyle(3, player->m_unit->m_unitFieldBytes0[0], player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes[0]);
++    CGBarberShop::m_currentHairStyle = CGBarberShop::GetStyle(0, ZepBarberStyleRace(player), player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes[2]);
++    CGBarberShop::m_currentFacialHair = CGBarberShop::GetStyle(2, ZepBarberStyleRace(player), player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes2[0]);
++    CGBarberShop::m_currentSkinColor = CGBarberShop::GetStyle(3, ZepBarberStyleRace(player), player->m_player->m_playerBytes3[0], player->m_player->m_playerBytes[0]);
+ }
+ 
+ // VERIFY: 066af30d manual
+@@ -553,6 +587,27 @@ void CGBarberShop::ApplyAppearanceChange() {
+         msg.Put(static_cast<uint32_t>(0));
+     }
+ 
++    // Not in the original (Zeppelin F-236): ZEPF block - 'ZEPF', form showing (0 native, 1 the worgen human form), n = 16,
++    // the look (skin, face, hair style, hair colour, facial hair, eye, marking, body marking, war paint, accessories,
++    // geoset slots 0..5). The server takes bytes 5-15 for that form's markings, accessories and slots.
++    const CharacterPreferences& prefs = component->m_data.m_preferences;
++    msg.Put(static_cast<uint32_t>(0x4650455A));
++    msg.Put(static_cast<uint8_t>(player->HasAlteredFormBit() ? 1 : 0));
++    msg.Put(static_cast<uint8_t>(16));
++    msg.Put(static_cast<uint8_t>(prefs.m_skinID));
++    msg.Put(static_cast<uint8_t>(prefs.m_faceId));
++    msg.Put(static_cast<uint8_t>(prefs.m_hairStyleId));
++    msg.Put(static_cast<uint8_t>(prefs.m_hairColorId));
++    msg.Put(static_cast<uint8_t>(prefs.m_facialHairId));
++    msg.Put(static_cast<uint8_t>(prefs.m_eyeId));
++    msg.Put(static_cast<uint8_t>(prefs.m_markingId));
++    msg.Put(static_cast<uint8_t>(prefs.m_bodyMarkingId));
++    msg.Put(static_cast<uint8_t>(prefs.m_warPaintId));
++    msg.Put(static_cast<uint8_t>(prefs.m_jewelleryId & 0x7F));
++    for (int32_t s = 0; s < 6; s++) {
++        msg.Put(static_cast<uint8_t>(prefs.m_zepSlot[s]));
++    }
++
+     msg.Finalize();
+     ClientServices::SendPacket(&msg);
+ }
+diff --git a/WoW/Source/Ui/DressUpModelFrame.cpp b/WoW/Source/Ui/DressUpModelFrame.cpp
+index 53a089e3..b1f2f16d 100644
+--- a/WoW/Source/Ui/DressUpModelFrame.cpp
++++ b/WoW/Source/Ui/DressUpModelFrame.cpp
+@@ -1,4 +1,5 @@
+ #include "DressUpModelFrame.h"
++#include "WoW/Source/Client.h"    // Zeppelin F-236: ClientGetAlteredFormRace
+ #include <new>
+ #include <typeinfo>
+ #include "Engine/Source/Frame/CScriptObject.h"
+@@ -184,7 +185,8 @@ CM2Model* CGDressUpModelFrame::GetDuplicateUnitCharacterModel(CGUnit_C* unit) {
+         return nullptr;
+     }
+ 
+-    CreatureDisplayInfoRec* display = g_creatureDisplayInfoDB.GetRecord(unit->m_unit->m_unitFieldNativedisplayid);
++    // Zeppelin F-236: the human form's character model while a worgen shows it
++    CreatureDisplayInfoRec* display = g_creatureDisplayInfoDB.GetRecord(unit->GetCurrentClientNativeDisplayID());
+ 
+     if (!display) {
+         return nullptr;
+@@ -518,6 +520,10 @@ void CGDressUpModelFrame::SetModel(CM2Model* model) {
+         model->m_refCount++;
+         ComponentData data;
+         data.m_preferences.m_raceID = player->m_unit->m_unitFieldBytes0[0];
++        // Zeppelin F-236: the worgen human form is a human character (the appearance fields hold its look)
++        if (player->HasAlteredFormBit() && ClientGetAlteredFormRace(data.m_preferences.m_raceID)) {
++            data.m_preferences.m_raceID = ClientGetAlteredFormRace(data.m_preferences.m_raceID);
++        }
+         data.m_preferences.m_sexID = player->m_player->m_playerBytes3[0];
+         data.m_preferences.m_classId = player->m_unit->m_unitFieldBytes0[1];
+         data.m_preferences.m_skinID = player->m_player->m_playerBytes[0];
+diff --git a/WoW/Source/WowServices/Types.h b/WoW/Source/WowServices/Types.h
+index 7cd91359..4187da30 100644
+--- a/WoW/Source/WowServices/Types.h
++++ b/WoW/Source/WowServices/Types.h
+@@ -160,6 +160,11 @@ struct CHARACTER_CREATE_INFO {
+     // Not in the original (F-230): sent in the ZEPO block after the war paint
+     /* 003D */ uint8_t m_jewelleryID;
+     /* 003E */ uint8_t m_zepSlot[6];
++    // Not in the original (Zeppelin F-236): a new character's human form look, sent in the ZEPF block after ZEPO
++    // (layout: skin, face, hair style, hair colour, facial hair, eye, marking, body marking, war paint, accessories,
++    // geoset slots 0..5)
++    /* 0044 */ uint8_t m_hasFormLook;
++    /* 0045 */ uint8_t m_formLook[16];
+ };
+ 
+ struct REALM_INFO {
+diff --git a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
+index e4462a74..4d59ec22 100644
+--- a/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
++++ b/WoW/Source/WowSvcs/WowSvcsClient/ClientServices.cpp
+@@ -1378,6 +1378,15 @@ void ClientConnection::RequestCharacterCreate(const CHARACTER_CREATE_INFO& info)
+     for (int32_t s = 0; s < 6; s++) {
+         msg.Put(info.m_zepSlot[s]);
+     }
++    // Not in the original (Zeppelin F-236): ZEPF block - 'ZEPF', form 1 (the worgen human form), n = 16, the look
++    if (info.m_hasFormLook) {
++        msg.Put(static_cast<uint32_t>(0x4650455A));
++        msg.Put(static_cast<uint8_t>(1));
++        msg.Put(static_cast<uint8_t>(16));
++        for (int32_t i = 0; i < 16; i++) {
++            msg.Put(info.m_formLook[i]);
++        }
++    }
+     msg.Finalize();
+     this->Send(&msg);
+ }
+-- 
+2.34.1
+
