@@ -1,0 +1,49 @@
+From 1a6a60842261ed943949bcfc1fd187baaadea678 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Oct 2026 22:37:51 +0000
+Subject: [PATCH] Zeppelin F-234: HdSky loads its prebuilt bytecode
+ (Vulkan\hd-blobs\HdSky-..., HD::ShaderPrebuilt) before compiling, so the
+ Vulkan manifest can know the Forever sky and clouds
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ WoW/Source/WorldClient/HD/HdSky.cpp | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/WoW/Source/WorldClient/HD/HdSky.cpp b/WoW/Source/WorldClient/HD/HdSky.cpp
+index 86d06a76..0c2dff2d 100644
+--- a/WoW/Source/WorldClient/HD/HdSky.cpp
++++ b/WoW/Source/WorldClient/HD/HdSky.cpp
+@@ -187,8 +187,15 @@ float4 CloudPS(CloudVertex i, float2 vpos : VPOS) : COLOR0 {
+             s_state.store(StateFailed);
+             return;
+         }
++        // Zeppelin F-234: the bytecode shipped in PATCH-V first (the Vulkan manifest knows those bytes), else compiled.
++        const uint32_t key = HD::ShaderSourceKey(kShader);
++        int32_t prebuilt = 0;
+         for (int32_t i = 0; i < Sh_Count; i++) {
+             bool vertex = i == Sh_SkyVS || i == Sh_CloudVS;
++            if (HD::ShaderPrebuilt("HdSky", !vertex, i, 0, key, s_code[i])) {
++                prebuilt++;
++                continue;
++            }
+             ID3DBlob* code = nullptr;
+             ID3DBlob* errors = nullptr;
+             HRESULT hr = compile(kShader, strlen(kShader), "HdSky", nullptr, nullptr, kEntry[i], vertex ? "vs_3_0" : "ps_3_0", D3DCOMPILE_OPTIMIZATION_LEVEL3, 0, &code, &errors);
+@@ -202,10 +209,10 @@ float4 CloudPS(CloudVertex i, float2 vpos : VPOS) : COLOR0 {
+             if (errors) errors->Release();
+             const uint8_t* bytes = static_cast<const uint8_t*>(code->GetBufferPointer());
+             s_code[i].assign(bytes, bytes + code->GetBufferSize());
+-            HD::ShaderDump("HdSky", !vertex, i, 0, bytes, code->GetBufferSize()); // HD: hdShaderDump
++            HD::ShaderDump("HdSky", !vertex, i, 0, bytes, code->GetBufferSize(), key); // HD: hdShaderDump
+             code->Release();
+         }
+-        snprintf(s_threadInfo, sizeof(s_threadInfo), "%d shaders compiled in %u ms", static_cast<int>(Sh_Count), static_cast<uint32_t>(GetTickCount64() - start));
++        snprintf(s_threadInfo, sizeof(s_threadInfo), "%d shaders (%d prebuilt) ready in %u ms", static_cast<int>(Sh_Count), prebuilt, static_cast<uint32_t>(GetTickCount64() - start));
+         s_state.store(StateReady);
+     }
+ 
+-- 
+2.34.1
+
