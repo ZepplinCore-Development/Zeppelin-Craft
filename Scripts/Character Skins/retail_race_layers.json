@@ -109,6 +109,226 @@
     135,
     75
    ]
+  },
+  "8:0:31": {
+   "body_ncc": 0.633,
+   "face_fit": [
+    0.704,
+    1.8,
+    2.4,
+    8,
+    1
+   ],
+   "regions": {
+    "ArmUpper": 0.297,
+    "ArmLower": 0.263,
+    "Hand": 0.476,
+    "TorsoUpper": 0.622,
+    "TorsoLower": 0.792,
+    "LegUpper": 0.586,
+    "LegLower": 0.536,
+    "Foot": 0.425
+   }
+  },
+  "8:1:31": {
+   "body_ncc": 0.8,
+   "face_fit": [
+    0.758,
+    1.1,
+    1.88,
+    114,
+    62
+   ],
+   "regions": {
+    "ArmUpper": 0.48,
+    "ArmLower": 0.852,
+    "Hand": 0.688,
+    "TorsoUpper": 0.765,
+    "TorsoLower": 0.94,
+    "LegUpper": 0.949,
+    "LegLower": 0.837,
+    "Foot": 0.65
+   }
+  },
+  "4:0:27": {
+   "body_ncc": 0.765,
+   "face_fit": [
+    0.783,
+    1.5,
+    1.55,
+    64,
+    144
+   ],
+   "regions": {
+    "ArmUpper": 0.665,
+    "ArmLower": 0.742,
+    "Hand": 0.62,
+    "TorsoUpper": 0.743,
+    "TorsoLower": 0.795,
+    "LegUpper": 0.609,
+    "LegLower": 0.632,
+    "Foot": 0.787
+   }
+  },
+  "4:1:27": {
+   "body_ncc": 0.831,
+   "face_fit": [
+    0.637,
+    1.7,
+    1.5,
+    76,
+    125
+   ],
+   "regions": {
+    "ArmUpper": 0.75,
+    "ArmLower": 0.777,
+    "Hand": 0.818,
+    "TorsoUpper": 0.868,
+    "TorsoLower": 0.616,
+    "LegUpper": 0.792,
+    "LegLower": 0.637,
+    "Foot": 0.926
+   }
+  },
+  "6:0:28": {
+   "body_ncc": 0.723,
+   "face_fit": [
+    0.748,
+    2.0,
+    2.37,
+    0,
+    5
+   ],
+   "regions": {
+    "ArmUpper": 0.386,
+    "ArmLower": 0.515,
+    "Hand": 0.94,
+    "TorsoUpper": 0.64,
+    "TorsoLower": 0.463,
+    "LegUpper": 0.811,
+    "LegLower": 0.787,
+    "Foot": 0.973
+   }
+  },
+  "6:1:28": {
+   "body_ncc": 0.709,
+   "face_fit": [
+    0.627,
+    1.98,
+    2.05,
+    3,
+    33
+   ],
+   "regions": {
+    "ArmUpper": 0.219,
+    "ArmLower": 0.475,
+    "Hand": 0.881,
+    "TorsoUpper": 0.697,
+    "TorsoLower": 0.979,
+    "LegUpper": 0.847,
+    "LegLower": 0.841,
+    "Foot": 0.978
+   }
+  },
+  "3:0:34": {
+   "body_ncc": 0.946,
+   "face_fit": [
+    0.74,
+    2.0,
+    1.45,
+    0,
+    41
+   ],
+   "regions": {
+    "ArmUpper": 0.931,
+    "ArmLower": 0.836,
+    "Hand": 0.783,
+    "TorsoUpper": 0.919,
+    "TorsoLower": 0.94,
+    "LegUpper": 0.905,
+    "LegLower": 0.885,
+    "Foot": 0.891
+   }
+  },
+  "3:1:34": {
+   "body_ncc": 0.945,
+   "face_fit": [
+    0.632,
+    1.25,
+    2.37,
+    120,
+    13
+   ],
+   "regions": {
+    "ArmUpper": 0.942,
+    "ArmLower": 0.919,
+    "Hand": 0.936,
+    "TorsoUpper": 0.963,
+    "TorsoLower": 0.937,
+    "LegUpper": 0.928,
+    "LegLower": 0.862,
+    "Foot": 0.903
+   }
+  },
+  "11:0:30": {
+   "body_ncc": 0.992,
+   "face_fit": [
+    0.851,
+    1.18,
+    1.4,
+    105,
+    165
+   ],
+   "regions": {
+    "ArmUpper": 0.997,
+    "ArmLower": 0.99,
+    "Hand": 0.988,
+    "TorsoUpper": 0.996,
+    "TorsoLower": 0.994,
+    "LegUpper": 0.982,
+    "LegLower": 0.99,
+    "Foot": 0.944
+   }
+  },
+  "11:1:30": {
+   "body_ncc": 0.989,
+   "face_fit": [
+    0.827,
+    1.5,
+    1.62,
+    116,
+    114
+   ],
+   "regions": {
+    "ArmUpper": 0.99,
+    "ArmLower": 0.989,
+    "Hand": 0.978,
+    "TorsoUpper": 0.993,
+    "TorsoLower": 0.991,
+    "LegUpper": 0.994,
+    "LegLower": 0.987,
+    "Foot": 0.933
+   }
+  },
+  "5:0": {
+   "body_ncc": 0.992,
+   "face_fit": [
+    0.787,
+    1.83,
+    1.97,
+    11,
+    118
+   ]
+  },
+  "5:1": {
+   "body_ncc": 0.996,
+   "face_fit": [
+    0.582,
+    1.9,
+    1.15,
+    24,
+    215
+   ]
   }
  },
  "rows": [

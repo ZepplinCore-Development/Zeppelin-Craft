@@ -88,20 +88,7 @@ CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 -- color_index values per sex; "shared" lists the ones every sub-race offers (death knight skins).
 -- Keyed by the race's file name (GetNameForRace).
 -- marking layers by region (F-230 regroup): customization 7 = face markings (section 6), 8 = body markings
--- (section 7), 9 = scars (section 8). A sub-race's faceMarks / bodyMarks list limits that row to the listed values
--- (0 = none); without a list every value is offered. Orc body 16, 17 (Ascension handprints and war paint) are Mag'har's.
--- The gates follow markings_regroup.json "gates": each sub-race only gets the marks drawn for its skins.
-function CharCreate_Marks(last, ...)
-	local marks = {};
-	for value = 0, last do
-		tinsert(marks, value);
-	end
-	for _, value in ipairs({...}) do
-		tinsert(marks, value);
-	end
-	return marks;
-end
-ORC_BODY_MARKS = CharCreate_Marks(15);
+-- (section 7), 9 = scars (section 8); each sub-race's allowed values are CHAR_CREATE_MARK_GATES below.
 -- eye colour (CharSections base_section 5 types; the last is the death knight eye, which only DKs see): the dwarves'
 -- full-colour eye (male 11, female 6; eyes_all.json) is Dark Iron only (user review 2026-10-25)
 DWARF_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}, FEMALE = {0, 1, 2, 3, 4, 5, 7} };
@@ -110,16 +97,16 @@ CHAR_CREATE_SUBRACES = {
 	-- orc colours 28-43 bake markings (not offered: retail tattoos, scars and war paint now); Blackrock 15, 44, 45 and
 	-- Mag'har clan colours 46, 48, 49, 51, 52, 54, 55, 57 bake tattoos or paint (user review 2026-10-24)
 	["ORC"] = {
-		{ name = "Orc", icon = "ORC", bodyMarks = { MALE = ORC_BODY_MARKS, FEMALE = ORC_BODY_MARKS },
+		{ name = "Orc", icon = "ORC",
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
 		{ name = "Mag'har", lore = "The Mag'har are the orcs who never drank the blood of Mannoroth. Untouched by the demonic taint, they kept the old ways of Draenor: shamanism, the hunt and the honour of the clans. Now they stand with the Horde as living proof of what the orcs were before the fall.", title = "Mag'har Orc", icon = "MAGHAR",
 			MALE = {12, 16, 20, 21, 22, 23, 24, 50, 53},
 			FEMALE = {12, 20, 21, 22, 23, 24, 50, 53} },	-- every skin has a home (user, 2026-10-28)
-		{ name = "Blackrock", lore = "Forged in the fires of Blackrock Mountain, the Blackrock clan is the iron fist of the orcish war machine. Their smiths turned war into an industry and their warlords led the Horde's first invasions. Those who march under the Horde's banner today trade old conquest for discipline and steel.", title = "Blackrock Orc", icon = "BLACKROCK", bodyMarks = { MALE = ORC_BODY_MARKS, FEMALE = ORC_BODY_MARKS },
+		{ name = "Blackrock", lore = "Forged in the fires of Blackrock Mountain, the Blackrock clan is the iron fist of the orcish war machine. Their smiths turned war into an industry and their warlords led the Horde's first invasions. Those who march under the Horde's banner today trade old conquest for discipline and steel.", title = "Blackrock Orc", icon = "BLACKROCK",
 			MALE = {9, 14, 17, 18, 19, 47},
 			FEMALE = {11, 13, 18, 19, 47} },
-		{ name = "Fel Orc", lore = "Fel orcs carry the Legion's corruption in their very blood, their skin burned red by fel power. Many were bred for war in Hellfire Citadel, but some broke free of their masters' grip. They fight beside the Horde, shunned by many and feared by more, to turn the demons' gift against them.", icon = "FELORC", bodyMarks = { MALE = ORC_BODY_MARKS, FEMALE = ORC_BODY_MARKS },
+		{ name = "Fel Orc", lore = "Fel orcs carry the Legion's corruption in their very blood, their skin burned red by fel power. Many were bred for war in Hellfire Citadel, but some broke free of their masters' grip. They fight beside the Horde, shunned by many and feared by more, to turn the demons' gift against them.", icon = "FELORC",
 			MALE = {10, 25, 26, 27},
 			FEMALE = {25, 26, 27} },
 	},
@@ -129,18 +116,12 @@ CHAR_CREATE_SUBRACES = {
 	["DWARF"] = {
 		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
 		{ name = "Bronzebeard", title = "Bronzebeard Dwarf", icon = "DWARF", eyes = DWARF_EYES,
-			faceMarks = { MALE = CharCreate_Marks(28), FEMALE = CharCreate_Marks(16) },
-			bodyMarks = { MALE = CharCreate_Marks(28), FEMALE = CharCreate_Marks(28) },
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
 		{ name = "Dark Iron", lore = "The Dark Iron dwarves were once the bitter rivals of Ironforge, ruled from the burning halls of Shadowforge City. Tempered by fire and magma, they are master smiths and fierce warriors. With old enmities set aside, they now stand with the Alliance.", title = "Dark Iron Dwarf", icon = "DARKIRON", eyes = DARKIRON_EYES,
-			faceMarks = { MALE = CharCreate_Marks(28, 33), FEMALE = CharCreate_Marks(16) },
-			bodyMarks = { MALE = CharCreate_Marks(28, 33), FEMALE = CharCreate_Marks(28) },
 			MALE = {26, 27, 28, 29, 33, 34, 35, 36, 38, 39, 40, 41},
 			FEMALE = {26, 27, 28, 29, 32, 33, 34, 35, 36, 38, 39, 40, 41} },
 		{ name = "Wildhammer", lore = "The Wildhammer dwarves left Ironforge long ago for the cliffs of Grim Batol and later the Hinterlands. They live close to nature, ride gryphons into battle and mark their bodies with tribal tattoos. Proud and free, they answer to no king but their own thanes.", title = "Wildhammer Dwarf", icon = "WILDHAMMER", eyes = DWARF_EYES,
-			faceMarks = { MALE = CharCreate_Marks(32), FEMALE = CharCreate_Marks(20) },
-			bodyMarks = { MALE = CharCreate_Marks(32), FEMALE = CharCreate_Marks(31) },
 			MALE = {42, 43, 44, 45, 46, 47, 48, 49, 50},	-- plain copies of 0-8; the tattoos are layers now
 			FEMALE = {42, 43, 44, 45, 46, 47, 48, 49, 50} },
 	},
@@ -183,13 +164,9 @@ CHAR_CREATE_SUBRACES = {
 	["TAUREN"] = {
 		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
 		{ name = "Tauren", icon = "TAUREN",
-			faceMarks = { MALE = CharCreate_Marks(15), FEMALE = CharCreate_Marks(15) },
-			bodyMarks = { MALE = CharCreate_Marks(15), FEMALE = CharCreate_Marks(15) },
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38} },
 		{ name = "Grimtotem", lore = "The Grimtotem clan never accepted Cairne Bloodhoof's peace with the younger races. They paint their black fur for war and hold to the old belief that the tauren must rule Kalimdor alone. Those who now walk with the Horde have broken with Magatha's schemes, but they still carry the clan's fierce pride and its war paint.", title = "Grimtotem Tauren", icon = "GRIMTOTEM",
-			faceMarks = { MALE = CharCreate_Marks(18), FEMALE = CharCreate_Marks(18) },
-			bodyMarks = { MALE = CharCreate_Marks(18), FEMALE = CharCreate_Marks(18) },
 			MALE = {42, 43, 44, 45, 46, 47},	-- black and near-black fur copies; the paint is a layer now
 			FEMALE = {42, 43, 44, 45, 46} },
 	},
@@ -259,6 +236,139 @@ CHAR_CREATE_SUBRACES = {
 			FEMALE = {12, 16, 20} },
 	},
 };
+-- BEGIN GENERATED marking gates (Scripts/Character Skins/markings_glue.py) - do not edit by hand
+-- customization 7 = face markings, 8 = body markings, 9 = scars: the values a sub-race may pick (its
+-- exclusive set plus the race's common pool); a row with no list here offers every value
+CHAR_CREATE_MARK_GATES = {
+	["BLOODELF"] = {
+		["Blood Elf"] = {
+			MALE = { [8] = {0, 1, 3, 5, 7, 9, 11, 13, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26, 28, 29, 31, 32} },
+			FEMALE = { [8] = {0, 1, 3, 5, 7, 9, 11, 13, 14, 17, 18, 19, 21, 22, 24, 25, 27, 28, 30, 31, 33, 34} },
+		},
+		["Void Elf"] = {
+			MALE = { [8] = {0, 2, 4, 6, 8, 10, 12, 14, 15, 16, 22, 27, 30, 33} },
+			FEMALE = { [8] = {0, 2, 4, 6, 8, 10, 12, 14, 15, 16, 20, 23, 26, 29, 32, 35} },
+		},
+	},
+	["DRAENEI"] = {
+		["Draenei"] = {
+			MALE = { [8] = {0} },
+			FEMALE = { [8] = {0} },
+		},
+		["Eredar"] = {
+			MALE = { [8] = {0} },
+			FEMALE = { [8] = {0} },
+		},
+		["Lightforged"] = {
+			MALE = { [8] = {0, 1, 2, 3} },
+			FEMALE = { [8] = {0, 1, 2, 3} },
+		},
+	},
+	["DWARF"] = {
+		["Bronzebeard"] = {
+			MALE = { [7] = {0, 5, 7, 8, 13, 15, 16, 21, 23, 24}, [8] = {0, 5, 7, 8, 13, 15, 16, 21, 23, 24} },
+			FEMALE = { [7] = {0, 5, 7, 8}, [8] = {0, 1, 3, 4, 9, 11, 12, 13, 15, 16} },
+		},
+		["Dark Iron"] = {
+			MALE = { [7] = {0, 2, 6, 10, 14, 18, 22, 26, 33, 34, 35, 36, 37, 38}, [8] = {0, 2, 6, 10, 14, 18, 22, 26, 33} },
+			FEMALE = { [7] = {0, 2, 6, 10, 14, 21, 22, 23, 24, 25}, [8] = {0, 2, 6, 10, 14, 18, 22, 26} },
+		},
+		["Wildhammer"] = {
+			MALE = { [7] = {0, 1, 3, 4, 9, 11, 12, 17, 19, 20, 25, 27, 28, 29, 30, 31, 32}, [8] = {0, 1, 3, 4, 9, 11, 12, 17, 19, 20, 25, 27, 28, 29, 30, 31, 32} },
+			FEMALE = { [7] = {0, 1, 3, 4, 9, 11, 12, 13, 15, 16, 17, 18, 19, 20}, [8] = {0, 5, 7, 8, 17, 19, 20, 21, 23, 24, 25, 27, 28, 29, 30, 31} },
+		},
+	},
+	["HUMAN"] = {
+		["Cultist"] = {
+			MALE = { [7] = {0, 1, 2} },
+			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6}, [8] = {0, 1} },
+		},
+		["Human"] = {
+			MALE = { [7] = {0} },
+			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6}, [8] = {0} },
+		},
+	},
+	["NIGHTELF"] = {
+		["Cenarion"] = {
+			MALE = { [7] = {0, 2, 3, 4, 5}, [8] = {0, 1, 2, 3, 4}, [9] = {0, 2, 3, 4, 5} },
+			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15}, [8] = {0, 13, 14, 15, 16, 23, 24, 25, 26}, [9] = {0, 2, 3, 4, 5} },
+		},
+		["Illidari"] = {
+			MALE = { [7] = {0, 2, 5}, [8] = {0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28}, [9] = {0, 2, 3, 4, 5} },
+			FEMALE = { [7] = {0, 3, 8, 9, 10, 11, 12, 13}, [8] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 25, 26}, [9] = {0, 2, 3, 4, 5} },
+		},
+		["Kaldorei"] = {
+			MALE = { [7] = {0, 1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}, [8] = {0, 1, 4}, [9] = {0, 1, 2, 3, 4, 5} },
+			FEMALE = { [7] = {0, 3, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23}, [8] = {0, 15, 16, 25, 26, 27, 28, 29, 30, 31, 32}, [9] = {0, 1, 2, 3, 4, 5} },
+		},
+	},
+	["ORC"] = {
+		["Blackrock"] = {
+			MALE = { [7] = {0, 1, 2, 3, 4, 7, 8, 11, 15, 16}, [8] = {0, 1, 2, 3, 6, 7, 10, 14, 15}, [9] = {0, 1, 2, 3} },
+			FEMALE = { [7] = {0, 1, 2, 3, 6, 7, 10, 14, 15}, [8] = {0, 1, 2, 3, 6, 7, 10, 14, 15}, [9] = {0, 1, 2, 3, 4} },
+		},
+		["Fel Orc"] = {
+			MALE = { [7] = {0, 1, 2, 3, 4, 12}, [8] = {0, 1, 2, 3, 11}, [9] = {0, 1, 2, 3} },
+			FEMALE = { [7] = {0, 1, 2, 3, 11}, [8] = {0, 1, 2, 3, 11}, [9] = {0, 1, 2, 3, 4} },
+		},
+		["Mag'har"] = {
+			MALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 9, 10, 13, 14}, [8] = {0, 1, 2, 3, 4, 5, 8, 9, 12, 13, 16, 17}, [9] = {0, 1, 2, 3} },
+			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 8, 9, 12, 13}, [8] = {0, 1, 2, 3, 4, 5, 8, 9, 12, 13, 16, 17}, [9] = {0, 1, 2, 3, 4} },
+		},
+		["Orc"] = {
+			MALE = { [7] = {0, 1, 2, 3, 4}, [8] = {0, 1, 2, 3}, [9] = {0, 1, 2, 3} },
+			FEMALE = { [7] = {0, 1, 2, 3}, [8] = {0, 1, 2, 3}, [9] = {0, 1, 2, 3, 4} },
+		},
+	},
+	["SCOURGE"] = {
+		["Embalmed"] = {
+			MALE = { [7] = {0, 1, 5} },
+			FEMALE = { [8] = {0} },
+		},
+		["Forsaken"] = {
+			MALE = { [7] = {0} },
+			FEMALE = { [8] = {0, 1} },
+		},
+		["Plaguebound"] = {
+			MALE = { [7] = {0, 2, 3, 6} },
+			FEMALE = { [8] = {0} },
+		},
+		["Rimebound"] = {
+			MALE = { [7] = {0, 4} },
+			FEMALE = { [8] = {0} },
+		},
+	},
+	["TAUREN"] = {
+		["Grimtotem"] = {
+			MALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21}, [8] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21} },
+			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21}, [8] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21} },
+		},
+		["Tauren"] = {
+			MALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15} },
+			FEMALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15} },
+		},
+	},
+	["TROLL"] = {
+		["Dark Troll"] = {
+			MALE = { [7] = {0, 13, 14, 17, 18, 26, 27, 30, 31}, [8] = {0, 1, 2, 5, 6, 7, 8, 9, 10, 15, 16, 17, 18} },
+			FEMALE = { [7] = {0, 1, 2, 3, 7, 8, 9, 10, 11, 12, 16, 17, 18}, [8] = {0, 1, 2, 3, 7, 8, 9, 10, 11, 12, 16, 17, 18} },
+		},
+		["Darkspear"] = {
+			MALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19, 20, 21, 22, 23, 24, 25}, [8] = {0} },
+			FEMALE = { [7] = {0}, [8] = {0} },
+		},
+		["Sand Troll"] = {
+			MALE = { [7] = {0, 15, 16, 28, 29}, [8] = {0, 3, 4, 11, 12, 13, 14} },
+			FEMALE = { [7] = {0, 4, 5, 6, 13, 14, 15}, [8] = {0, 4, 5, 6, 13, 14, 15, 19, 20} },
+		},
+	},
+};
+for race, subs in pairs(CHAR_CREATE_MARK_GATES) do
+	for _, subRace in ipairs(CHAR_CREATE_SUBRACES[race]) do
+		subRace.marks = subs[subRace.name];
+	end
+end
+-- END GENERATED marking gates
 MAX_SUBRACES = 4;
 
 function CharacterCreate_OnLoad(self)
@@ -524,16 +634,16 @@ function CharCreate_ApplySubRace()
 		end
 	end
 	SetCharCustomizationFilter(1, unpack(colours));
-	-- face and body markings a sub-race keeps to itself (faceMarks / bodyMarks), scars open to all
-	for index, key in pairs({ [7] = "faceMarks", [8] = "bodyMarks" }) do
-		local marks = subRaces[CharacterCreate.subRace][key];
-		if ( marks and marks[gender] ) then
-			SetCharCustomizationFilter(index, unpack(marks[gender]));
+	-- face markings, body markings and scars: the sub-race's exclusive set plus the race's common pool
+	local gates = subRaces[CharacterCreate.subRace].marks;
+	for index = 7, 9 do
+		local marks = gates and gates[gender] and gates[gender][index];
+		if ( marks ) then
+			SetCharCustomizationFilter(index, unpack(marks));
 		else
 			SetCharCustomizationFilter(index);
 		end
 	end
-	SetCharCustomizationFilter(9);
 	-- faces (CharSections face types; each list includes the death knight copies) a sub-race keeps to itself
 	local faces = subRaces[CharacterCreate.subRace].faces;
 	if ( faces and faces[gender] ) then

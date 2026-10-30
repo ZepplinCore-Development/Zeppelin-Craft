@@ -14,6 +14,7 @@ over the whole atlas at once (the client pastes them section by section). Check 
 regroup; 0 = none), e.g. --layers 3,0,0. markings_regroup.json `values` names them.
 """
 import argparse
+import atexit
 import functools
 import http.server
 import json
@@ -22,6 +23,7 @@ import socketserver
 import struct
 import subprocess
 import sys
+import shutil
 import tempfile
 import threading
 import urllib.parse
@@ -236,6 +238,8 @@ class Viewer:
 
     def __init__(self):
         self.work = Path(tempfile.mkdtemp(prefix='skin_preview_'))
+        # bake BLPs and shots run to hundreds of MB per run: gone at close or exit (filled the docker image once)
+        atexit.register(shutil.rmtree, self.work, True)
         self.www = self.work / 'www'
         self.www.mkdir()
         for entry in VIEWER.iterdir():
@@ -309,6 +313,7 @@ class Viewer:
 
     def close(self):
         self.httpd.shutdown()
+        shutil.rmtree(self.work, ignore_errors=True)
 
 
 def files_resolver():

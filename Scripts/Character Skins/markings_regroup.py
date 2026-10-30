@@ -113,17 +113,53 @@ SUBRACE_COPIES = {(3, 0): ('Wildhammer', list(range(9))), (3, 1): ('Wildhammer',
 # layer designs locked to one sub-race (glue filter 7 face / 8 body): design prefix -> (race, sub-race)
 GATES = [('Wildhammer', 3, 'Wildhammer'), ('Dark Iron tattoo', 3, 'Dark Iron'), ('Grimtotem', 6, 'Grimtotem'),
          ('Ascension', 2, "Mag'har")]
+# DRAFT (F-230 second port, 2026-10-30, for user review; the glue still reads `gates`): every marking value is either
+# one sub-race's exclusive signature or common to every sub-race of its race. (race, name regex, sub-race), first match
+# wins, no match = common. Written to markings_regroup.json `proposed_gates`.
+PROPOSED = [
+    (2, r"^Ascension", "Mag'har"), (2, r"war paint \((white|teal|grey)\)", "Mag'har"),
+    (2, r"^Ghost war paint \(red\)", 'Fel Orc'), (2, r"war paint \((red|yellow)\)", 'Blackrock'),
+    (3, r"\(Blood\)", 'Dark Iron'), (3, r"^(Dark Iron|Dark Iron tattoo)", 'Dark Iron'),
+    (3, r"^(Ironforge|Thunder|Highlands) tattoo", 'Bronzebeard'),
+    (3, r"^(Aerie|Gryphon|Hinterlands|Sky) tattoo|^Wildhammer", 'Wildhammer'),
+    (6, r"^Grimtotem|^(Kodo|Otter|Hawk) (face|body) paint \(red( and blue)?\)", 'Grimtotem'),
+    (6, r"^Highmountain", 'Tauren'),
+    (8, r"^(Berserker|Fangs|Mask|Oni|Prophet|War) face paint", 'Darkspear'),
+    (8, r"^(Skull|Bones) |^Zandalari", 'Sand Troll'), (8, r"^(Voodoo|Ritual) ", 'Dark Troll'),
+    (4, r"^(Suffering|Betrayer|Pain|Sacrifice|Revenge|Chaos) tattoo", 'Illidari'),
+    (4, r"^(Wild|Ancient|Leaf|Bear|Crane|Hawk) ", 'Cenarion'),
+    (4, r"^(Shadow|Protector|Teldrassil) |^Nightborne", 'Kaldorei'),
+    (10, r"^(Suffering|Betrayer|Pain|Sacrifice|Revenge|Chaos) tattoo \((green|dark green|red)\)", 'Blood Elf'),
+    (10, r"^Arcane swirls \(red\)|^Fel veins", 'Blood Elf'),
+    (10, r"^(Suffering|Betrayer|Pain|Sacrifice|Revenge|Chaos) tattoo \((purple|dark blue)\)", 'Void Elf'),
+    (10, r"^Arcane swirls \((purple|black)\)", 'Void Elf'),
+    (1, r"^(Bat eye paint|Tear streaks|Thorn tattoo)", 'Cultist'),
+    (5, r"^Thorn tattoo", 'Forsaken'),
+    (5, r"^(Drooler|Slobber|Cheeky|Loose)", 'Plaguebound'),
+    (5, r"^(Rot-Kissed|Stitched|Toothy|Unhinged)", 'Embalmed'),
+    (5, r"^(Bonejawed|Jawsome)", 'Rimebound'),
+    (11, r"^Lightforged", 'Lightforged'),
+]
 # retired markings whose parts are Mag'har-only in the glue (were MAGHAR_WAR_PAINT 13 / 14, user review 2026-10-25)
 MAGHAR_ONLY = ('Ascension handprints', 'Ascension war paint')
 
 
 # ------------------------------------------------------------------------------------------------ sources
-def build_sources():
-    """All source layers, in pool order: retail (orc, then the other races), then the baked splits."""
-    rl = _load('retail_layers', 'retail_layers.py')
+def build_sources(extra_only=False):
+    """All source layers, in pool order: retail (orc, then the other races), then the baked splits, then the second
+    retail port (retail_race_layers.extra_layer_sources, flagged `extra`: their values come after every other).
+    extra_only: keep the cached first sources as they are and rebuild only the extra ones."""
     rrl = _load('retail_race_layers', 'retail_race_layers.py')
-    bm = _load('body_markings', 'body_markings.py')
-    out = rl.layer_sources() + rrl.layer_sources() + bm.layer_sources()
+    if extra_only and (CACHE / 'manifest.json').exists():
+        kept = [s for s in json.loads((CACHE / 'manifest.json').read_text()) if not s.get('extra')]
+        for s in kept:
+            s['image'] = Image.open(CACHE / s['png']).convert('RGBA')
+        out = kept + rrl.extra_layer_sources()
+    else:
+        rl = _load('retail_layers', 'retail_layers.py')
+        bm = _load('body_markings', 'body_markings.py')
+        out = rl.layer_sources() + rrl.layer_sources() + bm.layer_sources() + rrl.extra_layer_sources()
+    images = [s['image'].convert('RGBA').resize((SIZE, SIZE), Image.LANCZOS) for s in out]
     if CACHE.exists():
         for old in CACHE.glob('*.png'):
             old.unlink()
@@ -131,8 +167,8 @@ def build_sources():
     manifest = []
     for i, s in enumerate(out):
         name = f"{i:03d}_{s['race']}_{s['sex']}_{s['old_section']}_{s['old_type']}.png"
-        s['image'].convert('RGBA').resize((SIZE, SIZE), Image.LANCZOS).save(CACHE / name)
-        manifest.append({k: v for k, v in s.items() if k != 'image'} | {'png': name})
+        images[i].save(CACHE / name)
+        manifest.append({k: v for k, v in s.items() if k not in ('image', 'png')} | {'png': name})
     (CACHE / 'manifest.json').write_text(json.dumps(manifest, indent=1) + '\n')
     return load_sources()
 
@@ -209,12 +245,13 @@ def build_pools(sources):
                 pool.append(e)
                 source_values[i][row] = e
     for pool in pools.values():
-        # by design (first appearance), then colour (first appearance within the design)
+        # by design (first appearance), then colour (first appearance within the design); entries made only of
+        # `extra` sources (the second retail port) after all others, so the shipped values never move
         designs = []
         for e in pool:
             if e['design'] not in designs:
                 designs.append(e['design'])
-        pool.sort(key=lambda e: designs.index(e['design']))
+        pool.sort(key=lambda e: (all(sources[i].get('extra') for i in e['sources']), designs.index(e['design'])))
         for v, e in enumerate(pool, 1):
             e['value'] = v
             e['name'] = f"{e['design']} ({e['colour']})" if e['colour'] else e['design']
@@ -385,8 +422,20 @@ def max_character_guid():
 def main():
     args = sys.argv[1:]
     preview = Path(args[args.index('--preview') + 1]) if '--preview' in args else None
-    sources = build_sources() if '--sources' in args or not (CACHE / 'manifest.json').exists() else load_sources()
+    if '--sources' in args or '--extra' in args or not (CACHE / 'manifest.json').exists():
+        sources = build_sources(extra_only='--extra' in args and '--sources' not in args)
+    else:
+        sources = load_sources()
+    previous = json.loads(STATE.read_text()).get('values', {}) if STATE.exists() else {}
     pools, src_values = build_pools(sources)
+    # values are storage keys: every value the last run wrote must keep its name (new ones only append)
+    moved = []
+    for (race, g, row), pool in pools.items():
+        was = {v['value']: v['name'] for v in previous.get(f'{race}:{g}', {}).get(ROW_NAME[row], [])}
+        now = {e['value']: e['name'] for e in pool}
+        moved += [f'{race}:{g} {ROW_NAME[row]} {v}: {n} -> {now.get(v)}' for v, n in was.items() if now.get(v) != n]
+    if moved and '--renumber' not in args:
+        raise SystemExit('shipped marking values would change (--renumber to accept):\n  ' + '\n  '.join(moved))
     files = preview_mod.files_resolver()
     query = _dbc_query_fn('live')
     bm = _load('body_markings', 'body_markings.py')
@@ -430,11 +479,14 @@ def main():
     gates = gate_lists(values)
     sql += clean_rows
     SQL.write_text('\n'.join(sql) + '\n')
-    cutoff = max_character_guid()
+    # the migration's guid cutoff is fixed by the first run: a later re-run (new values appended) must not sweep in
+    # characters created since, which already carry the new numbering
+    cutoff = (json.loads(STATE.read_text()).get('migration_guid_cutoff') if STATE.exists() else None) or max_character_guid()
     MIGRATION.write_text(migration_sql(old_map, retire, cutoff))
     STATE.write_text(json.dumps({'rows': {str(k): v for k, v in ROW_NAME.items()}, 'values': values,
                                  'old_to_new': old_map, 'retire': retire, 'glue_changes': glue_changes,
                                  'subrace_copies': copies, 'gates': gates,
+                                 'proposed_gates': proposed_gate_lists(values),
                                  'migration_guid_cutoff': cutoff}, indent=1) + '\n')
     print(f'{removed} old layer files removed; {rid - LAYER_ID} layer rows -> {SQL.relative_to(CRAFT)}')
     print(f'-> {MIGRATION.relative_to(CRAFT)}, {STATE.name}')
@@ -608,6 +660,35 @@ def gate_lists(values):
                                  if not any(v['name'].startswith(prefix) and sub != owner for prefix, owner in gated)]
                 lists[f'filter {filt} ({row_name})'] = allowed
             entry[sub] = lists
+        out[f'{FOLDERS[race]} {SEXES[g]}'] = entry
+    return out
+
+
+def proposed_gate_lists(values):
+    """DRAFT, keyed like gate_lists: per race / sex, `assign` = {row: {value: sub-race or 'common'}} and per sub-race the
+    face (filter 7), body (filter 8) and scar (filter 9) lists = 0 + the common values + its own signature values."""
+    glue = glue_subraces()
+    out = {}
+    for key, rows in sorted(values.items(), key=lambda kv: tuple(int(v) for v in kv[0].split(':'))):
+        race, g = (int(v) for v in key.split(':'))
+        subs = [n for n, _cols in glue.get((race, g), [])]
+        if not subs:
+            continue
+        assign = {}
+        for row_name, vals in rows.items():
+            a = {}
+            for v in vals:
+                owner = next((sub for r, pat, sub in PROPOSED if r == race and re.search(pat, v['name'])), 'common')
+                if owner != 'common' and owner not in subs:
+                    raise SystemExit(f'PROPOSED names {owner!r}, not a sub-race of {key}')
+                a[str(v['value'])] = owner
+            assign[row_name] = a
+        entry = {'assign': assign}
+        for sub in subs:
+            entry[sub] = {f'filter {filt} ({row_name})': [0] + [int(v) for v, o in assign.get(row_name, {}).items()
+                                                               if o in ('common', sub)]
+                          for row_name, filt in ((ROW_NAME[FACE_ROW], 7), (ROW_NAME[BODY_ROW], 8),
+                                                 (ROW_NAME[SCAR_ROW], 9)) if row_name in assign}
         out[f'{FOLDERS[race]} {SEXES[g]}'] = entry
     return out
 

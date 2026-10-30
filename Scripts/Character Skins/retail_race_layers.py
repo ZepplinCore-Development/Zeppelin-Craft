@@ -64,7 +64,7 @@ STATE = Path(__file__).with_name('retail_race_layers.json')
 SIZE = 512
 HEAD = (0, 320, 256, 192)                         # FaceUpper (0,320,256,64) over FaceLower (0,384,256,128)
 SEXES = {0: 'Male', 1: 'Female'}
-FOLDERS = {1: 'Human', 3: 'Dwarf', 4: 'NightElf', 6: 'Tauren', 8: 'Troll', 10: 'BloodElf'}
+FOLDERS = {1: 'Human', 3: 'Dwarf', 4: 'NightElf', 5: 'Scourge', 6: 'Tauren', 8: 'Troll', 10: 'BloodElf', 11: 'Draenei'}
 FACE_MASKS = {0x200, 0x400, 0x800}
 BODY_MASK, FULL_MASK = 0x1000, 0xffffffff
 
@@ -95,6 +95,60 @@ PICKS = {
     (10, 0): [(6, 'Tattoo', 'Tattoo Color', None, [1, 3])],
     (10, 1): [(6, 'Tattoo', 'Tattoo Color', None, [1, 3])],
 }
+# F-230 second port (2026-10-30): more retail options, appended after the PICKS sources (markings_regroup.py numbers
+# them after every existing value, so stored values keep their meaning). Each entry names the retail race it comes
+# from, so an allied race's option lands on our base race through a fit of THAT race's art onto our atlas:
+# (race, sex) -> [(retail race, pattern option, colour option or None, patterns or None, colours or None, opts)]
+# opts: 'names' = {colour OrderIndex: label} where the swatch name misleads; 'design' = a name format ({pattern}); 'glow' = the texture is an emissive mask
+# (alpha peaks at 17-89 / 255, retail lights it): alpha is stretched to GLOW_PEAK; 'body' / 'face' = False drops that
+# half (it did not fit). Colour subsets (theme, <= ~40 values a row):
+#   troll M face paint 6 tribal designs + red, black (orange, blue shipped; dropped amber, yellow, two greens,
+#     purple, greys, slate, mauve); Voodoo / Skull / Ritual + purple, orange (dropped green, blue); body paint all 6
+#   troll F face / body paint + green, orange, purple (all 6)
+#   blood elf demon hunter tattoos + dark green (fel), red, dark blue (void); dropped the second bright green
+#   night elf M demon hunter tattoos + dark green, red; F + red (dropped dark blue, bright green); F Cenarion
+#     tattoos + dark teal (dropped 9 other greens / reds / purples)
+#   tauren paint colour 3 = red and blue (PICKS skipped it as a copy of red: its swatch is, its texture is not)
+TROLL_TRIBAL = ['Berserker', 'Fangs', 'Mask', 'Oni', 'Prophet', 'War']
+DH = ['Suffering', 'Betrayer', 'Pain', 'Sacrifice', 'Revenge', 'Chaos']
+EXTRA = {
+    (8, 0): [(8, 'Face Paint', 'Face Paint Color', TROLL_TRIBAL, [8, 10], {}),
+             (8, 'Face Paint', 'Face Paint Color', ['Voodoo', 'Skull', 'Ritual'], [20, 19], {}),
+             (8, 'Body Paint', 'Body Paint Color', None, [3, 4, 5, 6], {})],
+    (8, 1): [(8, 'Face Paint', 'Face Paint Color', None, [3, 5, 6], {}),
+             (8, 'Body Paint', 'Body Paint Color', None, [3, 5, 6], {}),
+             (31, 'Tattoo', None, None, None, {})],
+    (10, 0): [(10, 'Tattoo', 'Tattoo Color', DH, [2, 5, 6], {})],
+    (10, 1): [(10, 'Tattoo', 'Tattoo Color', DH, [2, 5, 6], {})],
+    (4, 0): [(4, 'Tattoo', 'Tattoo Color', DH, [2, 5], {}),
+             (27, 'Face Tattoo', None, None, None, {'glow': True})],
+    (4, 1): [(4, 'Tattoo', 'Tattoo Color', DH, [5], {}),
+             (4, 'Tattoo', 'Tattoo Color', ['Wild', 'Ancient', 'Owl', 'Moon'], [9], {}),
+             (27, 'Face Tattoo', None, None, None, {'glow': True}),
+             (27, 'Body Tattoo', None, None, None, {'glow': True}),
+             (27, 'Luminous Hands', None, None, None, {'glow': True})],
+    (6, 0): [(6, 'Face Paint', 'Paint Color', ['Kodo', 'Otter', 'Hawk'], [3], {'names': {3: 'red and blue'}}),
+             (6, 'Body Paint', 'Paint Color', ['Kodo', 'Hawk', 'Otter'], [3], {'names': {3: 'red and blue'}})],
+    (6, 1): [(6, 'Face Paint', 'Paint Color', ['Kodo', 'Otter', 'Hawk'], [3], {'names': {3: 'red and blue'}}),
+             (6, 'Body Paint', 'Paint Color', ['Kodo', 'Hawk', 'Otter'], [3], {'names': {3: 'red and blue'}})],
+    (3, 0): [(34, 'Tattoo', None, None, None, {})],
+    (3, 1): [(34, 'Tattoo', None, None, None, {})],
+    (11, 0): [(30, 'Tattoo', None, None, None, {'glow': True})],
+    (11, 1): [(30, 'Tattoo', None, None, None, {'glow': True})],
+    (5, 0): [(5, 'Jaw Features', None, None, None, {})],
+}
+# Rejected (F-230 second port, fit scores in retail_race_layers.json `fits`, renders in the review sheets):
+#   Highmountain body paint (tauren M/F): arms and torso regions NCC 0.22-0.70 against our tauren; what survives
+#     the region cut is a few dots on the muzzle, not the design
+#   Zandalari tattoo (troll M): body-only, on the arms (region NCC 0.26-0.49); troll F keeps 2 of 3 (chest collar)
+#   Nightborne body tattoos and luminous hands (night elf M): every body region except two under 0.75
+#   undead jaw features (F): face fit 0.58 (M 0.79 is kept)
+#   Void Elf tattoo colours: the same files as blood elf's (ported from there); tentacles = hair texture strip
+#   Dark Iron piercings, undead face features, Highmountain horn markings, Mechagnome paint: textures for geosets,
+#     horns or the mech parts atlas, not skin layers
+RETAIL_RACE = {5: 'Undead', 27: 'Nightborne', 28: 'Highmountain', 29: 'Void Elf', 30: 'Lightforged', 31: 'Zandalari',
+               34: 'Dark Iron', 37: 'Mechagnome'}
+GLOW_PEAK = 0.85
 HUES = [(15, 'red'), (40, 'orange'), (65, 'yellow'), (150, 'green'), (190, 'teal'), (250, 'blue'), (290, 'purple'),
         (335, 'magenta'), (360, 'red')]
 
@@ -151,7 +205,7 @@ class Retail:
             out.append((m['ChrModelTextureTargetID'], blend, mask, self.texture(m)))
         return out
 
-    def picks(self, race, sex, pattern_opt, colour_opt, patterns, colours):
+    def picks(self, race, sex, pattern_opt, colour_opt, patterns, colours, names=None):
         """[(label, [(target, blend, mask, fdid)], retail choice ids)] in pattern-major order."""
         layout = self.layout[self.model[(race, sex)]]
         pats = [c for c in self.option(race, sex, pattern_opt) if c['Name_lang'] != 'None' and int(c['OrderIndex']) > 0]
@@ -172,7 +226,8 @@ class Retail:
             for c in cols:
                 els = self.elements_of(layout, c['ID'], related=p['ID'])
                 if els:
-                    out.append((f"{p['Name_lang']} {c['Name_lang'] or colour_name(int(c['SwatchColor_0']))}", els, [int(p['ID']), int(c['ID'])]))
+                    label = (names or {}).get(int(c['OrderIndex'])) or c['Name_lang'] or colour_name(int(c['SwatchColor_0']))
+                    out.append((f"{p['Name_lang']} {label}", els, [int(p['ID']), int(c['ID'])]))
         return out
 
     def face_square(self, race, sex):
@@ -321,13 +376,16 @@ def resize_pm(a, size):
     return np.dstack([np.asarray(Image.fromarray(a[..., k]).resize(size, Image.LANCZOS)) for k in range(4)]).clip(0, 1)
 
 
-def build_layer(elements, fit, eye, ref):
-    """Our 512 atlas (straight RGBA float) of one choice's retail textures."""
+def build_layer(elements, fit, eye, ref, glow=False, halves=('body', 'face')):
+    """Our 512 atlas (straight RGBA float) of one choice's retail textures. glow: an emissive mask (alpha peaks far
+    under 1) has its alpha stretched to GLOW_PEAK; halves: the parts kept (a half that did not fit is left out)."""
     body = np.zeros((SIZE, SIZE, 4), np.float32)
     square = np.zeros((1024, 1024, 4), np.float32)
     for _target, blend, mask, fdid in elements:
         src = Image.open(retail.texture_file(fdid)).convert('RGBA')
         a = np.asarray(src).astype(np.float32) / 255
+        if glow and a[..., 3].max() > 0:
+            a[..., 3] = np.clip(a[..., 3] * (GLOW_PEAK / a[..., 3].max()), 0, 1)
         a = to_alpha(a, blend, ref)                     # straight alpha, blend resolved
         a[..., :3] *= a[..., 3:]                        # premultiplied from here
         h, w = a.shape[:2]
@@ -338,6 +396,8 @@ def build_layer(elements, fit, eye, ref):
         else:
             parts = [('body', a[:, :w // 2]), ('face', a[:, w // 2:])]
         for where, p in parts:
+            if where not in halves:
+                continue
             if where == 'body':
                 p = resize_pm(p, (SIZE, SIZE))
                 body = p + body * (1 - p[..., 3:])
@@ -400,6 +460,122 @@ def layer_sources(refit=False, only=None, files=None, query=None):
                             'kind': 'scar' if popt == 'Scars' else 'marking', 'design': design, 'colour': colour,
                             'source': f"retail {text} (retail {', '.join(str(e[3]) for e in els)})",
                             'image': to_image(build_layer(els, fit, eye, ref))})
+    STATE.write_text(json.dumps(state, indent=1) + '\n')
+    return out
+
+
+BODY_OK, FACE_OK = 0.85, 0.6                      # fits under these are not shipped (the half is dropped)
+# a race with its own model (Zandalari, Highmountain, Nightborne: body NCC 0.63-0.83 overall) is judged region by
+# region of the body atlas, as it is (a scale + offset search per region only locked onto search-window edges):
+# a region whose NCC is under REGION_OK gets none of the layer, and a choice that loses more than KEEP_MASS of its
+# body paint that way loses its whole body part (half a design is not a marking)
+REGION_OK, KEEP_MASS = 0.75, 0.3
+BODY_REGIONS = ('ArmUpper', 'ArmLower', 'Hand', 'TorsoUpper', 'TorsoLower', 'LegUpper', 'LegLower', 'Foot')
+
+
+def region_rects():
+    from lib.wardrobe.compositor import REGIONS, SCALE
+    return {k: tuple(v * SCALE for v in REGIONS[k]) for k in BODY_REGIONS}
+
+
+def region_check(body, retail_skin):
+    """{region: NCC} of our body atlas against retail's body square, region by region, as it is."""
+    a = np.asarray(body.convert('L')).astype(float)
+    sq = retail_skin.crop((0, 0, retail_skin.width // 2, retail_skin.height)).convert('L').resize((SIZE, SIZE))
+    b = np.asarray(sq).astype(float)
+    out = {}
+    for k, (x, y, w, h) in region_rects().items():
+        out[k] = round(ncc(a[y:y + h, x:x + w], b[y:y + h, x:x + w], np.ones((h, w), bool)), 3)
+    return out
+
+
+def keep_regions(layer, regions):
+    """(layer, lost): layer (straight RGBA float 512) with the body regions not in `regions` cleared; lost = it dropped
+    more than KEEP_MASS of its body alpha, so all of the body is cleared (the face part stays)."""
+    if regions is None:
+        return layer, False
+    out = layer.copy()
+    total = dropped = 0.0
+    for k, (x, y, w, h) in region_rects().items():
+        m = float(layer[y:y + h, x:x + w, 3].sum())
+        total += m
+        if k not in regions:
+            dropped += m
+            out[y:y + h, x:x + w] = 0
+    if total and dropped / total > KEEP_MASS:
+        hx, hy, hw, hh = HEAD
+        out = np.zeros_like(layer)
+        out[hy:hy + hh, hx:hx + hw] = layer[hy:hy + hh, hx:hx + hw]
+        return out, True
+    return out, False
+
+
+def extra_fit(fits, r, files, query, race, g, src, refit=False):
+    """The body NCC and face fit of retail race `src`'s art on our race / sex: fits key 'race:sex' for our own race
+    (shared with PICKS), 'race:sex:src' for an allied race (its own model and UVs)."""
+    key = f'{race}:{g}' if src == race else f'{race}:{g}:{src}'
+    if refit or key not in fits:
+        body, face = ours(files, query, race, g)
+        fits[key] = {'body_ncc': body_check(body, r.skin(src, g)),
+                     'face_fit': face_fit(face, r.face_square(src, g), race, g)}
+        print(f'{FOLDERS[race]} {SEXES[g]} <- retail {src}: {fits[key]}', flush=True)
+    if src != race and 'regions' not in fits[key]:
+        body, _face = ours(files, query, race, g)
+        fits[key]['regions'] = region_check(body, r.skin(src, g))
+    return fits[key]
+
+
+def extra_layer_sources(refit=False, only=None, files=None, query=None):
+    """F-230 second port: the EXTRA picks as sources for markings_regroup.py, flagged `extra` (numbered after every
+    existing value). A half whose fit is under BODY_OK / FACE_OK is dropped, and noted in the source."""
+    state = json.loads(STATE.read_text()) if STATE.exists() else {}
+    fits = state.setdefault('fits', {})
+    r = Retail()
+    files = files or preview_mod.files_resolver()
+    query = query or _dbc_query_fn('live')
+    out = []
+    for (race, g), picks in EXTRA.items():
+        if only is not None and (race, g) not in only:
+            continue
+        body, _face = ours(files, query, race, g)
+        eye = ndimage.binary_dilation(island(race, g), iterations=3)
+        b = np.asarray(body).reshape(-1, 3)
+        ref = np.median(b[b.sum(axis=1) > 30], axis=0) / 255
+        for src, popt, copt, pats, cols, opts in picks:
+            fit = extra_fit(fits, r, files, query, race, g, src, refit)
+            regions = None
+            if fit['body_ncc'] < BODY_OK and 'regions' in fit:
+                regions = {k for k, v in fit['regions'].items() if v >= REGION_OK}
+            body_ok = (fit['body_ncc'] >= BODY_OK or regions) and opts.get('body', True)
+            # our own race's fit is trusted where PICKS layers already ship on it (tauren female 0.48, render-checked)
+            trusted = src == race and (race, g) in PICKS
+            halves = tuple(h for h, ok in (('body', body_ok),
+                                           ('face', (trusted or fit['face_fit'][0] >= FACE_OK)
+                                            and opts.get('face', True))) if ok)
+            who = RETAIL_RACE.get(src, '') if src != race else ''
+            for label, els, ids in r.picks(src, g, popt, copt, pats, cols, opts.get('names')):
+                pattern = r.choice[str(ids[0])]['Name_lang']
+                colour = label[len(pattern):].strip()
+                design = f'{pattern} {popt.lower()}' if popt.lower() not in pattern.lower() else pattern
+                if who:
+                    design = f'{who} {design}'
+                if 'design' in opts:
+                    design = opts['design'].format(pattern=pattern)
+                dropped = sorted({'body', 'face'} - set(halves))
+                layer = build_layer(els, fit['face_fit'], eye, ref, opts.get('glow', False), halves)
+                if regions is not None and 'body' in halves:
+                    before = layer[..., 3].sum()
+                    layer, lost = keep_regions(layer, regions)
+                    if lost:
+                        dropped.append('body (regions)')
+                    elif layer[..., 3].sum() < before - 1:
+                        dropped.append('regions ' + ','.join(sorted(set(BODY_REGIONS) - regions)))
+                out.append({'race': race, 'sex': g, 'old_section': 6, 'old_type': None, 'extra': True,
+                            'kind': 'marking', 'design': design, 'colour': colour,
+                            'source': f"retail {who or 'own race'} {popt} {label} (retail "
+                                      f"{', '.join(str(e[3]) for e in els)})"
+                                      + (f" [not fitted: {'; '.join(dropped)}]" if dropped else ''),
+                            'image': to_image(layer)})
     STATE.write_text(json.dumps(state, indent=1) + '\n')
     return out
 
