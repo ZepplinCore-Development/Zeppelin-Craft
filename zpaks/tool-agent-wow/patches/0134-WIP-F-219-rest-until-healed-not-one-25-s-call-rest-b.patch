@@ -1,0 +1,83 @@
+From 362ed27a41cd04a1facb97ccc5fb46208bdaa7d4 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Oct 2026 13:45:15 +0000
+Subject: [PATCH] WIP: F-219 - rest until healed (not one 25 s call); rest
+ before grind pulls; skip empty repairer spawns
+
+- rest(): repeat combat.rest while it ends on "budget" (3 min max) - most rests ended after
+  25 s with the bot still hurt; 36-51 % of the weak bots' deaths began below half health
+- grind(): rest to 95 % before a pull below 85 % HP / 60 % mana, like kill() (hunter pulled at 56/151)
+- maybe_repair: a repairer spawn found empty (another phase's copy) is skipped 30 min
+  (Lost Isles' Train-a-Tron: 187 walks to an empty spawn)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 30 +++++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index aba0599..49ab9d7 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1484,10 +1484,17 @@ class Runner:
+             self.step_clear()
+         except (StepFailed, KeyError) as e:
+             print(f"  ~ step clear: {str(e)[:80]}", flush=True)
+-        self.fight_args()  # refreshes the food pick
+-        r = call("combat.rest", until_pct=until_pct, **self._food)
+-        if r.get("ate"):
+-            self._kit_t = 0  # one bite fewer: re-read the bags
++        # one combat.rest call lasts 25 s at most (agent-wow caps a call at 30 s): without food a low-level
++        # bot regains a sliver in that, and every rest ended on "budget" with the bot still hurt - over a
++        # third of the hunter's, mage's and rogue's deaths began below half health. Keep sitting (3 min max)
++        r = {}
++        for _ in range(7):
++            self.fight_args()  # refreshes the food pick
++            r = call("combat.rest", until_pct=until_pct, **self._food)
++            if r.get("ate"):
++                self._kit_t = 0  # one bite fewer: re-read the bags
++            if r.get("reason") != "budget":
++                break
+         return r
+ 
+     def step_clear(self):
+@@ -1542,14 +1549,20 @@ class Runner:
+         if poor and call("interact.self").get("money", 0) < poor + 50:
+             return False
+         me = self.me()
++        # never a spawn we already found empty (another phase's copy): Lost Isles' KTC Train-a-Tron Deluxe
++        # has 6 phased spawns, and the goblin walked to an empty one 187 times in one run
++        bad = self.__dict__.setdefault("_repair_empty", {})
+         pts = [(math.dist(p[:2], (me["x"], me["y"])), v, p) for v in self.w.repairers
+-               for p in [self.w.nearest("c", v, me, self.phase_mask())] if p]
++               for p in [self.w.nearest("c", v, me, self.phase_mask())] if p
++               and time.time() - bad.get((v, round(p[0]), round(p[1])), 0) > 1800]
+         if not pts or min(pts)[0] > max_walk:
+             return False
+         _, v, p = min(pts)
+         print(f"  repair: gear at {worst:.0%} - repair NPC {v} {min(pts)[0]:.0f} yd", flush=True)
+         self.travel(*p, within=4)
+         if not any(o.get("distance", 99) < 30 for o in call("interact.find", entry=v, limit=3).get("objects", [])):
++            bad[(v, round(p[0]), round(p[1]))] = time.time()
++            print(f"  repair: NPC {v} not at ({p[0]:.0f},{p[1]:.0f}) - another phase's spawn; skip it 30 min", flush=True)
+             return False
+         before = call("interact.self").get("money", 0)
+         call("interact.repair", entry=v)
+@@ -2198,6 +2211,13 @@ class Runner:
+                 return self.walk_to_grind(level, cap)
+             finally:
+                 self.current_qid = q
++        # every planned pull starts near full, grind pulls too (kill() always did): Teldrassil's hunter
++        # pulled a Timberling at 56/151 HP straight after a revive and died
++        s = call("interact.self")
++        dry = (self.w.cls in MANA_CLASSES and s.get("powerType", 0) == 0 and s.get("maxPower")
++               and s.get("power", 0) * 100 < s["maxPower"] * 60)
++        if dry or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 85):
++            self.rest(95)
+         if self.w.cls == 4:
+             self.stealth(wait=True)  # the Backstab opener needs us unseen
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True)
+-- 
+2.34.1
+

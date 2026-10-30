@@ -1,0 +1,68 @@
+From cbe3a90e23fe368249a8dc3dae604652e762cc99 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 29 Oct 2026 23:03:21 +0000
+Subject: [PATCH] feat: interact.events reports creature cast bars as
+ spell_start (F-219, I-428)
+
+- SMSG_SPELL_START from other units: guid caster, entry spell, count cast ms
+- Lets a test interrupt one specific mob spell (I-428 Healing Wave Kick)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJR6GYwPcBkVcbHKeJa
+---
+ zeppelin/modules/interact/interact.proto |  3 ++-
+ zeppelin/modules/interact/main.go        | 11 +++++++++++
+ zeppelin/modules/interact/module.yaml    |  1 +
+ 3 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index b250415..a5ef6f2 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -120,7 +120,8 @@ message CastResult {
+ message Event {
+   uint32 seq = 1;
+   uint32 client_time_ms = 2;
+-  string kind = 3;       // quest_kill, quest_item, quest_complete, quest_reward, quest_failed, item, chat
++  string kind = 3;       // quest_kill, quest_item, quest_complete, quest_reward, quest_failed, item, chat,
++                         // spell_start (a creature/GO cast bar: guid caster, entry spell, count cast ms)
+   uint32 quest_id = 4;
+   uint32 entry = 5;      // creature/GO/item entry
+   uint32 count = 6;
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index b31bef5..48d609b 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -314,6 +314,17 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 			s.event(ctx, &interactv1.Event{Kind: "chat", Guid: sender, Entry: uint32(sender>>24) & 0xFFFFFF,
+ 				Count: uint32(typ), Text: msg})
+ 		}
++	case opcode.SMSGSpellStart: // packed caster (item or unit), packed caster unit, u8 count, u32 spell, u32 flags, u32 cast ms
++		// other units' cast bars, so a test can interrupt one specific spell (I-428)
++		r := wow.NewReader(payload)
++		r.PackedGUID()
++		unit := r.PackedGUID()
++		r.U8()
++		sp := r.U32()
++		r.U32()
++		if ms := r.U32(); r.Err() == nil && ms > 0 && unit>>48 != 0 {
++			s.event(ctx, &interactv1.Event{Kind: "spell_start", Guid: unit, Entry: sp, Count: ms})
++		}
+ 	case opcode.SMSGItemPushResult:
+ 		r := wow.NewReader(payload)
+ 		r.U64()            // player
+diff --git a/zeppelin/modules/interact/module.yaml b/zeppelin/modules/interact/module.yaml
+index ceff0b4..3b9c437 100644
+--- a/zeppelin/modules/interact/module.yaml
++++ b/zeppelin/modules/interact/module.yaml
+@@ -63,6 +63,7 @@ packets:
+   SMSG_LOOT_RESPONSE: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_ITEM_PUSH_RESULT: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_SPELL_GO: /zeppelin.interact.v1.Interact/OnPacket
++  SMSG_SPELL_START: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_TRAINER_LIST: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_LIST_INVENTORY: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_BUY_ITEM: /zeppelin.interact.v1.Interact/OnPacket
+-- 
+2.34.1
+
