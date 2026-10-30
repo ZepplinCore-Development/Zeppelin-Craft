@@ -95,8 +95,12 @@ def _key(table: str, row: dict) -> tuple:
 
 def stock_rows(table: str) -> Dict[tuple, dict]:
     """Stock rows from the clean client's WDBC, typed by the live schema."""
+    return wdbc_rows(table, (ms.STOCK_DBC_DIR / meta(table)[0]).read_bytes())
+
+
+def wdbc_rows(table: str, data: bytes) -> Dict[tuple, dict]:
+    """Rows of any WDBC file of this table (stock, or a community pack's), typed by the live schema."""
     cols = schema(table)
-    data = (ms.STOCK_DBC_DIR / meta(table)[0]).read_bytes()
     n, fc, rs, _ = struct.unpack_from('<4I', data, 4)
     if fc != len(cols):
         raise RuntimeError(f'{table}: WDBC has {fc} fields, schema {len(cols)}')
@@ -344,7 +348,20 @@ def stock_diff_sql(table: str, final: Dict[tuple, dict], stock: Dict[tuple, dict
     return out
 
 
-def curated_sql(layers: Layers, wanted: Dict[Tuple[str, tuple], Optional[dict]]) -> Dict[str, List[str]]:
+def pack_dbc_sql(dbc_dirs: Iterable[Path]) -> Dict[str, List[str]]:
+    """An Asset Library pack that ships binary DBCs (DBFilesClient/ in its extracted MPQs) -> the stock diff
+    of each display table in TABLES, as the dbc/*.sql the model viewer and curate read (parse_zpak_dbc).
+    dbc_dirs in client load order: a table shipped by several MPQs takes the last one's file."""
+    files: Dict[str, Path] = {}
+    for d in dbc_dirs:
+        if d.is_dir():
+            for f in d.iterdir():
+                if f.suffix.lower() == '.dbc' and f.stem.lower() in TABLES:
+                    files[f.stem.lower()] = f
+    return {t: stock_diff_sql(t, wdbc_rows(t, f.read_bytes()), stock_rows(t)) for t, f in sorted(files.items())}
+
+
+def curated_sql(layers: Layers,wanted: Dict[Tuple[str, tuple], Optional[dict]]) -> Dict[str, List[str]]:
     """{table: statements} for every table the base pack or a pick touches."""
     tables = sorted(set(base_tables(layers)) | {t for t, _ in wanted})
     return {t: stock_diff_sql(t, final_state(t, layers, wanted), layers.stock(t)) for t in tables}

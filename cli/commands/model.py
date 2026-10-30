@@ -630,6 +630,36 @@ def model_retail_store(gender, workers, fdids, no_wowhead):
     click.echo(f'retail store: {had + got:,}/{len(want):,} stored ({got:,} new, {bad:,} failed - re-run to retry)')
 
 
+@model.command('library-dbc')
+@click.argument('pack')
+@click.option('--task', required=True, help='Issue/feature ID for the file names, e.g. I-430')
+def model_library_dbc(pack, task):
+    """F-216: turn an Asset Library pack's binary DBCs into its dbc/[BASE,<task>]_<table>.sql.
+
+    \b
+    The model viewer and curate read a pack's display data only from dbc/*.sql; a pack that ships
+    DBFilesClient/*.dbc inside its MPQs is otherwise drawn with stock's display textures. Reads
+    DBFilesClient/ under each source.json files[] entry (load order) and writes the stock diff of
+    CreatureDisplayInfo(Extra), CreatureModelData, CharSections, CharHairGeosets and
+    CharacterFacialHairStyles. Re-run after updating the pack, then `zep model viewer`.
+    """
+    import json
+    from lib import hd_curate_dbc as hdb, model_sources as ms
+    d = ms.library_dirs().get(pack)
+    if d is None:
+        raise click.ClickException(f'no Asset Library pack named {pack}')
+    subs = json.loads((d / 'source.json').read_text()).get('files', [])
+    out = hdb.pack_dbc_sql(d / s / 'DBFilesClient' for s in subs)
+    if not out:
+        click.echo('  no display DBCs in this pack')
+        return
+    (d / 'dbc').mkdir(exist_ok=True)
+    for table, stmts in out.items():
+        f = d / 'dbc' / f'[BASE,{task}]_{table}.sql'
+        f.write_text(f'-- {pack}: its {table} WDBC as a stock diff (zep model library-dbc)\n' + '\n'.join(stmts) + '\n')
+        click.echo(f'  {f.name}: {len(stmts):,} statements')
+
+
 @model.command('viewer')
 @click.option('--rebuild-index', is_flag=True, help='Re-hash everything (otherwise hashes are cached)')
 @click.option('--reuse-index', is_flag=True, help='Load logs/asset_index.pkl instead of re-indexing')
