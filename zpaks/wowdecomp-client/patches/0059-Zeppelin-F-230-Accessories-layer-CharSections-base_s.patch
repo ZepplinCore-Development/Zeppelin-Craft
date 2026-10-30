@@ -1,0 +1,668 @@
+From b5a1d39720af3d21dc77e56fa1a270abfd305773 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Oct 2026 22:57:08 +0000
+Subject: [PATCH] Zeppelin F-230: Accessories layer (CharSections base_section
+ 9, customization 5 / Lua 10: pasted over skin and markings, over the
+ underwear on torso and upper legs, under items; cycled, gated and counted in
+ the creator; OBJECT_FIELD_PADDING byte 3 reloads it) and per-choice
+ facial-hair pieces (CharCustomizations.txt "choice ... tex=<piece>" =
+ base_section 10, colour = hair colour, composited with the facial hair in
+ both head compositors; a player with set slots draws the pieces instead of
+ the legacy facial texture, NPCs keep it)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ .../ComponentCore/CharacterComponent.cpp      | 206 ++++++++++++++++--
+ WoW/Common/ComponentCore/CharacterComponent.h |  10 +-
+ WoW/Common/ComponentCore/Types.h              |   8 +-
+ .../ComponentCore/ZepCustomizations.cpp       |  10 +-
+ WoW/Common/ComponentCore/ZepCustomizations.h  |   4 +
+ WoW/Source/Glue/CharacterCreation.cpp         |   3 +-
+ WoW/Source/Glue/CharacterCreation.h           |   2 +
+ WoW/Source/Glue/CharacterCreation_Scripts.cpp |  13 +-
+ WoW/Source/Glue/Types.h                       |   4 +-
+ WoW/Source/Object/ObjectClient/Player_C.cpp   |   5 +
+ 10 files changed, 236 insertions(+), 29 deletions(-)
+
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.cpp b/WoW/Common/ComponentCore/CharacterComponent.cpp
+index 8b3c6043..f7ae402c 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.cpp
++++ b/WoW/Common/ComponentCore/CharacterComponent.cpp
+@@ -164,7 +164,16 @@ CCharacterComponent* CCharacterComponent::m_activePlayerComponent;
+ static uint32_t* s_componentHeap;
+ 
+ // Not in the original (F-151): the full-atlas layers, in paste order, and the dirty mask that redraws every section
+-static const COMPONENT_VARIATIONS FULL_LAYERS[3] = { VARIATION_MARKINGS, VARIATION_BODY_MARKINGS, VARIATION_WAR_PAINT };
++// F-230: accessories (harness, chains) go last, over the markings. On the torso and upper legs they go over the
++// underwear instead (UnderAccessories): baked accessory skins painted part of them into their underwear
++static const COMPONENT_VARIATIONS FULL_LAYERS[4] = { VARIATION_MARKINGS, VARIATION_BODY_MARKINGS, VARIATION_WAR_PAINT, VARIATION_JEWELLERY };
++static const int32_t NUM_FULL_LAYERS = static_cast<int32_t>(sizeof(FULL_LAYERS) / sizeof(FULL_LAYERS[0]));
++
++// Not in the original (F-230): whether a full layer is pasted with the skin of this section (false: the accessories
++// on a section that has underwear, pasted after it)
++static bool FullLayerWithSkin(COMPONENT_VARIATIONS layer, int32_t section) {
++    return layer != VARIATION_JEWELLERY || (section != SECTION_TORSO_UPPER && section != SECTION_LEG_UPPER);
++}
+ static const uint32_t ALL_SECTIONS = (1u << NUM_COMPONENT_SECTIONS) - 1;
+ 
+ // STATIC: 0x00B6B884
+@@ -1332,10 +1341,17 @@ void CCharacterComponent::CreateRequestHU() {
+         this->m_request->AddLayer(SECTION_HEAD_UPPER, this->m_baseVariation[VARIATION_EYES].m_texture[1]);
+     }
+ 
+-    if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[1]) {
++    if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[1] && !this->ZepPiecesReplaceFacial()) {     // Not in the original (F-230): && pieces
+         this->m_request->AddLayer(SECTION_HEAD_UPPER, this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[1]);
+     }
+ 
++    // Not in the original (F-230): the painted part of each set facial-hair slot choice
++    for (const CharacterBaseVariation& piece : this->m_zepPiece) {
++        if (piece.m_texture[1]) {
++            this->m_request->AddLayer(SECTION_HEAD_UPPER, piece.m_texture[1]);
++        }
++    }
++
+     if (this->m_baseVariation[VARIATION_HAIR].m_texture[2]) {
+         this->m_request->AddLayer(SECTION_HEAD_UPPER, this->m_baseVariation[VARIATION_HAIR].m_texture[2]);
+     }
+@@ -1365,10 +1381,17 @@ void CCharacterComponent::CreateRequestHL() {
+         this->m_request->AddLayer(SECTION_HEAD_LOWER, this->m_baseVariation[VARIATION_EYES].m_texture[0]);
+     }
+ 
+-    if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[0]) {
++    if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[0] && !this->ZepPiecesReplaceFacial()) {     // Not in the original (F-230): && pieces
+         this->m_request->AddLayer(SECTION_HEAD_LOWER, this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[0]);
+     }
+ 
++    // Not in the original (F-230): the painted part of each set facial-hair slot choice
++    for (const CharacterBaseVariation& piece : this->m_zepPiece) {
++        if (piece.m_texture[0]) {
++            this->m_request->AddLayer(SECTION_HEAD_LOWER, piece.m_texture[0]);
++        }
++    }
++
+     if (this->m_baseVariation[VARIATION_HAIR].m_texture[1]) {
+         this->m_request->AddLayer(SECTION_HEAD_LOWER, this->m_baseVariation[VARIATION_HAIR].m_texture[1]);
+     }
+@@ -1383,6 +1406,10 @@ void CCharacterComponent::CreateRequestTU() {
+         this->m_request->AddLayer(SECTION_TORSO_UPPER, this->m_baseVariation[VARIATION_UNDERWEAR].m_texture[1]);
+     }
+ 
++    if (this->m_baseVariation[VARIATION_JEWELLERY].m_texture[0]) {     // Not in the original (F-230): accessories over the underwear
++        this->m_request->AddOverlayLayer(SECTION_TORSO_UPPER, this->m_baseVariation[VARIATION_JEWELLERY].m_texture[0]);
++    }
++
+     for (int32_t layer = 0; layer < 5; layer++) {
+         if ((1 << layer) & this->m_section[SECTION_TORSO_UPPER].m_layerMask) {
+             this->m_request->AddLayer(SECTION_TORSO_UPPER, this->m_section[SECTION_TORSO_UPPER].m_layerTex[layer]);
+@@ -1411,6 +1438,10 @@ void CCharacterComponent::CreateRequestLU() {
+         this->m_request->AddLayer(SECTION_LEG_UPPER, this->m_baseVariation[VARIATION_UNDERWEAR].m_texture[0]);
+     }
+ 
++    if (this->m_baseVariation[VARIATION_JEWELLERY].m_texture[0]) {     // Not in the original (F-230): accessories over the underwear
++        this->m_request->AddOverlayLayer(SECTION_LEG_UPPER, this->m_baseVariation[VARIATION_JEWELLERY].m_texture[0]);
++    }
++
+     int32_t first = (this->m_flags & 0x20) != 0;
+     int32_t last = 3 - first;
+ 
+@@ -1746,6 +1777,11 @@ void CCharacterComponent::ValidateComponentData(ComponentData* data, COMPONENT_C
+         prefs.m_warPaintId = 0;
+     }
+ 
++    // Not in the original (F-230): accessories
++    if (!CCharacterComponent::FaceLayerValid(prefs, VARIATION_JEWELLERY, prefs.m_jewelleryId, context)) {
++        prefs.m_jewelleryId = 0;
++    }
++
+     // Not in the original (F-230): a geoset slot the race/sex does not have, or a value past its choices, is unset
+     const ZepRaceDef* zepDef = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
+ 
+@@ -1778,8 +1814,9 @@ bool CCharacterComponent::FaceLayerValid(const CharacterPreferences& prefs, COMP
+     return rec && ComponentFlagsMatch(rec->m_flags, GetSelectionFromContext(context, prefs.m_classId));
+ }
+ 
+-// Not in the original (F-151): the preference an eye colour / marking layer is chosen by
+-uint32_t& CCharacterComponent::FaceLayerChoice(CharacterPreferences& prefs, COMPONENT_VARIATIONS variation) {
++// Not in the original (F-151): the preference an eye colour / marking layer is chosen by (F-230: accessories are
++// a byte, so a get / set pair)
++uint32_t CCharacterComponent::FaceLayerGet(const CharacterPreferences& prefs, COMPONENT_VARIATIONS variation) {
+     switch (variation) {
+         case VARIATION_EYES:
+             return prefs.m_eyeId;
+@@ -1787,11 +1824,33 @@ uint32_t& CCharacterComponent::FaceLayerChoice(CharacterPreferences& prefs, COMP
+             return prefs.m_markingId;
+         case VARIATION_BODY_MARKINGS:
+             return prefs.m_bodyMarkingId;
++        case VARIATION_JEWELLERY:
++            return prefs.m_jewelleryId;
+         default:
+             return prefs.m_warPaintId;
+     }
+ }
+ 
++void CCharacterComponent::FaceLayerSet(CharacterPreferences& prefs, COMPONENT_VARIATIONS variation, uint32_t value) {
++    switch (variation) {
++        case VARIATION_EYES:
++            prefs.m_eyeId = value;
++            break;
++        case VARIATION_MARKINGS:
++            prefs.m_markingId = value;
++            break;
++        case VARIATION_BODY_MARKINGS:
++            prefs.m_bodyMarkingId = value;
++            break;
++        case VARIATION_JEWELLERY:
++            prefs.m_jewelleryId = static_cast<uint8_t>(value);
++            break;
++        default:
++            prefs.m_warPaintId = value;
++            break;
++    }
++}
++
+ // Not in the original (F-151): blends one section of a full-atlas layer (palettized, 8-bit alpha) over what is
+ // already there, every mip. The stock PasteTransparent8Bit takes section-sized layers only: it ignores the source
+ // position and expects the alpha plane straight after a section-high index plane. Nearest sampling, so a layer of
+@@ -1868,7 +1927,7 @@ void CCharacterComponent::PasteOverlay(COMPONENT_SECTIONS section, void* texture
+ // Not in the original (F-151): the body marking over one body section's skin (synchronous compositor)
+ void CCharacterComponent::PasteFullLayers(COMPONENT_SECTIONS section) {
+     for (COMPONENT_VARIATIONS layer : FULL_LAYERS) {
+-        if (this->m_baseVariation[layer].m_texture[0]) {
++        if (this->m_baseVariation[layer].m_texture[0] && FullLayerWithSkin(layer, section)) {
+             CCharacterComponent::PasteOverlay(section, this->m_baseVariation[layer].m_texture[0], CCharacterComponent::s_textureBuffer);
+         }
+     }
+@@ -1901,7 +1960,7 @@ void CCharacterComponent::LoadFaceLayers(const char* debug) {
+     // the full layers cover the whole character texture: every section is redrawn when one changes
+     for (COMPONENT_VARIATIONS layer : FULL_LAYERS) {
+         bool had = this->m_baseVariation[layer].m_texture[0] != nullptr;
+-        this->LoadBaseVariation(layer, 0, CCharacterComponent::FaceLayerChoice(this->m_data.m_preferences, layer), 0, SECTION_TORSO_UPPER, debug);
++        this->LoadBaseVariation(layer, 0, CCharacterComponent::FaceLayerGet(this->m_data.m_preferences, layer), 0, SECTION_TORSO_UPPER, debug);
+ 
+         if (had || this->m_baseVariation[layer].m_texture[0]) {
+             this->SetDirtySections(ALL_SECTIONS);
+@@ -1913,16 +1972,15 @@ void CCharacterComponent::LoadFaceLayers(const char* debug) {
+ // choices the character may not have, wrapping round.
+ bool CCharacterComponent::CycleFaceLayer(COMPONENT_VARIATIONS variation, int32_t delta, COMPONENT_CONTEXT context) {
+     CharacterPreferences& prefs = this->m_data.m_preferences;
+-    uint32_t& value = CCharacterComponent::FaceLayerChoice(prefs, variation);
+     int32_t numVariations = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, variation);
+     int32_t step = delta > 0 ? 1 : -1;
+-    int32_t index = static_cast<int32_t>(value);
++    int32_t index = static_cast<int32_t>(CCharacterComponent::FaceLayerGet(prefs, variation));
+ 
+     for (int32_t i = 1; i < numVariations; i++) {
+         index = (index + step + numVariations) % numVariations;
+ 
+         if (CCharacterComponent::FaceLayerValid(prefs, variation, index, context)) {
+-            value = static_cast<uint32_t>(index);
++            CCharacterComponent::FaceLayerSet(prefs, variation, static_cast<uint32_t>(index));
+ 
+             if (!(this->m_data.m_flags & 0x1)) {
+                 this->LoadFaceLayers(nullptr);
+@@ -1953,7 +2011,7 @@ bool CCharacterComponent::SetRandomFaceLayer(COMPONENT_VARIATIONS variation, COM
+         return false;
+     }
+ 
+-    CCharacterComponent::FaceLayerChoice(prefs, variation) = static_cast<uint32_t>(valid[CRandom::dice_(numValid, g_rndSeed)]);
++    CCharacterComponent::FaceLayerSet(prefs, variation, static_cast<uint32_t>(valid[CRandom::dice_(numValid, g_rndSeed)]));
+ 
+     if (!(this->m_data.m_flags & 0x1)) {
+         this->LoadFaceLayers(nullptr);
+@@ -2102,6 +2160,7 @@ void CCharacterComponent::SetHairColor(int32_t hairColorID, bool loadHair, const
+ 
+     this->LoadBaseVariation(VARIATION_FACIAL_HAIR, 0, this->m_data.m_preferences.m_facialHairId, this->m_data.m_preferences.m_hairColorId, SECTION_HEAD_LOWER, debug);
+     this->LoadBaseVariation(VARIATION_FACIAL_HAIR, 1, this->m_data.m_preferences.m_facialHairId, this->m_data.m_preferences.m_hairColorId, SECTION_HEAD_UPPER, debug);
++    this->LoadZepFacialPieces(debug);   // Not in the original (F-230): the pieces follow the hair colour
+ }
+ 
+ // VERIFY: 2d880572 manual
+@@ -2189,6 +2248,8 @@ void CCharacterComponent::SetBeardStyle(int32_t facialHairID, bool loadVariation
+         this->LoadBaseVariation(VARIATION_FACIAL_HAIR, 1, this->m_data.m_preferences.m_facialHairId, this->m_data.m_preferences.m_hairColorId, SECTION_HEAD_UPPER, debug);
+     }
+ 
++    this->LoadZepFacialPieces(debug);   // Not in the original (F-230): the slot choices may have changed
++
+     this->SetDirtySections(0x300);
+ }
+ 
+@@ -3639,6 +3700,14 @@ bool CCharacterComponent::VariationsLoaded(int32_t wait) {
+         }
+     }
+ 
++    for (const CharacterBaseVariation& piece : this->m_zepPiece) {     // Not in the original (F-230)
++        for (void* texture : piece.m_texture) {
++            if (texture && !TextureCacheGetInfo(texture, info, wait)) {
++                return false;
++            }
++        }
++    }
++
+     this->m_flags &= ~0x2;
+ 
+     return true;
+@@ -4346,6 +4415,81 @@ void CCharacterComponent::HideZepCustomizationsUnderHelm(uint32_t raceMask, cons
+     }
+ }
+ 
++// Not in the original (F-230): loads the painted part of each set facial-hair slot choice that names one
++// (CharCustomizations.txt "choice ... tex=<piece>": CharSections base_section 10, type = piece, colour = hair colour;
++// texture_1 FaceLower, texture_2 FaceUpper). A hair colour without the piece row draws no paint for it.
++void CCharacterComponent::LoadZepFacialPieces(const char* debug) {
++    const CharacterPreferences& prefs = this->m_data.m_preferences;
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++    bool changed = false;
++
++    for (uint32_t s = 0; s < 6; s++) {
++        CharacterBaseVariation& piece = this->m_zepPiece[s];
++
++        for (void*& texture : piece.m_texture) {
++            if (texture) {
++                TextureCacheDestroyTexture(texture);
++                texture = nullptr;
++                changed = true;
++            }
++        }
++
++        if (!def || !def->pieceTextures || prefs.m_zepNpc || (this->m_data.m_flags & 0x1)) {
++            continue;
++        }
++
++        const ZepSlotDef* slot = def->slots[s];
++        uint32_t v = ZepSlotValue(def, prefs, s);
++
++        if (!slot || slot->link || !v || slot->choices[v - 1].piece < 0) {
++            continue;
++        }
++
++        CharSectionsRec* rec = ComponentGetSectionsRecord(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, VARIATION_FACIAL_PIECE, slot->choices[v - 1].piece, prefs.m_hairColorId, nullptr);
++
++        for (int32_t i = 0; rec && i < 2; i++) {
++            if (*rec->m_textureName[i]) {
++                strcpy(s_pathEnd, rec->m_textureName[i]);
++                piece.m_texture[i] = TextureCacheCreateTexture(s_path);
++                changed = true;
++
++                if (!piece.m_texture[i]) {
++                    DebugLog("**** Unable to Load Texture %s\n", s_path);
++                }
++            }
++        }
++    }
++
++    if (changed) {
++        this->SetDirtySections(0x300);
++    }
++}
++
++// Not in the original (F-230): a player of a race whose slot choices carry their own painted parts draws those
++// instead of the legacy facial-hair texture once any slot is set (the parts are cut from those textures). NPCs and
++// characters without slot values keep the legacy texture.
++bool CCharacterComponent::ZepPiecesReplaceFacial() const {
++    const CharacterPreferences& prefs = this->m_data.m_preferences;
++
++    if (prefs.m_zepNpc) {
++        return false;
++    }
++
++    const ZepRaceDef* def = ZepCustomizationsGet(prefs.m_raceID, prefs.m_sexID);
++
++    if (!def || !def->pieceTextures) {
++        return false;
++    }
++
++    for (uint32_t s = 0; s < 6; s++) {
++        if (ZepSlotValue(def, prefs, s)) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
+ // VERIFY: 596646c0 manual
+ // OFFSET: 0x004EF250
+ int32_t CCharacterComponent::GetQuiverModelFilePath(ItemDisplayInfoRec& rec, const ItemDisplayInfoRec*& displayRec) {
+@@ -4587,6 +4731,14 @@ void CCharacterComponent::ComputeLoadProgress(int64_t& local, int64_t& total) {
+         }
+     }
+ 
++    for (const CharacterBaseVariation& piece : this->m_zepPiece) {     // Not in the original (F-230)
++        for (void* texture : piece.m_texture) {
++            if (texture) {
++                TextureCacheComputeLoadProgress(texture, local, total);
++            }
++        }
++    }
++
+     for (int32_t section = 0; section < NUM_COMPONENT_SECTIONS; section++) {
+         for (int32_t layer = 0; layer < 7; layer++) {
+             if (this->m_section[section].m_layerTex[layer]) {
+@@ -4651,6 +4803,7 @@ inline CharacterBaseVariation::~CharacterBaseVariation() {
+ // OFFSET: 0x004EFBE0
+ CCharacterComponent::CCharacterComponent() {
+     memset(this->m_baseVariation, 0, sizeof(this->m_baseVariation));
++    memset(this->m_zepPiece, 0, sizeof(this->m_zepPiece));     // Not in the original (F-230)
+     this->m_flags |= 0x7;
+     this->m_dirtySections = 0xFFFFFFFF;
+     this->m_request = nullptr;
+@@ -5271,10 +5424,17 @@ void CCharacterComponent::RenderPrepHU() {
+         CCharacterComponent::PasteToSection(SECTION_HEAD_UPPER, this->m_baseVariation[VARIATION_EYES].m_texture[1], CCharacterComponent::s_textureBuffer);
+     }
+ 
+-    if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[1]) {
++    if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[1] && !this->ZepPiecesReplaceFacial()) {     // Not in the original (F-230): && pieces
+         CCharacterComponent::PasteToSection(SECTION_HEAD_UPPER, this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[1], CCharacterComponent::s_textureBuffer);
+     }
+ 
++    // Not in the original (F-230): the painted part of each set facial-hair slot choice
++    for (const CharacterBaseVariation& piece : this->m_zepPiece) {
++        if (piece.m_texture[1]) {
++            CCharacterComponent::PasteToSection(SECTION_HEAD_UPPER, piece.m_texture[1], CCharacterComponent::s_textureBuffer);
++        }
++    }
++
+     if (this->m_baseVariation[VARIATION_HAIR].m_texture[2]) {
+         CCharacterComponent::PasteToSection(SECTION_HEAD_UPPER, this->m_baseVariation[VARIATION_HAIR].m_texture[2], CCharacterComponent::s_textureBuffer);
+     }
+@@ -5300,10 +5460,17 @@ void CCharacterComponent::RenderPrepHL() {
+         CCharacterComponent::PasteToSection(SECTION_HEAD_LOWER, this->m_baseVariation[VARIATION_EYES].m_texture[0], CCharacterComponent::s_textureBuffer);
+     }
+ 
+-    if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[0]) {
++    if (this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[0] && !this->ZepPiecesReplaceFacial()) {     // Not in the original (F-230): && pieces
+         CCharacterComponent::PasteToSection(SECTION_HEAD_LOWER, this->m_baseVariation[VARIATION_FACIAL_HAIR].m_texture[0], CCharacterComponent::s_textureBuffer);
+     }
+ 
++    // Not in the original (F-230): the painted part of each set facial-hair slot choice
++    for (const CharacterBaseVariation& piece : this->m_zepPiece) {
++        if (piece.m_texture[0]) {
++            CCharacterComponent::PasteToSection(SECTION_HEAD_LOWER, piece.m_texture[0], CCharacterComponent::s_textureBuffer);
++        }
++    }
++
+     if (this->m_baseVariation[VARIATION_HAIR].m_texture[1]) {
+         CCharacterComponent::PasteToSection(SECTION_HEAD_LOWER, this->m_baseVariation[VARIATION_HAIR].m_texture[1], CCharacterComponent::s_textureBuffer);
+     }
+@@ -5319,6 +5486,10 @@ void CCharacterComponent::RenderPrepTU() {
+         CCharacterComponent::PasteToSection(SECTION_TORSO_UPPER, this->m_baseVariation[VARIATION_UNDERWEAR].m_texture[1], CCharacterComponent::s_textureBuffer);
+     }
+ 
++    if (this->m_baseVariation[VARIATION_JEWELLERY].m_texture[0]) {     // Not in the original (F-230): accessories over the underwear
++        CCharacterComponent::PasteOverlay(SECTION_TORSO_UPPER, this->m_baseVariation[VARIATION_JEWELLERY].m_texture[0], CCharacterComponent::s_textureBuffer);
++    }
++
+     for (int32_t layer = 0; layer < 5; layer++) {
+         if ((1 << layer) & this->m_section[SECTION_TORSO_UPPER].m_layerMask) {
+             CCharacterComponent::PasteToSection(SECTION_TORSO_UPPER, this->m_section[SECTION_TORSO_UPPER].m_layerTex[layer], CCharacterComponent::s_textureBuffer);
+@@ -5349,6 +5520,10 @@ void CCharacterComponent::RenderPrepLU() {
+         CCharacterComponent::PasteToSection(SECTION_LEG_UPPER, this->m_baseVariation[VARIATION_UNDERWEAR].m_texture[0], CCharacterComponent::s_textureBuffer);
+     }
+ 
++    if (this->m_baseVariation[VARIATION_JEWELLERY].m_texture[0]) {     // Not in the original (F-230): accessories over the underwear
++        CCharacterComponent::PasteOverlay(SECTION_LEG_UPPER, this->m_baseVariation[VARIATION_JEWELLERY].m_texture[0], CCharacterComponent::s_textureBuffer);
++    }
++
+     int32_t last = 3 - ((this->m_flags & 0x20) != 0);
+ 
+     for (int32_t layer = (this->m_flags & 0x20) != 0; layer < last; layer++) {
+@@ -5686,8 +5861,8 @@ void CCharacterComponent::CreateComponentRequest() {
+             (this->*CCharacterComponent::s_requestFunc[section])();
+ 
+             // Not in the original (F-151): the full layers over the body sections' skin (the head ones are layers, after the face)
+-            for (int32_t k = 0; k < 3 && section < SECTION_HEAD_UPPER && this->m_request->m_baseTextures[section]; k++) {
+-                if (this->m_baseVariation[FULL_LAYERS[k]].m_texture[0]) {
++            for (int32_t k = 0; k < NUM_FULL_LAYERS && section < SECTION_HEAD_UPPER && this->m_request->m_baseTextures[section]; k++) {
++                if (this->m_baseVariation[FULL_LAYERS[k]].m_texture[0] && FullLayerWithSkin(FULL_LAYERS[k], section)) {
+                     this->m_request->m_overlayTextures[section][k] = TextureCacheCopyTexture(this->m_baseVariation[FULL_LAYERS[k]].m_texture[0]);
+                 }
+             }
+@@ -6015,6 +6190,7 @@ bool CCharacterComponent::Init(ComponentData* data, const char* debug) {
+ 
+     memcpy(&this->m_data, data, sizeof(this->m_data));
+     memset(this->m_baseVariation, 0, sizeof(this->m_baseVariation));
++    memset(this->m_zepPiece, 0, sizeof(this->m_zepPiece));     // Not in the original (F-230)
+     memset(this->m_section, 0, sizeof(this->m_section));
+     this->m_handItemDisplayID[0] = 0;
+     this->m_handItemDisplayID[1] = 0;
+diff --git a/WoW/Common/ComponentCore/CharacterComponent.h b/WoW/Common/ComponentCore/CharacterComponent.h
+index e5fdfd9b..4e282628 100644
+--- a/WoW/Common/ComponentCore/CharacterComponent.h
++++ b/WoW/Common/ComponentCore/CharacterComponent.h
+@@ -60,7 +60,7 @@ class CComponentRequest {
+     /* 0034 */ uint32_t m_layerCount;
+     /* 0038 */ void* m_layerTextures [40];
+     /* 00D8 */ uint8_t m_layerSections [40];
+-    void* m_overlayTextures [10][3];   // Not in the original (F-151): full layers, pasted over each body section's skin
++    void* m_overlayTextures [10][4];   // Not in the original (F-151): full layers, pasted over each body section's skin (F-230: + accessories)
+     bool m_layerOverlay [40];          // Not in the original (F-151): this layer is a full-atlas one (PasteOverlay)
+     /* 0100 */ TSLink<CComponentRequest> m_link;
+ 
+@@ -147,7 +147,8 @@ class CCharacterComponent {
+     static void UpdateBaseTexture(EGxTexCommand command, uint32_t width, uint32_t height, uint32_t face, uint32_t level, void* userArg, uint32_t& texelStrideInBytes, const void*& texels);
+     static void ValidateComponentData(ComponentData* data, COMPONENT_CONTEXT context);
+     static bool FaceLayerValid(const CharacterPreferences& prefs, COMPONENT_VARIATIONS variation, int32_t index, COMPONENT_CONTEXT context); // Not in the original (F-151)
+-    static uint32_t& FaceLayerChoice(CharacterPreferences& prefs, COMPONENT_VARIATIONS variation); // Not in the original (F-151)
++    static uint32_t FaceLayerGet(const CharacterPreferences& prefs, COMPONENT_VARIATIONS variation); // Not in the original (F-151)
++    static void FaceLayerSet(CharacterPreferences& prefs, COMPONENT_VARIATIONS variation, uint32_t value); // Not in the original (F-151)
+     static void PasteOverlay(COMPONENT_SECTIONS section, void* texture, MipBits* dstMips); // Not in the original (F-151)
+ 
+     /* 0000 */ TSLink<CCharacterComponent> m_link;
+@@ -163,6 +164,9 @@ class CCharacterComponent {
+     /* 0458 */ uint32_t m_handItemDisplayID [3];
+     /* 0464 */ int32_t m_itemSlotForAttachSlot [50];
+     /* 052C */ CComponentRequest* m_request;
++    // Not in the original (F-230): the facial-hair piece textures of the set geoset slots (CharCustomizations.txt
++    // "tex="), m_texture[0] FaceLower, [1] FaceUpper
++    CharacterBaseVariation m_zepPiece [6];
+ 
+     CCharacterComponent();
+     ~CCharacterComponent();
+@@ -206,6 +210,8 @@ class CCharacterComponent {
+     void LoadBaseVariation(COMPONENT_VARIATIONS variation, int32_t textureIndex, int32_t variationIndex, int32_t colorIndex, COMPONENT_SECTIONS section, const char* debug);
+     void LoadFaceLayers(const char* debug); // Not in the original (F-151)
+     void PasteFullLayers(COMPONENT_SECTIONS section); // Not in the original (F-151)
++    void LoadZepFacialPieces(const char* debug); // Not in the original (F-230)
++    bool ZepPiecesReplaceFacial() const; // Not in the original (F-230)
+     bool CycleFaceLayer(COMPONENT_VARIATIONS variation, int32_t delta, COMPONENT_CONTEXT context); // Not in the original (F-151)
+     bool SetRandomFaceLayer(COMPONENT_VARIATIONS variation, COMPONENT_CONTEXT context); // Not in the original (F-151)
+     void ApplyZepCustomizations(); // Not in the original (F-230)
+diff --git a/WoW/Common/ComponentCore/Types.h b/WoW/Common/ComponentCore/Types.h
+index ec721de0..f85f475a 100644
+--- a/WoW/Common/ComponentCore/Types.h
++++ b/WoW/Common/ComponentCore/Types.h
+@@ -152,7 +152,13 @@ enum COMPONENT_VARIATIONS {
+     VARIATION_MARKINGS = 6,
+     VARIATION_BODY_MARKINGS = 7,
+     VARIATION_WAR_PAINT = 8,
+-    NUM_COMPONENT_VARIATIONS = 9,
++    // Not in the original (F-230): Accessories (CharSections base_section 9, colour 0, type = choice; a full-atlas
++    // layer like 6-8: a harness / chains that baked skins carried, now a choice that can be off), and facial-hair
++    // pieces (base_section 10, type = the piece a CharCustomizations.txt "tex=" choice names, colour = hair
++    // colour; FaceLower / FaceUpper textures pasted with the facial hair)
++    VARIATION_JEWELLERY = 9,
++    VARIATION_FACIAL_PIECE = 10,
++    NUM_COMPONENT_VARIATIONS = 11,
+ };
+ 
+ struct CharColorList {
+diff --git a/WoW/Common/ComponentCore/ZepCustomizations.cpp b/WoW/Common/ComponentCore/ZepCustomizations.cpp
+index 5af8ad96..9537d135 100644
+--- a/WoW/Common/ComponentCore/ZepCustomizations.cpp
++++ b/WoW/Common/ComponentCore/ZepCustomizations.cpp
+@@ -4,7 +4,8 @@
+ //   facial <race> <sex> texture <labelType> <v>[,<v>...]
+ //   facial <race> <sex> hidden  <baseVariation>
+ //   slot   <race> <sex> <slot> <type> <group> <follow>
+-//   choice <race> <sex> <slot> <geoset> [host=<geoset>] [swap=<from>:<to>]
++//   choice <race> <sex> <slot> <geoset> [host=<geoset>] [swap=<from>:<to>] [tex=<piece>]
++//          tex = the painted part under this choice: CharSections base_section 10, type <piece>, colour = hair colour
+ //   link   <race> <sex> <slot> <type> <follow> <dest>:<src>[,<dest>:<src>...]
+ //   imply  <race> <sex> <srcGeoset> <dstGeoset>
+ //   exclude <race> <sex> <keepGeoset> <dropGeoset>[,<dropGeoset>...]
+@@ -206,6 +207,13 @@ void Parse(const std::string& text) {
+                             c.swapTo = static_cast<uint16_t>(to);
+                         }
+                     }
++                } else if (t[i].compare(0, 4, "tex=") == 0) {
++                    uint32_t piece = Num(t[i].substr(4));
++
++                    if (piece < 0x7FFF) {
++                        c.piece = static_cast<int16_t>(piece);
++                        def->pieceTextures = true;
++                    }
+                 }
+                 // host= is documentation for the fit check; ignored in v1
+             }
+diff --git a/WoW/Common/ComponentCore/ZepCustomizations.h b/WoW/Common/ComponentCore/ZepCustomizations.h
+index d0326af7..4c11f322 100644
+--- a/WoW/Common/ComponentCore/ZepCustomizations.h
++++ b/WoW/Common/ComponentCore/ZepCustomizations.h
+@@ -16,6 +16,7 @@ struct ZepChoice {
+     uint16_t geoset;
+     uint16_t swapFrom;      // 0 = no swap
+     uint16_t swapTo;
++    int16_t piece = -1;     // tex=<piece>: CharSections base_section 10 type painted under this choice (-1 none)
+ };
+ 
+ struct ZepSlotDef {
+@@ -46,6 +47,9 @@ struct ZepRaceDef {
+     // eyeglow eyerow: a player's eye row alone decides the eye glow (glow eye: 1703 in its colour, other eyes: no glow,
+     // never the facial row's group 17); NPCs (no eye choice) keep the stock glow (facial row / death knight)
+     bool eyeRowGlow = false;
++    // a choice carries tex=: a player with set slots draws the choices' painted parts instead of the legacy
++    // facial-hair texture (CCharacterComponent::ZepPiecesReplaceFacial)
++    bool pieceTextures = false;
+ };
+ 
+ // Lazy-loads the file on the first call. nullptr when the file is missing or the race/sex has no lines.
+diff --git a/WoW/Source/Glue/CharacterCreation.cpp b/WoW/Source/Glue/CharacterCreation.cpp
+index 9838926d..ed559139 100644
+--- a/WoW/Source/Glue/CharacterCreation.cpp
++++ b/WoW/Source/Glue/CharacterCreation.cpp
+@@ -301,7 +301,8 @@ void CCharacterCreation::CycleCharCustomization(CHAR_CUSTOMIZATION_TYPE type, in
+         case CHAR_CUSTOMIZATION_EYES:
+         case CHAR_CUSTOMIZATION_MARKINGS:
+         case CHAR_CUSTOMIZATION_BODY_MARKINGS:
+-        case CHAR_CUSTOMIZATION_WAR_PAINT: {
++        case CHAR_CUSTOMIZATION_WAR_PAINT:
++        case CHAR_CUSTOMIZATION_JEWELLERY: {    // Not in the original (F-230): Accessories
+             CCharacterCreation::m_character->CycleFaceLayer(ZepLayerVariation(type), delta, COMPONENT_CONTEXT_0);
+             break;
+         }
+diff --git a/WoW/Source/Glue/CharacterCreation.h b/WoW/Source/Glue/CharacterCreation.h
+index df51e2ec..55561216 100644
+--- a/WoW/Source/Glue/CharacterCreation.h
++++ b/WoW/Source/Glue/CharacterCreation.h
+@@ -73,6 +73,8 @@ inline COMPONENT_VARIATIONS ZepLayerVariation(CHAR_CUSTOMIZATION_TYPE type) {
+             return VARIATION_MARKINGS;
+         case CHAR_CUSTOMIZATION_BODY_MARKINGS:
+             return VARIATION_BODY_MARKINGS;
++        case CHAR_CUSTOMIZATION_JEWELLERY:     // Not in the original (F-230): Accessories
++            return VARIATION_JEWELLERY;
+         default:
+             return VARIATION_WAR_PAINT;
+     }
+diff --git a/WoW/Source/Glue/CharacterCreation_Scripts.cpp b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+index 5ab708a3..ff857216 100644
+--- a/WoW/Source/Glue/CharacterCreation_Scripts.cpp
++++ b/WoW/Source/Glue/CharacterCreation_Scripts.cpp
+@@ -664,6 +664,8 @@ static int32_t CharCustomizationCurrent(CHAR_CUSTOMIZATION_TYPE type) {
+             return prefs.m_bodyMarkingId;
+         case CHAR_CUSTOMIZATION_WAR_PAINT:
+             return prefs.m_warPaintId;
++        case CHAR_CUSTOMIZATION_JEWELLERY:      // Not in the original (F-230): Accessories
++            return prefs.m_jewelleryId;
+         case CHAR_CUSTOMIZATION_ZEP_SLOT0:      // Not in the original (F-230): the choice index (unset shows as 0)
+         case CHAR_CUSTOMIZATION_ZEP_SLOT1:
+         case CHAR_CUSTOMIZATION_ZEP_SLOT2:
+@@ -872,6 +874,7 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+         case CHAR_CUSTOMIZATION_MARKINGS:
+         case CHAR_CUSTOMIZATION_BODY_MARKINGS:
+         case CHAR_CUSTOMIZATION_WAR_PAINT:
++        case CHAR_CUSTOMIZATION_JEWELLERY:      // Not in the original (F-230): Accessories
+             return CCharacterComponent::FaceLayerValid(prefs, ZepLayerVariation(type), value, COMPONENT_CONTEXT_0);
+         case CHAR_CUSTOMIZATION_ZEP_SLOT0:      // Not in the original (F-230)
+         case CHAR_CUSTOMIZATION_ZEP_SLOT1:
+@@ -881,7 +884,7 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+         case CHAR_CUSTOMIZATION_ZEP_SLOT5:
+             return value >= 0 && static_cast<uint32_t>(value) < ZepSlotCount(ZepSlotOfType(type));
+         default:
+-            return false;   // CHAR_CUSTOMIZATION_JEWELLERY: not in v1
++            return false;
+     }
+ }
+ 
+@@ -889,17 +892,12 @@ static bool CharCustomizationReachable(CHAR_CUSTOMIZATION_TYPE type, int32_t val
+ // class with none of the listed colours) it is a single stock step. A skin goes straight to the next allowed
+ // colour instead, since each stock skin step reloads the body textures. The bound covers every value an option can have.
+ static void CharCustomizationCycleAllowed(CHAR_CUSTOMIZATION_TYPE type, int32_t delta) {
+-    // Not in the original (F-230): geoset slots are cycled here, never by the stock CycleCharCustomization;
+-    // the jewellery layer has no choices in v1
++    // Not in the original (F-230): geoset slots are cycled here, never by the stock CycleCharCustomization
+     if (ZepSlotOfType(type) >= 0) {
+         ZepCycleSlot(ZepSlotOfType(type), delta);
+         return;
+     }
+ 
+-    if (type == CHAR_CUSTOMIZATION_JEWELLERY) {
+-        return;
+-    }
+-
+     if (type < CHAR_CUSTOMIZATION_SKIN || type > CHAR_CUSTOMIZATION_ZEP_SLOT5) {     // Not in the original (F-230): was WAR_PAINT
+         CCharacterCreation::CycleCharCustomization(type, delta);
+         return;
+@@ -991,6 +989,7 @@ static int32_t Script_GetCharCustomizationInfo(lua_State* L) {
+         case CHAR_CUSTOMIZATION_MARKINGS:
+         case CHAR_CUSTOMIZATION_BODY_MARKINGS:
+         case CHAR_CUSTOMIZATION_WAR_PAINT:
++        case CHAR_CUSTOMIZATION_JEWELLERY:      // Not in the original (F-230): Accessories
+             current = CharCustomizationCurrent(type);
+             total = ComponentGetNumVariations(CCharacterComponent::s_chrVarArray, prefs.m_raceID, prefs.m_sexID, ZepLayerVariation(type));
+             break;
+diff --git a/WoW/Source/Glue/Types.h b/WoW/Source/Glue/Types.h
+index e8330120..8afbf3fb 100644
+--- a/WoW/Source/Glue/Types.h
++++ b/WoW/Source/Glue/Types.h
+@@ -17,7 +17,7 @@ enum CHAR_CUSTOMIZATION_TYPE {
+     CHAR_CUSTOMIZATION_MARKINGS = 6,
+     CHAR_CUSTOMIZATION_BODY_MARKINGS = 7,   // CycleCharCustomization(8, delta)
+     CHAR_CUSTOMIZATION_WAR_PAINT = 8,       // CycleCharCustomization(9, delta)
+-    // Not in the original (F-230): Lua index 10 = jewellery layer (reserved, not cycled in v1), 11..16 = geoset slots 0..5
++    // Not in the original (F-230): Lua index 10 = Accessories (CharSections base_section 9 layer), 11..16 = geoset slots 0..5
+     CHAR_CUSTOMIZATION_JEWELLERY = 9,
+     CHAR_CUSTOMIZATION_ZEP_SLOT0 = 10,
+     CHAR_CUSTOMIZATION_ZEP_SLOT1 = 11,
+@@ -81,7 +81,7 @@ struct CharacterPreferences {
+     /* 0024 */ uint32_t m_markingId;
+     /* 0028 */ uint32_t m_bodyMarkingId;   // CharSections base_section 7; UNIT_FIELD_PADDING byte 2
+     /* 002C */ uint32_t m_warPaintId;      // CharSections base_section 8; UNIT_FIELD_PADDING byte 3
+-    // Not in the original (F-230): character_customizations 5 (jewellery layer, reserved) and 10..15 (geoset slots,
++    // Not in the original (F-230): character_customizations 5 (Accessories, CharSections base_section 9) and 10..15 (geoset slots,
+     // 0 = unset -> the legacy CharacterFacialHairStyles row decides, v -> choice v-1). OBJECT_FIELD_PADDING for players.
+     /* 0030 */ uint8_t m_jewelleryId;
+     /* 0031 */ uint8_t m_zepSlot[6];
+diff --git a/WoW/Source/Object/ObjectClient/Player_C.cpp b/WoW/Source/Object/ObjectClient/Player_C.cpp
+index 96beb00b..bed0f644 100644
+--- a/WoW/Source/Object/ObjectClient/Player_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Player_C.cpp
+@@ -626,9 +626,14 @@ static int32_t OnUpdatePlayerZepSlots(WOWGUID guid, uint32_t fieldOffset, uint32
+     CCharacterComponent* component = player->m_characterComponent;
+ 
+     if (component) {
++        uint8_t jewellery = component->m_data.m_preferences.m_jewelleryId;
+         ZepUnpackPadding(player->m_obj->m_pad, component->m_data.m_preferences);
+         component->SetBeardStyle(player->m_player->m_playerBytes2[0], true, nullptr);
+ 
++        if (component->m_data.m_preferences.m_jewelleryId != jewellery) {
++            component->LoadFaceLayers(nullptr);     // the accessories layer (CharSections base_section 9)
++        }
++
+         if (!(player->m_player->m_playerFlags & 0x400) && (!activePlayer || !CGBarberShop::m_barberShopEnabled)) {
+             VisibleItem_C* head = &player->m_player->m_playerVisibleItems[0];
+ 
+-- 
+2.34.1
+
