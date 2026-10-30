@@ -67,25 +67,195 @@ def item_generate(ctx, tier, difficulty, seed, quiet):
 
 
 @item.command('analyze-budget')
+@click.option('--scope', type=click.Choice(['all', 'epic', 'quality']), default='all',
+              help='epic = refit budget_formulas.json (stock epics); quality = refit '
+                   'budget_formulas_quality.json (stock greens/blues); all = both')
 @click.option('--quiet', '-q', is_flag=True, help='Suppress per-slot output')
 @click.pass_context
-def item_analyze_budget(ctx, quiet):
-    """Reverse-engineer stat-budget formulas from stock AC epic items.
+def item_analyze_budget(ctx, scope, quiet):
+    """Reverse-engineer stat-budget formulas from stock AC items.
 
-    Queries item_template for non-custom, non-set, non-spell-effect epic
-    gear, fits one quadratic per InventoryType, and writes the result to
-    cli/lib/item/data/budget_formulas.json. The scaler reads that file to
-    target empirical stat budgets per slot/ilvl.
+    epic: non-custom, non-set, non-spell-effect epic gear, one quadratic per
+    InventoryType (and era) -> cli/lib/item/data/budget_formulas.json.
+
+    quality: stock uncommon (2) and rare (3) gear at every ilvl, one
+    piecewise power law per pooled slot ->
+    cli/lib/item/data/budget_formulas_quality.json. Refitting one never
+    touches the other file.
     """
-    from lib.item.budget_analyzer import run
-    click.echo("F-013 Budget Analyzer (stock AC epic gear)")
-    click.echo()
+    from lib.item.budget_analyzer import run, run_quality_curves
+    paths = []
     try:
-        path = run(verbose=not quiet)
+        if scope in ('all', 'epic'):
+            click.echo("F-013 Budget Analyzer (stock AC epic gear)")
+            click.echo()
+            paths.append(run(verbose=not quiet))
+            click.echo()
+        if scope in ('all', 'quality'):
+            click.echo("F-013 Budget Analyzer (stock AC uncommon/rare gear)")
+            click.echo()
+            paths.append(run_quality_curves(verbose=not quiet))
+            click.echo()
     except Exception as e:
         raise click.ClickException(f"Failed: {e}")
-    click.echo()
-    click.echo(click.style(f"Wrote: {path}", fg='green'))
+    for path in paths:
+        click.echo(click.style(f"Wrote: {path}", fg='green'))
+
+
+# Slot name -> (InventoryType(s) the curve is looked up by, InventoryTypes
+# compared against in stock, subclass for split slots or None).
+_BUDGET_SLOTS = {
+    'head': (1, [1], None), 'neck': (2, [2], None), 'shoulder': (3, [3], None),
+    'chest': (5, [5, 20], None), 'robe': (20, [5, 20], None),
+    'waist': (6, [6], None), 'legs': (7, [7], None), 'feet': (8, [8], None),
+    'wrist': (9, [9], None), 'hands': (10, [10], None),
+    'finger': (11, [11], None), 'ring': (11, [11], None),
+    'trinket': (12, [12], None), 'back': (16, [16], None), 'cloak': (16, [16], None),
+    'held': (23, [23], None), 'offhand': (23, [23], None),
+    'shield': (14, [14], None),
+    '1h': (13, [13, 21, 22], None), 'mainhand': (21, [13, 21], None),
+    'offhand-weapon': (22, [13, 22], None), '2h': (17, [17], None),
+    'bow': (15, [15], 2), 'gun': (26, [26], 3), 'crossbow': (26, [26], 18),
+    'wand': (26, [26], 19), 'thrown': (25, [25], None), 'relic': (28, [28], None),
+}
+
+_STAT_ALIASES = {
+    'agi': 3, 'agility': 3, 'str': 4, 'strength': 4, 'int': 5, 'intellect': 5,
+    'spi': 6, 'spirit': 6, 'sta': 7, 'stam': 7, 'stamina': 7,
+    'def': 12, 'defense': 12, 'dodge': 13, 'parry': 14, 'block': 15,
+    'hit': 31, 'crit': 32, 'resil': 35, 'resilience': 35, 'haste': 36,
+    'exp': 37, 'expertise': 37, 'ap': 38, 'rap': 39, 'mp5': 43, 'arp': 44,
+    'sp': 45, 'hp5': 46, 'spen': 47, 'bv': 48, 'blockvalue': 48,
+}
+_STAT_SHORT = {3: 'Agi', 4: 'Str', 5: 'Int', 6: 'Spi', 7: 'Sta', 12: 'Def',
+               13: 'Dodge', 14: 'Parry', 15: 'Block', 31: 'Hit', 32: 'Crit',
+               35: 'Resil', 36: 'Haste', 37: 'Exp', 38: 'AP', 39: 'RAP',
+               43: 'Mp5', 44: 'ArP', 45: 'SP', 46: 'Hp5', 47: 'SpPen', 48: 'BV'}
+
+
+def _fmt_stats(pairs):
+    return ", ".join(f"+{v} {_STAT_SHORT.get(t, f'stat{t}')}" for t, v in pairs) or "(none)"
+
+
+@item.command('budget')
+@click.option('--slot', required=True, type=click.Choice(sorted(_BUDGET_SLOTS)),
+              help='Equip slot of the hand-made item')
+@click.option('--ilvl', required=True, type=int, help='Item level')
+@click.option('--quality', required=True, type=click.IntRange(2, 5),
+              help='2 = uncommon, 3 = rare, 4 = epic')
+@click.option('--stats', 'stats_csv', default=None,
+              help='Comma list of stats to split the budget over, e.g. str,sta '
+                   '(names: str agi int spi sta ap sp hit crit haste mp5 def dodge ...; '
+                   'or numeric stat ids)')
+@click.option('--dps', type=float, default=None,
+              help='Weapons only: the weapon DPS; DPS x 5 is taken off the total budget '
+                   'before the stat split')
+@click.option('--seed', type=int, default=0, help='RNG seed for the split jitter (default 0)')
+@click.option('--min-stat', type=int, default=None,
+              help='Drop stats that come out below this value (default MIN_STAT_VALUE = 3)')
+@click.option('--nearest', type=int, default=5, help='Stock items to list (0 = skip DB)')
+@click.pass_context
+def item_budget(ctx, slot, ilvl, quality, stats_csv, dps, seed, min_stat, nearest):
+    """Price a hand-made item (e.g. a quest reward) against the stat budget.
+
+    Prints the budget for slot/ilvl/quality, a suggested integer stat split
+    and its weighted cost, and the nearest stock items of that slot and
+    quality with their weighted costs. Read-only (DB SELECT only).
+
+    \b
+    Example:
+      zep world item budget --slot neck --ilvl 27 --quality 2 --stats str,sta
+    """
+    import random
+    from lib.item.scaler import (
+        budget_details, distribute_stats, stat_weight, MIN_STAT_VALUE,
+        DPS_BUDGET_WEIGHT,
+    )
+
+    curve_iv, stock_ivs, subclass = _BUDGET_SLOTS[slot]
+    try:
+        d = budget_details(curve_iv, ilvl, quality, subclass=subclass)
+    except ValueError as e:
+        raise click.ClickException(str(e))
+    is_weapon = curve_iv in (13, 15, 17, 21, 22, 25, 26)
+
+    qname = {2: 'uncommon', 3: 'rare', 4: 'epic', 5: 'legendary'}[quality]
+    click.echo(f"{slot} ilvl {ilvl} {qname}")
+    curve = d['path'] + (f" [{d['curve_key']}]" if d['curve_key'] else "")
+    if d['fallback_from']:
+        curve += f" (fallback from {d['fallback_from']})"
+    lo, hi = d['ilvl_range']
+    click.echo(f"  curve:   {curve}, fitted ilvl {lo}-{hi}"
+               + (f", n={d['n']}" if d['n'] else ""))
+    if d['clamped']:
+        click.echo(click.style(
+            f"  WARNING: ilvl {ilvl} is outside the fitted range; priced at ilvl "
+            f"{d['ilvl_used']} (clamped, not extrapolated).", fg='yellow'))
+    budget = d['budget']
+    line = f"  budget:  {budget:.2f} weighted points"
+    band = d['band']
+    if band:
+        line += (f"  (stock band p10-p90 {budget * band['p10']:.2f}-"
+                 f"{budget * band['p90']:.2f}, n={band['n']})")
+    click.echo(line)
+
+    stat_budget = budget
+    if is_weapon:
+        if dps is None:
+            click.echo(click.style(
+                "  NOTE: weapon budget includes DPS x 5; pass --dps to get a stat split.",
+                fg='yellow'))
+            stat_budget = None
+        else:
+            stat_budget = budget - dps * DPS_BUDGET_WEIGHT
+            click.echo(f"  stats:   {stat_budget:.2f} after DPS {dps:g} x {DPS_BUDGET_WEIGHT:g}")
+
+    if stats_csv and stat_budget is not None:
+        ids = []
+        for tok in stats_csv.split(','):
+            tok = tok.strip().lower()
+            if not tok:
+                continue
+            if tok.isdigit():
+                ids.append(int(tok))
+            elif tok in _STAT_ALIASES:
+                ids.append(_STAT_ALIASES[tok])
+            else:
+                raise click.ClickException(f"Unknown stat '{tok}'")
+        rng = random.Random(seed)
+        split = distribute_stats(ids, max(0.0, stat_budget), rng, min_value=min_stat)
+        cost = sum(v * stat_weight(t) for t, v in split)
+        thr = MIN_STAT_VALUE if min_stat is None else min_stat
+        click.echo(f"  split:   {_fmt_stats(split)}  = {cost:.2f} weighted"
+                   f"  (seed {seed}, min stat {thr})")
+        dropped = [t for t in ids if t not in {s for s, _ in split}]
+        if dropped:
+            click.echo(click.style(
+                f"  NOTE: dropped below +{thr}: "
+                + ", ".join(_STAT_SHORT.get(t, str(t)) for t in dropped)
+                + " (try --min-stat 1 for low-level items)", fg='yellow'))
+        if band and stat_budget == budget and budget > 0:
+            ratio = cost / budget
+            inband = band['p10'] <= ratio <= band['p90']
+            click.echo(f"  verdict: {ratio:.2f}x budget -> "
+                       + (click.style("in stock band", fg='green') if inband
+                          else click.style("OUTSIDE stock band", fg='red')))
+
+    if nearest > 0:
+        from lib.item.budget_analyzer import nearest_stock_items
+        subs = None
+        if curve_iv == 26 or slot == 'bow':
+            subs = [subclass]
+        try:
+            rows = nearest_stock_items(stock_ivs, quality, ilvl, limit=nearest, subclasses=subs)
+        except Exception as e:
+            raise click.ClickException(f"Stock lookup failed: {e}")
+        click.echo(f"  nearest stock {qname} {slot} items:")
+        if not rows:
+            click.echo("    (none within +/-15 ilvl)")
+        for r in rows:
+            click.echo(f"    {r['entry']:>6} il{r['ilvl']:>3} {r['total']:7.2f}  "
+                       f"{r['name'][:34]:<34} {_fmt_stats(r['stats'])}")
 
 
 @item.command('validate')

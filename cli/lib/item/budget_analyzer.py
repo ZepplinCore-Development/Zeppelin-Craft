@@ -26,33 +26,17 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 
 from ..creature.common import get_db_connection
-from .scaler import STAT_WEIGHT, DPS_BUDGET_WEIGHT
+import math
+import statistics
+
+from .scaler import (
+    STAT_WEIGHT, DPS_BUDGET_WEIGHT, QUALITY_CURVES_PATH, eval_quality_curve,
+)
 
 DATA_DIR = Path(__file__).parent / "data"
 OUTPUT_PATH = DATA_DIR / "budget_formulas.json"
 
-REFERENCE_SQL = """
-SELECT it.InventoryType, it.subclass, it.ItemLevel,
-       it.stat_type1, it.stat_value1, it.stat_type2, it.stat_value2,
-       it.stat_type3, it.stat_value3, it.stat_type4, it.stat_value4,
-       it.stat_type5, it.stat_value5, it.stat_type6, it.stat_value6,
-       it.stat_type7, it.stat_value7, it.stat_type8, it.stat_value8,
-       it.stat_type9, it.stat_value9, it.stat_type10, it.stat_value10,
-       it.holy_res, it.fire_res, it.nature_res,
-       it.frost_res, it.shadow_res, it.arcane_res,
-       it.class, it.dmg_min1, it.dmg_max1, it.delay, it.Quality
-FROM item_template it
-/* Epic-only reference, EXCEPT wands: vanilla epic wands are too sparse
-   (n<10) for a per-era fit, so rare wands are included and scaled to
-   epic-equivalent budget (/ RARE_TO_EPIC) in the collection loop. */
-WHERE (it.Quality = 4 OR (it.Quality = 3 AND it.class = 2 AND it.subclass = 19))
-  AND it.stat_type1 > 0
-  AND it.entry < 56900 AND it.ItemSet = 0
-  AND it.spellid_1 = 0 AND it.spellid_2 = 0 AND it.spellid_3 = 0
-  AND it.spellid_4 = 0 AND it.spellid_5 = 0
-  AND it.class IN (2, 4)
-  AND it.ItemLevel BETWEEN 40 AND 284
-  /* Item must actually be obtainable in the game: in some loot template,
+_OBTAINABLE_CLAUSE = """  /* Item must actually be obtainable in the game: in some loot template,
      vendor list, or quest reward. This is much more robust than name
      patterns for filtering out GM / dev / test items, which typically
      aren't wired to any drop or reward path. */
@@ -76,6 +60,29 @@ WHERE (it.Quality = 4 OR (it.Quality = 3 AND it.class = 2 AND it.subclass = 19))
                   OR RewardChoiceItemID5 = it.entry OR RewardChoiceItemID6 = it.entry)
   )
 """
+
+REFERENCE_SQL = f"""
+SELECT it.InventoryType, it.subclass, it.ItemLevel,
+       it.stat_type1, it.stat_value1, it.stat_type2, it.stat_value2,
+       it.stat_type3, it.stat_value3, it.stat_type4, it.stat_value4,
+       it.stat_type5, it.stat_value5, it.stat_type6, it.stat_value6,
+       it.stat_type7, it.stat_value7, it.stat_type8, it.stat_value8,
+       it.stat_type9, it.stat_value9, it.stat_type10, it.stat_value10,
+       it.holy_res, it.fire_res, it.nature_res,
+       it.frost_res, it.shadow_res, it.arcane_res,
+       it.class, it.dmg_min1, it.dmg_max1, it.delay, it.Quality
+FROM item_template it
+/* Epic-only reference, EXCEPT wands: vanilla epic wands are too sparse
+   (n<10) for a per-era fit, so rare wands are included and scaled to
+   epic-equivalent budget (/ RARE_TO_EPIC) in the collection loop. */
+WHERE (it.Quality = 4 OR (it.Quality = 3 AND it.class = 2 AND it.subclass = 19))
+  AND it.stat_type1 > 0
+  AND it.entry < 56900 AND it.ItemSet = 0
+  AND it.spellid_1 = 0 AND it.spellid_2 = 0 AND it.spellid_3 = 0
+  AND it.spellid_4 = 0 AND it.spellid_5 = 0
+  AND it.class IN (2, 4)
+  AND it.ItemLevel BETWEEN 40 AND 284
+{_OBTAINABLE_CLAUSE}"""
 
 # Inventory types that get a per-subclass fit. Empty 2026-05 — both weapons
 # and armor are now pooled at the per-slot level.
@@ -432,6 +439,318 @@ def analyze(verbose: bool = True) -> Dict:
         "min_samples": MIN_SAMPLES,
         "subclass_split_slots": sorted(SUBCLASS_SPLIT_TYPES),
     }
+
+
+# ---------------------------------------------------------------------------
+# Uncommon (2) / rare (3) curves — I-435
+#
+# The epic fit above does not cover greens/blues, and its quadratics rise as
+# ilvl falls below 40. Greens and blues get their own curves, fitted on stock
+# items of that quality across the whole ilvl range they exist at (greens
+# ~5-187, blues ~18-200), using the same weighted-total measure, the same slot
+# pooling (SLOT_POOL / SUBCLASS_POOL) and the same exclusions (non-set, no
+# spell effects, obtainable), plus no random-property/suffix items (those
+# carry no fixed stats).
+#
+# Model: continuous piecewise power law, fitted by least squares in log-log
+#   ln(B) = c0 + c1*ln(L) + c2*max(0, ln(L/80)) + c3*max(0, ln(L/130))
+# Knots sit where the green/blue ilvl ladder changes era (TBC levelling
+# greens start ~ilvl 80, WotLK ~130). Why this and not the epic quadratic:
+# - a power law passes through 0 at L=0 and, with every segment slope > 0
+#   (checked; a knot is dropped if it would break that), is monotonic — no
+#   low-ilvl rise, no negative budgets;
+# - log-space residuals are relative, which matches how budgets scale
+#   (a +1 stat matters at ilvl 10, not at 180);
+# - stock residuals (median |err|, all slots): green 1-19: 7.5% (quadratic
+#   18%), 20-39: 8.7%, 40-59: 9.6%, 80-119: 6.9%, 120+: ~3%; blue 20-39:
+#   5.4% (quadratic 10.6%). Extra knots (30/40/60) moved the medians by <1
+#   point, so they were not kept.
+# Each curve records its fitted ilvl range; the scaler clamps to it.
+# ---------------------------------------------------------------------------
+
+QUALITY_CURVE_QUALITIES = (2, 3)
+QUALITY_CURVE_KNOTS = (80, 130)
+# A knot is used only with at least this many samples on each side of it.
+QUALITY_CURVE_MIN_SEGMENT = 10
+# Pools below MIN_SAMPLES get no own curve and use the fallback below.
+# Thrown (25) goes to the ammo-ranged pool, off-hand-only/main-hand-only
+# weapons to 1H, relics to shield (as the epic FALLBACK_SLOT does).
+QUALITY_FALLBACK_SLOT = {
+    21: "13",
+    22: "13",
+    25: "26:3",
+    28: "14",
+}
+# ilvl bands for the residual table / in-band check.
+RESIDUAL_BANDS = ((1, 19), (20, 39), (40, 59), (60, 79),
+                  (80, 119), (120, 159), (160, 300))
+
+QUALITY_REFERENCE_SQL = f"""
+SELECT it.InventoryType, it.subclass, it.ItemLevel,
+       it.stat_type1, it.stat_value1, it.stat_type2, it.stat_value2,
+       it.stat_type3, it.stat_value3, it.stat_type4, it.stat_value4,
+       it.stat_type5, it.stat_value5, it.stat_type6, it.stat_value6,
+       it.stat_type7, it.stat_value7, it.stat_type8, it.stat_value8,
+       it.stat_type9, it.stat_value9, it.stat_type10, it.stat_value10,
+       it.holy_res, it.fire_res, it.nature_res,
+       it.frost_res, it.shadow_res, it.arcane_res,
+       it.class, it.dmg_min1, it.dmg_max1, it.delay, it.Quality,
+       it.entry, it.name
+FROM item_template it
+WHERE it.Quality IN (2, 3)
+  AND it.stat_type1 > 0
+  AND it.entry < 56900 AND it.ItemSet = 0
+  AND it.RandomProperty = 0 AND it.RandomSuffix = 0
+  AND it.spellid_1 = 0 AND it.spellid_2 = 0 AND it.spellid_3 = 0
+  AND it.spellid_4 = 0 AND it.spellid_5 = 0
+  AND it.class IN (2, 4)
+{_OBTAINABLE_CLAUSE}"""
+
+
+def _solve_linear(A: List[List[float]], B: List[float]) -> List[float]:
+    """Gaussian elimination with partial pivoting for a small k x k system."""
+    k = len(B)
+    M = [A[i][:] + [B[i]] for i in range(k)]
+    for i in range(k):
+        p = max(range(i, k), key=lambda r: abs(M[r][i]))
+        M[i], M[p] = M[p], M[i]
+        if abs(M[i][i]) < 1e-12:
+            raise ValueError("singular matrix")
+        for j in range(k):
+            if j != i:
+                f = M[j][i] / M[i][i]
+                M[j] = [a - f * b for a, b in zip(M[j], M[i])]
+    return [M[i][k] / M[i][i] for i in range(k)]
+
+
+def _fit_loglog_hinge(points: List[Tuple[int, float]]) -> Dict:
+    """Fit the uncommon/rare curve to (ilvl, weighted_total) points.
+
+    Uses each knot in QUALITY_CURVE_KNOTS that has >= QUALITY_CURVE_MIN_SEGMENT
+    samples on both sides. If any segment slope comes out <= 0 the
+    highest-remaining knot is dropped and the fit is redone; a plain power
+    law with exponent <= 0 is rejected (ValueError) rather than shipped.
+    """
+    knots = [k for k in QUALITY_CURVE_KNOTS
+             if sum(1 for x, _ in points if x > k) >= QUALITY_CURVE_MIN_SEGMENT
+             and sum(1 for x, _ in points if x <= k) >= QUALITY_CURVE_MIN_SEGMENT]
+    lx = [math.log(x) for x, _ in points]
+    ly = [math.log(y) for _, y in points]
+    while True:
+        X = [[1.0, l] + [max(0.0, l - math.log(k)) for k in knots] for l in lx]
+        n = len(X[0])
+        A = [[sum(r[i] * r[j] for r in X) for j in range(n)] for i in range(n)]
+        B = [sum(r[i] * y for r, y in zip(X, ly)) for i in range(n)]
+        coef = _solve_linear(A, B)
+        slopes = [coef[1]]
+        for c in coef[2:]:
+            slopes.append(slopes[-1] + c)
+        if min(slopes) > 0:
+            break
+        if not knots:
+            raise ValueError(f"non-increasing power law (exponent {coef[1]:.3f})")
+        knots = knots[:-1]
+    rec = {"model": "loglog_hinge", "coef": coef, "knots": list(knots),
+           "segment_slopes": slopes,
+           "ilvl_min": min(x for x, _ in points),
+           "ilvl_max": max(x for x, _ in points),
+           "n": len(points)}
+    errs = [abs(eval_quality_curve(rec, x) - y) / y for x, y in points]
+    rec["median_abs_pct_err"] = round(100 * statistics.median(errs), 2)
+    return rec
+
+
+def fetch_quality_reference_items() -> List[Dict]:
+    """Stock uncommon/rare reference items with their weighted totals.
+
+    Returns dicts: entry, name, quality, iv, subclass, ilvl, total, pool_key
+    (pool_key = the curve key the item feeds: pooled slot, or "26:<sub>").
+    """
+    out: List[Dict] = []
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(QUALITY_REFERENCE_SQL)
+        for row in cursor.fetchall():
+            total = _weighted_total(row)
+            if total <= 0:
+                continue
+            iv, subclass, ilvl = int(row[0]), int(row[1]), int(row[2])
+            target_iv = SLOT_POOL.get(iv, iv)
+            item = {"entry": int(row[34]), "name": row[35],
+                    "quality": int(row[33]), "iv": iv, "subclass": subclass,
+                    "ilvl": ilvl, "total": total,
+                    "pool_iv": str(target_iv), "pool_sub": None}
+            if target_iv in SUBCLASS_SPLIT_TYPES:
+                sc = SUBCLASS_POOL.get((target_iv, subclass), subclass)
+                item["pool_sub"] = f"{target_iv}:{sc}"
+            out.append(item)
+    finally:
+        conn.close()
+    return out
+
+
+def fit_quality_curves(items: List[Dict], verbose: bool = False) -> Dict:
+    """Fit per-quality curves + residual bands from reference items."""
+    curves: Dict[str, Dict[str, Dict]] = {}
+    bands: Dict[str, List[Dict]] = {}
+    for q in QUALITY_CURVE_QUALITIES:
+        pools: Dict[str, List[Tuple[int, float]]] = {}
+        for it in items:
+            if it["quality"] != q:
+                continue
+            # Split slots (ranged) get per-subclass curves only: a pooled
+            # wand+gun curve misses both by ~25%, so a ranged lookup without
+            # a subclass must fail rather than use it.
+            if not it["pool_sub"]:
+                pools.setdefault(it["pool_iv"], []).append((it["ilvl"], it["total"]))
+            else:
+                pools.setdefault(it["pool_sub"], []).append((it["ilvl"], it["total"]))
+        qc: Dict[str, Dict] = {}
+        if verbose:
+            print(f"Quality {q} curves (min n={MIN_SAMPLES}):")
+        for key, pts in sorted(pools.items()):
+            if len(pts) < MIN_SAMPLES:
+                if verbose:
+                    print(f"  {key:<6} n={len(pts):>4}  skipped (sparse)")
+                continue
+            try:
+                rec = _fit_loglog_hinge(pts)
+            except ValueError as e:
+                if verbose:
+                    print(f"  {key:<6} n={len(pts):>4}  rejected: {e}")
+                continue
+            qc[key] = rec
+            if verbose:
+                est = "  ".join(
+                    f"@{L}={eval_quality_curve(rec, L):6.1f}" for L in (10, 27, 60, 115, 180))
+                print(f"  {key:<6} n={len(pts):>4} il {rec['ilvl_min']:>3}-{rec['ilvl_max']:<3} "
+                      f"knots={rec['knots']!s:<9} med|err|={rec['median_abs_pct_err']:>5.1f}%  {est}")
+        for slot, fb in QUALITY_FALLBACK_SLOT.items():
+            if str(slot) not in qc and fb in qc:
+                qc[str(slot)] = dict(qc[fb])
+                qc[str(slot)]["fallback_from"] = fb
+                if verbose:
+                    print(f"  {slot:<6} -> fallback to {fb}")
+        curves[str(q)] = qc
+
+        # Residual bands: actual / predicted for every item, per ilvl band.
+        qb: List[Dict] = []
+        ratios_by_band: Dict[Tuple[int, int], List[float]] = {b: [] for b in RESIDUAL_BANDS}
+        for it in items:
+            if it["quality"] != q:
+                continue
+            key = it["pool_sub"] if it["pool_sub"] in qc else it["pool_iv"]
+            if key not in qc:
+                continue
+            pred = eval_quality_curve(qc[key], it["ilvl"])
+            for b in RESIDUAL_BANDS:
+                if b[0] <= it["ilvl"] <= b[1]:
+                    ratios_by_band[b].append(it["total"] / pred)
+                    break
+        for b in RESIDUAL_BANDS:
+            r = sorted(ratios_by_band[b])
+            if len(r) < 5:
+                continue
+            qb.append({
+                "lo": b[0], "hi": b[1], "n": len(r),
+                "p10": round(r[int(0.10 * (len(r) - 1))], 3),
+                "p50": round(statistics.median(r), 3),
+                "p90": round(r[int(0.90 * (len(r) - 1))], 3),
+                "median_abs_pct_err": round(100 * statistics.median(abs(x - 1) for x in r), 2),
+            })
+        bands[str(q)] = qb
+        if verbose:
+            print(f"  residuals (actual/predicted):")
+            for b in qb:
+                print(f"    ilvl {b['lo']:>3}-{b['hi']:<3} n={b['n']:>4}  "
+                      f"med|err|={b['median_abs_pct_err']:>5.1f}%  "
+                      f"p10={b['p10']:.2f} p50={b['p50']:.2f} p90={b['p90']:.2f}")
+            print()
+    return {
+        "_comment": ("Uncommon/rare stat-budget curves (I-435). Model loglog_hinge: "
+                     "ln(B)=c0+c1*ln(L)+sum ck*max(0,ln(L/knot_k)). Budget units = "
+                     "STAT_WEIGHT weighted total (+ DPS*5 for weapons). Clamp to "
+                     "[ilvl_min, ilvl_max]. residual_bands = actual/predicted over "
+                     "stock items per ilvl band. Regenerate with `zep world item "
+                     "analyze-budget --scope quality`."),
+        "model": "loglog_hinge",
+        "knots": list(QUALITY_CURVE_KNOTS),
+        "curves": curves,
+        "residual_bands": bands,
+        "slot_pool": {str(k): v for k, v in SLOT_POOL.items()},
+        "subclass_pool": {f"{k[0]}:{k[1]}": v for k, v in SUBCLASS_POOL.items()},
+        "min_samples": MIN_SAMPLES,
+    }
+
+
+def run_quality_curves(verbose: bool = True, path: Path = QUALITY_CURVES_PATH) -> Path:
+    """Fit uncommon/rare curves from the live DB and write them. Does not
+    touch budget_formulas.json (the epic fit)."""
+    items = fetch_quality_reference_items()
+    if verbose:
+        for q in QUALITY_CURVE_QUALITIES:
+            n = sum(1 for it in items if it["quality"] == q)
+            print(f"Loaded {n} stock quality-{q} items")
+        print()
+    result = fit_quality_curves(items, verbose=verbose)
+    return write(result, path)
+
+
+NEAREST_SQL = f"""
+SELECT it.InventoryType, it.subclass, it.ItemLevel,
+       it.stat_type1, it.stat_value1, it.stat_type2, it.stat_value2,
+       it.stat_type3, it.stat_value3, it.stat_type4, it.stat_value4,
+       it.stat_type5, it.stat_value5, it.stat_type6, it.stat_value6,
+       it.stat_type7, it.stat_value7, it.stat_type8, it.stat_value8,
+       it.stat_type9, it.stat_value9, it.stat_type10, it.stat_value10,
+       it.holy_res, it.fire_res, it.nature_res,
+       it.frost_res, it.shadow_res, it.arcane_res,
+       it.class, it.dmg_min1, it.dmg_max1, it.delay, it.Quality,
+       it.entry, it.name
+FROM item_template it
+WHERE it.InventoryType IN ({{ivs}})
+  AND it.Quality = %s
+  AND it.ItemLevel BETWEEN %s AND %s
+  {{subclass_filter}}
+  AND it.stat_type1 > 0
+  AND it.entry < 56900 AND it.ItemSet = 0
+  AND it.RandomProperty = 0 AND it.RandomSuffix = 0
+  AND it.spellid_1 = 0 AND it.spellid_2 = 0 AND it.spellid_3 = 0
+  AND it.spellid_4 = 0 AND it.spellid_5 = 0
+  AND it.class IN (2, 4)
+{_OBTAINABLE_CLAUSE}"""
+
+
+def nearest_stock_items(inventory_types: List[int], quality: int, ilvl: int,
+                        limit: int = 5, subclasses: List[int] = None,
+                        window: int = 15) -> List[Dict]:
+    """Stock items (same reference filters as the fit) of these
+    InventoryTypes/quality nearest to `ilvl`, with weighted totals."""
+    sub_sql = ""
+    if subclasses:
+        sub_sql = "AND it.subclass IN (" + ",".join(str(int(s)) for s in subclasses) + ")"
+    sql = NEAREST_SQL.format(ivs=",".join(str(int(i)) for i in inventory_types),
+                             subclass_filter=sub_sql)
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(sql, (quality, ilvl - window, ilvl + window))
+        rows = cursor.fetchall()
+    finally:
+        conn.close()
+    out = []
+    for row in rows:
+        stats = []
+        for i in range(10):
+            t, v = int(row[3 + i * 2]), int(row[4 + i * 2])
+            if t > 0 and v != 0:
+                stats.append((t, v))
+        out.append({"entry": int(row[34]), "name": row[35], "iv": int(row[0]),
+                    "subclass": int(row[1]), "ilvl": int(row[2]),
+                    "stats": stats, "total": _weighted_total(row)})
+    out.sort(key=lambda r: (abs(r["ilvl"] - ilvl), r["entry"]))
+    return out[:limit]
 
 
 def write(result: Dict, path: Path = OUTPUT_PATH) -> Path:

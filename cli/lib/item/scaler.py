@@ -8,7 +8,16 @@ players see on canonical epics at each ilvl/slot.
 
     budget(slot, L, quality) = formula[slot](L) * quality_ratio[quality]
 
-The quality_ratio rescales from the fitted-epic budget down to rare (0.85).
+That epic path serves quality 4+ only, inside the fitted epic range
+(ilvl 40-284); outside it the ilvl is clamped with a warning.
+
+Uncommon (2) and rare (3) items use their OWN per-quality curves from
+`data/budget_formulas_quality.json` (`zep world item analyze-budget
+--scope quality`), fitted on stock greens/blues at every ilvl they exist
+(~5-200). Those curves are a continuous piecewise power law in
+log(ilvl) (see `eval_quality_curve`), monotonic by construction, and are
+clamped to each curve's fitted ilvl range rather than extrapolated. The
+old `quality_ratio["3"] = 0.85` epic multiplier is no longer used.
 The budget is split across the chosen stats by random allocation weights;
 each stat's printed value = (allocation / total_alloc) * budget / stat_weight,
 where stat_weight is the per-stat cost (most stats=1.0, ArmorPen/SpellPen=2.0,
@@ -20,6 +29,7 @@ generation stays deterministic.
 
 import json
 import math
+import warnings
 from pathlib import Path
 from typing import Dict, List, Tuple
 
@@ -76,6 +86,17 @@ def _legacy_budget(inventory_type: int, item_level: int, quality: int) -> float:
 
 
 _formulas_cache: Dict = None
+_quality_curves_cache: Dict = None
+
+# Per-quality curve file (uncommon / rare). Written by
+# `budget_analyzer.run_quality_curves()`; kept separate from
+# budget_formulas.json so refitting greens/blues never touches the epic fit.
+QUALITY_CURVES_PATH = DATA_DIR / "budget_formulas_quality.json"
+QUALITY_CURVE_QUALITIES = (2, 3)
+
+# Inclusive ilvl range the epic formulas were fitted on (stock epics). Used
+# when budget_formulas.json predates the `era_ranges` key.
+EPIC_FIT_RANGE_DEFAULT = (40, 284)
 
 
 def _load_formulas() -> Dict:
@@ -88,6 +109,36 @@ def _load_formulas() -> Dict:
         else:
             _formulas_cache = {}
     return _formulas_cache
+
+def _load_quality_curves() -> Dict:
+    """Load budget_formulas_quality.json once and cache; {} if missing."""
+    global _quality_curves_cache
+    if _quality_curves_cache is None:
+        if QUALITY_CURVES_PATH.exists():
+            with open(QUALITY_CURVES_PATH) as f:
+                _quality_curves_cache = json.load(f)
+        else:
+            _quality_curves_cache = {}
+    return _quality_curves_cache
+
+
+def eval_quality_curve(rec: Dict, item_level: float) -> float:
+    """Evaluate one uncommon/rare budget curve at `item_level` (no clamping).
+
+    Model ("loglog_hinge"): continuous piecewise-linear in log space,
+        ln(budget) = c0 + c1*ln(L) + sum_k ck * max(0, ln(L) - ln(knot_k))
+    i.e. a power law whose exponent may change at each era knot. Every
+    segment slope is checked > 0 at fit time, so the curve is strictly
+    increasing and tends to 0 as L -> 0 (no low-ilvl rise).
+    """
+    coef = rec["coef"]
+    knots = rec.get("knots", [])
+    lx = math.log(max(1.0, float(item_level)))
+    y = coef[0] + coef[1] * lx
+    for ck, k in zip(coef[2:], knots):
+        y += ck * max(0.0, lx - math.log(k))
+    return math.exp(y)
+
 
 # Stat weight = how much budget one point of this stat consumes.
 # Derived from WotLK green gems (1 socket = 1 "unit"): a primary stat that
@@ -430,11 +481,127 @@ def _eval_quad(f, x):
     return max(0.0, f["a"] * x * x + f["b"] * x + f["c"])
 
 
+def _quality_curve_key(lookup_iv: int, subclass, curves: Dict):
+    """Pick the curve key for a (pooled) slot: per-subclass first for split
+    slots (ranged: wand vs ammo weapons), then the pooled slot."""
+    if subclass is not None:
+        key = f"{lookup_iv}:{subclass}"
+        if key in curves:
+            return key
+    key = str(lookup_iv)
+    if key in curves:
+        return key
+    return None
+
+
+def _quality_curve_details(
+    inventory_type: int, item_level: int, quality: int, subclass: int = None
+) -> Dict:
+    data = _load_quality_curves()
+    curves = data.get("curves", {}).get(str(quality))
+    if not curves:
+        raise ValueError(
+            f"No stat-budget curves for quality {quality}: "
+            f"{QUALITY_CURVES_PATH.name} is missing or empty. Run "
+            f"`zep world item analyze-budget --scope quality`.")
+    lookup_iv = SLOT_ALIAS.get(inventory_type, inventory_type)
+    if subclass is not None:
+        subclass = SUBCLASS_ALIAS.get((lookup_iv, subclass), subclass)
+    key = _quality_curve_key(lookup_iv, subclass, curves)
+    if key is None:
+        raise ValueError(
+            f"No quality-{quality} budget curve for InventoryType "
+            f"{inventory_type} (pooled as {lookup_iv}); add a fallback in "
+            f"budget_analyzer.QUALITY_FALLBACK_SLOT.")
+    rec = curves[key]
+    lo, hi = rec["ilvl_min"], rec["ilvl_max"]
+    used = min(max(item_level, lo), hi)
+    band = None
+    for b in data.get("residual_bands", {}).get(str(quality), []):
+        if b["lo"] <= used <= b["hi"]:
+            band = b
+            break
+    return {
+        "budget": eval_quality_curve(rec, used),
+        "path": f"quality-{quality} curve",
+        "curve_key": key,
+        "fallback_from": rec.get("fallback_from"),
+        "ilvl_requested": item_level,
+        "ilvl_used": used,
+        "ilvl_range": (lo, hi),
+        "clamped": used != item_level,
+        "n": rec.get("n"),
+        "band": band,
+    }
+
+
+def budget_details(
+    inventory_type: int, item_level: int, quality: int,
+    subclass: int = None
+) -> Dict:
+    """`compute_budget` plus provenance: which curve, the ilvl actually
+    evaluated, whether it was clamped to the fitted range, and (for
+    uncommon/rare) the stock residual band [p10, p90] of actual/predicted
+    weighted totals around this ilvl."""
+    if quality in QUALITY_CURVE_QUALITIES:
+        return _quality_curve_details(inventory_type, item_level, quality, subclass)
+    if quality < 2:
+        raise ValueError(
+            f"No stat-budget curve for quality {quality} (poor/common); only "
+            f"uncommon (2), rare (3) and epic+ (4+) are fitted.")
+    era_ranges = _load_formulas().get("era_ranges")
+    if era_ranges:
+        lo = min(r[0] for r in era_ranges.values())
+        hi = max(r[1] for r in era_ranges.values())
+    else:
+        lo, hi = EPIC_FIT_RANGE_DEFAULT
+    used = min(max(item_level, lo), hi)
+    return {
+        "budget": _epic_budget(inventory_type, used, quality, subclass),
+        "path": "epic curve" + (f" x quality_ratio[{quality}]" if quality != 4 else ""),
+        "curve_key": None,
+        "fallback_from": None,
+        "ilvl_requested": item_level,
+        "ilvl_used": used,
+        "ilvl_range": (lo, hi),
+        "clamped": used != item_level,
+        "n": None,
+        "band": None,
+    }
+
+
 def compute_budget(
     inventory_type: int, item_level: int, quality: int,
     subclass: int = None
 ) -> float:
-    """Return the empirically-derived stat budget for one item.
+    """Return the empirically-derived stat budget for one item, in
+    STAT_WEIGHT units (weapons: stats + DPS * DPS_BUDGET_WEIGHT).
+
+    - quality 2 / 3: per-quality stock curve (`budget_formulas_quality.json`).
+    - quality 4+:    epic per-slot/era quadratics (`budget_formulas.json`).
+    - quality 0 / 1: ValueError — no fitted curve.
+
+    Never extrapolates: an ilvl outside the curve's fitted range is clamped
+    to the nearest end and a RuntimeWarning is issued. Use
+    `budget_details()` to see the clamp, curve and residual band.
+    """
+    d = budget_details(inventory_type, item_level, quality, subclass)
+    if d["clamped"]:
+        lo, hi = d["ilvl_range"]
+        warnings.warn(
+            f"compute_budget: ilvl {item_level} is outside the fitted range "
+            f"{lo}-{hi} for quality {quality} InventoryType {inventory_type} "
+            f"({d['path']}); clamped to {d['ilvl_used']}.",
+            RuntimeWarning, stacklevel=2)
+    return d["budget"]
+
+
+def _epic_budget(
+    inventory_type: int, item_level: int, quality: int,
+    subclass: int = None
+) -> float:
+    """Epic-path budget (quality 4+). Caller clamps item_level to the
+    fitted epic range.
 
     Lookup order:
       1. Per-(slot, subclass, era)  — armor era splits
@@ -544,6 +711,7 @@ def distribute_stats(
     stat_shares: dict = None,
     share_caps: dict = None,
     weight_overrides: dict = None,
+    min_value: int = None,
 ) -> List[Tuple[int, int]]:
     """Split `budget` across `stat_ids` by per-stat BUDGET SHARES.
 
@@ -566,6 +734,9 @@ def distribute_stats(
     fraction of the item any one stat may take — rider stats (Mp5, SpellPen)
     stay riders even when only 2-3 stats roll. Excess redistributes.
 
+    `min_value` overrides `MIN_STAT_VALUE` (the junk-drop threshold) for
+    this call; None keeps the module default.
+
     `weight_overrides` supersedes `STAT_WEIGHT` (the budget→value *cost*
     conversion, "stat weight") for specific stats — a different axis from
     `stat_shares`.
@@ -576,6 +747,7 @@ def distribute_stats(
         return []
 
     shares_map = stat_shares or {}
+    threshold = MIN_STAT_VALUE if min_value is None else min_value
     working = list(stat_ids)
     out = _allocate_once(working, budget, rng, shares_map, share_caps, weight_overrides)
 
@@ -584,7 +756,7 @@ def distribute_stats(
     # (e.g. a wand, whose spell-damage "DPS" consumes nearly all its budget) —
     # a damage-only item is preferable to a +1 filler stat.
     while True:
-        keep = [sid for sid, val in out if val >= MIN_STAT_VALUE]
+        keep = [sid for sid, val in out if val >= threshold]
         if len(keep) == len(working):
             break
         working = keep
