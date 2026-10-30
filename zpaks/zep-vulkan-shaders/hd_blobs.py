@@ -10,7 +10,7 @@ HLSL changes, or the client compiles it again and Vulkan keeps Blizzard's shader
 
 wxl-vulkan-api's translate.py does the translation, with one addition: the device uploads pixel c0..c12 only and
 the client mirrors c13..c204 into vertex rows 64..255 (HdGxShader.cpp, HD::PixelConstantsSet), so an HD pixel
-constant from c13 up reads that row and its module declares the 256-row vertex window. No G-buffer or sun-receiver variants are made: grass has none
+constant from c13 up reads that row and its module declares the 256-row vertex window. A VPOS input reads gl_FragCoord. No G-buffer or sun-receiver variants are made: grass has none
 on Vulkan either way (the stock DetailDoodad records have none), and the HdTerrain / HdMapObj receiver generator is
 lost, so those families are not shipped here.
 
@@ -65,6 +65,40 @@ def patch_translator(T, blobs):
             v = T.VCONST_LARGE
         self.__dict__['_vconst'] = v
     T.Emitter.vconst = property(lambda self: self.__dict__.get('_vconst'), set_vconst)
+
+    # VPOS (HdSky's dither): a pixel input with the position semantic, which is no varying. It reads gl_FragCoord,
+    # less half a pixel: D3D9's VPOS is the pixel's corner, both count from the top left.
+    base_dcl, base_text = T.Emitter.dcl, T.Emitter.text
+
+    def dcl(self, ins):
+        d = ins.dst
+        if self.vs or d.rtype == T.ir.RT_SAMPLER or not ins.dcl_usage:
+            return base_dcl(self, ins)
+        u, ui = ins.dcl_usage
+        if (not self.vs and self.major >= 3 and d.rtype == T.ir.RT_MISCTYPE and d.index == 0) or \
+                (not self.vs and self.major >= 3 and T.ir.USAGE.get(u) == 'position' and ui == 0):
+            nm = self.regname(d)
+            self.inputs[nm] = 'position0'
+            self.in_masks[nm] = d.mask
+            self.__dict__['vpos'] = nm
+            return
+        return base_dcl(self, ins)
+
+    def text(self):
+        if self.__dict__.get('vpos') and 'position0' in getattr(self, 'reads', []):
+            self.reads.remove('position0')   # no varying: the manifest's `reads` must not list it either
+        out = base_text(self)
+        nm = self.__dict__.get('vpos')
+        if nm:
+            out = out.replace('    vec4 %s = position0;' % nm, '    vec4 %s = vec4(gl_FragCoord.xy - 0.5, 0.0, 0.0);' % nm)
+        return out
+    base_expr = T.Emitter.base_expr
+
+    def base_expr_vpos(self, o):
+        if not self.vs and o.rtype == T.ir.RT_MISCTYPE and o.index == 0 and self.__dict__.get('vpos'):
+            return self.regname(o)
+        return base_expr(self, o)
+    T.Emitter.dcl, T.Emitter.text, T.Emitter.base_expr = dcl, text, base_expr_vpos
 
 
 def main():
