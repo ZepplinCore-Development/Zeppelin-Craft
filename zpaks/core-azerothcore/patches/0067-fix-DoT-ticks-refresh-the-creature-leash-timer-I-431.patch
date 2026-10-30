@@ -1,0 +1,37 @@
+From d3c935559d623a5dfe36c9c60be851d5b345ecf0 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Oct 2026 13:57:38 +0000
+Subject: [PATCH] fix: DoT ticks refresh the creature leash timer (I-431)
+
+- Unit::DealDamage no longer skips UpdateLeashExtensionTime() for DOT damage;
+  damage shields (Thorns) are still excluded
+- Upstream #27390 removed the chase-based leash refresh, so a mob taking only
+  DoT damage evaded 11-16s after the last direct hit
+- Verified with agent-wow: no-damage control evades at 11.2s, a Curse of Agony
+  target holds 25s+ at 48 yd from its spawn
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJRUcD1t5LXxUADQBzF
+---
+ src/server/game/Entities/Unit/Unit.cpp | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
+index e68c5017c..2aa886d91 100644
+--- a/src/server/game/Entities/Unit/Unit.cpp
++++ b/src/server/game/Entities/Unit/Unit.cpp
+@@ -1332,8 +1332,9 @@ uint32 Unit::DealDamage(Unit* attacker, Unit* victim, uint32 damage, CleanDamage
+ 
+         if (!victim->IsPlayer())
+         {
+-            // DoT ticks and passive damage (e.g. Thorns) do not reset leash timer
+-            if (damagetype != DOT && damage > 0 && !victim->GetOwnerGUID().IsPlayer() && (!spellProto || !spellProto->HasAura(SPELL_AURA_DAMAGE_SHIELD)))
++            // Passive damage (e.g. Thorns) does not reset leash timer
++            // ZEPPELIN (I-431): DoT ticks do, so a mob loaded with DoTs does not evade between direct hits
++            if (damage > 0 && !victim->GetOwnerGUID().IsPlayer() && (!spellProto || !spellProto->HasAura(SPELL_AURA_DAMAGE_SHIELD)))
+                 victim->ToCreature()->UpdateLeashExtensionTime();
+ 
+             if (attacker && attacker != victim)
+-- 
+2.34.1
+
