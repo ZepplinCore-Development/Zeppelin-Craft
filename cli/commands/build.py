@@ -451,7 +451,8 @@ def skin_check_cmd(ctx, races):
 
     Resolves every CharSections texture through the enabled zpaks' parsed-assets in patch load order over the
     stock client: missing / undecodable files and HD models wearing classic art are errors; faces off-colour
-    from their body, stray dark blobs, missing face types and duplicate rows are warnings. Writes
+    from their body, stray dark blobs, missing face types, duplicate rows and baked markings (a skin or face
+    carrying paint / tattoos its plain siblings lack, F-230; ZEP_BAKED_CHECK=off skips) are warnings. Writes
     logs/skin_check/report.txt, findings.json and faces.png (a sheet of every flagged face - look at it).
     Runs before packing PATCH-L and PATCH-Q (errors stop the build) and PATCH-Z (report only).
     """

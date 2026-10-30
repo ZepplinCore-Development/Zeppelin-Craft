@@ -18,6 +18,10 @@ Warnings (reported, with a contact sheet):
   size         a face whose texture size differs from the race's usual one (a file from another set)
   face-types   a reachable colour lacks face types the race's colour 0 has (the creator skips it there)
   duplicate    two rows share race/sex/section/type/colour (the source client takes the highest id)
+  baked-mark   a skin colour or face that carries paint / tattoos / a mask its plain siblings do not (F-230,
+               lib/baked_marks.py): body, face-colour (a colour that paints every face), face-type (a face type
+               that is another face type plus paint). Leads to look at; ZEP_BAKED_CHECK=off skips it.
+               Results are cached per race / sex on the files' sizes and times (logs/skin_check/baked_cache.json).
 """
 import hashlib
 import json
@@ -30,6 +34,9 @@ from typing import Dict, List, Optional, Tuple
 import numpy as np
 from PIL import Image, ImageDraw
 
+import os
+
+from lib import baked_marks
 from lib import model_sources as ms
 from lib.patch_builder import discover_patches
 from lib.wardrobe.blp import read_blp
@@ -211,15 +218,83 @@ def offered(craft_root: Path) -> Dict[Tuple[str, int], set]:
         return out
     body = text[start:text.find('\n};', start)]
     for m in re.finditer(r'\["(\w+)"\] = \{(.*?)\n\t\},', body, re.S):
+        block = re.sub(r'faces = (\{[^{}]*(\{[^{}]*\}[^{}]*)*\}|\w+)', '', m.group(2))   # face lists are not colours
         for sex, key in ((0, 'MALE'), (1, 'FEMALE')):
             cols = set()
-            for lst in re.findall(key + r' = \{([\d,\s]*)\}', m.group(2)):
+            for lst in re.findall(r'\b' + key + r' = \{([\d,\s]*)\}', block):
                 cols |= {int(x) for x in lst.replace(' ', '').split(',') if x}
             out[(m.group(1), sex)] = cols
     return out
 
 
-def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]:
+def offered_faces(craft_root: Path) -> Dict[Tuple[str, int], set]:
+    """(race file name, sex) -> the face types character create offers, for races whose every sub-race has a `faces`
+    list for that sex (CHAR_CREATE_SUBRACES; a list may be a table named earlier in the file). No key = every face."""
+    text = (craft_root / GLUE).read_text(errors='replace')
+    named = {n: v for n, v in re.findall(r'^([A-Z_]+_FACES) = (\{.*?\});', text, re.M)}
+    start = text.find('CHAR_CREATE_SUBRACES = {')
+    if start < 0:
+        return {}
+    body = text[start:text.find('\n};', start)]
+    out = {}
+    for m in re.finditer(r'\["(\w+)"\] = \{(.*?)\n\t\},', body, re.S):
+        subs = re.findall(r'\{ name = .*?(?=\n\t\t\{ name = |\Z)', m.group(2), re.S)
+        for sex, key in ((0, 'MALE'), (1, 'FEMALE')):
+            faces, every = set(), bool(subs)
+            for sub in subs:
+                f = re.search(r'faces = (\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\w+)', sub)
+                lst = None
+                if f:
+                    table = named.get(f.group(1), f.group(1))
+                    hit = re.search(r'\b' + key + r' = \{([\d,\s]*)\}', table)
+                    lst = hit and {int(x) for x in hit.group(1).replace(' ', '').split(',') if x}
+                if lst is None:
+                    every = False
+                    break
+                faces |= lst
+            if every:
+                out[(m.group(1), sex)] = faces
+    return out
+
+
+BAKED_CACHE = Path('/workspace/project/logs/skin_check/baked_cache.json')
+
+
+def _baked(race, sex, skins, face_parts, files, stats) -> List[Finding]:
+    """baked_marks.detect on one race / sex, cached on the resolved files' sizes and times."""
+    import hashlib as _h
+    sig = _h.sha1()
+    for k, (_a, path) in sorted(skins.items()):
+        f = files[ms.norm(path)][0]
+        sig.update(f'{k}:{f}:{f.stat().st_size}:{f.stat().st_mtime_ns};'.encode())
+    for k, (_p, paths) in sorted(face_parts.items()):
+        for path in paths:
+            f = files[ms.norm(path)][0]
+            sig.update(f'{k}:{f}:{f.stat().st_size}:{f.stat().st_mtime_ns};'.encode())
+    sig.update(str(baked_marks.RES).encode())
+    key, digest = f'{race}:{sex}', sig.hexdigest()
+    cache = json.loads(BAKED_CACHE.read_text()) if BAKED_CACHE.exists() else {}
+    if cache.get(key, {}).get('sig') == digest:
+        found = cache[key]['found']
+    else:
+        found = baked_marks.detect(race, sex, {c: a for c, (a, _p) in skins.items()},
+                                   {k: f.astype(np.float32) for k, (f, _paths) in face_parts.items()}, island(race, sex))
+        cache[key] = {'sig': digest, 'found': found}
+        BAKED_CACHE.parent.mkdir(parents=True, exist_ok=True)
+        BAKED_CACHE.write_text(json.dumps(cache, indent=1))
+    stats['baked_checked'] += 1
+    out = []
+    for f in found:
+        what = f['what']
+        out.append(Finding('warning', 'baked-mark', race, sex, f['colour'] if f['colour'] is not None else -1,
+                           f"{what}: {f['detail']}", 0 if what == 'body' else 1,
+                           f['type'] if f['type'] is not None else 0))
+    return out
+
+
+def check(query, craft_root: Path, races=PLAYABLE, baked=None) -> Tuple[List[Finding], Dict]:
+    if baked is None:
+        baked = os.environ.get('ZEP_BAKED_CHECK', 'on') != 'off'
     files = shipped_index(craft_root)
     hd = hd_pack_index()
     imgs = Images()
@@ -295,6 +370,7 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                             resolve(r, col)
 
             sizes, tones, body_lit = {}, [], {}
+            face_parts = {}
             for t, cs in faces.items():
                 details = {}
                 for c, r in cs.items():
@@ -330,6 +406,9 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                         sizes[c, t] = parts['texture_1'].shape[:2]
                     if len(parts) == 2 and not stock:          # classic art on an HD head is already an error
                         details[c] = _lum(parts['texture_2'], parts['texture_1'])
+                    if baked and len(parts) == 2 and r['flags'] & 0x1:      # small copies: whole faces ran out of memory
+                        face_parts[(t, c)] = (baked_marks.face_image(parts['texture_2'], parts['texture_1']).astype(np.uint8),
+                                              (r['texture_1'], r['texture_2']))
                 if len(details) < 4:
                     continue
                 stats['hole_checked'] += len(details)
@@ -372,6 +451,12 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                         out.append(Finding('warning', 'tone', race, sex, c,
                                            f'_Extra (head, ears, horns) colour {d:.1f} off its body (against the stock colours)',
                                            0, 0, [r['texture_2']], files[ms.norm(r['texture_2'])][1]))
+            if baked:
+                # death knight colours (flag 0x4) are left out: their glowing eyes and veins are the DK look, not paint
+                dk = {c for c, r in skins.items() if r['flags'] & 0x4}
+                out.extend(_baked(race, sex, {c: (skin_img[c], skins[c]['texture_1']) for c in skin_img
+                                               if skins[c]['flags'] & 0x1 and c not in dk},
+                                  {k: v for k, v in face_parts.items() if k[1] not in dk}, files, stats))
             if sizes:
                 common = max(set(sizes.values()), key=list(sizes.values()).count)
                 for (c, t), hw in sizes.items():
@@ -382,11 +467,18 @@ def check(query, craft_root: Path, races=PLAYABLE) -> Tuple[List[Finding], Dict]
                                            1, t, [r['texture_1'], r['texture_2']]))
     # a colour character create does not offer cannot reach a player: its faults are warnings
     offer = offered(craft_root)
+    face_offer = offered_faces(craft_root)
     for f in out:
         cols = offer.get((names.get(f.race, '').upper(), f.sex))
         if f.level == 'error' and cols is not None and f.colour not in cols and f.kind not in ('missing', 'undecodable'):
             f.level = 'warning'
             f.detail += ' (not offered in character create)'
+        elif f.kind == 'baked-mark' and cols is not None and f.colour >= 0 and f.colour not in cols:
+            f.detail += ' (not offered)'
+        elif f.kind == 'baked-mark' and f.colour < 0:
+            face_list = face_offer.get((names.get(f.race, '').upper(), f.sex))
+            if face_list is not None and f.type not in face_list:
+                f.detail += ' (not offered)'
     return out, dict(stats)
 
 
@@ -430,10 +522,13 @@ def report(findings: List[Finding], stats: Dict) -> str:
     for f in errs + warns:
         groups[(f.level, f.kind, f.race, f.sex)].append(f)
     for (level, kind, race, sex), fs in groups.items():
-        cols = sorted({f.colour for f in fs})
+        cols = sorted({f.colour for f in fs if f.colour >= 0})
         lines.append(f'  {level.upper():7} {kind:11} race {race:2} {SEXES[sex]:6} {len(fs):4} rows, '
                      f'colours {",".join(map(str, cols))}')
-        if kind != 'duplicate':
+        if kind == 'baked-mark':
+            for f in fs:
+                lines.append(f'            {"c" + str(f.colour) if f.colour >= 0 else "  "}: {f.detail}')
+        elif kind != 'duplicate':
             for f in fs[:2]:
                 lines.append(f'            c{f.colour}: {f.detail}')
     return '\n'.join(lines)

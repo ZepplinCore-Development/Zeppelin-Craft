@@ -39,6 +39,18 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       so a geoset slot can pick it independently. LOD skins split a piece into several submeshes; the
       same entry renames all of them.
 
+  {"op": "skin.geoset.island_split", "from": [102, 103], "rules": [
+       {"to": 2, "box": [null, null, 0.875, null, null, null]}, {"to": 3, "key": 6, "majority": 0.5}]}
+      Facial pieces bundled in one geoset split into geosets of their own by MESH ISLAND (triangles
+      joined through vertices welded by position, as skin.geoset.split). Each island of a submesh
+      whose id is in `from` goes to the first rule it meets: "box" = [x0, y0, z0, x1, y1, z1] the
+      island's vertex centroid must lie in (null = unbounded), "key" = the key bone its vertices'
+      dominant bones hang under for at least "majority" of them; an island meeting no rule keeps the
+      source id. The pieces become submesh `to` * 100 + the source variant (gnome 102 -> brows 202,
+      moustache 302, beard stays 102), keeping the source's vertex range, bone combo and batches.
+      Every LOD skin is split by the same rules. F-230: gnome / draenei / night elf facial hair
+      shipped brows, moustache, beard and sideburns as one geoset each.
+
   {"op": "skin.geoset.copy", "from": 401, "to": [402, 403]}
       Every submesh with id `from` (and its batches) copied under each id in `to`: a piece that
       shows with every variant of the group (I-392: the one ear set kept on each wing variant).
@@ -581,6 +593,87 @@ def _op_geoset_copy(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     return f'geoset.copy: {src} ({len(js)} submesh) -> {to}'
 
 
+def _op_geoset_island_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    """skin.geoset.island_split: see the module doc. Rebuilds the index and submesh arrays."""
+    m = _Model(model)
+    src_ids = {int(x) for x in cfg['from']}
+    rules = cfg['rules']
+    have_src = {sk.sub(j)['id'] for j in range(len(sk.subs))} & src_ids
+    if not have_src:
+        raise ValueError(f'geoset.island_split: no submesh {sorted(src_ids)}')
+
+    def rule_of(isl: List[tuple]) -> int:
+        vs = [sk.lookup[v] for t in isl for v in t]
+        c = [sum(m.pos[v][k] for v in vs) / len(vs) for k in range(3)]
+        keys = collections.Counter(m.key_of(m.dom[v]) for v in vs)
+        for r in rules:
+            box = r.get('box')
+            if box and not all((box[k] is None or c[k] >= box[k]) and (box[k + 3] is None or c[k] <= box[k + 3])
+                               for k in range(3)):
+                continue
+            if 'key' in r and keys.get(int(r['key']), 0) < float(r.get('majority', 0.5)) * len(vs):
+                continue
+            return int(r['to'])
+        return -1
+
+    def islands(tris: List[tuple]) -> List[List[tuple]]:
+        par: Dict[tuple, tuple] = {}
+
+        def find(x):
+            while par.setdefault(x, x) != x:
+                par[x] = par[par[x]]
+                x = par[x]
+            return x
+        weld = lambda v: tuple(round(c, 4) for c in m.pos[sk.lookup[v]])
+        for t in tris:
+            a = find(weld(t[0]))
+            for v in t[1:]:
+                par[find(weld(v))] = a
+        out = collections.defaultdict(list)
+        for t in tris:
+            out[find(weld(t[0]))].append(t)
+        return list(out.values())
+
+    by_sub = collections.defaultdict(list)
+    for b in sk.batches:
+        by_sub[struct.unpack_from('<H', b, 4)[0]].append(b)
+    subs, idx, batches, made = [], [], [], collections.Counter()
+
+    def emit(raw: bytearray, gid: int, tris: List[tuple], src: int):
+        f = list(struct.unpack_from('<10H', raw))
+        start = len(idx)
+        if start > 0xFFFF:
+            raise ValueError('index start past 65535')
+        f[0], f[1], f[4], f[5] = gid, 0, start, 3 * len(tris)
+        for t in tris:
+            idx.extend(t)
+        nr = bytearray(raw)
+        struct.pack_into('<10H', nr, 0, *f)
+        subs.append(nr)
+        for b in by_sub[src]:
+            nb = bytearray(b)
+            struct.pack_into('<H', nb, 4, len(subs) - 1)
+            if struct.unpack_from('<H', b, 6)[0] == src:      # geosetIndex mirrors the submesh
+                struct.pack_into('<H', nb, 6, len(subs) - 1)
+            batches.append(nb)
+
+    for j in range(len(sk.subs)):
+        s = sk.sub(j)
+        tris = [tuple(sk.idx[t:t + 3]) for t in range(s['istart'], s['istart'] + s['icount'], 3)]
+        if s['id'] not in src_ids:
+            emit(sk.subs[j], s['id'], tris, j)
+            continue
+        parts = collections.defaultdict(list)
+        for isl in islands(tris):
+            g = rule_of(isl)
+            parts[s['id'] if g < 0 else g * 100 + s['id'] % 100] += isl
+        for gid in sorted(parts, key=lambda g: (g != s['id'], g)):
+            emit(sk.subs[j], gid, parts[gid], j)
+            made[f'{s["id"]}->{gid}'] += len(parts[gid])
+    sk.subs, sk.idx, sk.batches = subs, idx, batches
+    return 'geoset.island_split: ' + ' '.join(f'{k}:{v}' for k, v in sorted(made.items()))
+
+
 def _op_geoset_relabel(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     """skin.geoset.relabel: see the module doc. Only edits submesh ids (in place in sk.subs)."""
     types = None
@@ -1120,6 +1213,7 @@ OPS = {
     'skin.geoset.remap': _op_geoset_remap,
     'skin.geoset.copy': _op_geoset_copy,
     'skin.geoset.relabel': _op_geoset_relabel,
+    'skin.geoset.island_split': _op_geoset_island_split,
     'skin.batch.set': _op_batch_set,
 }
 

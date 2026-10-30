@@ -14,15 +14,21 @@ Inputs, read live:
   - CharacterFacialHairStyles and CharSections base_section 2 (facial hair textures) from the DBC database
   - the geosets each shipped character model has, decoded from every LOD skin in the zpak that ships it
     (mod-worgoblin for goblin / worgen, zep-hd-curated for the rest) AFTER the F-230 relabels
-    (model_transforms.json / curate_transforms.json, op skin.geoset.relabel): jewellery that shared a
-    geoset id with its ear / nose / beard now sits in 14xx / 16xx.
-Every geoset a choice or imply line names is checked against those skins; a miss fails the run.
+    (model_transforms.json / curate_transforms.json, ops skin.geoset.relabel / skin.geoset.island_split):
+    jewellery that shared a geoset id with its ear / nose now sits in 14xx / 16xx; gnome, night elf and draenei
+    male facial hair is cut into beard / moustache / eyebrows / sideburns geosets.
+Every geoset a choice, imply or exclude line names is checked against those skins; a miss fails the run.
 
   python3 "Scripts/Character Skins/facial_split.py"                       # write the data file
   python3 "Scripts/Character Skins/facial_split.py" --check               # compare, write nothing
   python3 "Scripts/Character Skins/facial_split.py" --migration out.sql   # also write the migration SQL
 
-Slot numbers per race/sex are the storage key: never renumber a shipped slot, only add new ones.
+Slot numbers per race/sex are the storage key: never renumber a shipped slot, only add new ones. A slot taken
+out goes into RETIRED (its number is never used again; the migration deletes its stored values).
+
+A piece of jewellery is only offered on its own when its host mesh is whole without it. The orc and dwarf male
+beard rings / moustache clasps are not: each ring covers a gap cut into the braid under it, so they stay part of
+their beard (the 2026-10-30 "Beard Rings" slot left holes in the beards).
 """
 import argparse
 import struct
@@ -40,7 +46,7 @@ RACE = ['', 'HUMAN', 'ORC', 'DWARF', 'NIGHTELF', 'SCOURGE', 'TAUREN', 'GNOME', '
 # option type ids (spec section 1; GlueStrings ZEP_CUSTOMIZATION_TYPE_<id>)
 T = dict(BEARD=1, MOUSTACHE=2, SIDEBURNS=3, CHIN=4, JAW=5, EARS=6, EARRINGS=7, NOSE=8, NOSERING=9, TUSKS=10,
          FACEFEAT=11, HEADSTRAPS=12, HAIR=13, TENDRILS=14, WHISKERS=15, HORNS=16, ORNAMENTS=17, PIERCINGS=18,
-         MARKINGS=19, FACIALTEX=20, SCALPTEX=21)
+         MARKINGS=19, FACIALTEX=20, SCALPTEX=21, EYEBROWS=22, STUBBLE=23)
 
 
 def C(*g):
@@ -49,28 +55,40 @@ def C(*g):
 
 
 # race_sex -> facial = (mode, baseVariation, labelType); slots = (slot, type, group, follow, choices) or, for an
-# on/off link slot, (slot, type, None, follow, [(dest, src), ...]); imply = legacy (src, dst) pairs.
+# on/off link slot, (slot, type, None, follow, [(dest, src), ...]); imply = legacy (src, dst) pairs; filter = the
+# texture-mode variations offered (default: first variation of each distinct facial-hair texture set);
+# exclude = [(keep, [drop, ...])]: a slot-owned drop geoset never shows while keep shows (client hides it at render
+# and the creator skips it); eyeglow='eyerow' = a player's eye row alone decides the eye glow (glow eye = its
+# coloured glow on 1703, other eyes none: the facial row's group 17 is ignored); NPCs (CreatureDisplayInfoExtra, no
+# eye choice) keep the stock glow from their facial row, so their look does not change.
 # choice = (geoset, host, swapFrom, swapTo).
 SLOTS = {
     '1_0': dict(facial=('texture', None, 'FACIALTEX'),
                 slots=[(0, 'BEARD', 1, 1, C(0, 102)), (1, 'MOUSTACHE', 3, 3, C(0, 302)), (2, 'SIDEBURNS', 2, 2, C(0, 202))]),
     '1_1': dict(facial=('legacy', None, 'PIERCINGS'), slots=[]),
-    '2_0': dict(facial=('legacy', None, 'BEARD'), slots=[(0, 'ORNAMENTS', None, 1, [(14, 1)])],
-                imply=[(100 + i, 1400 + i) for i in range(4, 9)]),
+    '2_0': dict(facial=('legacy', None, 'BEARD'), slots=[]),
     '2_1': dict(facial=('legacy', None, 'EARRINGS'), slots=[]),
-    '3_0': dict(facial=('texture', None, 'FACIALTEX'),
-                slots=[(0, 'BEARD', 1, 1, C(0, *range(102, 113))), (1, 'MOUSTACHE', 3, 3, C(0, *range(302, 311))),
-                       (2, 'ORNAMENTS', None, 1, [(14, 1), (16, 3)])],
-                imply=[(b, 1300 + b) for b in (102, 103, 104, 107, 110, 112)] + [(m, 1300 + m) for m in (305, 307, 310)]),
+    # the facial textures differ only on 9 / 10 (a near copy): no row of its own beside the beard and moustache
+    '3_0': dict(facial=('hidden', 0, None),
+                slots=[(0, 'BEARD', 1, 1, C(0, *range(102, 113))), (1, 'MOUSTACHE', 3, 3, C(0, *range(302, 311)))]),
     '3_1': dict(facial=('hidden', 0, None),
                 slots=[(0, 'EARRINGS', 3, 3, C(0, 302, 303, 304, 306)), (1, 'NOSERING', 16, 3, C(0, 1602))]),
-    '4_0': dict(facial=('texture', None, 'FACIALTEX'),
-                slots=[(0, 'BEARD', 1, 1, C(0, 103, 106, 107)), (1, 'MOUSTACHE', 3, 3, C(0, *range(302, 308))),
-                       (2, 'SIDEBURNS', 2, 2, C(0, 204, 205, 207))]),
+    # group 3 is the eyebrows; 304's moustache is cut out to 1604
+    '4_0': dict(facial=('texture', None, 'STUBBLE'),
+                slots=[(0, 'BEARD', 1, 1, C(0, 103, 106, 107)), (1, 'EYEBROWS', 3, 3, C(0, *range(302, 308))),
+                       (2, 'SIDEBURNS', 2, 2, C(0, 204, 205, 207)), (3, 'MOUSTACHE', 16, 3, C(0, 1604))],
+                imply=[(304, 1604)]),
     '4_1': dict(facial=('legacy', None, 'MARKINGS'), slots=[]),
-    '5_0': dict(facial=('texture', None, 'FACIALTEX'),
-                slots=[(0, 'JAW', 1, 1, C(101, 102, 103, 104, 105, 106)), (1, 'FACEFEAT', 3, 3, C(0, 302, 303, 304, 305)),
-                       (2, 'HEADSTRAPS', 2, 2, C(0, 202, 204))]),
+    # undead male: the jaw is the legacy facial row, never a slot. Each row is one jaw shape + the jaw skin painted
+    # for it (CharSections section 2), the pairs stock 3.3.5 and retail Jaw Features agree on; a jaw slot let any
+    # skin sit on any shape (teal jaw hole on an intact jaw, a bare stump on 104). filter = one row per pair.
+    # exclude: pieces that float off a missing / open / closed jaw, and the 202 wrap's straps through the forehead
+    # bolts and spurs (vertex-to-surface checks and renders, 2026-10-30)
+    '5_0': dict(facial=('texture', None, 'JAW'), filter=[0, 1, 3, 4, 8, 9, 10, 11, 12, 13, 16],
+                slots=[(1, 'FACEFEAT', 3, 3, C(0, 302, 303, 304, 305)), (2, 'HEADSTRAPS', 2, 2, C(0, 202, 204))],
+                exclude=[(104, [302, 305, 204]), (101, [305]), (102, [305]), (105, [305]), (103, [204]), (106, [204]),
+                         (202, [303, 304])],
+                eyeglow='eyerow'),
     '5_1': dict(facial=('texture', None, 'FACIALTEX'),
                 slots=[(0, 'JAW', 1, 1, C(102, 104)), (1, 'FACEFEAT', 3, 3, C(0, 302, 303, 304, 305))]),
     '6_0': dict(facial=('hidden', 0, None),
@@ -78,9 +96,15 @@ SLOTS = {
                        (2, 'NOSERING', 3, 3, C(0, 302, 303, 306, 309))]),
     '6_1': dict(facial=('hidden', 0, None),
                 slots=[(0, 'HAIR', 2, 2, C(0, 202, 203, 204, 205)), (1, 'EARRINGS', 3, 3, C(0, 302))]),
-    '7_0': dict(facial=('legacy', None, 'BEARD'), slots=[]),
+    # each legacy 1xx was brows + moustache + beard: cut into 1xx beard, 3xx moustache, 2xx eyebrows (103 / 108 have
+    # no beard part); all follow group 1, as the bundle did
+    '7_0': dict(facial=('texture', None, 'STUBBLE'),
+                slots=[(0, 'BEARD', 1, 1, C(0, 102, 104, 105, 106, 107)), (1, 'MOUSTACHE', 3, 1, C(0, *range(303, 309))),
+                       (2, 'EYEBROWS', 2, 1, C(0, *range(202, 207)))],
+                imply=[(102, 202), (103, 203), (103, 303), (104, 204), (104, 304), (105, 205), (105, 305), (106, 206),
+                       (106, 306), (107, 307), (108, 308)]),
     '7_1': dict(facial=('legacy', None, 'EARRINGS'), slots=[]),
-    '8_0': dict(facial=('texture', None, 'FACIALTEX'), slots=[(0, 'TUSKS', 3, 3, C(302, 303, 304, 305, 306))]),
+    '8_0': dict(facial=('hidden', 0, None), slots=[(0, 'TUSKS', 3, 3, C(302, 303, 304, 305, 306))]),
     '8_1': dict(facial=('legacy', None, 'TUSKS'), slots=[]),
     '9_0': dict(facial=('hidden', 0, None),
                 slots=[(0, 'CHIN', 1, 1, C(*range(102, 107))), (1, 'EARS', 2, 2, C(*range(202, 209))),
@@ -100,14 +124,22 @@ SLOTS = {
                 imply=[(205 + i, 1402 + i) for i in range(9)] + [(307 + i, 1602 + i) for i in range(5)]),
     '10_0': dict(facial=('legacy', None, 'BEARD'), slots=[]),
     '10_1': dict(facial=('legacy', None, 'EARRINGS'), slots=[]),
-    '11_0': dict(facial=('texture', None, 'FACIALTEX'),
-                 slots=[(0, 'TENDRILS', 1, 1, C(0, *range(102, 109))), (1, 'WHISKERS', 2, 2, C(0, *range(202, 207)))]),
+    # the 2xx whiskers were sideburns + moustache + goatee: moustache cut out to 3xx, goatee to 16xx
+    '11_0': dict(facial=('texture', None, 'STUBBLE'),
+                 slots=[(0, 'TENDRILS', 1, 1, C(0, *range(102, 109))), (1, 'SIDEBURNS', 2, 2, C(0, *range(202, 207))),
+                        (2, 'MOUSTACHE', 3, 2, C(0, 304, 306)), (3, 'BEARD', 16, 2, C(0, 1605, 1606))],
+                 imply=[(204, 304), (205, 1605), (206, 306), (206, 1606)]),
     '11_1': dict(facial=('legacy', None, 'HORNS'), slots=[]),
-    '12_0': dict(facial=('texture', None, 'FACIALTEX'),
+    '12_0': dict(facial=('hidden', 1, None),
                  slots=[(0, 'BEARD', 1, 1, C(0, 102, 103, 104, 105, 107, 108, 110, 111, 113, 114, 115)),
                         (1, 'EARS', 2, 2, C(*range(202, 214)))]),
     '12_1': dict(facial=('legacy', None, 'EARS'), slots=[]),
 }
+
+# slots taken out of a race/sex: never reused; the migration deletes their stored values (character_customizations
+# 10 + slot). Orc / dwarf male "Beard Rings" link slots: the rings close gaps in their beards (see the doc).
+# Undead male jaw slot: the jaw is the legacy facial row (jaw + its own skin).
+RETIRED = {'2_0': [0], '3_0': [2], '5_0': [0]}
 
 # migration: a legacy geoset the slot offers under another id (same mesh). Goblin pierced ears / noses map to
 # their host shape (the jewellery comes back through the earring / nose-ring slot); tauren 307 = 303.
@@ -203,7 +235,13 @@ def main():
         r, s = k.split('_')
         mode, arg, lab = spec['facial']
         if mode == 'texture':
-            out.append(f'facial {r} {s} texture {T[lab]} ' + ','.join(map(str, texfilter(k))))
+            flt = spec.get('filter') or texfilter(k)
+            for v in spec.get('filter', []):
+                if v not in rows[k]:
+                    problems.append(f'{k} filter: no CharacterFacialHairStyles variation {v}')
+                elif not tex[k].get(v):
+                    problems.append(f'{k} filter: variation {v} has no CharSections section 2 rows')
+            out.append(f'facial {r} {s} texture {T[lab]} ' + ','.join(map(str, flt)))
         elif mode == 'hidden':
             out.append(f'facial {r} {s} hidden {arg}')
         else:
@@ -227,11 +265,25 @@ def main():
                 if sf:
                     line += f' swap={sf}:{st}'
                 out.append(line)
+        legacy = {100 * g + v for row in rows[k].values() for g, v in zip((1, 3, 2, 16), row) if v}
         for src, dst in spec.get('imply', []):
-            for x in (src, dst):
-                if x not in have[k]:
-                    problems.append(f'{k} imply {src} {dst}: geoset {x} not in every LOD skin')
+            if dst not in have[k]:
+                problems.append(f'{k} imply {src} {dst}: geoset {dst} not in every LOD skin')
+            if src not in have[k] and src not in legacy:
+                problems.append(f'{k} imply {src} {dst}: geoset {src} neither in the model nor on a legacy row')
             out.append(f'imply {r} {s} {src} {dst}')
+        owned = {sl[2] for sl in spec['slots'] if sl[2] is not None}
+        for keep, drops in spec.get('exclude', []):
+            if keep not in have[k] and keep not in legacy:
+                problems.append(f'{k} exclude {keep}: geoset neither in the model nor on a legacy row')
+            for d in drops:
+                if d not in have[k]:
+                    problems.append(f'{k} exclude {keep} {d}: geoset {d} not in every LOD skin')
+                if d // 100 not in owned:
+                    problems.append(f'{k} exclude {keep} {d}: group {d // 100} has no slot (only slot groups drop)')
+            out.append(f'exclude {r} {s} {keep} ' + ','.join(map(str, drops)))
+        if spec.get('eyeglow'):
+            out.append(f'eyeglow {r} {s} {spec["eyeglow"]}')
 
         # migration: slot values reproducing each legacy variation's look
         if not spec['slots']:
@@ -239,10 +291,10 @@ def main():
         for v, row in sorted(rows[k].items()):
             vis = {1: 100 + row[0] if row[0] else None, 3: 300 + row[1] if row[1] else None,
                    2: 200 + row[2] if row[2] else None, 16: 1600 + row[3] if row[3] else None}
+            implied = {b for a_, b in spec.get('imply', []) if a_ in vis.values()}
             for g in list(vis):
                 if vis[g] is not None and vis[g] not in have[k]:
                     vis[g] = None                     # a legacy reference to a geoset the model lacks = none
-            implied = {b for a_, b in spec.get('imply', []) if a_ in vis.values()}
             vals = []
             for sl in spec['slots']:
                 if sl[2] is None:
@@ -250,11 +302,9 @@ def main():
                     vals.append((sl[0], 2 if on else 1))
                     continue
                 grp = sl[2]
-                if grp == 14:
-                    cur = next((b for b in implied if b // 100 == 14), 0)
-                elif grp == 16:
-                    cur = next((b for b in implied if b // 100 == 16), vis.get(16) or 0)
-                else:
+                # an implied piece is what the legacy look showed in that group (the split moved it there)
+                cur = next((b for b in implied if b // 100 == grp), None)
+                if cur is None:
                     cur = vis.get(grp) or 0
                     cur = ALIAS.get(k, {}).get(cur, cur)
                 geos = [c[0] for c in sl[4]]
@@ -264,6 +314,10 @@ def main():
                 vals.append((sl[0], geos.index(cur) + 1))
             mig.append((int(r), int(s), v, vals))
 
+    for k, gone in RETIRED.items():
+        for sl in SLOTS.get(k, {}).get('slots', []):
+            if sl[0] in gone:
+                problems.append(f'{k} slot {sl[0]} is retired: give the new slot another number')
     if problems:
         print('\n'.join('PROBLEM: ' + p for p in problems))
         sys.exit(1)
@@ -291,6 +345,13 @@ def main():
                'FROM characters AS c',
                'JOIN zep_facial_split AS m ON m.race = c.race AND m.gender = c.gender AND m.facial = c.facialStyle;',
                'DROP TEMPORARY TABLE zep_facial_split;']
+        if RETIRED:
+            sql.append('-- retired slots (facial_split.RETIRED, numbers never reused): their stored values go')
+        for k, gone in sorted(RETIRED.items()):
+            r, s = k.split('_')
+            sql.append('DELETE cc FROM character_customizations AS cc JOIN characters AS c ON c.guid = cc.guid '
+                       f'WHERE c.race = {r} AND c.gender = {s} AND cc.customization IN '
+                       f'({", ".join(str(10 + x) for x in gone)});')
         Path(a.migration).write_text('\n'.join(sql) + '\n')
         print(f'wrote {a.migration} ({len(vals)} rows)')
 

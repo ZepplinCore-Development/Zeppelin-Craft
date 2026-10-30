@@ -5460,390 +5460,6 @@
    "world/environment/doodad/6.0/ashrand/rocks/textures/6ar_wmocladding02.blp"
   ]
  },
- "character/orc/male/orcmale00.skin": {
-  "source": "patch-hd-creatures-mounts",
-  "note": "F-230: orc male beard rings (texture type 8) moved out of their beard geosets 104-108 to 1404-1408 (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
-  "base_sha256": "c55c0d88f6956865409b7bd4230115088507e55d35d30d3a5ddb05d9361ebc94",
-  "result_sha256": "3f07190d29a0038a2d2e5175a840817c523305aef2449f72cc5ea370b145cb51",
-  "ops": [
-   {
-    "op": "skin.geoset.relabel",
-    "relabel": [
-     {
-      "from": 104,
-      "tex_type": 8,
-      "to": 1404
-     },
-     {
-      "from": 105,
-      "tex_type": 8,
-      "to": 1405
-     },
-     {
-      "from": 106,
-      "tex_type": 8,
-      "to": 1406
-     },
-     {
-      "from": 107,
-      "tex_type": 8,
-      "to": 1407
-     },
-     {
-      "from": 108,
-      "tex_type": 8,
-      "to": 1408
-     }
-    ]
-   }
-  ]
- },
- "character/orc/male/orcmale01.skin": {
-  "source": "patch-hd-creatures-mounts",
-  "note": "F-230: orc male beard rings (texture type 8) moved out of their beard geosets 104-108 to 1404-1408 (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
-  "base_sha256": "c81144a948167a9e1616ec09d809a759ad7abcbc605183501ba55718b4469201",
-  "result_sha256": "2bad4cc2f80daaec33d3075451301a304cc68893f5f64f4f6b1346f484d57e1e",
-  "ops": [
-   {
-    "op": "skin.geoset.relabel",
-    "relabel": [
-     {
-      "from": 104,
-      "tex_type": 8,
-      "to": 1404
-     },
-     {
-      "from": 105,
-      "tex_type": 8,
-      "to": 1405
-     },
-     {
-      "from": 106,
-      "tex_type": 8,
-      "to": 1406
-     },
-     {
-      "from": 107,
-      "tex_type": 8,
-      "to": 1407
-     },
-     {
-      "from": 108,
-      "tex_type": 8,
-      "to": 1408
-     }
-    ]
-   }
-  ]
- },
- "character/orc/male/orcmale02.skin": {
-  "source": "patch-hd-creatures-mounts",
-  "note": "F-230: orc male beard rings (texture type 8) moved out of their beard geosets 104-108 to 1404-1408 (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
-  "base_sha256": "95b885326f8167abbc749000c36f2191fd4887109bd0161930f34e84a22bf134",
-  "result_sha256": "b3b78c381ff18442861dacbf8b0162c5cac95e2b02260c21978bc3b23b2f24ad",
-  "ops": [
-   {
-    "op": "skin.geoset.relabel",
-    "relabel": [
-     {
-      "from": 104,
-      "tex_type": 8,
-      "to": 1404
-     },
-     {
-      "from": 105,
-      "tex_type": 8,
-      "to": 1405
-     },
-     {
-      "from": 106,
-      "tex_type": 8,
-      "to": 1406
-     },
-     {
-      "from": 107,
-      "tex_type": 8,
-      "to": 1407
-     },
-     {
-      "from": 108,
-      "tex_type": 8,
-      "to": 1408
-     }
-    ]
-   }
-  ]
- },
- "character/orc/male/orcmale03.skin": {
-  "source": "patch-hd-creatures-mounts",
-  "note": "F-230: orc male beard rings (texture type 8) moved out of their beard geosets 104-108 to 1404-1408 (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
-  "base_sha256": "7c1b798f000ebda69d5dbb03e82bfa3298cfaa7e7bc7b3a8f00cbb1aeb793bd0",
-  "result_sha256": "d3899036b482bd0077f13e351752911ef6f95b8b64b4dd4cc1dadc2b3768cd9f",
-  "ops": [
-   {
-    "op": "skin.geoset.relabel",
-    "relabel": [
-     {
-      "from": 104,
-      "tex_type": 8,
-      "to": 1404
-     },
-     {
-      "from": 105,
-      "tex_type": 8,
-      "to": 1405
-     },
-     {
-      "from": 106,
-      "tex_type": 8,
-      "to": 1406
-     },
-     {
-      "from": 107,
-      "tex_type": 8,
-      "to": 1407
-     },
-     {
-      "from": 108,
-      "tex_type": 8,
-      "to": 1408
-     }
-    ]
-   }
-  ]
- },
- "character/dwarf/male/dwarfmale00.skin": {
-  "source": "patch-hd-creatures-mounts",
-  "note": "F-230: dwarf male beard rings / moustache clasps (texture type 8) moved to 14xx / 16xx (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
-  "base_sha256": "7bb4bb6aed24a32f06ea2c8e8eb9ab7f22fb18875c62b9301373397571a4ac1b",
-  "result_sha256": "faae41964a87dc0646245317f66700be57800f190b936dcae45e028ed0b2eed1",
-  "ops": [
-   {
-    "op": "skin.geoset.relabel",
-    "relabel": [
-     {
-      "from": 102,
-      "tex_type": 8,
-      "to": 1402
-     },
-     {
-      "from": 103,
-      "tex_type": 8,
-      "to": 1403
-     },
-     {
-      "from": 104,
-      "tex_type": 8,
-      "to": 1404
-     },
-     {
-      "from": 107,
-      "tex_type": 8,
-      "to": 1407
-     },
-     {
-      "from": 110,
-      "tex_type": 8,
-      "to": 1410
-     },
-     {
-      "from": 112,
-      "tex_type": 8,
-      "to": 1412
-     },
-     {
-      "from": 305,
-      "tex_type": 8,
-      "to": 1605
-     },
-     {
-      "from": 307,
-      "tex_type": 8,
-      "to": 1607
-     },
-     {
-      "from": 310,
-      "tex_type": 8,
-      "to": 1610
-     }
-    ]
-   }
-  ]
- },
- "character/dwarf/male/dwarfmale01.skin": {
-  "source": "patch-hd-creatures-mounts",
-  "note": "F-230: dwarf male beard rings / moustache clasps (texture type 8) moved to 14xx / 16xx (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
-  "base_sha256": "c08e904d1eb0162f74c5d83b7c4890ecbca8fe1c03d04f3cff1c58cd00ade11b",
-  "result_sha256": "51193b7da932974f5c126ba37a1e021cbc702e249355ff48f55c0e5ff41ad565",
-  "ops": [
-   {
-    "op": "skin.geoset.relabel",
-    "relabel": [
-     {
-      "from": 102,
-      "tex_type": 8,
-      "to": 1402
-     },
-     {
-      "from": 103,
-      "tex_type": 8,
-      "to": 1403
-     },
-     {
-      "from": 104,
-      "tex_type": 8,
-      "to": 1404
-     },
-     {
-      "from": 107,
-      "tex_type": 8,
-      "to": 1407
-     },
-     {
-      "from": 110,
-      "tex_type": 8,
-      "to": 1410
-     },
-     {
-      "from": 112,
-      "tex_type": 8,
-      "to": 1412
-     },
-     {
-      "from": 305,
-      "tex_type": 8,
-      "to": 1605
-     },
-     {
-      "from": 307,
-      "tex_type": 8,
-      "to": 1607
-     },
-     {
-      "from": 310,
-      "tex_type": 8,
-      "to": 1610
-     }
-    ]
-   }
-  ]
- },
- "character/dwarf/male/dwarfmale02.skin": {
-  "source": "patch-hd-creatures-mounts",
-  "note": "F-230: dwarf male beard rings / moustache clasps (texture type 8) moved to 14xx / 16xx (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
-  "base_sha256": "d11c914992ce525911592bd32182292d0ff6230b14215bd71427c2ed07748d85",
-  "result_sha256": "3fba52871561c2764adc35e6e122c40f4c1917a0b1db9bbc975feeb5d7e1c8e8",
-  "ops": [
-   {
-    "op": "skin.geoset.relabel",
-    "relabel": [
-     {
-      "from": 102,
-      "tex_type": 8,
-      "to": 1402
-     },
-     {
-      "from": 103,
-      "tex_type": 8,
-      "to": 1403
-     },
-     {
-      "from": 104,
-      "tex_type": 8,
-      "to": 1404
-     },
-     {
-      "from": 107,
-      "tex_type": 8,
-      "to": 1407
-     },
-     {
-      "from": 110,
-      "tex_type": 8,
-      "to": 1410
-     },
-     {
-      "from": 112,
-      "tex_type": 8,
-      "to": 1412
-     },
-     {
-      "from": 305,
-      "tex_type": 8,
-      "to": 1605
-     },
-     {
-      "from": 307,
-      "tex_type": 8,
-      "to": 1607
-     },
-     {
-      "from": 310,
-      "tex_type": 8,
-      "to": 1610
-     }
-    ]
-   }
-  ]
- },
- "character/dwarf/male/dwarfmale03.skin": {
-  "source": "patch-hd-creatures-mounts",
-  "note": "F-230: dwarf male beard rings / moustache clasps (texture type 8) moved to 14xx / 16xx (link slot \"Beard Rings\"); NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
-  "base_sha256": "4ec9472f2c56847a806637ca1321faa8999d7a2ba8fc88448dd92b206ea54db3",
-  "result_sha256": "8445b4dc559c82f47bc6096bc0236f33de7138e40987afa7d5b1138b7d6636cb",
-  "ops": [
-   {
-    "op": "skin.geoset.relabel",
-    "relabel": [
-     {
-      "from": 102,
-      "tex_type": 8,
-      "to": 1402
-     },
-     {
-      "from": 103,
-      "tex_type": 8,
-      "to": 1403
-     },
-     {
-      "from": 104,
-      "tex_type": 8,
-      "to": 1404
-     },
-     {
-      "from": 107,
-      "tex_type": 8,
-      "to": 1407
-     },
-     {
-      "from": 110,
-      "tex_type": 8,
-      "to": 1410
-     },
-     {
-      "from": 112,
-      "tex_type": 8,
-      "to": 1412
-     },
-     {
-      "from": 305,
-      "tex_type": 8,
-      "to": 1605
-     },
-     {
-      "from": 307,
-      "tex_type": 8,
-      "to": 1607
-     },
-     {
-      "from": 310,
-      "tex_type": 8,
-      "to": 1610
-     }
-    ]
-   }
-  ]
- },
  "character/dwarf/female/dwarffemale00.skin": {
   "source": "patch-hd-creatures-mounts",
   "note": "F-230: dwarf female nose ring 305 (its only submesh) moved to 1602 (slot \"Nose Ring\"); CharacterFacialHairStyles 3/1/4 now names geoset_4 = 2 instead of geoset_2 = 5.",
@@ -5991,6 +5607,434 @@
      {
       "from": 205,
       "to": 106
+     }
+    ]
+   }
+  ]
+ },
+ "character/gnome/male/gnomemale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "cad1c154a64d5958884793eb2244c98281b9fa926d51151a8ebd035f69f51703",
+  "result_sha256": "b1f5d1473aa49e20af511d98dd93273aef72b1d16ca8b258cc1135eac07aa070",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     102,
+     103,
+     104,
+     105,
+     106,
+     107,
+     108
+    ],
+    "rules": [
+     {
+      "to": 2,
+      "box": [
+       null,
+       null,
+       0.875,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 3,
+      "key": 6,
+      "majority": 0.5
+     }
+    ]
+   }
+  ]
+ },
+ "character/gnome/male/gnomemale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "5ed1f4b11794ab45a8f24f79572fc668bf8449b17e89b27c2c0da9496fc8e080",
+  "result_sha256": "8a8ad166462e0f6c636d5e222f1c9ee8c5d3b6837b57d0e04e22d19dafb16490",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     102,
+     103,
+     104,
+     105,
+     106,
+     107,
+     108
+    ],
+    "rules": [
+     {
+      "to": 2,
+      "box": [
+       null,
+       null,
+       0.875,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 3,
+      "key": 6,
+      "majority": 0.5
+     }
+    ]
+   }
+  ]
+ },
+ "character/gnome/male/gnomemale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "420168f78be89a07494d1c914c34200357fc6633980d2357acdbb3ccae48e25f",
+  "result_sha256": "cf37a6795d7f570fe48ee6e38a645792194d5edb266b990047b9088a90d74754",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     102,
+     103,
+     104,
+     105,
+     106,
+     107,
+     108
+    ],
+    "rules": [
+     {
+      "to": 2,
+      "box": [
+       null,
+       null,
+       0.875,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 3,
+      "key": 6,
+      "majority": 0.5
+     }
+    ]
+   }
+  ]
+ },
+ "character/gnome/male/gnomemale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "base_sha256": "fc2e67fd564453580f3146e18797d998576d611c4990b6ae85fc77f4ed0800fb",
+  "result_sha256": "51b2425539acf9d3e061129d8f8b0808bff4851dbfedea30a77fb9db465da5bd",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     102,
+     103,
+     104,
+     105,
+     106,
+     107,
+     108
+    ],
+    "rules": [
+     {
+      "to": 2,
+      "box": [
+       null,
+       null,
+       0.875,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 3,
+      "key": 6,
+      "majority": 0.5
+     }
+    ]
+   }
+  ]
+ },
+ "character/nightelf/male/nightelfmale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604.",
+  "base_sha256": "02c42e2069d8e99d77a4a13df1e3fb2dc1e3787b4d8b37bd44ad588f756f4094",
+  "result_sha256": "d9e845b809b75ea411e834a4debb5a83a1444ee6583cccb47b9768bbc6e71b86",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     304
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       2.28
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "character/nightelf/male/nightelfmale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604.",
+  "base_sha256": "5c31a92fbcb9d39e974a5bf3dbce3cdacdd34a8b166bd9a7d2afed668d3782f2",
+  "result_sha256": "2cec5c78b8ded6f1af491e6fc56631a72ce7b13b7c65fd1e0aa6040d747101fb",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     304
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       2.28
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "character/nightelf/male/nightelfmale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604.",
+  "base_sha256": "9ab18f08f39684317ce00c1517a9c3d4025c0ac05fdf417dff83b35a79058531",
+  "result_sha256": "de6d1908b3775bceee71ea03f44cd991615bee3e643193a79b8a716ae0b7e4b2",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     304
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       2.28
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "character/nightelf/male/nightelfmale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604.",
+  "base_sha256": "c0efe481bea51f9abfb03cf68de1848db1e898c91b23b43733a5e67f87d7a915",
+  "result_sha256": "1f8c9b2398d5fb60c1f7b234b0d369d847c17a5d6412457620024fa57dfbc926",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     304
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       2.28
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "character/draenei/male/draeneimale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines.",
+  "base_sha256": "0defc08a9ee348ae2dabb4eee7393a2e5d3a2593cf20950cb3be8150ef5b6c68",
+  "result_sha256": "8f5cefdb8d9465b5a35c0865c882c46c641d5356b63e05968b0a2a4b2c11bd36",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     204,
+     205,
+     206
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "key": 7,
+      "majority": 0.75
+     },
+     {
+      "to": 3,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "character/draenei/male/draeneimale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines.",
+  "base_sha256": "ce9d72b48dae75769b06cf88be1c6205864c8d5b86209fd444bd3d0635d98de5",
+  "result_sha256": "cf2bb1248aab6c0ef91708c11fe0f897b453821e4397a8c12eac8d282ff69624",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     204,
+     205,
+     206
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "key": 7,
+      "majority": 0.75
+     },
+     {
+      "to": 3,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "character/draenei/male/draeneimale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines.",
+  "base_sha256": "dd73d4427504a3f9a4218f1cbcc0fd69b4c53a96738fad678a7eeaa0daf1191b",
+  "result_sha256": "c69e8f768562eb168a8a85453a19bf0c40879ae50313f94dab7fe5ce2075ea5a",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     204,
+     205,
+     206
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "key": 7,
+      "majority": 0.75
+     },
+     {
+      "to": 3,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "character/draenei/male/draeneimale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines.",
+  "base_sha256": "e768052f84be66d76fd5b35dff4ef5473747fe4ba12d9f15fac07ab2dcfa4a12",
+  "result_sha256": "2279c4e2e6f522539dadb807e9a243e56d665aaf980e6a317ec220ab19690f77",
+  "ops": [
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     204,
+     205,
+     206
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "key": 7,
+      "majority": 0.75
+     },
+     {
+      "to": 3,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
      }
     ]
    }

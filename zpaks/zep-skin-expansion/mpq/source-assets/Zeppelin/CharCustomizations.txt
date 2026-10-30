@@ -12,14 +12,8 @@ choice 1 0 2 0
 choice 1 0 2 202
 facial 1 1 legacy 18
 facial 2 0 legacy 1
-link 2 0 0 17 1 14:1
-imply 2 0 104 1404
-imply 2 0 105 1405
-imply 2 0 106 1406
-imply 2 0 107 1407
-imply 2 0 108 1408
 facial 2 1 legacy 7
-facial 3 0 texture 20 0,9
+facial 3 0 hidden 0
 slot 3 0 0 1 1 1
 choice 3 0 0 0
 choice 3 0 0 102
@@ -44,16 +38,6 @@ choice 3 0 1 307
 choice 3 0 1 308
 choice 3 0 1 309
 choice 3 0 1 310
-link 3 0 2 17 1 14:1,16:3
-imply 3 0 102 1402
-imply 3 0 103 1403
-imply 3 0 104 1404
-imply 3 0 107 1407
-imply 3 0 110 1410
-imply 3 0 112 1412
-imply 3 0 305 1605
-imply 3 0 307 1607
-imply 3 0 310 1610
 facial 3 1 hidden 0
 slot 3 1 0 7 3 3
 choice 3 1 0 0
@@ -64,13 +48,13 @@ choice 3 1 0 306
 slot 3 1 1 9 16 3
 choice 3 1 1 0
 choice 3 1 1 1602
-facial 4 0 texture 20 0,1,2,3,4,5
+facial 4 0 texture 23 0,1,2,3,4,5
 slot 4 0 0 1 1 1
 choice 4 0 0 0
 choice 4 0 0 103
 choice 4 0 0 106
 choice 4 0 0 107
-slot 4 0 1 2 3 3
+slot 4 0 1 22 3 3
 choice 4 0 1 0
 choice 4 0 1 302
 choice 4 0 1 303
@@ -83,15 +67,12 @@ choice 4 0 2 0
 choice 4 0 2 204
 choice 4 0 2 205
 choice 4 0 2 207
+slot 4 0 3 2 16 3
+choice 4 0 3 0
+choice 4 0 3 1604
+imply 4 0 304 1604
 facial 4 1 legacy 19
-facial 5 0 texture 20 0,1,4,8,10,12,16
-slot 5 0 0 5 1 1
-choice 5 0 0 101
-choice 5 0 0 102
-choice 5 0 0 103
-choice 5 0 0 104
-choice 5 0 0 105
-choice 5 0 0 106
+facial 5 0 texture 5 0,1,3,4,8,9,10,11,12,13,16
 slot 5 0 1 11 3 3
 choice 5 0 1 0
 choice 5 0 1 302
@@ -102,6 +83,14 @@ slot 5 0 2 12 2 2
 choice 5 0 2 0
 choice 5 0 2 202
 choice 5 0 2 204
+exclude 5 0 104 302,305,204
+exclude 5 0 101 305
+exclude 5 0 102 305
+exclude 5 0 105 305
+exclude 5 0 103 204
+exclude 5 0 106 204
+exclude 5 0 202 303,304
+eyeglow 5 0 eyerow
 facial 5 1 texture 20 0,1,4,5,6
 slot 5 1 0 5 1 1
 choice 5 1 0 102
@@ -142,9 +131,42 @@ choice 6 1 0 205
 slot 6 1 1 7 3 3
 choice 6 1 1 0
 choice 6 1 1 302
-facial 7 0 legacy 1
+facial 7 0 texture 23 0,1,2,3,4,5,6,7
+slot 7 0 0 1 1 1
+choice 7 0 0 0
+choice 7 0 0 102
+choice 7 0 0 104
+choice 7 0 0 105
+choice 7 0 0 106
+choice 7 0 0 107
+slot 7 0 1 2 3 1
+choice 7 0 1 0
+choice 7 0 1 303
+choice 7 0 1 304
+choice 7 0 1 305
+choice 7 0 1 306
+choice 7 0 1 307
+choice 7 0 1 308
+slot 7 0 2 22 2 1
+choice 7 0 2 0
+choice 7 0 2 202
+choice 7 0 2 203
+choice 7 0 2 204
+choice 7 0 2 205
+choice 7 0 2 206
+imply 7 0 102 202
+imply 7 0 103 203
+imply 7 0 103 303
+imply 7 0 104 204
+imply 7 0 104 304
+imply 7 0 105 205
+imply 7 0 105 305
+imply 7 0 106 206
+imply 7 0 106 306
+imply 7 0 107 307
+imply 7 0 108 308
 facial 7 1 legacy 7
-facial 8 0 texture 20 0,5,6,7,8,9,10
+facial 8 0 hidden 0
 slot 8 0 0 10 3 3
 choice 8 0 0 302
 choice 8 0 0 303
@@ -250,7 +272,7 @@ imply 9 1 310 1605
 imply 9 1 311 1606
 facial 10 0 legacy 1
 facial 10 1 legacy 7
-facial 11 0 texture 20 0,2,3,4,5,6
+facial 11 0 texture 23 0,2,3,4,5,6
 slot 11 0 0 14 1 1
 choice 11 0 0 0
 choice 11 0 0 102
@@ -260,15 +282,27 @@ choice 11 0 0 105
 choice 11 0 0 106
 choice 11 0 0 107
 choice 11 0 0 108
-slot 11 0 1 15 2 2
+slot 11 0 1 3 2 2
 choice 11 0 1 0
 choice 11 0 1 202
 choice 11 0 1 203
 choice 11 0 1 204
 choice 11 0 1 205
 choice 11 0 1 206
+slot 11 0 2 2 3 2
+choice 11 0 2 0
+choice 11 0 2 304
+choice 11 0 2 306
+slot 11 0 3 1 16 2
+choice 11 0 3 0
+choice 11 0 3 1605
+choice 11 0 3 1606
+imply 11 0 204 304
+imply 11 0 205 1605
+imply 11 0 206 306
+imply 11 0 206 1606
 facial 11 1 legacy 16
-facial 12 0 texture 20 1,2,3,4,5,6,7,8,9
+facial 12 0 hidden 1
 slot 12 0 0 1 1 1
 choice 12 0 0 0
 choice 12 0 0 102

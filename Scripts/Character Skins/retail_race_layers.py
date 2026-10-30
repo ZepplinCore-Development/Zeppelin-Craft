@@ -135,9 +135,10 @@ EXTRA = {
     (3, 1): [(34, 'Tattoo', None, None, None, {})],
     (11, 0): [(30, 'Tattoo', None, None, None, {'glow': True})],
     (11, 1): [(30, 'Tattoo', None, None, None, {'glow': True})],
-    (5, 0): [(5, 'Jaw Features', None, None, None, {})],
 }
 # Rejected (F-230 second port, fit scores in retail_race_layers.json `fits`, renders in the review sheets):
+#   undead jaw features (M, retired 2026-10-30): the same art as the undead male facial-hair jaw skins, which the Jaw
+#     button now pairs with their jaw shape; as face markings they stacked a second jaw skin on any jaw
 #   Highmountain body paint (tauren M/F): arms and torso regions NCC 0.22-0.70 against our tauren; what survives
 #     the region cut is a few dots on the muzzle, not the design
 #   Zandalari tattoo (troll M): body-only, on the arms (region NCC 0.26-0.49); troll F keeps 2 of 3 (chest collar)

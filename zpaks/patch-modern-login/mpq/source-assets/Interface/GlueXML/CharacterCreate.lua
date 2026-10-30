@@ -92,6 +92,9 @@ CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 -- eye colour (CharSections base_section 5 types; the last is the death knight eye, which only DKs see): the dwarves'
 -- full-colour eye (male 11, female 6; eyes_all.json) is Dark Iron only (user review 2026-10-25)
 DWARF_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}, FEMALE = {0, 1, 2, 3, 4, 5, 7} };
+-- troll faces without the painted ones (F-230 round 2: male 11 / 12 and female 13 / 14, with their death knight
+-- copies, are plain faces + the Shadow brow / eye paint, now Face Markings)
+TROLL_FACES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13}, FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15} };
 DARKIRON_EYES = { MALE = {11, 13, 14, 15, 16, 17, 12}, FEMALE = {6, 8, 9, 10, 11, 12, 7} };	-- the full glowing eye and its 5 tints (+ DK eye)
 CHAR_CREATE_SUBRACES = {
 	-- orc colours 28-43 bake markings (not offered: retail tattoos, scars and war paint now); Blackrock 15, 44, 45 and
@@ -119,8 +122,8 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8} },
 		{ name = "Dark Iron", lore = "The Dark Iron dwarves were once the bitter rivals of Ironforge, ruled from the burning halls of Shadowforge City. Tempered by fire and magma, they are master smiths and fierce warriors. With old enmities set aside, they now stand with the Alliance.", title = "Dark Iron Dwarf", icon = "DARKIRON", eyes = DARKIRON_EYES,
-			MALE = {26, 27, 28, 29, 33, 34, 35, 36, 38, 39, 40, 41},
-			FEMALE = {26, 27, 28, 29, 32, 33, 34, 35, 36, 38, 39, 40, 41} },
+			MALE = {26, 27, 33, 34, 35, 36, 38, 39, 40, 41, 51, 52},	-- 51, 52 = 28, 29 without their baked face paint (F-230 round 2)
+			FEMALE = {26, 27, 33, 34, 35, 36, 38, 39, 40, 41, 51, 52, 53} },	-- 51, 52, 53 = 28, 29, 32 without their baked paint / brand tattoo
 		{ name = "Wildhammer", lore = "The Wildhammer dwarves left Ironforge long ago for the cliffs of Grim Batol and later the Hinterlands. They live close to nature, ride gryphons into battle and mark their bodies with tribal tattoos. Proud and free, they answer to no king but their own thanes.", title = "Wildhammer Dwarf", icon = "WILDHAMMER", eyes = DWARF_EYES,
 			MALE = {42, 43, 44, 45, 46, 47, 48, 49, 50},	-- plain copies of 0-8; the tattoos are layers now
 			FEMALE = {42, 43, 44, 45, 46, 47, 48, 49, 50} },
@@ -154,8 +157,8 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 23, 24, 25, 26, 27, 28, 29, 40},
 			FEMALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 22, 23, 24, 25, 26, 27, 28, 40} },
 		{ name = "Lightforged", lore = "The Lightforged draenei spent millennia aboard the Genedar, waging the Army of the Light's war against the Burning Legion across countless worlds. Infused with the Light itself, they are zealous, steadfast and uncompromising. They have returned to Azeroth to see the Legion's end.", title = "Lightforged Draenei", icon = "LIGHTFORGED",
-			MALE = {5, 32, 33, 34, 35, 37, 38, 39},
-			FEMALE = {5, 32, 33, 34, 35, 37, 38, 39} },
+			MALE = {5, 33, 34, 35, 37, 38, 39},	-- 32 baked the gilded markings: retired to 5 + Body Markings 4 (F-230 round 2)
+			FEMALE = {5, 33, 34, 35, 37, 38, 39, 41} },	-- 41 = 32 without its gilded markings
 		{ name = "Eredar", lore = "Long before the draenei fled Argus, their people were the eredar, a race of brilliant mages and scholars. These eredar never bowed to Sargeras, yet still bear the old look of Argus. Wary of their own reflection in the Legion's ranks, they seek to prove that their people's legacy is not only darkness.", icon = "EREDAR",
 			MALE = {17, 18, 19, 20, 21, 22, 30, 31},
 			FEMALE = {15, 16, 17, 18, 19, 20, 30, 31} },
@@ -173,13 +176,13 @@ CHAR_CREATE_SUBRACES = {
 	-- Dark trolls are the purples, Sand trolls the tans (trial, user 2026-10-28)
 	["TROLL"] = {
 		shared = { MALE = {15, 16, 17}, FEMALE = {15, 16, 17} },
-		{ name = "Darkspear", title = "Darkspear Troll", icon = "TROLL",
+		{ name = "Darkspear", title = "Darkspear Troll", icon = "TROLL", faces = TROLL_FACES,
 			MALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 23, 31},
 			FEMALE = {0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 23, 31} },
-		{ name = "Dark Troll", lore = "The dark trolls are an ancient people of Kalimdor's forests, purple-skinned and close to the land. Long ago some of their tribes became the first night elves; those who stayed trolls kept to the shadows of Ashenvale and Feralas. A few now answer the Horde's call, bringing old magic and older grudges.", title = "Dark Troll", icon = "DARKTROLL",
+		{ name = "Dark Troll", lore = "The dark trolls are an ancient people of Kalimdor's forests, purple-skinned and close to the land. Long ago some of their tribes became the first night elves; those who stayed trolls kept to the shadows of Ashenvale and Feralas. A few now answer the Horde's call, bringing old magic and older grudges.", title = "Dark Troll", icon = "DARKTROLL", faces = TROLL_FACES,
 			MALE = {24, 25, 26, 27, 28, 29, 30},
 			FEMALE = {24, 25, 26, 27, 28, 29, 30} },
-		{ name = "Sand Troll", lore = "The Sandfury trolls of Zul'Farrak endured the deserts of Tanaris, their skin burned to the colour of the dunes. Hardened by heat and scarcity, they are cunning raiders and keepers of savage rites. Those who join the Horde trade raiding for war, and bring the desert's endurance with them.", title = "Sand Troll", icon = "SANDTROLL",
+		{ name = "Sand Troll", lore = "The Sandfury trolls of Zul'Farrak endured the deserts of Tanaris, their skin burned to the colour of the dunes. Hardened by heat and scarcity, they are cunning raiders and keepers of savage rites. Those who join the Horde trade raiding for war, and bring the desert's endurance with them.", title = "Sand Troll", icon = "SANDTROLL", faces = TROLL_FACES,
 			MALE = {22, 32, 33, 34, 35, 36, 37, 38},
 			FEMALE = {22, 32, 33, 34, 35, 36, 37, 38} },
 	},
@@ -204,12 +207,12 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24} },
 		{ name = "Illidari", lore = "The Illidari are night elves who followed Illidan Stormrage and drank the fel to hunt the Burning Legion with its own power. Scarred and rune-marked, they emerged from the Black Temple and Mardum as the Legion's most hated foes. Their people still distrust them, but Tyrande has let them return to fight beside the Alliance.", title = "Illidari", icon = "ILLIDARI",
-			faces = { MALE = {5, 20, 14, 27} },	-- the blindfolded faces
+			faces = { MALE = {5, 14} },	-- the blindfolded face (20 / 27 = 5 / 14 + the cheek marks, now Face Markings 21)
 			MALE = {33, 34, 35, 36, 37},
 			FEMALE = {25, 26, 27, 28, 29} },
 		{ name = "Cenarion", lore = "Sworn to the Cenarion Circle and the Emerald Dream, these night elves bear the marks of Moonglade's rites on their skin. They are the guardians of Kalimdor's wild places, from Ashenvale's glades to the slopes of Mount Hyjal. Where the Alliance marches into the wild, they walk beside it as its keepers.", title = "Cenarion Circle", icon = "CENARION",
-			faces = { MALE = {18, 19, 21, 22, 23, 24, 25, 26, 28, 29, 30, 31} },	-- the tattooed faces
-			MALE = {25, 26, 27, 28, 29, 30, 31, 32},
+			faces = { MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17} },	-- plain faces: the tattooed faces 18-31 are plain faces + Face Markings 15-20 now
+			MALE = {38, 39},	-- copies of 0 and 5: colours 25-32 were 0 / 5 + body tattoos, now Body Markings 29-36 (F-230 round 2)
 			FEMALE = {30, 31, 32, 33, 34} },
 	},
 	["SCOURGE"] = {
@@ -260,22 +263,22 @@ CHAR_CREATE_MARK_GATES = {
 			FEMALE = { [8] = {0} },
 		},
 		["Lightforged"] = {
-			MALE = { [8] = {0, 1, 2, 3} },
-			FEMALE = { [8] = {0, 1, 2, 3} },
+			MALE = { [8] = {0, 1, 2, 3, 4} },
+			FEMALE = { [8] = {0, 1, 2, 3, 4} },
 		},
 	},
 	["DWARF"] = {
 		["Bronzebeard"] = {
-			MALE = { [7] = {0, 5, 7, 8, 13, 15, 16, 21, 23, 24}, [8] = {0, 5, 7, 8, 13, 15, 16, 21, 23, 24} },
-			FEMALE = { [7] = {0, 5, 7, 8}, [8] = {0, 1, 3, 4, 9, 11, 12, 13, 15, 16} },
+			MALE = { [7] = {0, 3, 7, 11, 15, 19, 23, 27, 32}, [8] = {0, 3, 7, 11, 15, 19, 23, 27, 32} },
+			FEMALE = { [7] = {0, 3, 7, 11, 15, 20}, [8] = {0, 3, 7, 11, 15, 19, 23, 27, 31} },
 		},
 		["Dark Iron"] = {
-			MALE = { [7] = {0, 2, 6, 10, 14, 18, 22, 26, 33, 34, 35, 36, 37, 38}, [8] = {0, 2, 6, 10, 14, 18, 22, 26, 33} },
-			FEMALE = { [7] = {0, 2, 6, 10, 14, 21, 22, 23, 24, 25}, [8] = {0, 2, 6, 10, 14, 18, 22, 26} },
+			MALE = { [7] = {0, 2, 6, 10, 14, 18, 22, 26, 31, 33, 34, 35, 36, 37, 38, 39}, [8] = {0, 2, 6, 10, 14, 18, 22, 26, 31, 33} },
+			FEMALE = { [7] = {0, 2, 6, 10, 14, 19, 21, 22, 23, 24, 25, 26, 27}, [8] = {0, 2, 6, 10, 14, 18, 22, 26, 32} },
 		},
 		["Wildhammer"] = {
-			MALE = { [7] = {0, 1, 3, 4, 9, 11, 12, 17, 19, 20, 25, 27, 28, 29, 30, 31, 32}, [8] = {0, 1, 3, 4, 9, 11, 12, 17, 19, 20, 25, 27, 28, 29, 30, 31, 32} },
-			FEMALE = { [7] = {0, 1, 3, 4, 9, 11, 12, 13, 15, 16, 17, 18, 19, 20}, [8] = {0, 5, 7, 8, 17, 19, 20, 21, 23, 24, 25, 27, 28, 29, 30, 31} },
+			MALE = { [7] = {0, 1, 4, 5, 8, 9, 12, 13, 16, 17, 20, 21, 24, 25, 28, 29, 30}, [8] = {0, 1, 4, 5, 8, 9, 12, 13, 16, 17, 20, 21, 24, 25, 28, 29, 30} },
+			FEMALE = { [7] = {0, 1, 4, 5, 8, 9, 12, 13, 16, 17, 18}, [8] = {0, 1, 4, 5, 8, 9, 12, 13, 16, 17, 20, 21, 24, 25, 28, 29, 30} },
 		},
 	},
 	["HUMAN"] = {
@@ -290,11 +293,11 @@ CHAR_CREATE_MARK_GATES = {
 	},
 	["NIGHTELF"] = {
 		["Cenarion"] = {
-			MALE = { [7] = {0, 2, 3, 4, 5}, [8] = {0, 1, 2, 3, 4}, [9] = {0, 2, 3, 4, 5} },
+			MALE = { [7] = {0, 2, 3, 4, 5, 15, 16, 17, 18, 19, 20}, [8] = {0, 1, 2, 3, 4, 29, 30, 31, 32, 33, 34, 35, 36}, [9] = {0, 2, 3, 4, 5} },
 			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15}, [8] = {0, 13, 14, 15, 16, 23, 24, 25, 26}, [9] = {0, 2, 3, 4, 5} },
 		},
 		["Illidari"] = {
-			MALE = { [7] = {0, 2, 5}, [8] = {0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28}, [9] = {0, 2, 3, 4, 5} },
+			MALE = { [7] = {0, 21}, [8] = {0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28}, [9] = {0} },
 			FEMALE = { [7] = {0, 3, 8, 9, 10, 11, 12, 13}, [8] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 25, 26}, [9] = {0, 2, 3, 4, 5} },
 		},
 		["Kaldorei"] = {
@@ -304,62 +307,58 @@ CHAR_CREATE_MARK_GATES = {
 	},
 	["ORC"] = {
 		["Blackrock"] = {
-			MALE = { [7] = {0, 1, 2, 3, 4, 7, 8, 11, 15, 16}, [8] = {0, 1, 2, 3, 6, 7, 10, 14, 15}, [9] = {0, 1, 2, 3} },
-			FEMALE = { [7] = {0, 1, 2, 3, 6, 7, 10, 14, 15}, [8] = {0, 1, 2, 3, 6, 7, 10, 14, 15}, [9] = {0, 1, 2, 3, 4} },
+			MALE = { [7] = {0, 3, 4, 8, 12, 16}, [8] = {0, 7, 11, 15}, [9] = {0, 1, 2, 3} },
+			FEMALE = { [7] = {0, 7, 11, 15}, [8] = {0, 7, 11, 15}, [9] = {0, 1, 2, 3, 4} },
 		},
 		["Fel Orc"] = {
-			MALE = { [7] = {0, 1, 2, 3, 4, 12}, [8] = {0, 1, 2, 3, 11}, [9] = {0, 1, 2, 3} },
-			FEMALE = { [7] = {0, 1, 2, 3, 11}, [8] = {0, 1, 2, 3, 11}, [9] = {0, 1, 2, 3, 4} },
+			MALE = { [7] = {0, 3, 4, 7, 11, 15}, [8] = {0, 6, 10, 14}, [9] = {0, 1, 2, 3} },
+			FEMALE = { [7] = {0, 6, 10, 14}, [8] = {0, 6, 10, 14}, [9] = {0, 1, 2, 3, 4} },
 		},
 		["Mag'har"] = {
-			MALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 9, 10, 13, 14}, [8] = {0, 1, 2, 3, 4, 5, 8, 9, 12, 13, 16, 17}, [9] = {0, 1, 2, 3} },
-			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 8, 9, 12, 13}, [8] = {0, 1, 2, 3, 4, 5, 8, 9, 12, 13, 16, 17}, [9] = {0, 1, 2, 3, 4} },
+			MALE = { [7] = {0, 3, 4, 5, 9, 13}, [8] = {0, 4, 8, 12, 16, 17}, [9] = {0, 1, 2, 3} },
+			FEMALE = { [7] = {0, 4, 8, 12}, [8] = {0, 4, 8, 12, 16, 17}, [9] = {0, 1, 2, 3, 4} },
 		},
 		["Orc"] = {
-			MALE = { [7] = {0, 1, 2, 3, 4}, [8] = {0, 1, 2, 3}, [9] = {0, 1, 2, 3} },
-			FEMALE = { [7] = {0, 1, 2, 3}, [8] = {0, 1, 2, 3}, [9] = {0, 1, 2, 3, 4} },
+			MALE = { [7] = {0, 1, 2, 3, 4, 6, 10, 14}, [8] = {0, 1, 2, 3, 5, 9, 13}, [9] = {0, 1, 2, 3} },
+			FEMALE = { [7] = {0, 1, 2, 3, 5, 9, 13}, [8] = {0, 1, 2, 3, 5, 9, 13}, [9] = {0, 1, 2, 3, 4} },
 		},
 	},
 	["SCOURGE"] = {
 		["Embalmed"] = {
-			MALE = { [7] = {0, 1, 5} },
 			FEMALE = { [8] = {0} },
 		},
 		["Forsaken"] = {
-			MALE = { [7] = {0} },
 			FEMALE = { [8] = {0, 1} },
 		},
 		["Plaguebound"] = {
-			MALE = { [7] = {0, 2, 3, 6} },
 			FEMALE = { [8] = {0} },
 		},
 		["Rimebound"] = {
-			MALE = { [7] = {0, 4} },
 			FEMALE = { [8] = {0} },
 		},
 	},
 	["TAUREN"] = {
 		["Grimtotem"] = {
-			MALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21}, [8] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21} },
-			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21}, [8] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21} },
+			MALE = { [7] = {0, 2, 7, 12, 16, 18, 19, 20, 21}, [8] = {0, 2, 7, 12, 16, 18, 19, 20, 21} },
+			FEMALE = { [7] = {0, 2, 7, 12, 16, 18, 19, 20, 21}, [8] = {0, 2, 7, 12, 16, 18, 19, 20, 21} },
 		},
 		["Tauren"] = {
-			MALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15} },
-			FEMALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15} },
+			MALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17} },
+			FEMALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17} },
 		},
 	},
 	["TROLL"] = {
 		["Dark Troll"] = {
-			MALE = { [7] = {0, 13, 14, 17, 18, 26, 27, 30, 31}, [8] = {0, 1, 2, 5, 6, 7, 8, 9, 10, 15, 16, 17, 18} },
-			FEMALE = { [7] = {0, 1, 2, 3, 7, 8, 9, 10, 11, 12, 16, 17, 18}, [8] = {0, 1, 2, 3, 7, 8, 9, 10, 11, 12, 16, 17, 18} },
+			MALE = { [7] = {0, 13, 14, 17, 18, 26, 27, 30, 31, 32, 33, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82}, [8] = {0, 1, 2, 5, 6, 7, 8, 9, 10, 15, 16, 17, 18} },
+			FEMALE = { [7] = {0, 1, 2, 3, 7, 8, 9, 10, 11, 12, 16, 17, 18, 19, 20}, [8] = {0, 1, 2, 3, 7, 8, 9, 10, 11, 12, 16, 17, 18} },
 		},
 		["Darkspear"] = {
-			MALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19, 20, 21, 22, 23, 24, 25}, [8] = {0} },
-			FEMALE = { [7] = {0}, [8] = {0} },
+			MALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19, 20, 21, 22, 23, 24, 25, 32, 33, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58}, [8] = {0} },
+			FEMALE = { [7] = {0, 19, 20}, [8] = {0} },
 		},
 		["Sand Troll"] = {
-			MALE = { [7] = {0, 15, 16, 28, 29}, [8] = {0, 3, 4, 11, 12, 13, 14} },
-			FEMALE = { [7] = {0, 4, 5, 6, 13, 14, 15}, [8] = {0, 4, 5, 6, 13, 14, 15, 19, 20} },
+			MALE = { [7] = {0, 15, 16, 28, 29, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 59, 60, 61, 62}, [8] = {0, 3, 4, 11, 12, 13, 14} },
+			FEMALE = { [7] = {0, 4, 5, 6, 13, 14, 15, 19, 20}, [8] = {0, 4, 5, 6, 13, 14, 15, 19, 20} },
 		},
 	},
 };
