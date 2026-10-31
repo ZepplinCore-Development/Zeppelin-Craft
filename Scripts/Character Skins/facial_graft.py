@@ -341,8 +341,8 @@ def load_pieces(models=None, landed=()):
         return src
     split_src = redirect((SC / 'facial_split.py').read_text())
     if landed:              # proofs of a race not landed yet: treat it as landed
-        split_src = split_src.replace("LANDED = {'1_0'}", f"LANDED = {{'1_0', {', '.join(repr(x) for x in landed)}}}", 1)
-        assert any(f"'{x}'" in split_src.split('LANDED = ', 1)[1].split('\n', 1)[0] for x in landed)
+        split_src = split_src.replace("\nLANDED = {", "\nLANDED = {" + ''.join(f'{x!r}, ' for x in landed), 1)
+        assert all(f"'{x}'" in split_src.split('\nLANDED = ', 1)[1].split('\n', 1)[0] for x in landed)
     fp = types.ModuleType('facial_pieces'); fp.__file__ = str(SC / 'facial_pieces.py')
     exec(compile(redirect((SC / 'facial_pieces.py').read_text()), fp.__file__, 'exec'), fp.__dict__)
 

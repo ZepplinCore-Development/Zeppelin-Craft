@@ -5530,9 +5530,9 @@
  },
  "character/scourge/male/scourgemale00.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6.",
+  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6. I-433: the studs and spikes 302 / 305 (group 3) and 204 (group 2) are one group, 1602 / 1605 / 1604; rows 5/0/5, 8, 9 name them in geoset_4.",
   "base_sha256": "041ad44157eea28b40d2ed3a4e40563ebaa4e007d0158c8de11a973db76f7cdf",
-  "result_sha256": "95868f7defb65df1546d212d77f4ae6556c47235a700ba5c333aa4959b067c78",
+  "result_sha256": "f33d8b29760869c8f81fc4b76d87fc426ba95911f02a797cab3f06e380a6d2f9",
   "ops": [
    {
     "op": "skin.geoset.relabel",
@@ -5544,6 +5544,18 @@
      {
       "from": 205,
       "to": 106
+     },
+     {
+      "from": 302,
+      "to": 1602
+     },
+     {
+      "from": 305,
+      "to": 1605
+     },
+     {
+      "from": 204,
+      "to": 1604
      }
     ]
    }
@@ -5551,9 +5563,9 @@
  },
  "character/scourge/male/scourgemale01.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6.",
+  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6. I-433: the studs and spikes 302 / 305 (group 3) and 204 (group 2) are one group, 1602 / 1605 / 1604; rows 5/0/5, 8, 9 name them in geoset_4.",
   "base_sha256": "1471f6348a337821b305d4a771bda09f5e9b18b99bb9fb4228331beebc95fc01",
-  "result_sha256": "b0d7fbf9538238a9f9364ad58fb189a7e6177b08decb4f9c15526891de97d701",
+  "result_sha256": "a7050b5968cfc344c1c54cd308b618be9b8da45ecb243537e194934c490badca",
   "ops": [
    {
     "op": "skin.geoset.relabel",
@@ -5565,6 +5577,18 @@
      {
       "from": 205,
       "to": 106
+     },
+     {
+      "from": 302,
+      "to": 1602
+     },
+     {
+      "from": 305,
+      "to": 1605
+     },
+     {
+      "from": 204,
+      "to": 1604
      }
     ]
    }
@@ -5572,9 +5596,9 @@
  },
  "character/scourge/male/scourgemale02.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6.",
+  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6. I-433: the studs and spikes 302 / 305 (group 3) and 204 (group 2) are one group, 1602 / 1605 / 1604; rows 5/0/5, 8, 9 name them in geoset_4.",
   "base_sha256": "ca55dd2cd2e1623281fd89d6960217b4882d54a80c8eba0192ffbf6c9de651c2",
-  "result_sha256": "5fb0a2eb4459d64c5617c27a7bb67db4c0491257ada57b726c6c570a33e62bbc",
+  "result_sha256": "8e52e4a02e818b270b0a3cc3dde1cf817f699ae8655604df92dd2dc52370dc65",
   "ops": [
    {
     "op": "skin.geoset.relabel",
@@ -5586,6 +5610,18 @@
      {
       "from": 205,
       "to": 106
+     },
+     {
+      "from": 302,
+      "to": 1602
+     },
+     {
+      "from": 305,
+      "to": 1605
+     },
+     {
+      "from": 204,
+      "to": 1604
      }
     ]
    }
@@ -5593,9 +5629,9 @@
  },
  "character/scourge/male/scourgemale03.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6.",
+  "note": "F-230: undead male jaw pieces 203 / 205 (group 2) relabelled into the jaw group as 105 / 106; CharacterFacialHairStyles 5/0/10 and 5/0/11 now name geoset_1 = 5 / 6. I-433: the studs and spikes 302 / 305 (group 3) and 204 (group 2) are one group, 1602 / 1605 / 1604; rows 5/0/5, 8, 9 name them in geoset_4.",
   "base_sha256": "42e47e33fcccacaeabe3097977aca4f84c0c236ade77d6c959e5880408adba5f",
-  "result_sha256": "866771f362ce395cd771aec8834f1d931d11b497f40e11588e393d703810365c",
+  "result_sha256": "e675e78b01898d2709e37ede38a92c65df4cd665903169d8b710bfd3c0369aff",
   "ops": [
    {
     "op": "skin.geoset.relabel",
@@ -5607,6 +5643,18 @@
      {
       "from": 205,
       "to": 106
+     },
+     {
+      "from": 302,
+      "to": 1602
+     },
+     {
+      "from": 305,
+      "to": 1605
+     },
+     {
+      "from": 204,
+      "to": 1604
      }
     ]
    }
@@ -5766,9 +5814,8 @@
  },
  "character/nightelf/male/nightelfmale00.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604.",
+  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604. F-230: retail nightelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 108-111 (retail 102/106/107/108), sideburns 208/209 (retail 202/205), moustaches 1605-1608 (retail 301-304), eyebrows 308-311 (retail 3402/3406-3408). Retail meshes equal to ours left out. NPC rows name none.",
   "base_sha256": "02c42e2069d8e99d77a4a13df1e3fb2dc1e3787b4d8b37bd44ad588f756f4094",
-  "result_sha256": "d9e845b809b75ea411e834a4debb5a83a1444ee6583cccb47b9768bbc6e71b86",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5788,14 +5835,93 @@
       ]
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 974343,
+    "donor_sha256": "b3ad48d838360683cf419726b5318830ec86a38b94a123252155c9b9531651ce",
+    "donor_skin_fdid": 974391,
+    "donor_skin_sha256": "3521c1558196e88f3e20e1a76db84fd64f9854cbc6a106a6f0496780c0c07c41",
+    "geosets": [
+     [
+      102,
+      108
+     ],
+     [
+      106,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      202,
+      208
+     ],
+     [
+      205,
+      209
+     ],
+     [
+      301,
+      1605
+     ],
+     [
+      302,
+      1606
+     ],
+     [
+      303,
+      1607
+     ],
+     [
+      304,
+      1608
+     ],
+     [
+      3402,
+      308
+     ],
+     [
+      3406,
+      309
+     ],
+     [
+      3407,
+      310
+     ],
+     [
+      3408,
+      311
+     ]
+    ],
+    "template": {
+     "1": 103,
+     "2": 204,
+     "3": 302,
+     "16": 1604
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17230,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1839628,
+    "skel_sha256": "ad2f8f998a3226f75e799dbf22a09107b29ba0efd6e0627dc83a86bbd55150ab"
    }
-  ]
+  ],
+  "result_sha256": "111dc94a4ce1743fa409e9c93f8a98d0d4ac725a80c4f50e60eb8fdcfcba67a6"
  },
  "character/nightelf/male/nightelfmale01.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604.",
+  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604. F-230: retail nightelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 108-111 (retail 102/106/107/108), sideburns 208/209 (retail 202/205), moustaches 1605-1608 (retail 301-304), eyebrows 308-311 (retail 3402/3406-3408). Retail meshes equal to ours left out. NPC rows name none.",
   "base_sha256": "5c31a92fbcb9d39e974a5bf3dbce3cdacdd34a8b166bd9a7d2afed668d3782f2",
-  "result_sha256": "2cec5c78b8ded6f1af491e6fc56631a72ce7b13b7c65fd1e0aa6040d747101fb",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5815,14 +5941,93 @@
       ]
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 974343,
+    "donor_sha256": "b3ad48d838360683cf419726b5318830ec86a38b94a123252155c9b9531651ce",
+    "donor_skin_fdid": 974391,
+    "donor_skin_sha256": "3521c1558196e88f3e20e1a76db84fd64f9854cbc6a106a6f0496780c0c07c41",
+    "geosets": [
+     [
+      102,
+      108
+     ],
+     [
+      106,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      202,
+      208
+     ],
+     [
+      205,
+      209
+     ],
+     [
+      301,
+      1605
+     ],
+     [
+      302,
+      1606
+     ],
+     [
+      303,
+      1607
+     ],
+     [
+      304,
+      1608
+     ],
+     [
+      3402,
+      308
+     ],
+     [
+      3406,
+      309
+     ],
+     [
+      3407,
+      310
+     ],
+     [
+      3408,
+      311
+     ]
+    ],
+    "template": {
+     "1": 103,
+     "2": 204,
+     "3": 302,
+     "16": 1604
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17230,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1839628,
+    "skel_sha256": "ad2f8f998a3226f75e799dbf22a09107b29ba0efd6e0627dc83a86bbd55150ab"
    }
-  ]
+  ],
+  "result_sha256": "957c12e4fac43e2202d3274a17a263c813ee35e229b48c97a2f08faeebede23c"
  },
  "character/nightelf/male/nightelfmale02.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604.",
+  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604. F-230: retail nightelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 108-111 (retail 102/106/107/108), sideburns 208/209 (retail 202/205), moustaches 1605-1608 (retail 301-304), eyebrows 308-311 (retail 3402/3406-3408). Retail meshes equal to ours left out. NPC rows name none.",
   "base_sha256": "9ab18f08f39684317ce00c1517a9c3d4025c0ac05fdf417dff83b35a79058531",
-  "result_sha256": "de6d1908b3775bceee71ea03f44cd991615bee3e643193a79b8a716ae0b7e4b2",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5842,14 +6047,93 @@
       ]
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 974343,
+    "donor_sha256": "b3ad48d838360683cf419726b5318830ec86a38b94a123252155c9b9531651ce",
+    "donor_skin_fdid": 974391,
+    "donor_skin_sha256": "3521c1558196e88f3e20e1a76db84fd64f9854cbc6a106a6f0496780c0c07c41",
+    "geosets": [
+     [
+      102,
+      108
+     ],
+     [
+      106,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      202,
+      208
+     ],
+     [
+      205,
+      209
+     ],
+     [
+      301,
+      1605
+     ],
+     [
+      302,
+      1606
+     ],
+     [
+      303,
+      1607
+     ],
+     [
+      304,
+      1608
+     ],
+     [
+      3402,
+      308
+     ],
+     [
+      3406,
+      309
+     ],
+     [
+      3407,
+      310
+     ],
+     [
+      3408,
+      311
+     ]
+    ],
+    "template": {
+     "1": 103,
+     "2": 204,
+     "3": 302,
+     "16": 1604
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17230,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1839628,
+    "skel_sha256": "ad2f8f998a3226f75e799dbf22a09107b29ba0efd6e0627dc83a86bbd55150ab"
    }
-  ]
+  ],
+  "result_sha256": "8999db24ff738f616d462c5c77e142a1cacd7fc46c8596e3c7855e531e808969"
  },
  "character/nightelf/male/nightelfmale03.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604.",
+  "note": "F-230: night elf male 304 (eyebrows + moustache) split: the moustache islands (below z 2.28) move to 1604 (slot \"Moustache\"); 304 keeps the eyebrows. NPC look kept by imply 304 -> 1604. F-230: retail nightelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 108-111 (retail 102/106/107/108), sideburns 208/209 (retail 202/205), moustaches 1605-1608 (retail 301-304), eyebrows 308-311 (retail 3402/3406-3408). Retail meshes equal to ours left out. NPC rows name none.",
   "base_sha256": "c0efe481bea51f9abfb03cf68de1848db1e898c91b23b43733a5e67f87d7a915",
-  "result_sha256": "1f8c9b2398d5fb60c1f7b234b0d369d847c17a5d6412457620024fa57dfbc926",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5869,14 +6153,93 @@
       ]
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 974343,
+    "donor_sha256": "b3ad48d838360683cf419726b5318830ec86a38b94a123252155c9b9531651ce",
+    "donor_skin_fdid": 974391,
+    "donor_skin_sha256": "3521c1558196e88f3e20e1a76db84fd64f9854cbc6a106a6f0496780c0c07c41",
+    "geosets": [
+     [
+      102,
+      108
+     ],
+     [
+      106,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      202,
+      208
+     ],
+     [
+      205,
+      209
+     ],
+     [
+      301,
+      1605
+     ],
+     [
+      302,
+      1606
+     ],
+     [
+      303,
+      1607
+     ],
+     [
+      304,
+      1608
+     ],
+     [
+      3402,
+      308
+     ],
+     [
+      3406,
+      309
+     ],
+     [
+      3407,
+      310
+     ],
+     [
+      3408,
+      311
+     ]
+    ],
+    "template": {
+     "1": 103,
+     "2": 204,
+     "3": 302,
+     "16": 1604
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17230,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1839628,
+    "skel_sha256": "ad2f8f998a3226f75e799dbf22a09107b29ba0efd6e0627dc83a86bbd55150ab"
    }
-  ]
+  ],
+  "result_sha256": "0fbe2582e0509c853efb9c6b9a46bcca6f47b1fac5e540e0b6ab869b6eb5fc6b"
  },
  "character/draenei/male/draeneimale00.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines.",
+  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines. F-230: retail draeneimale_hd facial hair grafted as whiskers 207-213 (retail 102/103/106-110), split like our 204-206 into sideburns 209/210, moustaches 308/309/313 and goatees 1610/1612 (208 = our 204, dropped); retail 102 whole as sideburns 207, retail 108 whole as beard 1613. Retail 101/104/105 are our 202/205/206. NPC rows name none of them.",
   "base_sha256": "0defc08a9ee348ae2dabb4eee7393a2e5d3a2593cf20950cb3be8150ef5b6c68",
-  "result_sha256": "8f5cefdb8d9465b5a35c0865c882c46c641d5356b63e05968b0a2a4b2c11bd36",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5911,14 +6274,147 @@
       ]
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1005887,
+    "donor_sha256": "a4bd22edaf7fb08ea2c3b333bb3b4aa6428894f8a78fd05d6a1b18bbd39dd28c",
+    "donor_skin_fdid": 1005885,
+    "donor_skin_sha256": "1e55cd25473fa081806ca2079c10b92190152292fe33b21cfb589a66423de0d2",
+    "geosets": [
+     [
+      102,
+      207
+     ],
+     [
+      103,
+      208
+     ],
+     [
+      106,
+      209
+     ],
+     [
+      107,
+      210
+     ],
+     [
+      108,
+      1613
+     ],
+     [
+      109,
+      212
+     ],
+     [
+      110,
+      213
+     ]
+    ],
+    "template": {
+     "2": 202,
+     "16": 1605
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 15684,
+    "expect_bone_lookup": 970,
+    "skel_fdid": 1685880,
+    "skel_sha256": "f30d9919cd0da59803d712ae0aad14d0890244613ad1799ecc6730a00519cd14"
+   },
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     208,
+     209,
+     210,
+     212,
+     213
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "key": 7,
+      "majority": 0.75
+     },
+     {
+      "to": 3,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     }
+    ]
+   },
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     1610
+    ],
+    "rules": [
+     {
+      "to": 19,
+      "box": [
+       0.25,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 19,
+      "box": [
+       null,
+       0.05,
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 19,
+      "box": [
+       null,
+       null,
+       null,
+       null,
+       -0.05,
+       null
+      ]
+     }
+    ]
+   },
+   {
+    "op": "skin.geoset.remap",
+    "map": {
+     "208": -1,
+     "1910": -1
+    }
    }
-  ]
+  ],
+  "result_sha256": "5d8ef44c35eb71dd14962ce520b6b6ec5ab527fec01a2b462d5fb4102c9a682c"
  },
  "character/draenei/male/draeneimale01.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines.",
+  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines. F-230: retail draeneimale_hd facial hair grafted as whiskers 207-213 (retail 102/103/106-110), split like our 204-206 into sideburns 209/210, moustaches 308/309/313 and goatees 1610/1612 (208 = our 204, dropped); retail 102 whole as sideburns 207, retail 108 whole as beard 1613. Retail 101/104/105 are our 202/205/206. NPC rows name none of them.",
   "base_sha256": "ce9d72b48dae75769b06cf88be1c6205864c8d5b86209fd444bd3d0635d98de5",
-  "result_sha256": "cf2bb1248aab6c0ef91708c11fe0f897b453821e4397a8c12eac8d282ff69624",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5953,14 +6449,147 @@
       ]
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1005887,
+    "donor_sha256": "a4bd22edaf7fb08ea2c3b333bb3b4aa6428894f8a78fd05d6a1b18bbd39dd28c",
+    "donor_skin_fdid": 1005885,
+    "donor_skin_sha256": "1e55cd25473fa081806ca2079c10b92190152292fe33b21cfb589a66423de0d2",
+    "geosets": [
+     [
+      102,
+      207
+     ],
+     [
+      103,
+      208
+     ],
+     [
+      106,
+      209
+     ],
+     [
+      107,
+      210
+     ],
+     [
+      108,
+      1613
+     ],
+     [
+      109,
+      212
+     ],
+     [
+      110,
+      213
+     ]
+    ],
+    "template": {
+     "2": 202,
+     "16": 1605
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 15684,
+    "expect_bone_lookup": 970,
+    "skel_fdid": 1685880,
+    "skel_sha256": "f30d9919cd0da59803d712ae0aad14d0890244613ad1799ecc6730a00519cd14"
+   },
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     208,
+     209,
+     210,
+     212,
+     213
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "key": 7,
+      "majority": 0.75
+     },
+     {
+      "to": 3,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     }
+    ]
+   },
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     1610
+    ],
+    "rules": [
+     {
+      "to": 19,
+      "box": [
+       0.25,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 19,
+      "box": [
+       null,
+       0.05,
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 19,
+      "box": [
+       null,
+       null,
+       null,
+       null,
+       -0.05,
+       null
+      ]
+     }
+    ]
+   },
+   {
+    "op": "skin.geoset.remap",
+    "map": {
+     "208": -1,
+     "1910": -1
+    }
    }
-  ]
+  ],
+  "result_sha256": "4c1576202a5f6b2779f2498c24266ea835f4a415973ee78a4fea820a8c6a89fc"
  },
  "character/draenei/male/draeneimale02.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines.",
+  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines. F-230: retail draeneimale_hd facial hair grafted as whiskers 207-213 (retail 102/103/106-110), split like our 204-206 into sideburns 209/210, moustaches 308/309/313 and goatees 1610/1612 (208 = our 204, dropped); retail 102 whole as sideburns 207, retail 108 whole as beard 1613. Retail 101/104/105 are our 202/205/206. NPC rows name none of them.",
   "base_sha256": "dd73d4427504a3f9a4218f1cbcc0fd69b4c53a96738fad678a7eeaa0daf1191b",
-  "result_sha256": "c69e8f768562eb168a8a85453a19bf0c40879ae50313f94dab7fe5ce2075ea5a",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5995,14 +6624,147 @@
       ]
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1005887,
+    "donor_sha256": "a4bd22edaf7fb08ea2c3b333bb3b4aa6428894f8a78fd05d6a1b18bbd39dd28c",
+    "donor_skin_fdid": 1005885,
+    "donor_skin_sha256": "1e55cd25473fa081806ca2079c10b92190152292fe33b21cfb589a66423de0d2",
+    "geosets": [
+     [
+      102,
+      207
+     ],
+     [
+      103,
+      208
+     ],
+     [
+      106,
+      209
+     ],
+     [
+      107,
+      210
+     ],
+     [
+      108,
+      1613
+     ],
+     [
+      109,
+      212
+     ],
+     [
+      110,
+      213
+     ]
+    ],
+    "template": {
+     "2": 202,
+     "16": 1605
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 15684,
+    "expect_bone_lookup": 970,
+    "skel_fdid": 1685880,
+    "skel_sha256": "f30d9919cd0da59803d712ae0aad14d0890244613ad1799ecc6730a00519cd14"
+   },
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     208,
+     209,
+     210,
+     212,
+     213
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "key": 7,
+      "majority": 0.75
+     },
+     {
+      "to": 3,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     }
+    ]
+   },
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     1610
+    ],
+    "rules": [
+     {
+      "to": 19,
+      "box": [
+       0.25,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 19,
+      "box": [
+       null,
+       0.05,
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 19,
+      "box": [
+       null,
+       null,
+       null,
+       null,
+       -0.05,
+       null
+      ]
+     }
+    ]
+   },
+   {
+    "op": "skin.geoset.remap",
+    "map": {
+     "208": -1,
+     "1910": -1
+    }
    }
-  ]
+  ],
+  "result_sha256": "d5f783cc2eaa4ca9a3b7b91dbd64a7a9657f4538f3a1dc193a389c90cd186489"
  },
  "character/draenei/male/draeneimale03.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines.",
+  "note": "F-230: draenei male whiskers 204-206 split: sideburns stay 2xx; moustache islands in front of the face (x >= 0.17) move to 3xx, jaw goatee islands to 16xx. 202/203 are sideburns only. NPC looks kept by imply lines. F-230: retail draeneimale_hd facial hair grafted as whiskers 207-213 (retail 102/103/106-110), split like our 204-206 into sideburns 209/210, moustaches 308/309/313 and goatees 1610/1612 (208 = our 204, dropped); retail 102 whole as sideburns 207, retail 108 whole as beard 1613. Retail 101/104/105 are our 202/205/206. NPC rows name none of them.",
   "base_sha256": "e768052f84be66d76fd5b35dff4ef5473747fe4ba12d9f15fac07ab2dcfa4a12",
-  "result_sha256": "2279c4e2e6f522539dadb807e9a243e56d665aaf980e6a317ec220ab19690f77",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -6037,8 +6799,142 @@
       ]
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1005887,
+    "donor_sha256": "a4bd22edaf7fb08ea2c3b333bb3b4aa6428894f8a78fd05d6a1b18bbd39dd28c",
+    "donor_skin_fdid": 1005885,
+    "donor_skin_sha256": "1e55cd25473fa081806ca2079c10b92190152292fe33b21cfb589a66423de0d2",
+    "geosets": [
+     [
+      102,
+      207
+     ],
+     [
+      103,
+      208
+     ],
+     [
+      106,
+      209
+     ],
+     [
+      107,
+      210
+     ],
+     [
+      108,
+      1613
+     ],
+     [
+      109,
+      212
+     ],
+     [
+      110,
+      213
+     ]
+    ],
+    "template": {
+     "2": 202,
+     "16": 1605
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 15684,
+    "expect_bone_lookup": 970,
+    "skel_fdid": 1685880,
+    "skel_sha256": "f30d9919cd0da59803d712ae0aad14d0890244613ad1799ecc6730a00519cd14"
+   },
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     208,
+     209,
+     210,
+     212,
+     213
+    ],
+    "rules": [
+     {
+      "to": 16,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "key": 7,
+      "majority": 0.75
+     },
+     {
+      "to": 3,
+      "box": [
+       0.17,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     }
+    ]
+   },
+   {
+    "op": "skin.geoset.island_split",
+    "from": [
+     1610
+    ],
+    "rules": [
+     {
+      "to": 19,
+      "box": [
+       0.25,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 19,
+      "box": [
+       null,
+       0.05,
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     {
+      "to": 19,
+      "box": [
+       null,
+       null,
+       null,
+       null,
+       -0.05,
+       null
+      ]
+     }
+    ]
+   },
+   {
+    "op": "skin.geoset.remap",
+    "map": {
+     "208": -1,
+     "1910": -1
+    }
    }
-  ]
+  ],
+  "result_sha256": "212edcbd1f086aeaf1e5bf3c15c375e11b0979f00e4aaf557beb3f49ff8a9f2f"
  },
  "character/human/male/humanmale.m2": {
   "source": "patch-hd-creatures-mounts",
@@ -6474,5 +7370,1512 @@
    }
   ],
   "result_sha256": "9303a20f65ef03e52912307731d67fda9109481122718a07ebf2964600e87bba"
+ },
+ "character/bloodelf/male/bloodelfmale.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail bloodelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 111-113 (retail 102-110 are ours), eyebrows 1602 (retail 3401). NPC rows name none of them.",
+  "base_sha256": "2b4d7eb34c3301eee7e44f20fc07015972b5731ac05bac41a2bc40666d0666da",
+  "ops": [
+   {
+    "op": "m2.graft",
+    "donor_fdid": 1100087,
+    "donor_sha256": "eab4a2f51be57084124b89636b264b37c128a64047c2c382d1566262b4e7bdab",
+    "donor_skin_fdid": 1100099,
+    "donor_skin_sha256": "885b97588c2c1ba864c042da1307242bbe1f0b13c5328248451f1c4a627bf585",
+    "geosets": [
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      113,
+      113
+     ],
+     [
+      3401,
+      1602
+     ]
+    ],
+    "template": 102,
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17358,
+    "expect_bone_lookup": 1059,
+    "skel_fdid": 1838675,
+    "skel_sha256": "7f92af3975ee6b77a4938a9a2069521bba2719774295fc5de6529904caed955b"
+   }
+  ],
+  "result_sha256": "7e2bc8b87f305362672e41db9a983963e9f6228bb0338ac6c4bb0d97d449dd99"
+ },
+ "character/bloodelf/male/bloodelfmale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail bloodelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 111-113 (retail 102-110 are ours), eyebrows 1602 (retail 3401). NPC rows name none of them.",
+  "base_sha256": "3b28a13d6a91f2fbe05289e4f644982e779b51ca5008bd5df44f67004055f711",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1100087,
+    "donor_sha256": "eab4a2f51be57084124b89636b264b37c128a64047c2c382d1566262b4e7bdab",
+    "donor_skin_fdid": 1100099,
+    "donor_skin_sha256": "885b97588c2c1ba864c042da1307242bbe1f0b13c5328248451f1c4a627bf585",
+    "geosets": [
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      113,
+      113
+     ],
+     [
+      3401,
+      1602
+     ]
+    ],
+    "template": 102,
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17358,
+    "expect_bone_lookup": 1059,
+    "skel_fdid": 1838675,
+    "skel_sha256": "7f92af3975ee6b77a4938a9a2069521bba2719774295fc5de6529904caed955b"
+   }
+  ],
+  "result_sha256": "897ab8035a09bd7b817f4065627be4e70610f4c9d97b5b33dc2dd1fdccee8aee"
+ },
+ "character/bloodelf/male/bloodelfmale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail bloodelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 111-113 (retail 102-110 are ours), eyebrows 1602 (retail 3401). NPC rows name none of them.",
+  "base_sha256": "53d830f2c99f8a46d620da89951eae92209d4fe35ba86f72930915fda8d53f76",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1100087,
+    "donor_sha256": "eab4a2f51be57084124b89636b264b37c128a64047c2c382d1566262b4e7bdab",
+    "donor_skin_fdid": 1100099,
+    "donor_skin_sha256": "885b97588c2c1ba864c042da1307242bbe1f0b13c5328248451f1c4a627bf585",
+    "geosets": [
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      113,
+      113
+     ],
+     [
+      3401,
+      1602
+     ]
+    ],
+    "template": 102,
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17358,
+    "expect_bone_lookup": 1059,
+    "skel_fdid": 1838675,
+    "skel_sha256": "7f92af3975ee6b77a4938a9a2069521bba2719774295fc5de6529904caed955b"
+   }
+  ],
+  "result_sha256": "a97793e6338e598200e29d06222b6213a4952d8900ce1c2d6e322909224c81ef"
+ },
+ "character/bloodelf/male/bloodelfmale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail bloodelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 111-113 (retail 102-110 are ours), eyebrows 1602 (retail 3401). NPC rows name none of them.",
+  "base_sha256": "bca16d1d34832a5b280124658757d656fb9879ee9684b23fde07b72f00786414",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1100087,
+    "donor_sha256": "eab4a2f51be57084124b89636b264b37c128a64047c2c382d1566262b4e7bdab",
+    "donor_skin_fdid": 1100099,
+    "donor_skin_sha256": "885b97588c2c1ba864c042da1307242bbe1f0b13c5328248451f1c4a627bf585",
+    "geosets": [
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      113,
+      113
+     ],
+     [
+      3401,
+      1602
+     ]
+    ],
+    "template": 102,
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17358,
+    "expect_bone_lookup": 1059,
+    "skel_fdid": 1838675,
+    "skel_sha256": "7f92af3975ee6b77a4938a9a2069521bba2719774295fc5de6529904caed955b"
+   }
+  ],
+  "result_sha256": "c97fae310e57b5ee7480818ae9bec74024bf0308e0baba2318b42d8934d99d7f"
+ },
+ "character/bloodelf/male/bloodelfmale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail bloodelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 111-113 (retail 102-110 are ours), eyebrows 1602 (retail 3401). NPC rows name none of them.",
+  "base_sha256": "fb2beb4d7728538a0f323e39f0445d26177c5f019a955cd47bf861b8fafbae2f",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1100087,
+    "donor_sha256": "eab4a2f51be57084124b89636b264b37c128a64047c2c382d1566262b4e7bdab",
+    "donor_skin_fdid": 1100099,
+    "donor_skin_sha256": "885b97588c2c1ba864c042da1307242bbe1f0b13c5328248451f1c4a627bf585",
+    "geosets": [
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      113,
+      113
+     ],
+     [
+      3401,
+      1602
+     ]
+    ],
+    "template": 102,
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17358,
+    "expect_bone_lookup": 1059,
+    "skel_fdid": 1838675,
+    "skel_sha256": "7f92af3975ee6b77a4938a9a2069521bba2719774295fc5de6529904caed955b"
+   }
+  ],
+  "result_sha256": "e864ecee41e08b164d2118fab3c497f47a3a91b41c9c44fbaf4115abd2e77c41"
+ },
+ "character/nightelf/male/nightelfmale.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail nightelfmale_hd facial hair grafted as new geosets (same rig, same hair atlas): beards 108-111 (retail 102/106/107/108), sideburns 208/209 (retail 202/205), moustaches 1605-1608 (retail 301-304), eyebrows 308-311 (retail 3402/3406-3408). Retail meshes equal to ours left out. NPC rows name none.",
+  "base_sha256": "0c6813941cce37c50b23022f9cf89d3ed2f1a0ce52ed70583c5374203eef8185",
+  "ops": [
+   {
+    "op": "m2.graft",
+    "donor_fdid": 974343,
+    "donor_sha256": "b3ad48d838360683cf419726b5318830ec86a38b94a123252155c9b9531651ce",
+    "donor_skin_fdid": 974391,
+    "donor_skin_sha256": "3521c1558196e88f3e20e1a76db84fd64f9854cbc6a106a6f0496780c0c07c41",
+    "geosets": [
+     [
+      102,
+      108
+     ],
+     [
+      106,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      202,
+      208
+     ],
+     [
+      205,
+      209
+     ],
+     [
+      301,
+      1605
+     ],
+     [
+      302,
+      1606
+     ],
+     [
+      303,
+      1607
+     ],
+     [
+      304,
+      1608
+     ],
+     [
+      3402,
+      308
+     ],
+     [
+      3406,
+      309
+     ],
+     [
+      3407,
+      310
+     ],
+     [
+      3408,
+      311
+     ]
+    ],
+    "template": {
+     "1": 103,
+     "2": 204,
+     "3": 302,
+     "16": 1604
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 17230,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1839628,
+    "skel_sha256": "ad2f8f998a3226f75e799dbf22a09107b29ba0efd6e0627dc83a86bbd55150ab"
+   }
+  ],
+  "result_sha256": "9ed2069a958e1e6998ea251e251d073a3bf256a4ef54a2b16448c3ae986bfb8f"
+ },
+ "character/draenei/male/draeneimale.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail draeneimale_hd facial hair grafted as whiskers 207-213 (retail 102/103/106-110), split like our 204-206 into sideburns 209/210, moustaches 308/309/313 and goatees 1610/1612 (208 = our 204, dropped); retail 102 whole as sideburns 207, retail 108 whole as beard 1613. Retail 101/104/105 are our 202/205/206. NPC rows name none of them.",
+  "base_sha256": "0483cc49fdb24b3e055f5a6df5003beb236958792596c828a0636ec99447f438",
+  "ops": [
+   {
+    "op": "m2.graft",
+    "donor_fdid": 1005887,
+    "donor_sha256": "a4bd22edaf7fb08ea2c3b333bb3b4aa6428894f8a78fd05d6a1b18bbd39dd28c",
+    "donor_skin_fdid": 1005885,
+    "donor_skin_sha256": "1e55cd25473fa081806ca2079c10b92190152292fe33b21cfb589a66423de0d2",
+    "geosets": [
+     [
+      102,
+      207
+     ],
+     [
+      103,
+      208
+     ],
+     [
+      106,
+      209
+     ],
+     [
+      107,
+      210
+     ],
+     [
+      108,
+      1613
+     ],
+     [
+      109,
+      212
+     ],
+     [
+      110,
+      213
+     ]
+    ],
+    "template": {
+     "2": 202,
+     "16": 1605
+    },
+    "uv": {},
+    "tex_types": [
+     6
+    ],
+    "expect_vertices": 15684,
+    "expect_bone_lookup": 970,
+    "skel_fdid": 1685880,
+    "skel_sha256": "f30d9919cd0da59803d712ae0aad14d0890244613ad1799ecc6730a00519cd14"
+   }
+  ],
+  "result_sha256": "452de2d534a97a97e31874b70e785a2a612b6029d89c6f6ae51485d55d72552a"
+ },
+ "character/tauren/male/taurenmale.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail taurenmale_hd facial hair grafted (our rig = retail x 20/27, fur atlas u -> 0.75u + 0.25): facial hair 108-112 (retail 105/108/110/111/112), hair 208/209 (retail 209/210). NPC rows name none.",
+  "base_sha256": "84c91b63b65a023b3bfdacb2d21a584a492b81a8c577e97d3ca01a332584f16d",
+  "ops": [
+   {
+    "op": "m2.graft",
+    "donor_fdid": 968705,
+    "donor_sha256": "22ebd4a6c5822ae03eebbcdf17757d289e1d7f167e9262026c439e32e1e9f3e3",
+    "donor_skin_fdid": 968755,
+    "donor_skin_sha256": "fb7082364e60f12c69349190d248d87c3fba784545dd2d7797baf8bebde9f755",
+    "geosets": [
+     [
+      105,
+      108
+     ],
+     [
+      108,
+      109
+     ],
+     [
+      110,
+      110
+     ],
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      209,
+      208
+     ],
+     [
+      210,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202
+    },
+    "uv": {
+     "u_scale": 0.75,
+     "u_offset": 0.25
+    },
+    "scale": 0.7407407407407407,
+    "expect_vertices": 13945,
+    "expect_bone_lookup": 1017,
+    "skel_fdid": 1839011,
+    "skel_sha256": "06a959f68a432c3d5603b7508a4512374d3ec94a39357a782314c435a68a8a38"
+   }
+  ],
+  "result_sha256": "74ee61c3b5ea423b76bac8fadb361b460835ffd1bfff3664a41e556ef57ae1e2"
+ },
+ "character/tauren/male/taurenmale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail taurenmale_hd facial hair grafted (our rig = retail x 20/27, fur atlas u -> 0.75u + 0.25): facial hair 108-112 (retail 105/108/110/111/112), hair 208/209 (retail 209/210). NPC rows name none.",
+  "base_sha256": "3e6398e477a45e3e87b9ff6dd36957ec829e61e321c95ebde10195c27e37dc1f",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 968705,
+    "donor_sha256": "22ebd4a6c5822ae03eebbcdf17757d289e1d7f167e9262026c439e32e1e9f3e3",
+    "donor_skin_fdid": 968755,
+    "donor_skin_sha256": "fb7082364e60f12c69349190d248d87c3fba784545dd2d7797baf8bebde9f755",
+    "geosets": [
+     [
+      105,
+      108
+     ],
+     [
+      108,
+      109
+     ],
+     [
+      110,
+      110
+     ],
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      209,
+      208
+     ],
+     [
+      210,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202
+    },
+    "uv": {
+     "u_scale": 0.75,
+     "u_offset": 0.25
+    },
+    "scale": 0.7407407407407407,
+    "expect_vertices": 13945,
+    "expect_bone_lookup": 1017,
+    "skel_fdid": 1839011,
+    "skel_sha256": "06a959f68a432c3d5603b7508a4512374d3ec94a39357a782314c435a68a8a38"
+   }
+  ],
+  "result_sha256": "fee9198151e83b7996be639f4085d8ee30bae03d82bde29401b1048ea79477b2"
+ },
+ "character/tauren/male/taurenmale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail taurenmale_hd facial hair grafted (our rig = retail x 20/27, fur atlas u -> 0.75u + 0.25): facial hair 108-112 (retail 105/108/110/111/112), hair 208/209 (retail 209/210). NPC rows name none.",
+  "base_sha256": "250527b8372fa9120e15eb1004fe1dd01c6bcb5321f8b8da8192cbfc031e0f1b",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 968705,
+    "donor_sha256": "22ebd4a6c5822ae03eebbcdf17757d289e1d7f167e9262026c439e32e1e9f3e3",
+    "donor_skin_fdid": 968755,
+    "donor_skin_sha256": "fb7082364e60f12c69349190d248d87c3fba784545dd2d7797baf8bebde9f755",
+    "geosets": [
+     [
+      105,
+      108
+     ],
+     [
+      108,
+      109
+     ],
+     [
+      110,
+      110
+     ],
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      209,
+      208
+     ],
+     [
+      210,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202
+    },
+    "uv": {
+     "u_scale": 0.75,
+     "u_offset": 0.25
+    },
+    "scale": 0.7407407407407407,
+    "expect_vertices": 13945,
+    "expect_bone_lookup": 1017,
+    "skel_fdid": 1839011,
+    "skel_sha256": "06a959f68a432c3d5603b7508a4512374d3ec94a39357a782314c435a68a8a38"
+   }
+  ],
+  "result_sha256": "af9ec2ce60ec31e017307767342e191f0f7d98c01bfa47cad46461d68b4ed8e3"
+ },
+ "character/tauren/male/taurenmale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail taurenmale_hd facial hair grafted (our rig = retail x 20/27, fur atlas u -> 0.75u + 0.25): facial hair 108-112 (retail 105/108/110/111/112), hair 208/209 (retail 209/210). NPC rows name none.",
+  "base_sha256": "d3d3662947abfb27c19536aaceccbb7bcaf9528e01f8c00e603df8d479442750",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 968705,
+    "donor_sha256": "22ebd4a6c5822ae03eebbcdf17757d289e1d7f167e9262026c439e32e1e9f3e3",
+    "donor_skin_fdid": 968755,
+    "donor_skin_sha256": "fb7082364e60f12c69349190d248d87c3fba784545dd2d7797baf8bebde9f755",
+    "geosets": [
+     [
+      105,
+      108
+     ],
+     [
+      108,
+      109
+     ],
+     [
+      110,
+      110
+     ],
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      209,
+      208
+     ],
+     [
+      210,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202
+    },
+    "uv": {
+     "u_scale": 0.75,
+     "u_offset": 0.25
+    },
+    "scale": 0.7407407407407407,
+    "expect_vertices": 13945,
+    "expect_bone_lookup": 1017,
+    "skel_fdid": 1839011,
+    "skel_sha256": "06a959f68a432c3d5603b7508a4512374d3ec94a39357a782314c435a68a8a38"
+   }
+  ],
+  "result_sha256": "f5b6b249ece63bc85fb0fd16970ddf39ad0c04ed4b0ecff119b7da7e2296ab7c"
+ },
+ "character/tauren/male/taurenmale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail taurenmale_hd facial hair grafted (our rig = retail x 20/27, fur atlas u -> 0.75u + 0.25): facial hair 108-112 (retail 105/108/110/111/112), hair 208/209 (retail 209/210). NPC rows name none.",
+  "base_sha256": "6eae9e50d49476ba4c663ee8d440ad91d5b1db646cbce85406604459b4225d37",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 968705,
+    "donor_sha256": "22ebd4a6c5822ae03eebbcdf17757d289e1d7f167e9262026c439e32e1e9f3e3",
+    "donor_skin_fdid": 968755,
+    "donor_skin_sha256": "fb7082364e60f12c69349190d248d87c3fba784545dd2d7797baf8bebde9f755",
+    "geosets": [
+     [
+      105,
+      108
+     ],
+     [
+      108,
+      109
+     ],
+     [
+      110,
+      110
+     ],
+     [
+      111,
+      111
+     ],
+     [
+      112,
+      112
+     ],
+     [
+      209,
+      208
+     ],
+     [
+      210,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202
+    },
+    "uv": {
+     "u_scale": 0.75,
+     "u_offset": 0.25
+    },
+    "scale": 0.7407407407407407,
+    "expect_vertices": 13945,
+    "expect_bone_lookup": 1017,
+    "skel_fdid": 1839011,
+    "skel_sha256": "06a959f68a432c3d5603b7508a4512374d3ec94a39357a782314c435a68a8a38"
+   }
+  ],
+  "result_sha256": "d7c5f26da4cfbbff6a543340736cdee71ab026cbb1658645193392e78c74afd4"
+ },
+ "character/dwarf/male/dwarfmale.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail dwarfmale_hd nose rings grafted as 1602-1606 (their own texture, DwarfMale_Earrings.blp). Retail beards / moustaches / brows are ours. NPC rows name none of them.",
+  "base_sha256": "80f1acd1e38a4f86ebd91d53ee2b633316700fdfcf67c87488ff2b9aa4ffbda4",
+  "ops": [
+   {
+    "op": "m2.texture.add",
+    "type": 0,
+    "name": "Character\\Dwarf\\Male\\DwarfMale_Earrings.blp",
+    "expect_count": 8
+   },
+   {
+    "op": "m2.texlookup.set",
+    "expect": [
+     3,
+     2,
+     1,
+     0,
+     3,
+     6,
+     3,
+     4,
+     5,
+     7
+    ],
+    "values": [
+     3,
+     2,
+     1,
+     0,
+     3,
+     6,
+     3,
+     4,
+     5,
+     7,
+     8
+    ]
+   },
+   {
+    "op": "m2.graft",
+    "donor_fdid": 878772,
+    "donor_sha256": "9b0c409e66499279aab62c99a9b9433abdb92214c13e60cc870f1dfa883bf68e",
+    "donor_skin_fdid": 878823,
+    "donor_skin_sha256": "46ab3f51e808e45ed02c5377d087c1db06d2262eda2a5bf567bb620d1b77a4ce",
+    "geosets": [
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ],
+     [
+      1604,
+      1605
+     ],
+     [
+      1605,
+      1606
+     ]
+    ],
+    "template": {
+     "16": 102
+    },
+    "uv": {},
+    "batch": {
+     "16": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 17576,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1892675,
+    "skel_sha256": "277526263993f2f8e2bcd3c2d48c78a8ded5f35d60802438c7ada1ac986b0f85"
+   }
+  ],
+  "result_sha256": "646e23b3fe0edd754ef1a608ab163ca8c1f1755bf71b051be3dffb83f56c2bed"
+ },
+ "character/dwarf/male/dwarfmale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail dwarfmale_hd nose rings grafted as 1602-1606 (their own texture, DwarfMale_Earrings.blp). Retail beards / moustaches / brows are ours. NPC rows name none of them.",
+  "base_sha256": "7bb4bb6aed24a32f06ea2c8e8eb9ab7f22fb18875c62b9301373397571a4ac1b",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 878772,
+    "donor_sha256": "9b0c409e66499279aab62c99a9b9433abdb92214c13e60cc870f1dfa883bf68e",
+    "donor_skin_fdid": 878823,
+    "donor_skin_sha256": "46ab3f51e808e45ed02c5377d087c1db06d2262eda2a5bf567bb620d1b77a4ce",
+    "geosets": [
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ],
+     [
+      1604,
+      1605
+     ],
+     [
+      1605,
+      1606
+     ]
+    ],
+    "template": {
+     "16": 102
+    },
+    "uv": {},
+    "batch": {
+     "16": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 17576,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1892675,
+    "skel_sha256": "277526263993f2f8e2bcd3c2d48c78a8ded5f35d60802438c7ada1ac986b0f85"
+   }
+  ],
+  "result_sha256": "ac13be4dfcf4b9b9841e7f7f3599c241f607e43c13e27bfe1670dd4e17ba2bcf"
+ },
+ "character/dwarf/male/dwarfmale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail dwarfmale_hd nose rings grafted as 1602-1606 (their own texture, DwarfMale_Earrings.blp). Retail beards / moustaches / brows are ours. NPC rows name none of them.",
+  "base_sha256": "c08e904d1eb0162f74c5d83b7c4890ecbca8fe1c03d04f3cff1c58cd00ade11b",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 878772,
+    "donor_sha256": "9b0c409e66499279aab62c99a9b9433abdb92214c13e60cc870f1dfa883bf68e",
+    "donor_skin_fdid": 878823,
+    "donor_skin_sha256": "46ab3f51e808e45ed02c5377d087c1db06d2262eda2a5bf567bb620d1b77a4ce",
+    "geosets": [
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ],
+     [
+      1604,
+      1605
+     ],
+     [
+      1605,
+      1606
+     ]
+    ],
+    "template": {
+     "16": 102
+    },
+    "uv": {},
+    "batch": {
+     "16": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 17576,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1892675,
+    "skel_sha256": "277526263993f2f8e2bcd3c2d48c78a8ded5f35d60802438c7ada1ac986b0f85"
+   }
+  ],
+  "result_sha256": "9ca782f081d7ff9bf3dbe483a47e7829bd21a8528e90e59a4909af87baa7312b"
+ },
+ "character/dwarf/male/dwarfmale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail dwarfmale_hd nose rings grafted as 1602-1606 (their own texture, DwarfMale_Earrings.blp). Retail beards / moustaches / brows are ours. NPC rows name none of them.",
+  "base_sha256": "d11c914992ce525911592bd32182292d0ff6230b14215bd71427c2ed07748d85",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 878772,
+    "donor_sha256": "9b0c409e66499279aab62c99a9b9433abdb92214c13e60cc870f1dfa883bf68e",
+    "donor_skin_fdid": 878823,
+    "donor_skin_sha256": "46ab3f51e808e45ed02c5377d087c1db06d2262eda2a5bf567bb620d1b77a4ce",
+    "geosets": [
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ],
+     [
+      1604,
+      1605
+     ],
+     [
+      1605,
+      1606
+     ]
+    ],
+    "template": {
+     "16": 102
+    },
+    "uv": {},
+    "batch": {
+     "16": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 17576,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1892675,
+    "skel_sha256": "277526263993f2f8e2bcd3c2d48c78a8ded5f35d60802438c7ada1ac986b0f85"
+   }
+  ],
+  "result_sha256": "179b4141e8f5f2de6ef19352eef9254b1d42a2eb0ef97ec222ee0287d1a95b14"
+ },
+ "character/dwarf/male/dwarfmale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail dwarfmale_hd nose rings grafted as 1602-1606 (their own texture, DwarfMale_Earrings.blp). Retail beards / moustaches / brows are ours. NPC rows name none of them.",
+  "base_sha256": "4ec9472f2c56847a806637ca1321faa8999d7a2ba8fc88448dd92b206ea54db3",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 878772,
+    "donor_sha256": "9b0c409e66499279aab62c99a9b9433abdb92214c13e60cc870f1dfa883bf68e",
+    "donor_skin_fdid": 878823,
+    "donor_skin_sha256": "46ab3f51e808e45ed02c5377d087c1db06d2262eda2a5bf567bb620d1b77a4ce",
+    "geosets": [
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ],
+     [
+      1604,
+      1605
+     ],
+     [
+      1605,
+      1606
+     ]
+    ],
+    "template": {
+     "16": 102
+    },
+    "uv": {},
+    "batch": {
+     "16": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 17576,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1892675,
+    "skel_sha256": "277526263993f2f8e2bcd3c2d48c78a8ded5f35d60802438c7ada1ac986b0f85"
+   }
+  ],
+  "result_sha256": "08b4064adf411d2cc9a485e7bf69745ed07d8d9d4d1cf3f125c50d47b5c77ec0"
+ },
+ "character/orc/male/orcmale.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail orcmale_hd facial hair grafted (same rig, same hair atlas): beards 111-115 (retail 102/103/104/112/117), sideburns 202-207 / 209-212 (retail 201-206 / 208-211), nose rings 1602-1604; rings on them draw OrcMale_Rings.blp. Skin-textured retail parts left out. NPC rows name none of them.",
+  "base_sha256": "a6422a7b67f710985970448ba38d4b894858bb69cd467bdf444f7bc70c0880c5",
+  "ops": [
+   {
+    "op": "m2.texture.add",
+    "type": 0,
+    "name": "Character\\Orc\\Male\\OrcMale_Rings.blp",
+    "expect_count": 8
+   },
+   {
+    "op": "m2.texlookup.set",
+    "expect": [
+     4,
+     2,
+     1,
+     0,
+     4,
+     6,
+     4,
+     3,
+     5,
+     7
+    ],
+    "values": [
+     4,
+     2,
+     1,
+     0,
+     4,
+     6,
+     4,
+     3,
+     5,
+     7,
+     8
+    ]
+   },
+   {
+    "op": "m2.graft",
+    "donor_fdid": 917116,
+    "donor_sha256": "6deabe5e3d5999f83f0bea4bd48d81abfbeb24128edd2058592524e68546c3e8",
+    "donor_skin_fdid": 917168,
+    "donor_skin_sha256": "fbad633d47cfb311e1245868e9a5f1d81928cc32967cc66bf64b740ffddc4d78",
+    "geosets": [
+     [
+      102,
+      111
+     ],
+     [
+      103,
+      112
+     ],
+     [
+      104,
+      113
+     ],
+     [
+      112,
+      114
+     ],
+     [
+      117,
+      115
+     ],
+     [
+      201,
+      202
+     ],
+     [
+      202,
+      203
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      204,
+      205
+     ],
+     [
+      205,
+      206
+     ],
+     [
+      206,
+      207
+     ],
+     [
+      208,
+      209
+     ],
+     [
+      209,
+      210
+     ],
+     [
+      210,
+      211
+     ],
+     [
+      211,
+      212
+     ],
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ]
+    ],
+    "template": {
+     "tex0": 102,
+     "default": 102
+    },
+    "uv": {},
+    "tex_types": [
+     6,
+     0
+    ],
+    "batch": {
+     "tex0": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 15720,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1964411,
+    "skel_sha256": "a45034f88e915674ffed3ea55c4bbaaa5ac49d8d555f739bd20f21965e23d90a"
+   }
+  ],
+  "result_sha256": "71a6db1d77f3cb742dce4aacf68fb204059748a55570f669dde5009d458e96bf"
+ },
+ "character/orc/male/orcmale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail orcmale_hd facial hair grafted (same rig, same hair atlas): beards 111-115 (retail 102/103/104/112/117), sideburns 202-207 / 209-212 (retail 201-206 / 208-211), nose rings 1602-1604; rings on them draw OrcMale_Rings.blp. Skin-textured retail parts left out. NPC rows name none of them.",
+  "base_sha256": "c55c0d88f6956865409b7bd4230115088507e55d35d30d3a5ddb05d9361ebc94",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 917116,
+    "donor_sha256": "6deabe5e3d5999f83f0bea4bd48d81abfbeb24128edd2058592524e68546c3e8",
+    "donor_skin_fdid": 917168,
+    "donor_skin_sha256": "fbad633d47cfb311e1245868e9a5f1d81928cc32967cc66bf64b740ffddc4d78",
+    "geosets": [
+     [
+      102,
+      111
+     ],
+     [
+      103,
+      112
+     ],
+     [
+      104,
+      113
+     ],
+     [
+      112,
+      114
+     ],
+     [
+      117,
+      115
+     ],
+     [
+      201,
+      202
+     ],
+     [
+      202,
+      203
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      204,
+      205
+     ],
+     [
+      205,
+      206
+     ],
+     [
+      206,
+      207
+     ],
+     [
+      208,
+      209
+     ],
+     [
+      209,
+      210
+     ],
+     [
+      210,
+      211
+     ],
+     [
+      211,
+      212
+     ],
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ]
+    ],
+    "template": {
+     "tex0": 102,
+     "default": 102
+    },
+    "uv": {},
+    "tex_types": [
+     6,
+     0
+    ],
+    "batch": {
+     "tex0": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 15720,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1964411,
+    "skel_sha256": "a45034f88e915674ffed3ea55c4bbaaa5ac49d8d555f739bd20f21965e23d90a"
+   }
+  ],
+  "result_sha256": "15553635296364b592267553ecac1ae5f8b75997b6410a73e50816cdb5599bda"
+ },
+ "character/orc/male/orcmale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail orcmale_hd facial hair grafted (same rig, same hair atlas): beards 111-115 (retail 102/103/104/112/117), sideburns 202-207 / 209-212 (retail 201-206 / 208-211), nose rings 1602-1604; rings on them draw OrcMale_Rings.blp. Skin-textured retail parts left out. NPC rows name none of them.",
+  "base_sha256": "c81144a948167a9e1616ec09d809a759ad7abcbc605183501ba55718b4469201",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 917116,
+    "donor_sha256": "6deabe5e3d5999f83f0bea4bd48d81abfbeb24128edd2058592524e68546c3e8",
+    "donor_skin_fdid": 917168,
+    "donor_skin_sha256": "fbad633d47cfb311e1245868e9a5f1d81928cc32967cc66bf64b740ffddc4d78",
+    "geosets": [
+     [
+      102,
+      111
+     ],
+     [
+      103,
+      112
+     ],
+     [
+      104,
+      113
+     ],
+     [
+      112,
+      114
+     ],
+     [
+      117,
+      115
+     ],
+     [
+      201,
+      202
+     ],
+     [
+      202,
+      203
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      204,
+      205
+     ],
+     [
+      205,
+      206
+     ],
+     [
+      206,
+      207
+     ],
+     [
+      208,
+      209
+     ],
+     [
+      209,
+      210
+     ],
+     [
+      210,
+      211
+     ],
+     [
+      211,
+      212
+     ],
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ]
+    ],
+    "template": {
+     "tex0": 102,
+     "default": 102
+    },
+    "uv": {},
+    "tex_types": [
+     6,
+     0
+    ],
+    "batch": {
+     "tex0": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 15720,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1964411,
+    "skel_sha256": "a45034f88e915674ffed3ea55c4bbaaa5ac49d8d555f739bd20f21965e23d90a"
+   }
+  ],
+  "result_sha256": "29461af44e85c711f8b653425569390c0bf86727fbf8dbefa53d01b389d54abc"
+ },
+ "character/orc/male/orcmale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail orcmale_hd facial hair grafted (same rig, same hair atlas): beards 111-115 (retail 102/103/104/112/117), sideburns 202-207 / 209-212 (retail 201-206 / 208-211), nose rings 1602-1604; rings on them draw OrcMale_Rings.blp. Skin-textured retail parts left out. NPC rows name none of them.",
+  "base_sha256": "95b885326f8167abbc749000c36f2191fd4887109bd0161930f34e84a22bf134",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 917116,
+    "donor_sha256": "6deabe5e3d5999f83f0bea4bd48d81abfbeb24128edd2058592524e68546c3e8",
+    "donor_skin_fdid": 917168,
+    "donor_skin_sha256": "fbad633d47cfb311e1245868e9a5f1d81928cc32967cc66bf64b740ffddc4d78",
+    "geosets": [
+     [
+      102,
+      111
+     ],
+     [
+      103,
+      112
+     ],
+     [
+      104,
+      113
+     ],
+     [
+      112,
+      114
+     ],
+     [
+      117,
+      115
+     ],
+     [
+      201,
+      202
+     ],
+     [
+      202,
+      203
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      204,
+      205
+     ],
+     [
+      205,
+      206
+     ],
+     [
+      206,
+      207
+     ],
+     [
+      208,
+      209
+     ],
+     [
+      209,
+      210
+     ],
+     [
+      210,
+      211
+     ],
+     [
+      211,
+      212
+     ],
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ]
+    ],
+    "template": {
+     "tex0": 102,
+     "default": 102
+    },
+    "uv": {},
+    "tex_types": [
+     6,
+     0
+    ],
+    "batch": {
+     "tex0": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 15720,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1964411,
+    "skel_sha256": "a45034f88e915674ffed3ea55c4bbaaa5ac49d8d555f739bd20f21965e23d90a"
+   }
+  ],
+  "result_sha256": "84eedfa0b9d7829975ce4cb91c0f196382a08a631047001776c3ed0c9ec3bdfe"
+ },
+ "character/orc/male/orcmale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail orcmale_hd facial hair grafted (same rig, same hair atlas): beards 111-115 (retail 102/103/104/112/117), sideburns 202-207 / 209-212 (retail 201-206 / 208-211), nose rings 1602-1604; rings on them draw OrcMale_Rings.blp. Skin-textured retail parts left out. NPC rows name none of them.",
+  "base_sha256": "7c1b798f000ebda69d5dbb03e82bfa3298cfaa7e7bc7b3a8f00cbb1aeb793bd0",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 917116,
+    "donor_sha256": "6deabe5e3d5999f83f0bea4bd48d81abfbeb24128edd2058592524e68546c3e8",
+    "donor_skin_fdid": 917168,
+    "donor_skin_sha256": "fbad633d47cfb311e1245868e9a5f1d81928cc32967cc66bf64b740ffddc4d78",
+    "geosets": [
+     [
+      102,
+      111
+     ],
+     [
+      103,
+      112
+     ],
+     [
+      104,
+      113
+     ],
+     [
+      112,
+      114
+     ],
+     [
+      117,
+      115
+     ],
+     [
+      201,
+      202
+     ],
+     [
+      202,
+      203
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      204,
+      205
+     ],
+     [
+      205,
+      206
+     ],
+     [
+      206,
+      207
+     ],
+     [
+      208,
+      209
+     ],
+     [
+      209,
+      210
+     ],
+     [
+      210,
+      211
+     ],
+     [
+      211,
+      212
+     ],
+     [
+      1601,
+      1602
+     ],
+     [
+      1602,
+      1603
+     ],
+     [
+      1603,
+      1604
+     ]
+    ],
+    "template": {
+     "tex0": 102,
+     "default": 102
+    },
+    "uv": {},
+    "tex_types": [
+     6,
+     0
+    ],
+    "batch": {
+     "tex0": {
+      "texcombo": 10,
+      "material": 0
+     }
+    },
+    "expect_vertices": 15720,
+    "expect_bone_lookup": 897,
+    "skel_fdid": 1964411,
+    "skel_sha256": "a45034f88e915674ffed3ea55c4bbaaa5ac49d8d555f739bd20f21965e23d90a"
+   }
+  ],
+  "result_sha256": "f793c67885cd0974654fd6efbe9466b294006ecfd504f32b3db745290476ad25"
  }
 }
