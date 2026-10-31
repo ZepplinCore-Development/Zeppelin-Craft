@@ -10,7 +10,7 @@ HLSL changes, or the client compiles it again and Vulkan keeps Blizzard's shader
 
 wxl-vulkan-api's translate.py does the translation, with one addition: the device uploads pixel c0..c12 only and
 the client mirrors c13..c204 into vertex rows 64..255 (HdGxShader.cpp, HD::PixelConstantsSet), so an HD pixel
-constant from c13 up reads that row and its module declares the 256-row vertex window. A VPOS input reads gl_FragCoord. No G-buffer or sun-receiver variants are made: grass has none
+constant from c13 up reads that row and its module declares the 256-row vertex window. A VPOS input reads gl_FragCoord; rep/endrep become a counted for loop, break/breakc a break. No G-buffer or sun-receiver variants are made: grass has none
 on Vulkan either way (the stock DetailDoodad records have none), and the HdTerrain / HdMapObj receiver generator is
 lost, so those families are not shipped here.
 
@@ -99,6 +99,34 @@ def patch_translator(T, blobs):
             return self.regname(o)
         return base_expr(self, o)
     T.Emitter.dcl, T.Emitter.text, T.Emitter.base_expr = dcl, text, base_expr_vpos
+
+    # rep i# / endrep: i#.x iterations (the HLSL compiler's form of a loop that does not index by aL, F-237's unit
+    # loop in HdGrass).
+    def r_rep(self, i):
+        if len(i.srcs) != 1 or i.srcs[0].rtype != T.ir.RT_CONSTINT:
+            raise T.Refused('rep operands')
+        iv = self.base_expr(i.srcs[0])
+        self.loopn += 1
+        n = 'n%d' % self.loopn
+        self.line('for (int %s = 0; %s < %s.x; ++%s) {' % (n, n, iv, n))
+        self.depth += 1
+
+    def r_endrep(self, i):
+        self.depth -= 1
+        self.line('}')
+    T.RULES[T.ir.OP_REP] = r_rep
+    T.RULES[T.ir.OP_ENDREP] = r_endrep
+
+    def r_break(self, i):
+        self.line('break;')
+
+    def r_breakc(self, i):
+        cmpop = {1: '>', 2: '==', 3: '>=', 4: '<', 5: '!=', 6: '<='}.get(i.ctrl & 7)
+        if cmpop is None:
+            raise T.Refused('breakc with comparison %d' % (i.ctrl & 7))
+        self.line('if (%s %s %s) break;' % (self.comp(i.srcs[0], 0), cmpop, self.comp(i.srcs[1], 0)))
+    T.RULES[T.ir.OP_BREAK] = r_break
+    T.RULES[T.ir.OP_BREAKC] = r_breakc
 
 
 def main():

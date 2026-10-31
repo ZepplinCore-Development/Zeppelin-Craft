@@ -1,0 +1,1130 @@
+From 478a00dfc37e698ad56c247ba4557f4c401713e9 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 11:21:01 +0000
+Subject: [PATCH] Zeppelin F-237: Living Azeroth wind and grass parting (port
+ of wxl-seyris-living-azeroth by Morfium-G, GPL-3.0, used with the author's
+ permission)
+
+- HdLivingWorld: per-frame snapshot of the player's map, area chain, weather and the 16 nearest units
+- HdLivingWind: WindProfile.cdbc (DBFilesClient) Global/Map/Area profiles, steady wind, gusts, roof shelter and lee
+- HdGrassWind: an 8x8 wind grid around the player (c96..c159) and the units (c192..c207) for the HD grass vertex shader;
+  hdGrassReact / hdGrassReactRadius / hdGrassWindInfo
+- HdDetailDoodad: GrassOffset bends the blade from the grid with a per-blade flutter and parts it around units
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ WoW/Source/WorldClient/HD/HdDetailDoodad.cpp |  75 +++--
+ WoW/Source/WorldClient/HD/HdDetailDoodad.h   |   2 +-
+ WoW/Source/WorldClient/HD/HdGrassWind.cpp    | 300 ++++++++++--------
+ WoW/Source/WorldClient/HD/HdGrassWind.h      |  35 ++-
+ WoW/Source/WorldClient/HD/HdLivingWind.cpp   | 307 +++++++++++++++++++
+ WoW/Source/WorldClient/HD/HdLivingWind.h     |  38 +++
+ WoW/Source/WorldClient/HD/HdLivingWorld.cpp  | 153 +++++++++
+ WoW/Source/WorldClient/HD/HdLivingWorld.h    |  48 +++
+ 8 files changed, 788 insertions(+), 170 deletions(-)
+ create mode 100644 WoW/Source/WorldClient/HD/HdLivingWind.cpp
+ create mode 100644 WoW/Source/WorldClient/HD/HdLivingWind.h
+ create mode 100644 WoW/Source/WorldClient/HD/HdLivingWorld.cpp
+ create mode 100644 WoW/Source/WorldClient/HD/HdLivingWorld.h
+
+diff --git a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+index d55467a8..d392ef8c 100644
+--- a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
++++ b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+@@ -54,14 +54,17 @@ float4 cHdLight       : register(c49);  // HD: z = 1 Forever lighting; x, y, w u
+ float4 cHdLight2      : register(c50);  // HD: x = ambient strength in Forever lighting (1 = the ambient as it is)
+ float4 cHdHorizon     : register(c51);  // HD: rgb = Forever's horizon ambient / its sky ambient, per channel
+ float4 cHdGround      : register(c52);  // HD: rgb = Forever's ground ambient / its sky ambient, per channel
+-// HD: grass wind and parting (HdGrassWind.cpp; adapted from wxl-grasswind by iThorgrim, WarcraftXL, GPLv3)
+-float4 cWind0         : register(c53);  // HD: xy = chunk corner mod 64 yd (random seed), w = wave 1 phase at the chunk corner
+-float4 cWind1         : register(c54);  // HD: xyz = player relative to the chunk corner, w = lean at the player (0 = off)
+-float4 cWind2         : register(c55);  // HD: x = 1 / radius, y = radius, z = 1 / cone height, w = min height
+-float4 cWind3         : register(c56);  // HD: wave 1: xy = direction * amplitude, zw = direction * 2 pi / wavelength
+-float4 cWind4         : register(c57);  // HD: wave 2, same
+-float4 cWind5         : register(c58);  // HD: x = anchor, y = 1 / (1 - anchor), z = variance, w = distance fade
+-float4 cWind6         : register(c59);  // HD: x = wave 2 phase at the chunk corner, y = phase spread, z = lean, w = 1 on
++// Zeppelin F-237: grass wind and parting (HdGrassWind.cpp; Living Azeroth's grass motion by Morfium-G, GPL-3.0,
++// building on wxl-grasswind by iThorgrim, WarcraftXL, GPL-3.0)
++float4 cWind0         : register(c53);  // xyz = chunk corner in world coordinates, w = time (s)
++float4 cWind1         : register(c54);  // x = anchor, y = 1 / (1 - anchor), z = amplitude (yd at strength 1), w = flutter (yd)
++float4 cWind2         : register(c55);  // xy = 1 / grid spacing, zw = grid origin in cells + 0.5
++float4 cWind3         : register(c56);  // x = flutter speed, yz = flutter phase per yard, w = push strength (yd)
++float4 cWind4         : register(c57);  // xyz = the player (centre of the unit range)
++float4 cWind5         : register(c58);  // x = unit range squared, y = height window of a push (yd)
++float4 cWind6         : register(c59);  // w = 1 when the wind or the parting is on
++float4 cWindGrid[64]  : register(c96);  // 8x8 cells 8 yd apart: xy = wind direction x strength, z = gust
++float4 cActors[16]    : register(c192); // the nearest units: xyz = position, w = push radius (0 = unused)
+ 
+ #if POINT_LIGHTS
+ // point light i at view position vp, normal n (3.3.5: light direction normalised, n not; 1 / (k0 + k1 d + k2 d^2))
+@@ -78,26 +81,41 @@ float3 PointLight(int i, float3 vp, float3 n)
+ }
+ #endif
+ 
+-// HD: world-plane offset of a grass vertex (position lp in the chunk, uv, view depth): wind + parting around the
+-// player. uv.y is 1 at the foot of the blade and 0 at its tip, so the foot stays put on any slope.
+-float2 GrassOffset(float3 lp, float2 uv, float depth)
++// Zeppelin F-237: world-plane offset of a grass vertex (position lp in the chunk, uv): the wind grid, bilinear, with
++// a per-blade flutter that grows in gusts, plus the parting around the nearest units. uv.y is 1 at the foot of the
++// blade and 0 at its tip, so the foot stays put on any slope.
++float2 GrassOffset(float3 lp, float2 uv)
+ {
+-    float blade = saturate((1.0 - uv.y - cWind5.x) * cWind5.y);
+-    float w = blade * blade / (1.0 + abs(depth) * cWind5.w);
+-    float2 seed = lp.xy + cWind0.xy;
+-    float h = frac(seed.x * 0.737 + seed.y * 1.311);
+-    float amp = (1.0 - cWind5.z * 0.5) + h * cWind5.z;
+-    float j = h * cWind6.y;
+-    float s1 = sin(dot(lp.xy, cWind3.zw) + j + cWind0.w) + cWind6.z;
+-    float s2 = sin(dot(lp.xy, cWind4.zw) + j + cWind6.x);
+-    float2 offset = (cWind3.xy * s1 + cWind4.xy * s2) * (w * amp);
+-
+-    float2 d = lp.xy - cWind1.xy;
+-    float dist = sqrt(dot(d, d) + 0.001);
+-    float high = saturate((lp.z - cWind1.z - cWind2.w) * cWind2.z);
+-    // x blade: on a slope uphill of the player the foot of the blade would be "high" too, it must not move
+-    float push = cWind1.w * (1.0 - saturate(dist * cWind2.x)) * high * blade;
+-    return offset + d * (push / dist);
++    float3 wp = lp + cWind0.xyz;
++    float blade = saturate((1.0 - uv.y - cWind1.x) * cWind1.y);
++    float w = blade * blade;
++
++    // wind grid lookup, bilinear, clamped to the grid's edge
++    float2 g = clamp(wp.xy * cWind2.xy - cWind2.zw, 0.0, 6.999);
++    float2 f = frac(g);
++    int i = (int)(g.y - f.y) * 8 + (int)(g.x - f.x);
++    float4 wind = lerp(lerp(cWindGrid[i], cWindGrid[i + 1], f.x), lerp(cWindGrid[i + 8], cWindGrid[i + 9], f.x), f.y);
++
++    // flutter: a per-blade phase (by position), stronger in gusts
++    float phase = cWind0.w * cWind3.x + dot(wp.xy, cWind3.yz);
++    float flutter = (wind.z + 0.3) * cWind1.w;
++    float2 offset = wind.xy * (cWind1.z + flutter * sin(phase));
++
++    // parting: each unit pushes blades away within its radius, only near its own height
++    float2 push = 0.0;
++    float2 toPlayer = wp.xy - cWind4.xy;
++    [branch] if (dot(toPlayer, toPlayer) < cWind5.x) {
++        [loop] for (int k = 0; k < 16; k++) {
++            float4 a = cActors[k];
++            float2 d = wp.xy - a.xy;
++            float dist = sqrt(dot(d, d) + 0.001);
++            float fall = max(1.0 - dist / max(a.w, 0.001), 0.0);
++            float near = saturate(cWind5.y - abs(wp.z - a.z));
++            push += d * (fall * near / dist);
++        }
++    }
++    offset += push * cWind3.w;
++    return offset * w;
+ }
+ 
+ void main(
+@@ -126,7 +144,7 @@ void main(
+     // HD: wind + parting, moved in the world plane (rows 0 and 1 of world * view are the world x and y axes in view
+     // space: the grass world matrix is a pure translation). Before oPos so fog, fade and received shadows follow.
+     [branch] if (cWind6.w > 0.5) {
+-        float2 gw = GrassOffset(iPos, iTex0, vp.z);
++        float2 gw = GrassOffset(iPos, iTex0);
+         vp.xyz += gw.x * cWorldView[0].xyz + gw.y * cWorldView[1].xyz;
+     }
+     oPos = vp.x * cProj[0] + vp.y * cProj[1] + vp.z * cProj[2] + vp.w * cProj[3];
+@@ -643,6 +661,7 @@ void HD::DetailDoodadVertexConstants(const C44Matrix& world) {
+     // HD: c53..c59 grass wind for this chunk (world = translation chunk corner - s_activeWorldView)
+     HD::GrassWindConstants(world.d0, world.d1, world.d2, s_vertexConstants + 16);
+     g_theGxDevicePtr->ShaderConstantsSet(GxSh_Vertex, 49, s_vertexConstants, 11);
++    HD::GrassWindUpload(); // Zeppelin F-237: the wind grid and the units
+ }
+ 
+ void HD::DetailDoodadShadersForget() {
+diff --git a/WoW/Source/WorldClient/HD/HdDetailDoodad.h b/WoW/Source/WorldClient/HD/HdDetailDoodad.h
+index aefc0c90..e77d5a8b 100644
+--- a/WoW/Source/WorldClient/HD/HdDetailDoodad.h
++++ b/WoW/Source/WorldClient/HD/HdDetailDoodad.h
+@@ -17,7 +17,7 @@
+ //                3 = test view: only the sun after the shadow (black in shadow, no texture), proves our shader draws
+ //                0 = Blizzard's shaders
+ //   hdLightAmbient (HdTerrain's) ambient strength in Forever lighting, 1 = Forever's (a test knob, keep it at 1)
+-//   hdGrassWind, hdGrassWindSpeed, hdGrassWindDirection, hdGrassWindStrength, hdGrassReact, hdGrassReactRadius:
++//   hdGrassWind, hdGrassWindStrength, hdGrassReact, hdGrassReactRadius, hdGrassWindInfo:
+ //                HD: wind in the grass and grass parting around the player, see HdGrassWind.h
+ //   hdGrassInfo  read only, compile result and how many shaders hold our code:  /run print(GetCVar("hdGrassInfo"))
+ 
+diff --git a/WoW/Source/WorldClient/HD/HdGrassWind.cpp b/WoW/Source/WorldClient/HD/HdGrassWind.cpp
+index 2f8d7594..38646848 100644
+--- a/WoW/Source/WorldClient/HD/HdGrassWind.cpp
++++ b/WoW/Source/WorldClient/HD/HdGrassWind.cpp
+@@ -1,71 +1,69 @@
+-// Waystone HD: grass wind and grass parting around the player.
+-// Algorithm and default values adapted from wxl-grasswind (WarcraftXL, by iThorgrim), GPLv3:
++// Waystone HD + Zeppelin F-237: grass wind and parting (HdGrassWind.h).
++// Motion and constants ported from wxl-seyris-living-azeroth (Morfium-G, GPL-3.0, used with the author's permission;
++// features/GrassMotion.cpp), which builds on wxl-grasswind (WarcraftXL, iThorgrim), GPLv3:
+ // this program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ // License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ // version. It is distributed WITHOUT ANY WARRANTY. See <https://www.gnu.org/licenses/>.
+ #include "WoW/Source/WorldClient/HD/HdGrassWind.h"
+ #include <cmath>
++#include <cstdio>
++#include <cstdint>
++#include <iterator>
++#include <unordered_map>
+ #include <windows.h>
+ #include "Engine/Source/ConsoleBase/ConsoleVar.h"
+ #include "Engine/Source/ConsoleBase/Types.h"
+-#include "WoW/Source/ObjectMgrClient/ObjectMgrClient.h"
+-#include "WoW/Source/Object/ObjectClient/Object_C.h"
+-#include "WoW/Source/UIUtil/Camera.h"
+-#include "WoW/Source/Ui/WorldFrame.h"
++#include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
++#include "WoW/Source/WorldClient/HD/HdLivingWind.h"
++#include "WoW/Source/WorldClient/HD/HdLivingWorld.h"
+ #include "WoW/Source/WorldClient/World.h"
+ 
+ namespace {
+-    const double kTwoPi = 6.283185307179586;
++    // Living Azeroth's defaults (features/GrassMotion.hpp Settings)
++    const float kAmplitude = 0.35f;        // tip displacement in yards at wind strength 1
++    const float kFlutter = 0.08f;          // extra per-blade shimmer, yards
++    const float kFlutterSpeed = 3.0f;      // shimmer speed, radians per second
++    const float kAnchor = 0.3f;            // bottom fraction of a blade that never moves (the UV rule; HD's value)
++    const float kPushStrength = 0.5f;      // how far blades lean away from a unit, yards
++    const float kMinRadius = 0.5f;         // smallest push radius, yards
++    const float kMountedScale = 2.0f;      // extra radius factor while mounted
+ 
+-    // WarcraftXL's defaults (GrassWind.hpp)
+-    const float kAmplitude = 0.06f;        // wave 1 sway at the tip, yards
+-    const float kWavelength = 18.0f;       // wave 1 length, yards
+-    const float kCrossAmplitude = 0.02f;   // wave 2 sway, yards
+-    const float kCrossWavelength = 6.5f;   // wave 2 length, yards
+-    const float kCrossAngle = 35.0f;       // wave 2 heading, degrees from wave 1
+-    const float kCrossSpeed = 1.37f;       // wave 2 speed / wave 1 speed
+-    const float kLean = 0.35f;             // downwind lean, fraction of wave 1
+-    const float kVariance = 0.6f;          // per-blade amplitude spread (0.7 .. 1.3)
+-    const float kDistanceFade = 0.015f;    // sway / (1 + depth * this)
+-    const float kAnchor = 0.3f;            // foot part of the blade that never moves
+-    const float kJitter = 1.7f;            // per-blade phase spread, radians
+-    const float kPushCentre = 0.5f;        // lean at the player, yards (0 at the radius)
+-    const float kConeHeight = 0.5f;        // height above the player's feet where the lean is full
+-    const float kMinHeight = 0.3f;         // lower than this above the player's feet: no lean
++    // The wind grid: kGrid x kGrid samples kSpacing yards apart, world-snapped, the player near the middle.
++    constexpr int kGrid = 8;
++    constexpr float kSpacing = 8.0f;
++    constexpr float kEaseSeconds = 0.35f;
++    constexpr float kGroundRecheck = 10.0f; // seconds; terrain and map objects stream in late
++    constexpr float kGroundSearch = 55.0f;
++    constexpr unsigned kGroundRayBudget = 16;
++    constexpr uint32_t kGridFirstRow = 96;
++    constexpr uint32_t kActorsFirstRow = 192;
+ 
+     CVar* s_wind = nullptr;
+-    CVar* s_speed = nullptr;
+-    CVar* s_direction = nullptr;
+     CVar* s_strength = nullptr;
+     CVar* s_react = nullptr;
+     CVar* s_radius = nullptr;
++    CVar* s_info = nullptr;
++
++    struct GridCell {
++        float groundZ = 0.0f, groundAt = 0.0f, lastSeen = 0.0f;
++        float value[3] = {};
++        bool haveGround = false, fresh = true;
++    };
++    std::unordered_map<uint64_t, GridCell> s_cells;
+ 
+     // this frame (GrassWindPrepare)
+     ULONGLONG s_lastTick = 0;
+-    double s_phase1 = 0.0;                 // wave phases, advanced each frame (a speed change does not jump)
+-    double s_phase2 = 0.0;
+-    float s_dir1[2] = { 0.0f, 0.0f };      // wave directions * 2 pi / wavelength
+-    float s_dir2[2] = { 0.0f, 0.0f };
+-    float s_amp1[2] = { 0.0f, 0.0f };      // wave directions * amplitude
+-    float s_amp2[2] = { 0.0f, 0.0f };
+-    float s_on = 0.0f;
+-    bool s_havePlayer = false;
+-    C3Vector s_player;
+-    float s_push = 0.0f;
+-    float s_radiusValue = 2.0f;
+-
+-    float Clamp(float v, float lo, float hi) {
+-        return v < lo ? lo : (v > hi ? hi : v);
+-    }
++    float s_time = 0.0f;
++    bool s_on = false, s_windOn = false, s_reactOn = false;
++    float s_originX = 0.0f, s_originY = 0.0f;
++    float s_player[3] = {};
++    float s_grid[kGrid * kGrid][4] = {};
++    float s_actors[HD::Living::kMaxActors][4] = {};
++    int s_actorsFed = 0;
++    float s_lastInfoAt = -10.0f;
+ 
+-    // same object as ShadowQuery.cpp's GetViewerPosition: what the camera follows (the player, or the player's vehicle)
+-    bool PlayerPosition(C3Vector* position) {
+-        CGCamera* camera = CGWorldFrame::GetActiveCamera();
+-        if (!camera) return false;
+-        CGObject_C* object = ClntObjMgrObjectPtr(camera->m_targetGUID, TYPEMASK_OBJECT, __FILE__, __LINE__);
+-        if (!object) return false;
+-        *position = object->GetPosition();
+-        return true;
++    uint64_t CellKey(int cx, int cy) {
++        return (static_cast<uint64_t>(static_cast<uint32_t>(cx)) << 32) | static_cast<uint32_t>(cy);
+     }
+ }
+ 
+@@ -74,96 +72,148 @@ void HD::GrassWindRegister() {
+     if (registered) return;
+     registered = true;
+     s_wind = CVar::Register("hdGrassWind", "HD: 1 = wind in the grass, 0 = off", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-    s_speed = CVar::Register("hdGrassWindSpeed", "HD: grass wind wave speed, yards per second", 1, "3", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-    s_direction = CVar::Register("hdGrassWindDirection", "HD: grass wind heading, degrees", 1, "45", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-    s_strength = CVar::Register("hdGrassWindStrength", "HD: grass wind sway multiplier (1 = default)", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-    s_react = CVar::Register("hdGrassReact", "HD: 1 = grass parts around the player, 0 = off", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-    s_radius = CVar::Register("hdGrassReactRadius", "HD: radius of the grass parting, yards", 1, "2", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    CVar::Register("hdGrassWindSpeed", "HD: wind speed for the water's waves (HdWaterWaves), yards per second", 1, "3", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    CVar::Register("hdGrassWindDirection", "HD: wind heading for the water's waves (HdWaterWaves), degrees", 1, "45", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    s_strength = CVar::Register("hdGrassWindStrength", "HD: grass wind multiplier (1 = the zone's wind as authored)", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    s_react = CVar::Register("hdGrassReact", "HD: 1 = grass parts around units, 0 = off", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    s_radius = CVar::Register("hdGrassReactRadius", "HD: grass parting radius = a unit's bounding radius x this", 1, "2", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    s_info = CVar::Register("hdGrassWindInfo", "HD: grass wind status (read only)", 0x80, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+ }
+ 
+ void HD::GrassWindPrepare() {
+     HD::GrassWindRegister();
+     ULONGLONG now = GetTickCount64();
+-    double dt = s_lastTick ? (now - s_lastTick) * 0.001 : 0.0;
++    float dt = s_lastTick ? static_cast<float>(now - s_lastTick) * 0.001f : 1.0f / 60.0f;
+     s_lastTick = now;
+-    if (dt > 0.25) dt = 0.25; // a hitch or a loading screen does not make the grass jump
++    if (dt > 1.0f || dt < 0.0f) dt = 1.0f / 60.0f; // a hitch or a loading screen does not make the grass jump
++    s_time = std::fmod(s_time + dt, 3600.0f);
+ 
+-    bool wind = s_wind ? s_wind->m_intValue != 0 : true;
+-    float speed = s_speed ? s_speed->m_floatValue : 3.0f;
+-    float heading = s_direction ? s_direction->m_floatValue : 45.0f;
+-    float strength = s_strength ? Clamp(s_strength->m_floatValue, 0.0f, 50.0f) : 1.0f;
+-    if (!wind) strength = 0.0f;
++    const HD::Living::Snapshot& snap = HD::Living::Refresh();
++    s_windOn = snap.inWorld && (s_wind ? s_wind->m_intValue != 0 : true);
++    s_reactOn = snap.inWorld && (s_react ? s_react->m_intValue != 0 : true);
++    s_on = s_windOn || s_reactOn;
++    for (int i = 0; i < 3; ++i) s_player[i] = snap.playerPos[i];
+ 
+-    float a1 = static_cast<float>(heading * (kTwoPi / 360.0));
+-    float a2 = static_cast<float>((heading + kCrossAngle) * (kTwoPi / 360.0));
+-    float k1 = static_cast<float>(kTwoPi / kWavelength);
+-    float k2 = static_cast<float>(kTwoPi / kCrossWavelength);
+-    s_dir1[0] = std::cos(a1) * k1;
+-    s_dir1[1] = std::sin(a1) * k1;
+-    s_dir2[0] = std::cos(a2) * k2;
+-    s_dir2[1] = std::sin(a2) * k2;
+-    s_amp1[0] = std::cos(a1) * kAmplitude * strength;
+-    s_amp1[1] = std::sin(a1) * kAmplitude * strength;
+-    s_amp2[0] = std::cos(a2) * kCrossAmplitude * strength;
+-    s_amp2[1] = std::sin(a2) * kCrossAmplitude * strength;
++    HD::Living::Wind::SetStrengthMultiplier(s_strength ? s_strength->m_floatValue : 1.0f);
++    if (s_windOn) HD::Living::Wind::Update(dt);
+ 
+-    // the waves travel downwind: sin(k . p - k v t)
+-    s_phase1 = std::fmod(s_phase1 - k1 * speed * dt, kTwoPi);
+-    s_phase2 = std::fmod(s_phase2 - k2 * speed * kCrossSpeed * dt, kTwoPi);
++    // Units: nearest first, push radius from their bounding radius. Unused slots are far away with radius 0.
++    s_actorsFed = 0;
++    for (auto& a : s_actors) {
++        a[0] = a[1] = a[2] = 1.0e5f;
++        a[3] = 0.0f;
++    }
++    if (s_reactOn) {
++        const HD::Living::Actor* actors = nullptr;
++        const int count = HD::Living::Actors(&actors);
++        const float scale = s_radius ? s_radius->m_floatValue : 2.0f;
++        for (int i = 0; i < count && s_actorsFed < HD::Living::kMaxActors; ++i) {
++            float r = actors[i].radius * scale * (actors[i].mounted ? kMountedScale : 1.0f);
++            if (r < kMinRadius) r = kMinRadius;
++            float* a = s_actors[s_actorsFed++];
++            a[0] = actors[i].pos[0];
++            a[1] = actors[i].pos[1];
++            a[2] = actors[i].pos[2];
++            a[3] = r;
++        }
++    }
+ 
+-    bool react = s_react ? s_react->m_intValue != 0 : true;
+-    s_radiusValue = s_radius ? Clamp(s_radius->m_floatValue, 0.1f, 20.0f) : 2.0f;
+-    s_havePlayer = react && PlayerPosition(&s_player);
+-    s_push = s_havePlayer ? kPushCentre : 0.0f;
+-    s_on = (strength > 0.0f || s_push > 0.0f) ? 1.0f : 0.0f;
++    // The wind grid from the full model, sampled at each cell's ground height and eased toward its target.
++    const float inv = 1.0f / kSpacing;
++    const int baseX = static_cast<int>(std::floor(snap.playerPos[0] * inv)) - kGrid / 2;
++    const int baseY = static_cast<int>(std::floor(snap.playerPos[1] * inv)) - kGrid / 2;
++    s_originX = baseX * kSpacing;
++    s_originY = baseY * kSpacing;
++    const float ease = 1.0f - std::exp(-dt / kEaseSeconds);
++    unsigned groundRays = 0;
++    for (int iy = 0; iy < kGrid; ++iy) {
++        for (int ix = 0; ix < kGrid; ++ix) {
++            const int cx = baseX + ix, cy = baseY + iy;
++            GridCell& gc = s_cells[CellKey(cx, cy)];
++            gc.lastSeen = s_time;
++            const float x = (cx + 0.5f) * kSpacing, y = (cy + 0.5f) * kSpacing;
++            const bool groundStale = !gc.haveGround || std::fabs(s_time - gc.groundAt) > kGroundRecheck ||
++                                     std::fabs(gc.groundZ - snap.playerPos[2]) > kGroundSearch;
++            if (s_windOn && groundStale && groundRays < kGroundRayBudget) {
++                ++groundRays;
++                float z;
++                if (HD::Living::HeightAt(x, y, snap.playerPos[2], &z)) {
++                    gc.groundZ = z;
++                    gc.haveGround = true;
++                } else if (!gc.haveGround) {
++                    gc.groundZ = snap.playerPos[2];
++                }
++                gc.groundAt = s_time;
++            }
++            const float pos[3] = { x, y, gc.haveGround ? gc.groundZ : snap.playerPos[2] };
++            const HD::Living::Wind::Sample w = s_windOn ? HD::Living::Wind::At(pos) : HD::Living::Wind::Sample{};
++            const float target[3] = { s_windOn ? w.dirX * w.strength : 0.0f, s_windOn ? w.dirY * w.strength : 0.0f, s_windOn ? w.gust : 0.0f };
++            for (int k = 0; k < 3; ++k) gc.value[k] = gc.fresh ? target[k] : gc.value[k] + (target[k] - gc.value[k]) * ease;
++            gc.fresh = false;
++            float* cell = s_grid[iy * kGrid + ix];
++            cell[0] = gc.value[0];
++            cell[1] = gc.value[1];
++            cell[2] = gc.value[2];
++            cell[3] = 0.0f;
++        }
++    }
++    // forget cells not needed for a while (the grid moves with the player)
++    if (s_cells.size() > kGrid * kGrid * 4) {
++        for (auto it = s_cells.begin(); it != s_cells.end();) {
++            it = std::fabs(s_time - it->second.lastSeen) > 5.0f ? s_cells.erase(it) : std::next(it);
++        }
++    }
++
++    if (s_info && std::fabs(s_time - s_lastInfoAt) > 0.5f) {
++        s_lastInfoAt = s_time;
++        char text[300];
++        snprintf(text, sizeof(text), "%s; %d units", s_windOn ? HD::Living::Wind::Info() : "wind off", s_actorsFed);
++        s_info->Set(text, true, false, false, false);
++    }
+ }
+ 
+ void HD::GrassWindConstants(float chunkOffsetX, float chunkOffsetY, float chunkOffsetZ, float* out) {
+-    // the chunk's corner in world coordinates (the blade positions are relative to it)
+-    double ox = static_cast<double>(chunkOffsetX) + CWorldScene::s_activeWorldView.x;
+-    double oy = static_cast<double>(chunkOffsetY) + CWorldScene::s_activeWorldView.y;
+-    double oz = static_cast<double>(chunkOffsetZ) + CWorldScene::s_activeWorldView.z;
+-
+-    // world coordinates go to 17000 yards: the waves' phase at the chunk corner is worked out here in double and
+-    // wrapped, the shader only adds k . (position in the chunk), so the sway stays smooth and seamless from chunk
+-    // to chunk (exact same field as k . world position)
+-    float phase1 = static_cast<float>(std::fmod(ox * s_dir1[0] + oy * s_dir1[1] + s_phase1, kTwoPi));
+-    float phase2 = static_cast<float>(std::fmod(ox * s_dir2[0] + oy * s_dir2[1] + s_phase2, kTwoPi));
+-
++    const float inv = 1.0f / kSpacing;
+     float* c = out;
+-    // c53: xy = chunk corner wrapped to 64 yards (per-blade random seed only), z unused, w = wave 1 phase here
+-    c[0] = static_cast<float>(std::fmod(ox, 64.0));
+-    c[1] = static_cast<float>(std::fmod(oy, 64.0));
+-    c[2] = 0.0f;
+-    c[3] = phase1;
+-    // c54: xyz = player relative to the chunk corner, w = lean at the player (0 = no parting)
+-    c[4] = s_havePlayer ? static_cast<float>(s_player.x - ox) : 0.0f;
+-    c[5] = s_havePlayer ? static_cast<float>(s_player.y - oy) : 0.0f;
+-    c[6] = s_havePlayer ? static_cast<float>(s_player.z - oz) : 0.0f;
+-    c[7] = s_push;
+-    // c55: x = 1 / radius, y = radius, z = 1 / cone height, w = min height
+-    c[8] = 1.0f / s_radiusValue;
+-    c[9] = s_radiusValue;
+-    c[10] = 1.0f / kConeHeight;
+-    c[11] = kMinHeight;
+-    // c56: wave 1: xy = direction * amplitude, zw = direction * 2 pi / wavelength
+-    c[12] = s_amp1[0];
+-    c[13] = s_amp1[1];
+-    c[14] = s_dir1[0];
+-    c[15] = s_dir1[1];
+-    // c57: wave 2, same
+-    c[16] = s_amp2[0];
+-    c[17] = s_amp2[1];
+-    c[18] = s_dir2[0];
+-    c[19] = s_dir2[1];
+-    // c58: x = anchor, y = 1 / (1 - anchor), z = variance, w = distance fade per yard
+-    c[20] = kAnchor;
+-    c[21] = 1.0f / (1.0f - kAnchor);
+-    c[22] = kVariance;
+-    c[23] = kDistanceFade;
+-    // c59: x = wave 2 phase here, y = per-blade phase spread, z = lean, w = 1 when wind or parting is on
+-    c[24] = phase2;
+-    c[25] = kJitter;
+-    c[26] = kLean;
+-    c[27] = s_on;
++    // c53: xyz = the chunk's corner in world coordinates (blade positions are relative to it), w = time (s)
++    c[0] = chunkOffsetX + CWorldScene::s_activeWorldView.x;
++    c[1] = chunkOffsetY + CWorldScene::s_activeWorldView.y;
++    c[2] = chunkOffsetZ + CWorldScene::s_activeWorldView.z;
++    c[3] = s_time;
++    // c54: x = anchor, y = 1 / (1 - anchor), z = amplitude (0 = no wind), w = flutter (0 = none)
++    c[4] = kAnchor;
++    c[5] = 1.0f / (1.0f - kAnchor);
++    c[6] = s_windOn ? kAmplitude : 0.0f;
++    c[7] = s_windOn ? kFlutter : 0.0f;
++    // c55: xy = 1 / grid spacing, zw = grid origin in cells + 0.5 (cell centres at integers)
++    c[8] = inv;
++    c[9] = inv;
++    c[10] = s_originX * inv + 0.5f;
++    c[11] = s_originY * inv + 0.5f;
++    // c56: x = flutter speed, yz = flutter phase per yard, w = push strength (0 = no parting)
++    c[12] = kFlutterSpeed;
++    c[13] = 0.61f;
++    c[14] = 0.37f;
++    c[15] = s_reactOn ? kPushStrength : 0.0f;
++    // c57: xyz = the player (the centre of the unit range), w unused
++    c[16] = s_player[0];
++    c[17] = s_player[1];
++    c[18] = s_player[2];
++    c[19] = 0.0f;
++    // c58: x = unit range squared (beyond it the unit loop is skipped), y = height window of a push, zw unused
++    c[20] = 45.0f * 45.0f;
++    c[21] = 3.0f;
++    c[22] = 0.0f;
++    c[23] = 0.0f;
++    // c59: w = 1 when the wind or the parting is on
++    c[24] = 0.0f;
++    c[25] = 0.0f;
++    c[26] = 0.0f;
++    c[27] = s_on ? 1.0f : 0.0f;
++}
++
++void HD::GrassWindUpload() {
++    if (!g_theGxDevicePtr || !s_on) return;
++    g_theGxDevicePtr->ShaderConstantsSet(GxSh_Vertex, kGridFirstRow, &s_grid[0][0], kGrid * kGrid);
++    g_theGxDevicePtr->ShaderConstantsSet(GxSh_Vertex, kActorsFirstRow, &s_actors[0][0], HD::Living::kMaxActors);
+ }
+diff --git a/WoW/Source/WorldClient/HD/HdGrassWind.h b/WoW/Source/WorldClient/HD/HdGrassWind.h
+index 4df52e90..966c6f19 100644
+--- a/WoW/Source/WorldClient/HD/HdGrassWind.h
++++ b/WoW/Source/WorldClient/HD/HdGrassWind.h
+@@ -1,34 +1,37 @@
+ #ifndef WOW_SOURCE_WORLDCLIENT_HD_HDGRASSWIND_H
+ #define WOW_SOURCE_WORLDCLIENT_HD_HDGRASSWIND_H
+ 
+-// Waystone HD: grass wind and grass parting around the player (not part of the original client).
+-// Algorithm and default values adapted from wxl-grasswind (WarcraftXL, by iThorgrim, GPLv3,
+-// https://www.gnu.org/licenses/): WarcraftXL patches Blizzard's grass bytecode, here the same motion lives in our own
+-// HLSL grass vertex shader (HdDetailDoodad.cpp, function GrassOffset) and the constants go in c53..c59.
+-//   - wind: two travelling sine waves in the world plane plus a small downwind lean; the blade bends with
+-//     ((1 - uv.y - anchor) / (1 - anchor))^2 (uv.y is 1 at the foot of the blade, 0 at its tip), so the foot never
+-//     moves, on flat ground or on a slope; a per-blade spread of amplitude and phase, less sway far away;
+-//   - parting: blades inside a radius around the camera's target (the player, or what the player rides) lean away from it,
+-//     strongest at the centre, only the part of the blade higher than 0.3 yd above the player's feet, and times
+-//     the blade weight (not in WarcraftXL: on a slope above the player the foot of the blade must not move either).
++// Waystone HD + Zeppelin F-237: grass wind and parting, in our own HLSL grass vertex shader (HdDetailDoodad.cpp,
++// GrassOffset). The motion is Living Azeroth's (wxl-seyris-living-azeroth, Morfium-G, GPL-3.0, used with the
++// author's permission; features/GrassMotion.cpp), which builds on wxl-grasswind (WarcraftXL, iThorgrim, GPL-3.0):
++//   - wind: an 8x8 grid of wind samples, 8 yd apart around the player (HdLivingWind: zone profile, gusts, weather,
++//     roofs and lee), eased so changes blend, bilinear per blade, plus a per-blade flutter that grows in gusts;
++//   - parting: the 16 nearest units push the blades away within their bounding radius x hdGrassReactRadius (x2 when
++//     mounted), only near their own height;
++//   - the blade bends with ((1 - uv.y - anchor) / (1 - anchor))^2 (uv.y is 1 at the foot), so the foot never moves.
++// Constants: c53..c59 per chunk, the wind grid c96..c159 and the units c192..c207 (clear of vertex row 66, where the
++// Vulkan device mirrors the grass pixel shader's c15).
+ //   hdGrassWind 1 = wind on (default), 0 = off
+-//   hdGrassWindSpeed      wave speed in yards per second (default 3)
+-//   hdGrassWindDirection  where the wind goes, degrees in the world plane (default 45)
+-//   hdGrassWindStrength   sway multiplier (default 1 = WarcraftXL's amplitudes)
+-//   hdGrassReact 1 = grass parts around the player (default), 0 = off
+-//   hdGrassReactRadius    radius of the parting in yards (default 2)
++//   hdGrassWindStrength   wind multiplier (default 1 = the zone's WindProfile as authored)
++//   hdGrassReact 1 = grass parts around units (default), 0 = off
++//   hdGrassReactRadius    parting radius = a unit's bounding radius x this (default 2)
++//   hdGrassWindSpeed, hdGrassWindDirection: kept for HdWaterWaves (the water's waves), the grass no longer reads them
++//   hdGrassWindInfo       read only: the wind's state
+ // Works only while our grass shaders are in place (hdGrassLight 1, 2 or 3).
+ 
+ namespace HD {
+     // Registers the cvars above (once).
+     void GrassWindRegister();
+ 
+-    // Once per frame, before the grass chunks are drawn: advances the wave phases, reads the player's position.
++    // Once per frame, before the grass chunks are drawn: the world around the player, the wind, the grid, the units.
+     void GrassWindPrepare();
+ 
+     // c53..c59 (28 floats) for one grass chunk. chunkOffset = the chunk's translation in the grass world matrix
+     // (CWorldScene::RenderDetailDoodads: chunk->m_topLeftCoords - CWorldScene::s_activeWorldView).
+     void GrassWindConstants(float chunkOffsetX, float chunkOffsetY, float chunkOffsetZ, float* out);
++
++    // The wind grid (c96, 64 rows) and the units (c192, 16 rows), set with each chunk's constants.
++    void GrassWindUpload();
+ }
+ 
+ #endif
+diff --git a/WoW/Source/WorldClient/HD/HdLivingWind.cpp b/WoW/Source/WorldClient/HD/HdLivingWind.cpp
+new file mode 100644
+index 00000000..ec748d26
+--- /dev/null
++++ b/WoW/Source/WorldClient/HD/HdLivingWind.cpp
+@@ -0,0 +1,307 @@
++// Zeppelin F-237 (Living Azeroth): the wind. Ported from wxl-seyris-living-azeroth (Morfium-G, GPL-3.0, used with the
++// author's permission): env/Wind.cpp (profile, steady wind, gusts) and env/Shelter.cpp (roofs, lee). The model and its
++// constants are Seyris's; the WDBC is read here instead of through wxl-seyris-tools.
++#include "WoW/Source/WorldClient/HD/HdLivingWind.h"
++#include <cmath>
++#include <cstdio>
++#include <cstring>
++#include <string>
++#include <unordered_map>
++#include <vector>
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
++#include "WoW/Source/WorldClient/HD/HdLivingWorld.h"
++
++namespace HD::Living::Wind {
++namespace {
++    constexpr float kPi = 3.14159265358979f;
++
++    // --- WindProfile.cdbc ------------------------------------------------------------------------------------------
++    // Columns: ID, ScopeType (0 global / 1 map / 2 area), ScopeID, the profile floats in Field order, Flags[, Comment].
++    enum Field { GroundMin, GroundMax, AloftMin, AloftMax, AloftHeight, WeatherInfluence, GustStrength, GustFrequency,
++                 TerrainWeight, LockedDirection, LockStrength, FieldCount };
++    enum Scope { kScopeGlobal = 0, kScopeMap = 1, kScopeArea = 2 };
++
++    struct Row {
++        int32_t scopeType = 0;
++        int32_t scopeId = 0;
++        float v[FieldCount] = {};
++    };
++    struct Resolved {
++        float value[FieldCount] = {};
++    };
++
++    std::vector<Row> s_rows;
++    bool s_tried = false, s_loaded = false;
++    char s_info[200] = "not loaded";
++
++    Resolved s_target, s_current;
++    bool s_haveCurrent = false;
++    float s_time = 0.0f, s_strengthMultiplier = 1.0f;
++    float s_steadyGround = 0.0f, s_steadyAloft = 0.0f, s_bearing = 0.0f;
++
++    float Clamp01(float x) { return x < 0.0f ? 0.0f : (x > 1.0f ? 1.0f : x); }
++    float Lerp(float a, float b, float t) { return a + (b - a) * t; }
++    float AngleDelta(float a, float b) {
++        float d = std::fmod(b - a, 360.0f);
++        if (d > 180.0f) d -= 360.0f;
++        if (d < -180.0f) d += 360.0f;
++        return d;
++    }
++
++    // --- value noise (deterministic, cheap) -------------------------------------------------------------------------
++    float Hash(int32_t x, int32_t y) {
++        uint32_t h = static_cast<uint32_t>(x) * 374761393u + static_cast<uint32_t>(y) * 668265263u;
++        h = (h ^ (h >> 13)) * 1274126177u;
++        h ^= h >> 16;
++        return static_cast<float>(h & 0xFFFFFFu) / static_cast<float>(0xFFFFFF);
++    }
++    float Smooth(float t) { return t * t * (3.0f - 2.0f * t); }
++    float Noise1(float x) {
++        const float fx = std::floor(x);
++        const int32_t i = static_cast<int32_t>(fx);
++        return Lerp(Hash(i, 0), Hash(i + 1, 0), Smooth(x - fx));
++    }
++    float Noise2(float x, float y) {
++        const float fx = std::floor(x), fy = std::floor(y);
++        const int32_t ix = static_cast<int32_t>(fx), iy = static_cast<int32_t>(fy);
++        const float tx = Smooth(x - fx), ty = Smooth(y - fy);
++        const float a = Lerp(Hash(ix, iy), Hash(ix + 1, iy), tx);
++        const float b = Lerp(Hash(ix, iy + 1), Hash(ix + 1, iy + 1), tx);
++        return Lerp(a, b, ty);
++    }
++    float Fbm2(float x, float y) {
++        return 0.55f * Noise2(x, y) + 0.3f * Noise2(x * 2.1f + 7.3f, y * 2.1f - 3.1f) + 0.15f * Noise2(x * 4.3f - 1.7f, y * 4.3f + 5.9f);
++    }
++
++    // --- profile resolution -----------------------------------------------------------------------------------------
++    void Apply(Resolved& r, const Row& row) {
++        for (int f = 0; f < FieldCount; ++f) {
++            if (row.v[f] >= 0.0f) r.value[f] = row.v[f]; // negative = inherit
++        }
++    }
++    const Row* FindRow(int scopeType, int32_t scopeId) {
++        for (const Row& row : s_rows) {
++            if (row.scopeType == scopeType && (scopeType == kScopeGlobal || row.scopeId == scopeId)) return &row;
++        }
++        return nullptr;
++    }
++    Resolved Resolve(const Snapshot& snap) {
++        Resolved r; // everything 0: no wind without a Global row
++        if (const Row* g = FindRow(kScopeGlobal, 0)) Apply(r, *g);
++        if (const Row* m = FindRow(kScopeMap, snap.mapId)) Apply(r, *m);
++        for (int i = snap.areaCount - 1; i >= 0; --i) { // least specific first: the sub-area has the last word
++            if (const Row* a = FindRow(kScopeArea, static_cast<int32_t>(snap.areaChain[i]))) Apply(r, *a);
++        }
++        return r;
++    }
++    void BlendToward(float dt) {
++        if (!s_haveCurrent) {
++            s_current = s_target;
++            s_haveCurrent = true;
++            return;
++        }
++        const float k = 1.0f - std::exp(-dt / 1.5f); // ~1.5 s to settle after crossing a border
++        for (int f = 0; f < FieldCount; ++f) {
++            if (f == LockedDirection) s_current.value[f] += AngleDelta(s_current.value[f], s_target.value[f]) * k;
++            else s_current.value[f] = Lerp(s_current.value[f], s_target.value[f], k);
++        }
++    }
++    float MapBaseBearing(int mapId) { return Hash(mapId, 91) * 360.0f; }
++
++    // --- shelter (env/Shelter.cpp) ----------------------------------------------------------------------------------
++    namespace shelter {
++        constexpr float kCell = 4.0f;            // yards, horizontal and vertical
++        constexpr float kRoofSearch = 40.0f;     // how far up a roof still counts
++        constexpr float kRecheckAfter = 10.0f;   // seconds; map objects stream in after the terrain
++        constexpr float kEvictRange = 120.0f;    // yards from the player
++        constexpr unsigned kRayBudget = 64;      // traces per frame
++        constexpr float kLeeHeight = 1.5f;       // lee ray: starts this high, runs kLeeReach upwind, rising kLeeAngle
++        constexpr float kLeeReach = 15.0f;
++        constexpr float kLeeAngleDeg = 15.0f;
++        constexpr float kLeeStrength = 0.85f;    // wind removed right behind an obstacle
++        constexpr int kSectors = 8;              // 45-degree wind sectors cached separately
++
++        struct Entry { float open; float tracedAt; float x, y; };
++        std::unordered_map<uint64_t, Entry> s_roof;
++        std::unordered_map<uint64_t, Entry> s_lee[kSectors];
++        float s_time = 0.0f;
++        unsigned s_rays = 0;
++
++        int32_t Cell(float v) { return static_cast<int32_t>(std::floor(v / kCell)); }
++        uint64_t Key(int32_t cx, int32_t cy, int32_t cz) {
++            const uint64_t ux = static_cast<uint64_t>(cx + (1 << 20)) & 0x1FFFFF;
++            const uint64_t uy = static_cast<uint64_t>(cy + (1 << 20)) & 0x1FFFFF;
++            const uint64_t uz = static_cast<uint64_t>(cz + (1 << 20)) & 0x1FFFFF;
++            return (ux << 42) | (uy << 21) | uz;
++        }
++        float LeeFactor(float hitFraction) { return 1.0f - kLeeStrength * (1.0f - Clamp01(hitFraction)); }
++
++        // Never trace from below the terrain at the cell's centre: on a steep slope the ray would start underground.
++        float Base(float x, float y, float z) {
++            float ground = z;
++            return HeightAt(x, y, z, &ground) && ground > z ? ground : z;
++        }
++
++        void BeginFrame(const float center[3], float dt) {
++            s_time += (dt > 0.0f && dt < 1.0f) ? dt : 0.0f;
++            s_rays = 0;
++            const float r2 = kEvictRange * kEvictRange;
++            auto evict = [&](std::unordered_map<uint64_t, Entry>& map) {
++                for (auto it = map.begin(); it != map.end();) {
++                    const float dx = it->second.x - center[0], dy = it->second.y - center[1];
++                    if (dx * dx + dy * dy > r2) it = map.erase(it);
++                    else ++it;
++                }
++            };
++            evict(s_roof);
++            for (auto& map : s_lee) evict(map);
++        }
++
++        float Openness(const float pos[3]) {
++            const int32_t cx = Cell(pos[0]), cy = Cell(pos[1]), cz = Cell(pos[2]);
++            const uint64_t key = Key(cx, cy, cz);
++            auto it = s_roof.find(key);
++            if (it != s_roof.end() && s_time - it->second.tracedAt <= kRecheckAfter) return it->second.open;
++            if (s_rays >= kRayBudget) return it != s_roof.end() ? it->second.open : 1.0f;
++            ++s_rays;
++            const float x = (cx + 0.5f) * kCell, y = (cy + 0.5f) * kCell;
++            const float z = Base(x, y, pos[2]);
++            const float from[3] = { x, y, z + 0.5f }; // half a yard up: not the floor it stands on
++            const float to[3] = { x, y, z + kRoofSearch };
++            const float open = Trace(from, to, nullptr) ? 0.0f : 1.0f;
++            s_roof[key] = Entry{ open, s_time, x, y };
++            return open;
++        }
++
++        float Lee(const float pos[3], float windDirX, float windDirY) {
++            // the sector the wind comes FROM, so a slowly drifting wind reuses its rays
++            float angle = std::atan2(-windDirY, -windDirX);
++            if (angle < 0.0f) angle += 2.0f * kPi;
++            const int sector = static_cast<int>(angle / (2.0f * kPi / kSectors) + 0.5f) % kSectors;
++            const int32_t cx = Cell(pos[0]), cy = Cell(pos[1]), cz = Cell(pos[2]);
++            const uint64_t key = Key(cx, cy, cz);
++            auto& map = s_lee[sector];
++            auto it = map.find(key);
++            if (it != map.end() && s_time - it->second.tracedAt <= kRecheckAfter) return LeeFactor(it->second.open);
++            if (s_rays >= kRayBudget) return it != map.end() ? LeeFactor(it->second.open) : 1.0f;
++            ++s_rays;
++            const float sectorAngle = sector * (2.0f * kPi / kSectors);
++            const float ux = std::cos(sectorAngle), uy = std::sin(sectorAngle);
++            const float rise = kLeeReach * std::tan(kLeeAngleDeg * kPi / 180.0f);
++            const float x = (cx + 0.5f) * kCell, y = (cy + 0.5f) * kCell;
++            const float base = Base(x, y, pos[2]);
++            const float from[3] = { x, y, base + kLeeHeight };
++            const float to[3] = { x + ux * kLeeReach, y + uy * kLeeReach, base + kLeeHeight + rise };
++            float fraction = 1.0f;
++            if (!Trace(from, to, &fraction)) fraction = 1.0f;
++            map[key] = Entry{ fraction, s_time, x, y };
++            return LeeFactor(fraction);
++        }
++    }
++
++    // Reads the WDBC: 4-byte fields, Comment (a string) last when present.
++    bool ReadTable(const std::string& data) {
++        if (data.size() < 20 || std::memcmp(data.data(), "WDBC", 4) != 0) return false;
++        uint32_t header[4];
++        std::memcpy(header, data.data() + 4, sizeof(header));
++        const uint32_t count = header[0], fields = header[1], recordSize = header[2];
++        if (fields < 15 || recordSize < fields * 4 || 20 + uint64_t(count) * recordSize > data.size()) return false;
++        for (uint32_t i = 0; i < count; ++i) {
++            uint32_t v[15];
++            std::memcpy(v, data.data() + 20 + size_t(i) * recordSize, sizeof(v));
++            Row row;
++            row.scopeType = static_cast<int32_t>(v[1]);
++            row.scopeId = static_cast<int32_t>(v[2]);
++            for (int f = 0; f < FieldCount; ++f) std::memcpy(&row.v[f], &v[3 + f], sizeof(float));
++            s_rows.push_back(row);
++        }
++        return true;
++    }
++}
++
++bool LoadProfiles() {
++    s_tried = true;
++    s_rows.clear();
++    s_loaded = false;
++    std::string data;
++    if (!HD::DataFile::Read("DBFilesClient\\WindProfile.cdbc", data)) {
++        std::snprintf(s_info, sizeof(s_info), "no wind: DBFilesClient\\WindProfile.cdbc not found");
++        return false;
++    }
++    if (!ReadTable(data)) {
++        s_rows.clear();
++        std::snprintf(s_info, sizeof(s_info), "no wind: WindProfile.cdbc is not a WDBC this reads");
++        return false;
++    }
++    s_loaded = true;
++    s_haveCurrent = false;
++    std::snprintf(s_info, sizeof(s_info), "%u profile rows", static_cast<unsigned>(s_rows.size()));
++    return true;
++}
++
++void Update(float dt) {
++    if (!s_tried) LoadProfiles();
++    if (dt < 0.0f || dt > 1.0f) dt = 1.0f / 60.0f; // hitches and the first frame
++    s_time += dt;
++    const Snapshot& snap = Current();
++    s_target = Resolve(snap);
++    BlendToward(dt);
++    const float* p = s_current.value;
++
++    shelter::BeginFrame(snap.playerPos, dt);
++
++    // Where in [min, max] the steady wind sits: a slow wander in the lower-middle part, pushed toward max by weather.
++    float rangePos = 0.2f + 0.5f * Noise1(s_time / 40.0f + 17.3f);
++    rangePos += (1.0f - rangePos) * Clamp01(snap.weatherIntensity * p[WeatherInfluence]);
++    s_steadyGround = Lerp(p[GroundMin], p[GroundMax], rangePos);
++    s_steadyAloft = Lerp(p[AloftMin], p[AloftMax], rangePos);
++
++    // Prevailing direction: a per-map base that wanders +-60 degrees over minutes, pulled toward the locked one.
++    float bearing = MapBaseBearing(snap.mapId) + 60.0f * (Noise1(s_time / 90.0f + 3.1f) * 2.0f - 1.0f);
++    bearing += AngleDelta(bearing, p[LockedDirection]) * Clamp01(p[LockStrength]);
++    s_bearing = std::fmod(bearing + 360.0f, 360.0f);
++}
++
++Sample At(const float pos[3], float heightAboveGround) {
++    Sample s;
++    const float* p = s_current.value;
++    const float aloftT = p[AloftHeight] > 0.0f ? Clamp01(heightAboveGround / p[AloftHeight]) : 0.0f;
++    const float steady = Lerp(s_steadyGround, s_steadyAloft, aloftT);
++
++    // Bearing (clockwise from north = +X) to a world vector: east is -Y.
++    const float rad = s_bearing * kPi / 180.0f;
++    const float dx = std::cos(rad), dy = -std::sin(rad);
++    const float px = -dy, py = dx;
++
++    // Gusts: a noise field stretched along the wind, scrolled downwind faster as the wind grows.
++    const float freq = p[GustFrequency] > 0.05f ? p[GustFrequency] : 0.05f;
++    const float speed = 4.0f + 16.0f * steady; // yards per second
++    const float u = pos[0] * dx + pos[1] * dy;
++    const float v = pos[0] * px + pos[1] * py;
++    const float along = 50.0f / freq, across = 35.0f / freq;
++    const float n = Fbm2((u - s_time * speed) / along, v / across);
++    s.gust = Clamp01((n - 0.5f) * 3.0f);
++
++    // Gusts veer the direction a little too.
++    const float veer = (Noise2((u - s_time * speed) / 80.0f + 31.0f, v / 80.0f) - 0.5f) * 20.0f * (0.5f + s.gust) * kPi / 180.0f;
++    s.dirX = dx * std::cos(veer) - dy * std::sin(veer);
++    s.dirY = dx * std::sin(veer) + dy * std::cos(veer);
++    // No rays where there is no wind, and no lee ray under a roof. The lee uses the steady direction, so its rays stay.
++    s.open = steady > 0.0f ? shelter::Openness(pos) : 1.0f;
++    s.lee = (steady > 0.0f && s.open > 0.0f) ? shelter::Lee(pos, dx, dy) : 1.0f;
++    s.strength = steady * (1.0f + p[GustStrength] * s.gust) * s.open * s.lee * s_strengthMultiplier;
++    return s;
++}
++
++const char* Info() {
++    static char text[260];
++    if (!s_loaded) return s_info;
++    std::snprintf(text, sizeof(text), "%s; steady %.2f, toward %.0f deg, weather %.2f", s_info, s_steadyGround, s_bearing,
++                  Current().weatherIntensity);
++    return text;
++}
++
++void SetStrengthMultiplier(float multiplier) {
++    s_strengthMultiplier = multiplier < 0.0f ? 0.0f : multiplier;
++}
++}
+diff --git a/WoW/Source/WorldClient/HD/HdLivingWind.h b/WoW/Source/WorldClient/HD/HdLivingWind.h
+new file mode 100644
+index 00000000..bc43a00c
+--- /dev/null
++++ b/WoW/Source/WorldClient/HD/HdLivingWind.h
+@@ -0,0 +1,38 @@
++#ifndef WOW_SOURCE_WORLDCLIENT_HD_HDLIVINGWIND_H
++#define WOW_SOURCE_WORLDCLIENT_HD_HDLIVINGWIND_H
++
++// Zeppelin F-237 (Living Azeroth): the wind. Ported from wxl-seyris-living-azeroth (Morfium-G, GPL-3.0, used with the
++// author's permission): env/Wind.cpp and env/Shelter.cpp.
++//   - WindProfile.cdbc (DBFilesClient\, read from the MPQs): Global / Map / Area rows, the most specific wins, a
++//     negative field inherits from the next scope up. Without a Global row there is no wind.
++//   - A steady wind that wanders inside the profile's range and is pushed up by weather, a per-map prevailing direction
++//     that wanders +-60 degrees (pulled to LockedDirection by LockStrength), gusts that travel downwind and veer it.
++//   - Shelter: a roof within 40 yd overhead calms the ground under it; lee: a wall or cliff up to 15 yd upwind takes
++//     most of the wind behind it. Both are line traces, cached per 4 yd cell, at most 64 a frame.
++// Directions are compass bearings the wind blows TOWARD: 0 = north (+X), 90 = east (-Y). Main thread only.
++
++namespace HD::Living::Wind {
++    struct Sample {
++        float dirX = 1.0f, dirY = 0.0f;   // unit vector the wind blows toward (world x, y)
++        float strength = 0.0f;            // 0 = calm; 1 = a strong wind (the grass bends its full amplitude)
++        float gust = 0.0f;                // 0..1, how much of a gust is passing
++        float open = 1.0f;                // 0 = under a roof
++        float lee = 1.0f;                 // 1 = no obstacle upwind
++    };
++
++    // (Re)loads WindProfile.cdbc; called by the first Update. Returns false (and keeps no wind) without the file.
++    bool LoadProfiles();
++
++    // Once per frame, after HD::Living::Refresh().
++    void Update(float dt);
++
++    // The wind at a world position (heightAboveGround blends the ground wind into the wind aloft).
++    Sample At(const float pos[3], float heightAboveGround = 0.0f);
++
++    // For the status line.
++    const char* Info();
++
++    void SetStrengthMultiplier(float multiplier);
++}
++
++#endif
+diff --git a/WoW/Source/WorldClient/HD/HdLivingWorld.cpp b/WoW/Source/WorldClient/HD/HdLivingWorld.cpp
+new file mode 100644
+index 00000000..fb164a6c
+--- /dev/null
++++ b/WoW/Source/WorldClient/HD/HdLivingWorld.cpp
+@@ -0,0 +1,153 @@
++// Zeppelin F-237 (Living Azeroth): the world around the player. Ported from wxl-seyris-living-azeroth (Morfium-G,
++// GPL-3.0, used with the author's permission): env/WorldQuery.cpp, env/Actors.cpp, env/TerrainHeight.cpp.
++#include "WoW/Source/WorldClient/HD/HdLivingWorld.h"
++#include <cmath>
++#include "Engine/Source/Tempest/C3Vector.h"
++#include "WoW/Source/DB/DBClient/DBClient.h"
++#include "WoW/Source/DB/Rec/AreaTableRec.h"
++#include "WoW/Source/Object/ObjectClient/Player_C.h"
++#include "WoW/Source/Object/ObjectClient/Unit_C.h"
++#include "WoW/Source/ObjectMgrClient/ObjectMgrClient.h"
++#include "WoW/Source/WorldClient/Map.h"
++#include "WoW/Source/WorldClient/MapWeather.h"
++#include "WoW/Source/WorldClient/World.h"
++
++namespace HD::Living {
++namespace {
++    constexpr float kActorRange = 45.0f;          // the grass shader skips parting farther than this from the player
++    constexpr float kWeatherKnee = 0.25f;         // Weather::Update: nothing reacts below it, (i - 0.25) * 4/3 above
++
++    Snapshot s_snap;
++    Actor s_actors[kMaxActors];
++    int s_actorCount = 0;
++
++    struct Gather {
++        C3Vector center;
++        Actor found[64];
++        int count = 0;
++    };
++
++    // Keeps the nearest 64 units; sorted and cut to kMaxActors after the walk.
++    int32_t EnumUnit(WOWGUID guid, void* param) {
++        Gather& g = *static_cast<Gather*>(param);
++        CGUnit_C* unit = static_cast<CGUnit_C*>(ClntObjMgrObjectPtr(guid, TYPEMASK_UNIT, __FILE__, __LINE__));
++        if (!unit || !unit->m_unit) return 1;
++        C3Vector pos = unit->GetPosition();
++        float dx = pos.x - g.center.x, dy = pos.y - g.center.y, dz = pos.z - g.center.z;
++        float d2 = dx * dx + dy * dy + dz * dz;
++        if (d2 > kActorRange * kActorRange) return 1;
++        int slot = g.count;
++        if (g.count >= 64) {
++            slot = 0;
++            for (int i = 1; i < g.count; i++) {
++                if (g.found[i].distance > g.found[slot].distance) slot = i;
++            }
++            if (g.found[slot].distance * g.found[slot].distance <= d2) return 1;
++        } else {
++            g.count++;
++        }
++        Actor& a = g.found[slot];
++        a.pos[0] = pos.x;
++        a.pos[1] = pos.y;
++        a.pos[2] = pos.z;
++        float radius = unit->m_unit->m_unitFieldBoundingradius;
++        a.radius = radius > 0.01f && radius < 20.0f ? radius : 0.5f;
++        a.mounted = unit->IsMounted() != 0;
++        a.isPlayer = unit->m_obj && (unit->m_obj->m_type & TYPEMASK_PLAYER) != 0;
++        a.distance = std::sqrt(d2);
++        return 1;
++    }
++
++    void RefreshActors() {
++        s_actorCount = 0;
++        if (!s_snap.inWorld || !ClntObjMgrGetCurrent()) return;
++        static Gather g;
++        g.count = 0;
++        g.center = C3Vector(s_snap.playerPos[0], s_snap.playerPos[1], s_snap.playerPos[2]);
++        ClntObjMgrEnumVisibleObjects(&EnumUnit, &g);
++        // nearest first (a handful of units: insertion sort)
++        for (int i = 1; i < g.count; i++) {
++            Actor a = g.found[i];
++            int j = i - 1;
++            while (j >= 0 && g.found[j].distance > a.distance) {
++                g.found[j + 1] = g.found[j];
++                j--;
++            }
++            g.found[j + 1] = a;
++        }
++        s_actorCount = g.count < kMaxActors ? g.count : kMaxActors;
++        for (int i = 0; i < s_actorCount; i++) s_actors[i] = g.found[i];
++    }
++
++    // The area and its parents, as the client's own zone lookup walks them (World.cpp area ambience).
++    int AreaChain(uint32_t area, uint32_t* out, int max) {
++        int n = 0;
++        while (area && n < max) {
++            bool seen = false;
++            for (int i = 0; i < n; i++) seen = seen || out[i] == area;
++            if (seen) break;
++            out[n++] = area;
++            AreaTableRec* rec = g_areaTableDB.GetRecord(area);
++            if (!rec) break;
++            area = rec->m_parentAreaID;
++        }
++        return n;
++    }
++}
++
++const Snapshot& Refresh() {
++    Snapshot s;
++    s.mapId = World::QueryMapId();
++    CGPlayer_C* player = ClntObjMgrGetCurrent() ? ClntObjMgrGetActivePlayerObj() : nullptr;
++    if (player) {
++        CGUnit_C* unit = static_cast<CGUnit_C*>(player);
++        s.inWorld = true;
++        C3Vector pos = unit->GetPosition();
++        s.playerPos[0] = pos.x;
++        s.playerPos[1] = pos.y;
++        s.playerPos[2] = pos.z;
++        if (unit->m_worldObject) {
++            uint32_t area = 0;
++            if (CMap::QueryAreaId(unit->m_worldObject, area) && area) s.areaCount = AreaChain(area, s.areaChain, kMaxAreaChain);
++            s.outdoors = World::QueryOutdoors(unit->m_worldObject) != 0;
++        }
++    }
++    if (const Weather* w = World::s_weather) {
++        const float raw = w->m_intensity;
++        s.weatherIntensity = raw <= kWeatherKnee ? 0.0f : (raw >= 1.0f ? 1.0f : (raw - kWeatherKnee) / (1.0f - kWeatherKnee));
++        s.weatherType = w->GetType();
++    }
++    s_snap = s;
++    RefreshActors();
++    return s_snap;
++}
++
++const Snapshot& Current() {
++    return s_snap;
++}
++
++int Actors(const Actor** out) {
++    if (out) *out = s_actors;
++    return s_actorCount;
++}
++
++bool Trace(const float from[3], const float to[3], float* fraction) {
++    C3Vector a(from[0], from[1], from[2]), b(to[0], to[1], to[2]), hit;
++    float t = 1.0f;
++    // 0x111: terrain + map objects + their doodads (Missile_C's line of flight)
++    const bool any = World::Intersect(a, b, &hit, &t, 0x111, nullptr) != 0;
++    if (fraction) *fraction = any ? t : 1.0f;
++    return any;
++}
++
++bool HeightAt(float x, float y, float z, float* height) {
++    // Down through the world from above z, as the client's own ground projection (World ProjectPositionCallback).
++    const float from[3] = { x, y, z + 60.0f };
++    const float to[3] = { x, y, z - 60.0f };
++    C3Vector a(from[0], from[1], from[2]), b(to[0], to[1], to[2]), hit;
++    float t = 1.0f;
++    if (!World::Intersect(a, b, &hit, &t, 0x100111, nullptr)) return false;
++    if (height) *height = from[2] + (to[2] - from[2]) * t;
++    return true;
++}
++}
+diff --git a/WoW/Source/WorldClient/HD/HdLivingWorld.h b/WoW/Source/WorldClient/HD/HdLivingWorld.h
+new file mode 100644
+index 00000000..fbc29899
+--- /dev/null
++++ b/WoW/Source/WorldClient/HD/HdLivingWorld.h
+@@ -0,0 +1,48 @@
++#ifndef WOW_SOURCE_WORLDCLIENT_HD_HDLIVINGWORLD_H
++#define WOW_SOURCE_WORLDCLIENT_HD_HDLIVINGWORLD_H
++
++// Zeppelin F-237 (Living Azeroth): what the world looks like around the player, for the wind, the grass and later
++// the snow. Ported from wxl-seyris-living-azeroth (Morfium-G, GPL-3.0, used with the author's permission):
++// env/WorldQuery, env/Actors and env/TerrainHeight, here as direct calls into the client instead of offsets.
++// Main thread only (the object manager and the map are read).
++
++#include <cstdint>
++
++namespace HD::Living {
++    constexpr int kMaxAreaChain = 8;
++    constexpr int kMaxActors = 16;
++
++    struct Snapshot {
++        bool inWorld = false;
++        int32_t mapId = -1;
++        float playerPos[3] = {};
++        uint32_t areaChain[kMaxAreaChain] = {};   // the player's area first, then its parents (sub-area -> zone)
++        int areaCount = 0;
++        bool outdoors = true;
++        float weatherIntensity = 0.0f;            // 0..1, the engine's dead zone below its knee taken out
++        uint32_t weatherType = 0;                 // 0 none, 1 rain, 2 snow, 3 sand
++    };
++
++    struct Actor {
++        float pos[3] = {};
++        float radius = 0.5f;                      // the server's bounding radius (UNIT_FIELD_BOUNDINGRADIUS)
++        bool mounted = false;
++        bool isPlayer = false;
++        float distance = 0.0f;                    // to the player, yards
++    };
++
++    // Once per frame, before the wind and the grass read it.
++    const Snapshot& Refresh();
++    const Snapshot& Current();
++
++    // Every unit within range of center, nearest first (at most kMaxActors). Refreshed by Refresh.
++    int Actors(const Actor** out);
++
++    // A line through the world (terrain, map objects and their doodads): true on a hit, *fraction along it (0..1).
++    bool Trace(const float from[3], const float to[3], float* fraction);
++
++    // The terrain (or liquid surface) height at x, y, searching around z. False where nothing is loaded.
++    bool HeightAt(float x, float y, float z, float* height);
++}
++
++#endif
+-- 
+2.34.1
+

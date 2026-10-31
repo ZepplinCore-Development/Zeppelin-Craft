@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-living-azeroth",
+  "version": "0.1.0",
+  "description": "F-237 Living Azeroth (port of Morfium-G/seyris-living-azeroth, GPL-3.0, author's permission): WindProfile.cdbc wind table read by the x64 client's HD grass wind",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-V",
+  "enabled": true,
+  "priority": 90,
+  "features": [
+    "F-237"
+  ]
+}
