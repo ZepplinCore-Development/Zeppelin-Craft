@@ -1,0 +1,36 @@
+From 2b475c7be98b17287cce6222865bba6ccf38540f Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 08:22:24 +0000
+Subject: [PATCH] Zeppelin F-234: Zeppelin glue UI - CGlueMgr loads
+ Interface\GlueXML\ZepGlueXML.toc (zpak zep-options) after GlueXML.toc,
+ outside its digest: a Renderer page with the Vulkan switch in the login
+ screen's Video Options
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ WoW/Source/Glue/CGlueMgr.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/WoW/Source/Glue/CGlueMgr.cpp b/WoW/Source/Glue/CGlueMgr.cpp
+index 55a6772c..ff32b29e 100644
+--- a/WoW/Source/Glue/CGlueMgr.cpp
++++ b/WoW/Source/Glue/CGlueMgr.cpp
+@@ -761,6 +761,14 @@ void CGlueMgr::Resume() {
+             }
+ #endif
+ 
++            // Not in the original (F-234): Zeppelin's own glue UI (zpak zep-options), loaded like ZepFrameXML.toc after the
++            // stock files and kept out of their digest; GlueXML.toc itself stays with patch-modern-login (F-151).
++            if (SFile::FileExistsEx("Interface\\GlueXML\\ZepGlueXML.toc", 1)) {
++                MD5_CTX zepMd5;
++                MD5Init(&zepMd5);
++                FrameXML_CreateFrames("Interface\\GlueXML\\ZepGlueXML.toc", nullptr, &zepMd5, &status);
++            }
++
+             FrameScript_SignalEvent(GLUE_EVENT_FRAMES_LOADED, nullptr);
+             CGlueMgr::InitializeFFX();
+ 
+-- 
+2.34.1
+

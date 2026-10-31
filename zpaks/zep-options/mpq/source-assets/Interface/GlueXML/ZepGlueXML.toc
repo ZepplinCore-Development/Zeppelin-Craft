@@ -1,0 +1,4 @@
+## Zeppelin GlueXML (F-234): loaded by the x64 client right after GlueXML.toc, as built-in glue UI (login, realm and
+## character screens). One owner: zpak zep-options. Glue screens, cameras and the creator stay with F-151 (PATCH-L).
+
+ZepGlueOptions.lua
