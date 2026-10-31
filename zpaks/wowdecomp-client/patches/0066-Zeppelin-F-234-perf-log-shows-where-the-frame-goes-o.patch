@@ -1,0 +1,203 @@
+From e622dd3f4198d5a42d0e0b2a58bc5ed127a97de7 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 15:04:17 +0000
+Subject: [PATCH] Zeppelin F-234: perf log shows where the frame goes outside
+ the world, and each addon's Lua CPU
+
+- New stages: uiUpdate (CSimpleTop::OnLayerUpdate), uiRender (OnLayerRender), present (GxScenePresent, VSync and
+  maxFPS wait included), luaEvents (outermost FrameScript_SignalEvent; depth kept in the perf module and reset each
+  frame, as a Lua error can leave by longjmp past the destructor)
+- outside_ms line: ui_update, ui_draw (UI render less the world inside it), present_wait, other, lua_events
+- addons_ms line: per-addon ms/frame from the client's own profiler (scriptProfile 1 + /reload), heaviest 15
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ Engine/Source/Frame/CSimpleTop.cpp            |  3 ++
+ Engine/Source/FrameScript/FrameScript.cpp     |  7 ++++
+ Engine/Source/Gx/Gx.cpp                       |  2 +
+ .../WorldClient/HD/HdCataRenderPerf.cpp       | 39 ++++++++++++++++++-
+ WoW/Source/WorldClient/HD/HdCataRenderPerf.h  |  8 +++-
+ 5 files changed, 57 insertions(+), 2 deletions(-)
+
+diff --git a/Engine/Source/Frame/CSimpleTop.cpp b/Engine/Source/Frame/CSimpleTop.cpp
+index 07cfba3f..29c4f7de 100644
+--- a/Engine/Source/Frame/CSimpleTop.cpp
++++ b/Engine/Source/Frame/CSimpleTop.cpp
+@@ -1,4 +1,5 @@
+ #include "Engine/Source/Frame/CSimpleTop.h"
++#include "WoW/Source/WorldClient/HD/HdCataRenderPerf.h" // Zeppelin F-234: perf log stages
+ #include <cmath>
+ #include <cstring>
+ #include "Engine/Source/Base/Coordinate.h"
+@@ -865,6 +866,7 @@ int32_t CSimpleTop::StartMoveOrResizeFrame(const CMouseEvent& evt, MOVERESIZE_RE
+ // VERIFY: 09bbf45a auto
+ // OFFSET: 0x00495320
+ void CSimpleTop::OnLayerUpdate(float elapsedSec) {
++    HD::CataRenderPerf::Scope hdPerf(HD::CataRenderPerf::Stage::UiUpdate); // Zeppelin F-234
+     CSimpleFrame* frame;
+ 
+     while ((frame = this->m_destroyed.Head()) != nullptr) {
+@@ -893,6 +895,7 @@ void CSimpleTop::OnLayerUpdate(float elapsedSec) {
+ // VERIFY: 587fb7f2 auto
+ // OFFSET: 0x00495410
+ void CSimpleTop::OnLayerRender() {
++    HD::CataRenderPerf::Scope hdPerf(HD::CataRenderPerf::Stage::UiRender); // Zeppelin F-234: the world's render is inside
+     C2Vector offset;
+     CameraSetupScreenProjection(this->m_rect, offset, 0.0f, 0);
+ 
+diff --git a/Engine/Source/FrameScript/FrameScript.cpp b/Engine/Source/FrameScript/FrameScript.cpp
+index 9705676f..0eabad0c 100644
+--- a/Engine/Source/FrameScript/FrameScript.cpp
++++ b/Engine/Source/FrameScript/FrameScript.cpp
+@@ -3,6 +3,7 @@
+ #include <cstring>
+ #include <malloc.h>
+ #include "Engine/Source/FrameScript/FrameScript.h"
++#include "WoW/Source/WorldClient/HD/HdCataRenderPerf.h" // Zeppelin F-234: perf log stages
+ #include "Engine/Source/FrameScript/FrameScript_Object.h"
+ #include "Engine/Source/Base/Status.h"
+ #include "Engine/Source/BlizzardCore/SFile2-Core.h"
+@@ -1451,6 +1452,12 @@ void FrameScript_Destroy() {
+ // VERIFY: 8009da99 manual
+ // OFFSET: 0x0081AA00
+ void FrameScript_SignalEvent(uint32_t index, lua_State* L, int32_t argCount) {
++    // Zeppelin F-234: perf log, the outermost dispatch only (a handler can fire another event). A Lua error can leave
++    // by longjmp past this frame's destructors, so the depth lives in the perf module and is reset every frame.
++    struct HdPerfOuter {
++        HdPerfOuter() { HD::CataRenderPerf::LuaEventEnter(); }
++        ~HdPerfOuter() { HD::CataRenderPerf::LuaEventLeave(); }
++    } hdPerfOuter;
+     if (!s_scriptEvents.Count()) {
+         return;
+     }
+diff --git a/Engine/Source/Gx/Gx.cpp b/Engine/Source/Gx/Gx.cpp
+index fb15a035..45800dd8 100644
+--- a/Engine/Source/Gx/Gx.cpp
++++ b/Engine/Source/Gx/Gx.cpp
+@@ -5,6 +5,7 @@
+ #include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
+ #include "Engine/Source/Gx/CGxPool.h"
+ #include "Engine/Source/Gx/Gx.h"
++#include "WoW/Source/WorldClient/HD/HdCataRenderPerf.h" // Zeppelin F-234: perf log stages
+ #include "Engine/Source/Tempest/C2Vector.h"
+ #include "Engine/Source/Tempest/C3Vector.h"
+ #include "Engine/Source/Tempest/CImVector.h"
+@@ -1122,6 +1123,7 @@ void GxuFlushDrawList(EGxuDrawListCategory category, const C3Vector& viewPos) {
+ // VERIFY: 456ff928 auto
+ // OFFSET: 0x00682A00
+ void GxScenePresent() {
++    HD::CataRenderPerf::Scope hdPerf(HD::CataRenderPerf::Stage::Present); // Zeppelin F-234: VSync and the maxFPS wait included
+     C3Vector viewPos(0.0f, 0.0f, 0.0f);
+     GxuFlushDrawList(GxuCat_2, viewPos);
+     g_theGxDevicePtr->ScenePresent();
+diff --git a/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp b/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
+index 211525c1..27466250 100644
+--- a/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
+@@ -16,6 +16,9 @@
+ #include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
+ #include "Engine/Source/Gx/GxSeam.h"
+ #include "Engine/Source/Gx/Types.h"
++#include "Engine/Source/FrameScript/FrameScript.h"
++#include "Engine/Source/lua-5.1/src/lua.h"
++#include "WoW/Source/Ui/AddOns.h"
+ namespace HD::CataRenderPerf {
+ namespace {
+ constexpr size_t NS=size_t(Stage::Count),NC=size_t(Counter::Count);
+@@ -25,7 +28,8 @@ bool enabled=false,initialized=false;uint64_t window=0,frames=0,lastFrame=0;CVar
+ constexpr const char* names[NS]={"render","prepareMap","wmoPrepare","terrain","wmoDraw","horizon","horizonCull","sortCull","entities","detailDoodads","m2Animate","shadows","rootWait","groupWait",
+  "frame","worldFrame","m2Opaque","m2Alpha","drawLists","hdOpaque","liquid","spells","postFx",
+  "grassLights","grassConstants","grassDraw","grassFill",
+- "cullVolumes","cullChunks","cullGroups","cullLiquid","cullEntitys","cullDoodads","cullOcclusion","cullHorizon","cullChunkDoodads","cullChunkPrep"};
++ "cullVolumes","cullChunks","cullGroups","cullLiquid","cullEntitys","cullDoodads","cullOcclusion","cullHorizon","cullChunkDoodads","cullChunkPrep",
++ "uiUpdate","uiRender","present","luaEvents"};
+ constexpr const char* counterNames[NC]={"wmoDefs","wmoGroups","rootWaits","groupWaits","asyncReads","horizonAll","horizonCandidates","horizonFallbacks","horizonMismatch","grassChunks","grassDraws","grassFills","grassSingleModel","grassMixedModels","grassInsts","grassPackVertices","grassPackAcquires","grassPackFull","grassPackIndices","grassPackIndexFull","grassPackEvicts","grassFillSkipped","cullChunksTested","cullChunksKept","cullClipUpdates","cullDoodadsTested"};
+ uint64_t Now(){return uint64_t(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count());}
+ // Zeppelin F-234: each image's wall time this window, for the percentiles.
+@@ -73,6 +77,34 @@ bool Toggle(CVar*,const char*,const char*s,void*){
+ }
+ float Percentile(std::vector<float>&v,double q){if(v.empty())return 0;size_t i=std::min(v.size()-1,size_t(q*(v.size()-1)+0.5));std::nth_element(v.begin(),v.begin()+i,v.end());return v[i];}
+ double Ms(Stage s,double f){return timing[size_t(s)].ns/1e6/f;}
++// Zeppelin F-234: where the frame goes outside the world. UI draw = the UI's render less the world inside it; other = the
++// rest of the frame (network, objects, timers, input, the scheduler). Lua events overlap the other parts.
++void WriteOutside(double f){
++ const double frame=Ms(Stage::Frame,f),world=Ms(Stage::WorldFrame,f),update=Ms(Stage::UiUpdate,f),present=Ms(Stage::Present,f);
++ const double draw=std::max(0.0,Ms(Stage::UiRender,f)-world),other=std::max(0.0,frame-world-update-draw-present);
++ std::fprintf(logFile,"outside_ms ui_update=%.2f ui_draw=%.2f present_wait=%.2f other=%.2f lua_events=%.2f (lua_events overlaps the others; present_wait includes VSync and maxFPS)\r\n",
++  update,draw,present,other,Ms(Stage::LuaEvents,f));
++}
++// Zeppelin F-234: each addon's Lua CPU, from the client's own profiler (GetAddOnCPUUsage; scriptProfile 1 and a /reload).
++// Milliseconds per frame this window, the heaviest first. The profiler itself costs some CPU while it is on.
++std::map<std::string,double> addonTotals;
++void WriteAddons(double f){
++ CVar*profile=CVar::Lookup("scriptProfile");
++ if(!profile||profile->m_intValue!=1){addonTotals.clear();std::fputs("addons_ms off (/console scriptProfile 1, then /reload)\r\n",logFile);return;}
++ lua_State*L=FrameScript_GetContext();if(!L)return;
++ lua_gcupdatetimes(L);
++ std::vector<std::pair<double,std::string>> spent;double total=0;bool first=addonTotals.empty();
++ for(uint32_t i=0,n=GetNumAddOns();i<n;++i){
++  const char*name=GetAddOnByIndex(i);const char*tag=name?GetAddOnName(name):nullptr;if(!tag)continue;
++  const double now=lua_gcgettime(L,tag);auto it=addonTotals.find(name);const double before=it==addonTotals.end()?now:it->second;
++  addonTotals[name]=now;const double d=now>before?now-before:0.0;if(d>0){spent.emplace_back(d/f,name);total+=d/f;}
++ }
++ if(first){std::fputs("addons_ms starting (totals from the next window)\r\n",logFile);return;}
++ std::sort(spent.begin(),spent.end(),[](const auto&a,const auto&b){return a.first>b.first;});
++ std::fprintf(logFile,"addons_ms total=%.3f%s",total,total==0?" (0: the profiler starts after a /reload)":"");
++ for(size_t i=0;i<spent.size()&&i<15;++i)std::fprintf(logFile," %s=%.3f",spent[i].second.c_str(),spent[i].first);
++ std::fputs("\r\n",logFile);
++}
+ }
+ void Initialize(){
+  if(initialized)return;
+@@ -87,9 +119,13 @@ void End(Stage stage,uint64_t start){
+  if(!enabled||!start||size_t(stage)>=NS)return;
+  const auto elapsed=Now()-start;auto&t=timing[size_t(stage)];t.ns+=elapsed;++t.calls;if(elapsed>t.maximum)t.maximum=elapsed;
+ }
++namespace {int32_t luaDepth=0;uint64_t luaStart=0;}
++void LuaEventEnter(){if(luaDepth++==0)luaStart=Begin();}
++void LuaEventLeave(){if(luaDepth>0&&--luaDepth==0&&luaStart){End(Stage::LuaEvents,luaStart);luaStart=0;}}
+ void Add(Counter c,uint64_t n){if(enabled&&size_t(c)<NC)counters[size_t(c)]+=n;}
+ // Wall time from one scene render to the next: everything the client does for one image, present and caps included.
+ void FrameStart(){
++ luaDepth=0;luaStart=0; // Zeppelin F-234: a dispatch left by longjmp does not stop the count for good
+  if(!enabled){lastFrame=0;return;}
+  const uint64_t now=Now();if(lastFrame){End(Stage::Frame,lastFrame);frameMs.push_back(float((now-lastFrame)/1e6));}lastFrame=now;
+ }
+@@ -120,6 +156,7 @@ void FrameEnd(){
+    for(const auto&kv:lastSettings)if(!current.count(kv.first))std::fprintf(logFile," %s=%s->(default)",kv.first.c_str(),kv.second.c_str());
+    std::fputs("\r\n",logFile);lastSettings=current;
+   }
++  WriteOutside(f);WriteAddons(f); // Zeppelin F-234
+   std::fprintf(logFile,"window_ms=%.3f scenes=%llu; inclusive CPU scopes, render excludes present/cap\r\n",(now-window)/1e6,static_cast<unsigned long long>(frames));
+   for(size_t i=0;i<NS;++i)std::fprintf(logFile,"%s ms/scene=%.5f max_call_ms=%.5f calls=%llu\r\n",names[i],timing[i].ns/1e6/f,timing[i].maximum/1e6,static_cast<unsigned long long>(timing[i].calls));
+   for(size_t i=0;i<NC;++i)std::fprintf(logFile,"%s=%llu ",counterNames[i],static_cast<unsigned long long>(counters[i]));
+diff --git a/WoW/Source/WorldClient/HD/HdCataRenderPerf.h b/WoW/Source/WorldClient/HD/HdCataRenderPerf.h
+index e12ad020..ffbcce67 100644
+--- a/WoW/Source/WorldClient/HD/HdCataRenderPerf.h
++++ b/WoW/Source/WorldClient/HD/HdCataRenderPerf.h
+@@ -10,7 +10,11 @@ enum class Stage:uint32_t {Render,PrepareMap,WmoPrepare,Terrain,WmoDraw,Horizon,
+  // Inside sortCull (CWorldScene::CullSortTable): its parts, summed over the 64 distance buckets.
+  CullVolumes,CullChunks,CullGroups,CullLiquid,CullEntitys,CullDoodads,CullOcclusion,CullHorizon,
+  // Inside cullChunks: the chunk's doodads (CullDoodadsExterior) and its render prep (terrain batch, grass creation).
+- CullChunkDoodads,CullChunkPrep,Count};
++ CullChunkDoodads,CullChunkPrep,
++ // Zeppelin F-234: outside the world. UI OnUpdate scripts and layout (CSimpleTop::OnLayerUpdate), the UI's draw (CSimpleTop::OnLayerRender,
++ // the world's render inside it), present (GxScenePresent: VSync and the maxFPS wait included), Lua event handlers (outermost
++ // FrameScript_SignalEvent).
++ UiUpdate,UiRender,Present,LuaEvents,Count};
+ enum class Counter:uint32_t {WmoDefs,WmoGroups,RootWaits,GroupWaits,AsyncReads,HorizonAll,HorizonCandidates,HorizonFallbacks,HorizonMismatch,GrassChunks,GrassDraws,GrassFills,
+  // Grass batches by models: one model (the Cata instancing can take them) or several sharing a texture (it cannot).
+  GrassSingleModel,GrassMixedModels,GrassInsts,
+@@ -19,6 +23,8 @@ enum class Counter:uint32_t {WmoDefs,WmoGroups,RootWaits,GroupWaits,AsyncReads,H
+  // sortCull work: chunks tested, chunks kept, horizon buffer updates, doodads tested.
+  CullChunksTested,CullChunksKept,CullClipUpdates,CullDoodadsTested,Count};
+ void Initialize(); void Shutdown(); bool Enabled();
++// Zeppelin F-234: Lua event dispatch (FrameScript_SignalEvent), outermost only; the depth is reset every frame.
++void LuaEventEnter(); void LuaEventLeave();
+ uint64_t Begin(); void End(Stage,uint64_t start); void Add(Counter,uint64_t amount=1); void FrameEnd(); void FrameStart();
+ struct Scope {
+  Stage stage;uint64_t start;
+-- 
+2.34.1
+

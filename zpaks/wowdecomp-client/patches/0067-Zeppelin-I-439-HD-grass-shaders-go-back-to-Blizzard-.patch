@@ -1,0 +1,48 @@
+From 74f6c61d7304f1f04e89378a5daa44a5ddb5a15e Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 15:04:17 +0000
+Subject: [PATCH] Zeppelin I-439: HD grass shaders go back to Blizzard's when
+ the D3D9 driver refuses one
+
+A refused CreateVertexShader/CreatePixelShader leaves the slot bound to NULL and the grass is drawn fixed-function
+(no chunk transform: blades around the camera; no lights: black). Each frame an applied slot with m_loaded set and
+m_valid not set puts all grass shaders back to Blizzard's for the session, and hdGrassInfo names the slot.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ WoW/Source/WorldClient/HD/HdDetailDoodad.cpp | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+index d392ef8c..5d12bf72 100644
+--- a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
++++ b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+@@ -624,6 +624,24 @@ void HD::DetailDoodadShaders() {
+     }
+     bool ours = ApplyAll(want);
+     if (want && !ours) ours = ApplyAll(false); // one did not take ours: all go back to Blizzard's
++    // Zeppelin I-439: a D3D9 driver that refuses one of our shaders (CreateVertexShader / CreatePixelShader failed:
++    // m_loaded set, m_valid not) leaves that slot bound to NULL, and the grass is drawn fixed-function: no chunk
++    // transform (every chunk's blades around the camera) and no lights (black). All go back to Blizzard's for the
++    // session, and hdGrassInfo names the slot.
++    if (ours && !HD::ShaderObjectOwnedByDevice()) {
++        for (int32_t p = 0; p < kVertexSlots + kPixelSlots; p++) {
++            bool vertex = p < kVertexSlots;
++            int32_t slot = vertex ? p : p - kVertexSlots;
++            CGxShader* shader = vertex ? CDetailDoodad::s_vertexShader[slot] : CDetailDoodad::s_pixelShader[slot];
++            if (shader && shader->m_loaded && !shader->m_valid) {
++                snprintf(s_refusedInfo, sizeof(s_refusedInfo), "the driver refused our DetailDoodad %s %d, Blizzard shaders kept",
++                    vertex ? "vertex" : "pixel", slot);
++                ours = ApplyAll(false);
++                ShowState(state);
++                break;
++            }
++        }
++    }
+     s_ours = ours;
+     if (s_inUse != inUse) ShowState(state);
+     if (!ours) return;
+-- 
+2.34.1
+
