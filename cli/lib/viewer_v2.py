@@ -530,6 +530,27 @@ class Deployer:
                     self._home.setdefault(ms.norm(str(m.get('model_path') or '')), d)
         return self._home.get(path)
 
+    def pack_display(self, path: str, options: List[ai.Option]) -> Optional[int]:
+        """A display one of these options' own packs puts on this model, for a path that only packs ship
+        (felreavernew, warhorse3b/pvpwarhorse2: neither stock nor the live build has a row on it, so the
+        model card had no skins and drew black, I-438). Named displays first, then the lowest id."""
+        srcs = self._srcs()
+        stock_cmd = self.result['stock_dbc'][1]
+        if getattr(self, '_pack_by_path', None) is None:
+            self._pack_by_path = {}
+        found = []
+        for x in sorted({s for o in options for s in o.sources if s != 'stock' and s in srcs}):
+            if x not in self._pack_by_path:
+                by: Dict[str, List[int]] = {}
+                for d, row in srcs[x].cdi.items():
+                    mid = int(row.get('model_id') or 0)
+                    m = srcs[x].cmd.get(mid) or stock_cmd.get(mid)
+                    if m:
+                        by.setdefault(ms.norm(str(m.get('model_path') or '')), []).append(d)
+                self._pack_by_path[x] = by
+            found += self._pack_by_path[x].get(path, [])
+        return min(found, key=lambda d: (not self.names.get(d), d)) if found else None
+
     def row_source(self, did: int, path: str, opt: ai.Option) -> str:
         """Which source's display row draws `did` for this option: the option's own pack if its
         row still uses this model, else stock."""
@@ -986,7 +1007,7 @@ class Deployer:
             panes = []
             # no LIVE display (a pack repointed them elsewhere, e.g. Big Blizzard Bear 27567): use the
             # displays that start on this model, drawn from each option's own rows
-            home = self.home_display(p) if did is None and tab == 'creature' else None
+            home = (self.home_display(p) or self.pack_display(p, a.options)) if did is None and tab == 'creature' else None
             pdid = did if did is not None or tab != 'creature' else (home or self.borrow_display(p))
             fsk = self.folder_skins(p, a.options) if tab == 'creature' and pdid is None else None
             for o in a.options:
@@ -999,7 +1020,11 @@ class Deployer:
                         pn['own_display'] = odid
                         panes.append(pn)
                     continue
-                pn = self.pane(p, o, pdid, skins=fsk, dbc_source=self.row_source(home, p, o) if home else None)
+                # the option's own row for the shown display when its pack has one on this model (Project
+                # Reforged's elitewyvernarmored fills 3 skin slots on 17719, the live row 1 stock skin: I-438)
+                rs = self.row_source(pdid, p, o) if pdid is not None and tab == 'creature' else None
+                pn = self.pane(p, o, pdid, skins=fsk,
+                               dbc_source=self.row_source(home, p, o) if home else (rs if rs != 'stock' else None))
                 if pn:
                     if pdid is not None and did is None and not home:
                         pn['borrowed'], pn['scale'] = pdid, 1.0
@@ -1063,7 +1088,7 @@ class Deployer:
                 continue
             ds = self.displays_of(p) if tab in ('creature', 'character') else []
             did = ds[0] if ds else None
-            home = self.home_display(p) if did is None and tab == 'creature' else None
+            home = (self.home_display(p) or self.pack_display(p, opts)) if did is None and tab == 'creature' else None
             pdid = did if did is not None or tab != 'creature' else (home or self.borrow_display(p))
             fsk = self.folder_skins(p, opts) if tab == 'creature' and pdid is None else None
             pn = self.pane(p, opts[0], pdid, skins=fsk, dbc_source=self.row_source(home, p, opts[0]) if home else None)
