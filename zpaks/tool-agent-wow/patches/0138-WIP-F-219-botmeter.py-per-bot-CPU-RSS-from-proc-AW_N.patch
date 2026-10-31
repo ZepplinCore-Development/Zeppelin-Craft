@@ -1,0 +1,79 @@
+From bdc9ae97aec3c1adb108ef18b9e87a8863a73b73 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 11:45:55 +0000
+Subject: [PATCH] WIP: F-219 - botmeter.py (per-bot CPU/RSS from /proc);
+ AW_NO_ENGAGE switch for A/B runs
+
+Measured 2026-10-31 on the Teldrassil hunter, 10 min each: road check on 0.02 mean / 0.22 peak
+cores, ~107 MB; off 0.09 / 0.32 cores, ~92 MB. The fleet is not a CPU or memory hog.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/botmeter.py   | 40 ++++++++++++++++++++++++++++++++++++
+ zeppelin/tests/start_area.py |  2 +-
+ 2 files changed, 41 insertions(+), 1 deletion(-)
+ create mode 100644 zeppelin/tests/botmeter.py
+
+diff --git a/zeppelin/tests/botmeter.py b/zeppelin/tests/botmeter.py
+new file mode 100644
+index 0000000..ae3cf92
+--- /dev/null
++++ b/zeppelin/tests/botmeter.py
+@@ -0,0 +1,40 @@
++"""botmeter.py CHAR SECONDS - CPU and memory of one fleet bot (F-219): its runner (CPU incl. reaped zep
++children) and its agent-wow session, sampled every 5 s from /proc."""
++import os, sys, time
++char, total = sys.argv[1], float(sys.argv[2])
++HZ, PAGE = os.sysconf("SC_CLK_TCK"), os.sysconf("SC_PAGE_SIZE")
++def procs():
++    out = {}
++    for pid in os.listdir("/proc"):
++        if not pid.isdigit():
++            continue
++        try:
++            cmd = open(f"/proc/{pid}/cmdline", "rb").read().replace(b"\0", b" ").decode()
++            if char not in cmd:
++                continue
++            f = open(f"/proc/{pid}/stat").read().rsplit(")", 1)[1].split()
++            cpu = sum(int(v) for v in f[11:15]) / HZ
++            rss = int(open(f"/proc/{pid}/statm").read().split()[1]) * PAGE / 2**20
++            kind = "runner" if "start_area.py" in cmd else "session" if "char play" in cmd else "other"
++            out[pid] = (kind, cpu, rss)
++        except Exception:
++            pass
++    return out
++t0 = time.time(); prev = procs(); pt = t0; rows = []
++while time.time() - t0 < total:
++    time.sleep(5)
++    now = procs(); nt = time.time(); dt = nt - pt
++    cpu = {"runner": 0.0, "session": 0.0, "other": 0.0}; rss = dict(cpu)
++    for pid, (k, c, m) in now.items():
++        if pid in prev:
++            cpu[k] += c - prev[pid][1]
++        rss[k] += m
++    rows.append(({k: v / dt for k, v in cpu.items()}, rss))
++    prev, pt = now, nt
++n = len(rows) or 1
++mc = {k: sum(r[0][k] for r in rows) / n for k in ("runner", "session", "other")}
++mm = {k: max(r[1][k] for r in rows) for k in ("runner", "session", "other")}
++print(f"{char}: {n} samples over {total:.0f} s")
++print(f"  mean cores: runner {mc['runner']:.2f}  session {mc['session']:.2f}  other {mc['other']:.2f}  total {sum(mc.values()):.2f}")
++print(f"  peak cores: {max(sum(r[0].values()) for r in rows):.2f}")
++print(f"  peak RSS MB: runner {mm['runner']:.0f}  session {mm['session']:.0f}  other {mm['other']:.0f}")
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index dbd630d..fbe6472 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -3153,7 +3153,7 @@ class Runner:
+           * a moving one we cannot take (pack member, too high): stand and let it pass (up to 15 s);
+           * a standing pack: the detour's job.
+         True = we acted (fought or waited)."""
+-        if getattr(self, "_engaging", False):
++        if getattr(self, "_engaging", False) or os.environ.get("AW_NO_ENGAGE"):
+             return False
+         me = self.me()
+         if math.dist((me["x"], me["y"]), (x, y)) < 10:
+-- 
+2.34.1
+
