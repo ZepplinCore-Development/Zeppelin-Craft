@@ -1,0 +1,79 @@
+From 36352a05e756c7840466cd4d4167acbbf0b4a0a2 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 07:26:31 +0000
+Subject: [PATCH] WIP: F-219 - self buffs out of combat (every class); hunter
+ opener Mark -> Concussive -> stings
+
+- ensure_buffs(): on_self buff abilities go up out of combat when their aura is missing (the
+  hunter spent the first GCD of 33 defend fights on Aspect of the Monkey)
+- hunter: Concussive Shot (pull_only, once) right after Hunter's Mark on a planned pull, then
+  Serpent Sting / Arcane Shot / Auto Shot while it closes; Arcane Shot floor 30 % -> 15 %
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 49ab9d7..67b4036 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -76,9 +76,13 @@ CLASS_ABILITIES = {
+         {"spell_id": 91119, "every_ms": 20000, "interrupt": True},                           # Silencing Shot (custom, level 4)
+         {"spell_id": 1130, "every_ms": 30000, "min_power": 15, "max_per_target": 1,
+          "pull_only": True},                                                                  # Hunter's Mark - before a planned pull only
+-        {"spell_id": 1978, "every_ms": 15000, "min_power": 15, "per_target": True, "min_power_pct": 20},  # Serpent Sting
+-        {"spell_id": 3044, "every_ms": 6000, "min_power": 15, "min_power_pct": 30},          # Arcane Shot (level 6)
+-        {"spell_id": 5116, "every_ms": 12000, "min_power": 15, "min_power_pct": 25},         # Concussive Shot (level 8)
++        # a planned pull opens with Concussive Shot right after the Mark: the slow is more shots before
++        # it reaches melee (user: hunters win by clearing most of the HP at range)
++        {"spell_id": 5116, "every_ms": 12000, "min_power": 15, "max_per_target": 1, "pull_only": True},  # Concussive Shot (level 8) opener
++        {"spell_id": 1978, "every_ms": 15000, "min_power": 15, "per_target": True, "min_power_pct": 15},  # Serpent Sting
++        # Arcane Shot at a 15 % floor, not 30: a hunter's damage is the shots - it fired in 65 of 198 fights
++        {"spell_id": 3044, "every_ms": 6000, "min_power": 15, "min_power_pct": 15},          # Arcane Shot (level 6)
++        {"spell_id": 5116, "every_ms": 12000, "min_power": 15, "min_power_pct": 25},         # Concussive Shot - again as it runs in
+         {"spell_id": 75, "every_ms": 2500},                                                  # Auto Shot
+         {"spell_id": 2973, "every_ms": 6000, "min_power": 15},                               # Raptor Strike (melee, on cooldown)
+         {"spell_id": 2974, "every_ms": 10000, "min_power": 15},                              # Wing Clip (level 12): snare in melee, then kite
+@@ -1416,6 +1420,29 @@ class Runner:
+         r = call("interact.cast", spell_id=688, target_kind="self", timeout_ms=13000)
+         print(f"  pet: Summon Imp - {r.get('detail')}", flush=True)
+ 
++    def ensure_buffs(self):
++        """Self buffs (Aspect of the Monkey, Frost Armor, Demon Skin, Fortitude...) go up OUT of combat,
++        whatever the class: in a fight they cost the opening global cooldown - the hunter spent its first
++        GCD of 33 defend fights on Aspect of the Monkey instead of a shot. Only when the aura is missing
++        (an aspect recast toggles it off). At most every 20 s."""
++        if time.time() - getattr(self, "_buff_t", 0) < 20:
++            return
++        self._buff_t = time.time()
++        st = call("combat.state")
++        if st.get("attackers") or st.get("dead"):
++            return
++        auras = set(st.get("auras", []))
++        power = call("interact.self").get("power", 0)
++        for a in self.abilities:
++            if not (a.get("buff") and a.get("on_self")) or a.get("below_health_pct") or a.get("min_attackers"):
++                continue
++            ranks = set(self.w.ranks.get(a["spell_id"], [a["spell_id"]])) | {a["spell_id"]}
++            if auras & ranks or power < a.get("min_power", 0):
++                continue
++            r = call("interact.cast", spell_id=a["spell_id"], target_kind="self", timeout_ms=3000)
++            print(f"  buff: {a['spell_id']} - {r.get('detail')}", flush=True)
++            time.sleep(1.6)  # the global cooldown before the next one
++
+     def ensure_conjured(self):
+         """A mage conjures its own water and food (Conjure Water 5504 level 4, Food 587 level 6) instead
+         of resting to full on nothing: rest() drinks/eats whatever class-0/5 item it carries."""
+@@ -2609,6 +2636,7 @@ class Runner:
+             if r.get("reason") == "we died":
+                 return  # the other attackers' kill calls would each log a "fight 0: we died" of their own
+         self.ensure_pet()
++        self.ensure_buffs()
+         self.ensure_conjured()
+         s = call("interact.self")
+         low_mana = (self.w.cls in MANA_CLASSES and s.get("powerType", 0) == 0 and s.get("maxPower")
+-- 
+2.34.1
+
