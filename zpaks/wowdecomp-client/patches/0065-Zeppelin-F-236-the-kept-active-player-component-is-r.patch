@@ -1,0 +1,34 @@
+From 93b585affd5546545a6ef30bb233dad03f028f47 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 12:20:28 +0000
+Subject: [PATCH] Zeppelin F-236: the kept active-player component is reused
+ only when it is of the race now drawn, so a worgen logging in or zoning in
+ the human form is built as a human (it was the char-select worgen)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01URnr7tKsFMZq4VFsSKkj3S
+---
+ WoW/Source/Object/ObjectClient/Unit_C.cpp | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/WoW/Source/Object/ObjectClient/Unit_C.cpp b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+index 725afaa3..71477b0e 100644
+--- a/WoW/Source/Object/ObjectClient/Unit_C.cpp
++++ b/WoW/Source/Object/ObjectClient/Unit_C.cpp
+@@ -9964,7 +9964,12 @@ void CGUnit_C::InitializeActivePlayerComponent() {
+         return;
+     }
+ 
+-    if (this->m_modelData && (this->m_modelData->m_flags & 0x4) && CGPlayer_C::s_displayId == this->m_unit->m_unitFieldDisplayid) {
++    // Zeppelin F-236: the kept component (char select / the last map) is only reused when it is of the race now drawn -
++    // a worgen logging in or zoning in the human form (OBJECT_FIELD_PADDING bit 31) needs a race 1 character
++    uint32_t race = this->m_unit->m_unitFieldBytes0[0];
++    uint32_t drawnRace = this->IsInAlteredForm() ? ClientGetAlteredFormRace(race) : race;
++
++    if (this->m_modelData && (this->m_modelData->m_flags & 0x4) && CGPlayer_C::s_displayId == this->m_unit->m_unitFieldDisplayid && component->m_data.m_preferences.m_raceID == drawnRace) {
+         this->SetCharacterModel(CCharacterComponent::m_activePlayerComponent->m_data.m_model);
+         this->m_characterComponent = component;
+         CCharacterComponent::m_activePlayerComponent = nullptr;
+-- 
+2.34.1
+
