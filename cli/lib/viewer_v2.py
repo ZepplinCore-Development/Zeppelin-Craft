@@ -265,6 +265,7 @@ class Deployer:
         self.result, self.ix, self.out = result, ix, out_root
         self.store = Store(out_root, ix.hash)
         self.picks = Picks(ix, result, choices)
+        self.choices = choices or {}
         self.names, self.equipment, self.log = names, equipment, log
         self.maps_dir = out_root / 'data' / 'maps'
         self.maps_dir.mkdir(parents=True, exist_ok=True)   # kept between runs; stale maps pruned at the end
@@ -2347,6 +2348,70 @@ def merge_retroports(assets: List[dict], log: Callable = print) -> None:
     log(f'  retroports: {n:,} retroport options merged into their retail model card')
 
 
+def merge_same_form(dep: 'Deployer', assets: List[dict], log: Callable = print) -> None:
+    """Two PACKS' options with the same form (lib/m2_unique.form: mesh, normals, UVs, animations, skeleton,
+    counts and .anim files equal; only batch textures / materials / shaders differ) are duplicates, the
+    user's rule (I-441: the WotLK HD client re-ships other packs' models with a layer edited). Stock against a
+    pack keeps the full look. Model cards merge such options; display cards merge them when the skins,
+    geosets, texture overrides and items are the same too (else a display card would split the model card's
+    option again by its repoint). A picked option survives the merge, so a pick still ships its own files;
+    otherwise the first. The merged-away keys join pane['same_look'] (Picks.mesh, reviewReason)."""
+    from lib import m2_unique as mu
+    meta = dep.ix._meta_cache()
+
+    def form_of(model: str, sources: List[str]) -> Optional[str]:
+        a = dep.ix.meshes.get(model)
+        if a is None or 'stock' in sources or not model.endswith('.m2'):
+            return None
+        o = next((x for x in a.options if set(sources) & set(x.sources)), None)
+        f, sk = (o.files.get(model), o.files.get(model[:-3] + '00.skin')) if o else (None, None)
+        if f is None or sk is None:
+            return None
+        ss = ai.stat_of(sk)
+        fm = meta.get(f'form1|{sk}|{ss[0]}|{ss[1]}', f, lambda x: mu.form(x.read_bytes(), sk.read_bytes()))
+        anims = sorted((k, dep.ix.hash(v)) for k, v in o.files.items() if k.endswith('.anim'))
+        return fm and hashlib.sha1(repr((fm, anims)).encode()).hexdigest()[:16]
+
+    picked_mesh = {p: {c.get('option'), c.get('file_option')} for p, c in (dep.choices.get('mesh') or {}).items()}
+    picked_disp = {k: c.get('option') for k, c in (dep.choices.get('display') or {}).items()}
+    n = 0
+    for e in assets:
+        panes = e.get('panes') or []
+        if len(panes) < 2:
+            continue
+        disp = e.get('tab') == 'display'
+        picked = {picked_disp.get(str(e.get('display')))} if disp else picked_mesh.get(e['path'], set())
+        groups: Dict[tuple, List[dict]] = {}
+        for p in panes:
+            if p.get('compare') or p.get('retroport') or (not disp and p.get('model') not in (None, e['path'])):
+                continue
+            fm = form_of(p.get('model') or e['path'], p.get('sources') or [])
+            if not fm:
+                continue
+            k = (p.get('model'), fm) if not disp else (p.get('model'), fm, tuple(p.get('skins') or ()), tuple(p.get('mesh') or ()),
+                 json.dumps(p.get('tex') or {}, sort_keys=True), json.dumps(p.get('items') or [], sort_keys=True))
+            groups.setdefault(k, []).append(p)
+        drop = set()
+        for g in groups.values():
+            if len(g) < 2:
+                continue
+            keep = next((p for p in g if p['option'] in picked), g[0])
+            for p in g:
+                if p is keep:
+                    continue
+                keep['sources'] = sorted(set(keep['sources']) | set(p['sources']), key=lambda x: (x != 'stock', x))
+                keep['same_look'] = list(dict.fromkeys((keep.get('same_look') or []) + [p['option']] + (p.get('same_look') or [])))
+                if e.get('current') == p['option']:
+                    e['current'] = keep['option']
+                drop.add(id(p))
+                n += 1
+        if drop:
+            e['panes'] = [p for p in panes if id(p) not in drop]
+            if len(e['panes']) == 1 and not disp:
+                e['single'] = True
+    log(f'  same form: {n:,} pack options merged into another pack\'s option (layers differ only)')
+
+
 def flag_unique(dep: 'Deployer', assets: List[dict], log: Callable = print) -> None:
     """pane['unique'] (lib/m2_unique): on a model card, what a pack option changes from the stock
     option - [[kind, text]], kind 'minor' for context - so the card says what to look for
@@ -2926,6 +2991,7 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
         annotate_retroports(dep, assets, v2, log)
         merge_identical_panes(assets, log)
         merge_retroports(assets, log)
+        merge_same_form(dep, assets, log)
         (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
     except Exception as ex:                                  # a preview nicety: never block a deploy
         log(f'  retroports: skipped - {ex}')

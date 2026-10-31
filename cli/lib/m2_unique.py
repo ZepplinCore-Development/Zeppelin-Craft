@@ -223,6 +223,15 @@ def look(m2: bytes, skin: Optional[bytes]) -> Optional[str]:
     return None if s is None else hashlib.sha1(repr(sorted(s['c'].items())).encode()).hexdigest()[:16]
 
 
+def form(m2: bytes, skin: Optional[bytes]) -> Optional[str]:
+    """look() without the layers: the same mesh, normals, UVs, animations, skeleton and counts, whatever
+    each batch's textures / material / shader. Two PACKS' options of one form are duplicates (the user's
+    rule, I-441: the WotLK HD client re-ships other packs' models with a layer edited - airelemental's
+    armorreflect4 env pass made plain); stock against a pack keeps the full look()."""
+    s = summary(m2, skin)
+    return None if s is None else hashlib.sha1(repr(sorted((k, v) for k, v in s['c'].items() if k != 'layers')).encode()).hexdigest()[:16]
+
+
 def _ids(xs) -> str:
     xs = list(xs)
     return ', '.join(str(x) for x in xs[:8]) + (f' +{len(xs) - 8} more' if len(xs) > 8 else '')
