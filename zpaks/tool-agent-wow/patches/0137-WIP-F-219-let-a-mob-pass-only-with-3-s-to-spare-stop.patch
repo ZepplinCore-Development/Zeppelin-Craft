@@ -1,0 +1,30 @@
+From d6eecfc6d7edb96c5ac0e2d0286a292a31aac2cf Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 08:36:15 +0000
+Subject: [PATCH] WIP: F-219 - let a mob pass only with 3 s+ to spare (stopping
+ inside its reach invited the fight)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 251ce46..dbd630d 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -3240,7 +3240,9 @@ class Runner:
+             self.kills += r.get("killed", False)
+             self.safe()  # a death, an add, or just rest before walking on
+             return True
+-        if moving and getattr(self, "_let_pass", 0) < now - 30:
++        # only while there is time to stay out of it (3 s+): stopping already at or inside its reach just
++        # let Ammen Vale's owlkin walk onto us (0.0-2.0 s "let pass" stops became defend fights)
++        if moving and t >= 3.0 and getattr(self, "_let_pass", 0) < now - 30:
+             # a patrol/wanderer we must not meet: let it go by
+             self._let_pass = now
+             print(f"  let {o['entry']} (level {lv}{', pack' if pack else ''}) pass - it reaches our road in {t:.1f} s", flush=True)
+-- 
+2.34.1
+
