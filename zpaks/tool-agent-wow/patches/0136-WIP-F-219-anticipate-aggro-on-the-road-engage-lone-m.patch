@@ -1,0 +1,154 @@
+From 7a7c7078d2085ac39960a27ffbbda718f920bc6d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 08:34:12 +0000
+Subject: [PATCH] WIP: F-219 - anticipate aggro on the road: engage lone mobs
+ on our terms, let patrols pass
+
+engage_ahead() runs before every 6 s walking slice: our navmesh route projected at run speed for
+10 s against every hostile within 100 yd moving on its observed heading/speed. The first whose
+aggro radius our predicted position enters is pulled as a planned pull if we can take it alone
+(not in a pack, at most a level up, not grey); a moving one we cannot take is let pass (15 s);
+standing packs stay the detour's job. 188 of the hunter's 198 fights were walk-in defend fights.
+Offline-tested on synthetic cases (on-road, off-road, crossing patrol, high patrol, pack).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 114 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 114 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 67b4036..251ce46 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -3036,6 +3036,8 @@ class Runner:
+         # walk in 6 s slices and turn to fight between them: one 25 s path_to let a mob that aggroed
+         # on the way hit our back the whole time (most early deaths were on the road, not in camps)
+         for _ in range(60):
++            if not self.reviving and self.engage_ahead(x, y, z):
++                continue  # pulled it on our terms: walk on from here
+             before = self.me()
+             try:
+                 # stop the moment something attacks: fight it where it caught us, then walk on
+@@ -3139,6 +3141,118 @@ class Runner:
+                 self.safe()
+         return False
+ 
++    def engage_ahead(self, x, y, z=0.0, horizon=10.0, look=100.0):
++        """Anticipate aggro: walk OUR planned route forward in time (run speed, `horizon` s - this slice
++        and the next) against every hostile within `look` yd moving on ITS heading (speed from where we
++        saw it last; a mob standing still stays put). The first one whose aggro radius our predicted
++        position enters is the risk:
++          * one we can take alone (not in a pack, at most a level above us, not grey): pull it now, on our
++            terms - the planned-pull opener (hunter Mark + Concussive + shots, a caster's bolt from range,
++            the rogue from stealth) instead of an ambush. 188 of the hunter's 198 fights were defend
++            fights: it walked into them;
++          * a moving one we cannot take (pack member, too high): stand and let it pass (up to 15 s);
++          * a standing pack: the detour's job.
++        True = we acted (fought or waited)."""
++        if getattr(self, "_engaging", False):
++            return False
++        me = self.me()
++        if math.dist((me["x"], me["y"]), (x, y)) < 10:
++            return False
++        s = call("interact.self")
++        level = s.get("level", 1)
++        top = {}
++        for t in self.threats():
++            top[t[3]] = max(top.get(t[3], 0), t[2])
++        now = time.time()
++        mobs = [o for o in call("interact.find", type=3, radius=look, limit=80).get("objects", [])
++                if o.get("health", 0) > 0 and not o.get("npcFlags") and o.get("entry") in top]
++        seen = self.__dict__.setdefault("_mob_seen", {})
++        vel = {}
++        for o in mobs:
++            g = int(o["guid"])
++            last = seen.get(g)
++            if last and 0.5 < now - last[0] < 12:
++                dt = now - last[0]
++                vx, vy = (o["x"] - last[1]) / dt, (o.get("y", 0) - last[2]) / dt
++                vel[g] = (vx, vy) if math.hypot(vx, vy) < 12 else (0.0, 0.0)  # a teleport/respawn is no speed
++            seen[g] = (now, o["x"], o.get("y", 0))
++        for g in [g for g, v in seen.items() if now - v[0] > 60]:
++            del seen[g]
++        if not mobs:
++            return False
++        # our route, as points at 0.5 s steps (run speed ~7 yd/s)
++        try:
++            pts = call("move.path", x=x, y=y, z=z or me.get("z", 0)).get("points", [])
++        except StepFailed:
++            pts = []
++        route = [(me["x"], me["y"])] + [(p.get("x", 0), p.get("y", 0)) for p in pts[1:]]
++        if len(route) < 2:
++            route = [(me["x"], me["y"]), (x, y)]  # no plan: the straight line
++        speed, step = 7.0, 0.5
++        ours, i, pos, left = [], 0, route[0], 0.0
++        for k in range(int(horizon / step) + 1):
++            ours.append(pos)
++            need = speed * step
++            while need > 0 and i + 1 < len(route):
++                seg = math.dist(pos, route[i + 1])
++                if seg <= need:
++                    need -= seg
++                    pos, i = route[i + 1], i + 1
++                else:
++                    f = need / seg
++                    pos = (pos[0] + (route[i + 1][0] - pos[0]) * f, pos[1] + (route[i + 1][1] - pos[1]) * f)
++                    need = 0
++        tried = self.__dict__.setdefault("_engaged", {})
++        risk = None
++        for o in mobs:
++            lv = top[o["entry"]]
++            if lv <= gray_level(level):
++                continue  # a grey mob does not attack us
++            vx, vy = vel.get(int(o["guid"]), (0.0, 0.0))
++            reach = self.aggro_r(lv, level) + 3
++            for k, p in enumerate(ours):
++                t = k * step
++                mx, my = o["x"] + vx * t, o.get("y", 0) + vy * t
++                if math.dist(p, (mx, my)) < reach:
++                    if not risk or t < risk[0]:
++                        risk = (t, o, lv, (vx, vy))
++                    break
++        if not risk:
++            return False
++        t, o, lv, (vx, vy) = risk
++        moving = math.hypot(vx, vy) > 0.5
++        pack = any(m is not o and top.get(m["entry"], 0) > gray_level(level)
++                   and math.dist((m["x"], m.get("y", 0)), (o["x"], o.get("y", 0))) < 18 for m in mobs)
++        if lv <= level + 1 and not pack and now - tried.get(int(o["guid"]), 0) > 120:
++            tried[int(o["guid"])] = now
++            if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70:
++                self.rest(95)  # never start it hurt
++            if self.w.cls == 4:
++                self.stealth(wait=True)
++            print(f"  engage on our terms: {o['entry']} (level {lv}) {o.get('distance', 0):.0f} yd away, "
++                  f"{'moving' if moving else 'standing'} - our road meets its reach in {t:.1f} s", flush=True)
++            self._engaging = True
++            try:
++                r = call("combat.kill", guid=int(o["guid"]), **self.fight_args(solo=True), loot=True)
++            finally:
++                self._engaging = False
++            self.fight_log(o["entry"], r)
++            self.kills += r.get("killed", False)
++            self.safe()  # a death, an add, or just rest before walking on
++            return True
++        if moving and getattr(self, "_let_pass", 0) < now - 30:
++            # a patrol/wanderer we must not meet: let it go by
++            self._let_pass = now
++            print(f"  let {o['entry']} (level {lv}{', pack' if pack else ''}) pass - it reaches our road in {t:.1f} s", flush=True)
++            call("move.stop")
++            for _ in range(15):
++                time.sleep(1)
++                if call("combat.state").get("attackers"):
++                    self.safe()
++                    break
++            return True
++        return False
++
+     def nav_map(self):
+         """The map whose navmesh our phase walks - core TerrainSwapInfo::Resolve: an exact
+         definition match, else none when bit 1 is set, else the one map every overlapped rule names."""
+-- 
+2.34.1
+
