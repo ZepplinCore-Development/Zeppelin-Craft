@@ -856,6 +856,10 @@ function retailNamedPanel(path, only, scale) {
 // a display pick saved before a path was split per file (option = the bare path) means the card of
 // that path whose sources include the pick's first source
 function splitKey(c, entry) {
+  const k = splitKey_(c, entry);
+  return (k && entry && !(k in optionsOf(entry)) && dupRenames(c, entry).get(k)) || k;   // a duplicate joined it
+}
+function splitKey_(c, entry) {
   if (c && entry && entry.tab === 'creature' && c.option) return modelSplitKey(c, entry);   // picks without displays too ('+r' renames)
   if (!c || !entry || entry.tab !== 'display' || !c.option || String(c.option).includes('#')) return c && c.option;
   const p = (entry.panes || []).find(x => x.option.startsWith(c.option + '#') && (c.sources || []).some(z => x.sources.includes(z)));
@@ -882,6 +886,23 @@ function modelSplitKey(c, e) {
   const fo = t && ((choices.mesh[t.path] || {}).option || t.current), tp = t && t.panes.find(p => p.option === fo);
   return ((tp && cand.find(g => g.sources.some(x => tp.sources.includes(x)))) || cand[0]).key;
 }
+// a pack joining an option as a duplicate renames it: a display card is keyed 'path#<its sources>' and a
+// model card's '+r' key hashes those (bear.m2: patch-hd-everything's 'b610776b21ce+rx9z95t' became '+rbkropt'
+// when the WotLK HD client merged into it). The same file with the saved option's sources plus only packs
+// never offered before is that option, not a new one. -> Map(saved key -> key now)
+function dupRenames(c0, entry) {
+  const out = new Map();
+  if (!c0 || !c0.options || !entry) return out;
+  const now = optionsOf(entry), offered = new Set(Object.values(c0.options).flat());
+  const base = (k) => String(k).split('#')[0].split('+r')[0];
+  Object.keys(now).forEach(k => {
+    if (k in c0.options) return;
+    const o = Object.keys(c0.options).find(o => !(o in now) && !out.has(o) && base(o) === base(k) &&
+      c0.options[o].every(z => now[k].includes(z)) && now[k].every(z => c0.options[o].includes(z) || !offered.has(z)));
+    if (o) out.set(o, k);
+  });
+  return out;
+}
 function reviewReason(kind, key, entry) {
   const c0 = choices[kind][key];
   if (!c0 || !c0.options || !entry) return null;
@@ -889,8 +910,15 @@ function reviewReason(kind, key, entry) {
   // option it was merged into, and is not "removed"
   const merged = new Map();
   (entry.panes || []).forEach(p => (p.same_look || []).forEach(k => merged.set(k, p.option)));
-  const c = { ...c0, option: merged.get(c0.option) || splitKey(c0, entry) };
   const now = optionsOf(entry);
+  dupRenames(c0, entry).forEach((k, o) => { if (!merged.has(o)) merged.set(o, k); });
+  const c = { ...c0, option: merged.get(c0.option) || splitKey(c0, entry) };
+  const dupJoined = new Set(merged.values());
+  // a card split per file is not new when its sources were already offered on that path
+  // (+ packs never offered before that joined it as duplicates)
+  const offered = new Set(Object.values(c0.options).flat());
+  const renamed = (k) => { const [base] = String(k).split('#'); return k.includes('#') && base in c0.options &&
+    (now[k] || []).every(z => (c0.options[base] || []).includes(z) || !offered.has(z)); };
   // F-220's riderless repoint (zep-mounted-npcs / -packs) appearing on a model is not a new choice to review:
   // the rider split ships with F-220 (a pick OF such an option still counts as offered)
   const f220 = (k) => (now[k] || []).length && now[k].every(z => String(z).startsWith('zep-mounted-npcs'));
@@ -899,13 +927,10 @@ function reviewReason(kind, key, entry) {
   if (c.option !== c0.option) {                      // same choice, renamed by the split: compare its sources
     // renamed cards whose sources were all offered before are not new
     const had = new Set(Object.values(c0.options).flat());
-    const added0 = Object.keys(now).filter(k => !was(k, c0.options) && !k.startsWith(c0.option + '#') && !(now[k] || []).every(z => had.has(z)) && !f220(k));
+    const added0 = Object.keys(now).filter(k => !was(k, c0.options) && !dupJoined.has(k) && !k.startsWith(c0.option + '#') && !(now[k] || []).every(z => had.has(z)) && !renamed(k) && !f220(k));
     return added0.length ? `new option: ${added0.map(k => label(now[k])).join(', ')}` : null;
   }
-  // a card split per file is not new when its sources were already offered on that path
-  const renamed = (k) => { const [base] = String(k).split('#'); return k.includes('#') && base in c.options &&
-    (now[k] || []).every(z => (c.options[base] || []).includes(z)); };
-  const added = Object.keys(now).filter(k => !was(k, c.options) && !renamed(k) && !f220(k));
+  const added = Object.keys(now).filter(k => !was(k, c.options) && !dupJoined.has(k) && !renamed(k) && !f220(k));
   // bake options join optionsOf only once bakeCards has loaded the display's bakes (custom_stock): until
   // then a 'bake:' key is unknown, not gone (25979's pick read 'no longer offered' on every open)
   const gone = Object.keys(c.options).filter(k => !(k in now) && !merged.has(k) && !(k.startsWith('bake:') && !entry.bakes) && !Object.keys(now).some(n => n.startsWith(k + '#')) &&
