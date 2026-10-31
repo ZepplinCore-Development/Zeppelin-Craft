@@ -3,3 +3,4 @@
 
 ZepAdvancedOptions.lua
 ZepHDOptions.lua
+ZepLootBeamOptions.lua

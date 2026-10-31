@@ -1,0 +1,711 @@
+From 8d3335ecd1a1971695f5d8454420dae67692fb28 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 08:17:44 +0000
+Subject: [PATCH] Zeppelin F-238: loot beam - a beam of light over every corpse
+ you can loot (port of wxl-loot-beam by manatactical, GPL-3.0):
+ ClntObjMgrEnumVisibleObjects + CGUnitData (health 0, UNIT_DYNFLAG_LOOTABLE),
+ colour from CGLootInfo / the mod-loot-beam UNIT_FIELD_PADDING hint, drawn
+ with the fixed-function Gx immediate path (additive, depth-tested) after
+ SpellVisualsRender so D3D9 and Vulkan both draw it; lootBeam* CVars
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ WoW/Source/Ui/WorldFrame.cpp                 |   2 +
+ WoW/Source/WorldClient/LootBeam/LootBeam.cpp | 609 +++++++++++++++++++
+ WoW/Source/WorldClient/LootBeam/LootBeam.h   |  28 +
+ WoW/Source/WorldClient/WorldParam_CVar.cpp   |   2 +
+ 4 files changed, 641 insertions(+)
+ create mode 100644 WoW/Source/WorldClient/LootBeam/LootBeam.cpp
+ create mode 100644 WoW/Source/WorldClient/LootBeam/LootBeam.h
+
+diff --git a/WoW/Source/Ui/WorldFrame.cpp b/WoW/Source/Ui/WorldFrame.cpp
+index 0417aecb..5da1e162 100644
+--- a/WoW/Source/Ui/WorldFrame.cpp
++++ b/WoW/Source/Ui/WorldFrame.cpp
+@@ -97,6 +97,7 @@
+ #include "WoW/Source/WorldClient/HD/HdGrade.h" // HD: hdGrade cvar
+ #include "WoW/Source/WorldClient/HD/HdGI.h" // HD: hdGI cvar
+ #include "WoW/Source/WorldClient/HD/HdContactShadow.h" // HD: hdContactShadow cvar
++#include "WoW/Source/WorldClient/LootBeam/LootBeam.h" // Zeppelin F-238: lootBeam cvars
+ #ifdef WOWDECOMP_VULKAN
+ // HD: wrappers in GxVulkan (hd/HdVulkanFog, HdVulkanBloom, HdVulkanGrade); each runs the original D3D9 effect off Vulkan.
+ namespace HD::VulkanFog { void BeginWorld(); void EndWorld(); void FinishWorld(); }
+@@ -1822,6 +1823,7 @@ void CGWorldFrame::OnWorldRender() {
+         HD::CataRenderPerf::Scope hdPerf(HD::CataRenderPerf::Stage::Spells);
+         SpellVisualsTick();
+         SpellVisualsRender();
++        Zep::LootBeam::Render(); // Zeppelin F-238: loot beams over lootable corpses (world depth, before the B2F draw lists)
+         CGUnit_C::RenderMissileTrajectoryTargetingTexture();
+         this->ClearTrackedObjects();
+         CWorldScene::RenderParticulate();
+diff --git a/WoW/Source/WorldClient/LootBeam/LootBeam.cpp b/WoW/Source/WorldClient/LootBeam/LootBeam.cpp
+new file mode 100644
+index 00000000..aaf1886e
+--- /dev/null
++++ b/WoW/Source/WorldClient/LootBeam/LootBeam.cpp
+@@ -0,0 +1,609 @@
++// Zeppelin F-238 (Loot Beam): ported from wxl-loot-beam by manatactical (WarcraftXL), GPL-3.0-or-later.
++// See LootBeam.h. The look (vertical profile, soft edges, white-hot core, GUID-seeded sparkle motes,
++// breathing pulse, fades) follows the original's LootBeam.cpp; the drawing, the data sources and the
++// settings are the client's own.
++#include "WoW/Source/WorldClient/LootBeam/LootBeam.h"
++#include <cmath>
++#include <cstdint>
++#include <cstdio>
++#include <cstdlib>
++#include <cstring>
++#include "Engine/Source/ConsoleBase/ConsoleVar.h"
++#include "Engine/Source/ConsoleBase/Types.h"
++#include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
++#include "Engine/Source/Gx/Gx.h"
++#include "Engine/Source/Os/TimeManager.h"
++#include "Engine/Source/Tempest/C3Vector.h"
++#include "Engine/Source/Tempest/C44Matrix.h"
++#include "Engine/Source/Tempest/CAaBox.h"
++#include "Engine/Source/Tempest/CImVector.h"
++#include "WoW/Source/DB/DBClient/DBCacheInstances.h"
++#include "WoW/Source/Object/ItemStats.h"
++#include "WoW/Source/Object/ObjectClient/Unit_C.h"
++#include "WoW/Source/ObjectMgrClient/ObjectMgrClient.h"
++#include "WoW/Source/Ui/LootFrame.h"
++#include "WoW/Source/Ui/WorldFrame.h"
++#include "WoW/Source/UIUtil/Camera.h"
++#include "WoW/Source/WorldClient/World.h"
++
++namespace Zep::LootBeam {
++namespace {
++    constexpr float kTwoPi = 6.28318530717959f;
++
++    // Beam categories. A quality q is tier q + kTierPoor; kTierCurrency is a corpse whose loot is money only.
++    enum Tier { kTierUnknown = -1, kTierCurrency = 0, kTierPoor, kTierCommon, kTierUncommon, kTierRare, kTierEpic, kTierLegendary, kTierArtifact, kTierHeirloom, kTierCount };
++
++    // UNIT_FIELD_PADDING as mod-loot-beam writes it on a creature corpse: quality + 1 (1..8), 9 = money only,
++    // 0 = no hint. (A player's padding is its F-151 appearance bytes; players are never read.)
++    constexpr uint32_t kHintQualityMax = 7;
++    constexpr uint32_t kHintCurrency = kHintQualityMax + 2;
++    constexpr uint32_t kDynFlagLootable = 0x1; // UNIT_DYNFLAG_LOOTABLE, sent only to the players with loot rights
++
++    // Tier colours: the client's own item quality colours (ITEM_QUALITY_COLORS); money-only is pale gold.
++    // The original shipped currency, poor and common as black, which an additive beam draws as nothing.
++    const float kTierColor[kTierCount][3] = {
++        { 1.00f, 0.93f, 0.60f }, // currency
++        { 0.62f, 0.62f, 0.62f }, // poor
++        { 1.00f, 1.00f, 1.00f }, // common
++        { 0.12f, 1.00f, 0.00f }, // uncommon
++        { 0.00f, 0.44f, 0.87f }, // rare
++        { 0.64f, 0.21f, 0.93f }, // epic
++        { 1.00f, 0.50f, 0.00f }, // legendary
++        { 0.90f, 0.80f, 0.50f }, // artifact
++        { 0.00f, 0.80f, 1.00f }, // heirloom
++    };
++
++    constexpr int kMaxBeacons = 64;
++    constexpr int kMaxSparkles = 32;
++    constexpr int kBeamMaxRows = 48;
++    constexpr int kBeamMaxCols = 4;
++    constexpr int kSparkleSegments = 8;
++    constexpr int kSparkleVerts = 1 + 2 * kSparkleSegments;
++    constexpr int kSparkleIndices = 9 * kSparkleSegments;
++    constexpr int kMaxVerts = (kBeamMaxRows + 1) * (kBeamMaxCols + 1) + kMaxSparkles * kSparkleVerts;
++    constexpr int kMaxIndices = kBeamMaxRows * kBeamMaxCols * 6 + kMaxSparkles * kSparkleIndices;
++
++    // Fixed look (the original's INI defaults); the rest are CVars.
++    constexpr float kBaseOffset = 1.0f;     // the shaft starts this far above the body, fading in from nothing
++    constexpr float kWidthPerYard = 0.010f; // minimum half-width per yard of camera distance
++    constexpr float kPulseSpeed = 1.6f;
++    constexpr float kFadeIn = 0.35f;
++    constexpr float kFadeOut = 0.70f;
++    constexpr float kSparkleSize = 0.04f;
++    constexpr float kSparkleAlpha = 0.90f;
++    constexpr float kSparkleRise = 1.00f;
++    constexpr float kSparkleDrift = 0.05f;
++    constexpr float kSparkleLife = 2.40f;
++    constexpr float kSparkleTwinkle = 6.00f;
++    constexpr float kDepthPush = 1.5f;      // yards the beam is pulled toward the eye (depth only, see Pull)
++    constexpr float kDepthPushPerYard = 0.02f;
++
++    struct Sparkle {
++        float pos[3] = {};
++        float vel[3] = {};
++        float age = 0.0f;
++        float life = 1.0f;
++        float twinkle = 0.0f;
++        float twinkleSpeed = 0.0f;
++    };
++
++    struct Beacon {
++        uint64_t guid = 0;
++        float pos[3] = {};
++        float fade = 0.0f;
++        int tier = kTierUnknown;
++        bool seen = false;
++        uint32_t rng = 0;
++        Sparkle sparkles[kMaxSparkles];
++    };
++
++    struct Style {
++        bool enabled = true;
++        float height = 20.0f;
++        float width = 0.5f;
++        float alpha = 0.75f;
++        float pulse = 0.2f;
++        int sparkles = 24;
++        float maxDistance = 0.0f;
++        bool throughWalls = false;
++        bool requireLootable = true;
++        bool lootColor = true;
++        bool serverColor = true;
++        int minTier = kTierCurrency;
++        float color[3] = { 1.00f, 0.82f, 0.42f }; // unknown loot: warm gold (#FFD070)
++    };
++
++    CVar* s_cvEnabled = nullptr;
++    CVar* s_cvHeight = nullptr;
++    CVar* s_cvWidth = nullptr;
++    CVar* s_cvAlpha = nullptr;
++    CVar* s_cvPulse = nullptr;
++    CVar* s_cvSparkles = nullptr;
++    CVar* s_cvMaxDistance = nullptr;
++    CVar* s_cvThroughWalls = nullptr;
++    CVar* s_cvRequireLootable = nullptr;
++    CVar* s_cvLootColor = nullptr;
++    CVar* s_cvServerColor = nullptr;
++    CVar* s_cvMinQuality = nullptr;
++    CVar* s_cvColor = nullptr;
++    CVar* s_cvInfo = nullptr;
++    char s_lastInfo[96] = "";
++
++    Style s_style;
++    Beacon s_beacons[kMaxBeacons];
++    int s_tracked = 0;
++    float s_phase = 0.0f;
++    uint32_t s_lastMs = 0;
++
++    uint64_t s_lootGuid = 0;  // loot the cached tier belongs to
++    int s_lootTier = kTierUnknown;
++    uint32_t s_lootRetryMs = 0; // next re-read while some slot's item is not in the item cache yet
++
++    C3Vector s_verts[kMaxVerts];
++    CImVector s_colors[kMaxVerts];
++    uint16_t s_indices[kMaxIndices];
++    int s_vertCount = 0;
++    int s_indexCount = 0;
++
++    float Clamp(float v, float lo, float hi) { return v != v ? lo : (v < lo ? lo : (v > hi ? hi : v)); }
++    float Clamp01(float v) { return Clamp(v, 0.0f, 1.0f); }
++
++    float CVarFloat(CVar* cv, float fallback, float lo, float hi) { return cv ? Clamp(cv->m_floatValue, lo, hi) : fallback; }
++    int CVarInt(CVar* cv, int fallback, int lo, int hi) {
++        if (!cv) return fallback;
++        int v = cv->m_intValue;
++        return v < lo ? lo : (v > hi ? hi : v);
++    }
++
++    // "RRGGBB" or "#RRGGBB"; anything else keeps the current colour.
++    void ParseColor(const char* text, float out[3]) {
++        if (!text) return;
++        if (*text == '#') text++;
++        if (std::strlen(text) != 6) return;
++        char* end = nullptr;
++        unsigned long v = std::strtoul(text, &end, 16);
++        if (!end || *end) return;
++        out[0] = float((v >> 16) & 0xFF) / 255.0f;
++        out[1] = float((v >> 8) & 0xFF) / 255.0f;
++        out[2] = float(v & 0xFF) / 255.0f;
++    }
++
++    void ReadStyle() {
++        Style& s = s_style;
++        s.enabled = !s_cvEnabled || s_cvEnabled->m_intValue != 0;
++        s.height = CVarFloat(s_cvHeight, 20.0f, 2.0f, 100.0f);
++        s.width = CVarFloat(s_cvWidth, 0.5f, 0.05f, 3.0f);
++        s.alpha = CVarFloat(s_cvAlpha, 0.75f, 0.0f, 1.0f);
++        s.pulse = CVarFloat(s_cvPulse, 0.2f, 0.0f, 1.0f);
++        s.sparkles = CVarInt(s_cvSparkles, 24, 0, kMaxSparkles);
++        s.maxDistance = CVarFloat(s_cvMaxDistance, 0.0f, 0.0f, 2000.0f);
++        s.throughWalls = s_cvThroughWalls && s_cvThroughWalls->m_intValue != 0;
++        s.requireLootable = !s_cvRequireLootable || s_cvRequireLootable->m_intValue != 0;
++        s.lootColor = !s_cvLootColor || s_cvLootColor->m_intValue != 0;
++        s.serverColor = !s_cvServerColor || s_cvServerColor->m_intValue != 0;
++        // lootBeamMinQuality: -1 = every corpse (money-only too), 0 poor .. 7 heirloom = the rarest item must
++        // reach it. A corpse whose loot is not known yet always shows.
++        s.minTier = CVarInt(s_cvMinQuality, -1, -1, 7) + kTierPoor;
++        if (s_cvColor) ParseColor(s_cvColor->m_stringValue.m_str, s.color);
++    }
++
++    void SetInfo(const char* text) {
++        if (!s_cvInfo || !std::strcmp(s_lastInfo, text)) return;
++        std::snprintf(s_lastInfo, sizeof(s_lastInfo), "%s", text);
++        s_cvInfo->Set(s_lastInfo, true, false, false, false);
++    }
++
++    // --- sparkle motes (the original's SpawnSparkle / AdvanceSparkle) -----------------------------------
++
++    uint32_t NextRandom(uint32_t& state) {
++        state ^= state << 13;
++        state ^= state >> 17;
++        state ^= state << 5;
++        return state;
++    }
++
++    float Random01(uint32_t& state) { return float(NextRandom(state) >> 8) * (1.0f / 16777216.0f); }
++
++    void SpawnSparkle(Sparkle& sp, uint32_t& rng) {
++        const Style& st = s_style;
++        const float top = std::fmax(st.height, kBaseOffset + 0.1f);
++        const float span = top - kBaseOffset;
++        const float ang = Random01(rng) * kTwoPi;
++        const float rad = std::sqrt(Random01(rng)) * st.width * 1.5f;
++        const float dir = Random01(rng) * kTwoPi;
++        const float drift = kSparkleDrift * (0.4f + 1.2f * Random01(rng));
++        sp.vel[0] = std::cos(dir) * drift;
++        sp.vel[1] = std::sin(dir) * drift;
++        sp.vel[2] = kSparkleRise * (0.5f + Random01(rng));
++        sp.life = kSparkleLife * (0.6f + 0.8f * Random01(rng));
++        sp.age = Random01(rng) * sp.life * 0.5f;
++        sp.twinkle = Random01(rng) * kTwoPi;
++        sp.twinkleSpeed = kSparkleTwinkle * (0.6f + 0.8f * Random01(rng));
++        // low in the shaft more often than high
++        const float h = std::fmin(std::fmin(Random01(rng), Random01(rng)), Random01(rng));
++        sp.pos[0] = std::cos(ang) * rad + sp.vel[0] * sp.age;
++        sp.pos[1] = std::sin(ang) * rad + sp.vel[1] * sp.age;
++        sp.pos[2] = kBaseOffset + span * 0.85f * h + sp.vel[2] * sp.age;
++    }
++
++    void SeedSparkles(Beacon& b) {
++        uint32_t seed = uint32_t(b.guid) ^ uint32_t(b.guid >> 32) ^ 0x9E3779B9u;
++        b.rng = seed ? seed : 0xA341316Cu;
++        for (Sparkle& sp : b.sparkles) SpawnSparkle(sp, b.rng);
++    }
++
++    void AdvanceSparkles(Beacon& b, float dt) {
++        const float top = std::fmax(s_style.height, kBaseOffset + 0.1f);
++        for (Sparkle& sp : b.sparkles) {
++            sp.age += dt;
++            for (int k = 0; k < 3; k++) sp.pos[k] += sp.vel[k] * dt;
++            sp.twinkle += sp.twinkleSpeed * dt;
++            if (sp.age >= sp.life || sp.pos[2] > top) SpawnSparkle(sp, b.rng);
++        }
++    }
++
++    // --- what is on the ground --------------------------------------------------------------------------
++
++    struct Scan {
++        C3Vector camera;
++        float maxD2;
++        int units;
++        int corpses;
++    };
++
++    Beacon* Track(uint64_t guid) {
++        for (int i = 0; i < s_tracked; i++) {
++            if (s_beacons[i].guid == guid) return &s_beacons[i];
++        }
++        if (s_tracked >= kMaxBeacons) return nullptr; // full: it gets a slot when another fades out
++        Beacon& b = s_beacons[s_tracked++];
++        b = Beacon();
++        b.guid = guid;
++        SeedSparkles(b);
++        return &b;
++    }
++
++    int32_t EnumUnit(WOWGUID guid, void* param) {
++        Scan& scan = *static_cast<Scan*>(param);
++        CGUnit_C* unit = static_cast<CGUnit_C*>(ClntObjMgrObjectPtr(guid, TYPEMASK_UNIT, __FILE__, __LINE__));
++        if (!unit || !unit->m_unit || !unit->m_obj) return 1;
++        scan.units++;
++        if (unit->m_obj->m_type & TYPEMASK_PLAYER) return 1; // a player's corpse is not loot
++        const CGUnitData* data = unit->m_unit;
++        if (data->m_unitFieldHealth != 0) return 1;
++        if (s_style.requireLootable && !(data->m_unitDynamicFlags & kDynFlagLootable)) return 1;
++        const C3Vector pos = unit->GetPosition();
++        if (scan.maxD2 > 0.0f) {
++            const float dx = pos.x - scan.camera.x, dy = pos.y - scan.camera.y, dz = pos.z - scan.camera.z;
++            if (dx * dx + dy * dy + dz * dz > scan.maxD2) return 1;
++        }
++        Beacon* b = Track(guid.m_guid);
++        if (!b) return 1;
++        scan.corpses++;
++        b->pos[0] = pos.x;
++        b->pos[1] = pos.y;
++        b->pos[2] = pos.z;
++        b->seen = true;
++        // mod-loot-beam's hint, set when the creature died. A tier only ever climbs, so a rarer item the
++        // client learns from the loot window is never pushed back down by it.
++        if (s_style.lootColor && s_style.serverColor) {
++            const uint32_t hint = data->m_unitFieldPadding;
++            int tier = kTierUnknown;
++            if (hint == kHintCurrency) tier = kTierCurrency;
++            else if (hint >= 1 && hint <= kHintQualityMax + 1) tier = int(hint); // quality + 1 == quality + kTierPoor
++            if (tier > b->tier) b->tier = tier;
++        }
++        return 1;
++    }
++
++    // The rarest item in the open loot (CGLootInfo holds one loot at a time: the one the server last answered
++    // a loot request for). -1 when nothing is known; *pending when a slot's item is not in the item cache yet.
++    int ReadLootTier(bool* pending) {
++        *pending = false;
++        int best = -1;
++        bool any = false;
++        for (uint32_t i = 0; i < 18; i++) {
++            const int32_t item = CGLootInfo::m_slots[i].m_itemID;
++            if (item <= 0) continue;
++            any = true;
++            WOWGUID none = WOWGUID();
++            ItemStats_C* stats = g_itemDBCache.GetRecord(item, none, nullptr, nullptr, false);
++            if (!stats) {
++                *pending = true;
++                continue;
++            }
++            const int q = int(stats->m_quality) > int(kHintQualityMax) ? int(kHintQualityMax) : int(stats->m_quality);
++            if (q > best) best = q;
++        }
++        if (best >= 0) return best + kTierPoor;
++        if (!any && CGLootInfo::m_coins > 0) return kTierCurrency;
++        return kTierUnknown;
++    }
++
++    void ScanLoot(uint32_t nowMs) {
++        if (!s_style.lootColor) {
++            s_lootGuid = 0;
++            s_lootTier = kTierUnknown;
++            return;
++        }
++        const uint64_t guid = CGLootInfo::m_lootObj.m_guid;
++        if (guid != s_lootGuid || (guid && s_lootRetryMs && nowMs >= s_lootRetryMs)) {
++            bool pending = false;
++            s_lootGuid = guid;
++            s_lootTier = guid ? ReadLootTier(&pending) : kTierUnknown;
++            s_lootRetryMs = pending ? nowMs + 500 : 0;
++        }
++        if (s_lootTier < 0) return;
++        for (int i = 0; i < s_tracked; i++) {
++            if (s_beacons[i].guid == s_lootGuid && s_lootTier > s_beacons[i].tier) s_beacons[i].tier = s_lootTier;
++        }
++    }
++
++    void UpdateFade(float dt) {
++        int kept = 0;
++        for (int i = 0; i < s_tracked; i++) {
++            Beacon& b = s_beacons[i];
++            if (b.seen) {
++                b.fade = std::fmin(1.0f, b.fade + dt / kFadeIn);
++            } else {
++                b.fade -= dt / kFadeOut;
++                if (b.fade <= 0.0f) continue; // looted, despawned or out of range: forget it
++            }
++            AdvanceSparkles(b, dt);
++            if (kept != i) s_beacons[kept] = b;
++            kept++;
++        }
++        s_tracked = kept;
++    }
++
++    // --- geometry (the original's QueueBeamColumn / QueueSparkles) --------------------------------------
++
++    float SoftEdge(float x) {
++        const float a = Clamp01(x);
++        return 1.0f - a * a * (3.0f - 2.0f * a);
++    }
++
++    // Transparent where it leaves the body, a soft peak a short way up, easing to nothing at the top.
++    float BeamVertical(float t) {
++        constexpr float kRise = 0.22f;
++        if (t < kRise) return 1.0f - SoftEdge(t / kRise);
++        return SoftEdge((t - kRise) / (1.0f - kRise));
++    }
++
++    CImVector Tint(float alpha, const float rgb[3], float whiten) {
++        CImVector c;
++        c.r = uint8_t(Clamp01(rgb[0] + (1.0f - rgb[0]) * whiten) * 255.0f + 0.5f);
++        c.g = uint8_t(Clamp01(rgb[1] + (1.0f - rgb[1]) * whiten) * 255.0f + 0.5f);
++        c.b = uint8_t(Clamp01(rgb[2] + (1.0f - rgb[2]) * whiten) * 255.0f + 0.5f);
++        c.a = uint8_t(Clamp01(alpha) * 255.0f + 0.5f);
++        return c;
++    }
++
++    // Moves a point along its own eye ray: same pixel, less depth. Far terrain is drawn at a coarser LOD that
++    // can sit above the collision height the corpse stands on; the pull keeps it from eating the beam's foot.
++    C3Vector Pull(const C3Vector& camera, float x, float y, float z) {
++        const float dx = x - camera.x, dy = y - camera.y, dz = z - camera.z;
++        const float d = std::sqrt(dx * dx + dy * dy + dz * dz);
++        if (d < 0.01f || s_style.throughWalls) return C3Vector(x, y, z);
++        float push = kDepthPush + kDepthPushPerYard * d;
++        if (push > d * 0.5f) push = d * 0.5f;
++        const float k = 1.0f - push / d;
++        return C3Vector(camera.x + dx * k, camera.y + dy * k, camera.z + dz * k);
++    }
++
++    int AddVert(const C3Vector& p, CImVector c) {
++        s_verts[s_vertCount] = p;
++        s_colors[s_vertCount] = c;
++        return s_vertCount++;
++    }
++
++    void AddTri(int a, int b, int c) {
++        s_indices[s_indexCount++] = uint16_t(a);
++        s_indices[s_indexCount++] = uint16_t(b);
++        s_indices[s_indexCount++] = uint16_t(c);
++    }
++
++    // One camera-facing billboard, gridded so every vertex carries its own colour: soft at the edges, hot at
++    // the core, the vertical profile above. A far shaft gets fewer rows.
++    void BuildColumn(const Beacon& b, const C3Vector& camera, float alphaScale, const float rgb[3]) {
++        const Style& st = s_style;
++        const float dx = camera.x - b.pos[0], dy = camera.y - b.pos[1], dz = camera.z - b.pos[2];
++        const float len = std::sqrt(dx * dx + dy * dy);
++        const float dist = std::sqrt(dx * dx + dy * dy + dz * dz);
++        float fx = 1.0f, fy = 0.0f;
++        if (len > 1e-3f) { fx = dx / len; fy = dy / len; }
++        const float sx = -fy, sy = fx;
++        const float minHalf = kWidthPerYard * dist;
++        const float baseZ = b.pos[2] + kBaseOffset;
++        const float spanZ = std::fmax(st.height, kBaseOffset + 0.1f) - kBaseOffset;
++
++        int rows = dist > 150.0f ? 6 : (dist > 80.0f ? 12 : (dist > 30.0f ? 24 : kBeamMaxRows));
++        const int cols = dist > 150.0f ? 2 : kBeamMaxCols;
++        const int first = s_vertCount;
++        for (int r = 0; r <= rows; r++) {
++            const float t = float(r) / float(rows);
++            const float w = std::fmax(st.width * (1.0f - 0.55f * t), minHalf);
++            const float v = BeamVertical(t);
++            const float z = baseZ + spanZ * t;
++            for (int c = 0; c <= cols; c++) {
++                const float u = -1.0f + 2.0f * float(c) / float(cols);
++                const float h = SoftEdge(std::fabs(u));
++                AddVert(Pull(camera, b.pos[0] + sx * w * u, b.pos[1] + sy * w * u, z),
++                        Tint(st.alpha * v * h * alphaScale, rgb, 0.45f * h * (1.0f - 0.3f * t)));
++            }
++        }
++        for (int r = 0; r < rows; r++) {
++            for (int c = 0; c < cols; c++) {
++                const int i00 = first + r * (cols + 1) + c;
++                const int i10 = i00 + 1;
++                const int i01 = i00 + cols + 1;
++                const int i11 = i01 + 1;
++                AddTri(i00, i10, i11);
++                AddTri(i00, i11, i01);
++            }
++        }
++    }
++
++    // Small camera-facing discs: hot core, a shoulder ring, a transparent rim; brightness rides each mote's
++    // twinkle and life envelope.
++    void BuildSparkles(const Beacon& b, const C3Vector& camera, float alphaScale, const float rgb[3]) {
++        const Style& st = s_style;
++        constexpr float kRing1 = 0.45f, kRing2 = 1.0f, kShoulder = 0.58f;
++        for (int i = 0; i < st.sparkles; i++) {
++            const Sparkle& sp = b.sparkles[i];
++            const float lifeT = sp.life > 0.001f ? sp.age / sp.life : 1.0f;
++            float env = 1.0f;
++            if (lifeT < 0.15f) env = lifeT / 0.15f;
++            else if (lifeT > 0.55f) env = (1.0f - lifeT) / 0.45f;
++            env = Clamp01(env);
++            const float twinkle = 0.5f + 0.5f * std::sin(sp.twinkle);
++            const float alpha = kSparkleAlpha * env * twinkle * alphaScale;
++            if (alpha <= 0.003f) continue;
++
++            const float wx = b.pos[0] + sp.pos[0], wy = b.pos[1] + sp.pos[1], wz = b.pos[2] + sp.pos[2];
++            float f[3] = { wx - camera.x, wy - camera.y, wz - camera.z };
++            float flen = std::sqrt(f[0] * f[0] + f[1] * f[1] + f[2] * f[2]);
++            if (flen < 1e-4f) { f[0] = 0.0f; f[1] = 1.0f; f[2] = 0.0f; flen = 1.0f; }
++            for (float& k : f) k /= flen;
++            float r[3] = { -f[1], f[0], 0.0f };
++            float rlen = std::sqrt(r[0] * r[0] + r[1] * r[1]);
++            if (rlen < 1e-4f) { r[0] = 1.0f; r[1] = 0.0f; rlen = 1.0f; }
++            r[0] /= rlen; r[1] /= rlen;
++            float u[3] = { f[1] * r[2] - f[2] * r[1], f[2] * r[0] - f[0] * r[2], f[0] * r[1] - f[1] * r[0] };
++            const float size = kSparkleSize * (0.85f + 0.15f * twinkle);
++            for (int k = 0; k < 3; k++) { r[k] *= size; u[k] *= size; }
++
++            const CImVector core = Tint(alpha, rgb, 0.85f);
++            const CImVector shoulder = Tint(alpha * kShoulder, rgb, 0.55f);
++            const CImVector rim = Tint(0.0f, rgb, 0.0f);
++            const int centre = AddVert(Pull(camera, wx, wy, wz), core);
++            const int mid0 = s_vertCount;
++            for (int s = 0; s < kSparkleSegments; s++) {
++                const float a = kTwoPi * float(s) / float(kSparkleSegments);
++                const float ca = std::cos(a), sa = std::sin(a);
++                const float ox = r[0] * ca + u[0] * sa, oy = r[1] * ca + u[1] * sa, oz = r[2] * ca + u[2] * sa;
++                AddVert(Pull(camera, wx + ox * kRing1, wy + oy * kRing1, wz + oz * kRing1), shoulder);
++                AddVert(Pull(camera, wx + ox * kRing2, wy + oy * kRing2, wz + oz * kRing2), rim);
++            }
++            for (int s = 0; s < kSparkleSegments; s++) {
++                const int n = (s + 1) % kSparkleSegments;
++                const int ms = mid0 + 2 * s, es = ms + 1, mn = mid0 + 2 * n, en = mn + 1;
++                AddTri(centre, ms, mn);
++                AddTri(ms, es, en);
++                AddTri(ms, en, mn);
++            }
++        }
++    }
++
++    // One draw per beacon through the engine's immediate path (a streamed PC vertex buffer): fixed function,
++    // no texture (stage 0 disabled = the vertex colour), additive, depth-tested, no depth write.
++    void Flush() {
++        if (s_indexCount > 0) {
++            GxPrimLockVertexPtrs(s_vertCount, s_verts, sizeof(C3Vector), nullptr, 0, s_colors, sizeof(CImVector), nullptr, 0, nullptr, 0, nullptr, 0);
++            GxDrawLockedElements(GxPrim_Triangles, s_indexCount, s_indices);
++            GxPrimUnlockVertexPtrs();
++        }
++        s_vertCount = 0;
++        s_indexCount = 0;
++    }
++}
++
++void RegisterCVars() {
++    static bool registered = false;
++    if (registered) return;
++    registered = true;
++    auto reg = [](const char* name, const char* help, const char* value, uint32_t flags = 1) {
++        return CVar::Register(name, help, flags, value, nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    };
++    s_cvEnabled = reg("lootBeam", "F-238: 1 = a beam of light over every corpse you can loot, 0 = off", "1");
++    s_cvHeight = reg("lootBeamHeight", "F-238: how far the loot beam rises, yards (2-100)", "20");
++    s_cvWidth = reg("lootBeamWidth", "F-238: half-width of the loot beam at its base, yards (0.05-3)", "0.5");
++    s_cvAlpha = reg("lootBeamAlpha", "F-238: loot beam brightness, 0-1", "0.75");
++    s_cvPulse = reg("lootBeamPulse", "F-238: depth of the loot beam's slow breathing, 0 = steady, 1 = fades to nothing", "0.2");
++    s_cvSparkles = reg("lootBeamSparkles", "F-238: sparkle motes per loot beam, 0-32", "24");
++    s_cvMaxDistance = reg("lootBeamMaxDistance", "F-238: ignore corpses farther than this, yards, 0 = no limit", "0");
++    s_cvThroughWalls = reg("lootBeamThroughWalls", "F-238: 1 = draw the loot beam through terrain and walls, 0 = the world hides it (default)", "0");
++    s_cvRequireLootable = reg("lootBeamRequireLootable", "F-238: 1 = only corpses the server flags lootable for you (default), 0 = every dead NPC", "1");
++    s_cvLootColor = reg("lootBeamLootColor", "F-238: 1 = colour the beam by the rarest item in the corpse's loot (default), 0 = always lootBeamColor", "1");
++    s_cvServerColor = reg("lootBeamServerColor", "F-238: 1 = use the server's loot hint (mod-loot-beam) so the colour is right before the loot window opens (default)", "1");
++    s_cvMinQuality = reg("lootBeamMinQuality", "F-238: hide corpses whose rarest item is below this quality: -1 = show all (default), 0 poor, 1 common, 2 uncommon, 3 rare, 4 epic", "-1");
++    s_cvColor = reg("lootBeamColor", "F-238: beam colour while a corpse's loot is not known, RRGGBB", "FFD070");
++    s_cvInfo = reg("lootBeamInfo", "F-238: loot beam status (read only)", "off", 0x80);
++}
++
++void Render() {
++    if (!s_cvEnabled) return;
++    ReadStyle();
++    const uint32_t now = OsGetAsyncTimeMs();
++    float dt = s_lastMs ? float(now - s_lastMs) * 0.001f : 0.0f;
++    s_lastMs = now;
++    if (dt < 0.0f || dt > 0.25f) dt = 0.25f; // a hitch or a long loading screen: do not jump the motes
++
++    CGCamera* camera = CGWorldFrame::GetActiveCamera();
++    if (!s_style.enabled || !ClntObjMgrGetCurrent() || !camera) {
++        s_tracked = 0;
++        SetInfo(s_style.enabled ? "idle" : "off");
++        return;
++    }
++
++    for (int i = 0; i < s_tracked; i++) s_beacons[i].seen = false;
++    Scan scan;
++    scan.camera = camera->m_position;
++    scan.maxD2 = s_style.maxDistance > 0.0f ? s_style.maxDistance * s_style.maxDistance : 0.0f;
++    scan.units = 0;
++    scan.corpses = 0;
++    ClntObjMgrEnumVisibleObjects(&EnumUnit, &scan);
++    ScanLoot(now);
++    UpdateFade(dt);
++
++    s_phase = std::fmod(s_phase + dt * kPulseSpeed * kTwoPi, kTwoPi);
++    const float pulseScale = 1.0f - 0.5f * s_style.pulse * (1.0f - std::sin(s_phase));
++
++    char info[96];
++    std::snprintf(info, sizeof(info), "%d corpses, %d beacons, %d units", scan.corpses, s_tracked, scan.units);
++    SetInfo(info);
++    if (!s_tracked) return;
++
++    const C3Vector& eye = camera->m_position;
++    g_theGxDevicePtr->XformPush(GxXform_World);
++    CGxMatrixStack& world = g_theGxDevicePtr->m_xforms[GxXform_World];
++    world.m_dirty = 1;
++    world.m_flags[world.m_level] &= ~CGxMatrixStack::F_Identity;
++    world.m_mtx[world.m_level] = C44Matrix();
++    world.m_mtx[world.m_level].Translate(C3Vector(-eye.x, -eye.y, -eye.z)); // the world pass's view is camera-relative (as CLightningManager::Render)
++
++    g_theGxDevicePtr->RsPush();
++    GxRsSet(GxRs_VertexShader, 0);
++    GxRsSet(GxRs_PixelShader, 0);
++    g_theGxDevicePtr->RsSet(GxRs_Texture0, static_cast<void*>(nullptr));
++    GxRsSet(GxRs_Lighting, 0);
++    GxRsSet(GxRs_Fog, 0);
++    GxRsSet(GxRs_Culling, 0);
++    GxRsSet(GxRs_DepthTest, s_style.throughWalls ? 0 : 1);
++    GxRsSet(GxRs_DepthWrite, 0);
++    GxRsSet(GxRs_ColorWrite, 15);
++    GxRsSet(GxRs_BlendingMode, GxBlend_Add);
++    GxUpdateAlphaRef(GxRs_AlphaRef);
++
++    for (int i = 0; i < s_tracked; i++) {
++        const Beacon& b = s_beacons[i];
++        if (b.fade <= 0.001f) continue;
++        const float* rgb = s_style.color;
++        if (s_style.lootColor && b.tier >= 0 && b.tier < kTierCount) {
++            if (b.tier < s_style.minTier) continue; // below the quality filter: no beacon at all
++            rgb = kTierColor[b.tier];
++        }
++        const float top = std::fmax(s_style.height, kBaseOffset + 0.1f);
++        const float half = s_style.width * 1.5f + 0.5f;
++        CAaBox box(C3Vector(b.pos[0] - half, b.pos[1] - half, b.pos[2]), C3Vector(b.pos[0] + half, b.pos[1] + half, b.pos[2] + top));
++        if (World::FrustumCull(box)) continue;
++        const float alphaScale = pulseScale * b.fade;
++        BuildColumn(b, eye, alphaScale, rgb);
++        BuildSparkles(b, eye, alphaScale, rgb);
++        Flush();
++    }
++
++    g_theGxDevicePtr->RsPop();
++    GxXformPop(GxXform_World);
++}
++}
+diff --git a/WoW/Source/WorldClient/LootBeam/LootBeam.h b/WoW/Source/WorldClient/LootBeam/LootBeam.h
+new file mode 100644
+index 00000000..21b8a6c7
+--- /dev/null
++++ b/WoW/Source/WorldClient/LootBeam/LootBeam.h
+@@ -0,0 +1,28 @@
++// Zeppelin F-238 (Loot Beam): a beam of light over every NPC corpse that can still be looted, tinted by the
++// rarest item in its loot. Ported from wxl-loot-beam (manatactical / WarcraftXL, GPL-3.0-or-later):
++// src/LootBeam.cpp, src/BeaconRenderer.cpp, src/UnitFields.hpp, src/LootFields.hpp.
++//
++// The WarcraftXL module drew with a raw IDirect3DDevice9 and found its data through hooks and client
++// offsets. Here the unit walk is ClntObjMgrEnumVisibleObjects, the corpse state is CGUnitData (health,
++// UNIT_DYNAMIC_FLAGS, UNIT_FIELD_PADDING), the loot is CGLootInfo, and the beam is drawn with the engine's
++// own fixed-function Gx draw (vertex colour, no texture, no shader) inside the world pass, so D3D9 and the
++// Vulkan device both draw it and the world depth buffer occludes it. Its settings are lootBeam* CVars.
++//
++// This program is free software: you can redistribute it and/or modify it under the terms of the GNU
++// General Public License as published by the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++#ifndef WOW_SOURCE_WORLDCLIENT_LOOTBEAM_LOOTBEAM_H
++#define WOW_SOURCE_WORLDCLIENT_LOOTBEAM_LOOTBEAM_H
++
++namespace Zep::LootBeam {
++    // Registers the lootBeam* CVars. Called once at start-up (WorldParam_CVar.cpp), before FrameXML loads,
++    // so the Video Options page (ZepLootBeamOptions.lua) can see them.
++    void RegisterCVars();
++
++    // Scans the visible units, advances the fades and draws every beacon. Called once per world frame from
++    // CGWorldFrame's render, beside the spell visuals: the world's depth buffer is complete and the world's
++    // view and projection are still bound.
++    void Render();
++}
++
++#endif
+diff --git a/WoW/Source/WorldClient/WorldParam_CVar.cpp b/WoW/Source/WorldClient/WorldParam_CVar.cpp
+index ecdc2aa6..1a616ef0 100644
+--- a/WoW/Source/WorldClient/WorldParam_CVar.cpp
++++ b/WoW/Source/WorldClient/WorldParam_CVar.cpp
+@@ -16,6 +16,7 @@
+ #include "WoW/Source/WorldClient/Map.h"
+ #include "WoW/Source/WorldClient/Types.h"
+ #include "WoW/Source/WorldClient/World.h"
++#include "WoW/Source/WorldClient/LootBeam/LootBeam.h" // Zeppelin F-238
+ #include "Engine/Source/ConsoleBase/ConsoleVar.h"
+ #include "Engine/Source/ConsoleBase/IConsole.h"
+ #include "Engine/Source/Storm/H/storm.h"
+@@ -677,4 +678,5 @@ void CWorldParam::Initialize() {
+     HD::CataRenderPerf::Initialize();
+     HD::CataOptim::Native335::InitializeSettings(); // HD: Cata terrain/grass optimisation switches, all 0
+     HD::CataViewDistance::Initialize(); // HD: apply only after the native CVars exist
++    Zep::LootBeam::RegisterCVars(); // Zeppelin F-238: lootBeam* (before FrameXML, for its Video Options page)
+ }
+-- 
+2.34.1
+

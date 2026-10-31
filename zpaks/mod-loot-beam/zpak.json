@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "mod-loot-beam",
+  "feature_id": "F-238",
+  "version": "0.1.0",
+  "description": "F-238 server half of the loot beam (wxl-loot-beam by manatactical, GPL-3.0): writes the best loot quality of a creature corpse into UNIT_FIELD_PADDING at death so the x64 client colours its beam before the loot window opens",
+  "author": "manatactical / WarcraftXL (upstream, GPL-3.0), Zeppelin Team (fork)",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "mod-loot-beam",
+    "source": "/workspace/project/Zeppelin-Tools/mod-loot-beam-upstream.git",
+    "branch": "main",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 575
+}

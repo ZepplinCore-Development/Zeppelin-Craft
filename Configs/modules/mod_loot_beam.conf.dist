@@ -1,0 +1,26 @@
+########################################
+# mod-loot-beam configuration
+########################################
+#
+# Server half of the wxl-loot-beam client extension. At creature death this module computes the
+# best item quality in the corpse's rolled loot and writes it into the corpse's UNIT_FIELD_PADDING
+# update field. The client extension reads that field and tints its loot beacon accordingly, so the
+# beam is the right colour before the loot window is opened.
+#
+# AzerothCore ships UNIT_FIELD_PADDING as a never-sent field, so the module promotes it to public in
+# the core's runtime flag table at load. That is why it needs no core source patch: the hint rides
+# along on the corpse's own update, to nearby players, with nothing read back from the client.
+#
+# The value is quality + 1 (poor..heirloom are 1..8); an untouched corpse reads 0, which the client
+# treats as "no hint" and falls back to the loot it learns on its own.
+#
+
+#
+#    LootBeam.Enable
+#        Description: Write the best-loot-quality hint onto creature corpses so the client can
+#                     colour its loot beacon from the server's view of the loot.
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled)
+#
+
+LootBeam.Enable = 1
