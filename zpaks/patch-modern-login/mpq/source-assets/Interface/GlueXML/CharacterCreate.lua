@@ -94,6 +94,9 @@ CHAR_CUSTOMIZE_HAIR_COLOR = 4;
 DWARF_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}, FEMALE = {0, 1, 2, 3, 4, 5, 7} };
 -- troll faces without the painted ones (F-230 round 2: male 11 / 12 and female 13 / 14, with their death knight
 -- copies, are plain faces + the Shadow brow / eye paint, now Face Markings)
+-- blood elf male faces without the scarred / runed / fel ones (F-230 round 4: 20-24 and their death knight copies
+-- 25-29 are faces 0, 1, 3, 6, 9 + Face Markings now)
+BLOODELF_FACES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19} };
 TROLL_FACES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13}, FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15} };
 DARKIRON_EYES = { MALE = {11, 13, 14, 15, 16, 17, 12}, FEMALE = {6, 8, 9, 10, 11, 12, 7} };	-- the full glowing eye and its 5 tints (+ DK eye)
 CHAR_CREATE_SUBRACES = {
@@ -131,10 +134,10 @@ CHAR_CREATE_SUBRACES = {
 	-- blood elf 36-61 bake jewellery, tattoos or veins; 87-93 have no faces
 	["BLOODELF"] = {
 		shared = { MALE = {16, 17, 18}, FEMALE = {16, 17, 18} },
-		{ name = "Blood Elf", icon = "BLOODELF",
+		{ name = "Blood Elf", icon = "BLOODELF", faces = BLOODELF_FACES,
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85} },
-		{ name = "Void Elf", lore = "The void elves were sin'dorei who studied the forbidden powers of the Void and were cast out of Silvermoon for it. Pulled back from the brink of madness by their own iron will, they learned to walk the line between shadow and self. Unwelcome at home but too useful to ignore, they lend their dark gifts to the Horde, ever watchful of the whispers within.", icon = "VOIDELF",
+		{ name = "Void Elf", lore = "The void elves were sin'dorei who studied the forbidden powers of the Void and were cast out of Silvermoon for it. Pulled back from the brink of madness by their own iron will, they learned to walk the line between shadow and self. Unwelcome at home but too useful to ignore, they lend their dark gifts to the Horde, ever watchful of the whispers within.", icon = "VOIDELF", faces = BLOODELF_FACES,
 			MALE = {62, 63, 64, 65, 66, 67, 68, 94, 95},	-- 94, 95 = 34, 35 without their void paint (Face Markings 1)
 			FEMALE = {62, 63, 64, 65, 66, 67, 68, 94, 95} },
 	},
@@ -163,15 +166,15 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {17, 18, 19, 20, 21, 22, 41, 42},	-- 41, 42 = 30, 31 without the fel lines (Body Markings 5, F-230 round 3)
 			FEMALE = {15, 16, 17, 18, 19, 20, 42, 43} },
 	},
-	-- Grimtotem = the black-furred painted colours 39-41 (user, 2026-10-28)
+	-- Grimtotem = the darker plain furs, Tauren the lighter ones, exclusive (user 2026-10-31); paint is a layer
 	["TAUREN"] = {
 		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
 		{ name = "Tauren", icon = "TAUREN",
-			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38},
-			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38} },
+			MALE = {2, 5, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 37},	-- the lighter furs: tan, white, light brown, spotted (user 2026-10-31)
+			FEMALE = {1, 3, 5, 7, 8, 9, 10, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 37} },
 		{ name = "Grimtotem", lore = "The Grimtotem clan never accepted Cairne Bloodhoof's peace with the younger races. They paint their black fur for war and hold to the old belief that the tauren must rule Kalimdor alone. Those who now walk with the Horde have broken with Magatha's schemes, but they still carry the clan's fierce pride and its war paint.", title = "Grimtotem Tauren", icon = "GRIMTOTEM",
-			MALE = {42, 43, 44, 45, 46, 47},	-- black and near-black fur copies; the paint is a layer now
-			FEMALE = {42, 43, 44, 45, 46} },
+			MALE = {0, 1, 3, 4, 6, 7, 9, 28, 36, 38},	-- the darker furs: black, charcoal, dark and red-brown (user 2026-10-31);
+			FEMALE = {0, 2, 4, 6, 28, 36, 38} },	-- the copies 42-47 / 42-46 are retired (round-4 migration)
 	},
 	-- Dark trolls are the purples, Sand trolls the tans (trial, user 2026-10-28)
 	["TROLL"] = {
@@ -239,17 +242,34 @@ CHAR_CREATE_SUBRACES = {
 			FEMALE = {12, 16, 20} },
 	},
 };
+-- F-236 worgen human form (Two Forms): the human options each worgen sub-race offers (the form is stock race 1, the
+-- C++ creator's altered form). "as" = the HUMAN sub-race (CHAR_CREATE_SUBRACES) whose faces, eye colours, markings and
+-- accessories the form uses; MALE / FEMALE = the form's human skin colours (CharSections color_index), plus that
+-- race's "shared" (death knight) colours. A worgen sub-race not listed uses "default".
+-- Human skin tones by torso brightness (HD bodies): 0 lightest .. 9 darkest, 15 darkest of all.
+CHAR_CREATE_HUMAN_FORM = {
+	["WORGEN"] = {
+		default = "Gilnean",
+		["Gilnean"] = { as = "Human",	-- the plain human skins
+			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15},
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15} },
+		["Bloodmoon"] = { as = "Human",	-- northern: the four palest
+			MALE = {0, 1, 2, 3},
+			FEMALE = {0, 1, 2, 3} },
+	},
+};
+
 -- BEGIN GENERATED marking gates (Scripts/Character Skins/markings_glue.py) - do not edit by hand
 -- customization 7 = face markings, 8 = body markings, 9 = scars: the values a sub-race may pick (its
 -- exclusive set plus the race's common pool); a row with no list here offers every value
 CHAR_CREATE_MARK_GATES = {
 	["BLOODELF"] = {
 		["Blood Elf"] = {
-			MALE = { [7] = {0}, [8] = {0, 1, 3, 5, 7, 9, 11, 13, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26, 28, 29, 31, 32} },
+			MALE = { [7] = {0, 2, 3, 4, 5, 6}, [8] = {0, 1, 3, 5, 7, 9, 11, 13, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26, 28, 29, 31, 32} },
 			FEMALE = { [7] = {0}, [8] = {0, 1, 3, 5, 7, 9, 11, 13, 14, 17, 18, 19, 21, 22, 24, 25, 27, 28, 30, 31, 33, 34} },
 		},
 		["Void Elf"] = {
-			MALE = { [7] = {0, 1}, [8] = {0, 2, 4, 6, 8, 10, 12, 14, 15, 16, 22, 27, 30, 33} },
+			MALE = { [7] = {0, 1, 2, 3, 4}, [8] = {0, 2, 4, 6, 8, 10, 12, 14, 15, 16, 22, 27, 30, 33} },
 			FEMALE = { [7] = {0, 1}, [8] = {0, 2, 4, 6, 8, 10, 12, 14, 15, 16, 20, 23, 26, 29, 32, 35} },
 		},
 	},
@@ -682,8 +702,9 @@ function CharCreate_ApplySubRace()
 end
 
 -- F-230: Accessories (10) only where CHAR_CREATE_ACCESSORY_GATES lists the sub-race; elsewhere none (value 0)
-function CharCreate_ApplyAccessoryGate(subRaceName)
+function CharCreate_ApplyAccessoryGate(subRaceName, raceKey)
 	local _, fileString = GetNameForRace();
+	fileString = raceKey or fileString;	-- F-236: the human form passes "HUMAN"
 	local race = CHAR_CREATE_ACCESSORY_GATES[strupper(fileString or "")];
 	local values = race and subRaceName and race[subRaceName] and race[subRaceName][CharCreate_SubRaceGender()];
 	if ( values ) then
@@ -718,9 +739,137 @@ function CharCreate_UpdateSubRaces()
 		CharacterCreate.subRaces = subRaces;
 		CharacterCreate.subRace = CharCreate_SubRaceOf(subRaces, gender, skin) or 1;
 	end
-	CharCreate_ApplySubRace();
+	if ( IsViewingAlteredForm and IsViewingAlteredForm() ) then
+		CharCreate_ApplyHumanForm();	-- F-236: the worgen sub-race's human options while the human form is in front
+	else
+		CharCreate_ApplySubRace();
+	end
 	CharCreateLayout_RefreshRaces();
 	CharCreateLayout_RefreshRaceInfo();	-- the sub-race's title on the lore and the Appearance heading
+	CharCreate_UpdateAlteredForm();
+end
+
+-- F-236 worgen human form: the CHAR_CREATE_HUMAN_FORM entry of the selected sub-race, the HUMAN sub-race it borrows
+-- from ("as"), the human race's sub-race table and its key
+function CharCreate_HumanFormGates()
+	local _, fileString = GetNameForRace();
+	local forms = fileString and CHAR_CREATE_HUMAN_FORM[strupper(fileString)];
+	if ( not forms or not GetAlteredFormRace ) then
+		return;
+	end
+	local subRaces = CharacterCreate.subRaces;
+	local sub = subRaces and subRaces[CharacterCreate.subRace or 1];
+	local entry = (sub and forms[sub.name]) or forms[forms.default];
+	local _, alteredFile = GetAlteredFormRace();
+	local key = strupper(alteredFile or "HUMAN");
+	local humanSubs = CHAR_CREATE_SUBRACES[key];
+	local as;
+	if ( humanSubs and entry ) then
+		for _, humanSub in ipairs(humanSubs) do
+			if ( humanSub.name == entry.as ) then
+				as = humanSub;
+			end
+		end
+	end
+	return entry, as, humanSubs, key;
+end
+
+-- the human form's filters (skins, faces, eyes, markings, accessories); the form must be in front
+function CharCreate_ApplyHumanForm()
+	local entry, as, humanSubs, key = CharCreate_HumanFormGates();
+	if ( not entry ) then
+		return;
+	end
+	local gender = CharCreate_SubRaceGender();
+	local colours = {};
+	for _, colour in ipairs(entry[gender]) do
+		tinsert(colours, colour);
+	end
+	if ( humanSubs and humanSubs.shared ) then
+		for _, colour in ipairs(humanSubs.shared[gender]) do
+			tinsert(colours, colour);
+		end
+	end
+	SetCharCustomizationFilter(1, unpack(colours));
+	local faces = as and as.faces and as.faces[gender];
+	if ( faces ) then
+		SetCharCustomizationFilter(2, unpack(faces));
+	else
+		SetCharCustomizationFilter(2);
+	end
+	local eyes = as and as.eyes;
+	if ( eyes ) then
+		SetCharCustomizationFilter(6, unpack(eyes[gender]));
+	else
+		SetCharCustomizationFilter(6);
+	end
+	for index = 7, 9 do
+		local marks = as and as.marks and as.marks[gender] and as.marks[gender][index];
+		if ( marks ) then
+			SetCharCustomizationFilter(index, unpack(marks));
+		else
+			SetCharCustomizationFilter(index);
+		end
+	end
+	CharCreate_ApplyAccessoryGate(entry.as, key);
+end
+
+-- puts the worgen (false) or its human form (true) in front, with that form's gates, and redraws the options
+function CharCreate_SetAlteredForm(altered)
+	altered = altered and true or false;
+	if ( not HasAlteredForm or not HasAlteredForm() or IsViewingAlteredForm() == altered ) then
+		CharCreate_UpdateAlteredForm();
+		return;
+	end
+	PlaySound("gsCharacterCreationClass");
+	SetViewingAlteredForm(altered);
+	if ( altered ) then
+		CharCreate_ApplyHumanForm();
+	elseif ( CharacterCreate.subRaces ) then
+		CharCreate_ApplySubRace();
+	end
+	CharacterCreate_UpdateHairCustomization();	-- also the facial hair row label
+	CharCreate_UpdateCustomizationCounts();
+	CharCreate_UpdateFaceLayerButtons();
+	CharCreateLayout_RefreshOptions();
+	CharCreate_UpdateAlteredForm();
+end
+
+-- the worgen / human toggle under the outfit button (Customize step only)
+function CharCreate_UpdateAlteredForm()
+	local top, bottom = CharacterCreateAlternateFormTop, CharacterCreateAlternateFormBottom;
+	if ( not top or not bottom ) then
+		return;
+	end
+	if ( not HasAlteredForm or not HasAlteredForm() or CharacterCreate.step ~= 2 ) then
+		top:Hide();
+		bottom:Hide();
+		return;
+	end
+	local gender = CharCreate_SubRaceGender();
+	local _, fileString = GetNameForRace();
+	local _, alteredFile = GetAlteredFormRace();
+	local sub = CharacterCreate.subRaces and CharacterCreate.subRaces[CharacterCreate.subRace or 1];
+	local path = "Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-SubRace-";
+	CharacterCreateAlternateFormTopPortrait:SetTexture(path..((sub and sub.icon) or strupper(fileString or "")).."_"..gender);
+	CharacterCreateAlternateFormBottomPortrait:SetTexture(path..strupper(alteredFile or "HUMAN").."_"..gender);
+	-- the XML nests the buttons in CharCreateCustomizationFrame, which the F-151 layout keeps hidden
+	if ( top:GetParent() ~= CharacterCreateFrame ) then
+		top:SetParent(CharacterCreateFrame);
+		bottom:SetParent(CharacterCreateFrame);
+	end
+	top:SetFrameLevel(CharacterCreateFrame:GetFrameLevel() + 10);
+	bottom:SetFrameLevel(CharacterCreateFrame:GetFrameLevel() + 10);
+	top:ClearAllPoints();
+	top:SetPoint("TOP", CharacterCreateFrame, "TOP", -50, -120);
+	bottom:ClearAllPoints();
+	bottom:SetPoint("TOP", CharacterCreateFrame, "TOP", 50, -120);
+	top:SetScale(0.75);
+	bottom:SetScale(0.75);
+	top:Show();
+	bottom:Show();
+	top:SetChecked(not IsViewingAlteredForm());
+	bottom:SetChecked(IsViewingAlteredForm());
 end
 
 -- a sub-race portrait on a race's row (CharCreateLayout_RefreshRaces): selects that race, then that sub-race
@@ -993,23 +1142,6 @@ function SetCharacterRace(id)
 	CharCreate_UpdateSubRaces();
 	CharCreateLayout_RefreshRaceInfo();
 
-	-- Altered form
-	--[[if (HasAlteredForm()) then
-		SetPortraitTexture(CharacterCreateAlternateFormTopPortrait, 22, GetSelectedSex());
-		SetPortraitTexture(CharacterCreateAlternateFormBottomPortrait, 23, GetSelectedSex());
-		CharacterCreateAlternateFormTop:Show();
-		CharacterCreateAlternateFormBottom:Show();
-		if( IsViewingAlteredForm() ) then
-			CharacterCreateAlternateFormTop:SetChecked(false);
-			CharacterCreateAlternateFormBottom:SetChecked(true);
-		else
-			CharacterCreateAlternateFormTop:SetChecked(true);
-			CharacterCreateAlternateFormBottom:SetChecked(false);
-		end
-	else
-		CharacterCreateAlternateFormTop:Hide();
-		CharacterCreateAlternateFormBottom:Hide();
-	end]]
 end
 
 function SetCharacterClass(id)
@@ -2454,4 +2586,9 @@ function CharCreate_SetStep(step)
 	end
 	CharCreate_UpdatePanelHeadings();
 	CharCreateLayout_ShowPicked();
+	-- F-236: the Race step shows the worgen; the form toggle is a Customize-step control
+	if ( race and IsViewingAlteredForm and IsViewingAlteredForm() ) then
+		CharCreate_SetAlteredForm(false);
+	end
+	CharCreate_UpdateAlteredForm();
 end

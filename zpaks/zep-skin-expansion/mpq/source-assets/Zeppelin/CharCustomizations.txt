@@ -1,43 +1,60 @@
 # Zeppelin\CharCustomizations.txt - F-230 split facial features. GENERATED, do not hand-edit.
 version 1
-facial 1 0 texture 20 0,1,2,3,4,5,6,7,8
+facial 1 0 hidden 8
 slot 1 0 0 1 1 1
 choice 1 0 0 0
-choice 1 0 0 102
+choice 1 0 0 102 tex=1
+choice 1 0 0 103 tex=2
+choice 1 0 0 104 tex=3
+choice 1 0 0 105 tex=4
+choice 1 0 0 106 tex=5
+choice 1 0 0 107 tex=6
+choice 1 0 0 108 tex=7
 slot 1 0 1 2 3 3
 choice 1 0 1 0
-choice 1 0 1 302
+choice 1 0 1 302 tex=8
+choice 1 0 1 303 tex=9
+choice 1 0 1 304 tex=10
+choice 1 0 1 305 tex=11
+choice 1 0 1 306 tex=12
+choice 1 0 1 307 tex=13
 slot 1 0 2 3 2 2
 choice 1 0 2 0
-choice 1 0 2 202
+choice 1 0 2 202 tex=14
+choice 1 0 2 204 tex=15
+slot 1 0 3 22 16 0
+choice 1 0 3 0
+choice 1 0 3 1602
+choice 1 0 3 1603
+choice 1 0 3 1604
 facial 1 1 legacy 18
 facial 2 0 legacy 1
 facial 2 1 legacy 7
 facial 3 0 hidden 0
 slot 3 0 0 1 1 1
 choice 3 0 0 0
-choice 3 0 0 102
-choice 3 0 0 103
-choice 3 0 0 104
-choice 3 0 0 105
-choice 3 0 0 106
-choice 3 0 0 107
-choice 3 0 0 108
-choice 3 0 0 109
-choice 3 0 0 110
-choice 3 0 0 111
-choice 3 0 0 112
+choice 3 0 0 102 tex=1
+choice 3 0 0 103 tex=2
+choice 3 0 0 104 tex=3
+choice 3 0 0 105 tex=4
+choice 3 0 0 106 tex=5
+choice 3 0 0 107 tex=6
+choice 3 0 0 108 tex=7
+choice 3 0 0 109 tex=8
+choice 3 0 0 110 tex=9
+choice 3 0 0 111 tex=10
+choice 3 0 0 112 tex=11
 slot 3 0 1 2 3 3
 choice 3 0 1 0
-choice 3 0 1 302
-choice 3 0 1 303
-choice 3 0 1 304
-choice 3 0 1 305
-choice 3 0 1 306
-choice 3 0 1 307
-choice 3 0 1 308
-choice 3 0 1 309
-choice 3 0 1 310
+choice 3 0 1 302 tex=12
+choice 3 0 1 303 tex=13
+choice 3 0 1 304 tex=14
+choice 3 0 1 305 tex=15
+choice 3 0 1 306 tex=16
+choice 3 0 1 307 tex=17
+choice 3 0 1 308 tex=18
+choice 3 0 1 309 tex=19
+choice 3 0 1 310 tex=20
 facial 3 1 hidden 0
 slot 3 1 0 7 3 3
 choice 3 1 0 0
@@ -54,8 +71,6 @@ choice 4 0 0 0
 choice 4 0 0 103 tex=1
 choice 4 0 0 106 tex=2
 choice 4 0 0 107 tex=3
-choice 4 0 0 0 tex=4
-choice 4 0 0 0 tex=3
 slot 4 0 1 22 3 3
 choice 4 0 1 0
 choice 4 0 1 302 tex=8
@@ -69,7 +84,6 @@ choice 4 0 2 0
 choice 4 0 2 204 tex=5
 choice 4 0 2 205 tex=6
 choice 4 0 2 207 tex=7
-choice 4 0 2 0 tex=7
 slot 4 0 3 2 16 3
 choice 4 0 3 0
 choice 4 0 3 1604 tex=14
@@ -134,29 +148,29 @@ choice 6 1 0 205
 slot 6 1 1 7 3 3
 choice 6 1 1 0
 choice 6 1 1 302
-facial 7 0 texture 23 0,1,2,3,4,5,6,7
+facial 7 0 hidden 0
 slot 7 0 0 1 1 1
 choice 7 0 0 0
-choice 7 0 0 102
-choice 7 0 0 104
-choice 7 0 0 105
-choice 7 0 0 106
-choice 7 0 0 107
+choice 7 0 0 102 tex=1
+choice 7 0 0 104 tex=2
+choice 7 0 0 105 tex=3
+choice 7 0 0 106 tex=4
+choice 7 0 0 107 tex=5
 slot 7 0 1 2 3 1
 choice 7 0 1 0
-choice 7 0 1 303
-choice 7 0 1 304
-choice 7 0 1 305
-choice 7 0 1 306
-choice 7 0 1 307
-choice 7 0 1 308
+choice 7 0 1 303 tex=6
+choice 7 0 1 304 tex=7
+choice 7 0 1 305 tex=8
+choice 7 0 1 306 tex=9
+choice 7 0 1 307 tex=10
+choice 7 0 1 308 tex=11
 slot 7 0 2 22 2 1
 choice 7 0 2 0
-choice 7 0 2 202
-choice 7 0 2 203
-choice 7 0 2 204
-choice 7 0 2 205
-choice 7 0 2 206
+choice 7 0 2 202 tex=12
+choice 7 0 2 203 tex=13
+choice 7 0 2 204 tex=14
+choice 7 0 2 205 tex=15
+choice 7 0 2 206 tex=16
 imply 7 0 102 202
 imply 7 0 103 203
 imply 7 0 103 303
@@ -275,7 +289,7 @@ imply 9 1 310 1605
 imply 9 1 311 1606
 facial 10 0 legacy 1
 facial 10 1 legacy 7
-facial 11 0 texture 23 0,2,3,4,5,6
+facial 11 0 hidden 0
 slot 11 0 0 14 1 1
 choice 11 0 0 0
 choice 11 0 0 102
@@ -287,19 +301,19 @@ choice 11 0 0 107
 choice 11 0 0 108
 slot 11 0 1 3 2 2
 choice 11 0 1 0
-choice 11 0 1 202
-choice 11 0 1 203
-choice 11 0 1 204
-choice 11 0 1 205
-choice 11 0 1 206
+choice 11 0 1 202 tex=1
+choice 11 0 1 203 tex=2
+choice 11 0 1 204 tex=3
+choice 11 0 1 205 tex=4
+choice 11 0 1 206 tex=5
 slot 11 0 2 2 3 2
 choice 11 0 2 0
-choice 11 0 2 304
-choice 11 0 2 306
+choice 11 0 2 304 tex=6
+choice 11 0 2 306 tex=7
 slot 11 0 3 1 16 2
 choice 11 0 3 0
-choice 11 0 3 1605
-choice 11 0 3 1606
+choice 11 0 3 1605 tex=8
+choice 11 0 3 1606 tex=9
 imply 11 0 204 304
 imply 11 0 205 1605
 imply 11 0 206 306

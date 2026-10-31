@@ -136,8 +136,15 @@ class _Skin:
         return {'id': f[0], 'istart': f[4] | (f[1] << 16), 'icount': f[5]}
 
     def pack(self) -> bytes:
-        if len(self.idx) > 0xFFFF + 1 or max(self.lookup, default=0) > 0xFFFF:
-            raise ValueError('skin exceeds WotLK u16 limits')
+        # vertex lookups and submesh vertex starts stay u16; the index list may run past 65,535: the x64 client
+        # reads a submesh's index start as (level << 16) | indexStart (wowdecomp patch 0022, F-223)
+        if len(self.lookup) > 0xFFFF + 1 or max(self.lookup, default=0) > 0xFFFF:
+            raise ValueError('skin exceeds WotLK u16 vertex limits')
+        if len(self.idx) > 0xFFFF + 1:
+            for raw in self.subs:
+                f = struct.unpack_from('<10H', raw)
+                if (f[4] | (f[1] << 16)) + f[5] > len(self.idx):
+                    raise ValueError('a submesh index range runs past the index list (level = high half of the start)')
         body = bytearray()
 
         def put(blob: bytes) -> int:
@@ -241,9 +248,8 @@ def _op_geoset_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     def emit(raw: bytearray, gid: int, tris: List[tuple], src: int):
         f = list(struct.unpack_from('<10H', raw))
         start = len(idx)
-        if start > 0xFFFF:
-            raise ValueError('index start past 65535')
-        f[0], f[1], f[4], f[5] = gid, 0, start, 3 * len(tris)
+        # past 65,535 the high half goes in the level field (x64 client, see _Skin.pack)
+        f[0], f[1], f[4], f[5] = gid, start >> 16, start & 0xFFFF, 3 * len(tris)
         for t in tris:
             idx.extend(t)
         nr = bytearray(raw)
@@ -652,9 +658,8 @@ def _op_geoset_island_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str
     def emit(raw: bytearray, gid: int, tris: List[tuple], src: int):
         f = list(struct.unpack_from('<10H', raw))
         start = len(idx)
-        if start > 0xFFFF:
-            raise ValueError('index start past 65535')
-        f[0], f[1], f[4], f[5] = gid, 0, start, 3 * len(tris)
+        # past 65,535 the high half goes in the level field (x64 client, see _Skin.pack)
+        f[0], f[1], f[4], f[5] = gid, start >> 16, start & 0xFFFF, 3 * len(tris)
         for t in tris:
             idx.extend(t)
         nr = bytearray(raw)
@@ -1213,7 +1218,260 @@ def _op_batch_set(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     return f'batch.set: {n} batches {match} -> {news}'
 
 
+# ---- m2.graft / skin.graft (F-230 facial geometry): retail pieces on the same rig ---------------------------------
+def _retail_bytes(fdid: int, sha: str = None) -> bytes:
+    import hashlib
+    from lib import retail
+    b = retail.fetch(int(fdid))
+    if not b:
+        raise ValueError(f'graft: retail file {fdid} not available (zep model retail-casc)')
+    if sha and hashlib.sha256(b).hexdigest() != sha:
+        raise ValueError(f'graft: retail file {fdid} changed (sha256 {hashlib.sha256(b).hexdigest()}), '
+                         f'expected {sha}: re-check the graft and re-pin')
+    return b
+
+
+def _md20(b: bytes) -> bytes:
+    if b[:4] != b'MD21':
+        return b
+    o = 0
+    while o + 8 <= len(b):
+        t, n = b[o:o + 4], struct.unpack_from('<I', b, o + 4)[0]
+        if t == b'MD21':
+            return b[o + 8:o + 8 + n]
+        o += 8 + n
+    raise ValueError('MD21 without its MD21 chunk')
+
+
+def _chunk(b: bytes, tag: bytes) -> bytes:
+    o = 0
+    while o + 8 <= len(b):
+        t, n = b[o:o + 4], struct.unpack_from('<I', b, o + 4)[0]
+        if t == tag:
+            return b[o + 8:o + 8 + n]
+        o += 8 + n
+    return b''
+
+
+def _bones_of(blob: bytes, at: int) -> List[tuple]:
+    """(key, parent, pivot) per bone of an M2Array of 88-byte bones whose header sits at blob[at]."""
+    n, o = _arr(blob, at)
+    return [(struct.unpack_from('<i', blob, o + 88 * i)[0], struct.unpack_from('<h', blob, o + 88 * i + 8)[0],
+             struct.unpack_from('<3f', blob, o + 88 * i + 76)) for i in range(n)]
+
+
+def _key_of(bones, b):
+    for _ in range(len(bones)):
+        if b < 0:
+            return -1
+        if bones[b][0] >= 0:
+            return bones[b][0]
+        b = bones[b][1]
+    return -1
+
+
+def _donor_sub_textypes(dm: bytes, dsk: '_Skin') -> Dict[int, set]:
+    """donor submesh -> the texture types its batches draw"""
+    nt, ot = _arr(dm, 0x50)
+    nl, ol = _arr(dm, 0x80)
+    look = struct.unpack_from('<%dh' % nl, dm, ol)
+    out: Dict[int, set] = {}
+    for b in dsk.batches:
+        f = struct.unpack_from('<BbHHHhHHHHHHH', b)
+        for x in range(f[8]):
+            if f[9] + x < nl and 0 <= look[f[9] + x] < nt:
+                out.setdefault(f[3], set()).add(struct.unpack_from('<I', dm, ot + 16 * look[f[9] + x])[0])
+    return out
+
+
+def _graft_plan(model: bytes, cfg: Dict[str, Any]):
+    """Shared by m2.graft and skin.graft so both lay out alike. -> dict: donor md20 + skin, the donor submeshes per
+    graft entry, each entry's sorted donor vertices, the donor->model bone map, each entry's bone combo."""
+    raw = _retail_bytes(cfg['donor_fdid'], cfg.get('donor_sha256'))
+    dm = _md20(raw)
+    dsk = _Skin(_retail_bytes(cfg['donor_skin_fdid'], cfg.get('donor_skin_sha256')))
+    if cfg.get('skel_fdid'):
+        sk = _retail_bytes(cfg['skel_fdid'], cfg.get('skel_sha256'))
+        b1 = _chunk(sk, b'SKB1')
+        dbones = _bones_of(b1, 0)
+    else:
+        dbones = _bones_of(dm, 0x2C)
+    mbones = _bones_of(model, 0x2C)
+    tol = float(cfg.get('pivot_tolerance', 1e-4))
+    nv, ov = _arr(dm, 0x3C)
+
+    sc = float(cfg.get('scale', 1.0))   # the donor is our rig scaled (retail tauren 27/20, gnome 23/20 of ours)
+
+    def twin(b):
+        p = tuple(x * sc for x in dbones[b][2])
+        c = [j for j, mb in enumerate(mbones) if sum((p[i] - mb[2][i]) ** 2 for i in range(3)) < tol * tol]
+        if not c and cfg.get('bone_fallback') and dbones[b][1] >= 0:
+            return twin(dbones[b][1])       # a donor-only bone (retail brow bones): its vertices ride the parent's twin
+        if not c:
+            raise ValueError(f'graft: donor bone {b} (key {_key_of(dbones, b)}) has no twin in the model')
+        same = [j for j in c if _key_of(mbones, j) == _key_of(dbones, b)]
+        return min(same or c, key=lambda j: abs(j - b))
+    bmap = {}
+    entries = []
+    types = _donor_sub_textypes(dm, dsk)
+    allowed = set(cfg.get('tex_types') or [])
+    for src, dst in cfg['geosets']:
+        subs = [j for j in range(len(dsk.subs)) if dsk.sub(j)['id'] == int(src)]
+        if not subs:
+            raise ValueError(f'graft: donor has no geoset {src}')
+        if allowed:     # only the donor submeshes drawing these texture types (hair 6): skin / jewellery parts stay out
+            subs = [j for j in subs if types.get(j) and types[j] <= allowed]
+            if not subs:
+                raise ValueError(f'graft: donor geoset {src} has no submesh drawing only {sorted(allowed)}')
+        verts = set()
+        for j in subs:
+            u = dsk.sub(j)
+            for t in range(u['istart'], u['istart'] + u['icount']):
+                verts.add(dsk.lookup[dsk.idx[t]] + dsk.x2c)
+        verts = sorted(verts)
+        bones = set()
+        for v in verts:
+            w = dm[ov + 48 * v + 12:ov + 48 * v + 16]
+            bi = dm[ov + 48 * v + 16:ov + 48 * v + 20]
+            for k in range(4):
+                if w[k]:
+                    if bi[k] not in bmap:
+                        bmap[bi[k]] = twin(bi[k])
+                    bones.add(bmap[bi[k]])
+        entries.append(dict(src=int(src), dst=int(dst), subs=subs, verts=verts, combo=sorted(bones)))
+    return dict(dm=dm, dsk=dsk, ov=ov, bmap=bmap, entries=entries)
+
+
+def _graft_uv(u: float, cfg: Dict[str, Any], dst: int = 0) -> float:
+    uv = cfg.get('uv') or {}
+    if 'by' in uv:          # {"by": {"<our_id or group>": {...}}, ...defaults}: a texture other than the hair's
+        uv = uv['by'].get(str(dst), uv['by'].get(str(dst // 100), uv))
+    if u >= float(uv.get('u_from', -1e9)):
+        return u * float(uv.get('u_scale', 1.0)) + float(uv.get('u_offset', 0.0))
+    return u
+
+
+def graft_model(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """MODEL op m2.graft: see skin.graft."""
+    from lib.m2_ops import _relocate_array
+    if bytes(data[:4]) != b'MD20' or struct.unpack_from('<I', data, 4)[0] != 264:
+        raise ValueError('m2.graft: model is not a WotLK MD20 v264')
+    nv, ov = _arr(data, 0x3C)
+    nl, ol = _arr(data, 0x78)
+    if nv != int(cfg['expect_vertices']) or nl != int(cfg['expect_bone_lookup']):
+        raise ValueError(f"m2.graft: model has {nv} vertices / {nl} bone lookups, expected "
+                         f"{cfg['expect_vertices']} / {cfg['expect_bone_lookup']} - refusing")
+    plan = _graft_plan(bytes(data), cfg)
+    dm, dov, bmap = plan['dm'], plan['ov'], plan['bmap']
+    verts = bytearray(data[ov:ov + 48 * nv])
+    look = list(struct.unpack_from('<%dH' % nl, data, ol))
+    for e in plan['entries']:
+        for v in e['verts']:
+            r = bytearray(dm[dov + 48 * v:dov + 48 * v + 48])
+            r[16:20] = bytes(bmap[r[16 + k]] if r[12 + k] else 0 for k in range(4))
+            if 'scale' in cfg:
+                struct.pack_into('<3f', r, 0, *(x * float(cfg['scale']) for x in struct.unpack_from('<3f', r, 0)))
+            u, w = struct.unpack_from('<2f', r, 32)
+            struct.pack_into('<2f', r, 32, _graft_uv(u, cfg, e['dst']), w)
+            verts += r
+        look += e['combo']
+    if len(verts) // 48 > 0x10000:
+        raise ValueError('m2.graft: more than 65,536 vertices')
+    _relocate_array(data, 0, 0x3C, bytes(verts), len(verts) // 48)
+    _relocate_array(data, 0, 0x78, struct.pack('<%dH' % len(look), *look), len(look))
+    return (f'graft: {len(plan["entries"])} donor geosets, vertices {nv} -> {len(verts) // 48}, '
+            f'bone lookup {nl} -> {len(look)}')
+
+
+def _op_graft(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    """skin.graft {"donor_fdid", "donor_sha256", "donor_skin_fdid", "donor_skin_sha256", "skel_fdid", "skel_sha256",
+    "geosets": [[donor_id, our_id], ...], "template": 102 | {"<our_id or group>": geoset, "default": geoset},
+    "uv": {"u_from", "u_scale", "u_offset"}, "scale": s (donor = our rig scaled by 1/s), "bone_fallback": true (a donor-only bone rides its parent's twin),
+    "batch": {"<our_id or group>": {"texcombo": n, "material": n}} (the cloned batches draw another texture),
+    "expect_vertices": n, "expect_bone_lookup": n}
+    Retail pieces (F-230 facial hair) on a model of the SAME rig: the model op m2.graft appends the donor geosets'
+    vertices (bones mapped by pivot twin, UVs mapped to our texture layout) and one bone combo per geoset; this
+    op appends their triangles as new submeshes (id our_id) drawing like our `template` geoset's batches. Works on
+    every LOD skin. Pass the model before or after its m2.graft: the new vertices start at expect_vertices."""
+    if not model:
+        raise ValueError('skin.graft needs its model')
+    mb = bytes(model)
+    nv, _ = _arr(mb, 0x3C)
+    nl, _ = _arr(mb, 0x78)
+    base_v, base_l = int(cfg['expect_vertices']), int(cfg['expect_bone_lookup'])
+    if (nv, nl) != (base_v, base_l):
+        # the model already carries its m2.graft: check from the base counts on
+        pass
+    plan = _graft_plan(mb, cfg)
+    dsk = plan['dsk']
+    dtypes = _donor_sub_textypes(plan['dm'], dsk)
+
+    def pick(table, dst, j):
+        """a per-graft map's entry: by the donor submesh's texture type ("tex0" = its jewellery texture), then by
+        our destination id, then by group, then the "default" entry"""
+        if not isinstance(table, dict):
+            return table
+        for t in sorted(dtypes.get(j, ())):
+            if f'tex{t}' in table:
+                return table[f'tex{t}']
+        return table.get(str(dst), table.get(str(dst // 100), table.get('default')))
+
+    def template_batches(dst, j):
+        """our batches the grafted geoset draws like: "template" = a geoset id, or a map (see pick); the first
+        submesh with that id lends its batches"""
+        t = pick(cfg['template'], dst, j)
+        tm = [j for j in range(len(sk.subs)) if sk.sub(j)['id'] == int(t)]
+        if not tm:
+            raise ValueError(f'skin.graft: no template submesh {t}')
+        return [bytearray(b) for b in sk.batches if struct.unpack_from('<H', b, 4)[0] == tm[0]]
+    added_v = sum(len(e['verts']) for e in plan['entries'])
+    added_l = sum(len(e['combo']) for e in plan['entries'])
+    if (nv, nl) not in ((base_v, base_l), (base_v + added_v, base_l + added_l)):
+        raise ValueError(f'skin.graft: model has {nv} vertices / {nl} bone lookups: neither the base nor the grafted model')
+    vbase, cstart = base_v, base_l
+    dm, dov = plan['dm'], plan['ov']
+    made = []
+    for e in plan['entries']:
+        rank = {v: i for i, v in enumerate(e['verts'])}
+        combo = e['combo']
+        lstart = len(sk.lookup)
+        if lstart + len(e['verts']) > 0x10000:
+            raise ValueError('skin.graft: vertex lookup past 65,536')
+        for v in e['verts']:
+            sk.lookup.append(vbase + rank[v])
+            w = dm[dov + 48 * v + 12:dov + 48 * v + 16]
+            bi = dm[dov + 48 * v + 16:dov + 48 * v + 20]
+            sk.props += bytes(combo.index(plan['bmap'][bi[k]]) if w[k] else 0 for k in range(4))
+        for j in e['subs']:
+            u = dsk.sub(j)
+            tri = [lstart + rank[dsk.lookup[dsk.idx[t]] + dsk.x2c] for t in range(u['istart'], u['istart'] + u['icount'])]
+            istart = len(sk.idx)
+            sk.idx += tri
+            raw = bytearray(dsk.subs[j])
+            f = struct.unpack_from('<10H', raw)
+            infl = max(sum(1 for k in range(4) if dm[dov + 48 * v + 12 + k]) for v in e['verts'])
+            root = plan['bmap'].get(f[9], combo[0])
+            struct.pack_into('<10H', raw, 0, e['dst'], istart >> 16, lstart, len(e['verts']), istart & 0xFFFF,
+                             len(tri), len(combo), cstart, infl, root)
+            sk.subs.append(raw)
+            si = len(sk.subs) - 1
+            bo = pick(cfg.get('batch') or {}, e['dst'], j) or {}
+            for b in template_batches(e['dst'], j):
+                nb = bytearray(b)
+                struct.pack_into('<HH', nb, 4, si, si)
+                if 'texcombo' in bo:        # a texture of its own (m2.texture.add + m2.texlookup.set before the graft)
+                    struct.pack_into('<HH', nb, 14, 1, int(bo['texcombo']))
+                if 'material' in bo:
+                    struct.pack_into('<H', nb, 10, int(bo['material']))
+                sk.batches.append(nb)
+        made.append(f"{e['src']}->{e['dst']}:{len(e['verts'])}v")
+        vbase += len(e['verts'])
+        cstart += len(combo)
+    return 'graft: ' + ' '.join(made)
+
+
 OPS = {
+    'skin.graft': _op_graft,
     'skin.overlay': _op_overlay,
     'skin.lod_rebase': _op_lod_rebase,
     'skin.geoset.split': _op_geoset_split,

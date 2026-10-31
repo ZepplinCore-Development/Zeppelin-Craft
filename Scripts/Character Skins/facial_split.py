@@ -31,6 +31,7 @@ beard rings / moustache clasps are not: each ring covers a gap cut into the brai
 their beard (the 2026-10-30 "Beard Rings" slot left holes in the beards).
 """
 import argparse
+import json
 import struct
 import subprocess
 import sys
@@ -76,10 +77,11 @@ SLOTS = {
     # group 3 is the eyebrows; 304's moustache is cut out to 1604. The painted facial hair (the old "Stubble" row)
     # is cut into pieces that travel with each choice (PIECE_OF, facial_pieces.py), so the row has no button of its
     # own (hidden 0). Appended paint-only choices (geoset 0 + a piece) keep the stock looks whose paint has no mesh
-    # in the HD model: beard 5 = look 1's full painted beard, beard 6 = look 4's chin, sideburns 5 = look 5's.
+    # in the HD model. One choice per mesh, every choice a mesh (user 2026-10-31): look 1 (full painted beard, no
+    # mesh) migrates to beard 103; look 4's chin paint is 107's own, look 5's long sideburns 207's.
     '4_0': dict(facial=('hidden', 0, None),
-                slots=[(0, 'BEARD', 1, 1, C(0, 103, 106, 107, 0, 0)), (1, 'EYEBROWS', 3, 3, C(0, *range(302, 308))),
-                       (2, 'SIDEBURNS', 2, 2, C(0, 204, 205, 207, 0)), (3, 'MOUSTACHE', 16, 3, C(0, 1604))],
+                slots=[(0, 'BEARD', 1, 1, C(0, 103, 106, 107)), (1, 'EYEBROWS', 3, 3, C(0, *range(302, 308))),
+                       (2, 'SIDEBURNS', 2, 2, C(0, 204, 205, 207)), (3, 'MOUSTACHE', 16, 3, C(0, 1604))],
                 imply=[(304, 1604)]),
     '4_1': dict(facial=('legacy', None, 'MARKINGS'), slots=[]),
     # undead male: the jaw is the legacy facial row, never a slot. Each row is one jaw shape + the jaw skin painted
@@ -143,11 +145,116 @@ SLOTS = {
 # slot's choices. Written as `tex=<piece>`; the client then draws the pieces of a player's set slots instead of the
 # legacy facial-hair texture (CharSections base_section 10, keyed by hair colour).
 PIECE_OF = {
-    '4_0': {0: [None, 1, 2, 3, 4, 3], 1: [None, 8, 9, 10, 11, 12, 13], 2: [None, 5, 6, 7, 7], 3: [None, 14]},
+    '4_0': {0: [None, 1, 2, 3], 1: [None, 8, 9, 10, 11, 12, 13], 2: [None, 5, 6, 7], 3: [None, 14]},
 }
 
 # migration: a legacy variation whose paint has no mesh in that slot takes a paint-only choice (choice index)
-MIG_PAINT = {'4_0': {1: {0: 4}, 4: {0: 5}, 5: {2: 4}}}
+MIG_PAINT = {'4_0': {1: {0: 1}, 4: {0: 3}, 5: {2: 3}}}
+
+# every other race with painted facial hair (user 2026-10-31): facial_pieces.py cuts the paint by the 3D model and
+# writes facial_pieces.json per race / sex: per slot the appended choices (the same mesh with another look's paint,
+# paint-only choices), each choice's piece and every legacy look's slot tuple. The paint selector goes (hidden, base
+# = a look with no paint and no mesh where there is one); the slot tuples reproduce every legacy look.
+PIECES_STATE = Path(__file__).with_name('facial_pieces.json')
+# user 2026-10-31: one choice per mesh, every choice a mesh. Values of the earlier rules (paint-only choices, the
+# same mesh with other paint) that are no choice now (stored value -> the surviving choice of that mesh); applied
+# once per character (zep_f230_facial_paint_done), guids <= REMAP_CUTOFF. No character held one of these values when
+# this was written (2026-10-31): insurance for a creator that offered them.
+REMAP = {'1_0': {0: {3: 2, 4: 2, 5: 2, 6: 2, 7: 2, 8: 2, 9: 2}, 1: {3: 2, 4: 2, 5: 2, 6: 2, 7: 2}, 2: {3: 2, 4: 2}},
+         '3_0': {1: {11: 6}},
+         '4_0': {0: {5: 2, 6: 4}, 2: {5: 4}},
+         '7_0': {0: {7: 2}, 1: {8: 2}, 2: {7: 6, 8: 6}}}
+REMAP_CUTOFF = 3763
+
+# ---- retail facial-hair grafts (facial_graft.py: curate_transforms.json m2.graft / skin.graft) ----------------------
+# Each race's grafted version of its SLOTS / PIECE_OF / MIG_PAINT entries. It replaces the stock entry only once the
+# race is in LANDED (its grafted model ships in zep-hd-curated); until then every output is exactly what it was.
+# Grafted ids are new in the model and named by no CharacterFacialHairStyles row, so NPCs keep their look. A painted
+# legacy look with no mesh of its own migrates to the best-fitting mesh, grafted ones included (user 2026-10-31: keep
+# each look's appearance). GRAFTED = the grafted geosets of the landed races (facial_pieces.py keeps them out of the
+# region map, so the paint regions of the existing meshes stay as they were).
+LANDED = {'1_0'}
+GRAFT = {
+    # beards 103-108, moustaches 303-307, long sideburns 204 (retail's 202 is our 202), eyebrows 1602-1604 (retail
+    # 3401-3403; group 16 so the client's slot code can hide them). Values 3.. of the old paint-only REMAP are taken
+    # by the new choices (no human male held one): REMAP drops 1_0 when landed.
+    '1_0': dict(grafted={*range(103, 109), *range(303, 308), 204, 1602, 1603, 1604},
+                slots=[(0, 'BEARD', 1, 1, C(0, 102, *range(103, 109))), (1, 'MOUSTACHE', 3, 3, C(0, 302, *range(303, 308))),
+                       (2, 'SIDEBURNS', 2, 2, C(0, 202, 204)), (3, 'EYEBROWS', 16, 0, C(0, 1602, 1603, 1604))],
+                remap=None),
+    # legacy BEARD row -> slots (no painted facial hair: base row 0 shows nothing); retail beards 111-113 (retail
+    # 102-110 are ours), eyebrows 1602
+    '10_0': dict(grafted={111, 112, 113, 1602}, facial=('hidden', 0, None),
+                 slots=[(0, 'BEARD', 1, 1, C(0, *range(102, 114))), (1, 'EYEBROWS', 16, 0, C(0, 1602))]),
+    # beards 108-111, eyebrows 308-311, sideburns 208/209, moustaches 1605-1608. 108 (small goatee) carries look 4's
+    # chin paint (piece 3, as 107), 111 (short full beard) look 1's full painted beard (piece 4); looks 1 / 4 (paint,
+    # no mesh) migrate onto them (renders 2026-10-31; before: the bigger 103 / 107)
+    '4_0': dict(grafted={108, 109, 110, 111, 208, 209, 308, 309, 310, 311, 1605, 1606, 1607, 1608},
+                slots=[(0, 'BEARD', 1, 1, C(0, 103, 106, 107, 108, 109, 110, 111)), (1, 'EYEBROWS', 3, 3, C(0, *range(302, 312))),
+                       (2, 'SIDEBURNS', 2, 2, C(0, 204, 205, 207, 208, 209)), (3, 'MOUSTACHE', 16, 3, C(0, 1604, *range(1605, 1609)))],
+                piece_of={0: [None, 1, 2, 3, 3, None, None, 4], 1: [None, 8, 9, 10, 11, 12, 13] + [None] * 4,
+                          2: [None, 5, 6, 7] + [None] * 2, 3: [None, 14] + [None] * 4},
+                mig_paint={1: {0: 7}, 4: {0: 4}, 5: {2: 3}}),
+    # legacy BEARD row -> slots. Each legacy row is one mesh (10x) + its own paint (section 2 type x): the mesh's
+    # choice carries that paint whole (facial_pieces.PIECES (2, 0)), so every legacy look is a slot tuple. Row 1 (stubble
+    # paint, no mesh) goes to the grafted chin tuft 111 with its paint. Retail beards 111-115, sideburns 202-207 /
+    # 209-212, nose rings 1602-1604. The beard rings stay part of their beards (see the module doc).
+    '2_0': dict(grafted={111, 112, 113, 114, 115, *range(202, 208), *range(209, 213), 1602, 1603, 1604},
+                facial=('hidden', 0, None),
+                # slot 0 is retired (the old Beard Rings link slot)
+                slots=[(1, 'BEARD', 1, 1, C(0, *range(102, 116))), (2, 'SIDEBURNS', 2, 2, C(0, *range(202, 208), *range(209, 213))),
+                       (3, 'NOSERING', 16, 3, C(0, 1602, 1603, 1604))],
+                piece_of={1: [None, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, None, None, None, None]},
+                mig_paint={1: {1: 10}}),
+    # our tauren is the retail rig x 20/27: retail facial hair 108-112 and hair 208/209 grafted scaled
+    '6_0': dict(grafted={108, 109, 110, 111, 112, 208, 209},
+                slots=[(0, 'BEARD', 1, 1, C(0, 102, 103, 104, 105, 107, *range(108, 113))),
+                       (1, 'HAIR', 2, 2, C(0, 202, 203, 204, 206, 208, 209)),
+                       (2, 'NOSERING', 3, 3, C(0, 302, 303, 306, 309))]),
+    # retail nose rings 1602-1606 (slot 3; slot 2 is retired); beards / moustaches / brows: retail's are ours
+    '3_0': dict(grafted={1602, 1603, 1604, 1605, 1606},
+                slots=[(0, 'BEARD', 1, 1, C(0, *range(102, 113))), (1, 'MOUSTACHE', 3, 3, C(0, *range(302, 311))),
+                       (3, 'NOSERING', 16, 3, C(0, *range(1602, 1607)))]),
+    # retail whiskers, cut like our 204-206: sideburns 207/209/210, moustaches 308/309/313, goatees 1610/1612/1613
+    '11_0': dict(grafted={207, 209, 210, 308, 309, 313, 1610, 1612, 1613},
+                 slots=[(0, 'TENDRILS', 1, 1, C(0, *range(102, 109))), (1, 'SIDEBURNS', 2, 2, C(0, *range(202, 208), 209, 210)),
+                        (2, 'MOUSTACHE', 3, 2, C(0, 304, 306, 308, 309, 313)),
+                        (3, 'BEARD', 16, 2, C(0, 1605, 1606, 1610, 1612, 1613))]),
+}
+GRAFTED = {}
+for _k in sorted(LANDED):
+    _g = GRAFT[_k]
+    GRAFTED[_k] = _g['grafted']
+    SLOTS[_k] = dict(SLOTS[_k], slots=_g['slots'], **({'facial': _g['facial']} if 'facial' in _g else {}))
+    if 'piece_of' in _g:
+        PIECE_OF[_k] = _g['piece_of']
+    if 'mig_paint' in _g:
+        MIG_PAINT[_k] = _g['mig_paint']
+    if 'remap' in _g:
+        REMAP.pop(_k, None)
+HIDDEN_BASE = {'1_0': 8, '3_0': 0, '7_0': 0, '11_0': 0}
+
+
+def apply_pieces_state():
+    if not PIECES_STATE.exists():
+        return
+    state = json.loads(PIECES_STATE.read_text())
+    for k, st in state.items():
+        spec = SLOTS[k]
+        spec['facial'] = ('hidden', HIDDEN_BASE[k], None)
+        slots = []
+        for sl in spec['slots']:
+            got = st['slots'].get(str(sl[0]))
+            if got and sl[2] is not None:
+                sl = (sl[0], sl[1], sl[2], sl[3], list(sl[4]) + C(*got['extra']))
+                PIECE_OF.setdefault(k, {})[sl[0]] = got['pieces']
+            slots.append(sl)
+        spec['slots'] = slots
+        MIG_PAINT[k] = {int(v): {int(sl): ci for sl, ci in m.items()} for v, m in st['migration'].items()}
+
+
+SLOTS_BASE = {k: dict(v, slots=list(v['slots'])) for k, v in SLOTS.items()}   # before the appended choices (facial_pieces.py reads these)
+apply_pieces_state()
 
 # slots taken out of a race/sex: never reused; the migration deletes their stored values (character_customizations
 # 10 + slot). Orc / dwarf male "Beard Rings" link slots: the rings close gaps in their beards (see the doc).
@@ -248,6 +355,7 @@ def main():
 
     out = ['# Zeppelin\\CharCustomizations.txt - F-230 split facial features. GENERATED, do not hand-edit.', 'version 1']
     mig = []
+    repaint = []                                # (race, sex, facialStyle, slot, mesh-only value, paint value)
     for k, spec in SLOTS.items():
         r, s = k.split('_')
         mode, arg, lab = spec['facial']
@@ -337,6 +445,9 @@ def main():
                 paint = MIG_PAINT.get(k, {}).get(v, {}).get(sl[0])
                 if paint is not None:
                     vals.append((sl[0], paint + 1))
+                    if cur in geos and geos.index(cur) != paint:
+                        # characters migrated before the paint choices hold the mesh-only value: move them
+                        repaint.append((int(r), int(s), v, sl[0], geos.index(cur) + 1, paint + 1))
                     continue
                 if cur not in geos:
                     problems.append(f'{k} variation {v} slot {sl[0]}: legacy geoset {cur} is no choice')
@@ -363,8 +474,30 @@ def main():
     if a.migration:
         vals = [f'({r},{s},{v},{sl},{val})' for r, s, v, vv in mig for sl, val in vv]
         chunks = [', '.join(vals[i:i + 8]) for i in range(0, len(vals), 8)]
+        pre = []
+        if REMAP:     # first: values of the paint-only rules move before the new-rule inserts and updates below
+            pre += ['-- paint-only choices removed (user 2026-10-31): values of the rules that had them move to the mesh',
+                    '-- choice carrying that paint, once per character (guid <= the cutoff)',
+                    'CREATE TABLE IF NOT EXISTS zep_f230_facial_paint_done (guid INT UNSIGNED NOT NULL PRIMARY KEY);',
+                    'DROP TEMPORARY TABLE IF EXISTS zep_tmp_paint_todo;',
+                    'CREATE TEMPORARY TABLE zep_tmp_paint_todo (guid INT UNSIGNED NOT NULL PRIMARY KEY);',
+                    'INSERT INTO zep_tmp_paint_todo (guid) SELECT guid FROM characters WHERE guid <= '
+                    f'{REMAP_CUTOFF} AND guid NOT IN (SELECT guid FROM zep_f230_facial_paint_done);']
+            for k, slots in sorted(REMAP.items()):
+                r, s = k.split('_')
+                cases = []
+                for slot, m in sorted(slots.items()):
+                    whens = ' '.join(f'WHEN {o} THEN {n}' for o, n in sorted(m.items()))
+                    cases.append(f'WHEN cc.customization = {10 + slot} AND cc.choice IN ({", ".join(map(str, sorted(m)))}) '
+                                 f'THEN CASE cc.choice {whens} END')
+                pre.append('UPDATE character_customizations AS cc JOIN characters AS c ON c.guid = cc.guid JOIN '
+                           'zep_tmp_paint_todo AS t ON t.guid = cc.guid SET cc.choice = CASE ' + ' '.join(cases) +
+                           f' ELSE cc.choice END WHERE c.race = {r} AND c.gender = {s};')
+            pre += ['INSERT IGNORE INTO zep_f230_facial_paint_done (guid) SELECT guid FROM zep_tmp_paint_todo;',
+                    'DROP TEMPORARY TABLE zep_tmp_paint_todo;']
         sql = ['-- F-230: existing characters get the geoset-slot values that reproduce their current facialStyle look.',
                '-- GENERATED by Scripts/Character Skins/facial_split.py - do not edit, re-run the script.',
+               *pre,
                'DROP TEMPORARY TABLE IF EXISTS zep_facial_split;',
                'CREATE TEMPORARY TABLE zep_facial_split (race TINYINT UNSIGNED, gender TINYINT UNSIGNED, facial TINYINT UNSIGNED,',
                '  slot TINYINT UNSIGNED, val TINYINT UNSIGNED, PRIMARY KEY (race, gender, facial, slot));',
@@ -375,6 +508,13 @@ def main():
                'FROM characters AS c',
                'JOIN zep_facial_split AS m ON m.race = c.race AND m.gender = c.gender AND m.facial = c.facialStyle;',
                'DROP TEMPORARY TABLE zep_facial_split;']
+        if repaint:
+            sql.append('-- facial-hair paint follows the slot choices (facial_pieces.py): a character migrated before that, still on')
+            sql.append('-- the mesh-only value of its legacy look, moves to the choice that carries the look\'s paint')
+        for r, s, v, slot, old, new in repaint:
+            sql.append('UPDATE character_customizations AS cc JOIN characters AS c ON c.guid = cc.guid SET cc.choice = '
+                       f'{new} WHERE c.race = {r} AND c.gender = {s} AND c.facialStyle = {v} AND cc.customization = '
+                       f'{10 + slot} AND cc.choice = {old};')
         if RETIRED:
             sql.append('-- retired slots (facial_split.RETIRED, numbers never reused): their stored values go')
         for k, gone in sorted(RETIRED.items()):

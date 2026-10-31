@@ -32,6 +32,8 @@ HEAD = (0, 80, 64, 48)                   # the head box on the 128 body atlas
 RES = 70
 MIN_BLOB = 12
 BODY_MIN, FACE_COLOUR_MIN, FACE_TYPE_MIN = 0.004, 0.025, 0.012
+FACE_SINGLE_MIN = 0.04                          # one face of one colour
+SHARED_MIN, SHARED_Z = 0.04, 6.0               # shared-paint pass: least score, robust z over the race
 COPY_RES = 4.0                           # mean residual under which two faces are the same art (DK copies)
 _rng = np.random.default_rng(0)
 
@@ -78,7 +80,14 @@ def blobs(res: np.ndarray, valid: np.ndarray, target: np.ndarray = None, base: n
     return np.isin(lab, idx[keep])
 
 
-def kth_residual(items: Dict, extra=None) -> Dict:
+def _glow(*imgs) -> np.ndarray:
+    m = np.zeros(imgs[0].shape[:2], bool)
+    for im in imgs:
+        m |= ((im.max(2) - im.min(2)) > 80) & (im.max(2) > 150)
+    return ndimage.binary_dilation(m, iterations=3)
+
+
+def kth_residual(items: Dict, extra=None, q=None) -> Dict:
     """items {key: (rgb, valid)} -> {key: (score, mask)}: residual = K-th smallest over the siblings."""
     keys = list(items)
     if len(keys) < 4:
@@ -100,13 +109,13 @@ def kth_residual(items: Dict, extra=None) -> Dict:
             if (m & samp).sum() < 100:
                 continue
             r = np.abs(_fit_apply(items[s][0], rgb, m & samp, items[s][0]) - rgb).sum(2)
-            if r[m].mean() < COPY_RES:          # a copy of the same texture: no evidence either way
+            if r[m & ~_glow(rgb, items[s][0])].mean() < COPY_RES:   # a copy (DK glow aside): no evidence either way
                 continue
             r[~m] = 0
             rs.append(r)
         if len(rs) < 3:
             continue
-        k = max(2, int(round(0.15 * len(rs))))
+        k = max(2, int(round((0.15 if q is None else q) * len(rs))))
         res = np.partition(np.stack(rs), k - 1, axis=0)[k - 1]
         mask = blobs(res, v, rgb)
         out[c] = (mask.sum() / max(v.sum(), 1), mask)
@@ -130,8 +139,8 @@ def nearest_type(items: Dict, eye: np.ndarray) -> Dict:
             if m.sum() < 200:
                 continue
             r = np.abs(_fit_apply(items[s][0], rgb, m, items[s][0]) - rgb).sum(2)
-            mean = float(r[m].mean())
-            if mean < COPY_RES:
+            mean = float(r[m & ~_glow(rgb, items[s][0])].mean())
+            if mean < COPY_RES:                 # its own death knight copy: the same paint, no evidence
                 continue
             r[~m] = 0
             if best is None or mean < best[0]:
@@ -180,6 +189,33 @@ def detect(race: int, sex: int, skins: Dict[int, np.ndarray], faces: Dict[Tuple[
             med = float(np.median([s for s, _t in scores]))
             found.append({'what': 'face-colour', 'colour': c, 'type': None, 'score': med, 'base': None,
                           'detail': f'face paint on {len(marked)}/{len(scores)} face types (median {med:.1%})'})
+    # a single face of one colour (round 4: gnome F 5 paints face 0 only, so no colour-wide finding)
+    flagged = {f['colour'] for f in found if f['what'] == 'face-colour'}
+    for c, scores in per_colour.items():
+        if c in flagged:
+            continue
+        for sc, t in scores:
+            if sc >= FACE_SINGLE_MIN:
+                found.append({'what': 'face', 'colour': c, 'type': t, 'score': sc, 'base': None,
+                              'detail': f'face type {t}: paint over {sc:.1%} of the face that the other colours lack'})
+    # shared paint (round 4: gnome F 5 / 13 / 14, dwarf "twilight" 28 / 29): when several colours carry the same paint
+    # they explain each other at the 15 % sibling, so a second pass compares against the MEDIAN sibling and keeps
+    # the colours that stand out from the race's own spread (art families raise every colour alike)
+    flagged = {f['colour'] for f in found if f['what'] == 'face-colour'}
+    per_colour_m = {}
+    for t in types:
+        res = kth_residual({c: (F[(t, c)][0], F[(t, c)][1] & ~eye_s) for c in colours if (t, c) in F}, q=0.5)
+        for c, (score, _m) in res.items():
+            per_colour_m.setdefault(c, []).append(score)
+    if len(per_colour_m) >= 6:
+        meds = {c: float(np.median(v)) for c, v in per_colour_m.items()}
+        spread = np.median(list(meds.values()))
+        mad = np.median(np.abs(np.array(list(meds.values())) - spread)) + 1e-4
+        for c, m in meds.items():
+            if c not in flagged and m >= SHARED_MIN and (m - spread) / mad >= SHARED_Z:
+                found.append({'what': 'face-colour', 'colour': c, 'type': None, 'score': m, 'base': None,
+                              'detail': f'shared face paint: median {m:.1%} against the median sibling '
+                                        f'(race spread {spread:.1%})'})
     per_type = {}
     for c in colours:
         items = {t: F[(t, c)] for t in types if (t, c) in F}

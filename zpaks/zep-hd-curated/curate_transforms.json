@@ -6039,5 +6039,440 @@
     ]
    }
   ]
+ },
+ "character/human/male/humanmale.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail humanmale_hd facial hair grafted as new geosets (same rig and head; hair UV u -> 2u-1 onto our single-copy hair atlas): beards 103-108, long sideburns 204 (retail 203; retail 202 = our 202), moustaches 303-307, eyebrows 1602-1604 (retail 3401-3403: group 34 is not a slot group the client hides). NPC rows name none of them.",
+  "base_sha256": "b059ed5972a90664a751d0fb6e4375117b2f8ff5959de218742f6b0303e01682",
+  "ops": [
+   {
+    "op": "m2.graft",
+    "donor_fdid": 1011653,
+    "donor_sha256": "9faebdb9076184819bb2d01c6d494b0bf4f174bf490cd072f0734665c172d166",
+    "donor_skin_fdid": 1012983,
+    "donor_skin_sha256": "d4621888fc71118ac084f3ec49eb230561273b1aa8af88d89140a90468855aa9",
+    "geosets": [
+     [
+      103,
+      103
+     ],
+     [
+      104,
+      104
+     ],
+     [
+      105,
+      105
+     ],
+     [
+      106,
+      106
+     ],
+     [
+      107,
+      107
+     ],
+     [
+      108,
+      108
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      303,
+      303
+     ],
+     [
+      304,
+      304
+     ],
+     [
+      305,
+      305
+     ],
+     [
+      306,
+      306
+     ],
+     [
+      307,
+      307
+     ],
+     [
+      3401,
+      1602
+     ],
+     [
+      3402,
+      1603
+     ],
+     [
+      3403,
+      1604
+     ]
+    ],
+    "template": 102,
+    "uv": {
+     "u_from": 0.5,
+     "u_scale": 2.0,
+     "u_offset": -0.9991
+    },
+    "expect_vertices": 16271,
+    "expect_bone_lookup": 963,
+    "skel_fdid": 2138400,
+    "skel_sha256": "bf11af495f1c5297efd5e5c89434b26368ab9c5431ad065ab33603dc55d3dfc6"
+   }
+  ],
+  "result_sha256": "8d73e7589cdf14d0db64d6de8f8662a6186b7bb39c5c629dff100daebb8cd389"
+ },
+ "character/human/male/humanmale00.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail humanmale_hd facial hair grafted as new geosets (same rig and head; hair UV u -> 2u-1 onto our single-copy hair atlas): beards 103-108, long sideburns 204 (retail 203; retail 202 = our 202), moustaches 303-307, eyebrows 1602-1604 (retail 3401-3403: group 34 is not a slot group the client hides). NPC rows name none of them.",
+  "base_sha256": "b5a901249ceda47a49ab406f4817f8d0b68b7768906e0b21558c799855a4b9ca",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1011653,
+    "donor_sha256": "9faebdb9076184819bb2d01c6d494b0bf4f174bf490cd072f0734665c172d166",
+    "donor_skin_fdid": 1012983,
+    "donor_skin_sha256": "d4621888fc71118ac084f3ec49eb230561273b1aa8af88d89140a90468855aa9",
+    "geosets": [
+     [
+      103,
+      103
+     ],
+     [
+      104,
+      104
+     ],
+     [
+      105,
+      105
+     ],
+     [
+      106,
+      106
+     ],
+     [
+      107,
+      107
+     ],
+     [
+      108,
+      108
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      303,
+      303
+     ],
+     [
+      304,
+      304
+     ],
+     [
+      305,
+      305
+     ],
+     [
+      306,
+      306
+     ],
+     [
+      307,
+      307
+     ],
+     [
+      3401,
+      1602
+     ],
+     [
+      3402,
+      1603
+     ],
+     [
+      3403,
+      1604
+     ]
+    ],
+    "template": 102,
+    "uv": {
+     "u_from": 0.5,
+     "u_scale": 2.0,
+     "u_offset": -0.9991
+    },
+    "expect_vertices": 16271,
+    "expect_bone_lookup": 963,
+    "skel_fdid": 2138400,
+    "skel_sha256": "bf11af495f1c5297efd5e5c89434b26368ab9c5431ad065ab33603dc55d3dfc6"
+   }
+  ],
+  "result_sha256": "b6eec7f01cb3eb455e612755a31ba655d03abd0013938481df572bcc155d6dcf"
+ },
+ "character/human/male/humanmale01.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail humanmale_hd facial hair grafted as new geosets (same rig and head; hair UV u -> 2u-1 onto our single-copy hair atlas): beards 103-108, long sideburns 204 (retail 203; retail 202 = our 202), moustaches 303-307, eyebrows 1602-1604 (retail 3401-3403: group 34 is not a slot group the client hides). NPC rows name none of them.",
+  "base_sha256": "e798030e5a83fc1fb5378d279ad65709ad3257b77310c22a28afae2e4f2670b7",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1011653,
+    "donor_sha256": "9faebdb9076184819bb2d01c6d494b0bf4f174bf490cd072f0734665c172d166",
+    "donor_skin_fdid": 1012983,
+    "donor_skin_sha256": "d4621888fc71118ac084f3ec49eb230561273b1aa8af88d89140a90468855aa9",
+    "geosets": [
+     [
+      103,
+      103
+     ],
+     [
+      104,
+      104
+     ],
+     [
+      105,
+      105
+     ],
+     [
+      106,
+      106
+     ],
+     [
+      107,
+      107
+     ],
+     [
+      108,
+      108
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      303,
+      303
+     ],
+     [
+      304,
+      304
+     ],
+     [
+      305,
+      305
+     ],
+     [
+      306,
+      306
+     ],
+     [
+      307,
+      307
+     ],
+     [
+      3401,
+      1602
+     ],
+     [
+      3402,
+      1603
+     ],
+     [
+      3403,
+      1604
+     ]
+    ],
+    "template": 102,
+    "uv": {
+     "u_from": 0.5,
+     "u_scale": 2.0,
+     "u_offset": -0.9991
+    },
+    "expect_vertices": 16271,
+    "expect_bone_lookup": 963,
+    "skel_fdid": 2138400,
+    "skel_sha256": "bf11af495f1c5297efd5e5c89434b26368ab9c5431ad065ab33603dc55d3dfc6"
+   }
+  ],
+  "result_sha256": "de5a83585440279630818ddf1da715874283f3a4518f2b9526fd334fdea36438"
+ },
+ "character/human/male/humanmale02.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail humanmale_hd facial hair grafted as new geosets (same rig and head; hair UV u -> 2u-1 onto our single-copy hair atlas): beards 103-108, long sideburns 204 (retail 203; retail 202 = our 202), moustaches 303-307, eyebrows 1602-1604 (retail 3401-3403: group 34 is not a slot group the client hides). NPC rows name none of them.",
+  "base_sha256": "ba63f59934f34200c5fffccddd5550a79e4d1f6009f5d13fbc26b30c7d2d41e5",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1011653,
+    "donor_sha256": "9faebdb9076184819bb2d01c6d494b0bf4f174bf490cd072f0734665c172d166",
+    "donor_skin_fdid": 1012983,
+    "donor_skin_sha256": "d4621888fc71118ac084f3ec49eb230561273b1aa8af88d89140a90468855aa9",
+    "geosets": [
+     [
+      103,
+      103
+     ],
+     [
+      104,
+      104
+     ],
+     [
+      105,
+      105
+     ],
+     [
+      106,
+      106
+     ],
+     [
+      107,
+      107
+     ],
+     [
+      108,
+      108
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      303,
+      303
+     ],
+     [
+      304,
+      304
+     ],
+     [
+      305,
+      305
+     ],
+     [
+      306,
+      306
+     ],
+     [
+      307,
+      307
+     ],
+     [
+      3401,
+      1602
+     ],
+     [
+      3402,
+      1603
+     ],
+     [
+      3403,
+      1604
+     ]
+    ],
+    "template": 102,
+    "uv": {
+     "u_from": 0.5,
+     "u_scale": 2.0,
+     "u_offset": -0.9991
+    },
+    "expect_vertices": 16271,
+    "expect_bone_lookup": 963,
+    "skel_fdid": 2138400,
+    "skel_sha256": "bf11af495f1c5297efd5e5c89434b26368ab9c5431ad065ab33603dc55d3dfc6"
+   }
+  ],
+  "result_sha256": "4e5efdf95698a963fb1e6513b2c5534c317bd009c2fef6df73bd0e4105996dfa"
+ },
+ "character/human/male/humanmale03.skin": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail humanmale_hd facial hair grafted as new geosets (same rig and head; hair UV u -> 2u-1 onto our single-copy hair atlas): beards 103-108, long sideburns 204 (retail 203; retail 202 = our 202), moustaches 303-307, eyebrows 1602-1604 (retail 3401-3403: group 34 is not a slot group the client hides). NPC rows name none of them.",
+  "base_sha256": "1b27e7d27343fea0c8d66490391a6c315a729f83014575e5897df4577517cdc6",
+  "ops": [
+   {
+    "op": "skin.graft",
+    "donor_fdid": 1011653,
+    "donor_sha256": "9faebdb9076184819bb2d01c6d494b0bf4f174bf490cd072f0734665c172d166",
+    "donor_skin_fdid": 1012983,
+    "donor_skin_sha256": "d4621888fc71118ac084f3ec49eb230561273b1aa8af88d89140a90468855aa9",
+    "geosets": [
+     [
+      103,
+      103
+     ],
+     [
+      104,
+      104
+     ],
+     [
+      105,
+      105
+     ],
+     [
+      106,
+      106
+     ],
+     [
+      107,
+      107
+     ],
+     [
+      108,
+      108
+     ],
+     [
+      203,
+      204
+     ],
+     [
+      303,
+      303
+     ],
+     [
+      304,
+      304
+     ],
+     [
+      305,
+      305
+     ],
+     [
+      306,
+      306
+     ],
+     [
+      307,
+      307
+     ],
+     [
+      3401,
+      1602
+     ],
+     [
+      3402,
+      1603
+     ],
+     [
+      3403,
+      1604
+     ]
+    ],
+    "template": 102,
+    "uv": {
+     "u_from": 0.5,
+     "u_scale": 2.0,
+     "u_offset": -0.9991
+    },
+    "expect_vertices": 16271,
+    "expect_bone_lookup": 963,
+    "skel_fdid": 2138400,
+    "skel_sha256": "bf11af495f1c5297efd5e5c89434b26368ab9c5431ad065ab33603dc55d3dfc6"
+   }
+  ],
+  "result_sha256": "9303a20f65ef03e52912307731d67fda9109481122718a07ebf2964600e87bba"
  }
 }

@@ -271,7 +271,7 @@ def _baked(race, sex, skins, face_parts, files, stats) -> List[Finding]:
         for path in paths:
             f = files[ms.norm(path)][0]
             sig.update(f'{k}:{f}:{f.stat().st_size}:{f.stat().st_mtime_ns};'.encode())
-    sig.update(str(baked_marks.RES).encode())
+    sig.update(f'{baked_marks.RES} v2'.encode())                     # v2: shared-paint, single-face, DK-copy fixes
     key, digest = f'{race}:{sex}', sig.hexdigest()
     cache = json.loads(BAKED_CACHE.read_text()) if BAKED_CACHE.exists() else {}
     if cache.get(key, {}).get('sig') == digest:

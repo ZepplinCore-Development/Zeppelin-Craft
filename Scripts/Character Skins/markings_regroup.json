@@ -5343,13 +5343,58 @@
      "sources": [
       "baked split of colour(s) 34, 35 (cut 34/2, face)"
      ]
+    },
+    {
+     "value": 2,
+     "name": "Scarred runes",
+     "id": 102581,
+     "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkFace02.blp",
+     "sources": [
+      "baked split of face type 20 over 0 (colour 0)"
+     ]
+    },
+    {
+     "value": 3,
+     "name": "Slashed runes",
+     "id": 102582,
+     "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkFace03.blp",
+     "sources": [
+      "baked split of face type 21 over 1 (colour 0)"
+     ]
+    },
+    {
+     "value": 4,
+     "name": "Eye slash scar",
+     "id": 102583,
+     "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkFace04.blp",
+     "sources": [
+      "baked split of face type 22 over 3 (colour 0)"
+     ]
+    },
+    {
+     "value": 5,
+     "name": "Fel thorns (green)",
+     "id": 102584,
+     "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkFace05.blp",
+     "sources": [
+      "baked split of face type 23 over 6 (colour 0)"
+     ]
+    },
+    {
+     "value": 6,
+     "name": "Fel thorns (green)",
+     "id": 102585,
+     "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkFace06.blp",
+     "sources": [
+      "baked split of face type 24 over 9 (colour 0)"
+     ]
     }
    ],
    "Body Markings": [
     {
      "value": 1,
      "name": "Suffering tattoo (green)",
-     "id": 102581,
+     "id": 102586,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody01.blp",
      "sources": [
       "retail Tattoo Suffering green (retail 1285000)"
@@ -5358,7 +5403,7 @@
     {
      "value": 2,
      "name": "Suffering tattoo (purple)",
-     "id": 102582,
+     "id": 102587,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody02.blp",
      "sources": [
       "retail Tattoo Suffering purple (retail 1340676)",
@@ -5368,7 +5413,7 @@
     {
      "value": 3,
      "name": "Betrayer tattoo (green)",
-     "id": 102583,
+     "id": 102588,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody03.blp",
      "sources": [
       "retail Tattoo Betrayer green (retail 1285001)"
@@ -5377,7 +5422,7 @@
     {
      "value": 4,
      "name": "Betrayer tattoo (purple)",
-     "id": 102584,
+     "id": 102589,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody04.blp",
      "sources": [
       "retail Tattoo Betrayer purple (retail 1340678)"
@@ -5386,7 +5431,7 @@
     {
      "value": 5,
      "name": "Pain tattoo (green)",
-     "id": 102585,
+     "id": 102590,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody05.blp",
      "sources": [
       "retail Tattoo Pain green (retail 1285002)"
@@ -5395,7 +5440,7 @@
     {
      "value": 6,
      "name": "Pain tattoo (purple)",
-     "id": 102586,
+     "id": 102591,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody06.blp",
      "sources": [
       "retail Tattoo Pain purple (retail 1340680)",
@@ -5405,7 +5450,7 @@
     {
      "value": 7,
      "name": "Sacrifice tattoo (green)",
-     "id": 102587,
+     "id": 102592,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody07.blp",
      "sources": [
       "retail Tattoo Sacrifice green (retail 1285003)"
@@ -5414,7 +5459,7 @@
     {
      "value": 8,
      "name": "Sacrifice tattoo (purple)",
-     "id": 102588,
+     "id": 102593,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody08.blp",
      "sources": [
       "retail Tattoo Sacrifice purple (retail 1340682)"
@@ -5423,7 +5468,7 @@
     {
      "value": 9,
      "name": "Revenge tattoo (green)",
-     "id": 102589,
+     "id": 102594,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody09.blp",
      "sources": [
       "retail Tattoo Revenge green (retail 1285004)"
@@ -5432,7 +5477,7 @@
     {
      "value": 10,
      "name": "Revenge tattoo (purple)",
-     "id": 102590,
+     "id": 102595,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody10.blp",
      "sources": [
       "retail Tattoo Revenge purple (retail 1340684)"
@@ -5441,7 +5486,7 @@
     {
      "value": 11,
      "name": "Chaos tattoo (green)",
-     "id": 102591,
+     "id": 102596,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody11.blp",
      "sources": [
       "retail Tattoo Chaos green (retail 1285005)"
@@ -5450,7 +5495,7 @@
     {
      "value": 12,
      "name": "Chaos tattoo (purple)",
-     "id": 102592,
+     "id": 102597,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody12.blp",
      "sources": [
       "retail Tattoo Chaos purple (retail 1340686)"
@@ -5459,7 +5504,7 @@
     {
      "value": 13,
      "name": "Arcane swirls (red)",
-     "id": 102593,
+     "id": 102598,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody13.blp",
      "sources": [
       "baked split of colour(s) 48, 49 (cut 49/0, arms)"
@@ -5468,7 +5513,7 @@
     {
      "value": 14,
      "name": "Arcane swirls (blue)",
-     "id": 102594,
+     "id": 102599,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody14.blp",
      "sources": [
       "baked split of colour(s) 50, 51 (cut 51/4, arms)"
@@ -5477,7 +5522,7 @@
     {
      "value": 15,
      "name": "Arcane swirls (black)",
-     "id": 102595,
+     "id": 102600,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody15.blp",
      "sources": [
       "baked split of colour(s) 52, 53, 56, 57 (shade, arms)"
@@ -5486,7 +5531,7 @@
     {
      "value": 16,
      "name": "Arcane swirls (purple)",
-     "id": 102596,
+     "id": 102601,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody16.blp",
      "sources": [
       "baked split of colour(s) 54, 55, 58, 59 (cut 55/0, arms)"
@@ -5495,7 +5540,7 @@
     {
      "value": 17,
      "name": "Fel veins",
-     "id": 102597,
+     "id": 102602,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody17.blp",
      "sources": [
       "baked split of colour(s) 60 (cut 60/7, body)"
@@ -5504,7 +5549,7 @@
     {
      "value": 18,
      "name": "Suffering tattoo (green)",
-     "id": 102598,
+     "id": 102603,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody18.blp",
      "sources": [
       "retail own race Tattoo Suffering green (retail 1340664)"
@@ -5513,7 +5558,7 @@
     {
      "value": 19,
      "name": "Suffering tattoo (red)",
-     "id": 102599,
+     "id": 102604,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody19.blp",
      "sources": [
       "retail own race Tattoo Suffering red (retail 1340700)"
@@ -5522,7 +5567,7 @@
     {
      "value": 20,
      "name": "Betrayer tattoo (green)",
-     "id": 102600,
+     "id": 102605,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody20.blp",
      "sources": [
       "retail own race Tattoo Betrayer green (retail 1340666)"
@@ -5531,7 +5576,7 @@
     {
      "value": 21,
      "name": "Betrayer tattoo (red)",
-     "id": 102601,
+     "id": 102606,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody21.blp",
      "sources": [
       "retail own race Tattoo Betrayer red (retail 1340702)"
@@ -5540,7 +5585,7 @@
     {
      "value": 22,
      "name": "Betrayer tattoo (dark blue)",
-     "id": 102602,
+     "id": 102607,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody22.blp",
      "sources": [
       "retail own race Tattoo Betrayer dark blue (retail 1340714)"
@@ -5549,7 +5594,7 @@
     {
      "value": 23,
      "name": "Pain tattoo (green)",
-     "id": 102603,
+     "id": 102608,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody23.blp",
      "sources": [
       "retail own race Tattoo Pain green (retail 1340668)"
@@ -5558,7 +5603,7 @@
     {
      "value": 24,
      "name": "Pain tattoo (red)",
-     "id": 102604,
+     "id": 102609,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody24.blp",
      "sources": [
       "retail own race Tattoo Pain red (retail 1340704)"
@@ -5567,7 +5612,7 @@
     {
      "value": 25,
      "name": "Sacrifice tattoo (green)",
-     "id": 102605,
+     "id": 102610,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody25.blp",
      "sources": [
       "retail own race Tattoo Sacrifice green (retail 1340670)"
@@ -5576,7 +5621,7 @@
     {
      "value": 26,
      "name": "Sacrifice tattoo (red)",
-     "id": 102606,
+     "id": 102611,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody26.blp",
      "sources": [
       "retail own race Tattoo Sacrifice red (retail 1340706)"
@@ -5585,7 +5630,7 @@
     {
      "value": 27,
      "name": "Sacrifice tattoo (dark blue)",
-     "id": 102607,
+     "id": 102612,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody27.blp",
      "sources": [
       "retail own race Tattoo Sacrifice dark blue (retail 1340718)"
@@ -5594,7 +5639,7 @@
     {
      "value": 28,
      "name": "Revenge tattoo (green)",
-     "id": 102608,
+     "id": 102613,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody28.blp",
      "sources": [
       "retail own race Tattoo Revenge green (retail 1340672)"
@@ -5603,7 +5648,7 @@
     {
      "value": 29,
      "name": "Revenge tattoo (red)",
-     "id": 102609,
+     "id": 102614,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody29.blp",
      "sources": [
       "retail own race Tattoo Revenge red (retail 1340708)"
@@ -5612,7 +5657,7 @@
     {
      "value": 30,
      "name": "Revenge tattoo (dark blue)",
-     "id": 102610,
+     "id": 102615,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody30.blp",
      "sources": [
       "retail own race Tattoo Revenge dark blue (retail 1340720)"
@@ -5621,7 +5666,7 @@
     {
      "value": 31,
      "name": "Chaos tattoo (green)",
-     "id": 102611,
+     "id": 102616,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody31.blp",
      "sources": [
       "retail own race Tattoo Chaos green (retail 1340674)"
@@ -5630,7 +5675,7 @@
     {
      "value": 32,
      "name": "Chaos tattoo (red)",
-     "id": 102612,
+     "id": 102617,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody32.blp",
      "sources": [
       "retail own race Tattoo Chaos red (retail 1340710)"
@@ -5639,7 +5684,7 @@
     {
      "value": 33,
      "name": "Chaos tattoo (dark blue)",
-     "id": 102613,
+     "id": 102618,
      "file": "Character\\BloodElf\\Male\\BloodElfMaleMarkBody33.blp",
      "sources": [
       "retail own race Tattoo Chaos dark blue (retail 1340722)"
@@ -5652,7 +5697,7 @@
     {
      "value": 1,
      "name": "Void tear paint",
-     "id": 102614,
+     "id": 102619,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkFace01.blp",
      "sources": [
       "baked split of colour(s) 34, 35 (cut 34/2, face)"
@@ -5663,7 +5708,7 @@
     {
      "value": 1,
      "name": "Suffering tattoo (green)",
-     "id": 102615,
+     "id": 102620,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody01.blp",
      "sources": [
       "retail Tattoo Suffering green (retail 1286480)"
@@ -5672,7 +5717,7 @@
     {
      "value": 2,
      "name": "Suffering tattoo (purple)",
-     "id": 102616,
+     "id": 102621,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody02.blp",
      "sources": [
       "retail Tattoo Suffering purple (retail 1339360)"
@@ -5681,7 +5726,7 @@
     {
      "value": 3,
      "name": "Betrayer tattoo (green)",
-     "id": 102617,
+     "id": 102622,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody03.blp",
      "sources": [
       "retail Tattoo Betrayer green (retail 1286481)"
@@ -5690,7 +5735,7 @@
     {
      "value": 4,
      "name": "Betrayer tattoo (purple)",
-     "id": 102618,
+     "id": 102623,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody04.blp",
      "sources": [
       "retail Tattoo Betrayer purple (retail 1339361)"
@@ -5699,7 +5744,7 @@
     {
      "value": 5,
      "name": "Pain tattoo (green)",
-     "id": 102619,
+     "id": 102624,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody05.blp",
      "sources": [
       "retail Tattoo Pain green (retail 1286482)"
@@ -5708,7 +5753,7 @@
     {
      "value": 6,
      "name": "Pain tattoo (purple)",
-     "id": 102620,
+     "id": 102625,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody06.blp",
      "sources": [
       "retail Tattoo Pain purple (retail 1339362)"
@@ -5717,7 +5762,7 @@
     {
      "value": 7,
      "name": "Sacrifice tattoo (green)",
-     "id": 102621,
+     "id": 102626,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody07.blp",
      "sources": [
       "retail Tattoo Sacrifice green (retail 1286483)"
@@ -5726,7 +5771,7 @@
     {
      "value": 8,
      "name": "Sacrifice tattoo (purple)",
-     "id": 102622,
+     "id": 102627,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody08.blp",
      "sources": [
       "retail Tattoo Sacrifice purple (retail 1339363)"
@@ -5735,7 +5780,7 @@
     {
      "value": 9,
      "name": "Revenge tattoo (green)",
-     "id": 102623,
+     "id": 102628,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody09.blp",
      "sources": [
       "retail Tattoo Revenge green (retail 1286484)"
@@ -5744,7 +5789,7 @@
     {
      "value": 10,
      "name": "Revenge tattoo (purple)",
-     "id": 102624,
+     "id": 102629,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody10.blp",
      "sources": [
       "retail Tattoo Revenge purple (retail 1339364)"
@@ -5753,7 +5798,7 @@
     {
      "value": 11,
      "name": "Chaos tattoo (green)",
-     "id": 102625,
+     "id": 102630,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody11.blp",
      "sources": [
       "retail Tattoo Chaos green (retail 1286485)"
@@ -5762,7 +5807,7 @@
     {
      "value": 12,
      "name": "Chaos tattoo (purple)",
-     "id": 102626,
+     "id": 102631,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody12.blp",
      "sources": [
       "retail Tattoo Chaos purple (retail 1339365)"
@@ -5771,7 +5816,7 @@
     {
      "value": 13,
      "name": "Arcane swirls (red)",
-     "id": 102627,
+     "id": 102632,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody13.blp",
      "sources": [
       "baked split of colour(s) 48, 49 (cut 49/0, arms)"
@@ -5780,7 +5825,7 @@
     {
      "value": 14,
      "name": "Arcane swirls (blue)",
-     "id": 102628,
+     "id": 102633,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody14.blp",
      "sources": [
       "baked split of colour(s) 50, 51 (cut 51/4, arms)"
@@ -5789,7 +5834,7 @@
     {
      "value": 15,
      "name": "Arcane swirls (black)",
-     "id": 102629,
+     "id": 102634,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody15.blp",
      "sources": [
       "baked split of colour(s) 52, 53, 56, 57 (shade, arms)"
@@ -5798,7 +5843,7 @@
     {
      "value": 16,
      "name": "Arcane swirls (purple)",
-     "id": 102630,
+     "id": 102635,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody16.blp",
      "sources": [
       "baked split of colour(s) 54, 55 (cut 55/0, arms)"
@@ -5807,7 +5852,7 @@
     {
      "value": 17,
      "name": "Fel veins",
-     "id": 102631,
+     "id": 102636,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody17.blp",
      "sources": [
       "baked split of colour(s) 60 (cut 60/2, body)"
@@ -5816,7 +5861,7 @@
     {
      "value": 18,
      "name": "Suffering tattoo (green)",
-     "id": 102632,
+     "id": 102637,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody18.blp",
      "sources": [
       "retail own race Tattoo Suffering green (retail 1339354)"
@@ -5825,7 +5870,7 @@
     {
      "value": 19,
      "name": "Suffering tattoo (red)",
-     "id": 102633,
+     "id": 102638,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody19.blp",
      "sources": [
       "retail own race Tattoo Suffering red (retail 1339372)"
@@ -5834,7 +5879,7 @@
     {
      "value": 20,
      "name": "Suffering tattoo (dark blue)",
-     "id": 102634,
+     "id": 102639,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody20.blp",
      "sources": [
       "retail own race Tattoo Suffering dark blue (retail 1339378)"
@@ -5843,7 +5888,7 @@
     {
      "value": 21,
      "name": "Betrayer tattoo (green)",
-     "id": 102635,
+     "id": 102640,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody21.blp",
      "sources": [
       "retail own race Tattoo Betrayer green (retail 1339355)"
@@ -5852,7 +5897,7 @@
     {
      "value": 22,
      "name": "Betrayer tattoo (red)",
-     "id": 102636,
+     "id": 102641,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody22.blp",
      "sources": [
       "retail own race Tattoo Betrayer red (retail 1339373)"
@@ -5861,7 +5906,7 @@
     {
      "value": 23,
      "name": "Betrayer tattoo (dark blue)",
-     "id": 102637,
+     "id": 102642,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody23.blp",
      "sources": [
       "retail own race Tattoo Betrayer dark blue (retail 1339379)"
@@ -5870,7 +5915,7 @@
     {
      "value": 24,
      "name": "Pain tattoo (green)",
-     "id": 102638,
+     "id": 102643,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody24.blp",
      "sources": [
       "retail own race Tattoo Pain green (retail 1339356)"
@@ -5879,7 +5924,7 @@
     {
      "value": 25,
      "name": "Pain tattoo (red)",
-     "id": 102639,
+     "id": 102644,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody25.blp",
      "sources": [
       "retail own race Tattoo Pain red (retail 1339374)"
@@ -5888,7 +5933,7 @@
     {
      "value": 26,
      "name": "Pain tattoo (dark blue)",
-     "id": 102640,
+     "id": 102645,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody26.blp",
      "sources": [
       "retail own race Tattoo Pain dark blue (retail 1339380)"
@@ -5897,7 +5942,7 @@
     {
      "value": 27,
      "name": "Sacrifice tattoo (green)",
-     "id": 102641,
+     "id": 102646,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody27.blp",
      "sources": [
       "retail own race Tattoo Sacrifice green (retail 1339357)"
@@ -5906,7 +5951,7 @@
     {
      "value": 28,
      "name": "Sacrifice tattoo (red)",
-     "id": 102642,
+     "id": 102647,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody28.blp",
      "sources": [
       "retail own race Tattoo Sacrifice red (retail 1339375)"
@@ -5915,7 +5960,7 @@
     {
      "value": 29,
      "name": "Sacrifice tattoo (dark blue)",
-     "id": 102643,
+     "id": 102648,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody29.blp",
      "sources": [
       "retail own race Tattoo Sacrifice dark blue (retail 1339381)"
@@ -5924,7 +5969,7 @@
     {
      "value": 30,
      "name": "Revenge tattoo (green)",
-     "id": 102644,
+     "id": 102649,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody30.blp",
      "sources": [
       "retail own race Tattoo Revenge green (retail 1339358)"
@@ -5933,7 +5978,7 @@
     {
      "value": 31,
      "name": "Revenge tattoo (red)",
-     "id": 102645,
+     "id": 102650,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody31.blp",
      "sources": [
       "retail own race Tattoo Revenge red (retail 1339376)"
@@ -5942,7 +5987,7 @@
     {
      "value": 32,
      "name": "Revenge tattoo (dark blue)",
-     "id": 102646,
+     "id": 102651,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody32.blp",
      "sources": [
       "retail own race Tattoo Revenge dark blue (retail 1339382)"
@@ -5951,7 +5996,7 @@
     {
      "value": 33,
      "name": "Chaos tattoo (green)",
-     "id": 102647,
+     "id": 102652,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody33.blp",
      "sources": [
       "retail own race Tattoo Chaos green (retail 1339359)"
@@ -5960,7 +6005,7 @@
     {
      "value": 34,
      "name": "Chaos tattoo (red)",
-     "id": 102648,
+     "id": 102653,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody34.blp",
      "sources": [
       "retail own race Tattoo Chaos red (retail 1339377)"
@@ -5969,7 +6014,7 @@
     {
      "value": 35,
      "name": "Chaos tattoo (dark blue)",
-     "id": 102649,
+     "id": 102654,
      "file": "Character\\BloodElf\\Female\\BloodElfFemaleMarkBody35.blp",
      "sources": [
       "retail own race Tattoo Chaos dark blue (retail 1339383)"
@@ -5982,7 +6027,7 @@
     {
      "value": 1,
      "name": "Lightforged Exalted tattoo",
-     "id": 102650,
+     "id": 102655,
      "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody01.blp",
      "sources": [
       "retail Lightforged Tattoo Exalted (retail 1620698)"
@@ -5991,7 +6036,7 @@
     {
      "value": 2,
      "name": "Lightforged Illustrious tattoo",
-     "id": 102651,
+     "id": 102656,
      "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody02.blp",
      "sources": [
       "retail Lightforged Tattoo Illustrious (retail 1620699)"
@@ -6000,7 +6045,7 @@
     {
      "value": 3,
      "name": "Lightforged Radiant tattoo",
-     "id": 102652,
+     "id": 102657,
      "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody03.blp",
      "sources": [
       "retail Lightforged Tattoo Radiant (retail 1620700)"
@@ -6009,7 +6054,7 @@
     {
      "value": 4,
      "name": "Lightforged gilded markings (gold)",
-     "id": 102653,
+     "id": 102658,
      "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody04.blp",
      "sources": [
       "baked split of colour(s) 32 (cut 32/5 - Foot, body)"
@@ -6018,7 +6063,7 @@
     {
      "value": 5,
      "name": "Fel lines",
-     "id": 102654,
+     "id": 102659,
      "file": "Character\\Draenei\\Male\\DraeneiMaleMarkBody05.blp",
      "sources": [
       "baked split of colour(s) 30, 31 (cut 31/40 - hue, body)"
@@ -6031,7 +6076,7 @@
     {
      "value": 1,
      "name": "Lightforged Exalted tattoo",
-     "id": 102655,
+     "id": 102660,
      "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody01.blp",
      "sources": [
       "retail Lightforged Tattoo Exalted (retail 1594296)"
@@ -6040,7 +6085,7 @@
     {
      "value": 2,
      "name": "Lightforged Illustrious tattoo",
-     "id": 102656,
+     "id": 102661,
      "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody02.blp",
      "sources": [
       "retail Lightforged Tattoo Illustrious (retail 1606077)"
@@ -6049,7 +6094,7 @@
     {
      "value": 3,
      "name": "Lightforged Radiant tattoo",
-     "id": 102657,
+     "id": 102662,
      "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody03.blp",
      "sources": [
       "retail Lightforged Tattoo Radiant (retail 1606078)"
@@ -6058,7 +6103,7 @@
     {
      "value": 4,
      "name": "Lightforged gilded markings (gold)",
-     "id": 102658,
+     "id": 102663,
      "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody04.blp",
      "sources": [
       "baked split of colour(s) 32 (cut 32/37 - Foot, body)"
@@ -6067,7 +6112,7 @@
     {
      "value": 5,
      "name": "Fel lines",
-     "id": 102659,
+     "id": 102664,
      "file": "Character\\Draenei\\Female\\DraeneiFemaleMarkBody05.blp",
      "sources": [
       "baked split of colour(s) 30, 31 (cut 31/17 - hue, body)"
@@ -8903,7 +8948,7 @@
    "clean_from": 41,
    "replacement_sub_race": "Dark Iron",
    "replacement": 51,
-   "map_error": 8.64
+   "map_error": 8.83
   },
   {
    "race": 3,
@@ -8941,7 +8986,7 @@
    "clean_from": 26,
    "replacement_sub_race": "Dark Iron",
    "replacement": 52,
-   "map_error": 2.84
+   "map_error": 2.85
   },
   {
    "race": 3,
@@ -9280,7 +9325,7 @@
    "clean_from": 35,
    "replacement_sub_race": "Dark Iron",
    "replacement": 51,
-   "map_error": 5.23
+   "map_error": 5.67
   },
   {
    "race": 3,
@@ -9318,7 +9363,7 @@
    "clean_from": 33,
    "replacement_sub_race": "Dark Iron",
    "replacement": 52,
-   "map_error": 4.94
+   "map_error": 5.12
   },
   {
    "race": 3,
@@ -9449,7 +9494,7 @@
    "clean_from": 40,
    "replacement_sub_race": "Dark Iron",
    "replacement": 53,
-   "map_error": 13.09
+   "map_error": 14.48
   },
   {
    "race": 4,
@@ -9743,7 +9788,7 @@
    "race": 4,
    "sex": 0,
    "colour": 34,
-   "sub_race": "Illidari",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -9773,15 +9818,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 14,
-   "replacement_sub_race": "Illidari",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 40,
-   "map_error": 9.52
+   "map_error": 10.13
   },
   {
    "race": 4,
    "sex": 0,
    "colour": 35,
-   "sub_race": "Illidari",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -9811,15 +9856,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 15,
-   "replacement_sub_race": "Illidari",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 41,
-   "map_error": 2.37
+   "map_error": 1.96
   },
   {
    "race": 4,
    "sex": 0,
    "colour": 36,
-   "sub_race": "Illidari",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -9849,15 +9894,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 20,
-   "replacement_sub_race": "Illidari",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 42,
-   "map_error": 1.14
+   "map_error": 0.75
   },
   {
    "race": 4,
    "sex": 0,
    "colour": 37,
-   "sub_race": "Illidari",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -9887,15 +9932,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 19,
-   "replacement_sub_race": "Illidari",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 43,
-   "map_error": 1.72
+   "map_error": 1.28
   },
   {
    "race": 4,
    "sex": 1,
    "colour": 26,
-   "sub_race": "Illidari",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -9925,15 +9970,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 19,
-   "replacement_sub_race": "Illidari",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 35,
-   "map_error": 9.77
+   "map_error": 10.88
   },
   {
    "race": 4,
    "sex": 1,
    "colour": 27,
-   "sub_race": "Illidari",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -9950,28 +9995,28 @@
      "dE_face": 3.38
     },
     {
+     "colour": 43,
+     "dE_body": 6.56,
+     "dE_face": 7.96
+    },
+    {
      "colour": 5,
      "dE_body": 6.32,
      "dE_face": 7.99
-    },
-    {
-     "colour": 1,
-     "dE_body": 8.54,
-     "dE_face": 7.16
     }
    ],
    "round": 3,
    "action": "clean colour",
    "clean_from": 17,
-   "replacement_sub_race": "Illidari",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 36,
-   "map_error": 3.04
+   "map_error": 2.31
   },
   {
    "race": 4,
    "sex": 1,
    "colour": 28,
-   "sub_race": "Illidari",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -9993,23 +10038,23 @@
      "dE_face": 5.79
     },
     {
-     "colour": 34,
-     "dE_body": 6.57,
+     "colour": 43,
+     "dE_body": 9.49,
      "dE_face": 9.71
     }
    ],
    "round": 3,
    "action": "clean colour",
    "clean_from": 18,
-   "replacement_sub_race": "Illidari",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 37,
-   "map_error": 1.45
+   "map_error": 0.89
   },
   {
    "race": 4,
    "sex": 1,
    "colour": 29,
-   "sub_race": "Illidari",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -10039,15 +10084,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 19,
-   "replacement_sub_race": "Illidari",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 38,
-   "map_error": 1.72
+   "map_error": 1.04
   },
   {
    "race": 4,
    "sex": 1,
    "colour": 30,
-   "sub_race": "Cenarion",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -10064,9 +10109,9 @@
      "dE_face": 6.15
     },
     {
-     "colour": 33,
-     "dE_body": 6.79,
-     "dE_face": 7.81
+     "colour": 42,
+     "dE_body": 7.54,
+     "dE_face": 7.82
     },
     {
      "colour": 6,
@@ -10077,15 +10122,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 3,
-   "replacement_sub_race": "Cenarion",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 39,
-   "map_error": 9.15
+   "map_error": 10.72
   },
   {
    "race": 4,
    "sex": 1,
    "colour": 31,
-   "sub_race": "Cenarion",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -10115,15 +10160,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 14,
-   "replacement_sub_race": "Cenarion",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 40,
-   "map_error": 6.79
+   "map_error": 7.97
   },
   {
    "race": 4,
    "sex": 1,
    "colour": 32,
-   "sub_race": "Cenarion",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -10145,17 +10190,17 @@
      "dE_face": 0.05
     },
     {
-     "colour": 34,
-     "dE_body": 12.84,
-     "dE_face": 7.21
+     "colour": 20,
+     "dE_body": 14.61,
+     "dE_face": 12.01
     }
    ],
    "round": 3,
    "action": "clean colour",
    "clean_from": 19,
-   "replacement_sub_race": "Cenarion",
+   "replacement_sub_race": "Kaldorei",
    "replacement": 41,
-   "map_error": 7.55
+   "map_error": 5.42
   },
   {
    "race": 5,
@@ -10178,9 +10223,9 @@
      "dE_face": 1.68
     },
     {
-     "colour": 25,
-     "dE_body": 11.1,
-     "dE_face": 1.68
+     "colour": 28,
+     "dE_body": 3.81,
+     "dE_face": 1.7
     },
     {
      "colour": 0,
@@ -10193,7 +10238,7 @@
    "clean_from": 6,
    "replacement_sub_race": "Forsaken",
    "replacement": 27,
-   "map_error": 2.75
+   "map_error": 1.11
   },
   {
    "race": 5,
@@ -10259,20 +10304,20 @@
      "dE_face": 0.32
     },
     {
-     "colour": 42,
-     "dE_body": 0.19,
-     "dE_face": 0.32
-    },
-    {
      "colour": 1,
      "dE_body": 6.79,
      "dE_face": 3.14
+    },
+    {
+     "colour": 38,
+     "dE_body": 13.38,
+     "dE_face": 9.05
     }
    ],
    "round": 1,
    "action": "retired",
    "replacement": 0,
-   "replacement_sub_race": "Tauren"
+   "replacement_sub_race": "Grimtotem"
   },
   {
    "race": 6,
@@ -10302,20 +10347,20 @@
      "dE_face": 0.7
     },
     {
-     "colour": 42,
-     "dE_body": 0.22,
-     "dE_face": 0.7
-    },
-    {
      "colour": 1,
      "dE_body": 6.79,
      "dE_face": 3.5
+    },
+    {
+     "colour": 38,
+     "dE_body": 13.42,
+     "dE_face": 9.3
     }
    ],
    "round": 1,
    "action": "retired",
    "replacement": 0,
-   "replacement_sub_race": "Tauren"
+   "replacement_sub_race": "Grimtotem"
   },
   {
    "race": 6,
@@ -10345,20 +10390,20 @@
      "dE_face": 0.61
     },
     {
-     "colour": 42,
-     "dE_body": 0.22,
-     "dE_face": 0.61
-    },
-    {
      "colour": 1,
      "dE_body": 6.79,
      "dE_face": 3.06
+    },
+    {
+     "colour": 38,
+     "dE_body": 13.13,
+     "dE_face": 9.19
     }
    ],
    "round": 1,
    "action": "retired",
    "replacement": 0,
-   "replacement_sub_race": "Tauren"
+   "replacement_sub_race": "Grimtotem"
   },
   {
    "race": 6,
@@ -10388,20 +10433,20 @@
      "dE_face": 0.39
     },
     {
-     "colour": 42,
-     "dE_body": 0.57,
-     "dE_face": 0.39
-    },
-    {
      "colour": 38,
      "dE_body": 14.92,
      "dE_face": 10.19
+    },
+    {
+     "colour": 28,
+     "dE_body": 15.28,
+     "dE_face": 9.97
     }
    ],
    "round": 1,
    "action": "retired",
    "replacement": 0,
-   "replacement_sub_race": "Tauren"
+   "replacement_sub_race": "Grimtotem"
   },
   {
    "race": 6,
@@ -10431,20 +10476,20 @@
      "dE_face": 0.52
     },
     {
-     "colour": 42,
-     "dE_body": 0.54,
-     "dE_face": 0.52
-    },
-    {
      "colour": 38,
      "dE_body": 14.84,
      "dE_face": 10.48
+    },
+    {
+     "colour": 28,
+     "dE_body": 14.84,
+     "dE_face": 10.24
     }
    ],
    "round": 1,
    "action": "retired",
    "replacement": 0,
-   "replacement_sub_race": "Tauren"
+   "replacement_sub_race": "Grimtotem"
   },
   {
    "race": 6,
@@ -10474,26 +10519,26 @@
      "dE_face": 0.22
     },
     {
-     "colour": 42,
-     "dE_body": 0.03,
-     "dE_face": 0.22
-    },
-    {
      "colour": 28,
      "dE_body": 14.82,
      "dE_face": 10.53
+    },
+    {
+     "colour": 38,
+     "dE_body": 15.05,
+     "dE_face": 10.2
     }
    ],
    "round": 1,
    "action": "retired",
    "replacement": 0,
-   "replacement_sub_race": "Tauren"
+   "replacement_sub_race": "Grimtotem"
   },
   {
    "race": 7,
    "sex": 0,
    "colour": 13,
-   "sub_race": "Cultist",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10523,15 +10568,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 12,
-   "replacement_sub_race": "Cultist",
+   "replacement_sub_race": "Gnome",
    "replacement": 21,
-   "map_error": 1.13
+   "map_error": 0.88
   },
   {
    "race": 7,
    "sex": 0,
    "colour": 14,
-   "sub_race": "Cultist",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10561,15 +10606,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 3,
-   "replacement_sub_race": "Cultist",
+   "replacement_sub_race": "Gnome",
    "replacement": 22,
-   "map_error": 2.03
+   "map_error": 1.8
   },
   {
    "race": 7,
    "sex": 1,
    "colour": 5,
-   "sub_race": "Cultist",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10599,15 +10644,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 10,
-   "replacement_sub_race": "Cultist",
+   "replacement_sub_race": "Gnome",
    "replacement": 21,
-   "map_error": 2.57
+   "map_error": 2.35
   },
   {
    "race": 7,
    "sex": 1,
    "colour": 13,
-   "sub_race": "Cultist",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10637,15 +10682,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 12,
-   "replacement_sub_race": "Cultist",
+   "replacement_sub_race": "Gnome",
    "replacement": 22,
-   "map_error": 0.77
+   "map_error": 0.58
   },
   {
    "race": 7,
    "sex": 1,
    "colour": 14,
-   "sub_race": "Cultist",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10675,15 +10720,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 2,
-   "replacement_sub_race": "Cultist",
+   "replacement_sub_race": "Gnome",
    "replacement": 23,
-   "map_error": 1.84
+   "map_error": 1.69
   },
   {
    "race": 8,
    "sex": 0,
    "colour": 37,
-   "sub_race": "Sand Troll",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10722,13 +10767,13 @@
    "clean_from": 33,
    "replacement_sub_race": "Sand Troll",
    "replacement": 39,
-   "map_error": 4.4
+   "map_error": 3.83
   },
   {
    "race": 8,
    "sex": 0,
    "colour": 38,
-   "sub_race": "Sand Troll",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10765,15 +10810,15 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 31,
-   "replacement_sub_race": "Sand Troll",
+   "replacement_sub_race": "Darkspear",
    "replacement": 40,
-   "map_error": 2.83
+   "map_error": 2.63
   },
   {
    "race": 8,
    "sex": 1,
    "colour": 37,
-   "sub_race": "Sand Troll",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10812,13 +10857,13 @@
    "clean_from": 33,
    "replacement_sub_race": "Sand Troll",
    "replacement": 39,
-   "map_error": 4.49
+   "map_error": 4.2
   },
   {
    "race": 8,
    "sex": 1,
    "colour": 38,
-   "sub_race": "Sand Troll",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10857,13 +10902,13 @@
    "clean_from": 32,
    "replacement_sub_race": "Sand Troll",
    "replacement": 40,
-   "map_error": 1.72
+   "map_error": 1.55
   },
   {
    "race": 10,
    "sex": 0,
    "colour": 34,
-   "sub_race": "Void Elf",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10895,13 +10940,13 @@
    "clean_from": 64,
    "replacement_sub_race": "Void Elf",
    "replacement": 94,
-   "map_error": 7.33
+   "map_error": 7.59
   },
   {
    "race": 10,
    "sex": 0,
    "colour": 35,
-   "sub_race": "Void Elf",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -10933,7 +10978,7 @@
    "clean_from": 65,
    "replacement_sub_race": "Void Elf",
    "replacement": 95,
-   "map_error": 7.07
+   "map_error": 7.88
   },
   {
    "race": 10,
@@ -11407,7 +11452,7 @@
    "race": 10,
    "sex": 1,
    "colour": 34,
-   "sub_race": "Void Elf",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -11439,13 +11484,13 @@
    "clean_from": 64,
    "replacement_sub_race": "Void Elf",
    "replacement": 94,
-   "map_error": 3.04
+   "map_error": 3.19
   },
   {
    "race": 10,
    "sex": 1,
    "colour": 35,
-   "sub_race": "Void Elf",
+   "sub_race": null,
    "layers": {
     "Face Markings": [
      {
@@ -11477,7 +11522,7 @@
    "clean_from": 66,
    "replacement_sub_race": "Void Elf",
    "replacement": 95,
-   "map_error": 2.94
+   "map_error": 3.14
   },
   {
    "race": 10,
@@ -11879,7 +11924,7 @@
    "race": 11,
    "sex": 0,
    "colour": 30,
-   "sub_race": "Eredar",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -11911,13 +11956,13 @@
    "clean_from": 17,
    "replacement_sub_race": "Eredar",
    "replacement": 41,
-   "map_error": 8.42
+   "map_error": 9.41
   },
   {
    "race": 11,
    "sex": 0,
    "colour": 31,
-   "sub_race": "Eredar",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -11947,9 +11992,9 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 28,
-   "replacement_sub_race": "Eredar",
+   "replacement_sub_race": "Draenei",
    "replacement": 42,
-   "map_error": 12.28
+   "map_error": 13.95
   },
   {
    "race": 11,
@@ -11991,7 +12036,7 @@
    "race": 11,
    "sex": 1,
    "colour": 30,
-   "sub_race": "Eredar",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -12023,13 +12068,13 @@
    "clean_from": 15,
    "replacement_sub_race": "Eredar",
    "replacement": 42,
-   "map_error": 10.76
+   "map_error": 8.72
   },
   {
    "race": 11,
    "sex": 1,
    "colour": 31,
-   "sub_race": "Eredar",
+   "sub_race": null,
    "layers": {
     "Body Markings": [
      {
@@ -12059,9 +12104,9 @@
    "round": 3,
    "action": "clean colour",
    "clean_from": 4,
-   "replacement_sub_race": "Eredar",
+   "replacement_sub_race": "Draenei",
    "replacement": 43,
-   "map_error": 14.03
+   "map_error": 14.27
   },
   {
    "race": 11,
@@ -12099,7 +12144,7 @@
    "clean_from": 37,
    "replacement_sub_race": "Lightforged",
    "replacement": 41,
-   "map_error": 6.49
+   "map_error": 4.72
   }
  ],
  "glue_changes": {
@@ -12225,13 +12270,8 @@
    }
   },
   "NightElf Male": {
-   "Illidari": {
-    "remove": [
-     34,
-     35,
-     36,
-     37
-    ],
+   "Kaldorei": {
+    "remove": [],
     "add": [
      40,
      41,
@@ -12239,7 +12279,27 @@
      43
     ],
     "new_list": [
-     33,
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
      40,
      41,
      42,
@@ -12261,41 +12321,43 @@
    }
   },
   "NightElf Female": {
-   "Illidari": {
-    "remove": [
-     26,
-     27,
-     28,
-     29
-    ],
+   "Kaldorei": {
+    "remove": [],
     "add": [
      35,
      36,
      37,
-     38
-    ],
-    "new_list": [
-     25,
-     35,
-     36,
-     37,
-     38
-    ]
-   },
-   "Cenarion": {
-    "remove": [
-     30,
-     31,
-     32
-    ],
-    "add": [
+     38,
      39,
      40,
      41
     ],
     "new_list": [
-     33,
-     34,
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     35,
+     36,
+     37,
+     38,
      39,
      40,
      41
@@ -12320,42 +12382,52 @@
      13,
      20,
      21,
-     25,
-     26,
      27,
+     28,
+     29,
      27
     ]
    }
   },
   "Gnome Male": {
-   "Cultist": {
-    "remove": [
-     13,
-     14
-    ],
+   "Gnome": {
+    "remove": [],
     "add": [
      21,
      22
     ],
     "new_list": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     10,
+     11,
+     12,
      21,
      22
     ]
    }
   },
   "Gnome Female": {
-   "Cultist": {
-    "remove": [
-     5,
-     13,
-     14
-    ],
+   "Gnome": {
+    "remove": [],
     "add": [
      21,
      22,
      23
     ],
     "new_list": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     6,
+     10,
+     11,
+     12,
      21,
      22,
      23
@@ -12364,13 +12436,9 @@
   },
   "Troll Male": {
    "Sand Troll": {
-    "remove": [
-     37,
-     38
-    ],
+    "remove": [],
     "add": [
-     39,
-     40
+     39
     ],
     "new_list": [
      22,
@@ -12380,16 +12448,35 @@
      35,
      36,
      39,
+     40,
+     39
+    ]
+   },
+   "Darkspear": {
+    "remove": [],
+    "add": [
+     40
+    ],
+    "new_list": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     18,
+     19,
+     20,
+     21,
+     23,
+     31,
      40
     ]
    }
   },
   "Troll Female": {
    "Sand Troll": {
-    "remove": [
-     37,
-     38
-    ],
+    "remove": [],
     "add": [
      39,
      40
@@ -12401,6 +12488,8 @@
      34,
      35,
      36,
+     39,
+     40,
      39,
      40
     ]
@@ -12408,10 +12497,7 @@
   },
   "BloodElf Male": {
    "Void Elf": {
-    "remove": [
-     34,
-     35
-    ],
+    "remove": [],
     "add": [
      94,
      95
@@ -12424,6 +12510,8 @@
      66,
      67,
      68,
+     94,
+     95,
      94,
      95
     ]
@@ -12431,10 +12519,7 @@
   },
   "BloodElf Female": {
    "Void Elf": {
-    "remove": [
-     34,
-     35
-    ],
+    "remove": [],
     "add": [
      94,
      95
@@ -12448,19 +12533,17 @@
      67,
      68,
      94,
+     95,
+     94,
      95
     ]
    }
   },
   "Draenei Male": {
    "Eredar": {
-    "remove": [
-     30,
-     31
-    ],
+    "remove": [],
     "add": [
-     41,
-     42
+     41
     ],
     "new_list": [
      17,
@@ -12470,19 +12553,46 @@
      21,
      22,
      41,
+     42,
+     41
+    ]
+   },
+   "Draenei": {
+    "remove": [],
+    "add": [
+     42
+    ],
+    "new_list": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     40,
      42
     ]
    }
   },
   "Draenei Female": {
    "Eredar": {
-    "remove": [
-     30,
-     31
-    ],
+    "remove": [],
     "add": [
-     42,
-     43
+     42
     ],
     "new_list": [
      15,
@@ -12492,6 +12602,35 @@
      19,
      20,
      42,
+     43,
+     42
+    ]
+   },
+   "Draenei": {
+    "remove": [],
+    "add": [
+     43
+    ],
+    "new_list": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     40,
      43
     ]
    },
@@ -12525,12 +12664,16 @@
      47
     ],
     "new_list": [
-     42,
-     43,
-     44,
-     45,
-     46,
-     47,
+     0,
+     1,
+     3,
+     4,
+     6,
+     7,
+     9,
+     28,
+     36,
+     38,
      42,
      43,
      44,
@@ -12551,11 +12694,13 @@
      46
     ],
     "new_list": [
-     42,
-     43,
-     44,
-     45,
-     46,
+     0,
+     2,
+     4,
+     6,
+     28,
+     36,
+     38,
      42,
      43,
      44,
@@ -15723,7 +15868,12 @@
   "BloodElf Male": {
    "assign": {
     "Face Markings": {
-     "1": "Void Elf"
+     "1": "Void Elf",
+     "2": "common",
+     "3": "common",
+     "4": "common",
+     "5": "Blood Elf",
+     "6": "Blood Elf"
     },
     "Body Markings": {
      "1": "Blood Elf",
@@ -15763,7 +15913,12 @@
    },
    "Blood Elf": {
     "filter 7 (Face Markings)": [
-     0
+     0,
+     2,
+     3,
+     4,
+     5,
+     6
     ],
     "filter 8 (Body Markings)": [
      0,
@@ -15793,7 +15948,10 @@
    "Void Elf": {
     "filter 7 (Face Markings)": [
      0,
-     1
+     1,
+     2,
+     3,
+     4
     ],
     "filter 8 (Body Markings)": [
      0,
@@ -15981,7 +16139,8 @@
    "face": 18,
    "new_face": 7,
    "value": 15,
-   "design": "Cenarion mask tattoo"
+   "design": "Cenarion mask tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -15989,7 +16148,8 @@
    "face": 25,
    "new_face": 16,
    "value": 15,
-   "design": "Cenarion mask tattoo"
+   "design": "Cenarion mask tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -15997,7 +16157,8 @@
    "face": 19,
    "new_face": 8,
    "value": 16,
-   "design": "Cenarion vine face tattoo"
+   "design": "Cenarion vine face tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16005,7 +16166,8 @@
    "face": 26,
    "new_face": 17,
    "value": 16,
-   "design": "Cenarion vine face tattoo"
+   "design": "Cenarion vine face tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16013,7 +16175,8 @@
    "face": 21,
    "new_face": 0,
    "value": 17,
-   "design": "Cenarion cheek tattoo"
+   "design": "Cenarion cheek tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16021,7 +16184,8 @@
    "face": 28,
    "new_face": 9,
    "value": 17,
-   "design": "Cenarion cheek tattoo"
+   "design": "Cenarion cheek tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16029,7 +16193,8 @@
    "face": 22,
    "new_face": 1,
    "value": 18,
-   "design": "Cenarion brow tattoo"
+   "design": "Cenarion brow tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16037,7 +16202,8 @@
    "face": 29,
    "new_face": 10,
    "value": 18,
-   "design": "Cenarion brow tattoo"
+   "design": "Cenarion brow tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16045,7 +16211,8 @@
    "face": 23,
    "new_face": 2,
    "value": 19,
-   "design": "Cenarion antler tattoo"
+   "design": "Cenarion antler tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16053,7 +16220,8 @@
    "face": 30,
    "new_face": 11,
    "value": 19,
-   "design": "Cenarion antler tattoo"
+   "design": "Cenarion antler tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16061,7 +16229,8 @@
    "face": 24,
    "new_face": 4,
    "value": 20,
-   "design": "Cenarion sweep tattoo"
+   "design": "Cenarion sweep tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16069,7 +16238,8 @@
    "face": 31,
    "new_face": 13,
    "value": 20,
-   "design": "Cenarion sweep tattoo"
+   "design": "Cenarion sweep tattoo",
+   "round": 2
   },
   {
    "race": 4,
@@ -16077,7 +16247,8 @@
    "face": 20,
    "new_face": 5,
    "value": 21,
-   "design": "Illidari cheek marks"
+   "design": "Illidari cheek marks",
+   "round": 2
   },
   {
    "race": 4,
@@ -16085,7 +16256,8 @@
    "face": 27,
    "new_face": 14,
    "value": 21,
-   "design": "Illidari cheek marks"
+   "design": "Illidari cheek marks",
+   "round": 2
   },
   {
    "race": 8,
@@ -16093,7 +16265,8 @@
    "face": 11,
    "new_face": 10,
    "value": 32,
-   "design": "Shadow brow paint"
+   "design": "Shadow brow paint",
+   "round": 2
   },
   {
    "race": 8,
@@ -16101,7 +16274,8 @@
    "face": 14,
    "new_face": 13,
    "value": 32,
-   "design": "Shadow brow paint"
+   "design": "Shadow brow paint",
+   "round": 2
   },
   {
    "race": 8,
@@ -16109,7 +16283,8 @@
    "face": 12,
    "new_face": 1,
    "value": 33,
-   "design": "Shadow eye paint"
+   "design": "Shadow eye paint",
+   "round": 2
   },
   {
    "race": 8,
@@ -16117,7 +16292,8 @@
    "face": 15,
    "new_face": 6,
    "value": 33,
-   "design": "Shadow eye paint"
+   "design": "Shadow eye paint",
+   "round": 2
   },
   {
    "race": 8,
@@ -16125,7 +16301,8 @@
    "face": 13,
    "new_face": 2,
    "value": 19,
-   "design": "Shadow brow paint"
+   "design": "Shadow brow paint",
+   "round": 2
   },
   {
    "race": 8,
@@ -16133,7 +16310,8 @@
    "face": 16,
    "new_face": 8,
    "value": 19,
-   "design": "Shadow brow paint"
+   "design": "Shadow brow paint",
+   "round": 2
   },
   {
    "race": 8,
@@ -16141,7 +16319,8 @@
    "face": 14,
    "new_face": 0,
    "value": 20,
-   "design": "Shadow eye paint"
+   "design": "Shadow eye paint",
+   "round": 2
   },
   {
    "race": 8,
@@ -16149,7 +16328,98 @@
    "face": 17,
    "new_face": 6,
    "value": 20,
-   "design": "Shadow eye paint"
+   "design": "Shadow eye paint",
+   "round": 2
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 20,
+   "new_face": 0,
+   "value": 2,
+   "design": "Scarred runes",
+   "round": 4
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 25,
+   "new_face": 10,
+   "value": 2,
+   "design": "Scarred runes",
+   "round": 4
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 21,
+   "new_face": 1,
+   "value": 3,
+   "design": "Slashed runes",
+   "round": 4
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 26,
+   "new_face": 11,
+   "value": 3,
+   "design": "Slashed runes",
+   "round": 4
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 22,
+   "new_face": 3,
+   "value": 4,
+   "design": "Eye slash scar",
+   "round": 4
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 27,
+   "new_face": 13,
+   "value": 4,
+   "design": "Eye slash scar",
+   "round": 4
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 23,
+   "new_face": 6,
+   "value": 5,
+   "design": "Fel thorns",
+   "round": 4
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 28,
+   "new_face": 16,
+   "value": 5,
+   "design": "Fel thorns",
+   "round": 4
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 24,
+   "new_face": 9,
+   "value": 6,
+   "design": "Fel thorns",
+   "round": 4
+  },
+  {
+   "race": 10,
+   "sex": 0,
+   "face": 29,
+   "new_face": 19,
+   "value": 6,
+   "design": "Fel thorns",
+   "round": 4
   }
  ],
  "troll_paint": [
@@ -17085,5 +17355,6 @@
   }
  ],
  "round2_guid_cutoff": 3536,
- "round3_guid_cutoff": 3763
+ "round3_guid_cutoff": 3763,
+ "round4_guid_cutoff": 3863
 }

@@ -594,22 +594,31 @@ FACE_SPLITS = {
     (8, 1): [('Shadow brow paint', '', [(13, 2), (16, 8)], 0),
              ('Shadow eye paint', '', [(14, 0), (17, 6)], 0)],
 }
+# round 4 (2026-10-31, user: "male blood elves have baked face markings in skins"): blood elf male faces 20-24 (and
+# their death knight copies 25-29) are faces 0, 1, 3, 6, 9 plus scars, runes and fel thorns
+FACE_SPLITS4 = {
+    (10, 0): [('Scarred runes', '', [(20, 0), (25, 10)], 0),
+              ('Slashed runes', '', [(21, 1), (26, 11)], 0),
+              ('Eye slash scar', '', [(22, 3), (27, 13)], 0),
+              ('Fel thorns', 'green', [(23, 6), (28, 16)], 0),
+              ('Fel thorns', 'green', [(24, 9), (29, 19)], 0)],
+}
 # troll male "facial hair" styles 5-10 are face paint (CharSections base_section 2, colour = hair colour): one face
 # marking per style and distinct paint colour (hair colours whose paint reads as the same named colour merge)
 TROLL_PAINT = {5: 'Spiked skull paint', 6: 'Ringed eye paint', 7: 'Warmask paint', 8: 'Bone face paint',
                9: 'Striped paint', 10: 'Splash paint'}
 
 
-def face_split_sources(files, query, preview=None):
+def face_split_sources(files, query, preview=None, table=None, rnd=2):
     out = []
-    for (race, g), designs in FACE_SPLITS.items():
+    for (race, g), designs in (FACE_SPLITS if table is None else table).items():
         for name, colour, pairs, c in designs:
             marked, base = pairs[0]
             layer, mask, _v, _m = cut(atlas_rgb(files, query, race, g, c, marked),
                                       atlas_rgb(files, query, race, g, c, base), race, g, 'face', (100, 60))
             out.append({'race': race, 'sex': g, 'old_section': 6, 'old_type': None, 'kind': 'marking',
                         'design': name, 'colour': colour, 'pairs': [], 'face_pairs': pairs,
-                        'extra': True, 'round2': True,
+                        'extra': True, 'round2': True, 'round': rnd,
                         'source': f'baked split of face type {marked} over {base} (colour {c})',
                         'image': Image.fromarray(layer, 'RGBA')})
             print(f'{FOLDERS[race]} {SEXES[g]} face {marked} -> {base}: {name} ({mask.mean():.2%} of the atlas)')
@@ -682,7 +691,8 @@ def round2_sources(files=None, query=None, preview=None):
     query = query or _dbc_query_fn('live')
     # round 3 last: values are numbered in source order, so the shipped round-2 values never move
     return (split_markings(files, query, preview, ROUND2, extra=True) + face_split_sources(files, query, preview)
-            + troll_paint_sources(files, query, preview) + split_markings(files, query, preview, ROUND3, extra=True))
+            + troll_paint_sources(files, query, preview) + split_markings(files, query, preview, ROUND3, extra=True)
+            + face_split_sources(files, query, preview, FACE_SPLITS4, rnd=4))
 
 
 def layer_sources(files=None, query=None):

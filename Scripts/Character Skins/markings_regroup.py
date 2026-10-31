@@ -77,6 +77,7 @@ SQL = ZPAK / 'dbc' / '[F-230]_charsections_markings.sql'
 MIGRATION = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_regroup.sql'
 MIGRATION2 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round2.sql'
 MIGRATION3 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round3.sql'
+MIGRATION4 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round4.sql'
 STATE = Path(__file__).with_name('markings_regroup.json')
 CACHE = CRAFT.parent / 'logs' / 'layer_sources'
 GLUE = CRAFT / 'zpaks' / 'patch-modern-login' / 'mpq' / 'source-assets' / 'Interface' / 'GlueXML' / 'CharacterCreate.lua'
@@ -123,6 +124,8 @@ FORCE_CLEAN |= {(4, 0, c) for c in (34, 35, 36, 37)} | {(4, 1, c) for c in (26, 
 # near-black plain tauren furs, picked from a render of every plain colour (a median-Lab tone pick chose pale grey 28 F
 # and olive 3 M: the dark mane in the head box outweighs the fur)
 SUBRACE_COPIES = {(3, 0): ('Wildhammer', list(range(9))), (3, 1): ('Wildhammer', list(range(9))),
+                  # the tauren copies left the glue in round 4 (Grimtotem offers the darker originals themselves); the
+                  # rows stay for append-only numbers and the round-4 migration moves their characters (COPIES_RETIRED)
                   (6, 0): ('Grimtotem', [0, 1, 2, 28, 29, 38]), (6, 1): ('Grimtotem', [0, 1, 28, 29, 38]),
                   # round 2: every Cenarion male colour (25-32) was colour 0 or 5 plus a body tattoo (now layers)
                   (4, 0): ('Cenarion', [0, 5])}
@@ -157,7 +160,7 @@ PROPOSED = [
     (4, r"^(Wild|Ancient|Leaf|Bear|Crane|Hawk) |^Cenarion", 'Cenarion'),
     (4, r"^(Shadow|Protector|Teldrassil) |^Nightborne", 'Kaldorei'),
     (10, r"^(Suffering|Betrayer|Pain|Sacrifice|Revenge|Chaos) tattoo \((green|dark green|red)\)", 'Blood Elf'),
-    (10, r"^Arcane swirls \(red\)|^Fel veins", 'Blood Elf'),
+    (10, r"^Arcane swirls \(red\)|^Fel veins|^Fel thorns", 'Blood Elf'),
     (10, r"^(Suffering|Betrayer|Pain|Sacrifice|Revenge|Chaos) tattoo \((purple|dark blue)\)", 'Void Elf'),
     (10, r"^Arcane swirls \((purple|black)\)", 'Void Elf'),
     (1, r"^(Bat eye paint|Tear streaks|Thorn tattoo)", 'Cultist'),
@@ -551,9 +554,13 @@ def main():
     paint = troll_paint_map(sources, src_values)
     state = json.loads(STATE.read_text()) if STATE.exists() else {}
     cutoff2 = state.get('round2_guid_cutoff') or max_character_guid()
-    MIGRATION2.write_text(migration_round2_sql([e for e in retire if e.get('round') == 2], faces, paint, cutoff2))
+    MIGRATION2.write_text(migration_round2_sql([e for e in retire if e.get('round') == 2],
+                                               [f for f in faces if f.get('round', 2) == 2], paint, cutoff2))
     cutoff3 = state.get('round3_guid_cutoff') or max_character_guid()
     MIGRATION3.write_text(migration_round3_sql([e for e in retire if e.get('round') == 3], cutoff3))
+    cutoff4 = state.get('round4_guid_cutoff') or max_character_guid()
+    MIGRATION4.write_text(migration_round4_sql([e for e in retire if e.get('round') == 4],
+                                               [f for f in faces if f.get('round') == 4], cutoff4))
     STATE.write_text(json.dumps({'rows': {str(k): v for k, v in ROW_NAME.items()}, 'values': values,
                                  'old_to_new': old_map, 'retire': retire, 'glue_changes': glue_changes,
                                  'subrace_copies': copies, 'gates': gates,
@@ -561,7 +568,8 @@ def main():
                                  'migration_guid_cutoff': cutoff, 'face_retire': faces,
                                  'troll_paint': [{'style': k[0], 'hair_colour': k[1], 'value': v}
                                                  for k, v in sorted(paint.items())],
-                                 'round2_guid_cutoff': cutoff2, 'round3_guid_cutoff': cutoff3}, indent=1) + '\n')
+                                 'round2_guid_cutoff': cutoff2, 'round3_guid_cutoff': cutoff3,
+                                 'round4_guid_cutoff': cutoff4}, indent=1) + '\n')
     print(f'{removed} old layer files removed; {rid - LAYER_ID} layer rows -> {SQL.relative_to(CRAFT)}')
     print(f'-> {MIGRATION.relative_to(CRAFT)}, {STATE.name}')
 
@@ -610,7 +618,9 @@ def retire_baked(sources, src_values, files, query, bm, preview):
         a, m = entry.pop('_fit')
         new = take_colour(race, g)
         coef, err = fit_map(atlas(race, g, base), a, m)
-        rows, rid = clean_colour(race, g, base, new, coef, files, rows_of, atlas(race, g, base), rid)
+        b_at = atlas(race, g, base)
+        gain = np.median(a[m], axis=0) / np.maximum(np.median(b_at[m], axis=0), 1.0)
+        rows, rid = clean_colour(race, g, base, new, coef, files, rows_of, b_at, rid, gain)
         sql.extend(rows)
         entry.update({'replacement': new, 'map_error': round(err, 2)})
         return rid
@@ -650,7 +660,7 @@ def retire_baked(sources, src_values, files, query, bm, preview):
             # numbered after the sub-race copies, so the shipped colour numbers never move
             entry.update({'action': 'clean colour', 'clean_from': dist[0][3],
                           'replacement_sub_race': home or next((n for n, cols in subs if dist[0][3] in cols), None)})
-            entry['_fit'] = (a, body_m | face_m)
+            entry['_fit'] = (a, body_m)          # body only: the base's own face-to-body relation is kept (round 4)
             if entry['round'] == 1:
                 rid = make_clean(entry, rid)
         retire.append(entry)
@@ -679,8 +689,19 @@ def retire_baked(sources, src_values, files, query, bm, preview):
     return retire, sql, glue_list_changes(glue, retire, copies), copies
 
 
-def clean_colour(race, g, base, new, coef, files, rows_of, base_atlas, rid):
-    """CharSections rows (and BLPs) of colour `new` = colour `base` through the map: skin, _Extra, every face, underwear."""
+def apply_gain(im, gain, weight):
+    a = np.asarray(im.convert('RGBA')).astype(np.float32)
+    rgb = a[..., :3]
+    out = rgb + weight[..., None] * (np.clip(rgb * gain, 0, 255) - rgb)
+    return Image.fromarray(np.dstack([np.clip(out, 0, 255), a[..., 3]]).astype(np.uint8), 'RGBA')
+
+
+def clean_colour(race, g, base, new, coef, files, rows_of, base_atlas, rid, gain=None):
+    """CharSections rows (and BLPs) of colour `new` = colour `base` recoloured to the new tone. Only skin moves (round 4,
+    user report: a sand troll clean colour got yellow tusks and a lime loincloth): body skin, faces and _Extra (the HD
+    head) all through ONE per-channel gain fitted on the body (the quadratic map extrapolated bone into yellow and put
+    the head and body out of step), on skin pixels only: near the skin's hue and not invariant across the race's stock
+    colours (tusks, horns, teeth, eyes, jewellery, cloth keep their colour). The underwear is the base's own."""
     folder, sex = FOLDERS[race], SEXES[g]
     stem = f'Character\\{folder}\\{sex}\\{folder}{sex}'
     rows = rows_of(race, g, base)
@@ -688,6 +709,26 @@ def clean_colour(race, g, base, new, coef, files, rows_of, base_atlas, rid):
     for r in rows:                               # highest id wins (F-225)
         last[(r['base_section'], r['type'])] = r
     eye = island(race, g)
+    # what does not change across the race's stock colours is not skin: tusks, horns, teeth, eyes, jewellery, cloth
+    # (round 4: the quadratic map turned sand troll tusks yellow). Same section / type / texture of colours 0-9.
+    stock = {}
+    for oc in range(10):
+        if oc == base:
+            continue
+        for r in rows_of(race, g, oc):
+            stock.setdefault((r['base_section'], r['type']), {})[oc] = r
+
+    def invariant(section, kind, col, size):
+        ims = []
+        for r in stock.get((section, kind), {}).values():
+            f = files.find(r[col]) if r[col] else None
+            if f:
+                ims.append(np.asarray(read_blp(f).convert('RGB').resize(size, Image.BOX)).astype(np.float32))
+        if len(ims) < 3:
+            return np.zeros(size[::-1], bool)
+        st = np.stack(ims)
+        dev = np.abs(st - np.median(st, axis=0)).mean(axis=(0, 3))
+        return ndimage.binary_dilation(dev < 6, iterations=1)
     sql = [f'-- clean colour {new}: colour {base} recoloured to a retired marked colour\'s tone']
     for (section, kind), r in sorted(last.items()):
         t = {}
@@ -698,17 +739,24 @@ def clean_colour(race, g, base, new, coef, files, rows_of, base_atlas, rid):
                 t[col] = ''
                 continue
             im = read_blp(f).convert('RGBA')
+            if section == 4:                     # underwear: the base colour's own
+                t[col] = path
+                continue
+            # skin = anything near the skin's hue (shading included); cloth, teeth and bone fall out. Hard mask,
+            # feathered, so dark creases do not come out half-mapped and blotchy
+            fixed = invariant(section, kind, col, im.size)
+            g_ = gain if gain is not None else np.ones(3)
+            w = ndimage.gaussian_filter(((skin_weight(im, base_atlas) > 0.2) & ~fixed).astype(np.float32), 1.5)
             if section == 1:
                 y0, h = (64, 128) if col == 'texture_1' else (0, 64)
                 keep = np.asarray(Image.fromarray((eye[y0:y0 + h] * 255).astype(np.uint8)).resize(im.size, Image.NEAREST)) > 127
-                out = apply_map(im, coef, keep=keep)
+                out = apply_gain(im, g_, np.where(keep, 0, w))
                 name = f"{stem}{'FaceLower' if col == 'texture_1' else 'FaceUpper'}{kind:02d}_zc{new:02d}.blp"
             elif section == 0 and col == 'texture_1':
-                out, name = apply_map(im, coef), f'{stem}Skin00_zc{new:02d}.blp'
+                out, name = apply_gain(im, g_, w), f'{stem}Skin00_zc{new:02d}.blp'
             else:
-                out = apply_map(im, coef, weight=skin_weight(im, base_atlas))
-                name = (f'{stem}Skin00_zc{new:02d}_Extra.blp' if section == 0 else
-                        f"{stem}{'NakedPelvisSkin00' if col == 'texture_1' else 'NakedTorsoSkin00'}_zc{new:02d}.blp")
+                out = apply_gain(im, g_, w)
+                name = f'{stem}Skin00_zc{new:02d}_Extra.blp'
             write_blp(name, out)
             t[col] = name
         sql.append(insert(rid, race, g, section, t['texture_1'], t['texture_2'], r['flags'], kind, new))
@@ -796,7 +844,8 @@ def face_retire(sources, src_values):
     for i, src in enumerate(sources):
         for marked, base in src.get('face_pairs') or []:
             out.append({'race': src['race'], 'sex': src['sex'], 'face': marked, 'new_face': base,
-                        'value': src_values[i].get(FACE_ROW, 0), 'design': src['design']})
+                        'value': src_values[i].get(FACE_ROW, 0), 'design': src['design'],
+                        'round': src.get('round', 2)})
     return out
 
 
@@ -846,6 +895,57 @@ def migration_round3_sql(retire, cutoff):
         'JOIN zep_tmp_r3_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin SET c.skin = s.new_skin;',
         'INSERT IGNORE INTO zep_f230_markings_round3_done (guid) SELECT guid FROM zep_tmp_r3_todo;',
         'DROP TABLE zep_tmp_r3_skin, zep_tmp_r3_todo;',
+    ]) + '\n'
+
+
+# round 4: sub-race copies no longer offered -> (race, sex): [(copy, original)] (moved by the round-4 migration)
+COPIES_RETIRED = {(6, 0): [(42, 0), (43, 1), (44, 2), (45, 28), (46, 29), (47, 38)],
+                  (6, 1): [(42, 0), (43, 1), (44, 28), (45, 29), (46, 38)]}
+
+
+def migration_round4_sql(retire, faces, cutoff):
+    """Round 4 (2026-10-31): blood elf male marked faces 20-29 -> plain face + face marking (and any round-4 colour).
+    Own done-table."""
+    skin = [f"({e['race']},{e['sex']},{e['colour']},{e['replacement']},"
+            f"{(e['layers'].get(ROW_NAME[FACE_ROW]) or [{'value': 0}])[0]['value']},"
+            f"{(e['layers'].get(ROW_NAME[BODY_ROW]) or [{'value': 0}])[0]['value']})" for e in retire]
+    skin += [f'({r},{g},{cp},{orig},0,0)' for (r, g), pairs in sorted(COPIES_RETIRED.items()) for cp, orig in pairs]
+    face = [f"({f['race']},{f['sex']},{f['face']},{f['new_face']},{f['value']})" for f in faces]
+    return '\n'.join([
+        '-- F-230 round 4: blood elf male faces that baked scars, runes and fel thorns are a plain face + a face marking;',
+        '-- the Grimtotem tauren copies (42-47 / 42-46) are retired: Grimtotem offers the dark originals themselves.',
+        '-- GENERATED by Scripts/Character Skins/markings_regroup.py - do not edit, re-run the script.',
+        f'-- Idempotent: once per character (zep_f230_markings_round4_done), characters with guid <= {cutoff} only.',
+        'CREATE TABLE IF NOT EXISTS zep_f230_markings_round4_done (guid INT UNSIGNED NOT NULL PRIMARY KEY)',
+        "  ENGINE=InnoDB COMMENT='F-230 markings round 4: characters already migrated';",
+        'DROP TABLE IF EXISTS zep_tmp_r4_skin, zep_tmp_r4_face, zep_tmp_r4_todo;',
+        'CREATE TABLE zep_tmp_r4_skin (race TINYINT UNSIGNED, gender TINYINT UNSIGNED, skin TINYINT UNSIGNED,',
+        '  new_skin TINYINT UNSIGNED, face TINYINT UNSIGNED, body TINYINT UNSIGNED, PRIMARY KEY (race, gender, skin));',
+        *(['INSERT INTO zep_tmp_r4_skin VALUES', ',\n'.join(skin) + ';'] if skin else []),
+        'CREATE TABLE zep_tmp_r4_face (race TINYINT UNSIGNED, gender TINYINT UNSIGNED, face TINYINT UNSIGNED,',
+        '  new_face TINYINT UNSIGNED, mark TINYINT UNSIGNED, PRIMARY KEY (race, gender, face));',
+        *(['INSERT INTO zep_tmp_r4_face VALUES', ',\n'.join(face) + ';'] if face else []),
+        'CREATE TABLE zep_tmp_r4_todo (guid INT UNSIGNED PRIMARY KEY);',
+        'INSERT INTO zep_tmp_r4_todo (guid) SELECT c.guid FROM characters AS c',
+        f'WHERE c.guid <= {cutoff} AND c.guid NOT IN (SELECT guid FROM zep_f230_markings_round4_done);',
+        'INSERT INTO character_customizations (guid, customization, choice)',
+        'SELECT c.guid, 2, s.face FROM characters AS c JOIN zep_tmp_r4_todo AS t ON t.guid = c.guid',
+        'JOIN zep_tmp_r4_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin WHERE s.face <> 0',
+        'ON DUPLICATE KEY UPDATE choice = IF(choice = 0, VALUES(choice), choice);',
+        'INSERT INTO character_customizations (guid, customization, choice)',
+        'SELECT c.guid, 3, s.body FROM characters AS c JOIN zep_tmp_r4_todo AS t ON t.guid = c.guid',
+        'JOIN zep_tmp_r4_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin WHERE s.body <> 0',
+        'ON DUPLICATE KEY UPDATE choice = IF(choice = 0, VALUES(choice), choice);',
+        'UPDATE characters AS c JOIN zep_tmp_r4_todo AS t ON t.guid = c.guid',
+        'JOIN zep_tmp_r4_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin SET c.skin = s.new_skin;',
+        'INSERT INTO character_customizations (guid, customization, choice)',
+        'SELECT c.guid, 2, f.mark FROM characters AS c JOIN zep_tmp_r4_todo AS t ON t.guid = c.guid',
+        'JOIN zep_tmp_r4_face AS f ON f.race = c.race AND f.gender = c.gender AND f.face = c.face WHERE f.mark <> 0',
+        'ON DUPLICATE KEY UPDATE choice = IF(choice = 0, VALUES(choice), choice);',
+        'UPDATE characters AS c JOIN zep_tmp_r4_todo AS t ON t.guid = c.guid',
+        'JOIN zep_tmp_r4_face AS f ON f.race = c.race AND f.gender = c.gender AND f.face = c.face SET c.face = f.new_face;',
+        'INSERT IGNORE INTO zep_f230_markings_round4_done (guid) SELECT guid FROM zep_tmp_r4_todo;',
+        'DROP TABLE zep_tmp_r4_skin, zep_tmp_r4_face, zep_tmp_r4_todo;',
     ]) + '\n'
 
 

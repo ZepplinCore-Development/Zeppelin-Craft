@@ -1692,14 +1692,7 @@
 								</Layers>
 								<Scripts>
 									<OnClick>
-										CharacterCreateAlternateFormTop:SetChecked(true);
-										CharacterCreateAlternateFormBottom:SetChecked(false);
-										if ( IsViewingAlteredForm() ) then
-											PlaySound("gsCharacterCreationClass");
-											SetViewingAlteredForm(false);
-											CharCreate_PrepPreviewModels(true);
-											CharCreate_ResetFeaturesDisplay();
-										end
+										CharCreate_SetAlteredForm(false);	-- F-236: the worgen
 									</OnClick>
 								</Scripts>
 								<HighlightTexture name="$parentHighlight" file="Interface\Glues\CharacterCreate\AlternateForm" alphaMode="ADD">
@@ -1740,14 +1733,7 @@
 								</Layers>
 								<Scripts>
 									<OnClick>
-										CharacterCreateAlternateFormTop:SetChecked(false);
-										CharacterCreateAlternateFormBottom:SetChecked(true);
-										if ( not IsViewingAlteredForm() ) then
-											PlaySound("gsCharacterCreationClass");
-											SetViewingAlteredForm(true);
-											CharCreate_PrepPreviewModels(true);
-											CharCreate_ResetFeaturesDisplay();
-										end
+										CharCreate_SetAlteredForm(true);	-- F-236: the human form
 									</OnClick>
 								</Scripts>
 								<HighlightTexture name="$parentHighlight" file="Interface\Glues\CharacterCreate\AlternateForm" alphaMode="ADD">
