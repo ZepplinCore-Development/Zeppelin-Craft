@@ -1,0 +1,49 @@
+From e5c3f22d0fd7ed185991366fbc9bbad43dc1997e Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 31 Oct 2026 23:38:05 +0000
+Subject: [PATCH] WIP: F-219 - engage only within 55 yd; a far risk shortens
+ the walking slice to 2 s
+
+A third of road engagements ended "too far" (the kill RPC chases 60 yd; targets were 60-90 yd).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index fbe6472..ddf115b 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -3036,12 +3036,14 @@ class Runner:
+         # walk in 6 s slices and turn to fight between them: one 25 s path_to let a mob that aggroed
+         # on the way hit our back the whole time (most early deaths were on the road, not in camps)
+         for _ in range(60):
++            self._risk_soon = False
+             if not self.reviving and self.engage_ahead(x, y, z):
+                 continue  # pulled it on our terms: walk on from here
+             before = self.me()
+             try:
+                 # stop the moment something attacks: fight it where it caught us, then walk on
+-                r = call("move.path_to", x=x, y=y, z=ground(x, y, z), budget_ms=6000, stop_on_attack=not self.reviving)
++                r = call("move.path_to", x=x, y=y, z=ground(x, y, z), budget_ms=2000 if self._risk_soon else 6000,
++                         stop_on_attack=not self.reviving)
+             except StepFailed as e:
+                 e.args = (f"{e} [to {x:.0f},{y:.0f},{z:.0f} nav {self.nav_map() or 'own'}]",)
+                 if "start not on navmesh" in str(e):
+@@ -3223,6 +3225,11 @@ class Runner:
+         moving = math.hypot(vx, vy) > 0.5
+         pack = any(m is not o and top.get(m["entry"], 0) > gray_level(level)
+                    and math.dist((m["x"], m.get("y", 0)), (o["x"], o.get("y", 0))) < 18 for m in mobs)
++        if lv <= level + 1 and not pack and o.get("distance", 0) > 55:
++            # the kill RPC will not chase past 60 yd ("too far": a third of all engagements) - walk a short
++            # slice instead and look again before we reach it
++            self._risk_soon = True
++            return False
+         if lv <= level + 1 and not pack and now - tried.get(int(o["guid"]), 0) > 120:
+             tried[int(o["guid"])] = now
+             if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70:
+-- 
+2.34.1
+
