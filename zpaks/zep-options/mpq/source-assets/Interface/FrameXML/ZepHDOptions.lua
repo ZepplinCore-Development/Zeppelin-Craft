@@ -429,7 +429,9 @@ local function ShowInfo (panel, entry)
 end
 
 local function HookExplain (panel, control, entry)
-	control:HookScript("OnEnter", function () ShowInfo(panel, entry); end);
+	-- F-234: the explanation box replaces the hover tooltip on the themed pages (user, 2026-11-01): the stock template's
+	-- OnEnter shows GameTooltip first, this hook runs after it and hides it again.
+	control:HookScript("OnEnter", function () GameTooltip:Hide(); ShowInfo(panel, entry); end);
 	control:HookScript("OnLeave", function () ShowStatus(panel); end);
 end
 
