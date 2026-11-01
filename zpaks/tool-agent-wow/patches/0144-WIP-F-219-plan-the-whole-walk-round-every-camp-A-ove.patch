@@ -1,0 +1,183 @@
+From 77839393be603f73086cc4d52b6fa8c2666429f5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 08:20:56 +0000
+Subject: [PATCH] WIP: F-219 - plan the whole walk round every camp (A* over
+ the known spawns)
+
+plan_route(): a 5 yd grid over the corridor between us and the target (cell grows past 60k cells),
+every hostile spawn we know (DB spawns + patrol nodes) painted by aggro reach + wander radius -
+hard for mobs 2+ levels up and any pair/pack (a non-grey neighbour within 18 yd), soft for a lone
+mob near our level (the road engage takes those). A* + string-pulling gives the turn points; a
+clean plan replaces the route guard's refusal and the first-camp-only detour loop (35 of 139
+multi-mob ambushes were on detours: going round one camp led into the next). No clean line ->
+route guard + old detour as before. AW_NO_PLAN=1 turns it off.
+Offline: staggered pairs -> round both (25 yd clear); open road -> no turns; wall -> not clean;
+1000 yd through 40 pairs -> 7 turns, never within 23 yd; each plan < 0.05 s.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 134 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 132 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 0000f2c..945f9e1 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2991,6 +2991,115 @@ class Runner:
+         print(f"  detour around a camp of {len(camp)} at ({cx:.0f},{cy:.0f}) via ({w[0]:.0f},{w[1]:.0f})", flush=True)
+         return [w]
+ 
++    def plan_route(self, x, y, level):
++        """Plan the whole walk around every camp at once: A* over a 5 yd grid of the corridor between us
++        and (x, y), every hostile spawn we know (DB spawns + patrol nodes, not just the ~100 yd we see)
++        painted by its aggro reach + wander radius. The old detour skirted the FIRST camp on the way and
++        re-planned, so going round one led into the next (35 of 139 multi-mob ambushes were on detours).
++          * hard (nearly impassable): mobs 2+ levels up, and any mob with a non-grey neighbour within 18 yd
++            (a pair or pack - below 10 a double pull is dangerous and a triple is death);
++          * soft (a small cost): a lone mob near our level - the road engage pulls those on our terms.
++        Returns (waypoints, clean): the smoothed turn points (not the start, not the end), and whether the
++        planned line stays out of every hard zone. None = nothing worth planning around."""
++        me = self.me()
++        sx, sy = me["x"], me["y"]
++        if math.dist((sx, sy), (x, y)) < 60:
++            return None
++        gray = gray_level(level)
++        margin = 120.0
++        x0, x1 = min(sx, x) - margin, max(sx, x) + margin
++        y0, y1 = min(sy, y) - margin, max(sy, y) + margin
++        cell = 5.0
++        while ((x1 - x0) / cell) * ((y1 - y0) / cell) > 60000:
++            cell *= 1.5
++        nx, ny = int((x1 - x0) / cell) + 1, int((y1 - y0) / cell) + 1
++        near = [t for t in self.threats() if t[2] > gray and x0 - 40 <= t[0] <= x1 + 40 and y0 - 40 <= t[1] <= y1 + 40]
++        if not near:
++            return None
++        buckets = {}
++        for t in near:
++            buckets.setdefault((int(t[0] // 18), int(t[1] // 18)), []).append(t)
++
++        def paired(t):
++            gx, gy = int(t[0] // 18), int(t[1] // 18)
++            return any(u is not t and math.dist(u[:2], t[:2]) < 18 and u[2] >= level - 1
++                       for dx in (-1, 0, 1) for dy in (-1, 0, 1) for u in buckets.get((gx + dx, gy + dy), []))
++        cost = [1.0] * (nx * ny)
++        hard = bytearray(nx * ny)
++        for t in near:
++            is_hard = t[2] >= level + 2 or (t[2] >= level - 1 and paired(t))
++            r = self.aggro_r(t[2], level) + 3 + t[4]
++            pen = 60.0 if is_hard else 4.0
++            ci, cj = int((t[0] - x0) / cell), int((t[1] - y0) / cell)
++            k = int(r / cell) + 1
++            for i in range(max(0, ci - k), min(nx, ci + k + 1)):
++                for j in range(max(0, cj - k), min(ny, cj + k + 1)):
++                    if math.dist((x0 + i * cell, y0 + j * cell), t[:2]) <= r:
++                        n = i * ny + j
++                        if pen > cost[n]:
++                            cost[n] = pen
++                        if is_hard:
++                            hard[n] = 1
++        si, sj = int((sx - x0) / cell), int((sy - y0) / cell)
++        ei, ej = int((x - x0) / cell), int((y - y0) / cell)
++        # we stand where we stand, and the destination is where it is: their own cells are free
++        for (ci, cj) in ((si, sj), (ei, ej)):
++            for i in range(max(0, ci - 2), min(nx, ci + 3)):
++                for j in range(max(0, cj - 2), min(ny, cj + 3)):
++                    cost[i * ny + j], hard[i * ny + j] = 1.0, 0
++        import heapq
++        start, goal = si * ny + sj, ei * ny + ej
++        g = {start: 0.0}
++        came = {}
++        h = lambda n: math.hypot(n // ny - ei, n % ny - ej)
++        heap = [(h(start), start)]
++        steps = ((1, 0, 1.0), (-1, 0, 1.0), (0, 1, 1.0), (0, -1, 1.0),
++                 (1, 1, 1.4142), (1, -1, 1.4142), (-1, 1, 1.4142), (-1, -1, 1.4142))
++        while heap:
++            f, n = heapq.heappop(heap)
++            if n == goal:
++                break
++            gi, gj = n // ny, n % ny
++            gn = g[n]
++            for di, dj, w in steps:
++                i, j = gi + di, gj + dj
++                if 0 <= i < nx and 0 <= j < ny:
++                    m = i * ny + j
++                    c = gn + w * cost[m]
++                    if c < g.get(m, 1e18):
++                        g[m], came[m] = c, n
++                        heapq.heappush(heap, (c + h(m), m))
++        if goal not in came and goal != start:
++            return None
++        path = [goal]
++        while path[-1] != start:
++            path.append(came[path[-1]])
++        path.reverse()
++        clean = not any(hard[n] for n in path)
++
++        def line_ok(a, b, limit):  # the straight line touches nothing costlier than the walked stretch did
++            ai, aj, bi, bj = a // ny, a % ny, b // ny, b % ny
++            k = max(abs(bi - ai), abs(bj - aj), 1)
++            for q in range(k + 1):
++                m = int(round(ai + (bi - ai) * q / k)) * ny + int(round(aj + (bj - aj) * q / k))
++                if cost[m] > limit:
++                    return False
++            return True
++        # string-pull: from each turn point, the farthest later cell reachable in a straight line that is
++        # no worse than the planned stretch it replaces
++        wps, cur = [], 0
++        while cur < len(path) - 1:
++            nxt = cur + 1
++            for k in range(len(path) - 1, cur, -1):
++                if line_ok(path[cur], path[k], max(cost[n] for n in path[cur:k + 1])):
++                    nxt = k
++                    break
++            cur = nxt
++            if cur < len(path) - 1:
++                wps.append(path[cur])
++        pts = [(x0 + (n // ny) * cell, y0 + (n % ny) * cell) for n in wps]
++        return pts, clean
++
+     def travel(self, x, y, z, within=4.0):
+         me = self.me()
+         far = math.dist((me["x"], me["y"]), (x, y))
+@@ -3020,14 +3129,35 @@ class Runner:
+         # ...nor ALONG the way past mobs 3+ levels above us: the destination check misses a road lined
+         # with them (Shadowglen -> Dolanaar runs past nine level-5/6 Webwood Lurkers wandering 13-33 yd;
+         # a level-1 hunter's detour skirted one and met the next). A player waits for the levels
+-        if far > 40 and not self.reviving:
++        plan = None
++        if far > 40 and not self.reviving and not getattr(self, "_detouring", False) and not os.environ.get("AW_NO_PLAN"):
++            try:
++                plan = self.plan_route(x, y, call("interact.self").get("level", 1))
++            except (StepFailed, KeyError, ValueError, ZeroDivisionError, MemoryError) as e:
++                print(f"  ~ plan: {str(e)[:80]}", flush=True)
++        if far > 40 and not self.reviving and not (plan and plan[1]):
++            # no clean plan: the guard decides whether this walk is safe at all
+             level = call("interact.self").get("level", 1)
+             self.route_guard(x, y, z, level)
+         if far > 60 and not self.reviving and self.w.cls == 4:
+             self.stealth()
++        if plan and plan[1] and plan[0]:
++            # a clean line round every camp: walk its turn points (each hop on the navmesh), then the end
++            print(f"  route: {len(plan[0])} turn points round the camps to ({x:.0f},{y:.0f})", flush=True)
++            self._detouring = True
++            try:
++                for wx, wy in plan[0]:
++                    try:
++                        self.travel(wx, wy, ground(wx, wy, z), within=8)
++                    except StepFailed as e:
++                        print(f"  ~ route hop ({wx:.0f},{wy:.0f}): {str(e)[:70]}", flush=True)
++                        break
++            finally:
++                self._detouring = False
++            self._skirted = []
+         # skirt hostile camps on the way (a ghost walks straight through: nothing sees it). One
+         # detour at a time, re-planned from each waypoint, so camp after camp is avoided
+-        if far > 40 and not self.reviving and not getattr(self, "_detouring", False):
++        if far > 40 and not self.reviving and not getattr(self, "_detouring", False) and not (plan and plan[1]):
+             self._detouring, self._skirted = True, []
+             try:
+                 for _ in range(6):
+-- 
+2.34.1
+
