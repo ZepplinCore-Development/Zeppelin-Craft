@@ -18,6 +18,7 @@ local VULKAN_KEY = "zepVulkanRenderer";
 
 local AO_QUALITY = { [0] = "Low", "Medium", "High", "Ultra" };
 local VIEW_QUALITY = { [0] = "Low", "Fair", "Good", "High", "Ultra" };
+local GRASS_SHADER = { [0] = "Blizzard", "HD", "HD Classic" };
 
 
 local SLIDER_X = 200;
@@ -34,11 +35,11 @@ local EFFECTS = {
 		  tooltipRequirement = OPTION_RESTART_REQUIREMENT },
 		{ cvar = "hdAO", text = "Ambient Occlusion",
 		  tooltip = "Soft shadowing where objects meet and in creases and corners. Vulkan only." },
-		{ cvar = "hdContactShadow", text = "Contact Shadows",
+		{ cvar = "hdContactShadow", text = "Contact Shadows", d3d9 = true,
 		  tooltip = "Fine shadows where small objects touch the ground. Direct3D 9 only." },
-		{ cvar = "hdContactShadowUnits", text = "Characters Too", sub = true, parent = "hdContactShadow",
+		{ cvar = "hdContactShadowUnits", text = "Characters Too", sub = true, parent = "hdContactShadow", d3d9 = true,
 		  tooltip = "Characters and creatures cast contact shadows as well as receiving them." },
-		{ cvar = "hdGI", text = "Global Illumination",
+		{ cvar = "hdGI", text = "Global Illumination", d3d9 = true,
 		  tooltip = "Light bounces once off nearby surfaces and picks up their colour. Direct3D 9 only." },
 		{ cvar = "hdBloom", text = "Bloom",
 		  tooltip = "A soft glow around the brightest parts of the world." },
@@ -50,9 +51,13 @@ local EFFECTS = {
 		  tooltip = "How dark the ambient occlusion is." },
 		{ cvar = "hdAOQuality", parent = "hdAO", text = "Occlusion Quality", minValue = 0, maxValue = 3, valueStep = 1, names = AO_QUALITY,
 		  tooltip = "Samples per pixel. Higher is smoother and slower. Vulkan only." },
-		{ cvar = "hdContactShadowStrength", parent = "hdContactShadow", text = "Contact Shadow", minValue = 0, maxValue = 1, valueStep = 0.05,
+		{ cvar = "hdAORadius", parent = "hdAO", text = "Occlusion Radius", minValue = 0.25, maxValue = 3, valueStep = 0.25, decimals = 2,
+		  tooltip = "How far, in yards, things shade the surfaces around them. Vulkan only." },
+		{ cvar = "hdAOThin", parent = "hdAO", text = "Ignore Grass", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2,
+		  tooltip = "How much grass, leaves and other thin things are left out of the occlusion, so the ground under them is not darkened. 0 is the old look. Vulkan only." },
+		{ cvar = "hdContactShadowStrength", parent = "hdContactShadow", d3d9 = true, text = "Contact Shadow", minValue = 0, maxValue = 1, valueStep = 0.05,
 		  tooltip = "1 is as dark as the game's own shadows, 0 is none." },
-		{ cvar = "hdGIStrength", parent = "hdGI", text = "Bounce Light", minValue = 0, maxValue = 2, valueStep = 0.05,
+		{ cvar = "hdGIStrength", parent = "hdGI", d3d9 = true, text = "Bounce Light", minValue = 0, maxValue = 2, valueStep = 0.05,
 		  tooltip = "How bright the bounced light is. 1 is normal." },
 		{ cvar = "hdBloomStrength", parent = "hdBloom", text = "Bloom", minValue = 0, maxValue = 3, valueStep = 0.05,
 		  tooltip = "How strong the glow is. 1 is normal." },
@@ -79,6 +84,8 @@ local PERFORMANCE = {
 		  tooltip = "Pick the distant buildings to draw from a spatial index built when the map loads, instead of testing each one." },
 		{ cvar = "hdCataRenderPerf", text = "Performance Log",
 		  tooltip = "Every 2 seconds, write the frame rate, frame times, CPU and GPU time and the settings in use to Logs\\CataRenderPerf.log, with the time of day, to compare renderers and settings." },
+		{ cvar = "scriptProfile", text = "Addon CPU in Log", sub = true, parent = "hdCataRenderPerf",
+		  tooltip = "Also write each addon's CPU time to the performance log. Takes effect after a /reload or relog. Costs a little CPU while on, so turn it off when you are done." },
 	},
 	sliders = {
 		{ cvar = "hdCataViewQuality", parent = "hdCataViewDistance", text = "View Quality", minValue = 0, maxValue = 4, valueStep = 1, names = VIEW_QUALITY,
@@ -91,12 +98,49 @@ local PERFORMANCE = {
 	},
 };
 
+-- Zeppelin F-237 / F-234: the HD grass. Its CVars register when the grass first draws, so the page builds on first show.
+local GRASS = {
+	checks = {
+		{ cvar = "hdGrassWind", text = "Grass Wind",
+		  tooltip = "Grass sways with the zone's wind, gusts and weather, and lies still under roofs and behind walls. Needs the HD grass shader." },
+		{ cvar = "hdGrassReact", text = "Grass Parting",
+		  tooltip = "Grass bends away from players, creatures and mounts moving through it. Needs the HD grass shader." },
+	},
+	sliders = {
+		{ cvar = "hdGrassLight", text = "Grass Shader", minValue = 0, maxValue = 2, valueStep = 1, names = GRASS_SHADER,
+		  tooltip = "Blizzard: the original grass. HD: grass lit like the HD terrain, with wind and parting. HD Classic: the HD grass with the original lighting." },
+		{ cvar = "hdGrassWindStrength", parent = "hdGrassWind", text = "Wind Strength", minValue = 0, maxValue = 3, valueStep = 0.1,
+		  tooltip = "How hard the wind bends the grass. 1 is the zone's wind as authored." },
+		{ cvar = "hdGrassReactRadius", parent = "hdGrassReact", text = "Parting Radius", minValue = 0.5, maxValue = 4, valueStep = 0.25, decimals = 2,
+		  tooltip = "How wide the grass parts around a unit, as a multiple of its size. Doubled while mounted." },
+		{ cvar = "hdGrassBuffers", text = "Grass Kept Ready", minValue = 0, maxValue = 4096, valueStep = 256, zeroText = "Off",
+		  tooltip = "How many patches of grass are kept loaded on the graphics card instead of being rebuilt every frame. Higher is faster when there is a lot of grass. Off rebuilds it every frame." },
+	},
+	status = {
+		{ "Grass Shaders", "hdGrassInfo" },
+		{ "Wind", "hdGrassWindInfo" },
+	},
+};
+
+-- The Vulkan effects register their CVars only when Vulkan runs (hdAOQuality is one of them): a Direct3D 9 only control
+-- (d3d9 = true) does nothing then and is left out, as the Vulkan-only ones are under Direct3D 9.
+local function VulkanRunning ()
+	return GetCVar("hdAOQuality") ~= nil;
+end
+
 local function Exists (entry)
+	if ( entry.d3d9 and VulkanRunning() ) then
+		return false;
+	end
 	return entry.key or GetCVar(entry.cvar) ~= nil;
 end
 
 local function FormatValue (entry, value)
-	if ( entry.names ) then
+	if ( entry.zeroText and value < 0.5 ) then
+		return entry.zeroText;
+	elseif ( entry.decimals ) then
+		return format("%."..entry.decimals.."f", value);
+	elseif ( entry.names ) then
 		return entry.names[floor(value + 0.5)] or format("%d", value);
 	elseif ( entry.valueStep < 0.1 ) then
 		return format("%.2f", value);
@@ -168,8 +212,11 @@ local function BuildControls (panel)
 	end
 	y = -16;
 	for _, entry in ipairs(def.sliders) do
-		if ( Exists(entry) and byCvar[entry.parent] ) then
-			BlizzardOptionsPanel_SetupDependentControl(byCvar[entry.parent], AddSlider(panel, entry, y));
+		if ( Exists(entry) and (not entry.parent or byCvar[entry.parent]) ) then
+			local slider = AddSlider(panel, entry, y);
+			if ( entry.parent ) then
+				BlizzardOptionsPanel_SetupDependentControl(byCvar[entry.parent], slider);
+			end
 			y = y - SLIDER_SPACING;
 		end
 	end
@@ -259,6 +306,7 @@ end
 
 BuildPage("ZepHDEffectsPanel", "HD Effects", "Lighting and post-processing.", EFFECTS);
 BuildPage("ZepHDPerformancePanel", "HD Performance", "Cataclysm-era drawing and loading. Compare frame rates.", PERFORMANCE);
+BuildPage("ZepHDGrassPanel", "HD Grass", "Grass lighting, wind and parting.", GRASS);
 
 -- Cataclysm View Distance takes the far clip from its View Quality preset and the horizon from that, so Effects' View
 -- Distance and Advanced's Horizon Distance (ZepAdvancedOptions.lua, F-232) do nothing while it is on: greyed out then.
