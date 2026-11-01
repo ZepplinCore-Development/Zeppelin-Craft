@@ -1007,7 +1007,27 @@ let cam = JSON.parse(JSON.stringify(CAM0));
 const VIEW = (q.get('view') || '').split(',').map(Number);
 if (VIEW.length >= 3 && VIEW.slice(0, 3).every(Number.isFinite)) { cam.yaw = VIEW[0]; cam.pitch = VIEW[1]; cam.dist = VIEW[2]; }
 const panOff = [0, 0];   // accumulated engine view offset, undone on reset
+// A WMO scene runs the engine's FIRST-PERSON camera: its zoom and view-offset calls are empty and its view-dir
+// calls turn the gaze, so the M2 orbit controller below cannot move it (no zoom, no pan). WMO panes place
+// the camera outright every frame instead: position on the orbit, then turn the gaze onto the (panned)
+// target. In this engine build (Firefox rig 2026-11-01): setSceneLookAt does nothing, setScenePos RESETS the
+// gaze to its default (+x, level), and a view-dir call turns the gaze by exactly its value (degrees, negated)
+// on the next frame with dt > 0 (FirstPersonCamera::tick, spring share 1 - 0.5^(300 ms)); a dt = 0 frame
+// drops it. So each frame: set the position, then turn from the default by the full angle.
+const WMO = q.get('scene') === 'wmo';
+let frameDt = 0;                          // the dt the coming _gameloop call will pass
+function wmoPlace() {
+  const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch), cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+  const right = [-sy, cy, 0], up = [-sp * cy, -sp * sy, cp];
+  const t = CAM0.target.map((v, i) => v + right[i] * panOff[0] + up[i] * panOff[1]);
+  if (!(frameDt > 0)) return;           // the turn would be dropped: keep last frame's view
+  Module._setScenePos(t[0] + cam.dist * cp * cy, t[1] + cam.dist * cp * sy, t[2] + cam.dist * sp);
+  const D = 180 / Math.PI;               // camera -> target, from the default gaze (ah = av = 0)
+  Module._addHorizontalViewDir(-Math.atan2(-sy, -cy) * D);
+  Module._addVerticalViewDir(-Math.max(-89, Math.min(89, -cam.pitch * D)));
+}
 function resetPan() {
+  if (WMO) { panOff[0] = panOff[1] = 0; return; }
   if (ready && (panOff[0] || panOff[1])) Module._addCameraViewOffset(-panOff[0], -panOff[1]);
   panOff[0] = panOff[1] = 0;
 }
@@ -1063,6 +1083,7 @@ function startView() {
 // devices and left the controller aiming at the wrong point). Just steer the
 // closed-loop controller back to the start view.
 function resetView() {
+  if (WMO) { cam.yaw = CAM0.yaw; cam.pitch = CAM0.pitch; cam.dist = CAM0.dist; updateRuler(); return; }
   if (!camCentre) { placeStart(); return; }
   Object.assign(cam, startView());
   updateRuler();
@@ -1070,6 +1091,10 @@ function resetView() {
 function placeStart() {
   // CAM0 aims at the deploy's mesh centre from the safe (x > 0) start angle.
   if (!ready) return;
+  if (WMO) {
+    if (VIEW.length >= 5) { panOff[0] = VIEW[3] || 0; panOff[1] = VIEW[4] || 0; }
+    camLive = true; wmoPlace(); updateRuler(); return;
+  }
   const [tx, ty, tz] = CAM0.target, cp = Math.cos(CAM0.pitch);
   const p0 = [tx + CAM0.dist * cp * Math.cos(CAM0.yaw), ty + CAM0.dist * cp * Math.sin(CAM0.yaw), tz + CAM0.dist * Math.sin(CAM0.pitch)];
   camLive = false;
@@ -1103,6 +1128,7 @@ const CAM_GAIN = 0.3, CAM_MAX_ANGLE = 0.25;   // share of the error per frame; a
 const clampAbs = (v, m) => Math.max(-m, Math.min(m, v));
 function camStep() {                     // called every frame
   if (!camLive) return;
+  if (WMO) { wmoPlace(); return; }
   const m = measureCam(), D = 180 / Math.PI;
   const dy = wrapPi(cam.yaw - m.yaw), dp = cam.pitch - m.pitch, dd = cam.dist - m.dist;
   if (Math.abs(dy) > 1e-3) Module._addHorizontalViewDir(-clampAbs(dy * CAM_GAIN, CAM_MAX_ANGLE) * D);   // +v turns yaw down
@@ -1158,8 +1184,8 @@ function reportView() {
       // ignored), so pan with its own screen-space view offset. Scale so the
       // model tracks the finger at the target's depth.
       const k = (2 * cam.dist * TAN_HALF_FOV) / (Module.canvas.clientHeight || 1);
-      Module._addCameraViewOffset(dx * k, -dy * k);
-      panOff[0] += dx * k; panOff[1] += -dy * k;
+      if (!WMO) Module._addCameraViewOffset(dx * k, -dy * k);
+      panOff[0] += (WMO ? -dx : dx) * k; panOff[1] += -dy * k * (WMO ? -1 : 1);
       reportView();
     } else {
       moveCam((c) => { c.yaw -= dx * 0.01; c.pitch += dy * 0.01; });
@@ -1243,9 +1269,11 @@ function startScene_() {
     ready = true;
     applyMeshes();
     syncSize();
+    if (WMO) placeStart();      // no animation list arrives for a WMO scene (the M2 path places the camera from it)
     let last;
     const loop = (now) => {
       if (gone) return;
+      frameDt = last === undefined ? 0 : (now - last) / 1000;
       camStep();
       const tf = DIAG && performance.now();
       if (LENT && (LENT.off.width !== c.width || LENT.off.height !== c.height)) { LENT.off.width = c.width; LENT.off.height = c.height; }

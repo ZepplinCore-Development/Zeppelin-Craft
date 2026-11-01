@@ -28,6 +28,7 @@ TABS = ('creature', 'character', 'object', 'item', 'wmo')
 # the picker reads data/v2 while a deploy runs: build data/v2.new, swap it in when done
 STAGE = 'v2.new'
 CHAR_PANE_VERSION = 2          # 2: each option wears the bake it ships with (bake_for), not the live DBC's
+WMO_PANE_VERSION = 1          # WMO panes only (1: bbox from the root's MOHD - every WMO opened inside itself at the 2.5-unit fallback camera)
 PANE_CODE_VERSION = 4          # bump when pane building changes: every cached pane is rebuilt (2: geoset 0 nibbles, I-388; 3: item textures follow their item mesh; 4: TBC v256 models measured from their v264 conversion)
 PANE_CACHE = Path('/workspace/project/logs/viewer_pane_cache.pkl')
 
@@ -259,6 +260,23 @@ def _dep_sig(f) -> Optional[str]:
     return s_
 
 
+def _wmo_bbox(root) -> Optional[List[float]]:
+    """A WMO root's bounding box (MOHD: 6 floats at +36; chunk tags stored reversed), or None. Without it a
+    WMO pane got the fallback camera (target 0,0,1 at 2.5) and opened inside the building."""
+    try:
+        b = Path(root).read_bytes()
+    except (OSError, TypeError):
+        return None
+    o = 0
+    while o + 8 <= len(b):
+        tag, size = b[o:o + 4], struct.unpack_from('<I', b, o + 4)[0]
+        if tag == b'DHOM' and size >= 60:
+            box = [round(v, 3) for v in struct.unpack_from('<6f', b, o + 8 + 36)]
+            return box if all(abs(v) < 1e5 for v in box) and box[3] > box[0] else None
+        o += 8 + size
+    return None
+
+
 class Deployer:
     def __init__(self, result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict,
                  names: Dict, equipment: Dict, log: Callable = print):
@@ -311,7 +329,7 @@ class Deployer:
         pick, a pack update, a new source) - checked in memory, no file I/O."""
         import copy
         base = (PANE_CODE_VERSION, path, opt.key, did, dbc_source, sorted(opt.sources),
-                CHAR_PANE_VERSION if path.startswith('character/') else 0)
+                CHAR_PANE_VERSION if path.startswith('character/') else WMO_PANE_VERSION if path.endswith('.wmo') else 0)
         # the option's own model / skin files when a tool rewrites them in place (STAT_DEPS): the pane
         # takes them straight from the option, so the dependency check never sees them
         own_sig = tuple(_dep_sig(f) for k, f in sorted(opt.files.items()) if k.endswith(('.m2', '.skin'))
@@ -817,7 +835,7 @@ class Deployer:
         mvd._DRY = True
         try:
             if kind == 'wmo':
-                pane = {'src': 'v2', 'model': path, 'skins': [0, 0, 0], 'missing': [], 'bbox': None, 'scene': 'wmo'}
+                pane = {'src': 'v2', 'model': path, 'skins': [0, 0, 0], 'missing': [], 'bbox': _wmo_bbox(root), 'scene': 'wmo'}
                 for p in opt.files:
                     finder.find(p)
                 for t in ai.wmo_textures(root):
@@ -2352,7 +2370,8 @@ def merge_same_form(dep: 'Deployer', assets: List[dict], log: Callable = print) 
     """Two PACKS' options with the same form (lib/m2_unique.form: mesh, normals, UVs, animations, skeleton,
     counts and .anim files equal; only batch textures / materials / shaders differ) are duplicates, the
     user's rule (I-441: the WotLK HD client re-ships other packs' models with a layer edited). Stock against a
-    pack keeps the full look. Model cards merge such options; display cards merge them when the skins,
+    pack keeps the full look. On model cards two packs' clean downports of one retail model (retail_of) are
+    duplicates too, whatever their own conversions changed (6hu_ world doodads). Model cards merge such options; display cards merge them when the skins,
     geosets, texture overrides and items are the same too (else a display card would split the model card's
     option again by its repoint). A picked option survives the merge, so a pick still ships its own files;
     otherwise the first. The merged-away keys join pane['same_look'] (Picks.mesh, reviewReason)."""
@@ -2372,6 +2391,26 @@ def merge_same_form(dep: 'Deployer', assets: List[dict], log: Callable = print) 
         anims = sorted((k, dep.ix.hash(v)) for k, v in o.files.items() if k.endswith('.anim'))
         return fm and hashlib.sha1(repr((fm, anims)).encode()).hexdigest()[:16]
 
+    from lib import retail, retroport as rp
+    by_path = retail.listfile()[0]
+
+    def retail_of(model: str, sources: List[str]) -> Optional[int]:
+        """retail's FileDataID when this pack file is a clean downport of retail's file at the same path
+        (lib/retroport.compare): two packs' downports of one retail model are duplicates, whatever their own
+        conversion changed (6hu_garrison_lantern: re-exported vertices, other animation timings). Covers
+        world/ too, which the CASC store - and so the curate retroport rule - does not."""
+        fd = by_path.get(model)
+        a = dep.ix.meshes.get(model)
+        o = next((x for x in a.options if set(sources) & set(x.sources)), None) if a and fd else None
+        f = o.files.get(model) if o else None
+        if f is None:
+            return None
+
+        def check(x):
+            rb = retail.fetch(fd)
+            return bool(rb) and rp.compare(x.read_bytes(), rb) is not None
+        return fd if meta.get(f'rpw1|{fd}', f, check) else None
+
     picked_mesh = {p: {c.get('option'), c.get('file_option')} for p, c in (dep.choices.get('mesh') or {}).items()}
     picked_disp = {k: c.get('option') for k, c in (dep.choices.get('display') or {}).items()}
     n = 0
@@ -2382,13 +2421,15 @@ def merge_same_form(dep: 'Deployer', assets: List[dict], log: Callable = print) 
         disp = e.get('tab') == 'display'
         picked = {picked_disp.get(str(e.get('display')))} if disp else picked_mesh.get(e['path'], set())
         groups: Dict[tuple, List[dict]] = {}
+        npacks = sum(1 for p in panes if 'stock' not in (p.get('sources') or []))
         for p in panes:
             if p.get('compare') or p.get('retroport') or (not disp and p.get('model') not in (None, e['path'])):
                 continue
             fm = form_of(p.get('model') or e['path'], p.get('sources') or [])
+            rk = retail_of(e['path'], p['sources']) if not disp and npacks > 1 and fm else None
             if not fm:
                 continue
-            k = (p.get('model'), fm) if not disp else (p.get('model'), fm, tuple(p.get('skins') or ()), tuple(p.get('mesh') or ()),
+            k = (p.get('model'), 'retail', rk) if rk else (p.get('model'), fm) if not disp else (p.get('model'), fm, tuple(p.get('skins') or ()), tuple(p.get('mesh') or ()),
                  json.dumps(p.get('tex') or {}, sort_keys=True), json.dumps(p.get('items') or [], sort_keys=True))
             groups.setdefault(k, []).append(p)
         drop = set()
@@ -2409,7 +2450,7 @@ def merge_same_form(dep: 'Deployer', assets: List[dict], log: Callable = print) 
             e['panes'] = [p for p in panes if id(p) not in drop]
             if len(e['panes']) == 1 and not disp:
                 e['single'] = True
-    log(f'  same form: {n:,} pack options merged into another pack\'s option (layers differ only)')
+    log(f'  same form: {n:,} pack options merged into another pack\'s option (layers differ only, or both downports of one retail model)')
 
 
 def flag_unique(dep: 'Deployer', assets: List[dict], log: Callable = print) -> None:
@@ -3054,10 +3095,10 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
         (v2 / 'tex' / f'{i // CH}.json').write_text(json.dumps(chunk, separators=(',', ':')))
         for t in chunk:
             flags = []
+            # only a real choice needs deciding: a larger option that does not fit the picked mesh is no option
+            # (the mesh pick decides it - user, 2026-11-01), so 'largest-incompatible' no longer queues a texture
             if not t['current']:
                 flags.append('none-compatible')
-            elif not t['largest_compatible']:
-                flags.append('largest-incompatible')
             index.append([t['path'], len(t['options']), t['current'], i // CH, flags, t['nrefs']])
     (v2 / 'textures_index.json').write_text(json.dumps(index, separators=(',', ':')))
     dep.save_cache()
