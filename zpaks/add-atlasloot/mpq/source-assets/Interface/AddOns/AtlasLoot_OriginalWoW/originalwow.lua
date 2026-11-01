@@ -633,12 +633,20 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "RoM_stellar_dice", "=q6=Mythic Old Serra'kis", "=q5=CHANCE TO DROP"};
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 5, 0, "AO_Unknown", "=q6=Mythic Old Serra'kis", "=q5=ONE WILL DROP"};
+    { 6, 69378, "", "=q4=Glowing Thresher Cape", "=ds=#a1#", "", "40.0%" };
+    { 7, 6904, "", "=q3=Bite of Serra'kis", "=ds=#w4#", "", "30.0%" };
+    { 8, 69379, "", "=q4=Bands of Serra'kis", "=ds=#a2#", "", "30.0%" };
 	};
 
 	AtlasLoot_Data["BFDSerrakisHEROIC"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Heroic Old Serra'kis", "=q5=CHANCE TO DROP"};
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 5, 0, "AO_Unknown", "=q6=Heroic Old Serra'kis", "=q5=ONE WILL DROP"};
+    { 6, 66378, "", "=q4=Glowing Thresher Cape", "=ds=#a1#", "", "40.0%" };
+    { 7, 6904, "", "=q3=Bite of Serra'kis", "=ds=#w4#", "", "30.0%" };
+    { 8, 66379, "", "=q4=Bands of Serra'kis", "=ds=#a2#", "", "30.0%" };
 	};
 
 	AtlasLoot_Data["BFDAkumai"] = {
@@ -1016,53 +1024,27 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["BRDPyromantLoregrainMYTHIC"] = {
-    { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic Pyromancer Loregrain", "=q5=ALL WILL DROP"};
-    { 2, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Mythic Pyromancer Loregrain", "=q5=CHANCE TO DROP"};
-    { 5, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 6, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 7, 11207, "", "=q2=Formula: Enchant Weapon - Fiery Weapon", "=ds=#e2#", "", "16.0%" };
-    { 9, 0, "AO_Unknown", "=q6=Mythic Pyromancer Loregrain", "=q5=ONE WILL DROP"};
+    { 1, 0, "RoM_stellar_dice", "=q6=Mythic Pyromancer Loregrain", "=q5=CHANCE TO DROP"};
+    { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 4, 11207, "", "=q2=Formula: Enchant Weapon - Fiery Weapon", "=ds=#e2#", "", "16.0%" };
+    { 6, 0, "AO_Unknown", "=q6=Mythic Pyromancer Loregrain", "=q5=ONE WILL DROP"};
+    { 7, 69526, "", "=q4=Flamestrider Robes", "=ds=#a2#", "", "26.7%" };
+    { 8, 69527, "", "=q4=Pyric Caduceus", "=ds=#w12#", "", "26.7%" };
+    { 9, 69528, "", "=q4=Searingscale Leggings", "=ds=#a3#", "", "26.7%" };
     { 10, 69529, "", "=q4=Kindling Stave", "=ds=#w9#", "", "20.0%" };
-    { 11, 12527, "", "=q3=Ribsplitter", "=ds=#w1#", "", "5.71%" };
-    { 12, 12528, "", "=q3=The Judge's Gavel", "=ds=#w6#", "", "5.71%" };
-    { 13, 12531, "", "=q3=Searing Needle", "=ds=#w4#", "", "5.71%" };
-    { 14, 12532, "", "=q3=Spire of the Stoneshaper", "=ds=#w9#", "", "5.71%" };
-    { 15, 12535, "", "=q3=Doomforged Straightedge", "=ds=#w10#", "", "5.71%" };
-    { 16, 12542, "", "=q3=Funeral Pyre Vestment", "=ds=#a1#", "", "5.71%" };
-    { 17, 12546, "", "=q3=Aristocratic Cuffs", "=ds=#a1#", "", "5.71%" };
-    { 18, 12547, "", "=q3=Mar Alom's Grip", "=ds=#a2#", "", "5.71%" };
-    { 19, 12550, "", "=q3=Runed Golem Shackles", "=ds=#a4#", "", "5.71%" };
-    { 20, 12551, "", "=q3=Stoneshield Cloak", "=ds=#a1#", "", "5.71%" };
-    { 21, 12552, "", "=q3=Blisterbane Wrap", "=ds=#a1#", "", "5.71%" };
-    { 22, 69526, "", "=q4=Flamestrider Robes", "=ds=#a2#", "", "5.71%" };
-    { 23, 69527, "", "=q4=Pyric Caduceus", "=ds=#w12#", "", "5.71%" };
-    { 24, 69528, "", "=q4=Searingscale Leggings", "=ds=#a3#", "", "5.71%" };
 	};
 
 	AtlasLoot_Data["BRDPyromantLoregrainHEROIC"] = {
-    { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Pyromancer Loregrain", "=q5=ALL WILL DROP"};
-    { 2, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Heroic Pyromancer Loregrain", "=q5=CHANCE TO DROP"};
-    { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 7, 11207, "", "=q2=Formula: Enchant Weapon - Fiery Weapon", "=ds=#e2#", "", "16.0%" };
-    { 9, 0, "AO_Unknown", "=q6=Heroic Pyromancer Loregrain", "=q5=ONE WILL DROP"};
+    { 1, 0, "RoM_stellar_dice", "=q6=Heroic Pyromancer Loregrain", "=q5=CHANCE TO DROP"};
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 4, 11207, "", "=q2=Formula: Enchant Weapon - Fiery Weapon", "=ds=#e2#", "", "16.0%" };
+    { 6, 0, "AO_Unknown", "=q6=Heroic Pyromancer Loregrain", "=q5=ONE WILL DROP"};
+    { 7, 66526, "", "=q4=Flamestrider Robes", "=ds=#a2#", "", "26.7%" };
+    { 8, 66527, "", "=q4=Pyric Caduceus", "=ds=#w12#", "", "26.7%" };
+    { 9, 66528, "", "=q4=Searingscale Leggings", "=ds=#a3#", "", "26.7%" };
     { 10, 66529, "", "=q4=Kindling Stave", "=ds=#w9#", "", "20.0%" };
-    { 11, 12527, "", "=q3=Ribsplitter", "=ds=#w1#", "", "5.71%" };
-    { 12, 12528, "", "=q3=The Judge's Gavel", "=ds=#w6#", "", "5.71%" };
-    { 13, 12531, "", "=q3=Searing Needle", "=ds=#w4#", "", "5.71%" };
-    { 14, 12532, "", "=q3=Spire of the Stoneshaper", "=ds=#w9#", "", "5.71%" };
-    { 15, 12535, "", "=q3=Doomforged Straightedge", "=ds=#w10#", "", "5.71%" };
-    { 16, 12542, "", "=q3=Funeral Pyre Vestment", "=ds=#a1#", "", "5.71%" };
-    { 17, 12546, "", "=q3=Aristocratic Cuffs", "=ds=#a1#", "", "5.71%" };
-    { 18, 12547, "", "=q3=Mar Alom's Grip", "=ds=#a2#", "", "5.71%" };
-    { 19, 12550, "", "=q3=Runed Golem Shackles", "=ds=#a4#", "", "5.71%" };
-    { 20, 12551, "", "=q3=Stoneshield Cloak", "=ds=#a1#", "", "5.71%" };
-    { 21, 12552, "", "=q3=Blisterbane Wrap", "=ds=#a1#", "", "5.71%" };
-    { 22, 66526, "", "=q4=Flamestrider Robes", "=ds=#a2#", "", "5.71%" };
-    { 23, 66527, "", "=q4=Pyric Caduceus", "=ds=#w12#", "", "5.71%" };
-    { 24, 66528, "", "=q4=Searingscale Leggings", "=ds=#a3#", "", "5.71%" };
 	};
 
 	AtlasLoot_Data["BRDTheVault"] = {
@@ -1094,51 +1076,25 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["BRDWarderStilgissMYTHIC"] = {
-    { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic Warder Stilgiss", "=q5=ALL WILL DROP"};
-    { 2, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Mythic Warder Stilgiss", "=q5=CHANCE TO DROP"};
-    { 5, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 6, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Mythic Warder Stilgiss", "=q5=ONE WILL DROP"};
-    { 9, 12527, "", "=q3=Ribsplitter", "=ds=#w1#", "", "6.67%" };
-    { 10, 12528, "", "=q3=The Judge's Gavel", "=ds=#w6#", "", "6.67%" };
-    { 11, 12531, "", "=q3=Searing Needle", "=ds=#w4#", "", "6.67%" };
-    { 12, 12532, "", "=q3=Spire of the Stoneshaper", "=ds=#w9#", "", "6.67%" };
-    { 13, 12535, "", "=q3=Doomforged Straightedge", "=ds=#w10#", "", "6.67%" };
-    { 14, 12542, "", "=q3=Funeral Pyre Vestment", "=ds=#a1#", "", "6.67%" };
-    { 15, 12546, "", "=q3=Aristocratic Cuffs", "=ds=#a1#", "", "6.67%" };
-    { 16, 12547, "", "=q3=Mar Alom's Grip", "=ds=#a2#", "", "6.67%" };
-    { 17, 12550, "", "=q3=Runed Golem Shackles", "=ds=#a4#", "", "6.67%" };
-    { 18, 12551, "", "=q3=Stoneshield Cloak", "=ds=#a1#", "", "6.67%" };
-    { 19, 12552, "", "=q3=Blisterbane Wrap", "=ds=#a1#", "", "6.67%" };
-    { 20, 69535, "", "=q4=Boreal Mantle", "=ds=#a1#", "", "6.67%" };
-    { 21, 69536, "", "=q4=Chillsteel Girdle", "=ds=#a3#", "", "6.67%" };
-    { 22, 69537, "", "=q4=Arbiter's Blade", "=ds=#w10#", "", "6.67%" };
-    { 23, 69928, "", "=q4=Dark Warder's Pauldrons", "=ds=#a2#", "", "6.67%" };
+    { 1, 0, "RoM_stellar_dice", "=q6=Mythic Warder Stilgiss", "=q5=CHANCE TO DROP"};
+    { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 5, 0, "AO_Unknown", "=q6=Mythic Warder Stilgiss", "=q5=ONE WILL DROP"};
+    { 6, 69535, "", "=q4=Boreal Mantle", "=ds=#a1#", "", "25.0%" };
+    { 7, 69536, "", "=q4=Chillsteel Girdle", "=ds=#a3#", "", "25.0%" };
+    { 8, 69537, "", "=q4=Arbiter's Blade", "=ds=#w10#", "", "25.0%" };
+    { 9, 69928, "", "=q4=Dark Warder's Pauldrons", "=ds=#a2#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["BRDWarderStilgissHEROIC"] = {
-    { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Warder Stilgiss", "=q5=ALL WILL DROP"};
-    { 2, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Heroic Warder Stilgiss", "=q5=CHANCE TO DROP"};
-    { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Heroic Warder Stilgiss", "=q5=ONE WILL DROP"};
-    { 9, 12527, "", "=q3=Ribsplitter", "=ds=#w1#", "", "6.67%" };
-    { 10, 12528, "", "=q3=The Judge's Gavel", "=ds=#w6#", "", "6.67%" };
-    { 11, 12531, "", "=q3=Searing Needle", "=ds=#w4#", "", "6.67%" };
-    { 12, 12532, "", "=q3=Spire of the Stoneshaper", "=ds=#w9#", "", "6.67%" };
-    { 13, 12535, "", "=q3=Doomforged Straightedge", "=ds=#w10#", "", "6.67%" };
-    { 14, 12542, "", "=q3=Funeral Pyre Vestment", "=ds=#a1#", "", "6.67%" };
-    { 15, 12546, "", "=q3=Aristocratic Cuffs", "=ds=#a1#", "", "6.67%" };
-    { 16, 12547, "", "=q3=Mar Alom's Grip", "=ds=#a2#", "", "6.67%" };
-    { 17, 12550, "", "=q3=Runed Golem Shackles", "=ds=#a4#", "", "6.67%" };
-    { 18, 12551, "", "=q3=Stoneshield Cloak", "=ds=#a1#", "", "6.67%" };
-    { 19, 12552, "", "=q3=Blisterbane Wrap", "=ds=#a1#", "", "6.67%" };
-    { 20, 66535, "", "=q4=Boreal Mantle", "=ds=#a1#", "", "6.67%" };
-    { 21, 66536, "", "=q4=Chillsteel Girdle", "=ds=#a3#", "", "6.67%" };
-    { 22, 66537, "", "=q4=Arbiter's Blade", "=ds=#w10#", "", "6.67%" };
-    { 23, 66928, "", "=q4=Dark Warder's Pauldrons", "=ds=#a2#", "", "6.67%" };
+    { 1, 0, "RoM_stellar_dice", "=q6=Heroic Warder Stilgiss", "=q5=CHANCE TO DROP"};
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 5, 0, "AO_Unknown", "=q6=Heroic Warder Stilgiss", "=q5=ONE WILL DROP"};
+    { 6, 66535, "", "=q4=Boreal Mantle", "=ds=#a1#", "", "25.0%" };
+    { 7, 66536, "", "=q4=Chillsteel Girdle", "=ds=#a3#", "", "25.0%" };
+    { 8, 66537, "", "=q4=Arbiter's Blade", "=ds=#w10#", "", "25.0%" };
+    { 9, 66928, "", "=q4=Dark Warder's Pauldrons", "=ds=#a2#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["BRDVerek"] = {
@@ -1151,40 +1107,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "RoM_stellar_dice", "=q6=Mythic Verek", "=q5=CHANCE TO DROP"};
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Verek", "=q5=ONE WILL DROP"};
-    { 17, 69929, "", "=q4=Verek's Leash", "=ds=#a3#", "", "13.0%" };
-    { 18, 69530, "", "=q4=Verek's Collar", "=ds=#s2#", "", "12.0%" };
-    { 19, 12527, "", "=q3=Ribsplitter", "=ds=#w1#", "", "6.82%" };
-    { 20, 12528, "", "=q3=The Judge's Gavel", "=ds=#w6#", "", "6.82%" };
-    { 21, 12531, "", "=q3=Searing Needle", "=ds=#w4#", "", "6.82%" };
-    { 22, 12532, "", "=q3=Spire of the Stoneshaper", "=ds=#w9#", "", "6.82%" };
-    { 23, 12535, "", "=q3=Doomforged Straightedge", "=ds=#w10#", "", "6.82%" };
-    { 24, 12542, "", "=q3=Funeral Pyre Vestment", "=ds=#a1#", "", "6.82%" };
-    { 25, 12546, "", "=q3=Aristocratic Cuffs", "=ds=#a1#", "", "6.82%" };
-    { 26, 12547, "", "=q3=Mar Alom's Grip", "=ds=#a2#", "", "6.82%" };
-    { 27, 12550, "", "=q3=Runed Golem Shackles", "=ds=#a4#", "", "6.82%" };
-    { 28, 12551, "", "=q3=Stoneshield Cloak", "=ds=#a1#", "", "6.82%" };
-    { 29, 12552, "", "=q3=Blisterbane Wrap", "=ds=#a1#", "", "6.82%" };
+    { 4, 69929, "", "=q4=Verek's Leash", "=ds=#a3#", "", "13.0%" };
+    { 5, 69530, "", "=q4=Verek's Collar", "=ds=#s2#", "", "12.0%" };
 	};
 
 	AtlasLoot_Data["BRDVerekHEROIC"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Heroic Verek", "=q5=CHANCE TO DROP"};
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Verek", "=q5=ONE WILL DROP"};
-    { 17, 66929, "", "=q4=Verek's Leash", "=ds=#a3#", "", "13.0%" };
-    { 18, 66530, "", "=q4=Verek's Collar", "=ds=#s2#", "", "12.0%" };
-    { 19, 12527, "", "=q3=Ribsplitter", "=ds=#w1#", "", "6.82%" };
-    { 20, 12528, "", "=q3=The Judge's Gavel", "=ds=#w6#", "", "6.82%" };
-    { 21, 12531, "", "=q3=Searing Needle", "=ds=#w4#", "", "6.82%" };
-    { 22, 12532, "", "=q3=Spire of the Stoneshaper", "=ds=#w9#", "", "6.82%" };
-    { 23, 12535, "", "=q3=Doomforged Straightedge", "=ds=#w10#", "", "6.82%" };
-    { 24, 12542, "", "=q3=Funeral Pyre Vestment", "=ds=#a1#", "", "6.82%" };
-    { 25, 12546, "", "=q3=Aristocratic Cuffs", "=ds=#a1#", "", "6.82%" };
-    { 26, 12547, "", "=q3=Mar Alom's Grip", "=ds=#a2#", "", "6.82%" };
-    { 27, 12550, "", "=q3=Runed Golem Shackles", "=ds=#a4#", "", "6.82%" };
-    { 28, 12551, "", "=q3=Stoneshield Cloak", "=ds=#a1#", "", "6.82%" };
-    { 29, 12552, "", "=q3=Blisterbane Wrap", "=ds=#a1#", "", "6.82%" };
+    { 4, 66929, "", "=q4=Verek's Leash", "=ds=#a3#", "", "13.0%" };
+    { 5, 66530, "", "=q4=Verek's Collar", "=ds=#s2#", "", "12.0%" };
 	};
 
 	AtlasLoot_Data["BRDFineousDarkvire"] = {
@@ -2356,46 +2288,46 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic General Drakkisath", "=q5=ALL WILL DROP"};
     { 2, 16663, "", "=q1=Blood of the Black Dragon Champion", "=ds=#m3#", "", "100%" };
     { 3, 58720, "", "=q1=Black Dragonflight Cipher", "=ds=#m3#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Mythic General Drakkisath", "=q5=CHANCE TO DROP"};
-    { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
-    { 9, 59080, "", "=q3=Idol of the Beast Lord", "", "", "10.0%" };
-    { 10, 15730, "", "=q3=Pattern: Red Dragonscale Breastplate", "=ds=#e2#", "", "4.00%" };
+    { 4, 59001, "", "=q3=Drakkisath's Armor Cache - Chest", "=ds=#e10#", "", "100%" };
+    { 6, 0, "RoM_stellar_dice", "=q6=Mythic General Drakkisath", "=q5=CHANCE TO DROP"};
+    { 7, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 9, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 10, 59080, "", "=q3=Idol of the Beast Lord", "", "", "10.0%" };
+    { 11, 15730, "", "=q3=Pattern: Red Dragonscale Breastplate", "=ds=#e2#", "", "4.00%" };
     { 16, 0, "AO_Unknown", "=q6=Mythic General Drakkisath", "=q5=ONE WILL DROP"};
     { 17, 69582, "", "=q4=Draconian Deflector", "=ds=#w8#", "", "18.0%" };
     { 18, 69611, "", "=q4=Painweaver Band", "=ds=#s13#", "", "18.0%" };
     { 19, 69613, "", "=q4=Brigam Girdle", "=ds=#a4#", "", "18.0%" };
     { 20, 69939, "", "=q4=Shadow Prowler's Cloak", "=ds=#a1#", "", "18.0%" };
     { 21, 22268, "", "=q3=Draconic Infused Emblem", "=ds=#s14#", "", "8.00%" };
-    { 22, 59001, "", "=q3=Drakkisath's Armor Cache - Chest", "=ds=#e10#", "", "4.50%" };
-    { 23, 69612, "", "=q4=Tooth of Gnarr", "=ds=#s2#", "", "4.50%" };
-    { 24, 69932, "", "=q4=Tome of the Lost", "=ds=#s15#", "", "4.50%" };
-    { 25, 69938, "", "=q4=Spellweaver's Turban", "=ds=#a1#", "", "4.50%" };
-    { 26, 12592, "", "=q4=Blackblade of Shahram", "=ds=#w10#", "", "2.00%" };
+    { 22, 69612, "", "=q4=Tooth of Gnarr", "=ds=#s2#", "", "6.00%" };
+    { 23, 69932, "", "=q4=Tome of the Lost", "=ds=#s15#", "", "6.00%" };
+    { 24, 69938, "", "=q4=Spellweaver's Turban", "=ds=#a1#", "", "6.00%" };
+    { 25, 12592, "", "=q4=Blackblade of Shahram", "=ds=#w10#", "", "2.00%" };
 	};
 
 	AtlasLoot_Data["UBRSDrakkisathHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic General Drakkisath", "=q5=ALL WILL DROP"};
     { 2, 16663, "", "=q1=Blood of the Black Dragon Champion", "=ds=#m3#", "", "100%" };
     { 3, 58720, "", "=q1=Black Dragonflight Cipher", "=ds=#m3#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Heroic General Drakkisath", "=q5=CHANCE TO DROP"};
-    { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
-    { 9, 59080, "", "=q3=Idol of the Beast Lord", "", "", "10.0%" };
-    { 10, 15730, "", "=q3=Pattern: Red Dragonscale Breastplate", "=ds=#e2#", "", "4.00%" };
+    { 4, 59001, "", "=q3=Drakkisath's Armor Cache - Chest", "=ds=#e10#", "", "100%" };
+    { 6, 0, "RoM_stellar_dice", "=q6=Heroic General Drakkisath", "=q5=CHANCE TO DROP"};
+    { 7, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 9, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 10, 59080, "", "=q3=Idol of the Beast Lord", "", "", "10.0%" };
+    { 11, 15730, "", "=q3=Pattern: Red Dragonscale Breastplate", "=ds=#e2#", "", "4.00%" };
     { 16, 0, "AO_Unknown", "=q6=Heroic General Drakkisath", "=q5=ONE WILL DROP"};
     { 17, 66582, "", "=q4=Draconian Deflector", "=ds=#w8#", "", "18.0%" };
     { 18, 66611, "", "=q4=Painweaver Band", "=ds=#s13#", "", "18.0%" };
     { 19, 66613, "", "=q4=Brigam Girdle", "=ds=#a4#", "", "18.0%" };
     { 20, 66939, "", "=q4=Shadow Prowler's Cloak", "=ds=#a1#", "", "18.0%" };
     { 21, 22268, "", "=q3=Draconic Infused Emblem", "=ds=#s14#", "", "8.00%" };
-    { 22, 59001, "", "=q3=Drakkisath's Armor Cache - Chest", "=ds=#e10#", "", "4.50%" };
-    { 23, 66612, "", "=q4=Tooth of Gnarr", "=ds=#s2#", "", "4.50%" };
-    { 24, 66932, "", "=q4=Tome of the Lost", "=ds=#s15#", "", "4.50%" };
-    { 25, 66938, "", "=q4=Spellweaver's Turban", "=ds=#a1#", "", "4.50%" };
-    { 26, 12592, "", "=q4=Blackblade of Shahram", "=ds=#w10#", "", "2.00%" };
+    { 22, 66612, "", "=q4=Tooth of Gnarr", "=ds=#s2#", "", "6.00%" };
+    { 23, 66932, "", "=q4=Tome of the Lost", "=ds=#s15#", "", "6.00%" };
+    { 24, 66938, "", "=q4=Spellweaver's Turban", "=ds=#a1#", "", "6.00%" };
+    { 25, 12592, "", "=q4=Blackblade of Shahram", "=ds=#w10#", "", "2.00%" };
 	};
 
 	AtlasLoot_Data["UBRSTrash"] = {
@@ -2870,44 +2802,18 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic Pusillin", "=q5=ALL WILL DROP"};
     { 2, 18261, "", "=q1=Book of Incantations", "=ds=#m3#", "", "100%" };
     { 3, 18267, "", "=q1=Recipe: Runn Tum Tuber Surprise", "=ds=#e2#", "", "100%" };
-    { 4, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 5, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 7, 0, "RoM_stellar_dice", "=q6=Mythic Pusillin", "=q5=CHANCE TO DROP"};
-    { 8, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 9, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Pusillin", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "10.0%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "10.0%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "10.0%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "10.0%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "10.0%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "10.0%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "10.0%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "10.0%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "10.0%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "10.0%" };
+    { 5, 0, "RoM_stellar_dice", "=q6=Mythic Pusillin", "=q5=CHANCE TO DROP"};
+    { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMEPusillinHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Pusillin", "=q5=ALL WILL DROP"};
     { 2, 18261, "", "=q1=Book of Incantations", "=ds=#m3#", "", "100%" };
     { 3, 18267, "", "=q1=Recipe: Runn Tum Tuber Surprise", "=ds=#e2#", "", "100%" };
-    { 4, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 5, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 7, 0, "RoM_stellar_dice", "=q6=Heroic Pusillin", "=q5=CHANCE TO DROP"};
-    { 8, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 9, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Pusillin", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "10.0%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "10.0%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "10.0%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "10.0%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "10.0%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "10.0%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "10.0%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "10.0%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "10.0%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "10.0%" };
+    { 5, 0, "RoM_stellar_dice", "=q6=Heroic Pusillin", "=q5=CHANCE TO DROP"};
+    { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMEZevrimThornhoof"] = {
@@ -2922,55 +2828,29 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["DMEZevrimThornhoofMYTHIC"] = {
-    { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic Zevrim Thornhoof", "=q5=ALL WILL DROP"};
-    { 2, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 3, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Mythic Zevrim Thornhoof", "=q5=CHANCE TO DROP"};
-    { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 59081, "", "=q3=Idol of Verdant Renewal", "", "", "10.0%" };
-    { 10, 0, "AO_Unknown", "=q6=Mythic Zevrim Thornhoof", "=q5=ONE WILL DROP"};
-    { 11, 69773, "", "=q4=Helm of Awareness", "=ds=#a4#", "", "20.0%" };
-    { 12, 69779, "", "=q4=Satyr's Bow", "=ds=#w2#", "", "20.0%" };
-    { 13, 18319, "", "=q3=Fervent Helm", "=ds=#a3#", "", "8.00%" };
-    { 14, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "4.33%" };
-    { 15, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "4.33%" };
-    { 16, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "4.33%" };
-    { 17, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "4.33%" };
-    { 18, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "4.33%" };
-    { 19, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "4.33%" };
-    { 20, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "4.33%" };
-    { 21, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "4.33%" };
-    { 22, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "4.33%" };
-    { 23, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "4.33%" };
-    { 24, 69767, "", "=q4=Gloves of Shadowy Mist", "=ds=#a1#", "", "4.33%" };
-    { 25, 69769, "", "=q4=Clever Hat", "=ds=#a2#", "", "4.33%" };
+    { 1, 0, "RoM_stellar_dice", "=q6=Mythic Zevrim Thornhoof", "=q5=CHANCE TO DROP"};
+    { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 4, 59081, "", "=q3=Idol of Verdant Renewal", "", "", "10.0%" };
+    { 6, 0, "AO_Unknown", "=q6=Mythic Zevrim Thornhoof", "=q5=ONE WILL DROP"};
+    { 7, 69767, "", "=q4=Gloves of Shadowy Mist", "=ds=#a1#", "", "26.0%" };
+    { 8, 69769, "", "=q4=Clever Hat", "=ds=#a2#", "", "26.0%" };
+    { 9, 69773, "", "=q4=Helm of Awareness", "=ds=#a4#", "", "20.0%" };
+    { 10, 69779, "", "=q4=Satyr's Bow", "=ds=#w2#", "", "20.0%" };
+    { 11, 18319, "", "=q3=Fervent Helm", "=ds=#a3#", "", "8.00%" };
 	};
 
 	AtlasLoot_Data["DMEZevrimThornhoofHEROIC"] = {
-    { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Zevrim Thornhoof", "=q5=ALL WILL DROP"};
-    { 2, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 3, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Heroic Zevrim Thornhoof", "=q5=CHANCE TO DROP"};
-    { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 59081, "", "=q3=Idol of Verdant Renewal", "", "", "10.0%" };
-    { 10, 0, "AO_Unknown", "=q6=Heroic Zevrim Thornhoof", "=q5=ONE WILL DROP"};
-    { 11, 66773, "", "=q4=Helm of Awareness", "=ds=#a4#", "", "20.0%" };
-    { 12, 66779, "", "=q4=Satyr's Bow", "=ds=#w2#", "", "20.0%" };
-    { 13, 18319, "", "=q3=Fervent Helm", "=ds=#a3#", "", "8.00%" };
-    { 14, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "4.33%" };
-    { 15, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "4.33%" };
-    { 16, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "4.33%" };
-    { 17, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "4.33%" };
-    { 18, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "4.33%" };
-    { 19, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "4.33%" };
-    { 20, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "4.33%" };
-    { 21, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "4.33%" };
-    { 22, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "4.33%" };
-    { 23, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "4.33%" };
-    { 24, 66767, "", "=q4=Gloves of Shadowy Mist", "=ds=#a1#", "", "4.33%" };
-    { 25, 66769, "", "=q4=Clever Hat", "=ds=#a2#", "", "4.33%" };
+    { 1, 0, "RoM_stellar_dice", "=q6=Heroic Zevrim Thornhoof", "=q5=CHANCE TO DROP"};
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 4, 59081, "", "=q3=Idol of Verdant Renewal", "", "", "10.0%" };
+    { 6, 0, "AO_Unknown", "=q6=Heroic Zevrim Thornhoof", "=q5=ONE WILL DROP"};
+    { 7, 66767, "", "=q4=Gloves of Shadowy Mist", "=ds=#a1#", "", "26.0%" };
+    { 8, 66769, "", "=q4=Clever Hat", "=ds=#a2#", "", "26.0%" };
+    { 9, 66773, "", "=q4=Helm of Awareness", "=ds=#a4#", "", "20.0%" };
+    { 10, 66779, "", "=q4=Satyr's Bow", "=ds=#w2#", "", "20.0%" };
+    { 11, 18319, "", "=q3=Fervent Helm", "=ds=#a3#", "", "8.00%" };
 	};
 
 	AtlasLoot_Data["DMELethtendris"] = {
@@ -2985,32 +2865,28 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMELethtendrisMYTHIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic Lethtendris", "=q5=ALL WILL DROP"};
-    { 2, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 3, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 4, 18426, "", "=q1=Lethtendris's Web", "=ds=#m3#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Mythic Lethtendris", "=q5=CHANCE TO DROP"};
-    { 7, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 10, 0, "AO_Unknown", "=q6=Mythic Lethtendris", "=q5=ONE WILL DROP"};
-    { 11, 69764, "", "=q4=Lethtendris's Wand", "=ds=#w12#", "", "30.0%" };
-    { 12, 69765, "", "=q4=Band of Vigor", "=ds=#s13#", "", "30.0%" };
-    { 13, 69781, "", "=q4=Felhide Cap", "=ds=#a2#", "", "30.0%" };
-    { 14, 69771, "", "=q4=Quel'dorei Channeling Rod", "=ds=#w9#", "", "10.0%" };
+    { 2, 18426, "", "=q1=Lethtendris's Web", "=ds=#m3#", "", "100%" };
+    { 4, 0, "RoM_stellar_dice", "=q6=Mythic Lethtendris", "=q5=CHANCE TO DROP"};
+    { 5, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 6, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 0, "AO_Unknown", "=q6=Mythic Lethtendris", "=q5=ONE WILL DROP"};
+    { 9, 69764, "", "=q4=Lethtendris's Wand", "=ds=#w12#", "", "30.0%" };
+    { 10, 69765, "", "=q4=Band of Vigor", "=ds=#s13#", "", "30.0%" };
+    { 11, 69781, "", "=q4=Felhide Cap", "=ds=#a2#", "", "30.0%" };
+    { 12, 69771, "", "=q4=Quel'dorei Channeling Rod", "=ds=#w9#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["DMELethtendrisHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lethtendris", "=q5=ALL WILL DROP"};
-    { 2, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 3, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 4, 18426, "", "=q1=Lethtendris's Web", "=ds=#m3#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Heroic Lethtendris", "=q5=CHANCE TO DROP"};
-    { 7, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 10, 0, "AO_Unknown", "=q6=Heroic Lethtendris", "=q5=ONE WILL DROP"};
-    { 11, 66764, "", "=q4=Lethtendris's Wand", "=ds=#w12#", "", "30.0%" };
-    { 12, 66765, "", "=q4=Band of Vigor", "=ds=#s13#", "", "30.0%" };
-    { 13, 66781, "", "=q4=Felhide Cap", "=ds=#a2#", "", "30.0%" };
-    { 14, 66771, "", "=q4=Quel'dorei Channeling Rod", "=ds=#w9#", "", "10.0%" };
+    { 2, 18426, "", "=q1=Lethtendris's Web", "=ds=#m3#", "", "100%" };
+    { 4, 0, "RoM_stellar_dice", "=q6=Heroic Lethtendris", "=q5=CHANCE TO DROP"};
+    { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 0, "AO_Unknown", "=q6=Heroic Lethtendris", "=q5=ONE WILL DROP"};
+    { 9, 66764, "", "=q4=Lethtendris's Wand", "=ds=#w12#", "", "30.0%" };
+    { 10, 66765, "", "=q4=Band of Vigor", "=ds=#s13#", "", "30.0%" };
+    { 11, 66781, "", "=q4=Felhide Cap", "=ds=#a2#", "", "30.0%" };
+    { 12, 66771, "", "=q4=Quel'dorei Channeling Rod", "=ds=#w9#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["DMEPimgib"] = {
@@ -3019,23 +2895,17 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["DMEPimgibMYTHIC"] = {
-    { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic Pimgib", "=q5=ALL WILL DROP"};
-    { 2, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 3, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Mythic Pimgib", "=q5=CHANCE TO DROP"};
-    { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 18354, "", "=q3=Pimgib's Collar", "=ds=#s14#", "", "14.0%" };
+    { 1, 0, "RoM_stellar_dice", "=q6=Mythic Pimgib", "=q5=CHANCE TO DROP"};
+    { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 4, 18354, "", "=q3=Pimgib's Collar", "=ds=#s14#", "", "14.0%" };
 	};
 
 	AtlasLoot_Data["DMEPimgibHEROIC"] = {
-    { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Pimgib", "=q5=ALL WILL DROP"};
-    { 2, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 3, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Heroic Pimgib", "=q5=CHANCE TO DROP"};
-    { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 18354, "", "=q3=Pimgib's Collar", "=ds=#s14#", "", "14.0%" };
+    { 1, 0, "RoM_stellar_dice", "=q6=Heroic Pimgib", "=q5=CHANCE TO DROP"};
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 4, 18354, "", "=q3=Pimgib's Collar", "=ds=#s14#", "", "14.0%" };
 	};
 
 	AtlasLoot_Data["DMEHydro"] = {
@@ -3055,57 +2925,33 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["DMEHydroMYTHIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic Hydrospawn", "=q5=ALL WILL DROP"};
     { 2, 18299, "", "=q1=Hydrospawn Essence", "=ds=#m3#", "", "100%" };
-    { 3, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 4, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Mythic Hydrospawn", "=q5=CHANCE TO DROP"};
-    { 7, 22527, "", "=q1=Core of Elements", "=ds=#m3#", "", "63.0%" };
-    { 8, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 9, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 10, 7080, "", "=q2=Essence of Water", "=ds=#e7#", "", "11.0%" };
-    { 12, 0, "AO_Unknown", "=q6=Mythic Hydrospawn", "=q5=ONE WILL DROP"};
+    { 4, 0, "RoM_stellar_dice", "=q6=Mythic Hydrospawn", "=q5=CHANCE TO DROP"};
+    { 5, 22527, "", "=q1=Core of Elements", "=ds=#m3#", "", "63.0%" };
+    { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 7080, "", "=q2=Essence of Water", "=ds=#e7#", "", "11.0%" };
+    { 10, 0, "AO_Unknown", "=q6=Mythic Hydrospawn", "=q5=ONE WILL DROP"};
+    { 11, 69766, "", "=q4=Breakwater Legguards", "=ds=#a4#", "", "25.0%" };
+    { 12, 69768, "", "=q4=Riptide Shoes", "=ds=#a1#", "", "25.0%" };
     { 13, 69775, "", "=q4=Tempest Talisman", "=ds=#s2#", "", "20.0%" };
     { 14, 69778, "", "=q4=Waterspout Boots", "=ds=#a2#", "", "20.0%" };
     { 15, 69780, "", "=q4=Waveslicer", "=ds=#w1#", "", "10.0%" };
-    { 16, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "4.17%" };
-    { 17, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "4.17%" };
-    { 18, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "4.17%" };
-    { 19, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "4.17%" };
-    { 20, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "4.17%" };
-    { 21, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "4.17%" };
-    { 22, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "4.17%" };
-    { 23, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "4.17%" };
-    { 24, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "4.17%" };
-    { 25, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "4.17%" };
-    { 26, 69766, "", "=q4=Breakwater Legguards", "=ds=#a4#", "", "4.17%" };
-    { 27, 69768, "", "=q4=Riptide Shoes", "=ds=#a1#", "", "4.17%" };
 	};
 
 	AtlasLoot_Data["DMEHydroHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Hydrospawn", "=q5=ALL WILL DROP"};
     { 2, 18299, "", "=q1=Hydrospawn Essence", "=ds=#m3#", "", "100%" };
-    { 3, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 4, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Heroic Hydrospawn", "=q5=CHANCE TO DROP"};
-    { 7, 22527, "", "=q1=Core of Elements", "=ds=#m3#", "", "63.0%" };
-    { 8, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 9, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 10, 7080, "", "=q2=Essence of Water", "=ds=#e7#", "", "11.0%" };
-    { 12, 0, "AO_Unknown", "=q6=Heroic Hydrospawn", "=q5=ONE WILL DROP"};
+    { 4, 0, "RoM_stellar_dice", "=q6=Heroic Hydrospawn", "=q5=CHANCE TO DROP"};
+    { 5, 22527, "", "=q1=Core of Elements", "=ds=#m3#", "", "63.0%" };
+    { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 7080, "", "=q2=Essence of Water", "=ds=#e7#", "", "11.0%" };
+    { 10, 0, "AO_Unknown", "=q6=Heroic Hydrospawn", "=q5=ONE WILL DROP"};
+    { 11, 66766, "", "=q4=Breakwater Legguards", "=ds=#a4#", "", "25.0%" };
+    { 12, 66768, "", "=q4=Riptide Shoes", "=ds=#a1#", "", "25.0%" };
     { 13, 66775, "", "=q4=Tempest Talisman", "=ds=#s2#", "", "20.0%" };
     { 14, 66778, "", "=q4=Waterspout Boots", "=ds=#a2#", "", "20.0%" };
     { 15, 66780, "", "=q4=Waveslicer", "=ds=#w1#", "", "10.0%" };
-    { 16, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "4.17%" };
-    { 17, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "4.17%" };
-    { 18, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "4.17%" };
-    { 19, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "4.17%" };
-    { 20, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "4.17%" };
-    { 21, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "4.17%" };
-    { 22, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "4.17%" };
-    { 23, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "4.17%" };
-    { 24, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "4.17%" };
-    { 25, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "4.17%" };
-    { 26, 66766, "", "=q4=Breakwater Legguards", "=ds=#a4#", "", "4.17%" };
-    { 27, 66768, "", "=q4=Riptide Shoes", "=ds=#a1#", "", "4.17%" };
 	};
 
 	AtlasLoot_Data["DMEAlzzin"] = {
@@ -3128,24 +2974,42 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMEAlzzinMYTHIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic Alzzin the Wildshaper", "=q5=ALL WILL DROP"};
-    { 2, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 3, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 4, 58716, "", "=q1=Scepter of Sylvan Corruption", "=ds=#m3#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Mythic Alzzin the Wildshaper", "=q5=CHANCE TO DROP"};
-    { 7, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 9, 59082, "", "=q3=Totem of the Warpwood", "", "", "10.0%" };
+    { 2, 58716, "", "=q1=Scepter of Sylvan Corruption", "=ds=#m3#", "", "100%" };
+    { 4, 0, "RoM_stellar_dice", "=q6=Mythic Alzzin the Wildshaper", "=q5=CHANCE TO DROP"};
+    { 5, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 6, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 7, 59082, "", "=q3=Totem of the Warpwood", "", "", "10.0%" };
+    { 16, 0, "AO_Unknown", "=q6=Mythic Alzzin the Wildshaper", "=q5=ONE WILL DROP"};
+    { 17, 18310, "", "=q3=Fiendish Machete", "=ds=#w10#", "", "10.0%" };
+    { 18, 18315, "", "=q3=Ring of Demonic Potency", "=ds=#s13#", "", "10.0%" };
+    { 19, 18326, "", "=q3=Razor Gauntlets", "=ds=#a4#", "", "10.0%" };
+    { 20, 69770, "", "=q4=Gloves of Restoration", "=ds=#a2#", "", "10.0%" };
+    { 21, 69772, "", "=q4=Energized Chestplate", "=ds=#a4#", "", "10.0%" };
+    { 22, 69774, "", "=q4=Ring of Demonic Guile", "=ds=#s13#", "", "10.0%" };
+    { 23, 69776, "", "=q4=Merciful Greaves", "=ds=#a3#", "", "10.0%" };
+    { 24, 69777, "", "=q4=Energetic Rod", "=ds=#w6#", "", "10.0%" };
+    { 25, 69782, "", "=q4=Whipvine Cord", "=ds=#a1#", "", "10.0%" };
+    { 26, 69783, "", "=q4=Shadewood Cloak", "=ds=#a1#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["DMEAlzzinHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Alzzin the Wildshaper", "=q5=ALL WILL DROP"};
-    { 2, 18332, "", "=q2=Libram of Rapidity", "=ds=#e2#", "", "100%" };
-    { 3, 18333, "", "=q2=Libram of Focus", "=ds=#e2#", "", "100%" };
-    { 4, 58716, "", "=q1=Scepter of Sylvan Corruption", "=ds=#m3#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Heroic Alzzin the Wildshaper", "=q5=CHANCE TO DROP"};
-    { 7, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 9, 59082, "", "=q3=Totem of the Warpwood", "", "", "10.0%" };
+    { 2, 58716, "", "=q1=Scepter of Sylvan Corruption", "=ds=#m3#", "", "100%" };
+    { 4, 0, "RoM_stellar_dice", "=q6=Heroic Alzzin the Wildshaper", "=q5=CHANCE TO DROP"};
+    { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 7, 59082, "", "=q3=Totem of the Warpwood", "", "", "10.0%" };
+    { 16, 0, "AO_Unknown", "=q6=Heroic Alzzin the Wildshaper", "=q5=ONE WILL DROP"};
+    { 17, 18310, "", "=q3=Fiendish Machete", "=ds=#w10#", "", "10.0%" };
+    { 18, 18315, "", "=q3=Ring of Demonic Potency", "=ds=#s13#", "", "10.0%" };
+    { 19, 18326, "", "=q3=Razor Gauntlets", "=ds=#a4#", "", "10.0%" };
+    { 20, 66770, "", "=q4=Gloves of Restoration", "=ds=#a2#", "", "10.0%" };
+    { 21, 66772, "", "=q4=Energized Chestplate", "=ds=#a4#", "", "10.0%" };
+    { 22, 66774, "", "=q4=Ring of Demonic Guile", "=ds=#s13#", "", "10.0%" };
+    { 23, 66776, "", "=q4=Merciful Greaves", "=ds=#a3#", "", "10.0%" };
+    { 24, 66777, "", "=q4=Energetic Rod", "=ds=#w6#", "", "10.0%" };
+    { 25, 66782, "", "=q4=Whipvine Cord", "=ds=#a1#", "", "10.0%" };
+    { 26, 66783, "", "=q4=Shadewood Cloak", "=ds=#a1#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["DMEIsalien"] = {
@@ -3302,24 +3166,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 59083, "", "=q3=Libram of the Ogre's Crest", "", "", "10.0%" };
     { 6, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "5.00%" };
     { 8, 0, "AO_Unknown", "=q6=Mythic Guard Fengus", "=q5=ONE WILL DROP"};
-    { 9, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "5.56%" };
-    { 10, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "5.56%" };
-    { 11, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "5.56%" };
-    { 12, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "5.56%" };
-    { 13, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "5.56%" };
-    { 14, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "5.56%" };
-    { 15, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "5.56%" };
-    { 16, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "5.56%" };
-    { 17, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "5.56%" };
-    { 18, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "5.56%" };
-    { 19, 69818, "", "=q4=Robe of Combustion", "=ds=#a1#", "", "5.56%" };
-    { 20, 69819, "", "=q4=Hyena Hide Belt", "=ds=#a2#", "", "5.56%" };
-    { 21, 69820, "", "=q4=Modest Armguards", "=ds=#a3#", "", "5.56%" };
-    { 22, 69821, "", "=q4=Gallant's Wristguards", "=ds=#a4#", "", "5.56%" };
-    { 23, 69822, "", "=q4=Unsophisticated Hand Cannon", "=ds=#w5#", "", "5.56%" };
-    { 24, 69823, "", "=q4=Jagged Bone Fist", "=ds=#w13#", "", "5.56%" };
-    { 25, 69824, "", "=q4=Ogre Pocket Knife", "=ds=#w10#", "", "5.56%" };
-    { 26, 69825, "", "=q4=Gordok Nose Ring", "=ds=#s13#", "", "5.56%" };
+    { 9, 69818, "", "=q4=Robe of Combustion", "=ds=#a1#", "", "12.5%" };
+    { 10, 69819, "", "=q4=Hyena Hide Belt", "=ds=#a2#", "", "12.5%" };
+    { 11, 69820, "", "=q4=Modest Armguards", "=ds=#a3#", "", "12.5%" };
+    { 12, 69821, "", "=q4=Gallant's Wristguards", "=ds=#a4#", "", "12.5%" };
+    { 13, 69822, "", "=q4=Unsophisticated Hand Cannon", "=ds=#w5#", "", "12.5%" };
+    { 14, 69823, "", "=q4=Jagged Bone Fist", "=ds=#w13#", "", "12.5%" };
+    { 15, 69824, "", "=q4=Ogre Pocket Knife", "=ds=#w10#", "", "12.5%" };
+    { 16, 69825, "", "=q4=Gordok Nose Ring", "=ds=#s13#", "", "12.5%" };
 	};
 
 	AtlasLoot_Data["DMNGuardFengusHEROIC"] = {
@@ -3330,24 +3184,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 59083, "", "=q3=Libram of the Ogre's Crest", "", "", "10.0%" };
     { 6, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "5.00%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Guard Fengus", "=q5=ONE WILL DROP"};
-    { 9, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "5.56%" };
-    { 10, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "5.56%" };
-    { 11, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "5.56%" };
-    { 12, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "5.56%" };
-    { 13, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "5.56%" };
-    { 14, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "5.56%" };
-    { 15, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "5.56%" };
-    { 16, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "5.56%" };
-    { 17, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "5.56%" };
-    { 18, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "5.56%" };
-    { 19, 66818, "", "=q4=Robe of Combustion", "=ds=#a1#", "", "5.56%" };
-    { 20, 66819, "", "=q4=Hyena Hide Belt", "=ds=#a2#", "", "5.56%" };
-    { 21, 66820, "", "=q4=Modest Armguards", "=ds=#a3#", "", "5.56%" };
-    { 22, 66821, "", "=q4=Gallant's Wristguards", "=ds=#a4#", "", "5.56%" };
-    { 23, 66822, "", "=q4=Unsophisticated Hand Cannon", "=ds=#w5#", "", "5.56%" };
-    { 24, 66823, "", "=q4=Jagged Bone Fist", "=ds=#w13#", "", "5.56%" };
-    { 25, 66824, "", "=q4=Ogre Pocket Knife", "=ds=#w10#", "", "5.56%" };
-    { 26, 66825, "", "=q4=Gordok Nose Ring", "=ds=#s13#", "", "5.56%" };
+    { 9, 66818, "", "=q4=Robe of Combustion", "=ds=#a1#", "", "12.5%" };
+    { 10, 66819, "", "=q4=Hyena Hide Belt", "=ds=#a2#", "", "12.5%" };
+    { 11, 66820, "", "=q4=Modest Armguards", "=ds=#a3#", "", "12.5%" };
+    { 12, 66821, "", "=q4=Gallant's Wristguards", "=ds=#a4#", "", "12.5%" };
+    { 13, 66822, "", "=q4=Unsophisticated Hand Cannon", "=ds=#w5#", "", "12.5%" };
+    { 14, 66823, "", "=q4=Jagged Bone Fist", "=ds=#w13#", "", "12.5%" };
+    { 15, 66824, "", "=q4=Ogre Pocket Knife", "=ds=#w10#", "", "12.5%" };
+    { 16, 66825, "", "=q4=Gordok Nose Ring", "=ds=#s13#", "", "12.5%" };
 	};
 
 	AtlasLoot_Data["DMNThimblejack"] = {
@@ -3394,30 +3238,20 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
     { 5, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "5.00%" };
-    { 7, 0, "AO_Unknown", "=q6=Mythic Guard Slip'kik", "=q5=ONE WILL DROP"};
-    { 8, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "4.35%" };
-    { 9, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "4.35%" };
-    { 10, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "4.35%" };
-    { 11, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "4.35%" };
-    { 12, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "4.35%" };
-    { 13, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "4.35%" };
-    { 14, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "4.35%" };
-    { 15, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "4.35%" };
-    { 16, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "4.35%" };
-    { 17, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "4.35%" };
-    { 18, 69818, "", "=q4=Robe of Combustion", "=ds=#a1#", "", "4.35%" };
-    { 19, 69819, "", "=q4=Hyena Hide Belt", "=ds=#a2#", "", "4.35%" };
-    { 20, 69820, "", "=q4=Modest Armguards", "=ds=#a3#", "", "4.35%" };
-    { 21, 69821, "", "=q4=Gallant's Wristguards", "=ds=#a4#", "", "4.35%" };
-    { 22, 69822, "", "=q4=Unsophisticated Hand Cannon", "=ds=#w5#", "", "4.35%" };
-    { 23, 69823, "", "=q4=Jagged Bone Fist", "=ds=#w13#", "", "4.35%" };
-    { 24, 69824, "", "=q4=Ogre Pocket Knife", "=ds=#w10#", "", "4.35%" };
-    { 25, 69825, "", "=q4=Gordok Nose Ring", "=ds=#s13#", "", "4.35%" };
-    { 26, 69833, "", "=q4=Bulky Iron Spaulders", "=ds=#a4#", "", "4.35%" };
-    { 27, 69834, "", "=q4=Denwatcher's Shoulders", "=ds=#a3#", "", "4.35%" };
-    { 28, 69835, "", "=q4=Heliotrope Cloak", "=ds=#a1#", "", "4.35%" };
-    { 29, 69836, "", "=q4=Sublime Wristguards", "=ds=#a1#", "", "4.35%" };
-    { 30, 69837, "", "=q4=Hedgecutter", "=ds=#w1#", "", "4.35%" };
+    { 16, 0, "AO_Unknown", "=q6=Mythic Guard Slip'kik", "=q5=ONE WILL DROP"};
+    { 17, 69818, "", "=q4=Robe of Combustion", "=ds=#a1#", "", "7.69%" };
+    { 18, 69819, "", "=q4=Hyena Hide Belt", "=ds=#a2#", "", "7.69%" };
+    { 19, 69820, "", "=q4=Modest Armguards", "=ds=#a3#", "", "7.69%" };
+    { 20, 69821, "", "=q4=Gallant's Wristguards", "=ds=#a4#", "", "7.69%" };
+    { 21, 69822, "", "=q4=Unsophisticated Hand Cannon", "=ds=#w5#", "", "7.69%" };
+    { 22, 69823, "", "=q4=Jagged Bone Fist", "=ds=#w13#", "", "7.69%" };
+    { 23, 69824, "", "=q4=Ogre Pocket Knife", "=ds=#w10#", "", "7.69%" };
+    { 24, 69825, "", "=q4=Gordok Nose Ring", "=ds=#s13#", "", "7.69%" };
+    { 25, 69833, "", "=q4=Bulky Iron Spaulders", "=ds=#a4#", "", "7.69%" };
+    { 26, 69834, "", "=q4=Denwatcher's Shoulders", "=ds=#a3#", "", "7.69%" };
+    { 27, 69835, "", "=q4=Heliotrope Cloak", "=ds=#a1#", "", "7.69%" };
+    { 28, 69836, "", "=q4=Sublime Wristguards", "=ds=#a1#", "", "7.69%" };
+    { 29, 69837, "", "=q4=Hedgecutter", "=ds=#w1#", "", "7.69%" };
 	};
 
 	AtlasLoot_Data["DMNGuardSlipkikHEROIC"] = {
@@ -3426,30 +3260,20 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
     { 5, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "5.00%" };
-    { 7, 0, "AO_Unknown", "=q6=Heroic Guard Slip'kik", "=q5=ONE WILL DROP"};
-    { 8, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "4.35%" };
-    { 9, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "4.35%" };
-    { 10, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "4.35%" };
-    { 11, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "4.35%" };
-    { 12, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "4.35%" };
-    { 13, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "4.35%" };
-    { 14, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "4.35%" };
-    { 15, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "4.35%" };
-    { 16, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "4.35%" };
-    { 17, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "4.35%" };
-    { 18, 66818, "", "=q4=Robe of Combustion", "=ds=#a1#", "", "4.35%" };
-    { 19, 66819, "", "=q4=Hyena Hide Belt", "=ds=#a2#", "", "4.35%" };
-    { 20, 66820, "", "=q4=Modest Armguards", "=ds=#a3#", "", "4.35%" };
-    { 21, 66821, "", "=q4=Gallant's Wristguards", "=ds=#a4#", "", "4.35%" };
-    { 22, 66822, "", "=q4=Unsophisticated Hand Cannon", "=ds=#w5#", "", "4.35%" };
-    { 23, 66823, "", "=q4=Jagged Bone Fist", "=ds=#w13#", "", "4.35%" };
-    { 24, 66824, "", "=q4=Ogre Pocket Knife", "=ds=#w10#", "", "4.35%" };
-    { 25, 66825, "", "=q4=Gordok Nose Ring", "=ds=#s13#", "", "4.35%" };
-    { 26, 66833, "", "=q4=Bulky Iron Spaulders", "=ds=#a4#", "", "4.35%" };
-    { 27, 66834, "", "=q4=Denwatcher's Shoulders", "=ds=#a3#", "", "4.35%" };
-    { 28, 66835, "", "=q4=Heliotrope Cloak", "=ds=#a1#", "", "4.35%" };
-    { 29, 66836, "", "=q4=Sublime Wristguards", "=ds=#a1#", "", "4.35%" };
-    { 30, 66837, "", "=q4=Hedgecutter", "=ds=#w1#", "", "4.35%" };
+    { 16, 0, "AO_Unknown", "=q6=Heroic Guard Slip'kik", "=q5=ONE WILL DROP"};
+    { 17, 66818, "", "=q4=Robe of Combustion", "=ds=#a1#", "", "7.69%" };
+    { 18, 66819, "", "=q4=Hyena Hide Belt", "=ds=#a2#", "", "7.69%" };
+    { 19, 66820, "", "=q4=Modest Armguards", "=ds=#a3#", "", "7.69%" };
+    { 20, 66821, "", "=q4=Gallant's Wristguards", "=ds=#a4#", "", "7.69%" };
+    { 21, 66822, "", "=q4=Unsophisticated Hand Cannon", "=ds=#w5#", "", "7.69%" };
+    { 22, 66823, "", "=q4=Jagged Bone Fist", "=ds=#w13#", "", "7.69%" };
+    { 23, 66824, "", "=q4=Ogre Pocket Knife", "=ds=#w10#", "", "7.69%" };
+    { 24, 66825, "", "=q4=Gordok Nose Ring", "=ds=#s13#", "", "7.69%" };
+    { 25, 66833, "", "=q4=Bulky Iron Spaulders", "=ds=#a4#", "", "7.69%" };
+    { 26, 66834, "", "=q4=Denwatcher's Shoulders", "=ds=#a3#", "", "7.69%" };
+    { 27, 66835, "", "=q4=Heliotrope Cloak", "=ds=#a1#", "", "7.69%" };
+    { 28, 66836, "", "=q4=Sublime Wristguards", "=ds=#a1#", "", "7.69%" };
+    { 29, 66837, "", "=q4=Hedgecutter", "=ds=#w1#", "", "7.69%" };
 	};
 
 	AtlasLoot_Data["DMNCaptainKromcrush"] = {
@@ -3467,21 +3291,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Captain Kromcrush", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "7.14%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "7.14%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "7.14%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "7.14%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "7.14%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "7.14%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "7.14%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "7.14%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "7.14%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "7.14%" };
-    { 27, 69838, "", "=q4=Monstrous Glaive", "=ds=#w7#", "", "7.14%" };
-    { 28, 69839, "", "=q4=Kromcrush's Chestplate", "=ds=#a4#", "", "7.14%" };
-    { 29, 69840, "", "=q4=Mugger's Belt", "=ds=#a2#", "", "7.14%" };
-    { 30, 69841, "", "=q4=Boots of the Full Moon", "=ds=#a1#", "", "7.14%" };
+    { 6, 0, "AO_Unknown", "=q6=Mythic Captain Kromcrush", "=q5=ONE WILL DROP"};
+    { 7, 69838, "", "=q4=Monstrous Glaive", "=ds=#w7#", "", "25.0%" };
+    { 8, 69839, "", "=q4=Kromcrush's Chestplate", "=ds=#a4#", "", "25.0%" };
+    { 9, 69840, "", "=q4=Mugger's Belt", "=ds=#a2#", "", "25.0%" };
+    { 10, 69841, "", "=q4=Boots of the Full Moon", "=ds=#a1#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMNCaptainKromcrushHEROIC"] = {
@@ -3489,21 +3303,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Captain Kromcrush", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "7.14%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "7.14%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "7.14%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "7.14%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "7.14%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "7.14%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "7.14%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "7.14%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "7.14%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "7.14%" };
-    { 27, 66838, "", "=q4=Monstrous Glaive", "=ds=#w7#", "", "7.14%" };
-    { 28, 66839, "", "=q4=Kromcrush's Chestplate", "=ds=#a4#", "", "7.14%" };
-    { 29, 66840, "", "=q4=Mugger's Belt", "=ds=#a2#", "", "7.14%" };
-    { 30, 66841, "", "=q4=Boots of the Full Moon", "=ds=#a1#", "", "7.14%" };
+    { 6, 0, "AO_Unknown", "=q6=Heroic Captain Kromcrush", "=q5=ONE WILL DROP"};
+    { 7, 66838, "", "=q4=Monstrous Glaive", "=ds=#w7#", "", "25.0%" };
+    { 8, 66839, "", "=q4=Kromcrush's Chestplate", "=ds=#a4#", "", "25.0%" };
+    { 9, 66840, "", "=q4=Mugger's Belt", "=ds=#a2#", "", "25.0%" };
+    { 10, 66841, "", "=q4=Boots of the Full Moon", "=ds=#a1#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMNChoRush"] = {
@@ -3518,42 +3322,22 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "RoM_stellar_dice", "=q6=Mythic Cho'Rush the Observer", "=q5=CHANCE TO DROP"};
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Cho'Rush the Observer", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "7.14%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "7.14%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "7.14%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "7.14%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "7.14%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "7.14%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "7.14%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "7.14%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "7.14%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "7.14%" };
-    { 27, 69829, "", "=q4=Mana Channeling Wand", "=ds=#w12#", "", "7.14%" };
-    { 28, 69830, "", "=q4=Cho'Rush's Blade", "=ds=#w10#", "", "7.14%" };
-    { 29, 69831, "", "=q4=Observer's Shield", "=ds=#w8#", "", "7.14%" };
-    { 30, 69832, "", "=q4=Insightful Hood", "=ds=#a2#", "", "7.14%" };
+    { 5, 0, "AO_Unknown", "=q6=Mythic Cho'Rush the Observer", "=q5=ONE WILL DROP"};
+    { 6, 69829, "", "=q4=Mana Channeling Wand", "=ds=#w12#", "", "25.0%" };
+    { 7, 69830, "", "=q4=Cho'Rush's Blade", "=ds=#w10#", "", "25.0%" };
+    { 8, 69831, "", "=q4=Observer's Shield", "=ds=#w8#", "", "25.0%" };
+    { 9, 69832, "", "=q4=Insightful Hood", "=ds=#a2#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMNChoRushHEROIC"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Heroic Cho'Rush the Observer", "=q5=CHANCE TO DROP"};
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Cho'Rush the Observer", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "7.14%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "7.14%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "7.14%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "7.14%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "7.14%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "7.14%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "7.14%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "7.14%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "7.14%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "7.14%" };
-    { 27, 66829, "", "=q4=Mana Channeling Wand", "=ds=#w12#", "", "7.14%" };
-    { 28, 66830, "", "=q4=Cho'Rush's Blade", "=ds=#w10#", "", "7.14%" };
-    { 29, 66831, "", "=q4=Observer's Shield", "=ds=#w8#", "", "7.14%" };
-    { 30, 66832, "", "=q4=Insightful Hood", "=ds=#a2#", "", "7.14%" };
+    { 5, 0, "AO_Unknown", "=q6=Heroic Cho'Rush the Observer", "=q5=ONE WILL DROP"};
+    { 6, 66829, "", "=q4=Mana Channeling Wand", "=ds=#w12#", "", "25.0%" };
+    { 7, 66830, "", "=q4=Cho'Rush's Blade", "=ds=#w10#", "", "25.0%" };
+    { 8, 66831, "", "=q4=Observer's Shield", "=ds=#w8#", "", "25.0%" };
+    { 9, 66832, "", "=q4=Insightful Hood", "=ds=#a2#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMNKingGordok"] = {
@@ -3582,26 +3366,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 8, 59084, "", "=q3=Totem of Tribal Bonds", "", "", "10.0%" };
-    { 10, 0, "AO_Unknown", "=q6=Mythic King Gordok", "=q5=ONE WILL DROP"};
-    { 11, 57101, "", "=q4=Formula: Nexus Shard", "=ds=#e2#", "", "10.0%" };
-    { 12, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "5.00%" };
-    { 13, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "5.00%" };
-    { 14, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "5.00%" };
-    { 15, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "5.00%" };
-    { 16, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "5.00%" };
-    { 17, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "5.00%" };
-    { 18, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "5.00%" };
-    { 19, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "5.00%" };
-    { 20, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "5.00%" };
-    { 21, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "5.00%" };
-    { 22, 69842, "", "=q4=Barbarous Blade", "=ds=#w10#", "", "5.00%" };
-    { 23, 69843, "", "=q4=Grimy Metal Boots", "=ds=#a4#", "", "5.00%" };
-    { 24, 69844, "", "=q4=Band of the Ogre King", "=ds=#s13#", "", "5.00%" };
-    { 25, 69845, "", "=q4=Brightly Glowing Stone", "=ds=#s15#", "", "5.00%" };
-    { 26, 69846, "", "=q4=Leggings of Destruction", "=ds=#a3#", "", "5.00%" };
-    { 27, 69847, "", "=q4=Bracers of Prosperity", "=ds=#a2#", "", "5.00%" };
-    { 28, 69848, "", "=q4=Crown of the Ogre King", "=ds=#a1#", "", "5.00%" };
-    { 29, 69849, "", "=q4=Harmonious Gauntlets", "=ds=#a3#", "", "5.00%" };
+    { 9, 57101, "", "=q4=Formula: Nexus Shard", "=ds=#e2#", "", "10.0%" };
+    { 16, 0, "AO_Unknown", "=q6=Mythic King Gordok", "=q5=ONE WILL DROP"};
+    { 17, 69842, "", "=q4=Barbarous Blade", "=ds=#w10#", "", "12.5%" };
+    { 18, 69843, "", "=q4=Grimy Metal Boots", "=ds=#a4#", "", "12.5%" };
+    { 19, 69844, "", "=q4=Band of the Ogre King", "=ds=#s13#", "", "12.5%" };
+    { 20, 69845, "", "=q4=Brightly Glowing Stone", "=ds=#s15#", "", "12.5%" };
+    { 21, 69846, "", "=q4=Leggings of Destruction", "=ds=#a3#", "", "12.5%" };
+    { 22, 69847, "", "=q4=Bracers of Prosperity", "=ds=#a2#", "", "12.5%" };
+    { 23, 69848, "", "=q4=Crown of the Ogre King", "=ds=#a1#", "", "12.5%" };
+    { 24, 69849, "", "=q4=Harmonious Gauntlets", "=ds=#a3#", "", "12.5%" };
 	};
 
 	AtlasLoot_Data["DMNKingGordokHEROIC"] = {
@@ -3612,26 +3386,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 8, 59084, "", "=q3=Totem of Tribal Bonds", "", "", "10.0%" };
-    { 10, 0, "AO_Unknown", "=q6=Heroic King Gordok", "=q5=ONE WILL DROP"};
-    { 11, 57101, "", "=q4=Formula: Nexus Shard", "=ds=#e2#", "", "10.0%" };
-    { 12, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "5.00%" };
-    { 13, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "5.00%" };
-    { 14, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "5.00%" };
-    { 15, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "5.00%" };
-    { 16, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "5.00%" };
-    { 17, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "5.00%" };
-    { 18, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "5.00%" };
-    { 19, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "5.00%" };
-    { 20, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "5.00%" };
-    { 21, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "5.00%" };
-    { 22, 66842, "", "=q4=Barbarous Blade", "=ds=#w10#", "", "5.00%" };
-    { 23, 66843, "", "=q4=Grimy Metal Boots", "=ds=#a4#", "", "5.00%" };
-    { 24, 66844, "", "=q4=Band of the Ogre King", "=ds=#s13#", "", "5.00%" };
-    { 25, 66845, "", "=q4=Brightly Glowing Stone", "=ds=#s15#", "", "5.00%" };
-    { 26, 66846, "", "=q4=Leggings of Destruction", "=ds=#a3#", "", "5.00%" };
-    { 27, 66847, "", "=q4=Bracers of Prosperity", "=ds=#a2#", "", "5.00%" };
-    { 28, 66848, "", "=q4=Crown of the Ogre King", "=ds=#a1#", "", "5.00%" };
-    { 29, 66849, "", "=q4=Harmonious Gauntlets", "=ds=#a3#", "", "5.00%" };
+    { 9, 57101, "", "=q4=Formula: Nexus Shard", "=ds=#e2#", "", "10.0%" };
+    { 16, 0, "AO_Unknown", "=q6=Heroic King Gordok", "=q5=ONE WILL DROP"};
+    { 17, 66842, "", "=q4=Barbarous Blade", "=ds=#w10#", "", "12.5%" };
+    { 18, 66843, "", "=q4=Grimy Metal Boots", "=ds=#a4#", "", "12.5%" };
+    { 19, 66844, "", "=q4=Band of the Ogre King", "=ds=#s13#", "", "12.5%" };
+    { 20, 66845, "", "=q4=Brightly Glowing Stone", "=ds=#s15#", "", "12.5%" };
+    { 21, 66846, "", "=q4=Leggings of Destruction", "=ds=#a3#", "", "12.5%" };
+    { 22, 66847, "", "=q4=Bracers of Prosperity", "=ds=#a2#", "", "12.5%" };
+    { 23, 66848, "", "=q4=Crown of the Ogre King", "=ds=#a1#", "", "12.5%" };
+    { 24, 66849, "", "=q4=Harmonious Gauntlets", "=ds=#a3#", "", "12.5%" };
 	};
 
 	AtlasLoot_Data["DMNTRIBUTERUN"] = {
@@ -3677,21 +3441,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 59085, "", "=q3=Idol of the Eldreth", "", "", "10.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Tendris Warpwood", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "7.14%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "7.14%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "7.14%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "7.14%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "7.14%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "7.14%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "7.14%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "7.14%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "7.14%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "7.14%" };
-    { 27, 69788, "", "=q4=Petrified Bark Shield", "=ds=#w8#", "", "7.14%" };
-    { 28, 69789, "", "=q4=Stoneflower Staff", "=ds=#w9#", "", "7.14%" };
-    { 29, 69809, "", "=q4=Tanglemoss Leggings", "=ds=#a2#", "", "7.14%" };
-    { 30, 69812, "", "=q4=Warpwood Binding", "=ds=#a3#", "", "7.14%" };
+    { 6, 0, "AO_Unknown", "=q6=Mythic Tendris Warpwood", "=q5=ONE WILL DROP"};
+    { 7, 69788, "", "=q4=Petrified Bark Shield", "=ds=#w8#", "", "25.0%" };
+    { 8, 69789, "", "=q4=Stoneflower Staff", "=ds=#w9#", "", "25.0%" };
+    { 9, 69809, "", "=q4=Tanglemoss Leggings", "=ds=#a2#", "", "25.0%" };
+    { 10, 69812, "", "=q4=Warpwood Binding", "=ds=#a3#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMWTendrisWarpwoodHEROIC"] = {
@@ -3699,21 +3453,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 59085, "", "=q3=Idol of the Eldreth", "", "", "10.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Tendris Warpwood", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "7.14%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "7.14%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "7.14%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "7.14%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "7.14%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "7.14%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "7.14%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "7.14%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "7.14%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "7.14%" };
-    { 27, 66788, "", "=q4=Petrified Bark Shield", "=ds=#w8#", "", "7.14%" };
-    { 28, 66789, "", "=q4=Stoneflower Staff", "=ds=#w9#", "", "7.14%" };
-    { 29, 66809, "", "=q4=Tanglemoss Leggings", "=ds=#a2#", "", "7.14%" };
-    { 30, 66812, "", "=q4=Warpwood Binding", "=ds=#a3#", "", "7.14%" };
+    { 6, 0, "AO_Unknown", "=q6=Heroic Tendris Warpwood", "=q5=ONE WILL DROP"};
+    { 7, 66788, "", "=q4=Petrified Bark Shield", "=ds=#w8#", "", "25.0%" };
+    { 8, 66789, "", "=q4=Stoneflower Staff", "=ds=#w9#", "", "25.0%" };
+    { 9, 66809, "", "=q4=Tanglemoss Leggings", "=ds=#a2#", "", "25.0%" };
+    { 10, 66812, "", "=q4=Warpwood Binding", "=ds=#a3#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMWIllyannaRavenoak"] = {
@@ -3728,42 +3472,22 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "RoM_stellar_dice", "=q6=Mythic Illyanna Ravenoak", "=q5=CHANCE TO DROP"};
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Illyanna Ravenoak", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "7.14%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "7.14%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "7.14%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "7.14%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "7.14%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "7.14%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "7.14%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "7.14%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "7.14%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "7.14%" };
-    { 27, 69784, "", "=q4=Well Balanced Axe", "=ds=#w1#", "", "7.14%" };
-    { 28, 69785, "", "=q4=Gauntlets of Accuracy", "=ds=#a3#", "", "7.14%" };
-    { 29, 69802, "", "=q4=Force Imbued Gauntlets", "=ds=#a4#", "", "7.14%" };
-    { 30, 69805, "", "=q4=Padre's Trousers", "=ds=#a1#", "", "7.14%" };
+    { 5, 0, "AO_Unknown", "=q6=Mythic Illyanna Ravenoak", "=q5=ONE WILL DROP"};
+    { 6, 69784, "", "=q4=Well Balanced Axe", "=ds=#w1#", "", "25.0%" };
+    { 7, 69785, "", "=q4=Gauntlets of Accuracy", "=ds=#a3#", "", "25.0%" };
+    { 8, 69802, "", "=q4=Force Imbued Gauntlets", "=ds=#a4#", "", "25.0%" };
+    { 9, 69805, "", "=q4=Padre's Trousers", "=ds=#a1#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMWIllyannaRavenoakHEROIC"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Heroic Illyanna Ravenoak", "=q5=CHANCE TO DROP"};
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Illyanna Ravenoak", "=q5=ONE WILL DROP"};
-    { 17, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "7.14%" };
-    { 18, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "7.14%" };
-    { 19, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "7.14%" };
-    { 20, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "7.14%" };
-    { 21, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "7.14%" };
-    { 22, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "7.14%" };
-    { 23, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "7.14%" };
-    { 24, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "7.14%" };
-    { 25, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "7.14%" };
-    { 26, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "7.14%" };
-    { 27, 66784, "", "=q4=Well Balanced Axe", "=ds=#w1#", "", "7.14%" };
-    { 28, 66785, "", "=q4=Gauntlets of Accuracy", "=ds=#a3#", "", "7.14%" };
-    { 29, 66802, "", "=q4=Force Imbued Gauntlets", "=ds=#a4#", "", "7.14%" };
-    { 30, 66805, "", "=q4=Padre's Trousers", "=ds=#a1#", "", "7.14%" };
+    { 5, 0, "AO_Unknown", "=q6=Heroic Illyanna Ravenoak", "=q5=ONE WILL DROP"};
+    { 6, 66784, "", "=q4=Well Balanced Axe", "=ds=#w1#", "", "25.0%" };
+    { 7, 66785, "", "=q4=Gauntlets of Accuracy", "=ds=#a3#", "", "25.0%" };
+    { 8, 66802, "", "=q4=Force Imbued Gauntlets", "=ds=#a4#", "", "25.0%" };
+    { 9, 66805, "", "=q4=Padre's Trousers", "=ds=#a1#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["DMWMagisterKalendris"] = {
@@ -3782,21 +3506,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 22309, "", "=q2=Pattern: Big Bag of Enchantment", "=ds=#e2#", "", "15.0%" };
     { 6, 0, "AO_Unknown", "=q6=Mythic Magister Kalendris", "=q5=ONE WILL DROP"};
-    { 7, 69794, "", "=q4=Flamescarred Shoulders", "=ds=#a2#", "", "20.0%" };
-    { 8, 69816, "", "=q4=Elder Magus Pendant", "=ds=#s2#", "", "20.0%" };
-    { 9, 69791, "", "=q4=Mindtap Talisman", "=ds=#s14#", "", "9.00%" };
-    { 10, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "4.25%" };
-    { 11, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "4.25%" };
-    { 12, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "4.25%" };
-    { 13, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "4.25%" };
-    { 14, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "4.25%" };
-    { 15, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "4.25%" };
-    { 16, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "4.25%" };
-    { 17, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "4.25%" };
-    { 18, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "4.25%" };
-    { 19, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "4.25%" };
-    { 20, 69786, "", "=q4=Amplifying Cloak", "=ds=#a1#", "", "4.25%" };
-    { 21, 69787, "", "=q4=Magically Sealed Bracers", "=ds=#a4#", "", "4.25%" };
+    { 7, 69786, "", "=q4=Amplifying Cloak", "=ds=#a1#", "", "25.5%" };
+    { 8, 69787, "", "=q4=Magically Sealed Bracers", "=ds=#a4#", "", "25.5%" };
+    { 9, 69794, "", "=q4=Flamescarred Shoulders", "=ds=#a2#", "", "20.0%" };
+    { 10, 69816, "", "=q4=Elder Magus Pendant", "=ds=#s2#", "", "20.0%" };
+    { 11, 69791, "", "=q4=Mindtap Talisman", "=ds=#s14#", "", "9.00%" };
 	};
 
 	AtlasLoot_Data["DMWMagisterKalendrisHEROIC"] = {
@@ -3805,21 +3519,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 22309, "", "=q2=Pattern: Big Bag of Enchantment", "=ds=#e2#", "", "15.0%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Magister Kalendris", "=q5=ONE WILL DROP"};
-    { 7, 66794, "", "=q4=Flamescarred Shoulders", "=ds=#a2#", "", "20.0%" };
-    { 8, 66816, "", "=q4=Elder Magus Pendant", "=ds=#s2#", "", "20.0%" };
-    { 9, 66791, "", "=q4=Mindtap Talisman", "=ds=#s14#", "", "9.00%" };
-    { 10, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "4.25%" };
-    { 11, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "4.25%" };
-    { 12, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "4.25%" };
-    { 13, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "4.25%" };
-    { 14, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "4.25%" };
-    { 15, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "4.25%" };
-    { 16, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "4.25%" };
-    { 17, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "4.25%" };
-    { 18, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "4.25%" };
-    { 19, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "4.25%" };
-    { 20, 66786, "", "=q4=Amplifying Cloak", "=ds=#a1#", "", "4.25%" };
-    { 21, 66787, "", "=q4=Magically Sealed Bracers", "=ds=#a4#", "", "4.25%" };
+    { 7, 66786, "", "=q4=Amplifying Cloak", "=ds=#a1#", "", "25.5%" };
+    { 8, 66787, "", "=q4=Magically Sealed Bracers", "=ds=#a4#", "", "25.5%" };
+    { 9, 66794, "", "=q4=Flamescarred Shoulders", "=ds=#a2#", "", "20.0%" };
+    { 10, 66816, "", "=q4=Elder Magus Pendant", "=ds=#s2#", "", "20.0%" };
+    { 11, 66791, "", "=q4=Mindtap Talisman", "=ds=#s14#", "", "9.00%" };
 	};
 
 	AtlasLoot_Data["DMWTsuzee"] = {
@@ -3874,27 +3578,17 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 6, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 24345, "", "=q3=Book of Cower IV", "=ds=#e2#", "", "13.0%" };
-    { 9, 0, "AO_Unknown", "=q6=Mythic Immol'thar", "=q5=ONE WILL DROP"};
-    { 10, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "5.00%" };
-    { 11, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "5.00%" };
-    { 12, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "5.00%" };
-    { 13, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "5.00%" };
-    { 14, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "5.00%" };
-    { 15, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "5.00%" };
-    { 16, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "5.00%" };
-    { 17, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "5.00%" };
-    { 18, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "5.00%" };
-    { 19, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "5.00%" };
-    { 20, 69790, "", "=q4=Vigilance Charm", "=ds=#s14#", "", "5.00%" };
-    { 21, 69792, "", "=q4=Blade of the New Moon", "=ds=#w4#", "", "5.00%" };
-    { 22, 69797, "", "=q4=Quickdraw Gloves", "=ds=#a2#", "", "5.00%" };
-    { 23, 69799, "", "=q4=Odious Greaves", "=ds=#a3#", "", "5.00%" };
-    { 24, 69801, "", "=q4=Evil Eye Pendant", "=ds=#s2#", "", "5.00%" };
-    { 25, 69803, "", "=q4=Bile-etched Spaulders", "=ds=#a4#", "", "5.00%" };
-    { 26, 69804, "", "=q4=Robe of Everlasting Night", "=ds=#a1#", "", "5.00%" };
-    { 27, 69808, "", "=q4=Cloak of the Cosmos", "=ds=#a1#", "", "5.00%" };
-    { 28, 69810, "", "=q4=Eyestalk Cord", "=ds=#a2#", "", "5.00%" };
-    { 29, 69813, "", "=q4=Demon Howl Wristguards", "=ds=#a3#", "", "5.00%" };
+    { 16, 0, "AO_Unknown", "=q6=Mythic Immol'thar", "=q5=ONE WILL DROP"};
+    { 17, 69790, "", "=q4=Vigilance Charm", "=ds=#s14#", "", "10.0%" };
+    { 18, 69792, "", "=q4=Blade of the New Moon", "=ds=#w4#", "", "10.0%" };
+    { 19, 69797, "", "=q4=Quickdraw Gloves", "=ds=#a2#", "", "10.0%" };
+    { 20, 69799, "", "=q4=Odious Greaves", "=ds=#a3#", "", "10.0%" };
+    { 21, 69801, "", "=q4=Evil Eye Pendant", "=ds=#s2#", "", "10.0%" };
+    { 22, 69803, "", "=q4=Bile-etched Spaulders", "=ds=#a4#", "", "10.0%" };
+    { 23, 69804, "", "=q4=Robe of Everlasting Night", "=ds=#a1#", "", "10.0%" };
+    { 24, 69808, "", "=q4=Cloak of the Cosmos", "=ds=#a1#", "", "10.0%" };
+    { 25, 69810, "", "=q4=Eyestalk Cord", "=ds=#a2#", "", "10.0%" };
+    { 26, 69813, "", "=q4=Demon Howl Wristguards", "=ds=#a3#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["DMWImmoltharHEROIC"] = {
@@ -3904,27 +3598,17 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 24345, "", "=q3=Book of Cower IV", "=ds=#e2#", "", "13.0%" };
-    { 9, 0, "AO_Unknown", "=q6=Heroic Immol'thar", "=q5=ONE WILL DROP"};
-    { 10, 18356, "", "=q3=Garona: A Study on Stealth and Treachery", "=ds=#m3#", "", "5.00%" };
-    { 11, 18357, "", "=q3=Codex of Defense", "=ds=#m3#", "", "5.00%" };
-    { 12, 18358, "", "=q3=The Arcanist's Cookbook", "=ds=#m3#", "", "5.00%" };
-    { 13, 18359, "", "=q3=The Light and How to Swing It", "=ds=#m3#", "", "5.00%" };
-    { 14, 18360, "", "=q3=Harnessing Shadows", "=ds=#m3#", "", "5.00%" };
-    { 15, 18361, "", "=q3=The Greatest Race of Hunters", "=ds=#m3#", "", "5.00%" };
-    { 16, 18362, "", "=q3=Holy Bologna: What the Light Won't Tell You", "=ds=#m3#", "", "5.00%" };
-    { 17, 18363, "", "=q3=Frost Shock and You", "=ds=#m3#", "", "5.00%" };
-    { 18, 18364, "", "=q3=The Emerald Dream", "=ds=#m3#", "", "5.00%" };
-    { 19, 18401, "", "=q4=Foror's Compendium of Dragon Slaying", "=ds=#m3#", "", "5.00%" };
-    { 20, 66790, "", "=q4=Vigilance Charm", "=ds=#s14#", "", "5.00%" };
-    { 21, 66792, "", "=q4=Blade of the New Moon", "=ds=#w4#", "", "5.00%" };
-    { 22, 66797, "", "=q4=Quickdraw Gloves", "=ds=#a2#", "", "5.00%" };
-    { 23, 66799, "", "=q4=Odious Greaves", "=ds=#a3#", "", "5.00%" };
-    { 24, 66801, "", "=q4=Evil Eye Pendant", "=ds=#s2#", "", "5.00%" };
-    { 25, 66803, "", "=q4=Bile-etched Spaulders", "=ds=#a4#", "", "5.00%" };
-    { 26, 66804, "", "=q4=Robe of Everlasting Night", "=ds=#a1#", "", "5.00%" };
-    { 27, 66808, "", "=q4=Cloak of the Cosmos", "=ds=#a1#", "", "5.00%" };
-    { 28, 66810, "", "=q4=Eyestalk Cord", "=ds=#a2#", "", "5.00%" };
-    { 29, 66813, "", "=q4=Demon Howl Wristguards", "=ds=#a3#", "", "5.00%" };
+    { 16, 0, "AO_Unknown", "=q6=Heroic Immol'thar", "=q5=ONE WILL DROP"};
+    { 17, 66790, "", "=q4=Vigilance Charm", "=ds=#s14#", "", "10.0%" };
+    { 18, 66792, "", "=q4=Blade of the New Moon", "=ds=#w4#", "", "10.0%" };
+    { 19, 66797, "", "=q4=Quickdraw Gloves", "=ds=#a2#", "", "10.0%" };
+    { 20, 66799, "", "=q4=Odious Greaves", "=ds=#a3#", "", "10.0%" };
+    { 21, 66801, "", "=q4=Evil Eye Pendant", "=ds=#s2#", "", "10.0%" };
+    { 22, 66803, "", "=q4=Bile-etched Spaulders", "=ds=#a4#", "", "10.0%" };
+    { 23, 66804, "", "=q4=Robe of Everlasting Night", "=ds=#a1#", "", "10.0%" };
+    { 24, 66808, "", "=q4=Cloak of the Cosmos", "=ds=#a1#", "", "10.0%" };
+    { 25, 66810, "", "=q4=Eyestalk Cord", "=ds=#a2#", "", "10.0%" };
+    { 26, 66813, "", "=q4=Demon Howl Wristguards", "=ds=#a3#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["DMWHelnurath"] = {
@@ -4065,20 +3749,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 57457, "", "=q1=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Viscous Fallout", "=q5=ONE WILL DROP"};
-    { 17, 9452, "", "=q3=Hydrocane", "=ds=#w9#", "", "7.69%" };
-    { 18, 9453, "", "=q3=Toxic Revenger", "=ds=#w4#", "", "7.69%" };
-    { 19, 9485, "", "=q3=Vibroblade", "=ds=#w1#", "", "7.69%" };
-    { 20, 9486, "", "=q3=Supercharger Battle Axe", "=ds=#w1#", "", "7.69%" };
-    { 21, 9487, "", "=q3=Hi-tech Supergun", "=ds=#w5#", "", "7.69%" };
-    { 22, 9488, "", "=q3=Oscillating Power Hammer", "=ds=#w6#", "", "7.69%" };
-    { 23, 9490, "", "=q3=Gizmotron Megachopper", "=ds=#w10#", "", "7.69%" };
-    { 24, 9491, "", "=q3=Hotshot Pilot's Gloves", "=ds=#a1#", "", "7.69%" };
-    { 25, 9508, "", "=q3=Mechbuilder's Overalls", "=ds=#a1#", "", "7.69%" };
-    { 26, 9509, "", "=q3=Petrolspill Leggings", "=ds=#a2#", "", "7.69%" };
-    { 27, 9510, "", "=q3=Caverndeep Trudgers", "=ds=#a3#", "", "7.69%" };
-    { 28, 69439, "", "=q4=Acidic Walkers", "=ds=#a1#", "", "7.69%" };
-    { 29, 69451, "", "=q4=Gyromatic Icemaker", "=ds=#w12#", "", "7.69%" };
+    { 6, 0, "AO_Unknown", "=q6=Mythic Viscous Fallout", "=q5=ONE WILL DROP"};
+    { 7, 9452, "", "=q3=Hydrocane", "=ds=#w9#", "", "33.3%" };
+    { 8, 9453, "", "=q3=Toxic Revenger", "=ds=#w4#", "", "33.3%" };
+    { 9, 69439, "", "=q4=Acidic Walkers", "=ds=#a1#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["GnomeViscousFalloutHEROIC"] = {
@@ -4086,20 +3760,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 57457, "", "=q1=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Viscous Fallout", "=q5=ONE WILL DROP"};
-    { 17, 9452, "", "=q3=Hydrocane", "=ds=#w9#", "", "7.69%" };
-    { 18, 9453, "", "=q3=Toxic Revenger", "=ds=#w4#", "", "7.69%" };
-    { 19, 9485, "", "=q3=Vibroblade", "=ds=#w1#", "", "7.69%" };
-    { 20, 9486, "", "=q3=Supercharger Battle Axe", "=ds=#w1#", "", "7.69%" };
-    { 21, 9487, "", "=q3=Hi-tech Supergun", "=ds=#w5#", "", "7.69%" };
-    { 22, 9488, "", "=q3=Oscillating Power Hammer", "=ds=#w6#", "", "7.69%" };
-    { 23, 9490, "", "=q3=Gizmotron Megachopper", "=ds=#w10#", "", "7.69%" };
-    { 24, 9491, "", "=q3=Hotshot Pilot's Gloves", "=ds=#a1#", "", "7.69%" };
-    { 25, 9508, "", "=q3=Mechbuilder's Overalls", "=ds=#a1#", "", "7.69%" };
-    { 26, 9509, "", "=q3=Petrolspill Leggings", "=ds=#a2#", "", "7.69%" };
-    { 27, 9510, "", "=q3=Caverndeep Trudgers", "=ds=#a3#", "", "7.69%" };
-    { 28, 66439, "", "=q4=Acidic Walkers", "=ds=#a1#", "", "7.69%" };
-    { 29, 66451, "", "=q4=Gyromatic Icemaker", "=ds=#w12#", "", "7.69%" };
+    { 6, 0, "AO_Unknown", "=q6=Heroic Viscous Fallout", "=q5=ONE WILL DROP"};
+    { 7, 9452, "", "=q3=Hydrocane", "=ds=#w9#", "", "33.3%" };
+    { 8, 9453, "", "=q3=Toxic Revenger", "=ds=#w4#", "", "33.3%" };
+    { 9, 66439, "", "=q4=Acidic Walkers", "=ds=#a1#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["GnomeElectrocutioner"] = {
@@ -4668,18 +4332,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 57472, "", "=q1=Technique: Scroll of Shadow Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Mordresh Fire Eye", "=q5=ONE WILL DROP"};
-    { 17, 10567, "", "=q3=Quillshooter", "=ds=#w2#", "", "9.09%" };
-    { 18, 10570, "", "=q3=Manslayer", "=ds=#w1#", "", "9.09%" };
-    { 19, 10572, "", "=q3=Freezing Shard", "=ds=#w12#", "", "9.09%" };
-    { 20, 10573, "", "=q3=Boneslasher", "=ds=#w10#", "", "9.09%" };
-    { 21, 10574, "", "=q3=Corpseshroud", "=ds=#a1#", "", "9.09%" };
-    { 22, 10578, "", "=q3=Thoughtcast Boots", "=ds=#a1#", "", "9.09%" };
-    { 23, 10581, "", "=q3=Death's Head Vestment", "=ds=#a1#", "", "9.09%" };
-    { 24, 10583, "", "=q3=Quillward Harness", "=ds=#a2#", "", "9.09%" };
-    { 25, 69465, "", "=q4=Glowing Eye of Mordresh", "=ds=#s2#", "", "9.09%" };
-    { 26, 69466, "", "=q4=Mordresh's Lifeless Skull", "=ds=#s15#", "", "9.09%" };
-    { 27, 69467, "", "=q4=Deathmage Sash", "=ds=#a1#", "", "9.09%" };
+    { 6, 0, "AO_Unknown", "=q6=Mythic Mordresh Fire Eye", "=q5=ONE WILL DROP"};
+    { 7, 69465, "", "=q4=Glowing Eye of Mordresh", "=ds=#s2#", "", "33.3%" };
+    { 8, 69466, "", "=q4=Mordresh's Lifeless Skull", "=ds=#s15#", "", "33.3%" };
+    { 9, 69467, "", "=q4=Deathmage Sash", "=ds=#a1#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["RFDMordreshHEROIC"] = {
@@ -4687,18 +4343,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 57472, "", "=q1=Technique: Scroll of Shadow Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Mordresh Fire Eye", "=q5=ONE WILL DROP"};
-    { 17, 10567, "", "=q3=Quillshooter", "=ds=#w2#", "", "9.09%" };
-    { 18, 10570, "", "=q3=Manslayer", "=ds=#w1#", "", "9.09%" };
-    { 19, 10572, "", "=q3=Freezing Shard", "=ds=#w12#", "", "9.09%" };
-    { 20, 10573, "", "=q3=Boneslasher", "=ds=#w10#", "", "9.09%" };
-    { 21, 10574, "", "=q3=Corpseshroud", "=ds=#a1#", "", "9.09%" };
-    { 22, 10578, "", "=q3=Thoughtcast Boots", "=ds=#a1#", "", "9.09%" };
-    { 23, 10581, "", "=q3=Death's Head Vestment", "=ds=#a1#", "", "9.09%" };
-    { 24, 10583, "", "=q3=Quillward Harness", "=ds=#a2#", "", "9.09%" };
-    { 25, 66465, "", "=q4=Glowing Eye of Mordresh", "=ds=#s2#", "", "9.09%" };
-    { 26, 66466, "", "=q4=Mordresh's Lifeless Skull", "=ds=#s15#", "", "9.09%" };
-    { 27, 66467, "", "=q4=Deathmage Sash", "=ds=#a1#", "", "9.09%" };
+    { 6, 0, "AO_Unknown", "=q6=Heroic Mordresh Fire Eye", "=q5=ONE WILL DROP"};
+    { 7, 66465, "", "=q4=Glowing Eye of Mordresh", "=ds=#s2#", "", "33.3%" };
+    { 8, 66466, "", "=q4=Mordresh's Lifeless Skull", "=ds=#s15#", "", "33.3%" };
+    { 9, 66467, "", "=q4=Deathmage Sash", "=ds=#a1#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["RFDGlutton"] = {
@@ -4739,17 +4387,9 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 5, 0, "AO_Unknown", "=q6=Mythic Ragglesnout", "=q5=ONE WILL DROP"};
-    { 6, 69456, "", "=q4=X'caliboar", "=ds=#w10#", "", "20.0%" };
-    { 7, 10567, "", "=q3=Quillshooter", "=ds=#w2#", "", "8.00%" };
-    { 8, 10570, "", "=q3=Manslayer", "=ds=#w1#", "", "8.00%" };
-    { 9, 10572, "", "=q3=Freezing Shard", "=ds=#w12#", "", "8.00%" };
-    { 10, 10573, "", "=q3=Boneslasher", "=ds=#w10#", "", "8.00%" };
-    { 11, 10574, "", "=q3=Corpseshroud", "=ds=#a1#", "", "8.00%" };
-    { 12, 10578, "", "=q3=Thoughtcast Boots", "=ds=#a1#", "", "8.00%" };
-    { 13, 10581, "", "=q3=Death's Head Vestment", "=ds=#a1#", "", "8.00%" };
-    { 14, 10583, "", "=q3=Quillward Harness", "=ds=#a2#", "", "8.00%" };
-    { 15, 69463, "", "=q4=Savage Boar's Guard", "=ds=#w8#", "", "8.00%" };
-    { 16, 69464, "", "=q4=Boar Champion's Belt", "=ds=#a3#", "", "8.00%" };
+    { 6, 69463, "", "=q4=Savage Boar's Guard", "=ds=#w8#", "", "40.0%" };
+    { 7, 69464, "", "=q4=Boar Champion's Belt", "=ds=#a3#", "", "40.0%" };
+    { 8, 69456, "", "=q4=X'caliboar", "=ds=#w10#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["RFDRagglesnoutHEROIC"] = {
@@ -4757,17 +4397,9 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Ragglesnout", "=q5=ONE WILL DROP"};
-    { 6, 66456, "", "=q4=X'caliboar", "=ds=#w10#", "", "20.0%" };
-    { 7, 10567, "", "=q3=Quillshooter", "=ds=#w2#", "", "8.00%" };
-    { 8, 10570, "", "=q3=Manslayer", "=ds=#w1#", "", "8.00%" };
-    { 9, 10572, "", "=q3=Freezing Shard", "=ds=#w12#", "", "8.00%" };
-    { 10, 10573, "", "=q3=Boneslasher", "=ds=#w10#", "", "8.00%" };
-    { 11, 10574, "", "=q3=Corpseshroud", "=ds=#a1#", "", "8.00%" };
-    { 12, 10578, "", "=q3=Thoughtcast Boots", "=ds=#a1#", "", "8.00%" };
-    { 13, 10581, "", "=q3=Death's Head Vestment", "=ds=#a1#", "", "8.00%" };
-    { 14, 10583, "", "=q3=Quillward Harness", "=ds=#a2#", "", "8.00%" };
-    { 15, 66463, "", "=q4=Savage Boar's Guard", "=ds=#w8#", "", "8.00%" };
-    { 16, 66464, "", "=q4=Boar Champion's Belt", "=ds=#a3#", "", "8.00%" };
+    { 6, 66463, "", "=q4=Savage Boar's Guard", "=ds=#w8#", "", "40.0%" };
+    { 7, 66464, "", "=q4=Boar Champion's Belt", "=ds=#a3#", "", "40.0%" };
+    { 8, 66456, "", "=q4=X'caliboar", "=ds=#w10#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["RFDAmnennar"] = {
@@ -4795,20 +4427,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 8, 57462, "", "=q1=Technique: Scroll of Frost Resistance III", "=ds=#e2#", "", "20.0%" };
     { 9, 59062, "", "=q3=Idol of the Sleeping Wood", "", "", "10.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Amnennar the Coldbringer", "=q5=ONE WILL DROP"};
-    { 17, 10567, "", "=q3=Quillshooter", "=ds=#w2#", "", "7.69%" };
-    { 18, 10570, "", "=q3=Manslayer", "=ds=#w1#", "", "7.69%" };
-    { 19, 10572, "", "=q3=Freezing Shard", "=ds=#w12#", "", "7.69%" };
-    { 20, 10573, "", "=q3=Boneslasher", "=ds=#w10#", "", "7.69%" };
-    { 21, 10574, "", "=q3=Corpseshroud", "=ds=#a1#", "", "7.69%" };
-    { 22, 10578, "", "=q3=Thoughtcast Boots", "=ds=#a1#", "", "7.69%" };
-    { 23, 10581, "", "=q3=Death's Head Vestment", "=ds=#a1#", "", "7.69%" };
-    { 24, 10583, "", "=q3=Quillward Harness", "=ds=#a2#", "", "7.69%" };
-    { 25, 10761, "", "=q3=Coldrage Dagger", "=ds=#w4#", "", "7.69%" };
-    { 26, 69458, "", "=q4=Robes of the Lich", "=ds=#a1#", "", "7.69%" };
-    { 27, 69459, "", "=q4=Icemetal Barbute", "=ds=#a4#", "", "7.69%" };
-    { 28, 69460, "", "=q4=Deathchill Armor", "=ds=#a3#", "", "7.69%" };
-    { 29, 69461, "", "=q4=Bonefingers", "=ds=#a2#", "", "7.69%" };
+    { 11, 0, "AO_Unknown", "=q6=Mythic Amnennar the Coldbringer", "=q5=ONE WILL DROP"};
+    { 12, 10761, "", "=q3=Coldrage Dagger", "=ds=#w4#", "", "20.0%" };
+    { 13, 69458, "", "=q4=Robes of the Lich", "=ds=#a1#", "", "20.0%" };
+    { 14, 69459, "", "=q4=Icemetal Barbute", "=ds=#a4#", "", "20.0%" };
+    { 15, 69460, "", "=q4=Deathchill Armor", "=ds=#a3#", "", "20.0%" };
+    { 16, 69461, "", "=q4=Bonefingers", "=ds=#a2#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["RFDAmnennarHEROIC"] = {
@@ -4820,20 +4444,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 8, 57462, "", "=q1=Technique: Scroll of Frost Resistance III", "=ds=#e2#", "", "20.0%" };
     { 9, 59062, "", "=q3=Idol of the Sleeping Wood", "", "", "10.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Amnennar the Coldbringer", "=q5=ONE WILL DROP"};
-    { 17, 10567, "", "=q3=Quillshooter", "=ds=#w2#", "", "7.69%" };
-    { 18, 10570, "", "=q3=Manslayer", "=ds=#w1#", "", "7.69%" };
-    { 19, 10572, "", "=q3=Freezing Shard", "=ds=#w12#", "", "7.69%" };
-    { 20, 10573, "", "=q3=Boneslasher", "=ds=#w10#", "", "7.69%" };
-    { 21, 10574, "", "=q3=Corpseshroud", "=ds=#a1#", "", "7.69%" };
-    { 22, 10578, "", "=q3=Thoughtcast Boots", "=ds=#a1#", "", "7.69%" };
-    { 23, 10581, "", "=q3=Death's Head Vestment", "=ds=#a1#", "", "7.69%" };
-    { 24, 10583, "", "=q3=Quillward Harness", "=ds=#a2#", "", "7.69%" };
-    { 25, 10761, "", "=q3=Coldrage Dagger", "=ds=#w4#", "", "7.69%" };
-    { 26, 66458, "", "=q4=Robes of the Lich", "=ds=#a1#", "", "7.69%" };
-    { 27, 66459, "", "=q4=Icemetal Barbute", "=ds=#a4#", "", "7.69%" };
-    { 28, 66460, "", "=q4=Deathchill Armor", "=ds=#a3#", "", "7.69%" };
-    { 29, 66461, "", "=q4=Bonefingers", "=ds=#a2#", "", "7.69%" };
+    { 11, 0, "AO_Unknown", "=q6=Heroic Amnennar the Coldbringer", "=q5=ONE WILL DROP"};
+    { 12, 10761, "", "=q3=Coldrage Dagger", "=ds=#w4#", "", "20.0%" };
+    { 13, 66458, "", "=q4=Robes of the Lich", "=ds=#a1#", "", "20.0%" };
+    { 14, 66459, "", "=q4=Icemetal Barbute", "=ds=#a4#", "", "20.0%" };
+    { 15, 66460, "", "=q4=Deathchill Armor", "=ds=#a3#", "", "20.0%" };
+    { 16, 66461, "", "=q4=Bonefingers", "=ds=#a2#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["RFDPlaguemaw"] = {
@@ -6184,16 +5800,17 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLOKirtonostheHerald"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Kirtonos the Herald", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 4, 0, "AO_Unknown", "=q6=Kirtonos the Herald", "=q5=ONE WILL DROP"};
-    { 5, 13955, "", "=q3=Stoneform Shoulders", "=ds=#a4#", "", "11.1%" };
-    { 6, 13956, "", "=q3=Clutch of Andros", "=ds=#a1#", "", "11.1%" };
-    { 7, 13957, "", "=q3=Gargoyle Slashers", "=ds=#a2#", "", "11.1%" };
-    { 8, 13960, "", "=q3=Heart of the Fiend", "=ds=#s2#", "", "11.1%" };
-    { 9, 13967, "", "=q3=Windreaver Greaves", "=ds=#a3#", "", "11.1%" };
-    { 10, 13969, "", "=q3=Loomguard Armbraces", "=ds=#a3#", "", "11.1%" };
-    { 11, 13983, "", "=q3=Gravestone War Axe", "=ds=#w1#", "", "11.1%" };
-    { 12, 14024, "", "=q3=Frightalon", "=ds=#w4#", "", "11.1%" };
-    { 13, 16734, "", "=q3=Boots of Valor", "=ds=#a4#", "", "11.1%" };
+    { 4, 0, "RoM_stellar_dice", "=q6=Kirtonos the Herald", "=q5=CHANCE TO DROP"};
+    { 5, 16734, "", "=q3=Boots of Valor", "=ds=#a4#", "", "18.6%" };
+    { 6, 14024, "", "=q3=Frightalon", "=ds=#w4#", "", "18.5%" };
+    { 7, 13955, "", "=q3=Stoneform Shoulders", "=ds=#a4#", "", "18.3%" };
+    { 8, 13983, "", "=q3=Gravestone War Axe", "=ds=#w1#", "", "14.1%" };
+    { 10, 0, "AO_Unknown", "=q6=Kirtonos the Herald", "=q5=ONE WILL DROP"};
+    { 11, 13957, "", "=q3=Gargoyle Slashers", "=ds=#a2#", "", "18.7%" };
+    { 12, 13960, "", "=q3=Heart of the Fiend", "=ds=#s2#", "", "18.7%" };
+    { 13, 13969, "", "=q3=Loomguard Armbraces", "=ds=#a3#", "", "18.7%" };
+    { 14, 13967, "", "=q3=Windreaver Greaves", "=ds=#a3#", "", "18.7%" };
+    { 15, 13956, "", "=q3=Clutch of Andros", "=ds=#a1#", "", "18.4%" };
 	};
 
 	AtlasLoot_Data["SCHOLOKirtonostheHeraldMYTHIC"] = {
@@ -6202,16 +5819,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 4, 0, "RoM_stellar_dice", "=q6=Mythic Kirtonos the Herald", "=q5=CHANCE TO DROP"};
     { 5, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 6, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 7, 16734, "", "=q3=Boots of Valor", "=ds=#a4#", "", "18.6%" };
+    { 8, 14024, "", "=q3=Frightalon", "=ds=#w4#", "", "18.5%" };
+    { 9, 69705, "", "=q4=Stoneform Shoulders", "=ds=#a4#", "", "18.3%" };
+    { 10, 13983, "", "=q3=Gravestone War Axe", "=ds=#w1#", "", "14.1%" };
     { 16, 0, "AO_Unknown", "=q6=Mythic Kirtonos the Herald", "=q5=ONE WILL DROP"};
-    { 17, 13956, "", "=q3=Clutch of Andros", "=ds=#a1#", "", "11.1%" };
-    { 18, 13983, "", "=q3=Gravestone War Axe", "=ds=#w1#", "", "11.1%" };
-    { 19, 14024, "", "=q3=Frightalon", "=ds=#w4#", "", "11.1%" };
-    { 20, 16734, "", "=q3=Boots of Valor", "=ds=#a4#", "", "11.1%" };
-    { 21, 69705, "", "=q4=Stoneform Shoulders", "=ds=#a4#", "", "11.1%" };
-    { 22, 69706, "", "=q4=Gargoyle Slashers", "=ds=#a2#", "", "11.1%" };
-    { 23, 69707, "", "=q4=Heart of the Fiend", "=ds=#s2#", "", "11.1%" };
-    { 24, 69709, "", "=q4=Windreaver Greaves", "=ds=#a3#", "", "11.1%" };
-    { 25, 69710, "", "=q4=Loomguard Armbraces", "=ds=#a3#", "", "11.1%" };
+    { 17, 69706, "", "=q4=Gargoyle Slashers", "=ds=#a2#", "", "18.7%" };
+    { 18, 69707, "", "=q4=Heart of the Fiend", "=ds=#s2#", "", "18.7%" };
+    { 19, 69710, "", "=q4=Loomguard Armbraces", "=ds=#a3#", "", "18.7%" };
+    { 20, 69709, "", "=q4=Windreaver Greaves", "=ds=#a3#", "", "18.7%" };
+    { 21, 13956, "", "=q3=Clutch of Andros", "=ds=#a1#", "", "18.4%" };
 	};
 
 	AtlasLoot_Data["SCHOLOKirtonostheHeraldHEROIC"] = {
@@ -6220,16 +5837,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 4, 0, "RoM_stellar_dice", "=q6=Heroic Kirtonos the Herald", "=q5=CHANCE TO DROP"};
     { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 7, 16734, "", "=q3=Boots of Valor", "=ds=#a4#", "", "18.6%" };
+    { 8, 14024, "", "=q3=Frightalon", "=ds=#w4#", "", "18.5%" };
+    { 9, 66705, "", "=q4=Stoneform Shoulders", "=ds=#a4#", "", "18.3%" };
+    { 10, 13983, "", "=q3=Gravestone War Axe", "=ds=#w1#", "", "14.1%" };
     { 16, 0, "AO_Unknown", "=q6=Heroic Kirtonos the Herald", "=q5=ONE WILL DROP"};
-    { 17, 13956, "", "=q3=Clutch of Andros", "=ds=#a1#", "", "11.1%" };
-    { 18, 13983, "", "=q3=Gravestone War Axe", "=ds=#w1#", "", "11.1%" };
-    { 19, 14024, "", "=q3=Frightalon", "=ds=#w4#", "", "11.1%" };
-    { 20, 16734, "", "=q3=Boots of Valor", "=ds=#a4#", "", "11.1%" };
-    { 21, 66705, "", "=q4=Stoneform Shoulders", "=ds=#a4#", "", "11.1%" };
-    { 22, 66706, "", "=q4=Gargoyle Slashers", "=ds=#a2#", "", "11.1%" };
-    { 23, 66707, "", "=q4=Heart of the Fiend", "=ds=#s2#", "", "11.1%" };
-    { 24, 66709, "", "=q4=Windreaver Greaves", "=ds=#a3#", "", "11.1%" };
-    { 25, 66710, "", "=q4=Loomguard Armbraces", "=ds=#a3#", "", "11.1%" };
+    { 17, 66706, "", "=q4=Gargoyle Slashers", "=ds=#a2#", "", "18.7%" };
+    { 18, 66707, "", "=q4=Heart of the Fiend", "=ds=#s2#", "", "18.7%" };
+    { 19, 66710, "", "=q4=Loomguard Armbraces", "=ds=#a3#", "", "18.7%" };
+    { 20, 66709, "", "=q4=Windreaver Greaves", "=ds=#a3#", "", "18.7%" };
+    { 21, 13956, "", "=q3=Clutch of Andros", "=ds=#a1#", "", "18.4%" };
 	};
 
 	AtlasLoot_Data["SCHOLOJandiceBarov"] = {
@@ -6256,6 +5873,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 7, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 8, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 9, 69725, "", "=q4=Darkshade Gloves", "=ds=#a1#", "", "1.00%" };
+    { 16, 0, "AO_Unknown", "=q6=Mythic Jandice Barov", "=q5=ONE WILL DROP"};
+    { 17, 16701, "", "=q3=Dreadmist Mantle", "=ds=#a1#", "", "17.0%" };
+    { 18, 14541, "", "=q3=Barovian Family Sword", "=ds=#w10#", "", "13.8%" };
+    { 19, 69726, "", "=q4=Ghostloom Leggings", "=ds=#a2#", "", "13.8%" };
+    { 20, 69727, "", "=q4=Royal Cap Spaulders", "=ds=#a3#", "", "13.8%" };
+    { 21, 69859, "", "=q4=Phantasmal Cloak", "=ds=#a1#", "", "13.8%" };
+    { 22, 69860, "", "=q4=Wraithplate Leggings", "=ds=#a4#", "", "13.8%" };
+    { 23, 69959, "", "=q4=Staff of Metanoia", "=ds=#w9#", "", "13.8%" };
 	};
 
 	AtlasLoot_Data["SCHOLOJandiceBarovHEROIC"] = {
@@ -6267,6 +5892,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 7, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 8, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 9, 66725, "", "=q4=Darkshade Gloves", "=ds=#a1#", "", "1.00%" };
+    { 16, 0, "AO_Unknown", "=q6=Heroic Jandice Barov", "=q5=ONE WILL DROP"};
+    { 17, 16701, "", "=q3=Dreadmist Mantle", "=ds=#a1#", "", "17.0%" };
+    { 18, 14541, "", "=q3=Barovian Family Sword", "=ds=#w10#", "", "13.8%" };
+    { 19, 66726, "", "=q4=Ghostloom Leggings", "=ds=#a2#", "", "13.8%" };
+    { 20, 66727, "", "=q4=Royal Cap Spaulders", "=ds=#a3#", "", "13.8%" };
+    { 21, 66859, "", "=q4=Phantasmal Cloak", "=ds=#a1#", "", "13.8%" };
+    { 22, 66860, "", "=q4=Wraithplate Leggings", "=ds=#a4#", "", "13.8%" };
+    { 23, 66959, "", "=q4=Staff of Metanoia", "=ds=#w9#", "", "13.8%" };
 	};
 
 	AtlasLoot_Data["SCHOLORattlegore"] = {
@@ -6409,18 +6042,18 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 16, 0, "AO_Unknown", "=q6=Mythic Ras Frostwhisper", "=q5=ONE WILL DROP"};
-    { 17, 14487, "", "=q3=Bonechill Hammer", "=ds=#w6#", "", "8.33%" };
-    { 18, 16689, "", "=q3=Magister's Mantle", "=ds=#a1#", "", "8.33%" };
-    { 19, 69703, "", "=q4=Iceblade Hacker", "=ds=#w1#", "", "8.33%" };
-    { 20, 69716, "", "=q4=Freezing Lich Robes", "=ds=#a1#", "", "8.33%" };
-    { 21, 69717, "", "=q4=Frostbite Girdle", "=ds=#a2#", "", "8.33%" };
-    { 22, 69718, "", "=q4=Death's Clutch", "=ds=#a2#", "", "8.33%" };
-    { 23, 69719, "", "=q4=Maelstrom Leggings", "=ds=#a3#", "", "8.33%" };
-    { 24, 69720, "", "=q4=Boneclenched Gauntlets", "=ds=#a4#", "", "8.33%" };
-    { 25, 69863, "", "=q4=Shivery Handwraps", "=ds=#a1#", "", "8.33%" };
-    { 26, 69864, "", "=q4=Shadowy Mail Greaves", "=ds=#a3#", "", "8.33%" };
-    { 27, 69865, "", "=q4=Spellbound Tome", "=ds=#s15#", "", "8.33%" };
-    { 28, 69866, "", "=q4=Intricately Runed Shield", "=ds=#w8#", "", "8.33%" };
+    { 17, 14487, "", "=q3=Bonechill Hammer", "=ds=#w6#", "", "8.30%" };
+    { 18, 16689, "", "=q3=Magister's Mantle", "=ds=#a1#", "", "8.30%" };
+    { 19, 69703, "", "=q4=Iceblade Hacker", "=ds=#w1#", "", "8.30%" };
+    { 20, 69716, "", "=q4=Freezing Lich Robes", "=ds=#a1#", "", "8.30%" };
+    { 21, 69717, "", "=q4=Frostbite Girdle", "=ds=#a2#", "", "8.30%" };
+    { 22, 69718, "", "=q4=Death's Clutch", "=ds=#a2#", "", "8.30%" };
+    { 23, 69719, "", "=q4=Maelstrom Leggings", "=ds=#a3#", "", "8.30%" };
+    { 24, 69720, "", "=q4=Boneclenched Gauntlets", "=ds=#a4#", "", "8.30%" };
+    { 25, 69863, "", "=q4=Shivery Handwraps", "=ds=#a1#", "", "8.30%" };
+    { 26, 69864, "", "=q4=Shadowy Mail Greaves", "=ds=#a3#", "", "8.30%" };
+    { 27, 69865, "", "=q4=Spellbound Tome", "=ds=#s15#", "", "8.30%" };
+    { 28, 69866, "", "=q4=Intricately Runed Shield", "=ds=#w8#", "", "8.30%" };
 	};
 
 	AtlasLoot_Data["SCHOLORasFrostwhisperHEROIC"] = {
@@ -6431,18 +6064,18 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 16, 0, "AO_Unknown", "=q6=Heroic Ras Frostwhisper", "=q5=ONE WILL DROP"};
-    { 17, 14487, "", "=q3=Bonechill Hammer", "=ds=#w6#", "", "8.33%" };
-    { 18, 16689, "", "=q3=Magister's Mantle", "=ds=#a1#", "", "8.33%" };
-    { 19, 66703, "", "=q4=Iceblade Hacker", "=ds=#w1#", "", "8.33%" };
-    { 20, 66716, "", "=q4=Freezing Lich Robes", "=ds=#a1#", "", "8.33%" };
-    { 21, 66717, "", "=q4=Frostbite Girdle", "=ds=#a2#", "", "8.33%" };
-    { 22, 66718, "", "=q4=Death's Clutch", "=ds=#a2#", "", "8.33%" };
-    { 23, 66719, "", "=q4=Maelstrom Leggings", "=ds=#a3#", "", "8.33%" };
-    { 24, 66720, "", "=q4=Boneclenched Gauntlets", "=ds=#a4#", "", "8.33%" };
-    { 25, 66863, "", "=q4=Shivery Handwraps", "=ds=#a1#", "", "8.33%" };
-    { 26, 66864, "", "=q4=Shadowy Mail Greaves", "=ds=#a3#", "", "8.33%" };
-    { 27, 66865, "", "=q4=Spellbound Tome", "=ds=#s15#", "", "8.33%" };
-    { 28, 66866, "", "=q4=Intricately Runed Shield", "=ds=#w8#", "", "8.33%" };
+    { 17, 14487, "", "=q3=Bonechill Hammer", "=ds=#w6#", "", "8.30%" };
+    { 18, 16689, "", "=q3=Magister's Mantle", "=ds=#a1#", "", "8.30%" };
+    { 19, 66703, "", "=q4=Iceblade Hacker", "=ds=#w1#", "", "8.30%" };
+    { 20, 66716, "", "=q4=Freezing Lich Robes", "=ds=#a1#", "", "8.30%" };
+    { 21, 66717, "", "=q4=Frostbite Girdle", "=ds=#a2#", "", "8.30%" };
+    { 22, 66718, "", "=q4=Death's Clutch", "=ds=#a2#", "", "8.30%" };
+    { 23, 66719, "", "=q4=Maelstrom Leggings", "=ds=#a3#", "", "8.30%" };
+    { 24, 66720, "", "=q4=Boneclenched Gauntlets", "=ds=#a4#", "", "8.30%" };
+    { 25, 66863, "", "=q4=Shivery Handwraps", "=ds=#a1#", "", "8.30%" };
+    { 26, 66864, "", "=q4=Shadowy Mail Greaves", "=ds=#a3#", "", "8.30%" };
+    { 27, 66865, "", "=q4=Spellbound Tome", "=ds=#s15#", "", "8.30%" };
+    { 28, 66866, "", "=q4=Intricately Runed Shield", "=ds=#w8#", "", "8.30%" };
 	};
 
 	AtlasLoot_Data["SCHOLOKormok"] = {
@@ -6502,6 +6135,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "44.0%" };
     { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 16710, "", "=q3=Shadowcraft Bracers", "=ds=#a2#", "", "5.00%" };
+    { 9, 69853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 10, 69854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 11, 69855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 12, 69856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 13, 69857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 14, 69994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 15, 69995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLOInstructorMaliciaHEROIC"] = {
@@ -6511,6 +6152,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "44.0%" };
     { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 16710, "", "=q3=Shadowcraft Bracers", "=ds=#a2#", "", "5.00%" };
+    { 9, 66853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 10, 66854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 11, 66855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 12, 66856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 13, 66857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 14, 66994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 15, 66995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLODoctorTheolenKrastinov"] = {
@@ -6528,6 +6177,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 0, "RoM_stellar_dice", "=q6=Mythic Doctor Theolen Krastinov", "=q5=CHANCE TO DROP"};
     { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 16684, "", "=q3=Magister's Gloves", "=ds=#a1#", "", "14.0%" };
+    { 9, 69853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 10, 69854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 11, 69855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 12, 69856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 13, 69857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 14, 69994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 15, 69995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLODoctorTheolenKrastinovHEROIC"] = {
@@ -6537,6 +6194,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Doctor Theolen Krastinov", "=q5=CHANCE TO DROP"};
     { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 16684, "", "=q3=Magister's Gloves", "=ds=#a1#", "", "14.0%" };
+    { 9, 66853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 10, 66854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 11, 66855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 12, 66856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 13, 66857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 14, 66994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 15, 66995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLOLorekeeperPolkelt"] = {
@@ -6550,6 +6215,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "44.0%" };
     { 3, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 5, 16705, "", "=q3=Dreadmist Wraps", "=ds=#a1#", "", "17.0%" };
+    { 6, 69853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 7, 69854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 8, 69855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 9, 69856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 10, 69857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 11, 69994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 12, 69995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLOLorekeeperPolkeltHEROIC"] = {
@@ -6557,6 +6230,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "44.0%" };
     { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 5, 16705, "", "=q3=Dreadmist Wraps", "=ds=#a1#", "", "17.0%" };
+    { 6, 66853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 7, 66854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 8, 66855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 9, 66856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 10, 66857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 11, 66994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 12, 66995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLOTheRavenian"] = {
@@ -6574,6 +6255,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "44.0%" };
     { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 16716, "", "=q3=Wildheart Belt", "=ds=#a2#", "", "4.00%" };
+    { 9, 69853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 10, 69854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 11, 69855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 12, 69856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 13, 69857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 14, 69994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 15, 69995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLOTheRavenianHEROIC"] = {
@@ -6583,29 +6272,72 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "44.0%" };
     { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 16716, "", "=q3=Wildheart Belt", "=ds=#a2#", "", "4.00%" };
+    { 9, 66853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 10, 66854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 11, 66855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 12, 66856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 13, 66857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 14, 66994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 15, 66995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLOLordAlexeiBarov"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Lord Alexei Barov", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Lord Alexei Barov", "=q5=CHANCE TO DROP"};
-    { 5, 16722, "", "=q3=Lightforge Bracers", "=ds=#a4#", "", "5.00%" };
+    { 16, 0, "RoM_stellar_dice", "=q6=Lord Alexei Barov", "=q5=CHANCE TO DROP"};
+    { 17, 14611, "", "=q3=Bloodmail Hauberk", "=ds=#a3#", "", "8.50%" };
+    { 18, 14624, "", "=q3=Deathbone Chestplate", "=ds=#a4#", "", "8.50%" };
+    { 19, 14626, "", "=q3=Necropile Robe", "=ds=#a1#", "", "8.50%" };
+    { 20, 14637, "", "=q3=Cadaverous Armor", "=ds=#a2#", "", "8.50%" };
+    { 21, 18680, "", "=q3=Ancient Bone Bow", "=ds=#w2#", "", "8.50%" };
+    { 22, 18681, "", "=q3=Burial Shawl", "=ds=#a1#", "", "8.50%" };
+    { 23, 18682, "", "=q3=Ghoul Skin Leggings", "=ds=#a2#", "", "8.50%" };
+    { 24, 18683, "", "=q3=Hammer of the Vesper", "=ds=#w6#", "", "8.50%" };
+    { 25, 18684, "", "=q3=Dimly Opalescent Ring", "=ds=#s13#", "", "8.50%" };
+    { 26, 16722, "", "=q3=Lightforge Bracers", "=ds=#a4#", "", "5.00%" };
+    { 27, 23201, "", "=q3=Libram of Divinity", "", "", "4.00%" };
+    { 28, 23200, "", "=q3=Totem of Sustaining", "", "", "3.00%" };
 	};
 
 	AtlasLoot_Data["SCHOLOLordAlexeiBarovMYTHIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Mythic Lord Alexei Barov", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Mythic Lord Alexei Barov", "=q5=CHANCE TO DROP"};
-    { 5, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 6, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 16, 0, "RoM_stellar_dice", "=q6=Mythic Lord Alexei Barov", "=q5=CHANCE TO DROP"};
+    { 17, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 18, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 19, 14611, "", "=q3=Bloodmail Hauberk", "=ds=#a3#", "", "8.50%" };
+    { 20, 14624, "", "=q3=Deathbone Chestplate", "=ds=#a4#", "", "8.50%" };
+    { 21, 14626, "", "=q3=Necropile Robe", "=ds=#a1#", "", "8.50%" };
+    { 22, 14637, "", "=q3=Cadaverous Armor", "=ds=#a2#", "", "8.50%" };
+    { 23, 69853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "8.50%" };
+    { 24, 69854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "8.50%" };
+    { 25, 69855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "8.50%" };
+    { 26, 69856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "8.50%" };
+    { 27, 69857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "8.50%" };
+    { 28, 16722, "", "=q3=Lightforge Bracers", "=ds=#a4#", "", "5.00%" };
+    { 29, 69995, "", "=q4=Libram of Divinity", "", "", "4.00%" };
+    { 30, 69994, "", "=q4=Totem of Sustaining", "", "", "3.00%" };
 	};
 
 	AtlasLoot_Data["SCHOLOLordAlexeiBarovHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Alexei Barov", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Heroic Lord Alexei Barov", "=q5=CHANCE TO DROP"};
-    { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 16, 0, "RoM_stellar_dice", "=q6=Heroic Lord Alexei Barov", "=q5=CHANCE TO DROP"};
+    { 17, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 18, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 19, 14611, "", "=q3=Bloodmail Hauberk", "=ds=#a3#", "", "8.50%" };
+    { 20, 14624, "", "=q3=Deathbone Chestplate", "=ds=#a4#", "", "8.50%" };
+    { 21, 14626, "", "=q3=Necropile Robe", "=ds=#a1#", "", "8.50%" };
+    { 22, 14637, "", "=q3=Cadaverous Armor", "=ds=#a2#", "", "8.50%" };
+    { 23, 66853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "8.50%" };
+    { 24, 66854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "8.50%" };
+    { 25, 66855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "8.50%" };
+    { 26, 66856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "8.50%" };
+    { 27, 66857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "8.50%" };
+    { 28, 16722, "", "=q3=Lightforge Bracers", "=ds=#a4#", "", "5.00%" };
+    { 29, 66995, "", "=q4=Libram of Divinity", "", "", "4.00%" };
+    { 30, 66994, "", "=q4=Totem of Sustaining", "", "", "3.00%" };
 	};
 
 	AtlasLoot_Data["SCHOLOLadyIlluciaBarov"] = {
@@ -6622,6 +6354,13 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "48.0%" };
     { 6, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 69853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 9, 69854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 10, 69855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 11, 69856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 12, 69857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 13, 69994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 14, 69995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLOLadyIlluciaBarovHEROIC"] = {
@@ -6631,6 +6370,13 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "48.0%" };
     { 6, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 7, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 8, 66853, "", "=q4=Ancient Bone Bow", "=ds=#w2#", "", "1.11%" };
+    { 9, 66854, "", "=q4=Burial Shawl", "=ds=#a1#", "", "1.11%" };
+    { 10, 66855, "", "=q4=Ghoul Skin Leggings", "=ds=#a2#", "", "1.11%" };
+    { 11, 66856, "", "=q4=Hammer of the Vesper", "=ds=#w6#", "", "1.11%" };
+    { 12, 66857, "", "=q4=Dimly Opalescent Ring", "=ds=#s13#", "", "1.11%" };
+    { 13, 66994, "", "=q4=Totem of Sustaining", "", "", "1.11%" };
+    { 14, 66995, "", "=q4=Libram of Divinity", "", "", "1.11%" };
 	};
 
 	AtlasLoot_Data["SCHOLODarkmasterGandling"] = {
@@ -6740,40 +6486,18 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "RoM_stellar_dice", "=q6=Mythic Deathsworn Captain", "=q5=CHANCE TO DROP"};
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Mythic Deathsworn Captain", "=q5=ONE WILL DROP"};
-    { 17, 69360, "", "=q4=Haunting Blade", "=ds=#w10#", "", "60.0%" };
-    { 18, 69361, "", "=q4=Phantom Armor", "=ds=#a3#", "", "40.0%" };
-    { 19, 1318, "", "=q3=Night Reaver", "=ds=#w1#", "", "9.09%" };
-    { 20, 1482, "", "=q3=Shadowfang", "=ds=#w10#", "", "9.09%" };
-    { 21, 1483, "", "=q3=Face Smasher", "=ds=#w6#", "", "9.09%" };
-    { 22, 1484, "", "=q3=Witching Stave", "=ds=#w9#", "", "9.09%" };
-    { 23, 1489, "", "=q3=Gloomshroud Armor", "=ds=#a2#", "", "9.09%" };
-    { 24, 1935, "", "=q3=Assassin's Blade", "=ds=#w4#", "", "9.09%" };
-    { 25, 1974, "", "=q3=Mindthrust Bracers", "=ds=#a1#", "", "9.09%" };
-    { 26, 2205, "", "=q3=Duskbringer", "=ds=#w10#", "", "9.09%" };
-    { 27, 2292, "", "=q3=Necrology Robes", "=ds=#a1#", "", "9.09%" };
-    { 28, 2807, "", "=q3=Guillotine Axe", "=ds=#w1#", "", "9.09%" };
-    { 29, 3194, "", "=q3=Black Malice", "=ds=#w6#", "", "9.09%" };
+    { 5, 0, "AO_Unknown", "=q6=Mythic Deathsworn Captain", "=q5=ONE WILL DROP"};
+    { 6, 69360, "", "=q4=Haunting Blade", "=ds=#w10#", "", "60.0%" };
+    { 7, 69361, "", "=q4=Phantom Armor", "=ds=#a3#", "", "40.0%" };
 	};
 
 	AtlasLoot_Data["SFKDeathswornHEROIC"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Heroic Deathsworn Captain", "=q5=CHANCE TO DROP"};
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 16, 0, "AO_Unknown", "=q6=Heroic Deathsworn Captain", "=q5=ONE WILL DROP"};
-    { 17, 66360, "", "=q4=Haunting Blade", "=ds=#w10#", "", "60.0%" };
-    { 18, 66361, "", "=q4=Phantom Armor", "=ds=#a3#", "", "40.0%" };
-    { 19, 1318, "", "=q3=Night Reaver", "=ds=#w1#", "", "9.09%" };
-    { 20, 1482, "", "=q3=Shadowfang", "=ds=#w10#", "", "9.09%" };
-    { 21, 1483, "", "=q3=Face Smasher", "=ds=#w6#", "", "9.09%" };
-    { 22, 1484, "", "=q3=Witching Stave", "=ds=#w9#", "", "9.09%" };
-    { 23, 1489, "", "=q3=Gloomshroud Armor", "=ds=#a2#", "", "9.09%" };
-    { 24, 1935, "", "=q3=Assassin's Blade", "=ds=#w4#", "", "9.09%" };
-    { 25, 1974, "", "=q3=Mindthrust Bracers", "=ds=#a1#", "", "9.09%" };
-    { 26, 2205, "", "=q3=Duskbringer", "=ds=#w10#", "", "9.09%" };
-    { 27, 2292, "", "=q3=Necrology Robes", "=ds=#a1#", "", "9.09%" };
-    { 28, 2807, "", "=q3=Guillotine Axe", "=ds=#w1#", "", "9.09%" };
-    { 29, 3194, "", "=q3=Black Malice", "=ds=#w6#", "", "9.09%" };
+    { 5, 0, "AO_Unknown", "=q6=Heroic Deathsworn Captain", "=q5=ONE WILL DROP"};
+    { 6, 66360, "", "=q4=Haunting Blade", "=ds=#w10#", "", "60.0%" };
+    { 7, 66361, "", "=q4=Phantom Armor", "=ds=#a3#", "", "40.0%" };
 	};
 
 	AtlasLoot_Data["SFKRazorclaw"] = {
@@ -7651,6 +7375,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 7, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 8, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 9, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 16, 0, "AO_Unknown", "=q6=Mythic Ramstein the Gorger", "=q5=ONE WILL DROP"};
+    { 17, 13375, "", "=q3=Crest of Retribution", "=ds=#w8#", "", "14.7%" };
+    { 18, 13515, "", "=q3=Ramstein's Lightning Bolts", "=ds=#s14#", "", "14.7%" };
+    { 19, 69660, "", "=q4=Slavedriver's Cane", "=ds=#w9#", "", "14.7%" };
+    { 20, 69661, "", "=q4=Band of Flesh", "=ds=#s13#", "", "14.7%" };
+    { 21, 69662, "", "=q4=Soulstealer Mantle", "=ds=#a1#", "", "14.7%" };
+    { 22, 69872, "", "=q4=Animated Chain Necklace", "=ds=#s2#", "", "14.7%" };
+    { 23, 16737, "", "=q3=Gauntlets of Valor", "=ds=#a4#", "", "12.0%" };
 	};
 
 	AtlasLoot_Data["STRATRamsteintheGorgerHEROIC"] = {
@@ -7662,6 +7394,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 7, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 8, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 9, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 16, 0, "AO_Unknown", "=q6=Heroic Ramstein the Gorger", "=q5=ONE WILL DROP"};
+    { 17, 13375, "", "=q3=Crest of Retribution", "=ds=#w8#", "", "14.7%" };
+    { 18, 13515, "", "=q3=Ramstein's Lightning Bolts", "=ds=#s14#", "", "14.7%" };
+    { 19, 66660, "", "=q4=Slavedriver's Cane", "=ds=#w9#", "", "14.7%" };
+    { 20, 66661, "", "=q4=Band of Flesh", "=ds=#s13#", "", "14.7%" };
+    { 21, 66662, "", "=q4=Soulstealer Mantle", "=ds=#a1#", "", "14.7%" };
+    { 22, 66872, "", "=q4=Animated Chain Necklace", "=ds=#s2#", "", "14.7%" };
+    { 23, 16737, "", "=q3=Gauntlets of Valor", "=ds=#a4#", "", "12.0%" };
 	};
 
 	AtlasLoot_Data["STRATBaronRivendare"] = {
@@ -7697,29 +7437,29 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
     { 3, 13251, "", "=q1=Head of Baron Rivendare", "=ds=#m3#", "", "100%" };
     { 4, 58724, "", "=q1=Rivendare's Runeblade", "=ds=#m3#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Mythic Baron Rivendare", "=q5=CHANCE TO DROP"};
-    { 7, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
-    { 8, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 9, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 10, 58337, "", "=q3=Codex: Prayer of Spirit", "=ds=#e2#", "", "15.0%" };
-    { 11, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
-    { 12, 59088, "", "=q3=Libram of the Crusader's Spire", "", "", "10.0%" };
-    { 13, 69649, "", "=q4=Cape of the Black Baron", "=ds=#a1#", "", "8.70%" };
-    { 14, 13335, "", "=q4=Deathcharger's Reins", "=ds=#e10#", "", "1.00%" };
+    { 5, 59002, "", "=q3=Rivendare's Armor Cache - Legs", "=ds=#e10#", "", "100%" };
+    { 7, 0, "RoM_stellar_dice", "=q6=Mythic Baron Rivendare", "=q5=CHANCE TO DROP"};
+    { 8, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
+    { 9, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 10, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 11, 58337, "", "=q3=Codex: Prayer of Spirit", "=ds=#e2#", "", "15.0%" };
+    { 12, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 13, 59088, "", "=q3=Libram of the Crusader's Spire", "", "", "10.0%" };
+    { 14, 69649, "", "=q4=Cape of the Black Baron", "=ds=#a1#", "", "8.70%" };
+    { 15, 13335, "", "=q4=Deathcharger's Reins", "=ds=#e10#", "", "1.00%" };
     { 16, 0, "AO_Unknown", "=q6=Mythic Baron Rivendare", "=q5=ONE WILL DROP"};
-    { 17, 59002, "", "=q3=Rivendare's Armor Cache - Legs", "=ds=#e10#", "", "7.91%" };
-    { 18, 69650, "", "=q4=Dracorian Gauntlets", "=ds=#a3#", "", "7.91%" };
-    { 19, 69651, "", "=q4=Seal of Rivendare", "=ds=#s13#", "", "7.91%" };
-    { 20, 69652, "", "=q4=Robes of the Exalted", "=ds=#a1#", "", "7.91%" };
-    { 21, 69653, "", "=q4=Scepter of the Unholy", "=ds=#w6#", "", "7.91%" };
-    { 22, 69969, "", "=q4=Ritssyn's Wand of Bad Mojo", "=ds=#w12#", "", "7.91%" };
-    { 23, 69970, "", "=q4=Tunic of the Crescent Moon", "=ds=#a2#", "", "7.91%" };
-    { 24, 69971, "", "=q4=Gauntlets of Deftness", "=ds=#a3#", "", "7.91%" };
-    { 25, 69972, "", "=q4=Helm of the Executioner", "=ds=#a4#", "", "7.91%" };
-    { 26, 69973, "", "=q4=Thuzadin Mantle", "=ds=#a1#", "", "7.91%" };
-    { 27, 13361, "", "=q3=Skullforge Reaver", "=ds=#w10#", "", "6.00%" };
-    { 28, 69657, "", "=q4=Bonescraper", "=ds=#w4#", "", "6.00%" };
-    { 29, 13505, "", "=q4=Runeblade of Baron Rivendare", "=ds=#w10#", "", "1.00%" };
+    { 17, 69650, "", "=q4=Dracorian Gauntlets", "=ds=#a3#", "", "8.70%" };
+    { 18, 69651, "", "=q4=Seal of Rivendare", "=ds=#s13#", "", "8.70%" };
+    { 19, 69652, "", "=q4=Robes of the Exalted", "=ds=#a1#", "", "8.70%" };
+    { 20, 69653, "", "=q4=Scepter of the Unholy", "=ds=#w6#", "", "8.70%" };
+    { 21, 69969, "", "=q4=Ritssyn's Wand of Bad Mojo", "=ds=#w12#", "", "8.70%" };
+    { 22, 69970, "", "=q4=Tunic of the Crescent Moon", "=ds=#a2#", "", "8.70%" };
+    { 23, 69971, "", "=q4=Gauntlets of Deftness", "=ds=#a3#", "", "8.70%" };
+    { 24, 69972, "", "=q4=Helm of the Executioner", "=ds=#a4#", "", "8.70%" };
+    { 25, 69973, "", "=q4=Thuzadin Mantle", "=ds=#a1#", "", "8.70%" };
+    { 26, 13361, "", "=q3=Skullforge Reaver", "=ds=#w10#", "", "6.00%" };
+    { 27, 69657, "", "=q4=Bonescraper", "=ds=#w4#", "", "6.00%" };
+    { 28, 13505, "", "=q4=Runeblade of Baron Rivendare", "=ds=#w10#", "", "1.00%" };
 	};
 
 	AtlasLoot_Data["STRATBaronRivendareHEROIC"] = {
@@ -7727,29 +7467,29 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
     { 3, 13251, "", "=q1=Head of Baron Rivendare", "=ds=#m3#", "", "100%" };
     { 4, 58724, "", "=q1=Rivendare's Runeblade", "=ds=#m3#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Heroic Baron Rivendare", "=q5=CHANCE TO DROP"};
-    { 7, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
-    { 8, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
-    { 9, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 10, 58337, "", "=q3=Codex: Prayer of Spirit", "=ds=#e2#", "", "15.0%" };
-    { 11, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
-    { 12, 59088, "", "=q3=Libram of the Crusader's Spire", "", "", "10.0%" };
-    { 13, 66649, "", "=q4=Cape of the Black Baron", "=ds=#a1#", "", "8.70%" };
-    { 14, 13335, "", "=q4=Deathcharger's Reins", "=ds=#e10#", "", "1.00%" };
+    { 5, 59002, "", "=q3=Rivendare's Armor Cache - Legs", "=ds=#e10#", "", "100%" };
+    { 7, 0, "RoM_stellar_dice", "=q6=Heroic Baron Rivendare", "=q5=CHANCE TO DROP"};
+    { 8, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
+    { 9, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
+    { 10, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
+    { 11, 58337, "", "=q3=Codex: Prayer of Spirit", "=ds=#e2#", "", "15.0%" };
+    { 12, 57625, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 13, 59088, "", "=q3=Libram of the Crusader's Spire", "", "", "10.0%" };
+    { 14, 66649, "", "=q4=Cape of the Black Baron", "=ds=#a1#", "", "8.70%" };
+    { 15, 13335, "", "=q4=Deathcharger's Reins", "=ds=#e10#", "", "1.00%" };
     { 16, 0, "AO_Unknown", "=q6=Heroic Baron Rivendare", "=q5=ONE WILL DROP"};
-    { 17, 59002, "", "=q3=Rivendare's Armor Cache - Legs", "=ds=#e10#", "", "7.91%" };
-    { 18, 66650, "", "=q4=Dracorian Gauntlets", "=ds=#a3#", "", "7.91%" };
-    { 19, 66651, "", "=q4=Seal of Rivendare", "=ds=#s13#", "", "7.91%" };
-    { 20, 66652, "", "=q4=Robes of the Exalted", "=ds=#a1#", "", "7.91%" };
-    { 21, 66653, "", "=q4=Scepter of the Unholy", "=ds=#w6#", "", "7.91%" };
-    { 22, 66969, "", "=q4=Ritssyn's Wand of Bad Mojo", "=ds=#w12#", "", "7.91%" };
-    { 23, 66970, "", "=q4=Tunic of the Crescent Moon", "=ds=#a2#", "", "7.91%" };
-    { 24, 66971, "", "=q4=Gauntlets of Deftness", "=ds=#a3#", "", "7.91%" };
-    { 25, 66972, "", "=q4=Helm of the Executioner", "=ds=#a4#", "", "7.91%" };
-    { 26, 66973, "", "=q4=Thuzadin Mantle", "=ds=#a1#", "", "7.91%" };
-    { 27, 13361, "", "=q3=Skullforge Reaver", "=ds=#w10#", "", "6.00%" };
-    { 28, 66657, "", "=q4=Bonescraper", "=ds=#w4#", "", "6.00%" };
-    { 29, 13505, "", "=q4=Runeblade of Baron Rivendare", "=ds=#w10#", "", "1.00%" };
+    { 17, 66650, "", "=q4=Dracorian Gauntlets", "=ds=#a3#", "", "8.70%" };
+    { 18, 66651, "", "=q4=Seal of Rivendare", "=ds=#s13#", "", "8.70%" };
+    { 19, 66652, "", "=q4=Robes of the Exalted", "=ds=#a1#", "", "8.70%" };
+    { 20, 66653, "", "=q4=Scepter of the Unholy", "=ds=#w6#", "", "8.70%" };
+    { 21, 66969, "", "=q4=Ritssyn's Wand of Bad Mojo", "=ds=#w12#", "", "8.70%" };
+    { 22, 66970, "", "=q4=Tunic of the Crescent Moon", "=ds=#a2#", "", "8.70%" };
+    { 23, 66971, "", "=q4=Gauntlets of Deftness", "=ds=#a3#", "", "8.70%" };
+    { 24, 66972, "", "=q4=Helm of the Executioner", "=ds=#a4#", "", "8.70%" };
+    { 25, 66973, "", "=q4=Thuzadin Mantle", "=ds=#a1#", "", "8.70%" };
+    { 26, 13361, "", "=q3=Skullforge Reaver", "=ds=#w10#", "", "6.00%" };
+    { 27, 66657, "", "=q4=Bonescraper", "=ds=#w4#", "", "6.00%" };
+    { 28, 13505, "", "=q4=Runeblade of Baron Rivendare", "=ds=#w10#", "", "1.00%" };
 	};
 
 	AtlasLoot_Data["STRATTrash"] = {
@@ -8349,15 +8089,6 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 4, 0, "RoM_stellar_dice", "=q6=Mythic Obsidian Sentinel", "=q5=CHANCE TO DROP"};
     { 5, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 6, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Mythic Obsidian Sentinel", "=q5=ONE WILL DROP"};
-    { 9, 9383, "", "=q3=Obsidian Cleaver", "=ds=#w1#", "", "12.5%" };
-    { 10, 9392, "", "=q3=Annealed Blade", "=ds=#w10#", "", "12.5%" };
-    { 11, 9422, "", "=q3=Shadowforge Bushmaster", "=ds=#w5#", "", "12.5%" };
-    { 12, 9424, "", "=q3=Ginn-su Sword", "=ds=#w10#", "", "12.5%" };
-    { 13, 9425, "", "=q3=Pendulum of Doom", "=ds=#w1#", "", "12.5%" };
-    { 14, 9426, "", "=q3=Monolithic Bow", "=ds=#w2#", "", "12.5%" };
-    { 15, 9427, "", "=q3=Stonevault Bonebreaker", "=ds=#w6#", "", "12.5%" };
-    { 16, 9432, "", "=q3=Skullplate Bracers", "=ds=#a4#", "", "12.5%" };
 	};
 
 	AtlasLoot_Data["UldObsidianSentinelHEROIC"] = {
@@ -8366,15 +8097,6 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 4, 0, "RoM_stellar_dice", "=q6=Heroic Obsidian Sentinel", "=q5=CHANCE TO DROP"};
     { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Heroic Obsidian Sentinel", "=q5=ONE WILL DROP"};
-    { 9, 9383, "", "=q3=Obsidian Cleaver", "=ds=#w1#", "", "12.5%" };
-    { 10, 9392, "", "=q3=Annealed Blade", "=ds=#w10#", "", "12.5%" };
-    { 11, 9422, "", "=q3=Shadowforge Bushmaster", "=ds=#w5#", "", "12.5%" };
-    { 12, 9424, "", "=q3=Ginn-su Sword", "=ds=#w10#", "", "12.5%" };
-    { 13, 9425, "", "=q3=Pendulum of Doom", "=ds=#w1#", "", "12.5%" };
-    { 14, 9426, "", "=q3=Monolithic Bow", "=ds=#w2#", "", "12.5%" };
-    { 15, 9427, "", "=q3=Stonevault Bonebreaker", "=ds=#w6#", "", "12.5%" };
-    { 16, 9432, "", "=q3=Skullplate Bracers", "=ds=#a4#", "", "12.5%" };
 	};
 
 	AtlasLoot_Data["UldAncientStoneKeeper"] = {
@@ -8390,16 +8112,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 5, 0, "AO_Unknown", "=q6=Mythic Ancient Stone Keeper", "=q5=ONE WILL DROP"};
-    { 6, 9383, "", "=q3=Obsidian Cleaver", "=ds=#w1#", "", "10.0%" };
-    { 7, 9392, "", "=q3=Annealed Blade", "=ds=#w10#", "", "10.0%" };
-    { 8, 9422, "", "=q3=Shadowforge Bushmaster", "=ds=#w5#", "", "10.0%" };
-    { 9, 9424, "", "=q3=Ginn-su Sword", "=ds=#w10#", "", "10.0%" };
-    { 10, 9425, "", "=q3=Pendulum of Doom", "=ds=#w1#", "", "10.0%" };
-    { 11, 9426, "", "=q3=Monolithic Bow", "=ds=#w2#", "", "10.0%" };
-    { 12, 9427, "", "=q3=Stonevault Bonebreaker", "=ds=#w6#", "", "10.0%" };
-    { 13, 9432, "", "=q3=Skullplate Bracers", "=ds=#a4#", "", "10.0%" };
-    { 14, 69429, "", "=q4=Cragfists", "=ds=#a4#", "", "10.0%" };
-    { 15, 69430, "", "=q4=Rockshard Pauldrons", "=ds=#a3#", "", "10.0%" };
+    { 6, 69429, "", "=q4=Cragfists", "=ds=#a4#", "", "50.0%" };
+    { 7, 69430, "", "=q4=Rockshard Pauldrons", "=ds=#a3#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["UldAncientStoneKeeperHEROIC"] = {
@@ -8407,16 +8121,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Ancient Stone Keeper", "=q5=ONE WILL DROP"};
-    { 6, 9383, "", "=q3=Obsidian Cleaver", "=ds=#w1#", "", "10.0%" };
-    { 7, 9392, "", "=q3=Annealed Blade", "=ds=#w10#", "", "10.0%" };
-    { 8, 9422, "", "=q3=Shadowforge Bushmaster", "=ds=#w5#", "", "10.0%" };
-    { 9, 9424, "", "=q3=Ginn-su Sword", "=ds=#w10#", "", "10.0%" };
-    { 10, 9425, "", "=q3=Pendulum of Doom", "=ds=#w1#", "", "10.0%" };
-    { 11, 9426, "", "=q3=Monolithic Bow", "=ds=#w2#", "", "10.0%" };
-    { 12, 9427, "", "=q3=Stonevault Bonebreaker", "=ds=#w6#", "", "10.0%" };
-    { 13, 9432, "", "=q3=Skullplate Bracers", "=ds=#a4#", "", "10.0%" };
-    { 14, 66429, "", "=q4=Cragfists", "=ds=#a4#", "", "10.0%" };
-    { 15, 66430, "", "=q4=Rockshard Pauldrons", "=ds=#a3#", "", "10.0%" };
+    { 6, 66429, "", "=q4=Cragfists", "=ds=#a4#", "", "50.0%" };
+    { 7, 66430, "", "=q4=Rockshard Pauldrons", "=ds=#a3#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["UldGalgannFirehammer"] = {
