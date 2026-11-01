@@ -1,0 +1,520 @@
+From d23ae015137574b373352ff0ab3ffa56680401e3 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 09:57:14 +0000
+Subject: [PATCH] Zeppelin I-447: per-doodad grass bend - each ground-effect
+ doodad's root and tip measured from its own model (Living Azeroth's scan), so
+ atlas-card grass sways and flat decals stay still
+
+- HD::GrassBendCodes: root V = mean V of the lowest 12% of the height, tip V of the highest 12%; bend = saturate((t-0.3)/0.7)^2
+  with t = (v - rootV)/(tipV - rootV); under 0.15 yd = flat, never moves; GroundEffectDoodadWind.cdbc (37 Seyris rows) overrides
+- the bend rides as a 7-bit code in the vertex colour alpha beside the baked shadow (lit = 255 - code), written only while
+  our grass shaders are in place; grass buffers refill when that flips; the HdGrass vertex shader decodes it (new key be0092c6)
+- hdGrassBendShow <id> / hdGrassBendInfo for checking a doodad's measurement
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ WoW/Source/WorldClient/DetailDoodad.cpp      |   8 +
+ WoW/Source/WorldClient/HD/HdDetailDoodad.cpp |  56 ++++--
+ WoW/Source/WorldClient/HD/HdDetailDoodad.h   |   6 +
+ WoW/Source/WorldClient/HD/HdGrassWind.cpp    | 185 ++++++++++++++++++-
+ WoW/Source/WorldClient/HD/HdGrassWind.h      |  21 ++-
+ 5 files changed, 259 insertions(+), 17 deletions(-)
+
+diff --git a/WoW/Source/WorldClient/DetailDoodad.cpp b/WoW/Source/WorldClient/DetailDoodad.cpp
+index bae4fcdf..c255d469 100644
+--- a/WoW/Source/WorldClient/DetailDoodad.cpp
++++ b/WoW/Source/WorldClient/DetailDoodad.cpp
+@@ -30,6 +30,7 @@
+ #include "WoW/Source/WorldClient/DayNight.h"
+ #include "WoW/Source/WorldClient/DayNight__DNInfo.h"
+ #include "WoW/Source/WorldClient/HD/HdDetailDoodad.h" // HD: hdGrassLight
++#include "WoW/Source/WorldClient/HD/HdGrassWind.h" // Zeppelin I-447: per-doodad bend
+ #include "WoW/Source/WorldClient/Map.h"
+ #include "WoW/Source/WorldClient/MapChunk.h"
+ #include "WoW/Source/WorldClient/MapLight.h"
+@@ -645,6 +646,11 @@ void CDetailDoodadInstBatch::FillVertices() {
+             color = swapped;
+         }
+ 
++        // Zeppelin I-447: with our grass shaders, each vertex's bend rides in the alpha next to the baked shadow
++        // (lit = 255 - code, shadowed = code; HdDetailDoodad.cpp GrassBend)
++        const uint8_t* bend = HD::DetailDoodadBendEncoded() ? HD::GrassBendCodes(add.m_doodadId, m2Data, skin, model->m_shared) : nullptr;
++        const uint8_t lit = color.a;
++
+         if (data->m_record->m_flags & 1) {
+             if ((add.m_triIndex & 0xFC) != cell) {
+                 cell = add.m_triIndex & 0xFC;
+@@ -673,6 +679,7 @@ void CDetailDoodadInstBatch::FillVertices() {
+                 vertex->m_position.z = position.z * add.m_scale + add.m_position.z;
+                 vertex->m_normal = add.m_normal;
+                 vertex->m_color = color;
++                if (bend) vertex->m_color.a = lit ? static_cast<uint8_t>(255 - bend[j]) : bend[j]; // Zeppelin I-447
+                 vertex->m_texture = source.m_texcoord[0];
+                 vertex++;
+             }
+@@ -687,6 +694,7 @@ void CDetailDoodadInstBatch::FillVertices() {
+                 vertex->m_position.z = source.m_position.z * add.m_scale + add.m_position.z;
+                 vertex->m_normal = add.m_normal;
+                 vertex->m_color = color;
++                if (bend) vertex->m_color.a = lit ? static_cast<uint8_t>(255 - bend[j]) : bend[j]; // Zeppelin I-447
+                 vertex->m_texture = source.m_texcoord[0];
+                 vertex++;
+             }
+diff --git a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+index 5d12bf72..80986084 100644
+--- a/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
++++ b/WoW/Source/WorldClient/HD/HdDetailDoodad.cpp
+@@ -28,7 +28,8 @@ namespace {
+ // slot = 3 * POINT_LIGHTS + SHADOW  (CDetailDoodad::SetupVertexShader: SHADOW = min(shadow mode, 2); the client
+ // always asks for POINT_LIGHTS 0, slots 3..5 are ported too so a swap is all or nothing).
+ // The vertex normal is the normal of the terrain triangle under the tuft (CMapChunk::CreateDetailDoodads), the vertex
+-// colour is the terrain's vertex shading x 2 and its alpha the baked terrain shadow (0 or 1).
++// colour is the terrain's vertex shading x 2 and its alpha the baked terrain shadow (0 or 1), with our shaders in place
++// also the vertex's bend (Zeppelin I-447, GrassBend).
+ // With c49.z = 0 it computes exactly what the 3.3.5 shader does (COLOR1.yzw = 0 as Blizzard writes).
+ // With c49.z = 1 it lights the grass like WoW Forever's detaildoodad.bls (the same lighting as its terrain): the
+ // ambient comes from a sky / horizon / ground hemisphere shaded by a soft wrap of the sun (0.7 .. 1.1), and the sun
+@@ -57,7 +58,7 @@ float4 cHdGround      : register(c52);  // HD: rgb = Forever's ground ambient /
+ // Zeppelin F-237: grass wind and parting (HdGrassWind.cpp; Living Azeroth's grass motion by Morfium-G, GPL-3.0,
+ // building on wxl-grasswind by iThorgrim, WarcraftXL, GPL-3.0)
+ float4 cWind0         : register(c53);  // xyz = chunk corner in world coordinates, w = time (s)
+-float4 cWind1         : register(c54);  // x = anchor, y = 1 / (1 - anchor), z = amplitude (yd at strength 1), w = flutter (yd)
++float4 cWind1         : register(c54);  // z = amplitude (yd at strength 1), w = flutter (yd); xy unused
+ float4 cWind2         : register(c55);  // xy = 1 / grid spacing, zw = grid origin in cells + 0.5
+ float4 cWind3         : register(c56);  // x = flutter speed, yz = flutter phase per yard, w = push strength (yd)
+ float4 cWind4         : register(c57);  // xyz = the player (centre of the unit range)
+@@ -81,14 +82,28 @@ float3 PointLight(int i, float3 vp, float3 n)
+ }
+ #endif
+ 
+-// Zeppelin F-237: world-plane offset of a grass vertex (position lp in the chunk, uv): the wind grid, bilinear, with
+-// a per-blade flutter that grows in gusts, plus the parting around the nearest units. uv.y is 1 at the foot of the
+-// blade and 0 at its tip, so the foot stays put on any slope.
+-float2 GrassOffset(float3 lp, float2 uv)
++// Zeppelin I-447: the vertex colour's alpha carries the baked terrain shadow and the vertex's bend, written by
++// CDetailDoodadInstBatch::FillVertices from each doodad's own model (HD::GrassBendCodes): lit = 255 - code,
++// shadowed = code, code = bend (0..63, 0 at the foot, 63 at the tip) + 64 when the doodad takes no wind (parting only).
++// Returns the shadow (0 or 1) in x, the bend weight in y and the wind scale (0 or 1) in z.
++float3 GrassBend(float a)
++{
++    float a8 = floor(a * 255.0 + 0.5);
++    float lit = a8 > 127.5 ? 1.0 : 0.0;
++    float code = lit > 0.5 ? 255.0 - a8 : a8;
++    float noWind = code > 63.5 ? 1.0 : 0.0;
++    float bend = (code - 64.0 * noWind) * (1.0 / 63.0);
++    return float3(lit, bend * bend, 1.0 - noWind);
++}
++
++// Zeppelin F-237: world-plane offset of a grass vertex (position lp in the chunk, bend from GrassBend): the wind grid,
++// bilinear, with a per-blade flutter that grows in gusts, plus the parting around the nearest units. The bend is 0 at
++// the foot of the doodad and 1 at its tip, so the foot stays put on any slope (I-447: measured from the doodad's model,
++// not from uv.y, so atlas cards bend too and flat doodads stay still).
++float2 GrassOffset(float3 lp, float3 bend)
+ {
+     float3 wp = lp + cWind0.xyz;
+-    float blade = saturate((1.0 - uv.y - cWind1.x) * cWind1.y);
+-    float w = blade * blade;
++    float w = bend.y;
+ 
+     // wind grid lookup, bilinear, clamped to the grid's edge
+     float2 g = clamp(wp.xy * cWind2.xy - cWind2.zw, 0.0, 6.999);
+@@ -99,7 +114,7 @@ float2 GrassOffset(float3 lp, float2 uv)
+     // flutter: a per-blade phase (by position), stronger in gusts
+     float phase = cWind0.w * cWind3.x + dot(wp.xy, cWind3.yz);
+     float flutter = (wind.z + 0.3) * cWind1.w;
+-    float2 offset = wind.xy * (cWind1.z + flutter * sin(phase));
++    float2 offset = wind.xy * ((cWind1.z + flutter * sin(phase)) * bend.z);
+ 
+     // parting: each unit pushes blades away within its radius, only near its own height
+     float2 push = 0.0;
+@@ -141,10 +156,12 @@ void main(
+     out float oFog : FOG)
+ {
+     float4 vp = iPos.x * cWorldView[0] + iPos.y * cWorldView[1] + iPos.z * cWorldView[2] + cWorldView[3];
++    // Zeppelin I-447: the baked shadow and the bend out of the alpha (GrassBend)
++    float3 bend = GrassBend(iColor.w);
+     // HD: wind + parting, moved in the world plane (rows 0 and 1 of world * view are the world x and y axes in view
+     // space: the grass world matrix is a pure translation). Before oPos so fog, fade and received shadows follow.
+     [branch] if (cWind6.w > 0.5) {
+-        float2 gw = GrassOffset(iPos, iTex0);
++        float2 gw = GrassOffset(iPos, bend);
+         vp.xyz += gw.x * cWorldView[0].xyz + gw.y * cWorldView[1].xyz;
+     }
+     oPos = vp.x * cProj[0] + vp.y * cProj[1] + vp.z * cProj[2] + vp.w * cProj[3];
+@@ -178,7 +195,7 @@ void main(
+         float3 direct = cSunDiffuse.xyz * saturate(nl);
+         // like 3.3.5 (min of the light and 1), a channel never goes over 1: both parts are scaled down together
+         float3 fit = 1.0 / max(ambient + direct, 1.0);
+-        oColor = float4(ambient * fit * iColor.xyz, iColor.w);
++        oColor = float4(ambient * fit * iColor.xyz, bend.x);
+         oColor2.yzw = direct * fit * iColor.xyz;
+     } else {
+         float3 light = cSunDiffuse.xyz * saturate(dot(cSunDir.xyz, n)) + cSunAmbient.xyz;
+@@ -189,7 +206,7 @@ void main(
+         light = p2 + light;
+ #endif
+         light = min(light, 1.0);
+-        oColor = float4(light * iColor.xyz, iColor.w);
++        oColor = float4(light * iColor.xyz, bend.x);
+     }
+     oTex0 = iTex0;
+ 
+@@ -401,6 +418,7 @@ void main(
+     int32_t s_shownState = -1;
+     int32_t s_inUse = 0;                     // shaders holding our code right now (shown in hdGrassInfo)
+     bool s_ours = false;                     // all 14 grass shaders hold our code (vertex constants are needed)
++    bool s_bendEncoded = false;              // Zeppelin I-447: grass buffers are filled with the bend in the alpha
+     float s_vertexConstants[44];             // c49..c52 for this frame (DetailDoodadShaders), HD: c53..c59 grass wind per chunk
+ 
+     std::map<CGxShader*, std::vector<uint8_t> > s_original; // Blizzard's code of each shader we changed
+@@ -613,6 +631,10 @@ void HD::DetailDoodadShaders() {
+     if (mode == 0 && s_inUse == 0) {
+         // HD: Blizzard's shaders and nothing of ours in place: touch nothing (no extra D3D call)
+         s_ours = false;
++        if (s_bendEncoded) {
++            s_bendEncoded = false; // Zeppelin I-447
++            CDetailDoodad::s_bPoolsDirty = 1;
++        }
+         return;
+     }
+     bool d3d9 = HD::ShaderSwapDevice(); // HD: D3D9, or Vulkan through the translated modules
+@@ -643,6 +665,11 @@ void HD::DetailDoodadShaders() {
+         }
+     }
+     s_ours = ours;
++    // Zeppelin I-447: the buffers carry the bend only for our shaders: fill them all again when that changes
++    if (s_bendEncoded != ours) {
++        s_bendEncoded = ours;
++        CDetailDoodad::s_bPoolsDirty = 1;
++    }
+     if (s_inUse != inUse) ShowState(state);
+     if (!ours) return;
+ 
+@@ -682,9 +709,14 @@ void HD::DetailDoodadVertexConstants(const C44Matrix& world) {
+     HD::GrassWindUpload(); // Zeppelin F-237: the wind grid and the units
+ }
+ 
++bool HD::DetailDoodadBendEncoded() {
++    return s_bendEncoded;
++}
++
+ void HD::DetailDoodadShadersForget() {
+     if (s_inUse) ApplyAll(false);
+     s_ours = false;
++    s_bendEncoded = false;
+     s_original.clear();
+     s_inUse = 0;
+     ReleaseRetired(true);
+diff --git a/WoW/Source/WorldClient/HD/HdDetailDoodad.h b/WoW/Source/WorldClient/HD/HdDetailDoodad.h
+index e77d5a8b..4057df4d 100644
+--- a/WoW/Source/WorldClient/HD/HdDetailDoodad.h
++++ b/WoW/Source/WorldClient/HD/HdDetailDoodad.h
+@@ -46,6 +46,12 @@ namespace HD {
+     // fills the persistent grass buffers of the frame so no fill lands between two draws of the same pool.
+     void DetailDoodadPrepareBuffers();
+ 
++    // Zeppelin I-447: true while our grass shaders are in place: CDetailDoodadInstBatch::FillVertices then writes each
++    // vertex's bend into its colour's alpha (HD::GrassBendCodes, decoded by GrassBend in our vertex shader). Blizzard's
++    // shaders read that alpha as the baked shadow, so it is written only for ours; when this changes, every grass
++    // buffer is filled again (CDetailDoodad::s_bPoolsDirty).
++    bool DetailDoodadBendEncoded();
++
+     // HD: hdGrassKeep. Frames a chunk's grass stays (buffers filled, instances placed) after it was last drawn,
+     // instead of 3.3.5's 10 (buffers) and 20 (instances): turning the camera then finds it ready. 0 = native.
+     uint32_t DetailDoodadKeepFrames();
+diff --git a/WoW/Source/WorldClient/HD/HdGrassWind.cpp b/WoW/Source/WorldClient/HD/HdGrassWind.cpp
+index 38646848..9e04851e 100644
+--- a/WoW/Source/WorldClient/HD/HdGrassWind.cpp
++++ b/WoW/Source/WorldClient/HD/HdGrassWind.cpp
+@@ -8,12 +8,18 @@
+ #include <cmath>
+ #include <cstdio>
+ #include <cstdint>
++#include <cstring>
+ #include <iterator>
++#include <string>
+ #include <unordered_map>
++#include <utility>
++#include <vector>
+ #include <windows.h>
+ #include "Engine/Source/ConsoleBase/ConsoleVar.h"
+ #include "Engine/Source/ConsoleBase/Types.h"
+ #include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
++#include "Engine/Source/Model2/M2Data.h"
++#include "WoW/Source/WorldClient/HD/HdDataFile.h"
+ #include "WoW/Source/WorldClient/HD/HdLivingWind.h"
+ #include "WoW/Source/WorldClient/HD/HdLivingWorld.h"
+ #include "WoW/Source/WorldClient/World.h"
+@@ -23,7 +29,7 @@ namespace {
+     const float kAmplitude = 0.35f;        // tip displacement in yards at wind strength 1
+     const float kFlutter = 0.08f;          // extra per-blade shimmer, yards
+     const float kFlutterSpeed = 3.0f;      // shimmer speed, radians per second
+-    const float kAnchor = 0.3f;            // bottom fraction of a blade that never moves (the UV rule; HD's value)
++    const float kAnchor = 0.3f;            // bottom fraction of a blade (root to tip) that never moves
+     const float kPushStrength = 0.5f;      // how far blades lean away from a unit, yards
+     const float kMinRadius = 0.5f;         // smallest push radius, yards
+     const float kMountedScale = 2.0f;      // extra radius factor while mounted
+@@ -65,6 +71,156 @@ namespace {
+     uint64_t CellKey(int cx, int cy) {
+         return (static_cast<uint64_t>(static_cast<uint32_t>(cx)) << 32) | static_cast<uint32_t>(cy);
+     }
++
++    // --- Zeppelin I-447: per-doodad bend (Living Azeroth features/GrassDoodads.cpp, measured here from the model the
++    // client builds the grass from instead of through its offsets) ---------------------------------------------------
++    constexpr float kRootTipBand = 0.12f;  // lowest / highest fraction of the height = root / tip
++    constexpr float kFlatHeight = 0.15f;   // shorter than this a doodad does not sway (pebbles, flat decals)
++    constexpr uint8_t kNoWindBit = 64;
++    enum OverrideFlags : uint32_t { kNoWind = 0x01, kNoPush = 0x02, kFlip = 0x10 };
++
++    struct Override {
++        uint32_t flags = 0;
++        float stiffness = 0.0f;            // 0 flexible .. 1 rigid
++        float rootV = -1.0f;               // -1 = measured
++        float tipV = -1.0f;
++    };
++
++    struct Bend {
++        const void* modelKey = nullptr;    // the model's shared data it was measured from
++        std::vector<uint8_t> codes;        // per skin vertex
++        float height = 0.0f, rootV = 1.0f, tipV = 0.0f;
++        bool flat = false, mapped = false, overridden = false, wind = true, push = true;
++    };
++
++    std::vector<Bend> s_bends;             // by GroundEffectDoodad ID
++    std::unordered_map<uint32_t, Override> s_overrides;
++    bool s_overridesTried = false;
++    uint32_t s_measured = 0, s_flat = 0, s_unmapped = 0;
++    CVar* s_bendShow = nullptr;
++    CVar* s_bendInfo = nullptr;
++    int32_t s_bendShown = -2;
++    uint32_t s_bendInfoMeasured = 0xFFFFFFFFu;
++
++    // DBFilesClient\GroundEffectDoodadWind.cdbc: ID, Flags, Stiffness, RootV, TipV (WDBC, 4-byte fields).
++    void LoadOverrides() {
++        s_overridesTried = true;
++        std::string data;
++        if (!HD::DataFile::Read("DBFilesClient\\GroundEffectDoodadWind.cdbc", data)) return;
++        if (data.size() < 20 || std::memcmp(data.data(), "WDBC", 4) != 0) return;
++        uint32_t header[4];
++        std::memcpy(header, data.data() + 4, sizeof(header));
++        const uint32_t count = header[0], fields = header[1], recordSize = header[2];
++        if (fields < 5 || recordSize < 20 || 20 + uint64_t(count) * recordSize > data.size()) return;
++        for (uint32_t i = 0; i < count; ++i) {
++            uint32_t v[5];
++            std::memcpy(v, data.data() + 20 + size_t(i) * recordSize, sizeof(v));
++            Override o;
++            o.flags = v[1];
++            std::memcpy(&o.stiffness, &v[2], sizeof(float));
++            std::memcpy(&o.rootV, &v[3], sizeof(float));
++            std::memcpy(&o.tipV, &v[4], sizeof(float));
++            s_overrides[v[0]] = o;
++        }
++    }
++
++    void Measure(uint32_t id, Bend& b, const M2Data* data, const M2SkinProfile* skin) {
++        const uint32_t count = skin->m_vertices.m_count;
++        b.codes.assign(count, 0);
++        if (!count) return;
++        // root and tip from the model: bounds, then the mean V of the lowest and highest bands
++        float minZ = 1e30f, maxZ = -1e30f;
++        for (uint32_t j = 0; j < count; ++j) {
++            const float z = data->m_vertices[skin->m_vertices[j]].m_position.z;
++            if (z < minZ) minZ = z;
++            if (z > maxZ) maxZ = z;
++        }
++        const float band = (maxZ - minZ) * kRootTipBand;
++        float rootSum = 0.0f, tipSum = 0.0f;
++        uint32_t rootN = 0, tipN = 0;
++        for (uint32_t j = 0; j < count; ++j) {
++            const M2Vertex& v = data->m_vertices[skin->m_vertices[j]];
++            if (v.m_position.z <= minZ + band) { rootSum += v.m_texcoord[0].y; ++rootN; }
++            if (v.m_position.z >= maxZ - band) { tipSum += v.m_texcoord[0].y; ++tipN; }
++        }
++        b.height = maxZ - minZ;
++        b.rootV = rootN ? rootSum / rootN : 1.0f;
++        b.tipV = tipN ? tipSum / tipN : 0.0f;
++        b.flat = b.height < kFlatHeight;
++        const bool valid = std::fabs(b.tipV - b.rootV) > 0.01f || b.flat;
++
++        // effective values: measured, or the override row
++        float rootV = b.rootV, tipV = b.tipV, stiffness = 0.0f;
++        bool flip = false;
++        auto it = s_overrides.find(id);
++        b.overridden = it != s_overrides.end();
++        if (!b.overridden) {
++            b.mapped = valid;
++            b.wind = b.push = !b.flat;
++        } else {
++            const Override& o = it->second;
++            if (o.rootV >= 0.0f) rootV = o.rootV;
++            if (o.tipV >= 0.0f) tipV = o.tipV;
++            b.mapped = valid || (o.rootV >= 0.0f && o.tipV >= 0.0f); // a manual mapping makes it usable
++            b.wind = !(o.flags & kNoWind);
++            b.push = !(o.flags & kNoPush);
++            flip = (o.flags & kFlip) != 0;
++            stiffness = o.stiffness < 0.0f ? 0.0f : (o.stiffness > 1.0f ? 1.0f : o.stiffness);
++        }
++        if (!b.mapped) {
++            // no usable root / tip: the old rule, foot at v = 1, tip at v = 0, full wind and parting
++            rootV = 1.0f;
++            tipV = 0.0f;
++            b.wind = b.push = true;
++            flip = false;
++            stiffness = 0.0f;
++        }
++        if (flip) std::swap(rootV, tipV);
++        if (!b.wind && !b.push) return; // never moves (codes stay 0)
++        // a doodad with wind but no parting cannot be told apart in the 7 bits: it keeps both
++        const float span = tipV - rootV;
++        const float inv = std::fabs(span) > 1e-4f ? 1.0f / span : 0.0f;
++        const float flex = std::sqrt(1.0f - stiffness); // the shader squares the code: weight x (1 - stiffness)
++        const uint8_t noWind = b.wind ? 0 : kNoWindBit;
++        for (uint32_t j = 0; j < count; ++j) {
++            const float v = data->m_vertices[skin->m_vertices[j]].m_texcoord[0].y;
++            float t = (v - rootV) * inv;
++            t = t < 0.0f ? 0.0f : (t > 1.0f ? 1.0f : t);
++            float blade = (t - kAnchor) / (1.0f - kAnchor);
++            blade = blade < 0.0f ? 0.0f : (blade > 1.0f ? 1.0f : blade);
++            const int q = static_cast<int>(blade * flex * 63.0f + 0.5f);
++            b.codes[j] = static_cast<uint8_t>((q > 63 ? 63 : q) | noWind);
++        }
++    }
++
++    void ShowBendInfo() {
++        if (!s_bendInfo) return;
++        const int32_t show = s_bendShow ? s_bendShow->m_intValue : 0;
++        if (show == s_bendShown && s_measured == s_bendInfoMeasured) return;
++        s_bendShown = show;
++        s_bendInfoMeasured = s_measured;
++        char text[400];
++        int n = snprintf(text, sizeof(text), "%u doodads measured (%u flat, %u old rule), %u override rows", s_measured, s_flat,
++            s_unmapped, static_cast<unsigned>(s_overrides.size()));
++        if (show > 0) {
++            const Bend* b = static_cast<uint32_t>(show) < s_bends.size() && s_bends[show].modelKey ? &s_bends[show] : nullptr;
++            if (!b) {
++                snprintf(text + n, sizeof(text) - n, "; doodad %d not measured yet", show);
++            } else {
++                uint8_t lo = 255, hi = 0;
++                for (uint8_t c : b->codes) {
++                    const uint8_t q = c & 63;
++                    if (q < lo) lo = q;
++                    if (q > hi) hi = q;
++                }
++                snprintf(text + n, sizeof(text) - n, "; doodad %d: height %.3f, root v %.3f, tip v %.3f, %s%s%s%s, codes %u..%u of 63",
++                    show, b->height, b->rootV, b->tipV, b->flat ? "flat" : (b->mapped ? "measured" : "old rule"),
++                    b->overridden ? ", override row" : "", b->wind ? "" : ", no wind", b->push ? "" : ", no parting",
++                    b->codes.empty() ? 0u : lo, b->codes.empty() ? 0u : hi);
++            }
++        }
++        s_bendInfo->Set(text, true, false, false, false);
++    }
+ }
+ 
+ void HD::GrassWindRegister() {
+@@ -78,6 +234,26 @@ void HD::GrassWindRegister() {
+     s_react = CVar::Register("hdGrassReact", "HD: 1 = grass parts around units, 0 = off", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     s_radius = CVar::Register("hdGrassReactRadius", "HD: grass parting radius = a unit's bounding radius x this", 1, "2", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     s_info = CVar::Register("hdGrassWindInfo", "HD: grass wind status (read only)", 0x80, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    s_bendShow = CVar::Register("hdGrassBendShow", "HD: a GroundEffectDoodad ID whose measured bend hdGrassBendInfo shows (0 = none)", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    s_bendInfo = CVar::Register("hdGrassBendInfo", "HD: per-doodad grass bend status (read only)", 0x80, "none measured", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++}
++
++const uint8_t* HD::GrassBendCodes(uint32_t doodadId, const M2Data* data, const M2SkinProfile* skin, const void* modelKey) {
++    if (!data || !skin || !modelKey || doodadId > 0xFFFFu) return nullptr;
++    if (!s_overridesTried) LoadOverrides();
++    if (doodadId >= s_bends.size()) s_bends.resize(doodadId + 1);
++    Bend& b = s_bends[doodadId];
++    if (b.modelKey != modelKey || b.codes.size() != skin->m_vertices.m_count) {
++        const bool first = b.modelKey == nullptr;
++        Measure(doodadId, b, data, skin);
++        b.modelKey = modelKey;
++        if (first) {
++            ++s_measured;
++            if (b.flat) ++s_flat;
++            if (!b.mapped) ++s_unmapped;
++        }
++    }
++    return b.codes.empty() ? nullptr : b.codes.data();
+ }
+ 
+ void HD::GrassWindPrepare() {
+@@ -164,6 +340,7 @@ void HD::GrassWindPrepare() {
+         }
+     }
+ 
++    ShowBendInfo(); // Zeppelin I-447
+     if (s_info && std::fabs(s_time - s_lastInfoAt) > 0.5f) {
+         s_lastInfoAt = s_time;
+         char text[300];
+@@ -180,9 +357,9 @@ void HD::GrassWindConstants(float chunkOffsetX, float chunkOffsetY, float chunkO
+     c[1] = chunkOffsetY + CWorldScene::s_activeWorldView.y;
+     c[2] = chunkOffsetZ + CWorldScene::s_activeWorldView.z;
+     c[3] = s_time;
+-    // c54: x = anchor, y = 1 / (1 - anchor), z = amplitude (0 = no wind), w = flutter (0 = none)
+-    c[4] = kAnchor;
+-    c[5] = 1.0f / (1.0f - kAnchor);
++    // c54: z = amplitude (0 = no wind), w = flutter (0 = none); xy unused (I-447: the anchor is in the bend codes)
++    c[4] = 0.0f;
++    c[5] = 0.0f;
+     c[6] = s_windOn ? kAmplitude : 0.0f;
+     c[7] = s_windOn ? kFlutter : 0.0f;
+     // c55: xy = 1 / grid spacing, zw = grid origin in cells + 0.5 (cell centres at integers)
+diff --git a/WoW/Source/WorldClient/HD/HdGrassWind.h b/WoW/Source/WorldClient/HD/HdGrassWind.h
+index 966c6f19..5511ca6d 100644
+--- a/WoW/Source/WorldClient/HD/HdGrassWind.h
++++ b/WoW/Source/WorldClient/HD/HdGrassWind.h
+@@ -1,6 +1,8 @@
+ #ifndef WOW_SOURCE_WORLDCLIENT_HD_HDGRASSWIND_H
+ #define WOW_SOURCE_WORLDCLIENT_HD_HDGRASSWIND_H
+ 
++#include <cstdint>
++
+ // Waystone HD + Zeppelin F-237: grass wind and parting, in our own HLSL grass vertex shader (HdDetailDoodad.cpp,
+ // GrassOffset). The motion is Living Azeroth's (wxl-seyris-living-azeroth, Morfium-G, GPL-3.0, used with the
+ // author's permission; features/GrassMotion.cpp), which builds on wxl-grasswind (WarcraftXL, iThorgrim, GPL-3.0):
+@@ -8,7 +10,14 @@
+ //     roofs and lee), eased so changes blend, bilinear per blade, plus a per-blade flutter that grows in gusts;
+ //   - parting: the 16 nearest units push the blades away within their bounding radius x hdGrassReactRadius (x2 when
+ //     mounted), only near their own height;
+-//   - the blade bends with ((1 - uv.y - anchor) / (1 - anchor))^2 (uv.y is 1 at the foot), so the foot never moves.
++//   - Zeppelin I-447 (Living Azeroth's features/GrassDoodads.cpp): each ground-effect doodad's bend comes from its own
++//     model, scanned once: the root V = the mean texture V of its lowest 12% (by height), the tip V of its highest 12%;
++//     a vertex bends with ((t - anchor) / (1 - anchor))^2, t = (v - rootV) / (tipV - rootV) clamped to 0..1, so the
++//     foot never moves whatever part of an atlas the doodad uses. Doodads under 0.15 yd tall (pebbles, flat decals)
++//     stay still. A model with no usable root/tip keeps the old rule (uv.y 1 at the foot). Per-doodad overrides in
++//     DBFilesClient\GroundEffectDoodadWind.cdbc (Seyris's table: ID, Flags 1 = no wind / 2 = no parting / 0x10 =
++//     root and tip swapped, Stiffness 0..1, RootV, TipV (-1 = measured)). The bend goes to the shader in each
++//     vertex's colour alpha (HD::GrassBendCodes, CDetailDoodadInstBatch::FillVertices).
+ // Constants: c53..c59 per chunk, the wind grid c96..c159 and the units c192..c207 (clear of vertex row 66, where the
+ // Vulkan device mirrors the grass pixel shader's c15).
+ //   hdGrassWind 1 = wind on (default), 0 = off
+@@ -17,8 +26,13 @@
+ //   hdGrassReactRadius    parting radius = a unit's bounding radius x this (default 2)
+ //   hdGrassWindSpeed, hdGrassWindDirection: kept for HdWaterWaves (the water's waves), the grass no longer reads them
+ //   hdGrassWindInfo       read only: the wind's state
++//   hdGrassBendShow       a GroundEffectDoodad ID: hdGrassBendInfo then also shows what was measured for it
++//   hdGrassBendInfo       read only: doodads measured, flat ones, override rows (+ the hdGrassBendShow doodad)
+ // Works only while our grass shaders are in place (hdGrassLight 1, 2 or 3).
+ 
++class M2Data;
++class M2SkinProfile;
++
+ namespace HD {
+     // Registers the cvars above (once).
+     void GrassWindRegister();
+@@ -32,6 +46,11 @@ namespace HD {
+ 
+     // The wind grid (c96, 64 rows) and the units (c192, 16 rows), set with each chunk's constants.
+     void GrassWindUpload();
++
++    // Zeppelin I-447: one bend code per vertex of the doodad's skin (skin->m_vertices order), measured from its model
++    // on first use: bits 0..5 = sqrt of the bend weight x 63 (0 at the foot), bit 6 = no wind (parting only); 0 = the
++    // vertex never moves. modelKey = the model's shared data (measured again when it changes). Null when none.
++    const uint8_t* GrassBendCodes(uint32_t doodadId, const M2Data* data, const M2SkinProfile* skin, const void* modelKey);
+ }
+ 
+ #endif
+-- 
+2.34.1
+
