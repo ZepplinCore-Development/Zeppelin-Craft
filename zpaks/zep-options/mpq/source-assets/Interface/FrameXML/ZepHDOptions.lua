@@ -3,8 +3,8 @@
 -- A client without the HD CVars (an older exe) gets neither page. Most effects register their CVars on the
 -- first world frame, after this file loads, so each page builds its controls the first time it is shown;
 -- a control whose CVar the running renderer never registered (hdAOQuality is Vulkan only) is left out.
--- Left out on purpose: hdFog, hdForever, hdGrade, hdCataWater, hdSunShadows need data files that were never
--- published (Forever light tables, grading LUTs, Cata water, sun receiver shaders).
+-- Fog, Forever, grading, sun shadows and Cata water read the WoW-HD pack data in PATCH-V (zep-vulkan-shaders): pages
+-- HD Lighting and HD Water. A control marked d3d9 / vulkan is left out under the other renderer, where it does nothing.
 
 -- Without the HD renderer there is nothing to show. hdCataViewDistance is registered at start-up under
 -- either renderer; hdAO is not registered under Direct3D 9 until the first world frame.
@@ -98,6 +98,69 @@ local PERFORMANCE = {
 	},
 };
 
+-- Zeppelin F-234: WoW Forever's lighting, fog and grading, and the Vulkan sun shadows.
+local LIGHTING = {
+	checks = {
+		{ cvar = "hdForever", text = "Forever Lighting",
+		  tooltip = "Light, ambient and sky colours from WoW Forever wherever it has them, instead of the original ones." },
+		{ cvar = "hdFog", text = "Volumetric Fog",
+		  tooltip = "Fog that fills the air in layers, lit by the sun. Unverified under Direct3D 9." },
+		{ cvar = "hdFogShadow", text = "Light Shafts", sub = true, parent = "hdFog",
+		  tooltip = "The sun's shadows reach into the fog: beams of light through trees and windows." },
+		{ cvar = "hdGrade", text = "Colour Grading",
+		  tooltip = "WoW Forever's colour grading for each place." },
+		{ cvar = "hdSunShadows", text = "Soft Sun Shadows", vulkan = true,
+		  tooltip = "Sun shadows that soften with distance from what casts them, like real sunlight. Needs Shadow Quality High or above (Effects page). Vulkan only." },
+		{ cvar = "hdSunContact", text = "Contact Detail", sub = true, parent = "hdSunShadows", vulkan = true,
+		  tooltip = "Fine shadows where small things touch the ground, too small for the shadow maps." },
+		{ cvar = "hdLights", text = "Per-Pixel Lamps", d3d9 = true,
+		  tooltip = "Lamps and fires light the ground per pixel, as in WoW Forever, instead of per vertex. Direct3D 9 only." },
+	},
+	sliders = {
+		{ cvar = "hdForeverLight", parent = "hdForever", text = "Forever Sun and Ambient", minValue = 0, maxValue = 1, valueStep = 0.05,
+		  tooltip = "1 lights the world with Forever's sun and ambient, 0 with the original ones, between mixes them." },
+		{ cvar = "hdFogDensity", parent = "hdFog", text = "Fog Density", minValue = 0, maxValue = 3, valueStep = 0.05,
+		  tooltip = "How thick the fog is. 1 is Forever's." },
+		{ cvar = "hdFogSun", parent = "hdFog", text = "Fog Sunlight", minValue = 0, maxValue = 3, valueStep = 0.05,
+		  tooltip = "How much the sun lights the fog. 1 is Forever's." },
+		{ cvar = "hdGradeStrength", parent = "hdGrade", text = "Grading Strength", minValue = 0, maxValue = 2, valueStep = 0.05,
+		  tooltip = "How strong the colour grading is. 1 is Forever's." },
+		{ cvar = "hdSunStrength", parent = "hdSunShadows", text = "Sun Shadow Strength", minValue = 0, maxValue = 1, valueStep = 0.05, vulkan = true,
+		  tooltip = "How dark the soft sun shadows are. 1 is full." },
+	},
+	status = {
+		{ "Forever", "hdForeverInfo" },
+		{ "Fog", "hdFogInfo" },
+		{ "Grading", "hdGradeInfo" },
+		{ "Sun Shadows", "hdSunInfo" },
+	},
+};
+
+-- Zeppelin F-234: water. Cataclysm water on Vulkan (its lava, hdCataMagma, registers only once the water runs and is on
+-- by default, so it has no control); WoW Forever's water on Direct3D 9.
+local WATER = {
+	checks = {
+		{ cvar = "hdCataWater", text = "Cataclysm Water", vulkan = true,
+		  tooltip = "Cataclysm's water: reflections of the world and ripples. Vulkan only." },
+		{ cvar = "hdWater", text = "HD Water", d3d9 = true,
+		  tooltip = "WoW Forever's water: depth colour, reflections of the world and foam. Direct3D 9 only." },
+		{ cvar = "hdWaterRipples", text = "Ripples", sub = true, parent = "hdWater", d3d9 = true,
+		  tooltip = "Rings spread on the water around players and creatures in it." },
+		{ cvar = "hdWaterWaves", text = "Waves", sub = true, parent = "hdWater", d3d9 = true,
+		  tooltip = "Moving waves on the water instead of the original flat normal maps." },
+	},
+	sliders = {
+		{ cvar = "hdWaterRippleStrength", parent = "hdWaterRipples", text = "Ripple Strength", minValue = 0, maxValue = 2, valueStep = 0.05, d3d9 = true,
+		  tooltip = "How strong the ripples are. 1 is normal." },
+		{ cvar = "hdWaterWaveScale", parent = "hdWaterWaves", text = "Wave Height", minValue = 0, maxValue = 4, valueStep = 0.05, d3d9 = true,
+		  tooltip = "How high the waves are. 1 is the water's own." },
+	},
+	status = {
+		{ "Cataclysm Water", "hdCataWaterInfo" },
+		{ "HD Water", "hdWaterInfo" },
+	},
+};
+
 -- Zeppelin F-237 / F-234: the HD grass. Its CVars register when the grass first draws, so the page builds on first show.
 local GRASS = {
 	checks = {
@@ -129,7 +192,7 @@ local function VulkanRunning ()
 end
 
 local function Exists (entry)
-	if ( entry.d3d9 and VulkanRunning() ) then
+	if ( (entry.d3d9 and VulkanRunning()) or (entry.vulkan and not VulkanRunning()) ) then
 		return false;
 	end
 	return entry.key or GetCVar(entry.cvar) ~= nil;
@@ -306,6 +369,8 @@ end
 
 BuildPage("ZepHDEffectsPanel", "HD Effects", "Lighting and post-processing.", EFFECTS);
 BuildPage("ZepHDPerformancePanel", "HD Performance", "Cataclysm-era drawing and loading. Compare frame rates.", PERFORMANCE);
+BuildPage("ZepHDLightingPanel", "HD Lighting", "WoW Forever lighting, fog and colour grading, and soft sun shadows.", LIGHTING);
+BuildPage("ZepHDWaterPanel", "HD Water", "Water, lava and slime.", WATER);
 BuildPage("ZepHDGrassPanel", "HD Grass", "Grass lighting, wind and parting.", GRASS);
 
 -- Cataclysm View Distance takes the far clip from its View Quality preset and the horizon from that, so Effects' View
