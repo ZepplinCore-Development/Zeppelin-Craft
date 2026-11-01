@@ -30,6 +30,7 @@ local NO_COST = "no measurable cost.";
 local AO_QUALITY = { [0] = "Low", "Medium", "High", "Ultra" };
 local VIEW_QUALITY = { [0] = "Low", "Fair", "Good", "High", "Ultra" };
 local GRASS_SHADER = { [0] = "Blizzard", "HD", "HD Classic" };
+local ALPHA_AA = { [0] = "Off", "Coverage", "Supersampled" };
 local SHADOW_QUALITY = { [0] = "Lowest", "Low", "Medium", "Medium-High", "High", "Ultra" };
 local TEXTURE_FILTER = { [0] = "Bilinear", "Trilinear", "2x", "4x", "8x", "16x" };
 local LOW_HIGH = { [0] = LOW or "Low", HIGH or "High" };
@@ -224,6 +225,8 @@ local PAGES = {
 				   info = "How far away grass and ground clutter are drawn, in yards." },
 			},
 			{
+				S{ cvar = "hdAlphaAA", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
+				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Supersampled keeps the leaves their real thickness; Coverage is cheaper but softer and fills small gaps. Needs Multisampling above 1 (Display page)." },
 				S{ cvar = "hdGrassLight", text = "Grass Shader", minValue = 0, maxValue = 2, valueStep = 1, names = GRASS_SHADER,
 				   tooltip = "Blizzard: the original grass. HD: grass lit like the HD terrain, with wind and parting. HD Classic: the HD grass with the original lighting." },
 				C{ cvar = "hdGrassWind", text = "Grass Wind",
@@ -239,6 +242,7 @@ local PAGES = {
 		status = {
 			{ "Grass Shaders", "hdGrassInfo" },
 			{ "Wind", "hdGrassWindInfo" },
+			{ "Foliage AA", "hdAlphaAAInfo" },
 		},
 	},
 	{
