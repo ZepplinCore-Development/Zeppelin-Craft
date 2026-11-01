@@ -1,0 +1,455 @@
+From 67f83c13a594a712a2c868a0b3c7082a6754e2cf Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 22:00:53 +0000
+Subject: [PATCH] WIP: F-219 - drag by backpedalling in melee (facing the mob,
+ still swinging)
+
+- move: MoveToRequest.backward - face away from the travel direction, MSG_MOVE_START_BACKWARD,
+  BACKWARD-flagged heartbeats, run-back speed (4.5 yd/s scaled with run speed)
+- combat: KillRequest drag_x/y/z + drag_when_spent; once the target is in melee and we swing, back-
+  pedal to the drag point and fight on (KillResult.drags). Casters (drag_when_spent) only once no
+  offensive spell is castable; hunters and melee on melee contact - no shot or cast is traded
+- runner: drag_clear picks the spot (12-28 yd, walk crossing no other mob's reach) and hands it to
+  the first defend fight instead of turning and running (7 of the rogue's 9 deaths followed that)
+Live, Eversong rogue 30 min: 5 drag plans, 4 dragged fights, all killed, 14-26 swings while
+backing off; 1 death in the half hour (not a dragged fight).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 63 +++++++++++++++++++++---
+ zeppelin/modules/combat/combat.proto     |  8 +++
+ zeppelin/modules/combat/main.go          | 19 +++++++
+ zeppelin/modules/move/api/move.pb.go     | 13 ++++-
+ zeppelin/modules/move/main.go            | 31 ++++++++++--
+ zeppelin/modules/move/move.proto         |  2 +
+ zeppelin/tests/start_area.py             | 38 +++++++-------
+ 7 files changed, 144 insertions(+), 30 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index b83556a..2fb344d 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -260,9 +260,17 @@ type KillRequest struct {
+ 	FleePct   uint32  `protobuf:"varint,13,opt,name=flee_pct,json=fleePct,proto3" json:"flee_pct,omitempty"`       // break off (reason "flee") below this health % while 2+ attack us; 0 = never
+ 	WandSpell uint32  `protobuf:"varint,14,opt,name=wand_spell,json=wandSpell,proto3" json:"wand_spell,omitempty"` // Shoot (5019) with a wand equipped: what a ranged fighter does once its
+ 	// thrift-limited spells are spent; 0 = close in and melee instead
+-	OpenerSpell   uint32   `protobuf:"varint,16,opt,name=opener_spell,json=openerSpell,proto3" json:"opener_spell,omitempty"`        // from stealth (one of opener_auras on us) and unnoticed: walk BEHIND the
+-	OpenerAuras   []uint32 `protobuf:"varint,17,rep,packed,name=opener_auras,json=openerAuras,proto3" json:"opener_auras,omitempty"` // target and open with this (Backstab); otherwise skipped
+-	KiteAuras     []uint32 `protobuf:"varint,15,rep,packed,name=kite_auras,json=kiteAuras,proto3" json:"kite_auras,omitempty"`       // hunter kiting: when the target wears one of these snares (Concussive
++	OpenerSpell uint32   `protobuf:"varint,16,opt,name=opener_spell,json=openerSpell,proto3" json:"opener_spell,omitempty"`        // from stealth (one of opener_auras on us) and unnoticed: walk BEHIND the
++	OpenerAuras []uint32 `protobuf:"varint,17,rep,packed,name=opener_auras,json=openerAuras,proto3" json:"opener_auras,omitempty"` // target and open with this (Backstab); otherwise skipped
++	KiteAuras   []uint32 `protobuf:"varint,15,rep,packed,name=kite_auras,json=kiteAuras,proto3" json:"kite_auras,omitempty"`       // hunter kiting: when the target wears one of these snares (Concussive
++	// Shot) and reaches us while it is our only attacker, step back ~10 yd
++	// between shots instead of trading blows with it
++	// drag point: once the target is in melee and we swing, BACKPEDAL here (facing it, still swinging)
++	// - out of the reach of the camp it stood in - then fight on. 0,0 = no drag
++	DragX         float32 `protobuf:"fixed32,18,opt,name=drag_x,json=dragX,proto3" json:"drag_x,omitempty"`
++	DragY         float32 `protobuf:"fixed32,19,opt,name=drag_y,json=dragY,proto3" json:"drag_y,omitempty"`
++	DragZ         float32 `protobuf:"fixed32,20,opt,name=drag_z,json=dragZ,proto3" json:"drag_z,omitempty"`
++	DragWhenSpent bool    `protobuf:"varint,21,opt,name=drag_when_spent,json=dragWhenSpent,proto3" json:"drag_when_spent,omitempty"` // a caster: only once no offensive spell is castable (thrift/mana spent),
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -416,6 +424,34 @@ func (x *KillRequest) GetKiteAuras() []uint32 {
+ 	return nil
+ }
+ 
++func (x *KillRequest) GetDragX() float32 {
++	if x != nil {
++		return x.DragX
++	}
++	return 0
++}
++
++func (x *KillRequest) GetDragY() float32 {
++	if x != nil {
++		return x.DragY
++	}
++	return 0
++}
++
++func (x *KillRequest) GetDragZ() float32 {
++	if x != nil {
++		return x.DragZ
++	}
++	return 0
++}
++
++func (x *KillRequest) GetDragWhenSpent() bool {
++	if x != nil {
++		return x.DragWhenSpent
++	}
++	return false
++}
++
+ type LootItem struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	ItemId        uint32                 `protobuf:"varint,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
+@@ -489,6 +525,7 @@ type KillResult struct {
+ 	Kites         uint32                 `protobuf:"varint,17,opt,name=kites,proto3" json:"kites,omitempty"`                                      // times we stepped back from a snared target (kite_auras)
+ 	AddAfterMs    uint32                 `protobuf:"varint,18,opt,name=add_after_ms,json=addAfterMs,proto3" json:"add_after_ms,omitempty"`        // when a 2nd attacker first joined, ms into the fight (0 = none joined)
+ 	AddOurHpPct   uint32                 `protobuf:"varint,19,opt,name=add_our_hp_pct,json=addOurHpPct,proto3" json:"add_our_hp_pct,omitempty"`   // our health % at that moment
++	Drags         uint32                 `protobuf:"varint,20,opt,name=drags,proto3" json:"drags,omitempty"`                                      // times we backpedalled to the drag point (0 or 1)
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -656,6 +693,13 @@ func (x *KillResult) GetAddOurHpPct() uint32 {
+ 	return 0
+ }
+ 
++func (x *KillResult) GetDrags() uint32 {
++	if x != nil {
++		return x.Drags
++	}
++	return 0
++}
++
+ type RestRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	UntilPct      uint32                 `protobuf:"varint,1,opt,name=until_pct,json=untilPct,proto3" json:"until_pct,omitempty"` // 0 = 90
+@@ -1021,7 +1065,7 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x10above_health_pct\x18\x13 \x01(\rR\x0eaboveHealthPct\x12&\n" +
+ 	"\x0fbelow_power_pct\x18\x14 \x01(\rR\rbelowPowerPct\x12#\n" +
+ 	"\rafter_defense\x18\x15 \x01(\bR\fafterDefense\x12\x13\n" +
+-	"\x05cc_ms\x18\x16 \x01(\rR\x04ccMs\"\x91\x04\n" +
++	"\x05cc_ms\x18\x16 \x01(\rR\x04ccMs\"\xfe\x04\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+@@ -1045,10 +1089,14 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\fopener_spell\x18\x10 \x01(\rR\vopenerSpell\x12!\n" +
+ 	"\fopener_auras\x18\x11 \x03(\rR\vopenerAuras\x12\x1d\n" +
+ 	"\n" +
+-	"kite_auras\x18\x0f \x03(\rR\tkiteAuras\"9\n" +
++	"kite_auras\x18\x0f \x03(\rR\tkiteAuras\x12\x15\n" +
++	"\x06drag_x\x18\x12 \x01(\x02R\x05dragX\x12\x15\n" +
++	"\x06drag_y\x18\x13 \x01(\x02R\x05dragY\x12\x15\n" +
++	"\x06drag_z\x18\x14 \x01(\x02R\x05dragZ\x12&\n" +
++	"\x0fdrag_when_spent\x18\x15 \x01(\bR\rdragWhenSpent\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+ 	"\aitem_id\x18\x01 \x01(\rR\x06itemId\x12\x14\n" +
+-	"\x05count\x18\x02 \x01(\rR\x05count\"\xc3\x04\n" +
++	"\x05count\x18\x02 \x01(\rR\x05count\"\xd9\x04\n" +
+ 	"\n" +
+ 	"KillResult\x12\x16\n" +
+ 	"\x06killed\x18\x01 \x01(\bR\x06killed\x12\x16\n" +
+@@ -1074,7 +1122,8 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x05kites\x18\x11 \x01(\rR\x05kites\x12 \n" +
+ 	"\fadd_after_ms\x18\x12 \x01(\rR\n" +
+ 	"addAfterMs\x12#\n" +
+-	"\x0eadd_our_hp_pct\x18\x13 \x01(\rR\vaddOurHpPct\"\xac\x02\n" +
++	"\x0eadd_our_hp_pct\x18\x13 \x01(\rR\vaddOurHpPct\x12\x14\n" +
++	"\x05drags\x18\x14 \x01(\rR\x05drags\"\xac\x02\n" +
+ 	"\vRestRequest\x12\x1b\n" +
+ 	"\tuntil_pct\x18\x01 \x01(\rR\buntilPct\x12\x1b\n" +
+ 	"\tbudget_ms\x18\x02 \x01(\rR\bbudgetMs\x12\x1b\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 39037de..5a970ee 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -60,6 +60,13 @@ message KillRequest {
+   repeated uint32 kite_auras = 15; // hunter kiting: when the target wears one of these snares (Concussive
+                                    // Shot) and reaches us while it is our only attacker, step back ~10 yd
+                                    // between shots instead of trading blows with it
++  // drag point: once the target is in melee and we swing, BACKPEDAL here (facing it, still swinging)
++  // - out of the reach of the camp it stood in - then fight on. 0,0 = no drag
++  float drag_x = 18;
++  float drag_y = 19;
++  float drag_z = 20;
++  bool drag_when_spent = 21; // a caster: only once no offensive spell is castable (thrift/mana spent),
++                             // so the drag never costs a cast; a hunter/melee drags on melee contact
+ }
+ 
+ message LootItem {
+@@ -87,6 +94,7 @@ message KillResult {
+   uint32 kites = 17;     // times we stepped back from a snared target (kite_auras)
+   uint32 add_after_ms = 18;  // when a 2nd attacker first joined, ms into the fight (0 = none joined)
+   uint32 add_our_hp_pct = 19; // our health % at that moment
++  uint32 drags = 20;         // times we backpedalled to the drag point (0 or 1)
+ }
+ 
+ message RestRequest {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 6c0e19f..faaf3d4 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -503,6 +503,16 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	var stuckSince time.Time
+ 	deadline := time.Now().Add(budget)
+ 	fightStart := time.Now()
++	dragged := req.GetDragX() == 0 && req.GetDragY() == 0
++	// backpedal to the drag point with the target in melee: we face it, so the swings and casts go
++	// on while it follows us out of its camp (turning to run gave it free hits in the back)
++	drag := func() {
++		dragged = true
++		var mv movev1.MoveToResult
++		_ = s.invoke(ctx, "move", "to", &movev1.MoveToRequest{X: req.GetDragX(), Y: req.GetDragY(), Z: req.GetDragZ(),
++			TimeoutMs: 9000, Backward: true}, &mv)
++		res.Drags++
++	}
+ 	for {
+ 		if time.Now().After(deadline) {
+ 			return finish("budget", false)
+@@ -789,6 +799,11 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 				}
+ 				attacking = true
+ 			}
++			if !dragged && attacking && d <= meleeTrigger &&
++				(!req.GetDragWhenSpent() || !s.offenseLeft(req, st, guid, t.GetHealth(), losing, lastCast, lastOn)) {
++				drag() // a hunter: it reached melee, the shots are over; a caster: its casts are spent
++				continue
++			}
+ 			s.castAbilities(ctx, req, st, me, t, guid, live, lastCast, lastOn, res, losing)
+ 			if !s.offenseLeft(req, st, guid, t.GetHealth(), losing, lastCast, lastOn) {
+ 				// the thrift-limited spells are spent: wand it from here, or walk in and melee
+@@ -847,6 +862,10 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			}
+ 			attacking = true
+ 		}
++		if !dragged && attacking {
++			drag()
++			continue
++		}
+ 		if err := s.castAbilities(ctx, req, st, me, t, guid, live, lastCast, lastOn, res, losing); err != nil {
+ 			return nil, err
+ 		}
+diff --git a/zeppelin/modules/move/api/move.pb.go b/zeppelin/modules/move/api/move.pb.go
+index 95b92fe..ed685b8 100644
+--- a/zeppelin/modules/move/api/move.pb.go
++++ b/zeppelin/modules/move/api/move.pb.go
+@@ -123,6 +123,7 @@ type MoveToRequest struct {
+ 	Z             float32                `protobuf:"fixed32,3,opt,name=z,proto3" json:"z,omitempty"`
+ 	Speed         float32                `protobuf:"fixed32,4,opt,name=speed,proto3" json:"speed,omitempty"`                         // 0 = current run speed
+ 	TimeoutMs     uint32                 `protobuf:"varint,5,opt,name=timeout_ms,json=timeoutMs,proto3" json:"timeout_ms,omitempty"` // 0 = distance / speed + 5 s
++	Backward      bool                   `protobuf:"varint,6,opt,name=backward,proto3" json:"backward,omitempty"`                    // backpedal: face AWAY from the travel direction (at a mob we are dragging,
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -192,6 +193,13 @@ func (x *MoveToRequest) GetTimeoutMs() uint32 {
+ 	return 0
+ }
+ 
++func (x *MoveToRequest) GetBackward() bool {
++	if x != nil {
++		return x.Backward
++	}
++	return false
++}
++
+ type MoveToResult struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Position      *Position              `protobuf:"bytes,1,opt,name=position,proto3" json:"position,omitempty"`
+@@ -832,14 +840,15 @@ const file_zeppelin_modules_move_move_proto_rawDesc = "" +
+ 	"\x01z\x18\x04 \x01(\x02R\x01z\x12\f\n" +
+ 	"\x01o\x18\x05 \x01(\x02R\x01o\x12\x1b\n" +
+ 	"\trun_speed\x18\x06 \x01(\x02R\brunSpeed\x12\x14\n" +
+-	"\x05known\x18\a \x01(\bR\x05known\"n\n" +
++	"\x05known\x18\a \x01(\bR\x05known\"\x8a\x01\n" +
+ 	"\rMoveToRequest\x12\f\n" +
+ 	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
+ 	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
+ 	"\x01z\x18\x03 \x01(\x02R\x01z\x12\x14\n" +
+ 	"\x05speed\x18\x04 \x01(\x02R\x05speed\x12\x1d\n" +
+ 	"\n" +
+-	"timeout_ms\x18\x05 \x01(\rR\ttimeoutMs\"\x94\x01\n" +
++	"timeout_ms\x18\x05 \x01(\rR\ttimeoutMs\x12\x1a\n" +
++	"\bbackward\x18\x06 \x01(\bR\bbackward\"\x94\x01\n" +
+ 	"\fMoveToResult\x126\n" +
+ 	"\bposition\x18\x01 \x01(\v2\x1a.zeppelin.move.v1.PositionR\bposition\x12\x18\n" +
+ 	"\aarrived\x18\x02 \x01(\bR\aarrived\x12\x16\n" +
+diff --git a/zeppelin/modules/move/main.go b/zeppelin/modules/move/main.go
+index 52c53ad..a798860 100644
+--- a/zeppelin/modules/move/main.go
++++ b/zeppelin/modules/move/main.go
+@@ -45,6 +45,8 @@ import (
+ 
+ const (
+ 	moveFlagForward  = 0x00000001
++	moveFlagBackward = 0x00000002
++	defaultBackSpeed = 4.5
+ 	defaultRunSpeed  = 7.0
+ 	heartbeatEvery   = 500 * time.Millisecond
+ 	maxMoveDistance  = 2000.0           // yards; anything longer is a caller bug, not a walk
+@@ -396,7 +398,11 @@ func (s *service) Stop(ctx context.Context, _ *emptypb.Empty) (*movev1.Position,
+ // MoveTo walks a straight line to the target.
+ func (s *service) MoveTo(ctx context.Context, req *movev1.MoveToRequest) (*movev1.MoveToResult, error) {
+ 	budget := time.Duration(req.GetTimeoutMs()) * time.Millisecond
+-	return s.walk(ctx, []point{{float64(req.GetX()), float64(req.GetY()), float64(req.GetZ())}}, float64(req.GetSpeed()), budget)
++	route := []point{{float64(req.GetX()), float64(req.GetY()), float64(req.GetZ())}}
++	if req.GetBackward() {
++		return s.walkDir(ctx, route, float64(req.GetSpeed()), budget, false, true)
++	}
++	return s.walk(ctx, route, float64(req.GetSpeed()), budget)
+ }
+ 
+ type point struct{ x, y, z float64 }
+@@ -412,6 +418,12 @@ func (s *service) walk(ctx context.Context, route []point, speed float64, budget
+ // walkOpts is walk; stopOnAttack ends it ("attacked") as soon as something starts hitting us, so
+ // the caller turns to fight instead of dragging the mob - and whatever it aggroes next - along.
+ func (s *service) walkOpts(ctx context.Context, route []point, speed float64, budget time.Duration, stopOnAttack bool) (*movev1.MoveToResult, error) {
++	return s.walkDir(ctx, route, speed, budget, stopOnAttack, false)
++}
++
++// walkDir is walkOpts; backward backpedals each leg (faces the way we came, START_BACKWARD, the
++// BACKWARD flag on heartbeats, run-back speed) - dragging a mob that keeps hitting... and being hit.
++func (s *service) walkDir(ctx context.Context, route []point, speed float64, budget time.Duration, stopOnAttack, backward bool) (*movev1.MoveToResult, error) {
+ 	began := time.Now()
+ 	s.mu.Lock()
+ 	if !s.pos.Known {
+@@ -425,6 +437,13 @@ func (s *service) walkOpts(ctx context.Context, route []point, speed float64, bu
+ 	cur := point{float64(s.pos.X), float64(s.pos.Y), float64(s.pos.Z)}
+ 	if speed <= 0 {
+ 		speed = float64(s.pos.RunSpeed)
++		if backward {
++			speed = defaultBackSpeed * float64(s.pos.RunSpeed) / defaultRunSpeed // run-back scales with run
++		}
++	}
++	flag, startOp := uint32(moveFlagForward), uint32(opcode.MSGMoveStartForward)
++	if backward {
++		flag, startOp = moveFlagBackward, uint32(opcode.MSGMoveStartBackward)
+ 	}
+ 	moveCtx, cancel := context.WithCancel(ctx)
+ 	s.moving, s.cancel = true, cancel
+@@ -467,7 +486,11 @@ func (s *service) walkOpts(ctx context.Context, route []point, speed float64, bu
+ 		if leg < 0.05 {
+ 			continue
+ 		}
+-		o := float32(math.Mod(math.Atan2(to.y-from.y, to.x-from.x)+2*math.Pi, 2*math.Pi))
++		heading := math.Atan2(to.y-from.y, to.x-from.x)
++		if backward {
++			heading += math.Pi // we face the way we came: at the mob following us
++		}
++		o := float32(math.Mod(heading+4*math.Pi, 2*math.Pi))
+ 		at := func(f float64) (float32, float32, float32) {
+ 			return float32(from.x + (to.x-from.x)*f), float32(from.y + (to.y-from.y)*f), float32(from.z + (to.z-from.z)*f)
+ 		}
+@@ -486,7 +509,7 @@ func (s *service) walkOpts(ctx context.Context, route []point, speed float64, bu
+ 		if err := s.sendMove(moveCtx, opcode.MSGMoveSetFacing, 0, fx, fy, fz, o); err != nil {
+ 			return nil, err
+ 		}
+-		if err := s.sendMove(moveCtx, opcode.MSGMoveStartForward, moveFlagForward, fx, fy, fz, o); err != nil {
++		if err := s.sendMove(moveCtx, startOp, flag, fx, fy, fz, o); err != nil {
+ 			return nil, err
+ 		}
+ 		legTime := time.Duration(leg / speed * float64(time.Second))
+@@ -522,7 +545,7 @@ func (s *service) walkOpts(ctx context.Context, route []point, speed float64, bu
+ 				}
+ 				x, y, z := at(frac)
+ 				s.setPosition(s.snapshot().Map, [4]float32{x, y, z, o}, false)
+-				if err := s.sendMove(moveCtx, opcode.MSGMoveHeartbeat, moveFlagForward, x, y, z, o); err != nil {
++				if err := s.sendMove(moveCtx, opcode.MSGMoveHeartbeat, flag, x, y, z, o); err != nil {
+ 					if errors.Is(moveCtx.Err(), context.Canceled) {
+ 						return stopAt(frac, "stopped", false)
+ 					}
+diff --git a/zeppelin/modules/move/move.proto b/zeppelin/modules/move/move.proto
+index 1f509b2..2f1d19f 100644
+--- a/zeppelin/modules/move/move.proto
++++ b/zeppelin/modules/move/move.proto
+@@ -22,6 +22,8 @@ message MoveToRequest {
+   float z = 3;
+   float speed = 4;       // 0 = current run speed
+   uint32 timeout_ms = 5; // 0 = distance / speed + 5 s
++  bool backward = 6;     // backpedal: face AWAY from the travel direction (at a mob we are dragging,
++                         // so melee and casts go on), START_BACKWARD, run-back speed (4.5 yd/s)
+ }
+ 
+ message MoveToResult {
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 8b29a14..c9a9b6a 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1530,7 +1530,7 @@ class Runner:
+         fleet's 139 multi-mob ambushes began right after a fight, the next group walking into the
+         old one. Same walk test as step_clear: the way there crosses no other mob's reach."""
+         if os.environ.get("AW_NO_DRAG") or time.time() - getattr(self, "_drag_t", 0) < 20:
+-            return False  # one drag per fight: running about is no way to fight (AW_NO_DRAG: off for A/B)
++            return None  # one drag per fight: running about is no way to fight (AW_NO_DRAG: off for A/B)
+         s = call("interact.self")
+         level = s.get("level", 1)
+         top = {}
+@@ -1538,10 +1538,6 @@ class Runner:
+             top[t[3]] = max(top.get(t[3], 0), t[2])
+         on_us = {int(a) for a in attackers}
+         seen = call("interact.find", type=3, radius=80, limit=80).get("objects", [])
+-        # only BEFORE it closes in: running with a mob already on us is free hits in the back and new
+-        # mobs on the way - 7 of the rogue's 9 deaths (and 7 of the priest's 20) came straight after a drag
+-        if any(int(o["guid"]) in on_us and o.get("distance", 99) < 8 for o in seen):
+-            return False
+         others = [(o["x"], o.get("y", 0), top[o["entry"]]) for o in seen
+                   if o.get("health", 0) > 0 and not o.get("npcFlags") and o.get("entry") in top
+                   and int(o["guid"]) not in on_us and top[o["entry"]] > gray_level(level)]
+@@ -1552,27 +1548,28 @@ class Runner:
+         def margin(p):
+             return min((math.dist(m[:2], p) - reach(m) for m in others), default=99)
+         if margin(here) >= 0:
+-            return False  # nobody else close enough to join: fight here
++            return None  # nobody else close enough to join: fight here
+ 
+         def walk_ok(p):
+             return all(all(math.dist(m[:2], (here[0] + (p[0] - here[0]) * k / 8, here[1] + (p[1] - here[1]) * k / 8))
+                            >= reach(m) for m in others if math.dist(m[:2], here) >= reach(m)) for k in range(1, 9))
+         pts = [(here[0] + r * math.cos(a * math.pi / 6), here[1] + r * math.sin(a * math.pi / 6))
+-               for r in (15, 25, 35) for a in range(12)]
++               for r in (12, 20, 28) for a in range(12)]  # backpedal is 4.5 yd/s: short
+         pts = [p for p in pts if walk_ok(p)]
+         if not pts:
+-            return False
++            return None
+         best = max(pts, key=margin)
+         if margin(best) <= margin(here) + 5:
+-            return False
++            return None
+         g = call("move.ground", x=best[0], y=best[1], z=me.get("z", 0))
+         if not g.get("ok"):
+-            return False
++            return None
+         self._drag_t = time.time()
+-        print(f"  drag: fight moved to ({best[0]:.0f},{best[1]:.0f}), {margin(best):.0f} yd outside the others' "
+-              f"reach (was {margin(here):.0f})", flush=True)
+-        call("move.to", x=best[0], y=best[1], z=g["z"], timeout_ms=6000)
+-        return True
++        # the combat module BACKPEDALS there once the target is in melee - facing it, still swinging.
++        # Turning to run (the first version) gave it free hits in the back: 7 of the rogue's 9 deaths
++        print(f"  drag: backpedal the fight to ({best[0]:.0f},{best[1]:.0f}), {margin(best):.0f} yd outside the "
++              f"others' reach (was {margin(here):.0f})", flush=True)
++        return (best[0], best[1], g["z"])
+ 
+     def step_clear(self):
+         """Before sitting down hurt, step out of reach of the hostiles around us. A third of the weak bots'
+@@ -2569,7 +2566,8 @@ class Runner:
+               f"taken {r.get('damageTaken', 0)} hp {r.get('ourHealth', 0)}/{r.get('ourMaxHealth', 0)} casts {r.get('spells', [])}"
+               f"{' fails ' + ','.join(r['castFails']) if r.get('castFails') else ''}"
+               f"{' kites ' + str(r['kites']) if r.get('kites') else ''}"
+-              f"{' add@%.1fs hp%d%%' % (r['addAfterMs'] / 1000, r.get('addOurHpPct', 0)) if r.get('addAfterMs') else ''}",
++              f"{' add@%.1fs hp%d%%' % (r['addAfterMs'] / 1000, r.get('addOurHpPct', 0)) if r.get('addAfterMs') else ''}"
++              f"{' dragged' if r.get('drags') else ''}",
+               flush=True)
+         self.check_loot(r)
+         why = r.get("reason", "")
+@@ -2696,14 +2694,20 @@ class Runner:
+             except StepFailed as e:
+                 print(f"  ~ repair: {str(e)[:80]}", flush=True)
+             return
++        drag = None
+         if st.get("attackers"):
+             try:
+-                self.drag_clear(st["attackers"])
++                drag = self.drag_clear(st["attackers"])
+             except (StepFailed, KeyError) as e:
+                 print(f"  ~ drag: {str(e)[:80]}", flush=True)
+         for g in st.get("attackers", []):
+             try:
+-                r = call("combat.kill", guid=int(g), **self.fight_args(defend=True), loot=True)
++                # casters drag only once their casts are spent (a cast is never traded for the walk); a
++                # hunter or melee class on melee contact - a hunter has finished shooting by then
++                extra = {"drag_x": drag[0], "drag_y": drag[1], "drag_z": drag[2],
++                         "drag_when_spent": self.w.cls in (5, 7, 8, 9, 11)} if drag else {}
++                drag = None  # the first fight carries it; the rest are fought where that one ended
++                r = call("combat.kill", guid=int(g), **self.fight_args(defend=True), loot=True, **extra)
+             except StepFailed as e:  # a long fight can outlast one RPC; the next pass resumes it
+                 print(f"  ~ defending: {str(e)[:80]}", flush=True)
+                 continue
+-- 
+2.34.1
+
