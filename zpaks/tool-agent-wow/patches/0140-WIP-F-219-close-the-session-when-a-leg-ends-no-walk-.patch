@@ -1,0 +1,54 @@
+From 21a45d68a7bd54f7b2af28dea3ec0583f965cf95 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 00:09:50 +0000
+Subject: [PATCH] WIP: F-219 - close the session when a leg ends; no walk
+ outlives the run
+
+- supervise.sh: pkill the agent-wow session on exit (8 finished bots stayed logged in for 9 h)
+- travel(): StepFailed once the run deadline is 5 min past (the goblin's road engage looped
+  45 min past its 360-minute leg; the deadline was only checked between steps)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 4 ++++
+ zeppelin/tests/supervise.sh  | 4 +++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index ddf115b..aa30489 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -3037,6 +3037,9 @@ class Runner:
+         # on the way hit our back the whole time (most early deaths were on the road, not in camps)
+         for _ in range(60):
+             self._risk_soon = False
++            if time.time() > getattr(self, "deadline", float("inf")) + 300:
++                # the run is over: no walk outlives it (the goblin's road engage looped 45 min past the end)
++                raise StepFailed("run time is up")
+             if not self.reviving and self.engage_ahead(x, y, z):
+                 continue  # pulled it on our terms: walk on from here
+             before = self.me()
+@@ -4720,6 +4723,7 @@ class Runner:
+ 
+     def run(self, minutes):
+         t0, idle = time.time(), 0
++        self.deadline = t0 + minutes * 60  # travel() checks it too: a walk can loop (an engage retried)
+         # the rotation we already know, before the first errand: Teldrassil's hunter walked off to
+         # sell its starting gun, died on the way and never reached the trainer that loads it
+         self.refresh_abilities()
+diff --git a/zeppelin/tests/supervise.sh b/zeppelin/tests/supervise.sh
+index 14de32f..bea8e0e 100755
+--- a/zeppelin/tests/supervise.sh
++++ b/zeppelin/tests/supervise.sh
+@@ -44,4 +44,6 @@ while [ "$attempt" -lt 12 ]; do
+   echo "[SUPERVISOR] runner stopped without a result (server restart?) - reconnecting" >> "$LOG"
+   sleep 20
+ done
+-echo "[SUPERVISOR] done" >> "$LOG"
++# log the character out: a finished leg left its session in world for hours (8 idle bots, 9 h)
++pkill -f "agent-wow char play $CHAR\$"
++echo "[SUPERVISOR] done (session closed)" >> "$LOG"
+-- 
+2.34.1
+
