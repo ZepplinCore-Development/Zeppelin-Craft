@@ -169,7 +169,7 @@ CHAR_CREATE_SUBRACES = {
 	-- Grimtotem = the darker plain furs, Tauren the lighter ones, exclusive (user 2026-10-31); paint is a layer
 	["TAUREN"] = {
 		shared = { MALE = {19, 20, 21}, FEMALE = {11, 12, 13} },
-		{ name = "Tauren", icon = "TAUREN",
+		{ name = "Bloodhoof", lore = "The Bloodhoof tribe followed Cairne from the plains of Mulgore to the mesas of Thunder Bluff, where they raised the tauren nation anew. Hunters, healers and keepers of the Earth Mother's ways, they wear the lighter hides of the open plains. They stand with the Horde because Cairne's honour still binds them to it.", title = "Bloodhoof Tauren", icon = "TAUREN",
 			MALE = {2, 5, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 37},	-- the lighter furs: tan, white, light brown, spotted (user 2026-10-31)
 			FEMALE = {1, 3, 5, 7, 8, 9, 10, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 37} },
 		{ name = "Grimtotem", lore = "The Grimtotem clan never accepted Cairne Bloodhoof's peace with the younger races. They paint their black fur for war and hold to the old belief that the tauren must rule Kalimdor alone. Those who now walk with the Horde have broken with Magatha's schemes, but they still carry the clan's fierce pride and its war paint.", title = "Grimtotem Tauren", icon = "GRIMTOTEM",
@@ -199,38 +199,45 @@ CHAR_CREATE_SUBRACES = {
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15} },
 		{ name = "Cultist", lore = "Some of Lordaeron's survivors found answers in the Cult of the Damned's whispers and kept the marks long after they turned away. Pale, painted and tattooed with old rites, they are feared in every human city. Those who fight for the Alliance swear the darkness now serves the light, and few dare ask them twice.", title = "Cultist", icon = "CULTISTHUMAN",
+			faces = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 35, 38} },	-- 33 / 34 (+36 / 37) are face 2 / 14 + eye socket paint now (round 5)
 			MALE = {16, 17},
-			FEMALE = {16, 17, 20, 21, 22, 23, 24, 25} },
+			FEMALE = {16, 17, 24, 25, 30, 31, 32, 33} },	-- 30-33 = 20-23 without the harness (Accessories 1, 2, round 5)
 	},
 	-- night elf, undead and worgen sub-races from the 2026-10-28 skin review (marked colours allowed, like Wildhammer)
 	["NIGHTELF"] = {
 		shared = { MALE = {9, 10, 11}, FEMALE = {9, 10, 11} },
 		{ name = "Kaldorei", title = "Night Elf", icon = "NIGHTELF",
 			faces = { MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17} },	-- plain faces; masked and tattooed are Illidari / Cenarion
-			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24},
+			MALE = {0, 1, 2, 4, 5, 7, 8, 13, 14, 15, 16, 17, 18, 20, 21, 24},	-- 3, 6, 19, 22, 23 went to Cenarion (round 5)
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24} },
 		{ name = "Illidari", lore = "The Illidari are night elves who followed Illidan Stormrage and drank the fel to hunt the Burning Legion with its own power. Scarred and rune-marked, they emerged from the Black Temple and Mardum as the Legion's most hated foes. Their people still distrust them, but Tyrande has let them return to fight beside the Alliance.", title = "Illidari", icon = "ILLIDARI",
-			faces = { MALE = {5, 14} },	-- the blindfolded face (20 / 27 = 5 / 14 + the cheek marks, now Face Markings 21)
+			faces = { MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17} },	-- every plain face: the blindfold (gold / dark) is a face marking, always worn (round 5)
 			MALE = {33, 40, 41, 42, 43},	-- 40-43 = 34-37 without the fel slashes / runes, now Body Markings 37-40 (F-230 round 3)
 			FEMALE = {25, 35, 36, 37, 38} },	-- 35-38 = 26-29 clean (Body Markings 33-36); 33 / 25 keep their fire demon skin
 		{ name = "Cenarion", lore = "Sworn to the Cenarion Circle and the Emerald Dream, these night elves bear the marks of Moonglade's rites on their skin. They are the guardians of Kalimdor's wild places, from Ashenvale's glades to the slopes of Mount Hyjal. Where the Alliance marches into the wild, they walk beside it as its keepers.", title = "Cenarion Circle", icon = "CENARION",
 			faces = { MALE = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17} },	-- plain faces: the tattooed faces 18-31 are plain faces + Face Markings 15-20 now
-			MALE = {38, 39},	-- copies of 0 and 5: colours 25-32 were 0 / 5 + body tattoos, now Body Markings 29-36 (F-230 round 2)
+			MALE = {3, 6, 19, 22, 23, 38, 39},	-- the earthy and green tones (round 5) + copies 38 / 39 of 0 / 5 (colours 25-32 were 0 / 5 + body tattoos, Body Markings 29-36, round 2)
 			FEMALE = {39, 40, 41, 42, 43} },	-- 39-41 = 30-32 without the leaf tattoos (Body Markings 37-39); 42, 43 = 33, 34 without the moonsilver (Accessories 1, 2)
 	},
 	["SCOURGE"] = {
+		-- I-433 (user 2026-10-31): Rimebound dropped, its colours 7, 16, 17 are Forsaken. faces: female face types
+		-- (with their death knight copies +10); 4 / 14 are Embalmed's, 9 / 19 Plaguebound's. slots: geoset-slot
+		-- choices (option 11 + slot, choice index): male jaw skin 1 (Rot-Kissed, option 13) and face feature 2
+		-- (bone spurs 304, option 14) are Embalmed's
 		{ name = "Forsaken", icon = "SCOURGE",
-			MALE = {0, 1, 2, 3, 4, 5, 6, 12, 13, 20, 21},
-			FEMALE = {0, 1, 2, 3, 4, 5, 6, 12, 13, 20, 21, 27, 28, 29} },	-- 27 = 22 without its baked thorn tattoo; 28, 29 = 25, 26 without the harness (Accessories 1, 2)
-		{ name = "Rimebound", lore = "These Forsaken were raised in Northrend and served in the Lich King's armies before they broke free. The cold of Icecrown never left their flesh, and they know the Scourge's ways from the inside. They serve the Horde as scouts and watchers against the dead they once marched with.", title = "Rimebound Forsaken", icon = "RIMEBOUND",
-			MALE = {7, 16, 17},
-			FEMALE = {7, 16, 17} },
+			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 16, 17, 20, 21},
+			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 16, 17, 20, 21, 27, 28, 29},	-- 27 = 22 without its baked thorn tattoo; 28, 29 = 25, 26 without the harness (Accessories 1, 2)
+			faces = { FEMALE = {0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18} },
+			slots = { MALE = { [13] = {0, 2, 3, 4, 5, 6, 7}, [14] = {0, 1} } } },
 		{ name = "Plaguebound", lore = "Left to rot in the plague-soaked bogs of the Plaguelands before the Banshee Queen called them back, the Plaguebound wear their decay openly. Many serve the Royal Apothecary Society, steeped in the very blight that killed them. To the Horde they are a reminder that the plague can be turned on its makers.", title = "Plaguebound Forsaken", icon = "PLAGUEBOUND",
 			MALE = {9, 18, 19},
-			FEMALE = {9, 18, 19} },
+			FEMALE = {9, 18, 19},
+			faces = { FEMALE = {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19} },
+			slots = { MALE = { [13] = {0, 2, 3, 4, 5, 6, 7}, [14] = {0, 1} } } },
 		{ name = "Embalmed", lore = "Raised from dry crypts far from Lordaeron's rot, the Embalmed are dead that dried rather than decayed. Their sun-cured flesh holds together better than most Forsaken. They serve the Horde as tomb-wardens and envoys to the desert peoples.", title = "Embalmed Forsaken", icon = "EMBALMED",
 			MALE = {8, 10, 11, 14, 15},
-			FEMALE = {8, 10, 11, 14, 15} },
+			FEMALE = {8, 10, 11, 14, 15},
+			faces = { FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18} } },
 	},
 	["WORGEN"] = {
 		shared = { MALE = {5, 6, 7, 9, 10, 14, 17}, FEMALE = {9, 10, 11, 14, 21, 22} },
@@ -317,7 +324,7 @@ CHAR_CREATE_MARK_GATES = {
 	},
 	["HUMAN"] = {
 		["Cultist"] = {
-			MALE = { [7] = {0, 1, 2} },
+			MALE = { [7] = {0, 1, 2, 3, 4} },
 			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6}, [8] = {0, 1} },
 		},
 		["Human"] = {
@@ -327,11 +334,11 @@ CHAR_CREATE_MARK_GATES = {
 	},
 	["NIGHTELF"] = {
 		["Cenarion"] = {
-			MALE = { [7] = {0, 2, 3, 4, 5, 15, 16, 17, 18, 19, 20}, [8] = {0, 1, 2, 3, 4, 29, 30, 31, 32, 33, 34, 35, 36}, [9] = {0, 2, 3, 4, 5} },
-			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15}, [8] = {0, 13, 14, 15, 16, 23, 24, 25, 26, 37, 38, 39}, [9] = {0, 2, 3, 4, 5} },
+			MALE = { [7] = {2, 3, 4, 5, 15, 16, 17, 18, 19, 20}, [8] = {1, 2, 3, 4, 29, 30, 31, 32, 33, 34, 35, 36}, [9] = {0, 2, 3, 4, 5} },
+			FEMALE = { [7] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15}, [8] = {13, 14, 15, 16, 23, 24, 25, 26, 37, 38, 39}, [9] = {0, 2, 3, 4, 5} },
 		},
 		["Illidari"] = {
-			MALE = { [7] = {0, 21}, [8] = {0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 37, 38, 39, 40}, [9] = {0} },
+			MALE = { [7] = {22, 23}, [8] = {1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 37, 38, 39, 40}, [9] = {0} },
 			FEMALE = { [7] = {0, 3, 8, 9, 10, 11, 12, 13}, [8] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 25, 26, 33, 34, 35, 36}, [9] = {0, 2, 3, 4, 5} },
 		},
 		["Kaldorei"] = {
@@ -367,18 +374,15 @@ CHAR_CREATE_MARK_GATES = {
 		["Plaguebound"] = {
 			FEMALE = { [8] = {0} },
 		},
-		["Rimebound"] = {
-			FEMALE = { [8] = {0} },
-		},
 	},
 	["TAUREN"] = {
+		["Bloodhoof"] = {
+			MALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17} },
+			FEMALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17} },
+		},
 		["Grimtotem"] = {
 			MALE = { [7] = {0, 2, 7, 12, 16, 18, 19, 20, 21}, [8] = {0, 2, 7, 12, 16, 18, 19, 20, 21} },
 			FEMALE = { [7] = {0, 2, 7, 12, 16, 18, 19, 20, 21}, [8] = {0, 2, 7, 12, 16, 18, 19, 20, 21} },
-		},
-		["Tauren"] = {
-			MALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17} },
-			FEMALE = { [7] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17}, [8] = {0, 1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17} },
 		},
 	},
 	["TROLL"] = {
@@ -407,6 +411,7 @@ end
 -- Scripts/Character Skins/accessories.py): the values a sub-race may wear. A race / sex / sub-race not listed gets
 -- none, so the row stays hidden there.
 CHAR_CREATE_ACCESSORY_GATES = {
+	["HUMAN"] = { ["Cultist"] = { FEMALE = {0, 1, 2} } },	-- round 5: the spiked harness of Cultist colours 20-23
 	["SCOURGE"] = { ["Forsaken"] = { FEMALE = {0, 1, 2} } },
 	["NIGHTELF"] = { ["Cenarion"] = { FEMALE = {0, 1, 2} } },
 };
@@ -697,6 +702,16 @@ function CharCreate_ApplySubRace()
 		SetCharCustomizationFilter(6, unpack(eyes[gender]));
 	else
 		SetCharCustomizationFilter(6);
+	end
+	-- I-433: geoset-slot choices (options 11-16) a sub-race keeps to itself
+	local slots = subRaces[CharacterCreate.subRace].slots;
+	for index = 11, 16 do
+		local values = slots and slots[gender] and slots[gender][index];
+		if ( values ) then
+			SetCharCustomizationFilter(index, unpack(values));
+		else
+			SetCharCustomizationFilter(index);
+		end
 	end
 	CharCreate_ApplyAccessoryGate(subRaces[CharacterCreate.subRace].name);
 end
@@ -2048,6 +2063,19 @@ local function CharCreateLayout_OptionRow(panel, id)
 	row.left:SetPoint("CENTER", row, "RIGHT", -116, 0);	-- leaves "Body Markings" room
 	row.right = CharCreateLayout_Arrow(row, id, 1, "NextPage");
 	row.right:SetPoint("CENTER", row, "RIGHT", -12, 0);
+	-- a choice between none and one thing is a tickbox instead (user 2026-10-31): CharCreateLayout_IsToggle
+	row.check = CreateFrame("CheckButton", "CharCreateOptionRow"..id.."Check", row);
+	row.check:SetWidth(26);
+	row.check:SetHeight(26);
+	row.check:SetPoint("CENTER", row, "RIGHT", -64, 0);
+	row.check:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up");
+	row.check:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down");
+	row.check:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight", "ADD");
+	row.check:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check");
+	row.check:SetScript("OnClick", function()
+		CharacterCustomization_Right(id);
+	end);
+	row.check:Hide();
 	local rule = CharCreateLayout_Line(row, 1, 0.82, 0, 0.15);
 	rule:SetHeight(1);
 	rule:SetPoint("BOTTOMLEFT", row, "BOTTOMLEFT");
@@ -2487,6 +2515,46 @@ function CharCreateLayout_OptionLabel(id)
 	return source:IsShown(), source.text:GetText();
 end
 
+-- F-230 slot types whose choices are all shapes (no "none" first): never a tickbox
+CHAR_CREATE_SHAPE_SLOT_TYPES = { [4] = true, [5] = true, [6] = true, [8] = true, [10] = true, [24] = true };
+
+-- a row whose two reachable choices are "none" and one thing: the F-151 / F-230 layers (7-10, value 0 = none) and the
+-- feature slots (11-16) whose first choice is "none" (every slot type but the shapes)
+-- the values each customization's filter last allowed (nil = unfiltered), for the tickbox test
+CHAR_CREATE_FILTERS = {};
+if ( SetCharCustomizationFilter and not CHAR_CREATE_FILTER_HOOKED ) then
+	CHAR_CREATE_FILTER_HOOKED = true;
+	local setFilter = SetCharCustomizationFilter;
+	SetCharCustomizationFilter = function(index, ...)
+		CHAR_CREATE_FILTERS[index] = select("#", ...) > 0 and { ... } or nil;
+		return setFilter(index, ...);
+	end
+end
+
+function CharCreateLayout_IsToggle(id, count)
+	if ( count ~= 2 ) then
+		return false;
+	end
+	if ( id >= 7 and id <= 10 ) then
+		-- a tickbox is none-or-one: a gated row without "none" (Illidari gold / dark blindfold) keeps its arrows
+		local values = CHAR_CREATE_FILTERS[id];
+		if ( values ) then
+			for _, value in ipairs(values) do
+				if ( value == 0 ) then
+					return true;
+				end
+			end
+			return false;
+		end
+		return true;
+	end
+	if ( id >= 11 ) then
+		local slotType = GetZepCustomizationSlot and GetZepCustomizationSlot(id - 11);
+		return slotType ~= nil and not CHAR_CREATE_SHAPE_SLOT_TYPES[slotType];
+	end
+	return false;
+end
+
 function CharCreateLayout_RefreshOptions()
 	if ( not CharCreateLeftPanel ) then
 		return;
@@ -2505,10 +2573,23 @@ function CharCreateLayout_RefreshOptions()
 			end
 			if ( shown ) then
 				row.label:SetText(label);
-				if ( count and count > 0 ) then
+				local toggle = CharCreateLayout_IsToggle(id, count);
+				if ( toggle ) then
+					row.value:SetText("");
+					row.check:SetChecked(position == 2);
+				elseif ( count and count > 0 ) then
 					row.value:SetText(position.." / "..count);
 				else
 					row.value:SetText("");
+				end
+				if ( toggle ) then
+					row.left:Hide();
+					row.right:Hide();
+					row.check:Show();
+				else
+					row.check:Hide();
+					row.left:Show();
+					row.right:Show();
 				end
 				if ( row.y ~= y ) then
 					row:ClearAllPoints();

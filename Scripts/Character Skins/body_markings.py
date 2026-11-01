@@ -24,6 +24,7 @@ script's SQL keeps only the colour-9 plain-skin UPDATE.
 
   python3 "Scripts/Character Skins/body_markings.py" [--preview DIR] [--migration]
 """
+import os
 import importlib.util
 import json
 import subprocess
@@ -236,7 +237,7 @@ def repair(skin, filler):
 # into the head sections) against its base colour's, tone-matched per region (body / head) so the cut carries no
 # base skin colour, the eyeball island left clear. A design baked on several bases is cut from the first pair; the
 # others are checked against it (base + layer vs the marked colour) and reported.
-FOLDERS = {1: 'Human', 3: 'Dwarf', 4: 'NightElf', 5: 'Scourge', 6: 'Tauren', 7: 'Gnome', 8: 'Troll', 10: 'BloodElf', 11: 'Draenei'}
+FOLDERS = {1: 'Human', 2: 'Orc', 3: 'Dwarf', 4: 'NightElf', 5: 'Scourge', 6: 'Tauren', 7: 'Gnome', 8: 'Troll', 10: 'BloodElf', 11: 'Draenei'}
 HEAD_BOX = (0, 320, 256, 192)                    # FaceUpper (0,320,256,64) over FaceLower (0,384,256,128), atlas 512
 # (race, sex) -> [(section, type, name, [(marked colour, base colour), ...], parts, strength[, mode[, (race, sex)]])]
 #   parts: 'body', 'face', 'body+face' or 'arms'; strength: (peak, p90) a marking region's diff must reach (orc
@@ -262,6 +263,8 @@ SPLITS = {
              (8, 3, 'Grimtotem paint white', [(41, 0)], 'body+face', (120, 80))],
     (1, 0): [(8, 1, 'Bat eye paint', [(18, 0), (19, 7)], 'face', (100, 60), 'shade'),
              (8, 2, 'Tear streaks', [(20, 0), (21, 4), (22, 8), (23, 1), (24, 5), (25, 9)], 'face', (70, 45), 'shade')],
+    # 5b tried a base cut (100, 60) to keep the chest piece; its proof failed (chest piece and collar lost), so the
+    # shipped shade cut stays until the chest piece / collar are an accessory (batch 1, 2026-11-01)
     (1, 1): [(6, 1, 'Thorn tattoo', [(18, 0), (19, 7)], 'body', (150, 100), 'shade')],
     (5, 1): [(6, 1, 'Thorn tattoo', [(23, 4), (22, 6)], 'body', (150, 100), 'shade', (1, 1))],
     (10, 0): [(6, 1, 'Arcane swirls red', [(48, 2), (49, 0)], 'arms', (150, 100)),
@@ -419,6 +422,39 @@ def residual(donor, base, layer, race, sex, mask=None):
     return float(d.mean()), float(np.percentile(d, 99)), float(inside), float(raw.mean())
 
 
+def skin_agnostic(layer, donor, matched, dark=12.0, black=35.0, glow=(60, 170), agree=None):
+    """F-230 batch 2 (Eredar male: a value is worn on every skin colour, and the 31 cut painted lilac over red 41):
+    keep only the cut's pixels that are pattern on any skin - much darker than the tone-matched base AND dark in
+    themselves (the demon limbs), or fel green (the lines). Skin-tone differences fall out."""
+    def lab(rgb):
+        c = np.asarray(rgb, np.float64) / 255
+        c = np.where(c > 0.04045, ((c + 0.055) / 1.055) ** 2.4, c / 12.92)
+        y = c @ np.array([0.2126, 0.7152, 0.0722])
+        return np.where(y > 0.008856, 116 * np.cbrt(y) - 16, 903.3 * y)
+    Ld, Lm = lab(donor), lab(matched)
+    h = np.asarray(donor, np.float32) / 255
+    mx, mn = h.max(axis=2), h.min(axis=2)
+    sat = (mx - mn) / np.maximum(mx, 1e-3)
+    hue = np.degrees(np.arctan2(np.sqrt(3) * (h[..., 1] - h[..., 2]), 2 * h[..., 0] - h[..., 1] - h[..., 2])) % 360
+    green = (hue > glow[0]) & (hue < glow[1]) & (sat > 0.3) & (mx > (0.25 if glow[0] > 50 else 0.55))
+    if glow[0] <= 50:
+        green &= Ld > Lm + 8            # flames glow: brighter than the skin under them (orange skin is not fire)
+    darker = (Ld < Lm - dark) & (Ld < black)
+    keep = ndimage.binary_opening(darker, iterations=1) | ndimage.binary_dilation(green, iterations=1)
+    keep = ndimage.binary_closing(keep, iterations=1)
+    if agree is not None:                     # another colour's keep of the same design: the pattern's layout
+        keep &= ndimage.binary_dilation(agree, iterations=4)
+    soft = ndimage.gaussian_filter(keep.astype(np.float32), 0.8)
+    out = layer.copy()
+    out[..., 3] = (layer[..., 3].astype(np.float32) * np.clip(soft * 1.3, 0, 1)).astype(np.uint8)
+    return out
+
+
+# agnostic cuts limited to where another colour's cut of the same design agrees (Eredar male red: 30's shading put
+# red skin patches on the shoulders, batch-2 proof b2_eredar_m_red_on42) - (race, sex, kind) -> (donor, base)
+AGREE = {(11, 0, 127): (31, 40), (11, 1, 127): (31, 17)}
+
+
 def split_markings(files, query, preview=None, table=None, extra=False):
     """F-230: the other races' unbundled markings as sources for markings_regroup.py:
     [{race, sex, old_section, old_type, kind, design, colour, pairs, source, image (512 RGBA)}]. Writes nothing to the zpak.
@@ -450,9 +486,41 @@ def split_markings(files, query, preview=None, table=None, extra=False):
                     cands.append(('matte', matte(donors, bases, mask, cuts[0][2])))
             if also and (*also, section, kind) in chosen:
                 cands.append((f'{FOLDERS[also[0]]} {SEXES[also[1]]} layer', chosen[(*also, section, kind)]))
-            scores = [np.mean([residual(atlas(race, g, d), atlas(race, g, b), lay, race, g, mask)[2] for d, b in pairs])
-                      for _, lay in cands]
-            how, layer = cands[int(np.argmin(scores))]
+            if mode == 'self':
+                # round 5: the marked skin against its own smoothed skin (no base art needed, see self_cut)
+                body_r, head_r, eye_r = regions(race, g)
+                valid = np.zeros_like(body_r)
+                if 'body' in parts:
+                    valid |= body_r
+                if 'face' in parts:
+                    valid |= head_r
+                valid &= ~eye_r
+                layer = self_cut(atlas(race, g, donor), valid)
+                how, scores, cands = 'self', [0.0], [('self', layer)]
+            elif mode == 'tone':
+                layer = tone_pattern(atlas(race, g, donor), atlas(race, g, base), race, g, parts)
+                how, scores, cands = 'tone', [0.0], [('tone', layer)]
+            elif mode in ('agnostic', 'agnostic_fire'):
+                # batch 2: the first pair's cut, kept only where it is pattern on ANY skin (see skin_agnostic); fire =
+                # the orange / yellow flames instead of fel green
+                agree = None
+                if (race, g, kind) in AGREE:
+                    d2, b2 = AGREE[(race, g, kind)]
+                    l2, _m2, _v2, mt2 = cut(atlas(race, g, d2), atlas(race, g, b2), race, g, parts, strength)
+                    agree = skin_agnostic(l2, atlas(race, g, d2), mt2)[..., 3] > 40
+                layer = skin_agnostic(cuts[0][0], atlas(race, g, donor), cuts[0][3],
+                                      glow=(5, 60) if mode == 'agnostic_fire' else (60, 170), agree=agree)
+                if (race, g) == (4, 0):
+                    layer[..., 3][regions(race, g)[1]] = 0   # Illidari male's face row is the blindfold: body only
+                how, scores, cands = 'agnostic', [0.0], [('agnostic', layer)]
+            elif mode == 'first':
+                # the first pair's cut only (5b: the other pair's colour has its own value, but stays a source of this
+                # one so an applied migration does not change)
+                how, layer, scores = f'cut {pairs[0][0]}/{pairs[0][1]}', cuts[0][0], [0.0]
+            else:
+                scores = [np.mean([residual(atlas(race, g, d), atlas(race, g, b), lay, race, g, mask)[2]
+                                   for d, b in pairs]) for _, lay in cands]
+                how, layer = cands[int(np.argmin(scores))]
             if extra and (race, g, kind) in ROUND2_HUE:
                 layer = keep_hue(layer, *ROUND2_HUE[(race, g, kind)])
                 how += ' - hue'
@@ -463,11 +531,11 @@ def split_markings(files, query, preview=None, table=None, extra=False):
             report.append(f'{folder} {sex} s{section} t{kind} {name}: ' + ', '.join(
                 f'{n} {sc:.1f}' for (n, _), sc in zip(cands, scores)) + f' -> {how}')
             words = name.split()
-            colour = words[-1] if words[-1] in ('red', 'blue', 'black', 'purple', 'white', 'gold', 'violet', 'green') else ''
+            colour = words[-1] if words[-1] in ('red', 'blue', 'black', 'purple', 'white', 'gold', 'violet', 'green', 'lilac') else ''
             design = ' '.join(words[:-1]) if colour else name
             out.append({'race': race, 'sex': g, 'old_section': section, 'old_type': None if extra else kind,
                         'kind': 'marking', 'design': design, 'colour': colour, 'pairs': pairs,
-                        **({'extra': True, 'round2': True, 'round': 3 if kind >= 111 else 2} if extra else {}),
+                        **({'extra': True, 'round2': True, 'round': 5 if kind >= 121 else 3 if kind >= 111 else 2} if extra else {}),
                         'source': f'baked split of colour(s) {", ".join(str(d) for d, _ in pairs)} ({how}, {parts})',
                         'image': Image.fromarray(layer, 'RGBA')})
             if preview:
@@ -502,10 +570,12 @@ ROUND2 = {
 # 13-16, gnome F 9). Bases are the plain colour
 # with the closest structure (affine fit), the cut is tone-matched to it. Same (race, sex) keys: the n values are new.
 ROUND3 = {                                       # n >= 111: the source is flagged round 3 (own migration)
+    # batch 1 (2026-11-01): the self cut ships only where its proof passed (male runes white / blue); fel slashes and
+    # violet keep the shipped round-3 cut (+ hue filter) until they pass
     (4, 0): [(7, 112, 'Illidari fel slashes', [(34, 19)], 'body', (100, 60)),
-             (7, 113, 'Illidari runes white', [(35, 23)], 'body', (100, 60)),
+             (7, 113, 'Illidari runes white', [(35, 23)], 'body', (100, 60), 'self'),
              (7, 114, 'Illidari runes violet', [(36, 19)], 'body', (100, 60)),
-             (7, 115, 'Illidari runes blue', [(37, 19)], 'body', (100, 60))],
+             (7, 115, 'Illidari runes blue', [(37, 19)], 'body', (100, 60), 'self')],
     (4, 1): [(7, 112, 'Illidari fel slashes', [(26, 20)], 'body', (100, 60)),
              (7, 113, 'Illidari runes white', [(27, 19)], 'body', (100, 60)),
              (7, 114, 'Illidari runes violet', [(28, 19)], 'body', (100, 60)),
@@ -521,8 +591,10 @@ ROUND3 = {                                       # n >= 111: the source is flagg
              (7, 112, 'Blood paint red', [(38, 36)], 'body+face', (120, 80))],
     (8, 1): [(7, 111, 'Tiger stripes', [(37, 19)], 'body+face', (100, 60)),
              (7, 112, 'Blood paint red', [(38, 1)], 'body+face', (120, 80))],
+    # 5b tried the whole demon pattern of 31 (first pair, (60, 40)): it passed on 31 but carries 31's lilac skin, which
+    # paints lilac over red colour 41 (30's clean colour) - held back from batch 1, shipped cut stays
     (11, 0): [(7, 111, 'Fel lines', [(30, 20), (31, 40)], 'body', (100, 60))],
-    (11, 1): [(7, 111, 'Fel lines', [(30, 4), (31, 17)], 'body', (100, 60))],
+    (11, 1): [(7, 111, 'Fel lines', [(30, 4), (31, 17)], 'body', (100, 60))],   # female 5b proof failed: shipped cut
 }
 # round-3 cuts whose marking shares regions with baked clothing: keep only the pixels near the design's own hue
 # (night elf female Cenarion 30-32 carry bead cords over the leaf tattoos)
@@ -530,6 +602,130 @@ ROUND3 = {                                       # n >= 111: the source is flagg
 # -> (hue in degrees or None = the layer's own dominant hue, least HSV value): fel is the bright green glow (~100)
 ROUND2_HUE = {(4, 1, 116): (None, 0.4), (4, 1, 117): (None, 0.4), (4, 1, 118): (None, 0.4),
               (4, 0, 112): (100, 0.35), (4, 1, 112): (100, 0.35), (11, 0, 111): (100, 0.35), (11, 1, 111): (100, 0.35)}
+if os.environ.get('F230_STAGE_B2'):
+    # batch-2 candidates for shipped round-3 values: Illidari male violet runes as a self cut (as white / blue), fel
+    # slashes skin-agnostic (green glow + dark) instead of the glow-only hue filter
+    ROUND3[(4, 0)] = [(s, k, n, p, pt, st, 'self') if k == 114 else
+                      (s, k, n, p, pt, (60, 40), 'agnostic') if k == 112 else (s, k, n, p, pt, st, *o)
+                      for s, k, n, p, pt, st, *o in ROUND3[(4, 0)]]
+    del ROUND2_HUE[(4, 0, 112)]
+# (round 5: the fel slashes / fel lines are self cuts now; the hue filter kept only their glow)
+
+
+# round 5 (2026-10-31, user): human Cultist colours still painted, the Illidari fire colours split after all.
+# n >= 121: the sources are flagged round 5 (own migration).
+ROUND5 = {
+    # 5b: one value per paint (16 and 17 carry different designs), each cut from its own colour
+    (1, 0): [(6, 121, 'Cultist pale points', [(16, 3)], 'face', (40, 25)),
+             (6, 122, 'Cultist dark mask', [(17, 8)], 'face', (60, 40))],
+    (1, 1): [(6, 121, 'Cultist tear crescents pale', [(16, 1)], 'face', (40, 25)),
+             (6, 122, 'Cultist tear crescents dark', [(17, 7)], 'face', (40, 25)),
+             (6, 123, 'Cultist tear streaks', [(24, 5)], 'face', (60, 40)),
+             (6, 124, 'Cultist tear streaks dark', [(25, 9)], 'face', (60, 40))],
+    # 5b proof: the self cut kept only the flames; the bake also darkens hands, forearms, feet and the brow (the whole
+    # demon pattern), so it is the base-difference cut over the body like the Eredar
+    (4, 0): [(7, 121, 'Illidari fel fire tattoo', [(33, 13)], 'body', (60, 40), 'agnostic_fire')],
+    (4, 1): [(7, 121, 'Illidari fel fire tattoo', [(25, 0)], 'body', (60, 40), 'agnostic_fire')],   # face fire: no clean cut
+}
+# round 5b (2026-10-31, after the round-5 values): Illidari 34-37 face paint (dropped by the round-3 body-only cut),
+# the Blackrock demon skins 15 / 44 / 45, the Eredar demon pattern's face part. Kept apart from ROUND5 so its values
+# number after every round-5 value.
+ROUND5B = {
+    (4, 0): [(6, 123, 'Illidari tear paint', [(34, 19)], 'face', (80, 50)),
+             (6, 124, 'Illidari cheek runes white', [(35, 23)], 'face', (80, 50)),
+             (6, 125, 'Illidari cheek runes violet', [(36, 19)], 'face', (80, 50)),
+             (6, 126, 'Illidari cheek runes blue', [(37, 19)], 'face', (80, 50))],
+    (2, 0): [(7, 121, 'Blackrock demon pattern blue', [(15, 19)], 'body+face', (60, 40), 'tone'),
+             (7, 122, 'Blackrock demon pattern lilac', [(44, 19)], 'body+face', (60, 40), 'tone'),
+             (7, 123, 'Blackrock demon pattern purple', [(45, 19)], 'body+face', (60, 40), 'tone')],
+    (2, 1): [(7, 122, 'Blackrock demon pattern lilac', [(44, 19)], 'body+face', (60, 40), 'tone'),
+             (7, 123, 'Blackrock demon pattern purple', [(45, 19)], 'body+face', (60, 40), 'tone')],
+    # the Eredar demon pattern of the red colour 30, cut against a red base (the 31 cut over 20 pulled lilac skin in);
+    # no face layer: the baked faces carry no pattern the clean faces lack (5b proof: a face cut only added a blaze)
+    # batch 2: one whole demon pattern per base colour, skin-agnostic (only dark limbs and fel green)
+    (11, 0): [(7, 127, 'Fel pattern red', [(30, 20)], 'body', (60, 40), 'agnostic'),
+              (7, 128, 'Fel pattern lilac', [(31, 40)], 'body', (60, 40), 'agnostic')],
+    (11, 1): [(7, 127, 'Fel pattern red', [(30, 15)], 'body', (60, 40), 'agnostic'),
+              (7, 128, 'Fel pattern lilac', [(31, 17)], 'body', (60, 40), 'agnostic')],
+}
+
+
+# round 5 face-type splits: human male 33 / 34 (+ DK 36 / 37) are face 2 (DK 14) with painted eye sockets
+FACE_SPLITS5 = {
+    (1, 0): [('Bat eye sockets', '', [(33, 2), (36, 14)], 0, 'crisp'),
+             ('Black eye sockets', '', [(34, 2), (37, 14)], 0, 'crisp')],
+}
+# round 5: the Illidari blindfold as a face marking (user: Illidari are always masked, on any night elf face). The
+# blindfold faces 5 / 20 (+ DK 14 / 27) have no plain twin with the same art, and the leather is recoloured per skin
+# colour, so the band is the gold leather of colour 0 (hue 25-80 on the pink skin), closed and filled, kept in that gold
+# on every skin; face 20 adds its cheek marks (cut against face 5).
+# value design -> (marked type, DK copy, plain base, its DK copy)
+# value design -> (marked type, DK copy, plain base, its DK copy, strap colour). Round 5b (user: "too faint, more like a
+# tattoo"): an opaque leather strap (work/blindfold_strap.py) along the band, black / crimson / fel-trimmed; the first two
+# names shipped in PATCH-L v72 and keep their numbers, the colour variants append.
+BLINDFOLD = {(4, 0): [('Illidari blindfold', 5, 14, 3, 12, 'gold'),
+                      ('Illidari blindfold dark', 5, 14, 3, 12, 'dark')]}
+# (user 2026-11-01: gold + dark approved; 'Illidari blindfold and cheek marks' (face 20) dropped for now - its cheek
+# marks, cut at colour 0, came out reddish on dark skins. Face 20 / 27 characters get the gold band.)
+# 5b review (user): the black ragged strap was worse than the original -> 'gold' = face 5's own leather band, with the
+# dark rim grown back in and the edge fitted to a clean curve (work/blindfold_gold.py). Crimson / fel variants dropped.
+
+
+def blindfold_band(files, query, race, g):
+    """The blindfold's pixels on the 512 atlas: the gold leather of face 5, colour 0 (hue 25-80 on the pink skin)."""
+    _body_r, head_r, eye_r = regions(race, g)
+    h = atlas_rgb(files, query, race, g, 0, 5) / 255
+    mx, mn = h.max(axis=2), h.min(axis=2)
+    sat = (mx - mn) / np.maximum(mx, 1e-3)
+    hue = np.degrees(np.arctan2(np.sqrt(3) * (h[..., 1] - h[..., 2]), 2 * h[..., 0] - h[..., 1] - h[..., 2])) % 360
+    band = (hue > 25) & (hue < 80) & (sat > 0.2) & head_r & ~eye_r
+    band = ndimage.binary_closing(band, iterations=3)
+    lab_, n = ndimage.label(band)
+    if n:
+        sizes = ndimage.sum(band, lab_, range(1, n + 1))
+        band = np.isin(lab_, 1 + np.flatnonzero(sizes >= 300))
+    return ndimage.binary_fill_holes(band) & head_r & ~eye_r
+
+
+def blindfold_sources(files, query, preview=None):
+    spec = importlib.util.spec_from_file_location('blindfold_strap', Path(__file__).with_name('work') / 'blindfold_strap.py')
+    bs = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(bs)
+    out = []
+    for (race, g), designs in BLINDFOLD.items():
+        band = blindfold_band(files, query, race, g)
+        spec_g = importlib.util.spec_from_file_location('blindfold_gold', Path(__file__).with_name('work') / 'blindfold_gold.py')
+        bg = importlib.util.module_from_spec(spec_g)
+        spec_g.loader.exec_module(bg)
+        face5 = np.asarray(atlas_rgb(files, query, race, g, 0, 5)).clip(0, 255).astype(np.uint8)
+        gold = bg.gold_layer(face5, bg.grow_band(face5, band, regions(race, g)[1]))
+        band = gold[..., 3] > 0
+        strip = None
+        base0 = atlas_rgb(files, query, race, g, 0, 5)
+        for name, marked, dk, base, dk_base, colour in designs:
+            layer = (gold.copy() if colour == 'gold' else bg.dark_layer(gold) if colour == 'dark'
+                     else bs.strap(band, colour, strip or bs.leather_strip()))
+            if marked != 5:
+                cheek, _m, _v, _mt = cut(atlas_rgb(files, query, race, g, 0, marked), base0, race, g, 'face', (100, 60))
+                cheek[..., 3][band] = 0
+                ca = cheek[..., 3:].astype(np.float32) / 255
+                ba = layer[..., 3:].astype(np.float32) / 255
+                rgb = layer[..., :3] * ba + cheek[..., :3] * ca * (1 - ba)
+                al = ba + ca * (1 - ba)
+                layer = np.dstack([rgb / np.maximum(al, 1e-3), al * 255]).clip(0, 255).astype(np.uint8)
+            pairs = [(marked, base), (dk, dk_base)] if colour in ('black', 'gold') else []
+            if colour == 'gold':
+                pairs += [(20, base), (27, dk_base)]          # the cheek-mark faces: gold band, marks dropped
+            out.append({'race': race, 'sex': g, 'old_section': 6, 'old_type': None, 'kind': 'marking',
+                        'design': name, 'colour': '', 'pairs': [], 'face_pairs': pairs,
+                        'extra': True, 'round2': True, 'round': 5,
+                        'source': f'leather strap along the blindfold band of face {marked} ({colour})',
+                        'image': Image.fromarray(layer, 'RGBA')})
+            print(f'{FOLDERS[race]} {SEXES[g]}: {name} ({colour}, {(layer[..., 3] > 48).mean():.2%})')
+            if preview:
+                preview.mkdir(parents=True, exist_ok=True)
+                Image.fromarray(layer, 'RGBA').save(preview / f'{FOLDERS[race]}{SEXES[g]}_{name.replace(" ", "_")}.png')
+    return out
 
 
 # atlas regions a round-2 cut must not keep (compositor REGIONS): baked clothing, not markings. Dwarf female 32 carried
@@ -537,6 +733,65 @@ ROUND2_HUE = {(4, 1, 116): (None, 0.4), (4, 1, 117): (None, 0.4), (4, 1, 118): (
 # (2026-10-30 review: the solid wrist band next to the gloves is their cuff and goes with them; the zigzag upper-arm
 # band and the torso / back pattern are tattoo and stay)
 ROUND2_DROP = {(3, 1, 102): ('ArmLower', 'Hand', 'Foot', 'LegLower'), (11, 0, 101): ('Foot',), (11, 1, 101): ('Foot',)}
+
+
+def tone_pattern(donor, base, race, sex, parts, sigma=6.0, full=70.0):
+    """5b (Blackrock demon skins): a two-tone pattern that is lighting, not ink. The base is moved to the donor's overall
+    tone by one global quadratic RGB map (so the clean colour, made the same way, is the base in that tone); the pattern
+    is the LOW-frequency difference left over (blurred donor - blurred mapped base), painted as the donor's own smoothed
+    colour with alpha rising with that difference. Shading and creases stay the clean colour's."""
+    body, head, eye = regions(race, sex)
+    valid = np.zeros_like(body)
+    if 'body' in parts:
+        valid |= body
+    if 'face' in parts:
+        valid |= head
+    valid &= ~eye
+    x = base.reshape(-1, 3) / 255
+    feats = np.stack([np.ones(len(x)), x[:, 0], x[:, 1], x[:, 2], x[:, 0] ** 2, x[:, 1] ** 2, x[:, 2] ** 2,
+                      x[:, 0] * x[:, 1], x[:, 0] * x[:, 2], x[:, 1] * x[:, 2]], axis=1)
+    m = valid.ravel() & (donor.reshape(-1, 3).sum(1) > 30)
+    coef, *_ = np.linalg.lstsq(feats[m], donor.reshape(-1, 3)[m], rcond=None)
+    mapped = np.clip(feats @ coef, 0, 255).reshape(base.shape)
+    dl = np.dstack([ndimage.gaussian_filter(donor[..., k], sigma) for k in range(3)])
+    bl = np.dstack([ndimage.gaussian_filter(mapped[..., k], sigma) for k in range(3)])
+    diff = np.abs(dl - bl).sum(axis=2)
+    a = np.clip((diff - 12) / full, 0, 1) * valid
+    a = ndimage.gaussian_filter(a, 1.0)
+    # the layer colour: the donor's value at that pixel against the mapped base's (keeps the pattern's own detail)
+    c = np.clip(mapped + (dl - bl) / np.maximum(a[..., None], 0.15), 0, 255)
+    return np.dstack([c, np.clip(a * 255, 0, 255)]).astype(np.uint8)
+
+
+def self_cut(rgb, valid, lo=10.0, hi=22.0, min_px=30, size=31):
+    """Round 5 (user: the Illidari runes / fel slashes, draenei fel lines and human thorn tattoo cut against a base colour
+    were poor): a 512 RGBA layer of the marking cut against the skin's OWN smooth estimate - the neighbourhood median
+    with the marking replaced, iterated - so no base colour with the same art is needed. The marking = CIE Lab deltaE
+    over `hi` from that estimate (soft from `lo`), components of `min_px` and more; colour unmixed from the estimate."""
+    def lab(x):
+        c = np.asarray(x, np.float64) / 255
+        c = np.where(c > 0.04045, ((c + 0.055) / 1.055) ** 2.4, c / 12.92)
+        xyz = c @ np.array([[0.4124, 0.3576, 0.1805], [0.2126, 0.7152, 0.0722], [0.0193, 0.1192, 0.9505]]).T
+        xyz /= np.array([0.95047, 1.0, 1.08883])
+        f = np.where(xyz > 0.008856, np.cbrt(xyz), 7.787 * xyz + 16 / 116)
+        return np.stack([116 * f[..., 1] - 16, 500 * (f[..., 0] - f[..., 1]), 200 * (f[..., 1] - f[..., 2])], axis=-1)
+
+    rgb = np.asarray(rgb, np.float32)
+    lab_rgb = lab(rgb)
+    work = rgb.copy()
+    for _ in range(3):
+        bg = np.dstack([ndimage.median_filter(work[..., k], size=size) for k in range(3)])
+        d = np.linalg.norm(lab_rgb - lab(bg), axis=2)
+        work = np.where(((d > 14.0) & valid)[..., None], bg, rgb)
+    mask = ndimage.binary_closing((d > hi) & valid, iterations=1) & valid
+    lab_, n = ndimage.label(mask)
+    if n:
+        sizes = ndimage.sum(mask, lab_, range(1, n + 1))
+        mask = np.isin(lab_, 1 + np.flatnonzero(sizes >= min_px))
+    grow = ndimage.binary_dilation(mask, iterations=2) & valid
+    a = np.maximum(np.clip((d - lo) / (hi - lo), 0, 1) * grow, mask.astype(np.float32))
+    c = (rgb - (1 - a[..., None]) * bg) / np.maximum(a[..., None], 0.08)
+    return np.dstack([np.clip(c, 0, 255), np.clip(a * 255, 0, 255)]).astype(np.uint8)
 
 
 def keep_hue(layer, target=None, min_value=0.0, reach=35, min_sat=0.22):
@@ -609,13 +864,41 @@ TROLL_PAINT = {5: 'Spiked skull paint', 6: 'Ringed eye paint', 7: 'Warmask paint
                9: 'Striped paint', 10: 'Splash paint'}
 
 
+def crisp_tips(layer, donor, base, race, g, core=0.9):
+    """5b review (user, Cultist sockets): the cut thickens the drips running down onto the cheeks and cuts off their fine
+    points; the baked original tapers to crisp tips. Opaque paint re-matted per pixel instead: alpha = how far the baked
+    pixel has moved from the plain face towards the paint colour (projection of donor - base on paint - base), the paint
+    colour taken from the nearest solid core pixel. Composited over the plain face this gives the baked pixels back, so
+    the edges and points are the original's (its own 1 px anti-aliasing, no blur)."""
+    _b, _h, eye_r = regions(race, g)
+    a0 = layer[..., 3].astype(np.float32) / 255
+    solid = ndimage.binary_erosion(a0 >= core, iterations=1)
+    if not solid.any():
+        return layer
+    near = ndimage.distance_transform_edt(~solid, return_indices=True)[1]
+    d, b = np.asarray(donor, np.float32), np.asarray(base, np.float32)
+    paint = np.asarray(layer[..., :3], np.float32)[near[0], near[1]]
+    pb = paint - b
+    a = ((d - b) * pb).sum(axis=2) / np.maximum((pb ** 2).sum(axis=2), 1.0)
+    zone = ndimage.binary_dilation(a0 > 0.02, iterations=3) & ~eye_r
+    a = np.where(zone & ((pb ** 2).sum(axis=2) > 400), np.clip(a, 0, 1), 0)
+    a = np.where(a < 0.08, 0, a)                                     # drop the skin-noise floor
+    out = layer.copy()
+    out[..., :3] = np.where(zone[..., None], paint, layer[..., :3]).clip(0, 255).astype(np.uint8)
+    out[..., 3] = np.where(zone, a * 255, layer[..., 3]).clip(0, 255).astype(np.uint8)
+    return out
+
+
 def face_split_sources(files, query, preview=None, table=None, rnd=2):
     out = []
     for (race, g), designs in (FACE_SPLITS if table is None else table).items():
-        for name, colour, pairs, c in designs:
+        for name, colour, pairs, c, *post in designs:
             marked, base = pairs[0]
             layer, mask, _v, _m = cut(atlas_rgb(files, query, race, g, c, marked),
                                       atlas_rgb(files, query, race, g, c, base), race, g, 'face', (100, 60))
+            if 'crisp' in post:
+                layer = crisp_tips(layer, atlas_rgb(files, query, race, g, c, marked),
+                                   atlas_rgb(files, query, race, g, c, base), race, g)
             out.append({'race': race, 'sex': g, 'old_section': 6, 'old_type': None, 'kind': 'marking',
                         'design': name, 'colour': colour, 'pairs': [], 'face_pairs': pairs,
                         'extra': True, 'round2': True, 'round': rnd,
@@ -684,6 +967,30 @@ def troll_paint_sources(files, query, preview=None):
     return out
 
 
+# Shipping in batches (coordinator 2026-11-01): a round-5 design ships only once its three-panel proof passed. The
+# others stay switched off here (no value, no clean colour, no migration) until they pass.
+# Illidari cheek runes (white / blue) passed but stay off: Illidari male's face row is the blindfold only (always
+# masked), so they would be values nobody can pick - they come back as blindfold + runes combinations if wanted.
+BATCH_ON = {'Bat eye sockets', 'Black eye sockets', 'Illidari blindfold', 'Illidari blindfold dark'}
+SHIPPED = set(BATCH_ON)                      # batch 1 (2026-11-01); later batches are added here as they ship
+# batch-2 candidates: on only in a staged proof run (F230_STAGE_B2=1), merged into BATCH_ON once approved
+BATCH2 = {'Fel pattern red', 'Fel pattern lilac', 'Illidari fel fire tattoo',
+          'Cultist pale points', 'Cultist dark mask', 'Cultist tear crescents pale', 'Cultist tear crescents dark',
+          'Cultist tear streaks', 'Cultist tear streaks dark'}
+if os.environ.get('F230_STAGE_B2'):
+    BATCH_ON |= BATCH2
+
+
+def _batch(sources):
+    """Round-5 sources: the shipped batches first (in their source order, so their values never move), then the
+    batch being staged, appended after them."""
+    def on(s, names):
+        return f"{s['design']} {s.get('colour') or ''}".strip() in names or s['design'] in names
+    shipped = [s for s in sources if s.get('round') != 5 or on(s, SHIPPED)]
+    staged = [s for s in sources if s.get('round') == 5 and not on(s, SHIPPED) and on(s, BATCH_ON)]
+    return shipped + staged
+
+
 def round2_sources(files=None, query=None, preview=None):
     """F-230 round 2 sources for markings_regroup.py (flagged extra / round2): colour splits, face-type splits and the
     troll male facial-hair paint."""
@@ -692,7 +999,32 @@ def round2_sources(files=None, query=None, preview=None):
     # round 3 last: values are numbered in source order, so the shipped round-2 values never move
     return (split_markings(files, query, preview, ROUND2, extra=True) + face_split_sources(files, query, preview)
             + troll_paint_sources(files, query, preview) + split_markings(files, query, preview, ROUND3, extra=True)
-            + face_split_sources(files, query, preview, FACE_SPLITS4, rnd=4))
+            + face_split_sources(files, query, preview, FACE_SPLITS4, rnd=4)
+            + _batch(split_markings(files, query, preview, ROUND5, extra=True)
+                     + face_split_sources(files, query, preview, FACE_SPLITS5, rnd=5)
+                     + blindfold_sources(files, query, preview)
+                     + fel_rune_sources(files) + split_markings(files, query, preview, ROUND5B, extra=True)))
+
+
+def fel_rune_sources(files):
+    """Round 5b (user: Fel Orc should get the fel pattern): the green / orange rune ink of orc colours 42 / 43 over 19
+    (MARKINGS 8 / 9, 'ink' cut, F-151), body markings gated to Fel Orc. The offered Fel Orc skins carry no bake."""
+    out = []
+    for g, sex in SEXES.items():
+        skins = {}
+
+        def skin(c):
+            if c not in skins:
+                skins[c] = load(files, SKIN_TEX.format(sex=sex, colour=c))
+            return skins[c]
+        for n, colour in ((8, 'green'), (9, 'orange')):
+            name, donor, base, mode, *opts = MARKINGS[n]
+            layer, _cover = marking(skin(donor), skin(base), mode, *opts[:2], *(skin(c) for c in opts[2:3]))
+            out.append({'race': RACE, 'sex': g, 'old_section': 7, 'old_type': None, 'kind': 'marking',
+                        'design': 'Fel runes', 'colour': colour, 'pairs': [], 'extra': True, 'round2': True, 'round': 5,
+                        'source': f'baked split of orc colour {donor} over {base} (ink)',
+                        'image': Image.fromarray(layer, 'RGBA').resize((SIZE, SIZE), Image.LANCZOS)})
+    return out
 
 
 def layer_sources(files=None, query=None):

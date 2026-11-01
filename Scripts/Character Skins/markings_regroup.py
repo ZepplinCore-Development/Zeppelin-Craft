@@ -40,6 +40,7 @@ Writes (zep-skin-expansion, PATCH-L):
 
   python3 "Scripts/Character Skins/markings_regroup.py" [--sources] [--preview DIR]
 """
+import os
 import importlib.util
 import json
 import re
@@ -78,6 +79,7 @@ MIGRATION = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_regroup.sql'
 MIGRATION2 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round2.sql'
 MIGRATION3 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round3.sql'
 MIGRATION4 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round4.sql'
+MIGRATION5 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round5.sql'
 STATE = Path(__file__).with_name('markings_regroup.json')
 CACHE = CRAFT.parent / 'logs' / 'layer_sources'
 GLUE = CRAFT / 'zpaks' / 'patch-modern-login' / 'mpq' / 'source-assets' / 'Interface' / 'GlueXML' / 'CharacterCreate.lua'
@@ -114,11 +116,21 @@ TONE_DE = 5.0                                    # median Lab deltaE (body and f
 # a marked colour that gets a clean colour of its own tone even though a plain colour is within TONE_DE (user
 # 2026-10-30: undead female 22 vs 6 is dE 3.7, its tone is kept)
 FORCE_CLEAN = {(5, 1, 22)}
+# clean colour bases chosen by hand (5b proof): the nearest tone's own face paint showed through (draenei 31 from 28)
+CLEAN_FROM = {(2, 0, 15): 19, (2, 0, 44): 19, (2, 0, 45): 19, (2, 1, 44): 19, (2, 1, 45): 19}
+# 5b: clean colours remade with the Lab transfer (clean_colour). Batch 1 (2026-11-01) ships it only for the shipped
+# clean colours whose three-panel proof passed (Illidari male 35 / 37 -> 41 / 43) and for new
+# round-5 ones; every other shipped clean colour keeps the round-4 method (clean_colour_r4) until it is proofed.
+LAB_CLEAN = {(4, 0, 35), (4, 0, 37)}   # Eredar male 31 -> 42 waits with its Fel lines layer
+if os.environ.get('F230_STAGE_B2'):            # batch-2 candidates (staged proof runs only)
+    LAB_CLEAN |= {(11, 0, 30), (11, 0, 31), (11, 1, 30), (11, 1, 31), (4, 0, 34), (4, 0, 36)}
 # round 3 (2026-10-30): sub-race signature colours keep their own tone as clean colours, so Illidari, Cenarion female,
 # Void Elf, Cultist gnome, Sand Troll and Eredar keep homes of their own colour
 FORCE_CLEAN |= {(4, 0, c) for c in (34, 35, 36, 37)} | {(4, 1, c) for c in (26, 27, 28, 29, 30, 31, 32)} \
     | {(10, g, c) for g in (0, 1) for c in (34, 35)} | {(7, 0, 13), (7, 0, 14), (7, 1, 5), (7, 1, 13), (7, 1, 14)} \
-    | {(8, g, c) for g in (0, 1) for c in (37, 38)} | {(11, g, c) for g in (0, 1) for c in (30, 31)}
+    | {(8, g, c) for g in (0, 1) for c in (37, 38)} | {(11, g, c) for g in (0, 1) for c in (30, 31)} \
+    | {(1, 0, 16), (1, 0, 17), (1, 1, 16), (1, 1, 17), (1, 1, 24), (1, 1, 25), (4, 0, 33), (4, 1, 25)} \
+    | {(2, 0, 15), (2, 0, 44), (2, 0, 45), (2, 1, 44), (2, 1, 45)}   # round 5
 # sub-races whose colours were all baked marked skins get plain copies of their own (user 2026-10-30): same textures
 # and rows as the source colour under a new color_index. Wildhammer = Bronzebeard's 0-8; Grimtotem = the black and
 # near-black plain tauren furs, picked from a render of every plain colour (a median-Lab tone pick chose pale grey 28 F
@@ -138,7 +150,7 @@ GATES = [('Wildhammer', 3, 'Wildhammer'), ('Dark Iron tattoo', 3, 'Dark Iron'), 
 PROPOSED = [
     # orcs follow the dwarf colour code (user 2026-10-30): white Mag'har, red Blackrock, black (the tattoos) and the
     # dark slate teal / grey paint regular Orc, yellow Fel Orc; grime (eye bags, stubble) is every orc's
-    (2, r"grime$", 'common'), (2, r"^Ascension", "Mag'har"), (2, r"\(white\)", "Mag'har"),
+    (2, r"grime$", 'common'), (2, r"^Fel runes", 'Fel Orc'), (2, r"^Blackrock", 'Blackrock'), (2, r"^Ascension", "Mag'har"), (2, r"\(white\)", "Mag'har"),
     (2, r"\(red\)", 'Blackrock'), (2, r"\(yellow\)", 'Fel Orc'), (2, r"\((teal|grey)\)", 'Orc'),
     (2, r"tattoo$", 'Orc'),
     # dwarves by tattoo colour (user 2026-10-30): red (Blood) and black to Dark Iron, blue (Woad) and pale blue
@@ -149,33 +161,44 @@ PROPOSED = [
     (3, r"\((Woad|Mithril)\)|eye band|eye stripes|brow tattoo", 'Wildhammer'),
     (3, r"\(Emerald\)|green chevrons", 'Bronzebeard'),
     # tauren (user 2026-10-30): Grimtotem the reds and whites, regular Tauren every other colour
-    (6, r"\((red|red and blue|white)\)$", 'Grimtotem'), (6, r".", 'Tauren'),
+    (6, r"\((red|red and blue|white)\)$", 'Grimtotem'), (6, r".", 'Bloodhoof'),
     (8, r"^(Berserker|Fangs|Mask|Oni|Prophet|War) face paint", 'Darkspear'),
     (8, r"^(Skull|Bones) |^Zandalari", 'Sand Troll'), (8, r"^(Voodoo|Ritual) ", 'Dark Troll'),
     # troll male facial-hair paints (round 2) by theme: skulls and bone Sand Troll, war masks Darkspear, tribal
     # stripes and splashes Dark Troll; the shadow paints cut from faces stay common
     (8, r"^(Spiked skull|Bone face) paint", 'Sand Troll'), (8, r"^(Warmask|Ringed eye) paint", 'Darkspear'),
     (8, r"^(Striped|Splash) paint", 'Dark Troll'),
-    (4, r"^(Suffering|Betrayer|Pain|Sacrifice|Revenge|Chaos) tattoo", 'Illidari'), (4, r"^Illidari", 'Illidari'),
+    (4, r"^(Suffering|Betrayer|Pain|Sacrifice|Revenge|Chaos) tattoo", 'Illidari'),
+    (4, r"^Illidari cheek marks$", 'none'),         # round 5: face 20's cheek marks leave with the blindfold rule
+    (4, r"^Illidari", 'Illidari'),
     (4, r"^(Wild|Ancient|Leaf|Bear|Crane|Hawk) |^Cenarion", 'Cenarion'),
     (4, r"^(Shadow|Protector|Teldrassil) |^Nightborne", 'Kaldorei'),
     (10, r"^(Suffering|Betrayer|Pain|Sacrifice|Revenge|Chaos) tattoo \((green|dark green|red)\)", 'Blood Elf'),
     (10, r"^Arcane swirls \(red\)|^Fel veins|^Fel thorns", 'Blood Elf'),
     (10, r"^(Suffering|Betrayer|Pain|Sacrifice|Revenge|Chaos) tattoo \((purple|dark blue)\)", 'Void Elf'),
     (10, r"^Arcane swirls \((purple|black)\)", 'Void Elf'),
-    (1, r"^(Bat eye paint|Tear streaks|Thorn tattoo)", 'Cultist'),
+    (1, r"^(Bat eye paint|Tear streaks|Thorn tattoo|Cultist|Bat eye sockets|Black eye sockets)", 'Cultist'),
     (5, r"^Thorn tattoo", 'Forsaken'),
     (11, r"^Lightforged", 'Lightforged'),
     # round 3 signatures: void paint Void Elf, cultist paint Cultist gnome (gnome's first), fel lines Eredar (draenei's
     # second), tiger stripes and blood paint Sand Troll (Sandfury rites); night elf fel slashes / runes Illidari and
     # the leaf tattoos Cenarion come from the rules above
-    (10, r"^Void ", 'Void Elf'), (7, r"^Cultist", 'Cultist'), (11, r"^Fel lines", 'Eredar'),
+    (10, r"^Void ", 'Void Elf'), (7, r"^Cultist", 'Cultist'), (11, r"^Fel (lines|pattern)", 'Eredar'),
     (8, r"^(Tiger stripes|Blood paint)", 'Sand Troll'),
 ]
 # sub-races whose faces leave no room for a row's common pool: they get only their own values there (user 2026-10-30:
 # the Illidari male faces are all blindfolded, so face markings and scars - every night elf scar is on the face - would
 # be painted over the blindfold; their only face marking is the cheek marks cut from the second blindfold face)
 OWN_ONLY = {(4, 0, 'Illidari'): ('Face Markings', 'Scars')}
+# a row limited to names matching a pattern for one sub-race: Illidari male's faces are blindfolded, so its face row is
+# the blindfold values only (the fel fire mask stays for the unmasked female)
+ROW_ONLY = {(4, 0, 'Illidari'): {'Face Markings': r'blindfold'}}
+# sub-races that always wear a marking (user 2026-10-31): no "none" (0) in these rows; the creator moves to the first
+# allowed value, and the round-5 migration gives stored 0s that value. Illidari male's face row is the blindfold.
+# Batch 1 (2026-11-01): Illidari male (face row = the gold and dark blindfolds) and Cenarion both sexes; Illidari
+# female's body row waits for its own proof.
+NO_NONE = {(4, 0, 'Illidari'): ('Face Markings', 'Body Markings'), (4, 0, 'Cenarion'): ('Face Markings', 'Body Markings'),
+           (4, 1, 'Cenarion'): ('Face Markings', 'Body Markings')}
 # retired markings whose parts are Mag'har-only in the glue (were MAGHAR_WAR_PAINT 13 / 14, user review 2026-10-25)
 MAGHAR_ONLY = ('Ascension handprints', 'Ascension war paint')
 
@@ -414,11 +437,37 @@ def fit_map(base, marked, mask):
     return coef, err
 
 
+def lab_to_rgb(L):
+    fy = (L[..., 0] + 16) / 116
+    fx, fz = fy + L[..., 1] / 500, fy - L[..., 2] / 200
+    f = np.stack([fx, fy, fz], axis=-1)
+    xyz = np.where(f > 0.206893, f ** 3, (f - 16 / 116) / 7.787) * np.array([0.95047, 1.0, 1.08883])
+    m = np.array([[3.2406, -1.5372, -0.4986], [-0.9689, 1.8758, 0.0415], [0.0557, -0.2040, 1.0570]])
+    c = xyz @ m.T
+    c = np.where(c > 0.0031308, 1.055 * np.clip(c, 0, None) ** (1 / 2.4) - 0.055, 12.92 * c)
+    return np.clip(c * 255, 0, 255)
+
+
+def fit_lab(base, marked, mask):
+    """5b: a Lab mean / spread transfer base -> marked over the mask (Reinhard): monotone and smooth, so lit highlights
+    do not overshoot into pale blotches the way the quadratic RGB map did on demon skins (Illidari 40)."""
+    m = mask & (base.sum(axis=2) > 30) & (marked.sum(axis=2) > 30)
+    lb, lm = lab(base[m]), lab(marked[m])
+    return ('lab', lb.mean(0), lb.std(0) + 1e-3, lm.mean(0), lm.std(0))
+
+
 def apply_map(im, coef, keep=None, weight=None):
     """im (RGBA PIL) through the map; keep = pixels left as they are (eyeball); weight = 0-1 per pixel blend."""
     a = np.asarray(im.convert('RGBA')).astype(np.float32)
     rgb = a[..., :3]
-    moved = np.clip(features(rgb) @ coef, 0, 255).reshape(rgb.shape)
+    if isinstance(coef, tuple) and coef[0] == 'lab':
+        _t, mb, sb, mm, sm = coef
+        L = lab(rgb)
+        L[..., 0] = (L[..., 0] - mb[0]) / sb[0] * sm[0] + mm[0]     # lightness: mean and spread
+        L[..., 1:] = L[..., 1:] - mb[1:] + mm[1:]                   # hue / chroma: mean shift only (no amplified tint)
+        moved = lab_to_rgb(L)
+    else:
+        moved = np.clip(features(rgb) @ coef, 0, 255).reshape(rgb.shape)
     w = np.ones(rgb.shape[:2], np.float32) if weight is None else weight
     if keep is not None:
         w = np.where(keep, 0, w)
@@ -561,6 +610,10 @@ def main():
     cutoff4 = state.get('round4_guid_cutoff') or max_character_guid()
     MIGRATION4.write_text(migration_round4_sql([e for e in retire if e.get('round') == 4],
                                                [f for f in faces if f.get('round') == 4], cutoff4))
+    cutoff5 = state.get('round5_guid_cutoff') or max_character_guid()
+    MIGRATION5.write_text(migration_round5_sql([e for e in retire if e.get('round') == 5],
+                                               [f for f in faces if f.get('round') == 5],
+                                               must_wear(proposed_gate_lists(values)), cutoff5))
     STATE.write_text(json.dumps({'rows': {str(k): v for k, v in ROW_NAME.items()}, 'values': values,
                                  'old_to_new': old_map, 'retire': retire, 'glue_changes': glue_changes,
                                  'subrace_copies': copies, 'gates': gates,
@@ -569,7 +622,7 @@ def main():
                                  'troll_paint': [{'style': k[0], 'hair_colour': k[1], 'value': v}
                                                  for k, v in sorted(paint.items())],
                                  'round2_guid_cutoff': cutoff2, 'round3_guid_cutoff': cutoff3,
-                                 'round4_guid_cutoff': cutoff4}, indent=1) + '\n')
+                                 'round4_guid_cutoff': cutoff4, 'round5_guid_cutoff': cutoff5}, indent=1) + '\n')
     print(f'{removed} old layer files removed; {rid - LAYER_ID} layer rows -> {SQL.relative_to(CRAFT)}')
     print(f'-> {MIGRATION.relative_to(CRAFT)}, {STATE.name}')
 
@@ -595,6 +648,10 @@ def retire_baked(sources, src_values, files, query, bm, preview):
                      f'WHERE race = {race} AND gender = {g} AND base_section IN (0, 1, 4) AND color_index = {colour} '
                      f'AND id NOT BETWEEN {SKIN_ID} AND {SKIN_END} AND id NOT BETWEEN {SKIN2_ID} AND {SKIN2_END} ORDER BY id')
 
+    made = {}
+    for r in query(f'SELECT DISTINCT race, gender, color_index FROM charsections WHERE id BETWEEN {SKIN_ID} AND '
+                   f'{SKIN_END} OR id BETWEEN {SKIN2_ID} AND {SKIN2_END} OR id BETWEEN 108100 AND 108999'):
+        made.setdefault((int(r['race']), int(r['gender'])), set()).add(int(r['color_index']))
     retire, sql, rid = [], [], SKIN_ID
     next_colour = {}
 
@@ -620,7 +677,10 @@ def retire_baked(sources, src_values, files, query, bm, preview):
         coef, err = fit_map(atlas(race, g, base), a, m)
         b_at = atlas(race, g, base)
         gain = np.median(a[m], axis=0) / np.maximum(np.median(b_at[m], axis=0), 1.0)
-        rows, rid = clean_colour(race, g, base, new, coef, files, rows_of, b_at, rid, gain)
+        if (race, g, entry['colour']) in LAB_CLEAN or entry.get('round') == 5:
+            rows, rid = clean_colour(race, g, base, new, fit_lab(b_at, a, m), files, rows_of, b_at, rid, gain)
+        else:
+            rows, rid = clean_colour_r4(race, g, base, new, coef, files, rows_of, b_at, rid, gain)
         sql.extend(rows)
         entry.update({'replacement': new, 'map_error': round(err, 2)})
         return rid
@@ -628,7 +688,9 @@ def retire_baked(sources, src_values, files, query, bm, preview):
     for (race, g, c) in sorted(marked):
         subs = glue.get((race, g), [])
         home = next((name for name, cols in subs if c in cols), None)
-        plain = sorted({col for _n, cols in subs for col in cols} - marked_set[(race, g)])
+        # colours this script (or accessories.py) made are not plain bases: a clean colour already in the DBC would
+        # otherwise be its own marked colour's nearest tone and renumber everything after it (5b)
+        plain = sorted({col for _n, cols in subs for col in cols} - marked_set[(race, g)] - made.get((race, g), set()))
         mark = np.logical_or.reduce([sources[i]['rgba'][..., 3] > 20 for i in marked[(race, g, c)]])
         body_m, face_m = regions(race, g, mark)
         a = atlas(race, g, c)
@@ -643,14 +705,20 @@ def retire_baked(sources, src_values, files, query, bm, preview):
             dist.append((max(db, df), db, df, p))
         dist.sort()
         layer_vals = {}
+        # a colour split over several rounds (Illidari 34-37: body in round 3, face paint in round 5) keeps the round of
+        # its first split, so an applied migration file never changes; later layers are not migrated
+        rnd = lambda i: sources[i].get('round', 2 if sources[i].get('round2') else 1)  # noqa: E731
+        first = min(rnd(i) for i in marked[(race, g, c)])
         for i in marked[(race, g, c)]:
+            if rnd(i) != first:
+                continue
             for row, v in src_values[i].items():
                 layer_vals.setdefault(ROW_NAME[row], []).append({'value': v, 'design': sources[i]['design'],
                                                                  'colour': sources[i]['colour']})
         entry = {'race': race, 'sex': g, 'colour': c, 'sub_race': home, 'layers': layer_vals,
                  'nearest_plain': [{'colour': p, 'dE_body': round(db, 2), 'dE_face': round(df, 2)}
                                    for _m, db, df, p in dist[:3]]}
-        entry['round'] = max(sources[i].get('round', 2 if sources[i].get('round2') else 1) for i in marked[(race, g, c)])
+        entry['round'] = first
         if dist and dist[0][0] <= TONE_DE and (race, g, c) not in FORCE_CLEAN:
             entry['action'] = 'retired'
             entry['replacement'] = dist[0][3]
@@ -658,9 +726,10 @@ def retire_baked(sources, src_values, files, query, bm, preview):
         else:
             # a clean colour of this tone: the nearest plain colour (by tone) recoloured to it. Round-2 ones are
             # numbered after the sub-race copies, so the shipped colour numbers never move
-            entry.update({'action': 'clean colour', 'clean_from': dist[0][3],
+            entry.update({'action': 'clean colour', 'clean_from': CLEAN_FROM.get((race, g, c), dist[0][3]),
                           'replacement_sub_race': home or next((n for n, cols in subs if dist[0][3] in cols), None)})
-            entry['_fit'] = (a, body_m)          # body only: the base's own face-to-body relation is kept (round 4)
+            entry['_fit'] = (a, body_m)
+            base_c = entry['clean_from']          # body only: the base's own face-to-body relation is kept (round 4)
             if entry['round'] == 1:
                 rid = make_clean(entry, rid)
         retire.append(entry)
@@ -697,7 +766,84 @@ def apply_gain(im, gain, weight):
 
 
 def clean_colour(race, g, base, new, coef, files, rows_of, base_atlas, rid, gain=None):
-    """CharSections rows (and BLPs) of colour `new` = colour `base` recoloured to the new tone. Only skin moves (round 4,
+    """CharSections rows (and BLPs) of colour `new` = colour `base` recoloured to the new tone. Only skin moves: the
+    quadratic RGB map fitted on the body (a per-channel gain could not move hue: Cultist lilac came out peach, round 5b),
+    applied to skin pixels only - near the skin's hue and not invariant across the race's stock colours, so tusks, horns,
+    teeth, eyes, jewellery and cloth keep their colour (round 4: the map on every pixel turned tusks yellow). Body, faces,
+    _Extra and the underwear's skin all move together."""
+    folder, sex = FOLDERS[race], SEXES[g]
+    stem = f'Character\\{folder}\\{sex}\\{folder}{sex}'
+    rows = rows_of(race, g, base)
+    last = {}
+    for r in rows:                               # highest id wins (F-225)
+        last[(r['base_section'], r['type'])] = r
+    eye = island(race, g)
+    # what does not change across the race's stock colours is not skin: tusks, horns, teeth, eyes, jewellery, cloth
+    # (round 4: the quadratic map turned sand troll tusks yellow). Same section / type / texture of colours 0-9.
+    stock = {}
+    for oc in range(10):
+        if oc == base:
+            continue
+        for r in rows_of(race, g, oc):
+            stock.setdefault((r['base_section'], r['type']), {})[oc] = r
+
+    def invariant(section, kind, col, size):
+        ims = []
+        for r in stock.get((section, kind), {}).values():
+            f = files.find(r[col]) if r[col] else None
+            if f:
+                ims.append(np.asarray(read_blp(f).convert('RGB').resize(size, Image.BOX)).astype(np.float32))
+        if len(ims) < 3:
+            return np.zeros(size[::-1], bool)
+        st = np.stack(ims)
+        dev = np.abs(st - np.median(st, axis=0)).mean(axis=(0, 3))
+        return ndimage.binary_dilation(dev < 6, iterations=1)
+    sql = [f'-- clean colour {new}: colour {base} recoloured to a retired marked colour\'s tone']
+    for (section, kind), r in sorted(last.items()):
+        t = {}
+        for col in ('texture_1', 'texture_2'):
+            path = r[col]
+            f = files.find(path) if path else None
+            if not f:
+                t[col] = ''
+                continue
+            im = read_blp(f).convert('RGBA')
+            # skin = anything near the skin's hue (shading included); cloth, teeth and bone fall out. Hard mask,
+            # feathered, so dark creases do not come out half-mapped and blotchy
+            # tusks / teeth / jewellery live on faces, _Extra and underwear; on the body skin the invariant test also caught
+            # lit chest highlights, which then kept the base tone as pale blotches (Illidari, 5b proof)
+            fixed = (np.zeros(im.size[::-1], bool) if section == 0 and col == 'texture_1'
+                     else invariant(section, kind, col, im.size))
+            g_ = gain if gain is not None else np.ones(3)
+            w = ndimage.gaussian_filter(((skin_weight(im, base_atlas) > 0.2) & ~fixed).astype(np.float32), 1.5)
+            if section == 1:
+                y0, h = (64, 128) if col == 'texture_1' else (0, 64)
+                keep = np.asarray(Image.fromarray((eye[y0:y0 + h] * 255).astype(np.uint8)).resize(im.size, Image.NEAREST)) > 127
+                # faces move whole too, except the eyeball and what never changes across colours (teeth, brows' ink)
+                out = apply_map(im, coef, weight=np.where(keep | fixed, 0, 1).astype(np.float32))
+                name = f"{stem}{'FaceLower' if col == 'texture_1' else 'FaceUpper'}{kind:02d}_zc{new:02d}.blp"
+            elif section == 0 and col == 'texture_1':
+                # the body skin moves whole: a skin-hue mask leaves lit highlights in the base tone (pale blotches and
+                # banding on Illidari 40, 5b proof); garments live in the underwear texture, tusks / teeth on faces
+                out, name = apply_map(im, coef), f'{stem}Skin00_zc{new:02d}.blp'
+            elif section == 4:
+                # underwear: its skin moves with the body (round 5, user: Illidari 5's thighs stayed the base's teal),
+                # the garment is invariant across colours and keeps its colour
+                out = apply_map(im, coef, weight=w)
+                name = f"{stem}{'NakedPelvisSkin00' if col == 'texture_1' else 'NakedTorsoSkin00'}_zc{new:02d}.blp"
+            else:
+                out = apply_map(im, coef, weight=w)
+                name = f'{stem}Skin00_zc{new:02d}_Extra.blp'
+            write_blp(name, out)
+            t[col] = name
+        sql.append(insert(rid, race, g, section, t['texture_1'], t['texture_2'], r['flags'], kind, new))
+        rid = next_skin_id(rid)
+    return sql, rid
+
+
+def clean_colour_r4(race, g, base, new, coef, files, rows_of, base_atlas, rid, gain=None):
+    """Round-4 (shipped) clean colour method, kept for every clean colour whose Lab redo has not passed a proof yet.
+    CharSections rows (and BLPs) of colour `new` = colour `base` recoloured to the new tone. Only skin moves (round 4,
     user report: a sand troll clean colour got yellow tusks and a lime loincloth): body skin, faces and _Extra (the HD
     head) all through ONE per-channel gain fitted on the body (the quadratic map extrapolated bone into yellow and put
     the head and body out of step), on skin pixels only: near the skin's hue and not invariant across the race's stock
@@ -823,15 +969,20 @@ def proposed_gate_lists(values):
             a = {}
             for v in vals:
                 owner = next((sub for r, pat, sub in PROPOSED if r == race and re.search(pat, v['name'])), 'common')
-                if owner != 'common' and owner not in subs:
+                if owner not in ('common', 'none') and owner not in subs:
                     raise SystemExit(f'PROPOSED names {owner!r}, not a sub-race of {key}')
                 a[str(v['value'])] = owner
             assign[row_name] = a
         entry = {'assign': assign}
+        names = {row_name: {str(v['value']): v['name'] for v in vals} for row_name, vals in rows.items()}
         for sub in subs:
             own = OWN_ONLY.get((race, g, sub), ())
-            entry[sub] = {f'filter {filt} ({row_name})': [0] + [int(v) for v, o in assign.get(row_name, {}).items()
-                                                               if o == sub or (o == 'common' and row_name not in own)]
+            nn = NO_NONE.get((race, g, sub), ())
+            only = ROW_ONLY.get((race, g, sub), {})
+            entry[sub] = {f'filter {filt} ({row_name})': ([] if row_name in nn else [0])
+                          + [int(v) for v, o in assign.get(row_name, {}).items()
+                             if (o == sub or (o == 'common' and row_name not in own))
+                             and (row_name not in only or re.search(only[row_name], names[row_name][v]))]
                           for row_name, filt in ((ROW_NAME[FACE_ROW], 7), (ROW_NAME[BODY_ROW], 8),
                                                  (ROW_NAME[SCAR_ROW], 9)) if row_name in assign}
         out[f'{FOLDERS[race]} {SEXES[g]}'] = entry
@@ -901,6 +1052,71 @@ def migration_round3_sql(retire, cutoff):
 # round 4: sub-race copies no longer offered -> (race, sex): [(copy, original)] (moved by the round-4 migration)
 COPIES_RETIRED = {(6, 0): [(42, 0), (43, 1), (44, 2), (45, 28), (46, 29), (47, 38)],
                   (6, 1): [(42, 0), (43, 1), (44, 28), (45, 29), (46, 38)]}
+
+
+def must_wear(gates):
+    """NO_NONE rows -> [(race, sex, customization, first value, [sub-race colours])] for the round-5 migration."""
+    glue = glue_subraces()
+    out = []
+    for (race, g, sub), rows in sorted(NO_NONE.items()):
+        entry = gates.get(f'{FOLDERS[race]} {SEXES[g]}', {}).get(sub, {})
+        cols = next((c for n, c in glue.get((race, g), []) if n == sub), [])
+        for row_name in rows:
+            cust = {ROW_NAME[FACE_ROW]: 2, ROW_NAME[BODY_ROW]: 3}[row_name]
+            vals = next((v for k, v in entry.items() if row_name in k), [])
+            if vals and cols:
+                out.append((race, g, cust, min(vals), cols, sub))
+    return out
+
+
+def migration_round5_sql(retire, faces, wear, cutoff):
+    """Round 5 (2026-10-31): Cultist / Illidari colours -> clean colour + marking; human male 33 / 34 and night elf male
+    blindfold faces -> plain face + marking; Illidari and Cenarion characters with no face / body marking get the first
+    allowed one (those sub-races always wear one). Own done-table."""
+    skin = [f"({e['race']},{e['sex']},{e['colour']},{e['replacement']},"
+            f"{(e['layers'].get(ROW_NAME[FACE_ROW]) or [{'value': 0}])[0]['value']},"
+            f"{(e['layers'].get(ROW_NAME[BODY_ROW]) or [{'value': 0}])[0]['value']})" for e in retire]
+    face = [f"({f['race']},{f['sex']},{f['face']},{f['new_face']},{f['value']})" for f in faces]
+    lines = [
+        '-- F-230 round 5: Cultist and Illidari baked colours -> clean colour + marking; human male 33 / 34 (+36 / 37) and',
+        '-- night elf male blindfold faces 5 / 20 (+14 / 27) -> plain face + face marking; Illidari / Cenarion characters',
+        '-- without a face / body marking get the first allowed value (no "none" for them).',
+        '-- GENERATED by Scripts/Character Skins/markings_regroup.py - do not edit, re-run the script.',
+        f'-- Idempotent: once per character (zep_f230_markings_round5_done), characters with guid <= {cutoff} only.',
+        'CREATE TABLE IF NOT EXISTS zep_f230_markings_round5_done (guid INT UNSIGNED NOT NULL PRIMARY KEY)',
+        "  ENGINE=InnoDB COMMENT='F-230 markings round 5: characters already migrated';",
+        'DROP TABLE IF EXISTS zep_tmp_r5_skin, zep_tmp_r5_face, zep_tmp_r5_todo;',
+        'CREATE TABLE zep_tmp_r5_skin (race TINYINT UNSIGNED, gender TINYINT UNSIGNED, skin TINYINT UNSIGNED,',
+        '  new_skin TINYINT UNSIGNED, face TINYINT UNSIGNED, body TINYINT UNSIGNED, PRIMARY KEY (race, gender, skin));',
+        *(['INSERT INTO zep_tmp_r5_skin VALUES', ',\n'.join(skin) + ';'] if skin else []),
+        'CREATE TABLE zep_tmp_r5_face (race TINYINT UNSIGNED, gender TINYINT UNSIGNED, face TINYINT UNSIGNED,',
+        '  new_face TINYINT UNSIGNED, mark TINYINT UNSIGNED, PRIMARY KEY (race, gender, face));',
+        *(['INSERT INTO zep_tmp_r5_face VALUES', ',\n'.join(face) + ';'] if face else []),
+        'CREATE TABLE zep_tmp_r5_todo (guid INT UNSIGNED PRIMARY KEY);',
+        'INSERT INTO zep_tmp_r5_todo (guid) SELECT c.guid FROM characters AS c',
+        f'WHERE c.guid <= {cutoff} AND c.guid NOT IN (SELECT guid FROM zep_f230_markings_round5_done);']
+    for cust, col in ((2, 'face'), (3, 'body')):
+        lines += ['INSERT INTO character_customizations (guid, customization, choice)',
+                  f'SELECT c.guid, {cust}, s.{col} FROM characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
+                  f'JOIN zep_tmp_r5_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin WHERE s.{col} <> 0',
+                  'ON DUPLICATE KEY UPDATE choice = IF(choice = 0, VALUES(choice), choice);']
+    lines += ['UPDATE characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
+              'JOIN zep_tmp_r5_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin SET c.skin = s.new_skin;',
+              'INSERT INTO character_customizations (guid, customization, choice)',
+              'SELECT c.guid, 2, f.mark FROM characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
+              'JOIN zep_tmp_r5_face AS f ON f.race = c.race AND f.gender = c.gender AND f.face = c.face WHERE f.mark <> 0',
+              'ON DUPLICATE KEY UPDATE choice = IF(choice = 0, VALUES(choice), choice);',
+              'UPDATE characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
+              'JOIN zep_tmp_r5_face AS f ON f.race = c.race AND f.gender = c.gender AND f.face = c.face SET c.face = f.new_face;']
+    for race, g, cust, first, cols, sub in wear:
+        lines += [f'-- {FOLDERS[race]} {SEXES[g]} {sub}: customization {cust} never "none" -> {first}',
+                  'INSERT INTO character_customizations (guid, customization, choice)',
+                  f'SELECT c.guid, {cust}, {first} FROM characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
+                  f'WHERE c.race = {race} AND c.gender = {g} AND c.skin IN ({", ".join(map(str, cols))})',
+                  'ON DUPLICATE KEY UPDATE choice = IF(choice = 0, VALUES(choice), choice);']
+    lines += ['INSERT IGNORE INTO zep_f230_markings_round5_done (guid) SELECT guid FROM zep_tmp_r5_todo;',
+              'DROP TABLE zep_tmp_r5_skin, zep_tmp_r5_face, zep_tmp_r5_todo;']
+    return '\n'.join(lines) + '\n'
 
 
 def migration_round4_sql(retire, faces, cutoff):
