@@ -1,0 +1,174 @@
+From c403ccda72ad24701739178ce57cd8647e06af87 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 02:03:45 +0000
+Subject: [PATCH] WIP: F-219 - record when a 2nd attacker joins a fight
+ (add_after_ms, add_our_hp_pct)
+
+- combat: KillResult add_after_ms (ms into the fight when attackers first reached 2) and
+  add_our_hp_pct; fight_log prints " add@N.Ns hpN%"
+- deaths.py --adds AREA: every 2+ fight bucketed 0-3 s (the pull brought it), 3-10 s,
+  10 s+ (a wanderer joined), with the fatal ones
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 23 +++++++++++++++++++++--
+ zeppelin/modules/combat/combat.proto     |  2 ++
+ zeppelin/modules/combat/main.go          |  8 ++++++++
+ zeppelin/tests/deaths.py                 | 23 +++++++++++++++++++++--
+ zeppelin/tests/start_area.py             |  3 ++-
+ 5 files changed, 54 insertions(+), 5 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 6e53539..b83556a 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -487,6 +487,8 @@ type KillResult struct {
+ 	CastFails     []string               `protobuf:"bytes,16,rep,name=cast_fails,json=castFails,proto3" json:"cast_fails,omitempty"`              // "spell:result xN" from SMSG_CAST_FAILED this fight
+ 	Pull          string                 `protobuf:"bytes,14,opt,name=pull,proto3" json:"pull,omitempty"`                                         // "" no opener, "pulled", "came" (target walked in), "failed N" (cast result)
+ 	Kites         uint32                 `protobuf:"varint,17,opt,name=kites,proto3" json:"kites,omitempty"`                                      // times we stepped back from a snared target (kite_auras)
++	AddAfterMs    uint32                 `protobuf:"varint,18,opt,name=add_after_ms,json=addAfterMs,proto3" json:"add_after_ms,omitempty"`        // when a 2nd attacker first joined, ms into the fight (0 = none joined)
++	AddOurHpPct   uint32                 `protobuf:"varint,19,opt,name=add_our_hp_pct,json=addOurHpPct,proto3" json:"add_our_hp_pct,omitempty"`   // our health % at that moment
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -640,6 +642,20 @@ func (x *KillResult) GetKites() uint32 {
+ 	return 0
+ }
+ 
++func (x *KillResult) GetAddAfterMs() uint32 {
++	if x != nil {
++		return x.AddAfterMs
++	}
++	return 0
++}
++
++func (x *KillResult) GetAddOurHpPct() uint32 {
++	if x != nil {
++		return x.AddOurHpPct
++	}
++	return 0
++}
++
+ type RestRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	UntilPct      uint32                 `protobuf:"varint,1,opt,name=until_pct,json=untilPct,proto3" json:"until_pct,omitempty"` // 0 = 90
+@@ -1032,7 +1048,7 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"kite_auras\x18\x0f \x03(\rR\tkiteAuras\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+ 	"\aitem_id\x18\x01 \x01(\rR\x06itemId\x12\x14\n" +
+-	"\x05count\x18\x02 \x01(\rR\x05count\"\xfc\x03\n" +
++	"\x05count\x18\x02 \x01(\rR\x05count\"\xc3\x04\n" +
+ 	"\n" +
+ 	"KillResult\x12\x16\n" +
+ 	"\x06killed\x18\x01 \x01(\bR\x06killed\x12\x16\n" +
+@@ -1055,7 +1071,10 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\n" +
+ 	"cast_fails\x18\x10 \x03(\tR\tcastFails\x12\x12\n" +
+ 	"\x04pull\x18\x0e \x01(\tR\x04pull\x12\x14\n" +
+-	"\x05kites\x18\x11 \x01(\rR\x05kites\"\xac\x02\n" +
++	"\x05kites\x18\x11 \x01(\rR\x05kites\x12 \n" +
++	"\fadd_after_ms\x18\x12 \x01(\rR\n" +
++	"addAfterMs\x12#\n" +
++	"\x0eadd_our_hp_pct\x18\x13 \x01(\rR\vaddOurHpPct\"\xac\x02\n" +
+ 	"\vRestRequest\x12\x1b\n" +
+ 	"\tuntil_pct\x18\x01 \x01(\rR\buntilPct\x12\x1b\n" +
+ 	"\tbudget_ms\x18\x02 \x01(\rR\bbudgetMs\x12\x1b\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index ae565b9..39037de 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -85,6 +85,8 @@ message KillResult {
+   repeated string cast_fails = 16; // "spell:result xN" from SMSG_CAST_FAILED this fight
+   string pull = 14;      // "" no opener, "pulled", "came" (target walked in), "failed N" (cast result)
+   uint32 kites = 17;     // times we stepped back from a snared target (kite_auras)
++  uint32 add_after_ms = 18;  // when a 2nd attacker first joined, ms into the fight (0 = none joined)
++  uint32 add_our_hp_pct = 19; // our health % at that moment
+ }
+ 
+ message RestRequest {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 9e842da..6c0e19f 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -502,6 +502,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	var lastHP uint32
+ 	var stuckSince time.Time
+ 	deadline := time.Now().Add(budget)
++	fightStart := time.Now()
+ 	for {
+ 		if time.Now().After(deadline) {
+ 			return finish("budget", false)
+@@ -567,6 +568,13 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			if n > res.PeakAttackers {
+ 				res.PeakAttackers = n
+ 			}
++			// when the 2nd one came: at once = the pull brought it, mid-fight = a wanderer joined
++			if n >= 2 && res.AddAfterMs == 0 {
++				res.AddAfterMs = uint32(max(time.Since(fightStart).Milliseconds(), 1))
++				if st.GetMaxHealth() > 0 {
++					res.AddOurHpPct = st.GetHealth() * 100 / st.GetMaxHealth()
++				}
++			}
+ 		}
+ 		if !openerDone {
+ 			// a stealth opener (Backstab): only unseen - from behind, before it has noticed us
+diff --git a/zeppelin/tests/deaths.py b/zeppelin/tests/deaths.py
+index c3c0a2e..44d4cc0 100644
+--- a/zeppelin/tests/deaths.py
++++ b/zeppelin/tests/deaths.py
+@@ -1,4 +1,4 @@
+-"""deaths.py AREA [AREA...] - cause-of-death breakdown for each bot's latest run (F-219).
++"""deaths.py AREA [AREA...] | --adds AREA... - cause-of-death breakdown for each bot's latest run (F-219).
+ Per death: the killing fight (pull / defend / engage, attackers), health going in (= damage taken in
+ the fatal fight, as it ends at 0), the killer's level against ours, and what the bot was doing."""
+ import collections, re, subprocess, sys
+@@ -30,7 +30,7 @@ def context(L, i):
+         return "other: " + t[:50]
+     return "?"
+ 
+-for area in sys.argv[1:]:
++for area in ([] if "--adds" in sys.argv else sys.argv[1:]):
+     log = open(f"{area_dir(area)}/fleet.log", errors="replace").read().splitlines()
+     start = max(i for i, l in enumerate(log) if "] new character" in l)
+     L = log[start:]
+@@ -53,3 +53,22 @@ for area in sys.argv[1:]:
+     print("  doing:", dict(c(r["ctx"] for r in rows).most_common(8)))
+     print("  killers:", ", ".join(f"{info.get(e, (0, 0, '?'))[2]} {info.get(e, (0, 0))[0]}-{info.get(e, (0, 0))[1]} x{k}"
+                                 for e, k in c(r["entry"] for r in rows).most_common(5)))
++
++
++def adds(area):
++    """When the 2nd attacker joined, over every 2+ fight of the latest run: at once (the pull brought
++    it - avoidable) or mid-fight (a wanderer - drag the fight away)."""
++    log = open(f"{area_dir(area)}/fleet.log", errors="replace").read().splitlines()
++    L = log[max(i for i, l in enumerate(log) if "] new character" in l):]
++    rows = [(float(m[1]), int(m[2]), "we died" in l) for l in L for m in [re.search(r" add@([\d.]+)s hp(\d+)%", l)] if m]
++    if not rows:
++        print(f"  {area}: no add timings logged yet")
++        return
++    b = collections.Counter(("0-3 s (pull brought it)" if t < 3 else "3-10 s" if t < 10 else "10 s+ (mid-fight)") for t, _, _ in rows)
++    died = collections.Counter(("0-3 s" if t < 3 else "3-10 s" if t < 10 else "10 s+") for t, _, d in rows if d)
++    print(f"  {area}: {len(rows)} fights with an add - {dict(b)}; fatal ones: {dict(died)}")
++
++
++if __name__ == "__main__" and "--adds" in sys.argv:
++    for a in [x for x in sys.argv[1:] if not x.startswith("--")]:
++        adds(a)
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index bac4017..09d4f95 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2504,7 +2504,8 @@ class Runner:
+               f"{' ' + r['pull'] if r.get('pull') else ''}] swings {r.get('swings', 0)} dealt {r.get('damageDone', 0)} "
+               f"taken {r.get('damageTaken', 0)} hp {r.get('ourHealth', 0)}/{r.get('ourMaxHealth', 0)} casts {r.get('spells', [])}"
+               f"{' fails ' + ','.join(r['castFails']) if r.get('castFails') else ''}"
+-              f"{' kites ' + str(r['kites']) if r.get('kites') else ''}",
++              f"{' kites ' + str(r['kites']) if r.get('kites') else ''}"
++              f"{' add@%.1fs hp%d%%' % (r['addAfterMs'] / 1000, r.get('addOurHpPct', 0)) if r.get('addAfterMs') else ''}",
+               flush=True)
+         self.check_loot(r)
+         why = r.get("reason", "")
+-- 
+2.34.1
+
