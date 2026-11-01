@@ -1,0 +1,54 @@
+{
+ "task": "I-449",
+ "name": "dragonmaw_garneg",
+ "kind": "unique",
+ "race": 2,
+ "_comment": "Dragonmaw clan, grey-skinned orcs (Cataclysm Twilight Highlands). Same uniform as the creature's stock display, varied faces / hair / beards (I-449). Named creature 2108: own look from stock display 4913, skin 18.",
+ "outfit": {
+  "items": {
+   "shoulders": {
+    "display": 13329
+   },
+   "shirt": {
+    "display": 13308
+   },
+   "chest": {
+    "display": 13325
+   },
+   "belt": {
+    "display": 13309
+   },
+   "legs": {
+    "display": 13310
+   },
+   "boots": {
+    "display": 13311
+   },
+   "gloves": {
+    "display": 13312
+   }
+  }
+ },
+ "appearance": {
+  "gender": 0,
+  "skin_color": 18,
+  "face_type": 1,
+  "hair_style": 6,
+  "hair_color": 2,
+  "facial_hair": 7
+ },
+ "base_display": {
+  "0": 4913
+ },
+ "display_ids": [
+  900641
+ ],
+ "creatures": [
+  {
+   "entry": 2108,
+   "displays": [
+    900641
+   ]
+  }
+ ]
+}

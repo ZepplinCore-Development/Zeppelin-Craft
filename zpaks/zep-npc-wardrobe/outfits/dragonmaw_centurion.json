@@ -1,0 +1,86 @@
+{
+ "task": "I-449",
+ "name": "dragonmaw_centurion",
+ "kind": "uniform",
+ "race": 2,
+ "_comment": "Dragonmaw clan, grey-skinned orcs (Cataclysm Twilight Highlands). Same uniform as the creature's stock display, varied faces / hair / beards (I-449). Creature 1036, stock display 4919.",
+ "outfit": {
+  "items": {
+   "helm": {
+    "display": 13339
+   },
+   "shirt": {
+    "display": 13340
+   },
+   "chest": {
+    "display": 12793
+   },
+   "belt": {
+    "display": 13341
+   },
+   "legs": {
+    "display": 13342
+   },
+   "boots": {
+    "display": 9169
+   },
+   "gloves": {
+    "display": 11261
+   }
+  }
+ },
+ "variants": [
+  {
+   "gender": 0,
+   "skin_color": 14,
+   "face_type": 5,
+   "hair_style": 6,
+   "hair_color": 21,
+   "facial_hair": 5
+  },
+  {
+   "gender": 0,
+   "skin_color": 47,
+   "face_type": 25,
+   "hair_style": 0,
+   "hair_color": 6,
+   "facial_hair": 8
+  },
+  {
+   "gender": 0,
+   "skin_color": 14,
+   "face_type": 15,
+   "hair_style": 0,
+   "hair_color": 22,
+   "facial_hair": 7
+  },
+  {
+   "gender": 0,
+   "skin_color": 47,
+   "face_type": 25,
+   "hair_style": 4,
+   "hair_color": 5,
+   "facial_hair": 6
+  }
+ ],
+ "base_display": {
+  "0": 4919
+ },
+ "display_ids": [
+  900620,
+  900621,
+  900622,
+  900623
+ ],
+ "creatures": [
+  {
+   "entry": 1036,
+   "variants": [
+    0,
+    1,
+    2,
+    3
+   ]
+  }
+ ]
+}

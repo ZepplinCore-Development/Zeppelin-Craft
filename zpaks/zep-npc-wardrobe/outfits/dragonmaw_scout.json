@@ -1,0 +1,83 @@
+{
+ "task": "I-449",
+ "name": "dragonmaw_scout",
+ "kind": "uniform",
+ "race": 2,
+ "_comment": "Dragonmaw clan, grey-skinned orcs (Cataclysm Twilight Highlands). Same uniform as the creature's stock display, varied faces / hair / beards (I-449). Creature 2103, stock display 4925.",
+ "outfit": {
+  "items": {
+   "shirt": {
+    "display": 7552
+   },
+   "chest": {
+    "display": 11067
+   },
+   "belt": {
+    "display": 11997
+   },
+   "legs": {
+    "display": 12532
+   },
+   "boots": {
+    "display": 13343
+   },
+   "gloves": {
+    "display": 13344
+   }
+  }
+ },
+ "variants": [
+  {
+   "gender": 0,
+   "skin_color": 14,
+   "face_type": 6,
+   "hair_style": 9,
+   "hair_color": 7,
+   "facial_hair": 9
+  },
+  {
+   "gender": 0,
+   "skin_color": 47,
+   "face_type": 30,
+   "hair_style": 11,
+   "hair_color": 22,
+   "facial_hair": 10
+  },
+  {
+   "gender": 0,
+   "skin_color": 14,
+   "face_type": 1,
+   "hair_style": 9,
+   "hair_color": 22,
+   "facial_hair": 5
+  },
+  {
+   "gender": 0,
+   "skin_color": 47,
+   "face_type": 0,
+   "hair_style": 7,
+   "hair_color": 0,
+   "facial_hair": 5
+  }
+ ],
+ "base_display": {
+  "0": 4925
+ },
+ "display_ids": [
+  900636,
+  900637,
+  900638,
+  900639
+ ],
+ "creatures": [
+  {
+   "entry": 2103,
+   "variants": [
+    0,
+    1,
+    2,
+    3
+   ]
+  }
+ ]
+}
