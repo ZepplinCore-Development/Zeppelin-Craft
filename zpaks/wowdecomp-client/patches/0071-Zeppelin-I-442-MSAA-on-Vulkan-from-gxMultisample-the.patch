@@ -1,0 +1,2231 @@
+From 342d8a97226b17d52b082843644147d0a0513d98 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 10:24:21 +0000
+Subject: [PATCH] Zeppelin I-442: MSAA on Vulkan from gxMultisample - the world
+ and the character create/select scene render multisampled
+
+- Sample count: the format's gxMultisample, clamped to the device's colour/depth/sampled-depth counts; needs the own
+  back buffer and a sampled depth-only format; 1 = the old path untouched. Logged once (Vulkan.log "MSAA: ... used").
+- msaaColour/msaaDepth beside the 1x back images; an N-sample pass class inside the MSAA window (the world scene, and
+  the glue model scene via the new g_gxModelScene seam around CSimpleModelFFX::Render); samples in the pass-class key,
+  PassInfo/pipelines, the persisted pipeline keys (kKeysVersion 3) and WXL_VkRenderContext.samples.
+- Coherence: resolve on read (BackBuffer: vkCmdResolveImage; SceneDepth: sample-0 fullscreen depth resolve), re-seed the
+  MSAA images from the 1x ones after a stage writes the frame; WXL_VK_STAGE_READS_COLOR (CataSceneCapture) skips CopyOut.
+- MSAA takes priority (user): with MSAA on, no G-buffer; hdSunShadows stays off and hdAO uses depth normals, their Info
+  lines say so.
+- Occlusion queries divided by the pass's sample count (sun glare).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../CGxDeviceVulkan/hd/CataSceneCapture.cpp   |   6 +-
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp      |  15 +-
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp |   6 +
+ .../CGxDeviceVulkan/wxl/compat/src/Seams.cpp  |   6 +
+ .../wxl/include/wxl/VkRenderApi.h             |   7 +
+ .../CGxDeviceVulkan/wxl/src/native/Caps.cpp   |   7 +-
+ .../CGxDeviceVulkan/wxl/src/native/Device.cpp |  11 +-
+ .../wxl/src/native/Overlay.cpp                |   5 +-
+ .../wxl/src/native/Present.cpp                |  33 +-
+ .../wxl/src/native/Present.hpp                |  28 +
+ .../CGxDeviceVulkan/wxl/src/native/Render.cpp |   1 +
+ .../wxl/src/native/Targets.cpp                |  10 +
+ .../wxl/src/native/api/Points.cpp             |   2 +
+ .../wxl/src/native/present/Images.cpp         |   8 +-
+ .../wxl/src/native/present/Internal.hpp       |  90 ++-
+ .../wxl/src/native/present/Msaa.cpp           | 648 ++++++++++++++++++
+ .../wxl/src/native/present/Pass.cpp           |  50 +-
+ .../wxl/src/native/present/PassQueries.cpp    |   5 +-
+ .../wxl/src/native/present/Passes.cpp         |  34 +-
+ .../wxl/src/native/present/PresentPass.cpp    |   3 +
+ .../wxl/src/native/present/ReadBack.cpp       |  12 +
+ .../wxl/src/native/present/Resolve.cpp        |  31 +-
+ .../src/native/present/msaa/Fullscreen.vert   |  23 +
+ .../native/present/msaa/Fullscreen.vert.spv.h |  40 ++
+ .../src/native/present/msaa/ResolveDepth.frag |  25 +
+ .../present/msaa/ResolveDepth.frag.spv.h      |  28 +
+ .../src/native/present/msaa/SeedColour.frag   |  26 +
+ .../native/present/msaa/SeedColour.frag.spv.h |  26 +
+ .../src/native/present/msaa/SeedDepth.frag    |  23 +
+ .../native/present/msaa/SeedDepth.frag.spv.h  |  28 +
+ .../CGxDeviceVulkan/wxl/src/stages/Chain.cpp  |  18 +-
+ .../CGxDeviceVulkan/wxl/src/vulkan/Loader.cpp |   1 +
+ .../CGxDeviceVulkan/wxl/src/vulkan/Loader.hpp |   2 +
+ .../wxl/src/vulkan/Pipelines.cpp              |   7 +-
+ .../wxl/src/vulkan/Pipelines.hpp              |   7 +-
+ .../wxl/src/vulkan/pipelines/Build.cpp        |   4 +-
+ .../wxl/src/vulkan/pipelines/Cache.cpp        |   8 +-
+ .../wxl/src/vulkan/pipelines/Internal.hpp     |  13 +-
+ Engine/Source/Gx/GxSeam.cpp                   |   3 +
+ Engine/Source/Gx/GxSeam.h                     |   5 +
+ WoW/Source/Glue/CSimpleModelFFX.cpp           |  11 +
+ 41 files changed, 1253 insertions(+), 63 deletions(-)
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Msaa.cpp
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/Fullscreen.vert
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/Fullscreen.vert.spv.h
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/ResolveDepth.frag
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/ResolveDepth.frag.spv.h
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedColour.frag
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedColour.frag.spv.h
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedDepth.frag
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedDepth.frag.spv.h
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/CataSceneCapture.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/CataSceneCapture.cpp
+index 7bb7f912..48f37448 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/CataSceneCapture.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/CataSceneCapture.cpp
+@@ -75,9 +75,9 @@ bool SceneCapture::Initialize(const WXL_VkRenderApi* api, const std::vector<uint
+     blurReady_ = BlurPipeline();   // HD: optional, StopAndDestroy frees whatever it made
+     WXL_VkStageDesc stage{}; stage.structSize = sizeof stage; stage.user = this;
+     stage.point = WXL_VK_POINT_BEFORE_LIQUIDS; stage.order = 10000;
+-    // The current API supplies colorView only to a color-writing chain. We leave it unchanged;
+-    // the redundant CopyOut is documented, not hidden behind an unsupported API flag.
+-    stage.flags = WXL_VK_STAGE_NEEDS_DEPTH | WXL_VK_STAGE_WRITES_COLOR; stage.Wanted = Wanted; stage.Run = Run;
++    // Zeppelin I-442: it only reads the frame (READS_COLOR): copied in, never back, so the multisampled world
++    // is not re-seeded from a copy that changed nothing.
++    stage.flags = WXL_VK_STAGE_NEEDS_DEPTH | WXL_VK_STAGE_READS_COLOR; stage.Wanted = Wanted; stage.Run = Run;
+     registration_ = api_->RegisterStage(&stage,"CataWater.SceneCapture");
+     if (!registration_) { failed(); error_ = "BeforeLiquids stage refused; patched device required"; return false; }
+     error_.clear(); return true; // remains disabled until the owner opts in
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp
+index 4f86e07f..98c2a388 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.cpp
+@@ -273,6 +273,7 @@ void* registration=nullptr;
+ CVar *enabled=nullptr,*radius=nullptr,*strength=nullptr,*debug=nullptr,*half=nullptr,*normals=nullptr,*info=nullptr,*quality=nullptr,*temporal=nullptr,*thin=nullptr;
+ bool gbRequested=false;
+ const char* lastInfo="";
++uint32_t msaaNormals=1;   // Zeppelin I-442: the MSAA count that turned hdAONormals off (1: not turned off)
+ CVar* Var(const char* name,const char* help,const char* value,uint32_t flags=1) {
+     if(auto* existing=CVar::LookupRegistered(name)) return existing;
+     return CVar::Register(name,help,flags,value,nullptr,CATEGORY_GRAPHICS,false,nullptr,false);
+@@ -312,6 +313,10 @@ void Resize() {
+     config.temporal=!temporal || temporal->m_intValue!=0;
+     config.debug=debug && debug->m_intValue!=0;config.halfResolution=half && half->m_intValue!=0;
+     config.useGBufferNormals=normals && normals->m_intValue!=0;
++    // Zeppelin I-442: MSAA takes priority. With the multisampled back buffer up the device never draws the G-buffer:
++    // hdAONormals falls back to depth normals and the G-buffer is not asked for.
++    msaaNormals=config.useGBufferNormals?wxlvk::native::present::MultisampleCount():1u;
++    if(msaaNormals>1)config.useGBufferNormals=false;
+     bool want=config.enabled && config.useGBufferNormals;
+     bool gbApi=renderApi->structSize>=offsetof(WXL_VkRenderApi,RequestGBuffer)+sizeof(renderApi->RequestGBuffer) && renderApi->RequestGBuffer;
+     if(gbApi && want!=gbRequested) {renderApi->RequestGBuffer(want?1:0);gbRequested=want;}
+@@ -325,7 +330,15 @@ void Record(const WXL_VkStageContext& ctx) {
+     static const char* const names[2][2][2]={{{"Vulkan XeGTAO: full resolution","Vulkan XeGTAO: full resolution, temporal"},
+         {"Vulkan XeGTAO: bilateral half resolution","Vulkan XeGTAO: bilateral half resolution, temporal"}},
+         {{"Vulkan XeGTAO: debug","Vulkan XeGTAO: debug, temporal"},{"Vulkan XeGTAO: debug, half resolution","Vulkan XeGTAO: debug, half resolution, temporal"}}};
+-    Info(names[config.debug][config.halfResolution][config.temporal]);
++    const char* name=names[config.debug][config.halfResolution][config.temporal];
++    if(msaaNormals>1) {
++        // Zeppelin I-442: say why hdAONormals 1 is not honoured.
++        static char line[2][160];static uint32_t flip=0;char next[160];
++        std::snprintf(next,sizeof next,"%s; normals: depth (G-buffer normals off: MSAA is on (gxMultisample %u))",name,msaaNormals);
++        if(std::strcmp(next,lastInfo)) {flip^=1u;std::memcpy(line[flip],next,sizeof next);Info(line[flip]);}
++        return;
++    }
++    Info(name);
+ }
+ void SetSubpixelOffset(float x,float y) {config.extraJitterX=x;config.extraJitterY=y;}
+ bool Shutdown() {
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp
+index 07760813..0d6e49ea 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp
+@@ -306,8 +306,14 @@ void Resize(){
+  config.enabled=enabled&&enabled->m_intValue!=0&&receiverReady;config.contact=contact&&contact->m_intValue!=0;config.quality=quality?quality->m_intValue:1;config.debug=debug?std::clamp(debug->m_intValue,0,7):0;
+  config.strength=strength?strength->m_floatValue:1;config.sunAngle=angle?angle->m_floatValue:.00465f;config.maxPenumbra=penumbra?penumbra->m_floatValue:1.5f;config.normalBias=bias?bias->m_floatValue:.015f;
+  config.contactLength=length?length->m_floatValue:1.5f;config.contactThickness=thickness?thickness->m_floatValue:.08f;config.contactStrength=contactStrength?contactStrength->m_floatValue:1.0f;config.tagTolerance=tagTolerance?tagTolerance->m_floatValue:.03f;config.grassShade=grassShade?grassShade->m_floatValue:1.0f;
++ // Zeppelin I-442: MSAA takes priority. With the multisampled back buffer up (gxMultisample > 1 on Vulkan) the device
++ // never draws the G-buffer these shadows read, so they stay off: no receiver swap, no request.
++ const uint32_t msaa=wxlvk::native::present::MultisampleCount();
++ const bool msaaBlocks=msaa>1&&config.enabled;
++ if(msaa>1)config.enabled=false;
+  Mode(config.enabled);
+  if(config.enabled!=requested){renderApi->RequestGBuffer(config.enabled?1:0);requested=config.enabled;}
++ if(msaaBlocks){char line[64];std::snprintf(line,sizeof line,"off: MSAA is on (gxMultisample %u)",msaa);Info(line);return;}
+  if(!config.enabled){Info(enabled&&enabled->m_intValue&&!receiverReady?"receiver shaders missing: run generation + restart":"off");return;}VkFormat format{};VkExtent2D extent{};
+  if(!wxlvk::native::present::BackBufferInfo(format,extent)||!effect.Resize(extent.width,extent.height))Info("shadow Resize failed");
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/compat/src/Seams.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/compat/src/Seams.cpp
+index 0dc0ede4..2cb9f5b2 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/compat/src/Seams.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/compat/src/Seams.cpp
+@@ -8,6 +8,7 @@
+ 
+ #include "wxlcompat/Seams.hpp"
+ 
++#include "native/Present.hpp"
+ #include "shaders/Translated.hpp"
+ #include "wxl/PluginApi.h"
+ #include "wxlcompat/Engine.hpp"
+@@ -89,6 +90,9 @@ namespace
+ 
+     bool g_enabled = false;
+ 
++    // Zeppelin I-442: the glue's model scene, the MSAA window's second half (the world is NoteWorld).
++    void ModelScene(int32_t open) { wxlvk::native::present::NoteModelScene(open != 0); }
++
+     int32_t ShaderKnown(const void* code, uint32_t size)
+     {
+         return wxlvk::shaders::translated::Known(code, size) ? 1 : 0;
+@@ -138,6 +142,8 @@ namespace wxlcompat
+     {
+         g_enabled = on;
+         g_gxShaderKnown = on ? &ShaderKnown : nullptr;
++        g_gxModelScene  = on ? &ModelScene : nullptr;   // Zeppelin I-442
++        if (!on) wxlvk::native::present::NoteModelScene(false);
+         for (const Chain& c : g_chains)
+         {
+             Arm(c);
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/include/wxl/VkRenderApi.h b/Engine/Source/Gx/CGxDeviceVulkan/wxl/include/wxl/VkRenderApi.h
+index 6af5be6c..000679ea 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/include/wxl/VkRenderApi.h
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/include/wxl/VkRenderApi.h
+@@ -262,6 +262,10 @@ typedef struct WXL_VkRenderContext
+     /// MidPass: depthView's layout (VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL), readable by the
+     /// compute, vertex and fragment stages; never change it. Appended to version 1.
+     VkImageLayout   depthViewLayout;
++    /// Zeppelin I-442. Record: the open pass's sample count -- a pipeline built against renderPass sets
++    /// rasterizationSamples to it (the world's pass is multisampled with gxMultisample above 1). 1 in
++    /// Prepare and MidPass. Appended to version 1: read only when structSize covers it (absent: 1).
++    uint32_t        samples;
+ } WXL_VkRenderContext;
+ 
+ /// A pass's callbacks. Copied at registration; `user` is handed back to both.
+@@ -424,6 +428,9 @@ typedef struct WXL_VkWindStats
+ 
+ #define WXL_VK_STAGE_NEEDS_DEPTH   0x1u   ///< the stage reads the scene depth (ctx->depthView)
+ #define WXL_VK_STAGE_WRITES_COLOR  0x2u   ///< the stage writes the frame (ctx->colorView): it is copied back
++/// Zeppelin I-442: the stage reads the frame (ctx->colorView) and never writes it: it is copied in, not
++/// back (a copy-back would also make the multisampled world re-seed from it for nothing).
++#define WXL_VK_STAGE_READS_COLOR   0x4u
+ 
+ /**
+  * What a stage runs with. The device ends the engine's pass, copies the back buffer into a working
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Caps.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Caps.cpp
+index 645d51df..94978181 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Caps.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Caps.cpp
+@@ -180,8 +180,9 @@ namespace wxlvk::native::caps
+         // The hardware cursor (src/native/Cursor.cpp: slots 2, 4, 73): offered, as D3D's CursorCaps
+         // does, so the format's gxCursor byte decides, as on D3D. Occlusion queries
+         // (src/native/Queries.cpp): offered, so the sun / moon glare (DNGlare) runs, as D3D's
+-        // CreateQuery(OCCLUSION) succeeding offers them. Multisampling is not offered: the device
+-        // renders single-sampled, and anti-aliasing is left to a post-process.
++        // CreateQuery(OCCLUSION) succeeding offers them. Multisampling (Zeppelin I-442) needs no cap: the
++        // format's sample count (gxMultisample) is taken as it comes and clamped to the device when the
++        // back buffer is made (native/present/Msaa.cpp); the world and the glue's model render at it.
+         Word(device, gxdev::kCapsMaxClipPlanes)   = 0;
+         Word(device, gxdev::kCapsHwCursor)        = 1;
+         Word(device, gxdev::kCapsOcclusionQuery)  = 1;
+@@ -229,7 +230,7 @@ namespace wxlvk::native::caps
+ 
+         wxl::ScriptMgr::Log(WXL_LOG_DEBUG,
+                             "native: caps: vs %d / ps %d, clip planes 0, hardware cursor 1, occlusion "
+-                            "1, single-sampled, max texture %u, aniso %u, point size %.1f, RT argb8888 "
++                            "1, MSAA from the format (I-442), max texture %u, aniso %u, point size %.1f, RT argb8888 "
+                             "%u rgb565 %u rg16f %u r32f %u depth %u",
+                             vs, ps, Word(device, gxdev::kCapsMaxTexWidth),
+                             Word(device, gxdev::kCapsMaxAnisotropy),
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Device.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Device.cpp
+index 73d68251..31a96aef 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Device.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Device.cpp
+@@ -47,8 +47,9 @@
+ //
+ // Fullscreen is a borderless popup over the monitor at the desktop's mode: Vulkan 1.0 has no
+ // exclusive fullscreen. The engine keeps rendering at the format's resolution and the present pass
+-// scales that back buffer onto the swapchain. The device runs single-sampled whatever the format
+-// asks (caps say so; render state 19 is ignored).
++// scales that back buffer onto the swapchain. The format's sample count (gxMultisample) multisamples
++// the world and the glue's model scene, clamped to the device (Zeppelin I-442, native/present/Msaa.cpp);
++// render state 19 is ignored.
+ namespace
+ {
+     namespace gxdev   = wxl::offsets::engine::gxdevice;
+@@ -387,6 +388,12 @@ namespace wxlvk::native::impl
+ 
+         // Before the swapchain is built: the format's vsync picks its present mode.
+         context::SetVsync(At<int32_t>(local, gxdev::kFmtVSync) != 0);
++        // Zeppelin I-442: the format's sample count (gxMultisample) -- the world and the glue's model scene
++        // render multisampled at it, clamped to the device (native/present/Msaa.cpp).
++        {
++            const int32_t samples = At<int32_t>(local, gxdev::kFmtSamples);
++            present::SetMultisample(samples > 1 ? static_cast<uint32_t>(samples) : 1u);
++        }
+ 
+         // The back buffer's size. Fullscreen renders at the format's resolution on a window covering
+         // the monitor; windowed follows the window (0 x 0).
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Overlay.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Overlay.cpp
+index e2f6c6bc..c67cbc27 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Overlay.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Overlay.cpp
+@@ -213,10 +213,11 @@ namespace
+         rs.cullMode    = VK_CULL_MODE_NONE;
+         rs.frontFace   = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+         rs.lineWidth   = 1.0f;
+-        // Single-sampled, as every native pass.
++        // The pass class's count: 1, except on the multisampled back class (Zeppelin I-442) when an overlay
++        // is drawn inside the MSAA window.
+         VkPipelineMultisampleStateCreateInfo ms = {};
+         ms.sType                = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+-        ms.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
++        ms.rasterizationSamples = static_cast<VkSampleCountFlagBits>(wxlvk::vk::pipelines::PassSamples(pass));
+         VkPipelineDepthStencilStateCreateInfo ds = {};
+         ds.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+         VkPipelineColorBlendAttachmentState cba = {};
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Present.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Present.cpp
+index 0a49dd60..363fc612 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Present.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Present.cpp
+@@ -104,6 +104,10 @@ namespace wxlvk::native::present
+         s.gbufFresh       = true;
+         s.gbufDrawn       = false;
+         s.passGBuffer     = false;
++        // Zeppelin I-442: a new frame -- neither back copy holds anything of it yet (Msaa.cpp).
++        s.back1x          = 0;
++        s.msaaColourNewer = s.msaaDepthNewer = false;
++        s.msaaColourStale = s.msaaDepthStale = true;
+         return true;
+     }
+ 
+@@ -113,7 +117,13 @@ namespace wxlvk::native::present
+     /// path would break its pass at every draw.
+     static bool ClassChanged()
+     {
+-        if (!s.passColour.back || !s.passHasDepth || !s.passDepth.back) return false;
++        // Zeppelin I-442: the MSAA window opening or closing (NoteWorld, NoteModelScene) switches a pass on the
++        // back colour with the back depth or none, as BeginPass would choose now (Msaa.cpp). With
++        // gxMultisample 1 MsaaWanted() is always false and passMsaa never set: no switch.
++        if (!s.passColour.back) return false;
++        const bool backDepth = s.passHasDepth && s.passDepth.back;
++        if ((MsaaWanted() && (!s.passHasDepth || backDepth)) != s.passMsaa) return true;
++        if (!backDepth) return false;
+         return (GBufferWanted() && EnsureGBufferImages()) != s.passGBuffer;
+     }
+ 
+@@ -139,9 +149,17 @@ namespace wxlvk::native::present
+     {
+         folded = 0;
+         if (!EnsureFrame()) return nullptr;
+-        if (s.passOpen && !ClassChanged()) return s.slots[s.fi].main;
+-        if (s.passOpen) SwitchClass();
+-        return BeginPass(&clear, &folded);
++        VkCommandBuffer cmd = nullptr;
++        if (s.passOpen && !ClassChanged()) cmd = s.slots[s.fi].main;
++        else
++        {
++            if (s.passOpen) SwitchClass();
++            cmd = BeginPass(&clear, &folded);
++        }
++        // Zeppelin I-442: a colour clear the caller records inside a 1x back pass (not folded into the load
++        // op) may cover part of it: the 1x back buffer counts as drawn for a later MSAA seed.
++        if (cmd && s.passOpen && s.passColour.back && !s.passMsaa && (clear.mask & 1u) && !(folded & 1u)) s.back1x = 2;
++        return cmd;
+     }
+ 
+     VkCommandBuffer Outside()
+@@ -198,7 +216,12 @@ namespace wxlvk::native::present
+         depth  = s.passOpen && s.passHasDepth ? s.passDepth.format : VK_FORMAT_UNDEFINED;
+     }
+ 
+-    void NoteDraw() { s.drewThisFrame = true; }
++    void NoteDraw()
++    {
++        s.drewThisFrame = true;
++        // Zeppelin I-442: a draw into the 1x back buffer: a later MSAA pass this frame seeds from it.
++        if (s.passOpen && s.passColour.back && !s.passMsaa) s.back1x = 2;
++    }
+ 
+     void NoteWorld(bool open)
+     {
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Present.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Present.hpp
+index 8c310a3f..05651dd6 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Present.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Present.hpp
+@@ -228,6 +228,24 @@ namespace wxlvk::native::present
+     /// AfterOpaqueWorld fired: the opaque world is drawn; every later pass of the frame is a plain one.
+     void NoteOpaqueEnd();
+ 
++    // --- Zeppelin I-442: multisampling (src/native/present/Msaa.cpp) ---------------------------------
++
++    /// The format's sample count (gxMultisample, slot 13). Clamped to the device when the back buffer is
++    /// made; a change rebuilds it. 1: single-sampled, the path as it always was.
++    void SetMultisample(uint32_t samples);
++
++    /// The glue's character model scene begins (true) or ends (false) (CSimpleModelFFX::Render, through
++    /// g_gxModelScene in GxSeam.h): with the world scene (NoteWorld), the MSAA window.
++    void NoteModelScene(bool open);
++
++    /// The open pass's sample count (1 with no pass open): what a pipeline built against RenderPass()
++    /// rasterises at.
++    uint32_t PassSamples();
++
++    /// The sample count the multisampled back images were made with (1: MSAA off). Above 1 the G-buffer is
++    /// never drawn: its consumers (hdSunShadows, hdAONormals) treat it as unavailable.
++    uint32_t MultisampleCount();
++
+     /// A consumer asks for the G-buffer (`wanted`) or stops asking. Counted.
+     void RequestGBuffer(bool wanted);
+ 
+@@ -375,6 +393,13 @@ namespace wxlvk::native::present
+         uint64_t barriers;           ///< image barriers they carried
+         uint64_t gbufferPasses;      ///< passes begun on the G-buffer class (the opaque world's, while a consumer asks)
+         uint64_t gbufferSwitches;    ///< passes ended because the class a draw wanted changed (into or out of the G-buffer class)
++        // Zeppelin I-442: multisampling (Msaa.cpp).
++        uint32_t msaaSamples;        ///< the count the multisampled back images were made with (1: off)
++        uint64_t msaaPasses;         ///< passes begun on the multisampled back images
++        uint64_t msaaResolves;       ///< colour resolves (MSAA -> 1x) before a 1x use or the present
++        uint64_t msaaDepthResolves;  ///< depth resolves (MSAA -> 1x, sample 0) before a 1x use or a reader
++        uint64_t msaaSeeds;          ///< colour seeds (1x -> MSAA): the 1x back buffer was drawn or written first
++        uint64_t msaaDepthSeeds;     ///< depth seeds (1x -> MSAA)
+     };
+     void GetStats(Stats& out);
+ 
+@@ -471,6 +496,9 @@ namespace wxlvk::native::present
+         uint64_t serial    = 0;      ///< frame it was begun in; 0 = never begun
+         uint32_t slot      = 0;      ///< frame-in-flight slot whose pool holds its indices
+         uint32_t index[kQuerySplits] = {};
++        /// Zeppelin I-442: the sample count of the pass each Vulkan query ran in. A multisampled pass counts
++        /// samples, and the engine (DNGlare) divides by pixels: Harvest divides each count by this.
++        uint32_t divide[kQuerySplits] = {};
+         uint32_t count     = 0;      ///< Vulkan queries it spans (one per pass it ran through)
+         bool     active    = false;  ///< between 64 and 65
+         bool     inPass    = false;  ///< a Vulkan query of it is open in the current pass
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Render.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Render.cpp
+index 9b6e1d63..a276456b 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Render.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Render.cpp
+@@ -124,6 +124,7 @@ namespace wxlvk::native::render
+         ctx.hasDepth        = 1;
+         ctx.cmd             = cmd;
+         ctx.renderPass      = pass;
++        ctx.samples         = 1;   // Zeppelin I-442: the shadow pass is single-sampled
+         ctx.extent          = area.extent;
+         ctx.depthFormat     = wxlvk::capture::shadowpass::Format();
+         ctx.colorFormat     = VK_FORMAT_UNDEFINED;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Targets.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Targets.cpp
+index 335aa045..52840134 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Targets.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/Targets.cpp
+@@ -543,6 +543,16 @@ namespace wxlvk::native::impl
+                             static_cast<unsigned long long>(g.depthRestores),
+                             static_cast<unsigned long long>(f.gbufferPasses),
+                             static_cast<unsigned long long>(f.gbufferSwitches));
++        // Zeppelin I-442: the multisampled back buffer's work (native/present/Msaa.cpp).
++        if (f.msaaSamples > 1 || f.msaaPasses)
++            wxl::ScriptMgr::Log(WXL_LOG_INFO,
++                                "native: MSAA: %ux; %llu multisampled pass(es), %llu colour / %llu depth resolve(s), "
++                                "%llu colour / %llu depth seed(s)",
++                                f.msaaSamples, static_cast<unsigned long long>(f.msaaPasses),
++                                static_cast<unsigned long long>(f.msaaResolves),
++                                static_cast<unsigned long long>(f.msaaDepthResolves),
++                                static_cast<unsigned long long>(f.msaaSeeds),
++                                static_cast<unsigned long long>(f.msaaDepthSeeds));
+         wxl::ScriptMgr::Log(WXL_LOG_INFO,
+                             "native: copies: slot 27 %llu, slot 59 %llu, slot 60 %llu (%llu by blit), "
+                             "%llu refused; slot 20 %llu call(s): %llu read back (%llu KiB), %llu answered "
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/api/Points.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/api/Points.cpp
+index 84d9693d..d94cf144 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/api/Points.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/api/Points.cpp
+@@ -153,6 +153,7 @@ namespace wxlvk::native::render::detail
+         ctx.invocation      = ps.invocation;
+         ctx.extent          = present::Extent();
+         ctx.scene           = &scene;
++        ctx.samples         = 1;   // Zeppelin I-442: Prepare / MidPass have no pass
+         BuildScene(dev, ctx.extent, scene);
+         ctx.viewportValid = wxlvk::native::impl::PlaceDraw(dev, ctx.extent, ctx.viewport, ctx.scissor) ? 1u : 0u;
+ 
+@@ -170,6 +171,7 @@ namespace wxlvk::native::render::detail
+         }
+         ctx.cmd        = cmd;
+         ctx.renderPass = present::RenderPass();
++        ctx.samples    = present::PassSamples();   // Zeppelin I-442: the multisampled world pass's count
+         ctx.extent     = present::Extent();
+         ctx.hasDepth   = present::HasDepth() ? 1u : 0u;
+         ctx.occlusionQueryActive = present::QueryInPass() ? 1u : 0u;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Images.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Images.cpp
+index 833127ea..46e21917 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Images.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Images.cpp
+@@ -22,7 +22,7 @@ namespace wxlvk::native::present::detail
+ 
+     /// One device-local image and view of our own (the back buffer, the depths). False: nothing left.
+     bool MakeRaw(VkFormat format, VkExtent2D extent, VkImageUsageFlags usage, VkImage& image, VkImageView& view,
+-                 memory::Block& block, const char* what)
++                 memory::Block& block, const char* what, uint32_t samples)
+     {
+         const loader::Device& d = *s.dapi;
+         VkImageCreateInfo info = {};
+@@ -32,7 +32,7 @@ namespace wxlvk::native::present::detail
+         info.extent        = VkExtent3D{ extent.width, extent.height, 1 };
+         info.mipLevels     = 1;
+         info.arrayLayers   = 1;
+-        info.samples       = VK_SAMPLE_COUNT_1_BIT;
++        info.samples       = static_cast<VkSampleCountFlagBits>(samples ? samples : 1u);   // Zeppelin I-442: the MSAA images
+         info.tiling        = VK_IMAGE_TILING_OPTIMAL;
+         info.usage         = usage;
+         info.sharingMode   = VK_SHARING_MODE_EXCLUSIVE;
+@@ -97,6 +97,7 @@ namespace wxlvk::native::present::detail
+             s.imagesInFlight[i] = VK_NULL_HANDLE;
+             s.images[i] = VK_NULL_HANDLE;
+         }
++        DropMsaaImages();   // Zeppelin I-442: sized with the back buffer; its helper framebuffer names the back depth
+         DropFramebuffersNaming(s.depthView, 0, true);
+         DropFramebuffersNaming(s.backView, 0, true);
+         if (s.depthView != VK_NULL_HANDLE) d.DestroyImageView(s.device, s.depthView, nullptr);
+@@ -247,6 +248,9 @@ namespace wxlvk::native::present::detail
+         s.extent     = render;
+         s.swapExtent = h.extent;
+         s.swapGen    = context::SwapchainGeneration();
++        // Zeppelin I-442: the multisampled back buffer and depth beside the 1x ones, at the render size
++        // (only on the own back buffer, and only with gxMultisample above 1; a failure leaves MSAA off).
++        EnsureMsaaImages(h);
+         if (render.width != h.extent.width || render.height != h.extent.height)
+             wxl::ScriptMgr::Log(WXL_LOG_DEBUG,
+                                 "native: frame: back buffer %ux%u on a %ux%u swapchain (fullscreen at the "
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Internal.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Internal.hpp
+index 517ffb33..1c6372c8 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Internal.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Internal.hpp
+@@ -55,6 +55,7 @@
+ //   PresentPass  the present pass and finishing a frame
+ //   ReadBack     targets, copies and read-backs (public)
+ //   QueryApi     the occlusion query API (public)
++//   Msaa         the multisampled back buffer and depth, their seeds and resolves (Zeppelin I-442)
+ namespace wxlvk::native::present::detail
+ {
+     namespace context   = wxlvk::vk::context;
+@@ -115,8 +116,10 @@ namespace wxlvk::native::present::detail
+     /// Render passes by (colour, depth) format, framebuffers by attachments, occlusion queries per
+     /// frame slot. A session's targets are a handful (7 seen in the world), so the caches are linear
+     /// arrays.
+-    constexpr uint32_t kMaxPassClasses  = 12;   ///< the G-buffer class doubles the back buffer's
+-    static_assert(kMaxPassClasses == 12, "vulkan/pipelines/Internal.hpp mirrors this count in its passInfo[12]: change both");
++    /// Zeppelin I-442: 16, not 12 -- the multisampled back classes (with and without the depth) sit beside
++    /// the single-sampled ones.
++    constexpr uint32_t kMaxPassClasses  = 16;   ///< the G-buffer class doubles the back buffer's
++    static_assert(kMaxPassClasses == 16, "vulkan/pipelines/Internal.hpp mirrors this count in its passInfo[16]: change both");
+     constexpr uint32_t kMaxFramebuffers = 128;
+     constexpr uint32_t kQueriesPerSlot  = 64;
+     constexpr uint32_t kMaxRunsPerSlot  = 64;
+@@ -178,6 +181,7 @@ namespace wxlvk::native::present::detail
+         VkFormat     colour = VK_FORMAT_UNDEFINED;
+         VkFormat     depth  = VK_FORMAT_UNDEFINED;
+         bool         gbuffer = false;           ///< with the G-buffer's three attachments after the colour
++        uint32_t     samples = 1;               ///< Zeppelin I-442: the attachments' sample count (the multisampled back class)
+         VkRenderPass pass   = VK_NULL_HANDLE;   ///< LOAD / LOAD: what pipelines and framebuffers are made against
+         /// The same pass with CLEAR load ops, by the bits of what is cleared: 1 the colour, 2 the depth,
+         /// 4 the G-buffer's attachments ([0] is `pass`). Load ops take no part in render-pass
+@@ -211,6 +215,11 @@ namespace wxlvk::native::present::detail
+         bool               discard = false;    ///< its contents are not kept (first use)
+         bool               clear   = false;    ///< and are cleared after the pass begins
+         bool               back    = false;    ///< the back buffer or the back depth
++        /// Zeppelin I-442: the multisampled image standing in for the back buffer or the back depth (Msaa.cpp).
++        bool               msaa    = false;
++        /// Zeppelin I-442: what `clear` clears a colour to. Black, except when a multisampled back buffer
++        /// takes over a frame whose single-sampled one was only cleared (Msaa.cpp MsaaPrepare).
++        float              clearColour[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+     };
+ 
+     struct State
+@@ -265,6 +274,51 @@ namespace wxlvk::native::present::detail
+         bool           gbufDrawn    = false;    ///< a G-buffer pass ran this frame
+         uint64_t       gbufSerial   = 0;        ///< the frame the attachments describe
+ 
++        // --- Zeppelin I-442: the multisampled back buffer and depth (Msaa.cpp) ---------------------------
++        // Beside the single-sampled back buffer and depth, made and dropped with them. While the MSAA
++        // window is open (the world scene, the glue's model scene) a pass on the back colour and the back
++        // depth (or no depth) draws into these instead; the two copies are kept coherent by the flags below:
++        // a reader of the 1x images gets them resolved first, a later MSAA pass gets them seeded first.
++        uint32_t       msaaRequested = 1;       ///< the format's sample count (gxMultisample, DeviceSetFormat)
++        uint32_t       msaaSamples   = 1;       ///< the count the images were made with; 1: off, today's path exactly
++        uint32_t       msaaLoggedReq = 0;       ///< the request the last "MSAA" line described
++        VkImage        msaaColour       = VK_NULL_HANDLE;
++        VkImageView    msaaColourView   = VK_NULL_HANDLE;
++        memory::Block  msaaColourBlock;
++        VkImageLayout  msaaColourLayout = VK_IMAGE_LAYOUT_UNDEFINED;
++        VkImage        msaaDepth        = VK_NULL_HANDLE;
++        VkImageView    msaaDepthView    = VK_NULL_HANDLE;
++        memory::Block  msaaDepthBlock;
++        VkImageLayout  msaaDepthLayout  = VK_IMAGE_LAYOUT_UNDEFINED;
++        bool           msaaModel        = false;   ///< the glue's model scene is open (NoteModelScene)
++        bool           msaaColourNewer  = false;   ///< the MSAA colour holds draws the 1x one lacks: resolve before a 1x use
++        bool           msaaDepthNewer   = false;   ///< the same for the depth
++        bool           msaaColourStale  = true;    ///< the 1x colour holds what the MSAA one lacks: seed before an MSAA use
++        bool           msaaDepthStale   = true;    ///< the same for the depth
++        /// This frame's 1x back colour, for the seed: 0 untouched (the MSAA one starts black), 1 only cleared
++        /// over the whole image (it starts cleared to back1xClear), 2 drawn (it is seeded from the 1x one).
++        uint8_t        back1x = 0;
++        float          back1xClear[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
++        // The helper passes: the seeds (1x -> MSAA, colour and depth) and the depth resolve (MSAA -> 1x).
++        // The colour resolve is vkCmdResolveImage.
++        VkRenderPass          msaaSeedColourPass = VK_NULL_HANDLE;
++        VkRenderPass          msaaSeedDepthPass  = VK_NULL_HANDLE;
++        VkRenderPass          msaaResolvePass    = VK_NULL_HANDLE;
++        VkFramebuffer         msaaSeedColourFb   = VK_NULL_HANDLE;
++        VkFramebuffer         msaaSeedDepthFb    = VK_NULL_HANDLE;
++        VkFramebuffer         msaaResolveFb      = VK_NULL_HANDLE;
++        VkPipeline            msaaSeedColourPipe = VK_NULL_HANDLE;
++        VkPipeline            msaaSeedDepthPipe  = VK_NULL_HANDLE;
++        VkPipeline            msaaResolvePipe    = VK_NULL_HANDLE;
++        VkShaderModule        msaaModules[4]     = {};   ///< the triangle, seed colour, seed depth, resolve depth
++        VkDescriptorSetLayout msaaDsl     = VK_NULL_HANDLE;
++        VkPipelineLayout      msaaLayout  = VK_NULL_HANDLE;
++        VkDescriptorPool      msaaPool    = VK_NULL_HANDLE;
++        VkDescriptorSet       msaaSet[3]  = {};          ///< seed colour (the 1x back), seed depth (the 1x depth), resolve (the MSAA depth)
++        VkImageView           msaaSetView[3] = {};       ///< what each set was last written with
++        VkSampler             msaaSampler = VK_NULL_HANDLE;
++        bool                  msaaFailed  = false;       ///< a helper could not be made: MSAA off for the session
++
+         // --- the shared offscreen depth (colour targets without a depth texture) -----------------------
+         VkImage        offImage  = VK_NULL_HANDLE;
+         VkImageView    offView   = VK_NULL_HANDLE;
+@@ -278,6 +332,8 @@ namespace wxlvk::native::present::detail
+         Side         passDepth;
+         bool         passHasDepth = false;
+         bool         passGBuffer  = false;   ///< the open pass is of the G-buffer class
++        bool         passMsaa     = false;   ///< Zeppelin I-442: the open pass draws into the multisampled back images
++        uint32_t     passSamples  = 1;       ///< Zeppelin I-442: its class's sample count (the occlusion queries divide by it)
+         VkRenderPass passClass    = VK_NULL_HANDLE;
+         VkExtent2D   passExtent   = { 0, 0 };
+ 
+@@ -449,8 +505,9 @@ namespace wxlvk::native::present::detail
+     // Passes.cpp
+     VkFormat PickDepth(const context::Handles& h);
+     void EnsureDepthFormat();
+-    VkRenderPass MakePass(VkFormat colour, VkFormat depth, bool clearColour = false, bool clearDepth = false, bool gbuffer = false, bool clearGBuffer = false);
+-    VkRenderPass ClassPass(VkFormat colour, VkFormat depth, bool gbuffer);
++    VkRenderPass MakePass(VkFormat colour, VkFormat depth, bool clearColour = false, bool clearDepth = false, bool gbuffer = false, bool clearGBuffer = false, uint32_t samples = 1);
++    VkRenderPass ClassPass(VkFormat colour, VkFormat depth, bool gbuffer, uint32_t samples = 1);
++    uint32_t ClassSamples(VkRenderPass pass);   ///< Zeppelin I-442: 1 for a pass that is no class
+     bool IsGBufferPass(VkRenderPass pass);
+     VkRenderPass ClearingPass(VkRenderPass base, uint32_t which, bool& clearing);
+     void RemoveFramebuffer(uint32_t i, uint64_t lastUsed, bool now);
+@@ -458,7 +515,7 @@ namespace wxlvk::native::present::detail
+     VkFramebuffer FramebufferFor(VkRenderPass pass, VkImageView colour, VkImageView depth, VkExtent2D extent);
+ 
+     // Images.cpp
+-    bool MakeRaw(VkFormat format, VkExtent2D extent, VkImageUsageFlags usage, VkImage& image, VkImageView& view, memory::Block& block, const char* what);
++    bool MakeRaw(VkFormat format, VkExtent2D extent, VkImageUsageFlags usage, VkImage& image, VkImageView& view, memory::Block& block, const char* what, uint32_t samples = 1);
+     void DropImageObjects();
+     bool EnsureImageObjects(const context::Handles& h);
+     bool EnsureGBufferImages();
+@@ -466,8 +523,8 @@ namespace wxlvk::native::present::detail
+     bool Acquire();
+ 
+     // Resolve.cpp
+-    bool BackColour(Side& out);
+-    bool BackDepth(Side& out);
++    bool BackColour(Side& out, bool msaa = false);   ///< Zeppelin I-442: msaa, the multisampled image instead
++    bool BackDepth(Side& out, bool msaa = false);
+     bool Offscreen(Side& out, VkExtent2D need);
+     void TextureSide(texture::Image* img, VkImageView view, uint64_t* stamp, Side& out);
+     VkExtent2D Min(VkExtent2D a, VkExtent2D b);
+@@ -485,6 +542,25 @@ namespace wxlvk::native::present::detail
+     void EndPrePass(FrameSlot& slot);
+     void RecordPresentCopy(VkCommandBuffer cmd);
+ 
++    // Msaa.cpp (Zeppelin I-442): the multisampled back buffer and depth.
++    /// The request clamped to what the device offers for the swapchain format and the depth: 1 when off.
++    uint32_t MsaaClamp(const context::Handles& h, uint32_t requested);
++    /// The multisampled images at the back buffer's size, from EnsureImageObjects. A failure only turns MSAA
++    /// off (logged); the frame goes on single-sampled.
++    void EnsureMsaaImages(const context::Handles& h);
++    void DropMsaaImages();   ///< the caller has waited for the device
++    /// Whether a back pass begun now draws multisampled: the window is open (the world, the glue's model) and
++    /// this is not a G-buffer frame.
++    bool MsaaWanted();
++    /// Before a pass on the 1x back colour and / or depth: the MSAA copy resolved into it when newer, and
++    /// marked stale (the 1x one may change).
++    void MsaaBefore1x(bool colour, bool depth);
++    /// Before a pass on the MSAA images: seeded from the 1x ones when they hold this frame's newer content,
++    /// else set to be cleared (or left to the pending clear that covers everything).
++    void MsaaPrepare(Side& c, Side* d, VkExtent2D area, const present::PassClear* pending, bool foldable);
++    void MsaaResolveColour();   ///< MSAA -> 1x colour when newer (vkCmdResolveImage), ending the open pass
++    void MsaaResolveDepth();    ///< MSAA -> 1x depth when newer (a full-screen pass, sample 0), ending the open pass
++
+     // FrameGpu.cpp: the frame's GPU timestamps (wxl.vk.render GetFrameStats).
+     /// At the frame's open, on its main buffer after its query reset: the slot's last results read, its pool reset, the
+     /// frame's first timestamp.
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Msaa.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Msaa.cpp
+new file mode 100644
+index 00000000..0a29c018
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Msaa.cpp
+@@ -0,0 +1,648 @@
++// Zeppelin I-442: the multisampled back buffer and depth -- their images, the MSAA window, the seeds and
++// the resolves.
++// Copyright (C) 2026 WarcraftXL
++//
++// This program is free software: you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program. If not, see <https://www.gnu.org/licenses/>.
++
++#include "native/present/Internal.hpp"
++
++#include "native/present/msaa/Fullscreen.vert.spv.h"
++#include "native/present/msaa/ResolveDepth.frag.spv.h"
++#include "native/present/msaa/SeedColour.frag.spv.h"
++#include "native/present/msaa/SeedDepth.frag.spv.h"
++
++// How MSAA works on this device (I-442, F-234).
++//
++// gxMultisample reaches DeviceSetFormat as the format's sample count; it is clamped to what the device
++// offers for colour and depth attachments and for sampled depth (the depth resolve samples it), and only
++// the own-back-buffer path takes it. With a count of 1 nothing here runs and every pass is what it was.
++//
++// The multisampled colour and depth stand beside the single-sampled back buffer and depth. While the MSAA
++// window is open -- the world scene (NoteWorld) or the glue's character model (NoteModelScene) -- a pass on
++// the back colour with the back depth, or with no depth, draws into them through a class of its own (the
++// N-sample pass class, whose pipelines rasterise at N). Everything else is untouched: texture targets,
++// the back colour with a texture or the offscreen depth, the interface after the world, the present.
++//
++// The two copies are kept coherent rather than one being authoritative:
++//   - resolve on read: a 1x use of the back colour or depth (BackBuffer, SceneDepth, a 1x pass, the
++//     present) first resolves the MSAA copy into it when that is newer -- vkCmdResolveImage for the colour,
++//     a full-screen pass writing sample 0 into the 1x depth (Vulkan 1.0 has no depth resolve). Every reader
++//     keeps reading the 1x images in the layouts it always did.
++//   - seed on write: a 1x use that may write (a 1x pass, BackBuffer to TRANSFER_DST: a stage's copy-back,
++//     the host composite) marks the MSAA copy stale, and the next MSAA pass first draws the 1x image into
++//     every sample (a re-seed). So a stage that writes the frame mid-world (fog, AO, bloom, grade) keeps
++//     the world's later draws antialiased, at one full-screen pass per write.
++//   - a frame's first MSAA pass seeds only what the 1x image holds this frame: drawn (seeded), only
++//     cleared (the MSAA copy is cleared to the same colour), untouched (cleared to black, as the 1x back
++//     buffer's first use is) -- and nothing when the pass's own clear covers the whole image.
++// A G-buffer frame (hdSunShadows, hdAONormals) stays single-sampled throughout: the G-buffer attachments
++// are 1x and share the class with the colour. Phase 2 would multisample them.
++
++namespace wxlvk::native::present::detail
++{
++    namespace
++    {
++        enum Set : uint32_t
++        {
++            kSetSeedColour = 0,   ///< samples the 1x back buffer
++            kSetSeedDepth  = 1,   ///< samples the 1x back depth
++            kSetResolve    = 2,   ///< samples the MSAA depth
++        };
++
++        void LogOnce(const char* what)
++        {
++            wxl::ScriptMgr::Log(WXL_LOG_WARN, "native: frame: MSAA: %s; the frame renders single-sampled for the session", what);
++        }
++
++        bool Refuse(const char* what, VkResult r)
++        {
++            s.msaaFailed = true;
++            wxl::ScriptMgr::Log(WXL_LOG_WARN, "native: frame: MSAA: %s failed (%s); the frame renders single-sampled for the "
++                                "session", what, ResultName(r));
++            return false;
++        }
++
++        VkShaderModule Module(const uint32_t* words, size_t bytes)
++        {
++            VkShaderModuleCreateInfo info = {};
++            info.sType    = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
++            info.codeSize = bytes;
++            info.pCode    = words;
++            VkShaderModule m = VK_NULL_HANDLE;
++            if (s.dapi->CreateShaderModule(s.device, &info, nullptr, &m) != VK_SUCCESS) return VK_NULL_HANDLE;
++            return m;
++        }
++
++        /// The session's objects that do not name an image: the modules, the set layout, the pipeline
++        /// layout, the pool and its three sets, the sampler. Made once.
++        bool EnsureShared()
++        {
++            if (s.msaaFailed) return false;
++            if (s.msaaSampler != VK_NULL_HANDLE) return true;
++            const loader::Device& d = *s.dapi;
++            VkResult r = VK_SUCCESS;
++            s.msaaModules[0] = Module(kMsaaFullscreenVert, sizeof kMsaaFullscreenVert);
++            s.msaaModules[1] = Module(kMsaaSeedColourFrag, sizeof kMsaaSeedColourFrag);
++            s.msaaModules[2] = Module(kMsaaSeedDepthFrag, sizeof kMsaaSeedDepthFrag);
++            s.msaaModules[3] = Module(kMsaaResolveDepthFrag, sizeof kMsaaResolveDepthFrag);
++            for (VkShaderModule m : s.msaaModules)
++                if (m == VK_NULL_HANDLE) return Refuse("vkCreateShaderModule (the helper passes)", VK_ERROR_INITIALIZATION_FAILED);
++
++            VkDescriptorSetLayoutBinding b = {};
++            b.binding         = 0;
++            b.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
++            b.descriptorCount = 1;
++            b.stageFlags      = VK_SHADER_STAGE_FRAGMENT_BIT;
++            VkDescriptorSetLayoutCreateInfo li = {};
++            li.sType        = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
++            li.bindingCount = 1;
++            li.pBindings    = &b;
++            r = d.CreateDescriptorSetLayout(s.device, &li, nullptr, &s.msaaDsl);
++            if (r != VK_SUCCESS) return Refuse("vkCreateDescriptorSetLayout", r);
++            VkPipelineLayoutCreateInfo pl = {};
++            pl.sType          = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
++            pl.setLayoutCount = 1;
++            pl.pSetLayouts    = &s.msaaDsl;
++            r = d.CreatePipelineLayout(s.device, &pl, nullptr, &s.msaaLayout);
++            if (r != VK_SUCCESS) return Refuse("vkCreatePipelineLayout", r);
++            VkDescriptorPoolSize size = { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 3 };
++            VkDescriptorPoolCreateInfo pi = {};
++            pi.sType         = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
++            pi.maxSets       = 3;
++            pi.poolSizeCount = 1;
++            pi.pPoolSizes    = &size;
++            r = d.CreateDescriptorPool(s.device, &pi, nullptr, &s.msaaPool);
++            if (r != VK_SUCCESS) return Refuse("vkCreateDescriptorPool", r);
++            const VkDescriptorSetLayout layouts[3] = { s.msaaDsl, s.msaaDsl, s.msaaDsl };
++            VkDescriptorSetAllocateInfo ai = {};
++            ai.sType              = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
++            ai.descriptorPool     = s.msaaPool;
++            ai.descriptorSetCount = 3;
++            ai.pSetLayouts        = layouts;
++            r = d.AllocateDescriptorSets(s.device, &ai, s.msaaSet);
++            if (r != VK_SUCCESS) return Refuse("vkAllocateDescriptorSets", r);
++            // texelFetch only: the sampler is never used to filter, but a combined image sampler needs one.
++            VkSamplerCreateInfo si = {};
++            si.sType        = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
++            si.magFilter    = VK_FILTER_NEAREST;
++            si.minFilter    = VK_FILTER_NEAREST;
++            si.mipmapMode   = VK_SAMPLER_MIPMAP_MODE_NEAREST;
++            si.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
++            si.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
++            si.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
++            r = d.CreateSampler(s.device, &si, nullptr, &s.msaaSampler);
++            if (r != VK_SUCCESS)
++            {
++                s.msaaSampler = VK_NULL_HANDLE;
++                return Refuse("vkCreateSampler", r);
++            }
++            return true;
++        }
++
++        /// One attachment, DONT_CARE in (every pixel is written), STORE out, in its attachment layout at both
++        /// ends; the dependency orders it after earlier attachment writes, transfers and shader reads of the
++        /// same image (the other frame in flight, a stage's read of the 1x depth).
++        VkRenderPass HelperPass(VkFormat format, uint32_t samples, bool depth)
++        {
++            VkAttachmentDescription a = {};
++            a.format         = format;
++            a.samples        = static_cast<VkSampleCountFlagBits>(samples);
++            a.loadOp         = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
++            a.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
++            a.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
++            a.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
++            const VkImageLayout layout = depth ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL : VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
++            a.initialLayout  = layout;
++            a.finalLayout    = layout;
++            VkAttachmentReference ref = { 0, layout };
++            VkSubpassDescription sub = {};
++            sub.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
++            if (depth)
++                sub.pDepthStencilAttachment = &ref;
++            else
++            {
++                sub.colorAttachmentCount = 1;
++                sub.pColorAttachments    = &ref;
++            }
++            const VkPipelineStageFlags att = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT |
++                                             VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
++            VkSubpassDependency dep = {};
++            dep.srcSubpass    = VK_SUBPASS_EXTERNAL;
++            dep.dstSubpass    = 0;
++            dep.srcStageMask  = att | VK_PIPELINE_STAGE_TRANSFER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT |
++                                VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
++            dep.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT |
++                                VK_ACCESS_TRANSFER_WRITE_BIT;
++            dep.dstStageMask  = att;
++            dep.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT |
++                                VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
++            VkRenderPassCreateInfo info = {};
++            info.sType           = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
++            info.attachmentCount = 1;
++            info.pAttachments    = &a;
++            info.subpassCount    = 1;
++            info.pSubpasses      = &sub;
++            info.dependencyCount = 1;
++            info.pDependencies   = &dep;
++            VkRenderPass pass = VK_NULL_HANDLE;
++            const VkResult r = s.dapi->CreateRenderPass(s.device, &info, nullptr, &pass);
++            if (r != VK_SUCCESS)
++            {
++                Refuse("vkCreateRenderPass (a helper pass)", r);
++                return VK_NULL_HANDLE;
++            }
++            return pass;
++        }
++
++        VkFramebuffer HelperFb(VkRenderPass pass, VkImageView view)
++        {
++            VkFramebufferCreateInfo info = {};
++            info.sType           = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
++            info.renderPass      = pass;
++            info.attachmentCount = 1;
++            info.pAttachments    = &view;
++            info.width           = s.extent.width;
++            info.height          = s.extent.height;
++            info.layers          = 1;
++            VkFramebuffer fb = VK_NULL_HANDLE;
++            const VkResult r = s.dapi->CreateFramebuffer(s.device, &info, nullptr, &fb);
++            if (r != VK_SUCCESS)
++            {
++                Refuse("vkCreateFramebuffer (a helper pass)", r);
++                return VK_NULL_HANDLE;
++            }
++            return fb;
++        }
++
++        /// A full-screen triangle at `samples`: the colour seed (fragment module 1), or a depth write with the
++        /// test ALWAYS (modules 2 and 3).
++        VkPipeline HelperPipe(VkRenderPass pass, uint32_t samples, uint32_t fragment, bool depth)
++        {
++            VkPipelineShaderStageCreateInfo st[2] = {};
++            st[0].sType  = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
++            st[0].stage  = VK_SHADER_STAGE_VERTEX_BIT;
++            st[0].module = s.msaaModules[0];
++            st[0].pName  = "main";
++            st[1]        = st[0];
++            st[1].stage  = VK_SHADER_STAGE_FRAGMENT_BIT;
++            st[1].module = s.msaaModules[fragment];
++            VkPipelineVertexInputStateCreateInfo vi = {};
++            vi.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
++            VkPipelineInputAssemblyStateCreateInfo ia = {};
++            ia.sType    = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
++            ia.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
++            VkPipelineViewportStateCreateInfo vp = {};
++            vp.sType         = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
++            vp.viewportCount = 1;
++            vp.scissorCount  = 1;
++            VkPipelineRasterizationStateCreateInfo rs = {};
++            rs.sType       = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
++            rs.polygonMode = VK_POLYGON_MODE_FILL;
++            rs.cullMode    = VK_CULL_MODE_NONE;
++            rs.frontFace   = VK_FRONT_FACE_COUNTER_CLOCKWISE;
++            rs.lineWidth   = 1.0f;
++            VkPipelineMultisampleStateCreateInfo ms = {};
++            ms.sType                = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
++            ms.rasterizationSamples = static_cast<VkSampleCountFlagBits>(samples);
++            VkPipelineDepthStencilStateCreateInfo ds = {};
++            ds.sType            = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
++            ds.depthTestEnable  = depth ? VK_TRUE : VK_FALSE;
++            ds.depthWriteEnable = depth ? VK_TRUE : VK_FALSE;
++            ds.depthCompareOp   = VK_COMPARE_OP_ALWAYS;
++            VkPipelineColorBlendAttachmentState cba = {};
++            cba.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT |
++                                 VK_COLOR_COMPONENT_A_BIT;
++            VkPipelineColorBlendStateCreateInfo cb = {};
++            cb.sType           = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
++            cb.attachmentCount = depth ? 0u : 1u;
++            cb.pAttachments    = depth ? nullptr : &cba;
++            const VkDynamicState dyn[2] = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
++            VkPipelineDynamicStateCreateInfo dy = {};
++            dy.sType             = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
++            dy.dynamicStateCount = 2;
++            dy.pDynamicStates    = dyn;
++            VkGraphicsPipelineCreateInfo gp = {};
++            gp.sType               = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
++            gp.stageCount          = 2;
++            gp.pStages             = st;
++            gp.pVertexInputState   = &vi;
++            gp.pInputAssemblyState = &ia;
++            gp.pViewportState      = &vp;
++            gp.pRasterizationState = &rs;
++            gp.pMultisampleState   = &ms;
++            gp.pDepthStencilState  = &ds;
++            gp.pColorBlendState    = &cb;
++            gp.pDynamicState       = &dy;
++            gp.layout              = s.msaaLayout;
++            gp.renderPass          = pass;
++            VkPipeline pipe = VK_NULL_HANDLE;
++            const VkResult r = s.dapi->CreateGraphicsPipelines(s.device, VK_NULL_HANDLE, 1, &gp, nullptr, &pipe);
++            if (r != VK_SUCCESS)
++            {
++                Refuse("vkCreateGraphicsPipelines (a helper pass)", r);
++                return VK_NULL_HANDLE;
++            }
++            return pipe;
++        }
++
++        /// The set `which` names `view` (in SHADER_READ_ONLY). The views change only across a swapchain
++        /// rebuild, after a device wait, so a set is never rewritten under a frame still in flight.
++        void PointSet(uint32_t which, VkImageView view)
++        {
++            if (s.msaaSetView[which] == view) return;
++            VkDescriptorImageInfo ii = { s.msaaSampler, view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL };
++            VkWriteDescriptorSet w = {};
++            w.sType           = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
++            w.dstSet          = s.msaaSet[which];
++            w.dstBinding      = 0;
++            w.descriptorCount = 1;
++            w.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
++            w.pImageInfo      = &ii;
++            s.dapi->UpdateDescriptorSets(s.device, 1, &w, 0, nullptr);
++            s.msaaSetView[which] = view;
++        }
++
++        /// One full-screen draw of a helper pass into `fb`, reading set `which`.
++        void Draw(VkCommandBuffer cmd, VkRenderPass pass, VkFramebuffer fb, VkPipeline pipe, uint32_t which)
++        {
++            VkRenderPassBeginInfo begin = {};
++            begin.sType             = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
++            begin.renderPass        = pass;
++            begin.framebuffer       = fb;
++            begin.renderArea.extent = s.extent;
++            s.dapi->CmdBeginRenderPass(cmd, &begin, VK_SUBPASS_CONTENTS_INLINE);
++            s.dapi->CmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipe);
++            s.dapi->CmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, s.msaaLayout, 0, 1, &s.msaaSet[which], 0, nullptr);
++            VkViewport v = {};
++            v.width    = static_cast<float>(s.extent.width);
++            v.height   = static_cast<float>(s.extent.height);
++            v.maxDepth = 1.0f;
++            VkRect2D sc = {};
++            sc.extent = s.extent;
++            s.dapi->CmdSetViewport(cmd, 0, 1, &v);
++            s.dapi->CmdSetScissor(cmd, 0, 1, &sc);
++            s.dapi->CmdDraw(cmd, 3, 1, 0, 0);
++            s.dapi->CmdEndRenderPass(cmd);
++            // The draws' bind tracking knows nothing of this pipeline or set.
++            pipelines::InvalidateBindings();
++        }
++
++        /// The helper passes, framebuffers and pipelines for the images that stand now (made at first use
++        /// after each (re)make of the images, dropped with them).
++        bool EnsureHelpers()
++        {
++            if (s.msaaFailed || !EnsureShared()) return false;
++            if (s.msaaResolvePipe != VK_NULL_HANDLE) return true;
++            s.msaaSeedColourPass = HelperPass(s.colourFormat, s.msaaSamples, false);
++            s.msaaSeedDepthPass  = HelperPass(s.depthFormat, s.msaaSamples, true);
++            s.msaaResolvePass    = HelperPass(s.depthFormat, 1, true);
++            if (!s.msaaSeedColourPass || !s.msaaSeedDepthPass || !s.msaaResolvePass) return false;
++            s.msaaSeedColourFb = HelperFb(s.msaaSeedColourPass, s.msaaColourView);
++            s.msaaSeedDepthFb  = HelperFb(s.msaaSeedDepthPass, s.msaaDepthView);
++            s.msaaResolveFb    = HelperFb(s.msaaResolvePass, s.depthView);
++            if (!s.msaaSeedColourFb || !s.msaaSeedDepthFb || !s.msaaResolveFb) return false;
++            s.msaaSeedColourPipe = HelperPipe(s.msaaSeedColourPass, s.msaaSamples, 1, false);
++            s.msaaSeedDepthPipe  = HelperPipe(s.msaaSeedDepthPass, s.msaaSamples, 2, true);
++            s.msaaResolvePipe    = HelperPipe(s.msaaResolvePass, 1, 3, true);
++            return s.msaaSeedColourPipe && s.msaaSeedDepthPipe && s.msaaResolvePipe;
++        }
++
++        void DropHelpers()
++        {
++            const loader::Device& d = *s.dapi;
++            VkPipeline* pipes[3] = { &s.msaaSeedColourPipe, &s.msaaSeedDepthPipe, &s.msaaResolvePipe };
++            for (VkPipeline* p : pipes)
++            {
++                if (*p != VK_NULL_HANDLE) d.DestroyPipeline(s.device, *p, nullptr);
++                *p = VK_NULL_HANDLE;
++            }
++            VkFramebuffer* fbs[3] = { &s.msaaSeedColourFb, &s.msaaSeedDepthFb, &s.msaaResolveFb };
++            for (VkFramebuffer* f : fbs)
++            {
++                if (*f != VK_NULL_HANDLE) d.DestroyFramebuffer(s.device, *f, nullptr);
++                *f = VK_NULL_HANDLE;
++            }
++            VkRenderPass* passes[3] = { &s.msaaSeedColourPass, &s.msaaSeedDepthPass, &s.msaaResolvePass };
++            for (VkRenderPass* p : passes)
++            {
++                if (*p != VK_NULL_HANDLE) d.DestroyRenderPass(s.device, *p, nullptr);
++                *p = VK_NULL_HANDLE;
++            }
++        }
++
++        /// The 1x back buffer drawn into every sample of the MSAA one.
++        void SeedColour()
++        {
++            if (!EnsureHelpers()) return;
++            VkCommandBuffer cmd = s.slots[s.fi].main;
++            Barriers b;
++            b.Add(s.backImage, VK_IMAGE_ASPECT_COLOR_BIT, 1, 1, s.backLayout, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, false);
++            b.Add(s.msaaColour, VK_IMAGE_ASPECT_COLOR_BIT, 1, 1, s.msaaColourLayout, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, true);
++            b.Record(cmd);
++            s.backLayout       = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
++            s.msaaColourLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
++            PointSet(kSetSeedColour, s.backView);
++            Draw(cmd, s.msaaSeedColourPass, s.msaaSeedColourFb, s.msaaSeedColourPipe, kSetSeedColour);
++            ++s.stats.msaaSeeds;
++        }
++
++        /// The 1x back depth written into every sample of the MSAA one.
++        void SeedDepth()
++        {
++            if (!EnsureHelpers()) return;
++            VkCommandBuffer cmd = s.slots[s.fi].main;
++            const VkImageAspectFlags aspect = AspectOf(s.depthFormat);
++            Barriers b;
++            b.Add(s.depthImage, aspect, 1, 1, s.depthLayout, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, false);
++            b.Add(s.msaaDepth, aspect, 1, 1, s.msaaDepthLayout, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, true);
++            b.Record(cmd);
++            s.depthLayout     = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
++            s.msaaDepthLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
++            PointSet(kSetSeedDepth, s.depthView);
++            Draw(cmd, s.msaaSeedDepthPass, s.msaaSeedDepthFb, s.msaaSeedDepthPipe, kSetSeedDepth);
++            ++s.stats.msaaDepthSeeds;
++        }
++
++        /// The full-screen rectangle check of a pending clear (the slot-39 clear that asked for this pass).
++        bool CoversAll(const present::PassClear* pending, VkExtent2D area)
++        {
++            if (!pending || !pending->place) return false;
++            if (area.width != s.extent.width || area.height != s.extent.height) return false;
++            VkRect2D rect = {};
++            return pending->place(pending->device, area, rect) && rect.offset.x == 0 && rect.offset.y == 0
++                   && rect.extent.width == area.width && rect.extent.height == area.height;
++        }
++    }
++
++    uint32_t MsaaClamp(const context::Handles& h, uint32_t requested)
++    {
++        if (requested <= 1 || !h.iapi || !h.iapi->GetPhysicalDeviceProperties) return 1;
++        VkPhysicalDeviceProperties p = {};
++        h.iapi->GetPhysicalDeviceProperties(h.physical, &p);
++        // Colour and depth attachments at the count, and the depth sampled at it (the depth resolve).
++        const VkSampleCountFlags offered = p.limits.framebufferColorSampleCounts & p.limits.framebufferDepthSampleCounts
++                                           & p.limits.sampledImageDepthSampleCounts;
++        // The largest offered power of two not above the request (gxMultisample 6 is 4).
++        for (uint32_t n = 64; n > 1; n >>= 1)
++            if (n <= requested && (offered & n)) return n;
++        return 1;
++    }
++
++    void EnsureMsaaImages(const context::Handles& h)
++    {
++        s.msaaSamples = 1;
++        if (!s.ownBack || s.msaaRequested <= 1 || s.msaaFailed) return;
++        uint32_t n = MsaaClamp(h, s.msaaRequested);
++        const char* why = nullptr;
++        // The depth resolve samples the MSAA depth through a depth-aspect view: a depth-only format that is
++        // sampled (the back depth is made SAMPLED on the same condition, s.depthSampled).
++        if (n > 1 && !s.depthSampled) why = "the back depth format cannot be sampled";
++        if (why) n = 1;
++        if (n > 1)
++        {
++            if (!MakeRaw(s.colourFormat, s.extent, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT,
++                         s.msaaColour, s.msaaColourView, s.msaaColourBlock, "multisampled back buffer", n)
++                || !MakeRaw(s.depthFormat, s.extent, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
++                            s.msaaDepth, s.msaaDepthView, s.msaaDepthBlock, "multisampled back depth", n))
++            {
++                DropMsaaImages();
++                why = "its images could not be made";
++                n   = 1;
++            }
++        }
++        s.msaaSamples      = n;
++        s.msaaColourLayout = VK_IMAGE_LAYOUT_UNDEFINED;
++        s.msaaDepthLayout  = VK_IMAGE_LAYOUT_UNDEFINED;
++        s.msaaColourNewer = s.msaaDepthNewer = false;
++        s.msaaColourStale = s.msaaDepthStale = true;
++        s.stats.msaaSamples = n;
++        if (s.msaaLoggedReq != s.msaaRequested)
++        {
++            s.msaaLoggedReq = s.msaaRequested;
++            VkPhysicalDeviceProperties p = {};
++            if (h.iapi && h.iapi->GetPhysicalDeviceProperties) h.iapi->GetPhysicalDeviceProperties(h.physical, &p);
++            wxl::ScriptMgr::Log(n > 1 || !why ? WXL_LOG_INFO : WXL_LOG_WARN,
++                                "native: frame: MSAA: gxMultisample %u, %ux used%s%s (the device offers colour 0x%X, depth "
++                                "0x%X, sampled depth 0x%X); the world and the glue's model scene render multisampled %ux%u",
++                                s.msaaRequested, n, why ? "; " : "", why ? why : "",
++                                static_cast<unsigned>(p.limits.framebufferColorSampleCounts),
++                                static_cast<unsigned>(p.limits.framebufferDepthSampleCounts),
++                                static_cast<unsigned>(p.limits.sampledImageDepthSampleCounts), s.extent.width, s.extent.height);
++        }
++    }
++
++    void DropMsaaImages()
++    {
++        if (!s.dapi || !s.device) return;
++        const loader::Device& d = *s.dapi;
++        DropHelpers();
++        DropFramebuffersNaming(s.msaaColourView, 0, true);
++        DropFramebuffersNaming(s.msaaDepthView, 0, true);
++        if (s.msaaColourView != VK_NULL_HANDLE) d.DestroyImageView(s.device, s.msaaColourView, nullptr);
++        if (s.msaaColour != VK_NULL_HANDLE) d.DestroyImage(s.device, s.msaaColour, nullptr);
++        memory::Free(s.msaaColourBlock);
++        if (s.msaaDepthView != VK_NULL_HANDLE) d.DestroyImageView(s.device, s.msaaDepthView, nullptr);
++        if (s.msaaDepth != VK_NULL_HANDLE) d.DestroyImage(s.device, s.msaaDepth, nullptr);
++        memory::Free(s.msaaDepthBlock);
++        s.msaaColourView   = VK_NULL_HANDLE;
++        s.msaaColour       = VK_NULL_HANDLE;
++        s.msaaColourBlock  = memory::Block();
++        s.msaaDepthView    = VK_NULL_HANDLE;
++        s.msaaDepth        = VK_NULL_HANDLE;
++        s.msaaDepthBlock   = memory::Block();
++        s.msaaColourLayout = VK_IMAGE_LAYOUT_UNDEFINED;
++        s.msaaDepthLayout  = VK_IMAGE_LAYOUT_UNDEFINED;
++        s.msaaColourNewer = s.msaaDepthNewer = false;
++        s.msaaColourStale = s.msaaDepthStale = true;
++        for (VkImageView& v : s.msaaSetView) v = VK_NULL_HANDLE;   // the 1x views go with the same rebuild
++        s.msaaSamples = 1;
++    }
++
++    bool MsaaWanted()
++    {
++        if (s.msaaSamples <= 1 || s.msaaFailed || s.msaaColourView == VK_NULL_HANDLE || s.msaaDepthView == VK_NULL_HANDLE)
++            return false;
++        // MSAA takes priority over the G-buffer: with the multisampled images up GBufferWanted() never opens
++        // the G-buffer class, and its consumers (hdSunShadows, hdAONormals) stay off (MultisampleCount()).
++        return s.worldOpen || s.msaaModel;
++    }
++
++    void MsaaBefore1x(bool colour, bool depth)
++    {
++        if (s.msaaSamples <= 1) return;
++        if (colour)
++        {
++            MsaaResolveColour();
++            s.msaaColourStale = true;   // the pass may draw into the 1x one
++        }
++        if (depth)
++        {
++            MsaaResolveDepth();
++            s.msaaDepthStale = true;
++        }
++    }
++
++    void MsaaPrepare(Side& c, Side* d, VkExtent2D area, const present::PassClear* pending, bool foldable)
++    {
++        // The engine's clear that asked for this pass covers the whole image: BeginPass folds it into the
++        // load op, and nothing earlier needs bringing over.
++        const bool covers      = foldable && CoversAll(pending, area);
++        const bool coverColour = covers && (pending->mask & 1u);
++        const bool coverDepth  = covers && (pending->mask & 2u) && d && (d->aspect & VK_IMAGE_ASPECT_STENCIL_BIT) == 0;
++        if (s.msaaColourStale)
++        {
++            if (coverColour)
++                c.discard = true;
++            else if (s.back1x == 2 && s.backLayout != VK_IMAGE_LAYOUT_UNDEFINED)
++            {
++                SeedColour();
++                c.discard = c.clear = false;
++            }
++            else
++            {
++                // Untouched this frame (black, as the 1x one's first use) or only cleared over the whole image.
++                c.discard = c.clear = true;
++                for (uint32_t i = 0; i < 4; ++i) c.clearColour[i] = s.back1x == 1 ? s.back1xClear[i] : (i == 3 ? 1.0f : 0.0f);
++            }
++            s.msaaColourStale = false;
++        }
++        s.msaaColourNewer = true;
++        if (!d) return;
++        if (s.msaaDepthStale)
++        {
++            if (coverDepth)
++                d->discard = true;
++            else if (!s.depthFresh && s.depthLayout != VK_IMAGE_LAYOUT_UNDEFINED)
++            {
++                SeedDepth();
++                d->discard = d->clear = false;
++            }
++            else
++                d->discard = d->clear = true;   // the far plane, as the 1x depth's first use in a frame
++            s.msaaDepthStale = false;
++        }
++        s.msaaDepthNewer = true;
++    }
++
++    void MsaaResolveColour()
++    {
++        if (!s.msaaColourNewer || s.msaaColour == VK_NULL_HANDLE || s.backImage == VK_NULL_HANDLE) return;
++        if (s.passOpen) EndPass();
++        VkCommandBuffer cmd = s.slots[s.fi].main;
++        Barriers b;
++        b.Add(s.msaaColour, VK_IMAGE_ASPECT_COLOR_BIT, 1, 1, s.msaaColourLayout, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, false);
++        // Every pixel of the 1x one is written: what it held is dropped.
++        b.Add(s.backImage, VK_IMAGE_ASPECT_COLOR_BIT, 1, 1, s.backLayout, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, true);
++        b.Record(cmd);
++        s.msaaColourLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
++        s.backLayout       = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
++        VkImageResolve r = {};
++        r.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
++        r.srcSubresource.layerCount = 1;
++        r.dstSubresource            = r.srcSubresource;
++        r.extent                    = VkExtent3D{ s.extent.width, s.extent.height, 1 };
++        s.dapi->CmdResolveImage(cmd, s.msaaColour, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, s.backImage,
++                                VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &r);
++        s.msaaColourNewer = false;
++        s.back1x          = 2;   // the 1x one now holds this frame's drawing
++        s.backTouched     = true;
++        ++s.stats.msaaResolves;
++    }
++
++    void MsaaResolveDepth()
++    {
++        if (!s.msaaDepthNewer || s.msaaDepth == VK_NULL_HANDLE || s.depthImage == VK_NULL_HANDLE) return;
++        if (s.passOpen) EndPass();
++        if (!EnsureHelpers())
++        {
++            s.msaaDepthNewer = false;
++            return;
++        }
++        VkCommandBuffer cmd = s.slots[s.fi].main;
++        const VkImageAspectFlags aspect = AspectOf(s.depthFormat);
++        Barriers b;
++        b.Add(s.msaaDepth, aspect, 1, 1, s.msaaDepthLayout, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, false);
++        b.Add(s.depthImage, aspect, 1, 1, s.depthLayout, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, true);
++        b.Record(cmd);
++        s.msaaDepthLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
++        s.depthLayout     = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
++        PointSet(kSetResolve, s.msaaDepthView);
++        Draw(cmd, s.msaaResolvePass, s.msaaResolveFb, s.msaaResolvePipe, kSetResolve);
++        s.msaaDepthNewer = false;
++        s.depthFresh     = false;   // written this frame: kept by the next 1x pass, readable by SceneDepth
++        s.backTouched    = true;
++        ++s.stats.msaaDepthResolves;
++    }
++}
++
++using namespace wxlvk::native::present::detail;
++
++namespace wxlvk::native::present
++{
++    void SetMultisample(uint32_t samples)
++    {
++        if (samples < 1) samples = 1;
++        if (s.msaaRequested == samples) return;
++        s.msaaRequested = samples;
++        s.msaaLoggedReq = 0;
++        // The images are made with the back buffer: the next rebuild makes them at the new count.
++        if (s.imageCount) s.rebuild = true;
++    }
++
++    void NoteModelScene(bool open) { s.msaaModel = open; }
++
++    uint32_t PassSamples() { return s.passOpen ? s.passSamples : 1u; }
++
++    uint32_t MultisampleCount() { return s.msaaFailed ? 1u : s.msaaSamples; }
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Pass.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Pass.cpp
+index 00fe9beb..d4c0771a 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Pass.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Pass.cpp
+@@ -26,6 +26,9 @@ namespace wxlvk::native::present::detail
+         // images were not refused, and the engine is between its world scene pass's start and
+         // AfterOpaqueWorld. Before the world (the engine's clear), after the point (the transparents,
+         // the consumers' own draws, the interface): the plain class, whose pipelines name one attachment.
++        // Zeppelin I-442: MSAA takes priority -- with the multisampled back images up the G-buffer class is never
++        // opened (its consumers see MultisampleCount() > 1 and stay off), so gxMultisample 1 is today's path.
++        if (s.msaaSamples > 1 && !s.msaaFailed) return false;
+         return s.gbufRequests > 0 && !s.gbufFailed && s.worldOpen && !s.opaqueDone && wxlvk::settings::GBufferAllowed();
+     }
+ 
+@@ -36,6 +39,8 @@ namespace wxlvk::native::present::detail
+         if (s.activeRun) QueryEndVk(*s.activeRun);
+         s.dapi->CmdEndRenderPass(cmd);
+         s.passOpen = false;
++        s.passMsaa    = false;   // Zeppelin I-442
++        s.passSamples = 1;
+         if (s.passGBuffer)
+         {
+             // The G-buffer's writes, visible to the consumers' reads (a MidPass, a stage: vertex, fragment
+@@ -95,9 +100,14 @@ namespace wxlvk::native::present::detail
+             return nullptr;
+         }
+         Side c, d;
++        // Zeppelin I-442: inside the MSAA window a pass on the back colour with the back depth (or none)
++        // draws into the multisampled images (Msaa.cpp). Any other pass naming a back image uses the 1x one,
++        // which first takes what the MSAA copy holds that it does not.
++        const bool msaa = !t.colour && (t.depth == TargetDesc::Depth::Back || t.depth == TargetDesc::Depth::None) && MsaaWanted();
++        if (!msaa) MsaaBefore1x(!t.colour, t.depth == TargetDesc::Depth::Back);
+         if (!t.colour)
+         {
+-            if (!BackColour(c)) return nullptr;
++            if (!BackColour(c, msaa)) return nullptr;
+         }
+         else
+         {
+@@ -114,7 +124,7 @@ namespace wxlvk::native::present::detail
+         bool hasDepth = false;
+         switch (t.depth)
+         {
+-            case TargetDesc::Depth::Back:      hasDepth = BackDepth(d); break;
++            case TargetDesc::Depth::Back:      hasDepth = BackDepth(d, msaa); break;
+             case TargetDesc::Depth::Offscreen: hasDepth = Offscreen(d, area); break;
+             case TargetDesc::Depth::Texture:
+                 if (t.depthImage && t.depthImage->handle != VK_NULL_HANDLE && t.depthView != VK_NULL_HANDLE)
+@@ -126,16 +136,29 @@ namespace wxlvk::native::present::detail
+             case TargetDesc::Depth::None: break;
+         }
+         if (hasDepth) area = Min(area, d.extent);
++        // Zeppelin I-442: a swapchain rebuild inside BackColour / BackDepth may have taken the MSAA images
++        // away after MsaaWanted() said yes: this one pass is dropped rather than drawn into the wrong class.
++        if (msaa && (!c.msaa || (hasDepth && !d.msaa)))
++        {
++            ++s.stats.noTarget;
++            return nullptr;
++        }
+         if (area.width == 0 || area.height == 0)
+         {
+             ++s.stats.noTarget;
+             return nullptr;
+         }
+ 
++        // Zeppelin I-442: the MSAA images take over what the 1x ones hold this frame (a seed), or are
++        // cleared, before the pass that first draws into them.
++        if (msaa) MsaaPrepare(c, hasDepth ? &d : nullptr, area, pending, folded != nullptr);
++
+         // The G-buffer class for the opaque world's pass on the back buffer, while a consumer asks and the
+-        // images can be had (docs/architecture.md "The G-buffer").
+-        const bool gbuffer = c.back && hasDepth && d.back && GBufferWanted() && EnsureGBufferImages();
+-        const VkRenderPass pass = ClassPass(c.format, hasDepth ? d.format : VK_FORMAT_UNDEFINED, gbuffer);
++        // images can be had (docs/architecture.md "The G-buffer"). Never multisampled: MsaaWanted() is
++        // false whenever the G-buffer is asked for.
++        const bool gbuffer = !msaa && c.back && hasDepth && d.back && GBufferWanted() && EnsureGBufferImages();
++        const uint32_t samples = msaa ? s.msaaSamples : 1u;
++        const VkRenderPass pass = ClassPass(c.format, hasDepth ? d.format : VK_FORMAT_UNDEFINED, gbuffer, samples);
+         if (pass == VK_NULL_HANDLE) return nullptr;
+         const VkFramebuffer fb = FramebufferFor(pass, c.view, hasDepth ? d.view : VK_NULL_HANDLE, area);
+         if (fb == VK_NULL_HANDLE) return nullptr;
+@@ -177,7 +200,8 @@ namespace wxlvk::native::present::detail
+         // its class and kept by the later ones.
+         const uint32_t depthAt = gbuffer ? 1 + kGBufferAttachments : 1;
+         VkClearValue values[2 + kGBufferAttachments] = {};
+-        values[0].color.float32[3]         = 1.0f;
++        // Black unless MsaaPrepare carried a clear over into the multisampled back buffer (Zeppelin I-442).
++        for (uint32_t i = 0; i < 4; ++i) values[0].color.float32[i] = c.clearColour[i];
+         values[depthAt].depthStencil.depth = 1.0f;
+         bool clearColour  = c.clear;
+         bool clearDepth   = hasDepth && d.clear && depthPlain;
+@@ -235,7 +259,7 @@ namespace wxlvk::native::present::detail
+         {
+             a[n].aspectMask                  = VK_IMAGE_ASPECT_COLOR_BIT;
+             a[n].colorAttachment             = 0;
+-            a[n].clearValue.color.float32[3] = 1.0f;
++            for (uint32_t i = 0; i < 4; ++i) a[n].clearValue.color.float32[i] = c.clearColour[i];
+             ++n;
+         }
+         if (hasDepth && d.clear && !(clearing && clearDepth))
+@@ -266,6 +290,8 @@ namespace wxlvk::native::present::detail
+         s.passDepth    = hasDepth ? d : Side();
+         s.passHasDepth = hasDepth;
+         s.passGBuffer  = gbuffer;
++        s.passMsaa     = msaa;
++        s.passSamples  = samples;
+         s.passClass    = pass;
+         s.passExtent   = area;
+         s.passOpen     = true;
+@@ -278,6 +304,16 @@ namespace wxlvk::native::present::detail
+             ++s.stats.gbufferPasses;
+         }
+         if (t.colour) ++s.stats.targetPasses;
++        if (msaa) ++s.stats.msaaPasses;
++        // Zeppelin I-442: what this frame's 1x back buffer holds, for a later MSAA seed: a clear over the
++        // whole image (the load op) leaves it "cleared" to a known colour; draws make it "drawn" (NoteDraw).
++        if (c.back && !msaa && clearing && clearColour && area.width == s.extent.width && area.height == s.extent.height)
++        {
++            s.back1x = 1;
++            for (uint32_t i = 0; i < 4; ++i) s.back1xClear[i] = values[0].color.float32[i];
++        }
++        else if (c.back && !msaa && n && c.clear)
++            s.back1x = 2;   // a first-use clear inside the pass: conservatively drawn
+         if (s.activeRun && s.activeRun->active) QueryBeginVk(*s.activeRun);
+         return cmd;
+     }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/PassQueries.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/PassQueries.cpp
+index ee8a849b..480be80d 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/PassQueries.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/PassQueries.cpp
+@@ -32,6 +32,7 @@ namespace wxlvk::native::present::detail
+         }
+         const uint32_t index = s.queryNext[s.fi]++;
+         s.dapi->CmdBeginQuery(s.slots[s.fi].main, pool, index, s.queryControl);
++        run.divide[run.count]  = s.passSamples ? s.passSamples : 1u;   // Zeppelin I-442
+         run.index[run.count++] = index;
+         run.inPass = true;
+         if (run.count > 1) ++s.stats.querySplits;
+@@ -69,7 +70,9 @@ namespace wxlvk::native::present::detail
+                                                            sizeof value, &value, sizeof value,
+                                                            wait ? VK_QUERY_RESULT_WAIT_BIT : 0u);
+             if (r == VK_NOT_READY) return false;
+-            if (r == VK_SUCCESS) sum += value;
++            // Zeppelin I-442: samples back to pixels (a multisampled pass counts every covered sample).
++            const uint32_t div = run.divide[i] ? run.divide[i] : 1u;
++            if (r == VK_SUCCESS) sum += (static_cast<uint64_t>(value) + div / 2) / div;
+         }
+         run.samples   = sum;
+         run.harvested = true;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Passes.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Passes.cpp
+index 5cbe1696..48ccfa56 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Passes.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Passes.cpp
+@@ -59,12 +59,16 @@ namespace wxlvk::native::present::detail
+      * and transfers on the same images (a pass resumed after an inline transfer, the other frame in
+      * flight's depth writes) -- the cases where no layout change, so no barrier, sits in between.
+      */
+-    VkRenderPass MakePass(VkFormat colour, VkFormat depth, bool clearColour, bool clearDepth, bool gbuffer, bool clearGBuffer)
++    VkRenderPass MakePass(VkFormat colour, VkFormat depth, bool clearColour, bool clearDepth, bool gbuffer, bool clearGBuffer,
++                          uint32_t samples)
+     {
++        // Zeppelin I-442: the multisampled back class has its colour and depth at the MSAA count; the
++        // G-buffer class is never multisampled (a G-buffer frame stays single-sampled, Msaa.cpp).
++        const VkSampleCountFlagBits sampleBits = static_cast<VkSampleCountFlagBits>(samples ? samples : 1u);
+         // The attachment order of every class: the colour, a G-buffer class's three, the depth.
+         VkAttachmentDescription a[2 + kGBufferAttachments] = {};
+         a[0].format         = colour;
+-        a[0].samples        = VK_SAMPLE_COUNT_1_BIT;
++        a[0].samples        = sampleBits;
+         a[0].loadOp         = clearColour ? VK_ATTACHMENT_LOAD_OP_CLEAR : VK_ATTACHMENT_LOAD_OP_LOAD;
+         a[0].storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
+         a[0].stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+@@ -98,7 +102,7 @@ namespace wxlvk::native::present::detail
+         if (hasDepth)
+         {
+             a[n].format         = depth;
+-            a[n].samples        = VK_SAMPLE_COUNT_1_BIT;
++            a[n].samples        = sampleBits;
+             a[n].loadOp         = clearDepth ? VK_ATTACHMENT_LOAD_OP_CLEAR : VK_ATTACHMENT_LOAD_OP_LOAD;
+             a[n].storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
+             a[n].stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_LOAD;
+@@ -149,10 +153,11 @@ namespace wxlvk::native::present::detail
+ 
+     /// The pass of a class, made on first use and kept for the device's life (a pipeline's cache
+     /// key holds the handle, so a pass is never destroyed and its handle never reused).
+-    VkRenderPass ClassPass(VkFormat colour, VkFormat depth, bool gbuffer)
++    VkRenderPass ClassPass(VkFormat colour, VkFormat depth, bool gbuffer, uint32_t samples)
+     {
+         for (uint32_t i = 0; i < s.classCount; ++i)
+-            if (s.classes[i].colour == colour && s.classes[i].depth == depth && s.classes[i].gbuffer == gbuffer)
++            if (s.classes[i].colour == colour && s.classes[i].depth == depth && s.classes[i].gbuffer == gbuffer
++                && s.classes[i].samples == samples)
+                 return s.classes[i].pass;
+         if (s.classCount == kMaxPassClasses)
+         {
+@@ -166,26 +171,34 @@ namespace wxlvk::native::present::detail
+             }
+             return VK_NULL_HANDLE;
+         }
+-        const VkRenderPass pass = MakePass(colour, depth, false, false, gbuffer, false);
++        const VkRenderPass pass = MakePass(colour, depth, false, false, gbuffer, false, samples);
+         if (pass == VK_NULL_HANDLE) return VK_NULL_HANDLE;
+         PassClass c;
+         c.colour      = colour;
+         c.depth       = depth;
+         c.gbuffer     = gbuffer;
++        c.samples     = samples;
+         c.pass        = pass;
+         c.clearing[0] = pass;
+         s.classes[s.classCount++] = c;
+         s.stats.passClasses = s.classCount;
+-        wxl::ScriptMgr::Log(WXL_LOG_DEBUG, "native: frame: render pass class #%u: colour %s, depth %s%s",
++        wxl::ScriptMgr::Log(WXL_LOG_DEBUG, "native: frame: render pass class #%u: colour %s, depth %s%s, %u sample(s)",
+                             s.classCount, wxlvk::vk::FormatName(colour),
+                             depth == VK_FORMAT_UNDEFINED ? "none" : wxlvk::vk::FormatName(depth),
+-                            gbuffer ? ", with the G-buffer's three attachments" : "");
++                            gbuffer ? ", with the G-buffer's three attachments" : "", samples);
+         // The pipelines the last session built for this class, built now rather than at their
+         // first draws (vulkan/Pipelines.cpp, pipeline-keys.bin).
+-        pipelines::PassCreated(pass, colour, depth, gbuffer);
++        pipelines::PassCreated(pass, colour, depth, gbuffer, samples);
+         return pass;
+     }
+ 
++    uint32_t ClassSamples(VkRenderPass pass)
++    {
++        for (uint32_t i = 0; i < s.classCount; ++i)
++            if (s.classes[i].pass == pass) return s.classes[i].samples;
++        return 1;
++    }
++
+     bool IsGBufferPass(VkRenderPass pass)
+     {
+         for (uint32_t i = 0; i < s.classCount; ++i)
+@@ -210,7 +223,8 @@ namespace wxlvk::native::present::detail
+             PassClass& c = s.classes[i];
+             if (c.pass != base) continue;
+             if (c.clearing[which] == VK_NULL_HANDLE)
+-                c.clearing[which] = MakePass(c.colour, c.depth, (which & 1u) != 0, (which & 2u) != 0, c.gbuffer, (which & 4u) != 0);
++                c.clearing[which] = MakePass(c.colour, c.depth, (which & 1u) != 0, (which & 2u) != 0, c.gbuffer, (which & 4u) != 0,
++                                             c.samples);
+             if (c.clearing[which] == VK_NULL_HANDLE) return base;
+             clearing = true;
+             return c.clearing[which];
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/PresentPass.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/PresentPass.cpp
+index 978ba8d4..9aec99ab 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/PresentPass.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/PresentPass.cpp
+@@ -380,6 +380,9 @@ namespace wxlvk::native::present::detail
+         FrameSlot&              slot = s.slots[s.fi];
+ 
+         EndPass();
++        // Zeppelin I-442: a frame that ended with the MSAA copy newer (nothing single-sampled after the
++        // window) has it resolved into the back buffer the present copies or samples.
++        MsaaResolveColour();
+         // The frame's GPU span ends with its last pass: the present's copy and its wait for the image are not the frame's.
+         FrameGpuEnd(slot.main, s.fi);
+         if (s.activeRun)
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/ReadBack.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/ReadBack.cpp
+index 1383925a..017e247c 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/ReadBack.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/ReadBack.cpp
+@@ -99,6 +99,15 @@ namespace wxlvk::native::present
+     {
+         if (!cmd || !BackBufferReadable()) return false;
+         if (s.passOpen && s.passColour.back) EndPass();   // the caller's Outside() did this already
++        // Zeppelin I-442: the multisampled back buffer's drawing resolved into this one first (resolve on
++        // read, Msaa.cpp). A write (a stage's copy-back, the host composite) makes the MSAA copy stale: the
++        // next MSAA pass re-seeds it from here, so the world's later draws stay antialiased.
++        MsaaResolveColour();
++        if (layout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && s.msaaSamples > 1)
++        {
++            s.msaaColourStale = true;
++            s.back1x          = 2;
++        }
+         if (s.backLayout == VK_IMAGE_LAYOUT_UNDEFINED)
+         {
+             // Never drawn since it was (re)made: a copy or a read-back of it would hand over whatever
+@@ -136,6 +145,9 @@ namespace wxlvk::native::present
+     bool SceneDepth(VkCommandBuffer cmd, VkImageLayout layout, VkImageView& view, VkFormat& format)
+     {
+         if (!cmd || !s.depthSampled || s.depthView == VK_NULL_HANDLE) return false;
++        // Zeppelin I-442: the multisampled depth resolved into this one first (sample 0, Msaa.cpp); readers
++        // never write it, so the MSAA copy stays current.
++        MsaaResolveDepth();
+         // Not written this frame (the next pass would discard it) or never: nothing to read.
+         if (s.depthFresh || s.depthLayout == VK_IMAGE_LAYOUT_UNDEFINED) return false;
+         if (s.passOpen && s.passHasDepth && s.passDepth.back) EndPass();
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Resolve.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Resolve.cpp
+index 9f4f43fd..76bebe79 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Resolve.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/Resolve.cpp
+@@ -20,7 +20,7 @@ namespace wxlvk::native::present::detail
+ {
+     // --- resolving the current target ------------------------------------------------------------------
+ 
+-    bool BackColour(Side& out)
++    bool BackColour(Side& out, bool msaa)
+     {
+         if (s.noImage) return false;
+         const context::Handles* h = context::Get();
+@@ -35,7 +35,18 @@ namespace wxlvk::native::present::detail
+         out.back   = true;
+         out.format = s.colourFormat;
+         out.extent = s.extent;
+-        if (s.ownBack)
++        if (msaa && s.ownBack && s.msaaColourView != VK_NULL_HANDLE)
++        {
++            // Zeppelin I-442: the multisampled back buffer (Msaa.cpp). Its discard / clear at a frame's
++            // first use is MsaaPrepare's decision, made before the pass from what the 1x one holds.
++            out.image   = s.msaaColour;
++            out.view    = s.msaaColourView;
++            out.layout  = &s.msaaColourLayout;
++            out.msaa    = true;
++            out.discard = s.msaaColourLayout == VK_IMAGE_LAYOUT_UNDEFINED;
++            out.clear   = out.discard;
++        }
++        else if (s.ownBack)
+         {
+             out.image   = s.backImage;
+             out.view    = s.backView;
+@@ -55,7 +66,7 @@ namespace wxlvk::native::present::detail
+         return out.view != VK_NULL_HANDLE;
+     }
+ 
+-    bool BackDepth(Side& out)
++    bool BackDepth(Side& out, bool msaa)
+     {
+         if (s.depthView == VK_NULL_HANDLE)
+         {
+@@ -65,6 +76,20 @@ namespace wxlvk::native::present::detail
+         if (s.depthView == VK_NULL_HANDLE) return false;
+         out = Side();
+         out.back    = true;
++        if (msaa && s.msaaDepthView != VK_NULL_HANDLE)
++        {
++            // Zeppelin I-442: the multisampled back depth; MsaaPrepare decides its seed or clear.
++            out.image   = s.msaaDepth;
++            out.view    = s.msaaDepthView;
++            out.format  = s.depthFormat;
++            out.extent  = s.extent;
++            out.layout  = &s.msaaDepthLayout;
++            out.aspect  = AspectOf(s.depthFormat);
++            out.msaa    = true;
++            out.discard = s.msaaDepthLayout == VK_IMAGE_LAYOUT_UNDEFINED;
++            out.clear   = out.discard;
++            return true;
++        }
+         out.image   = s.depthImage;
+         out.view    = s.depthView;
+         out.format  = s.depthFormat;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/Fullscreen.vert b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/Fullscreen.vert
+new file mode 100644
+index 00000000..bc7633d1
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/Fullscreen.vert
+@@ -0,0 +1,23 @@
++// Zeppelin I-442: the MSAA helper passes (src/native/present/Msaa.cpp): one full-screen triangle.
++// Copyright (C) 2026 WarcraftXL
++//
++// This program is free software: you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program. If not, see <https://www.gnu.org/licenses/>.
++#version 450
++
++// Vertices 0, 1, 2 cover the viewport; the fragment shaders address texels by gl_FragCoord, so no uv.
++void main()
++{
++    vec2 p      = vec2(float((gl_VertexIndex << 1) & 2), float(gl_VertexIndex & 2));
++    gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0);
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/Fullscreen.vert.spv.h b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/Fullscreen.vert.spv.h
+new file mode 100644
+index 00000000..5c1d9967
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/Fullscreen.vert.spv.h
+@@ -0,0 +1,40 @@
++	// 1116.6.0
++	 #pragma once
++const uint32_t kMsaaFullscreenVert[] = {
++	0x07230203,0x00010000,0x0008000b,0x0000002b,0x00000000,0x00020011,0x00000001,0x0006000b,
++	0x00000001,0x4c534c47,0x6474732e,0x3035342e,0x00000000,0x0003000e,0x00000000,0x00000001,
++	0x0007000f,0x00000000,0x00000004,0x6e69616d,0x00000000,0x0000000c,0x0000001d,0x00030003,
++	0x00000002,0x000001c2,0x00040005,0x00000004,0x6e69616d,0x00000000,0x00030005,0x00000009,
++	0x00000070,0x00060005,0x0000000c,0x565f6c67,0x65747265,0x646e4978,0x00007865,0x00060005,
++	0x0000001b,0x505f6c67,0x65567265,0x78657472,0x00000000,0x00060006,0x0000001b,0x00000000,
++	0x505f6c67,0x7469736f,0x006e6f69,0x00070006,0x0000001b,0x00000001,0x505f6c67,0x746e696f,
++	0x657a6953,0x00000000,0x00070006,0x0000001b,0x00000002,0x435f6c67,0x4470696c,0x61747369,
++	0x0065636e,0x00070006,0x0000001b,0x00000003,0x435f6c67,0x446c6c75,0x61747369,0x0065636e,
++	0x00030005,0x0000001d,0x00000000,0x00040047,0x0000000c,0x0000000b,0x0000002a,0x00030047,
++	0x0000001b,0x00000002,0x00050048,0x0000001b,0x00000000,0x0000000b,0x00000000,0x00050048,
++	0x0000001b,0x00000001,0x0000000b,0x00000001,0x00050048,0x0000001b,0x00000002,0x0000000b,
++	0x00000003,0x00050048,0x0000001b,0x00000003,0x0000000b,0x00000004,0x00020013,0x00000002,
++	0x00030021,0x00000003,0x00000002,0x00030016,0x00000006,0x00000020,0x00040017,0x00000007,
++	0x00000006,0x00000002,0x00040020,0x00000008,0x00000007,0x00000007,0x00040015,0x0000000a,
++	0x00000020,0x00000001,0x00040020,0x0000000b,0x00000001,0x0000000a,0x0004003b,0x0000000b,
++	0x0000000c,0x00000001,0x0004002b,0x0000000a,0x0000000e,0x00000001,0x0004002b,0x0000000a,
++	0x00000010,0x00000002,0x00040017,0x00000017,0x00000006,0x00000004,0x00040015,0x00000018,
++	0x00000020,0x00000000,0x0004002b,0x00000018,0x00000019,0x00000001,0x0004001c,0x0000001a,
++	0x00000006,0x00000019,0x0006001e,0x0000001b,0x00000017,0x00000006,0x0000001a,0x0000001a,
++	0x00040020,0x0000001c,0x00000003,0x0000001b,0x0004003b,0x0000001c,0x0000001d,0x00000003,
++	0x0004002b,0x0000000a,0x0000001e,0x00000000,0x0004002b,0x00000006,0x00000020,0x40000000,
++	0x0004002b,0x00000006,0x00000022,0x3f800000,0x0004002b,0x00000006,0x00000025,0x00000000,
++	0x00040020,0x00000029,0x00000003,0x00000017,0x00050036,0x00000002,0x00000004,0x00000000,
++	0x00000003,0x000200f8,0x00000005,0x0004003b,0x00000008,0x00000009,0x00000007,0x0004003d,
++	0x0000000a,0x0000000d,0x0000000c,0x000500c4,0x0000000a,0x0000000f,0x0000000d,0x0000000e,
++	0x000500c7,0x0000000a,0x00000011,0x0000000f,0x00000010,0x0004006f,0x00000006,0x00000012,
++	0x00000011,0x0004003d,0x0000000a,0x00000013,0x0000000c,0x000500c7,0x0000000a,0x00000014,
++	0x00000013,0x00000010,0x0004006f,0x00000006,0x00000015,0x00000014,0x00050050,0x00000007,
++	0x00000016,0x00000012,0x00000015,0x0003003e,0x00000009,0x00000016,0x0004003d,0x00000007,
++	0x0000001f,0x00000009,0x0005008e,0x00000007,0x00000021,0x0000001f,0x00000020,0x00050050,
++	0x00000007,0x00000023,0x00000022,0x00000022,0x00050083,0x00000007,0x00000024,0x00000021,
++	0x00000023,0x00050051,0x00000006,0x00000026,0x00000024,0x00000000,0x00050051,0x00000006,
++	0x00000027,0x00000024,0x00000001,0x00070050,0x00000017,0x00000028,0x00000026,0x00000027,
++	0x00000025,0x00000022,0x00050041,0x00000029,0x0000002a,0x0000001d,0x0000001e,0x0003003e,
++	0x0000002a,0x00000028,0x000100fd,0x00010038
++};
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/ResolveDepth.frag b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/ResolveDepth.frag
+new file mode 100644
+index 00000000..9fe71aa9
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/ResolveDepth.frag
+@@ -0,0 +1,25 @@
++// Zeppelin I-442: the multisampled back depth resolved into the single-sampled one (Msaa.cpp). Vulkan
++// 1.0 has no depth resolve (VK_KHR_depth_stencil_resolve is RenderPass2): sample 0 is the pixel's depth,
++// what a reader that expects one value per pixel (the stages, the depth history, the water) gets.
++// Copyright (C) 2026 WarcraftXL
++//
++// This program is free software: you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program. If not, see <https://www.gnu.org/licenses/>.
++#version 450
++
++layout(set = 0, binding = 0) uniform sampler2DMS source;
++
++void main()
++{
++    gl_FragDepth = texelFetch(source, ivec2(gl_FragCoord.xy), 0).r;
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/ResolveDepth.frag.spv.h b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/ResolveDepth.frag.spv.h
+new file mode 100644
+index 00000000..3805cc76
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/ResolveDepth.frag.spv.h
+@@ -0,0 +1,28 @@
++	// 1116.6.0
++	 #pragma once
++const uint32_t kMsaaResolveDepthFrag[] = {
++	0x07230203,0x00010000,0x0008000b,0x0000001d,0x00000000,0x00020011,0x00000001,0x0006000b,
++	0x00000001,0x4c534c47,0x6474732e,0x3035342e,0x00000000,0x0003000e,0x00000000,0x00000001,
++	0x0007000f,0x00000004,0x00000004,0x6e69616d,0x00000000,0x00000008,0x00000010,0x00030010,
++	0x00000004,0x00000007,0x00030010,0x00000004,0x0000000c,0x00030003,0x00000002,0x000001c2,
++	0x00040005,0x00000004,0x6e69616d,0x00000000,0x00060005,0x00000008,0x465f6c67,0x44676172,
++	0x68747065,0x00000000,0x00040005,0x0000000c,0x72756f73,0x00006563,0x00060005,0x00000010,
++	0x465f6c67,0x43676172,0x64726f6f,0x00000000,0x00040047,0x00000008,0x0000000b,0x00000016,
++	0x00040047,0x0000000c,0x00000021,0x00000000,0x00040047,0x0000000c,0x00000022,0x00000000,
++	0x00040047,0x00000010,0x0000000b,0x0000000f,0x00020013,0x00000002,0x00030021,0x00000003,
++	0x00000002,0x00030016,0x00000006,0x00000020,0x00040020,0x00000007,0x00000003,0x00000006,
++	0x0004003b,0x00000007,0x00000008,0x00000003,0x00090019,0x00000009,0x00000006,0x00000001,
++	0x00000000,0x00000000,0x00000001,0x00000001,0x00000000,0x0003001b,0x0000000a,0x00000009,
++	0x00040020,0x0000000b,0x00000000,0x0000000a,0x0004003b,0x0000000b,0x0000000c,0x00000000,
++	0x00040017,0x0000000e,0x00000006,0x00000004,0x00040020,0x0000000f,0x00000001,0x0000000e,
++	0x0004003b,0x0000000f,0x00000010,0x00000001,0x00040017,0x00000011,0x00000006,0x00000002,
++	0x00040015,0x00000014,0x00000020,0x00000001,0x00040017,0x00000015,0x00000014,0x00000002,
++	0x0004002b,0x00000014,0x00000017,0x00000000,0x00040015,0x0000001a,0x00000020,0x00000000,
++	0x0004002b,0x0000001a,0x0000001b,0x00000000,0x00050036,0x00000002,0x00000004,0x00000000,
++	0x00000003,0x000200f8,0x00000005,0x0004003d,0x0000000a,0x0000000d,0x0000000c,0x0004003d,
++	0x0000000e,0x00000012,0x00000010,0x0007004f,0x00000011,0x00000013,0x00000012,0x00000012,
++	0x00000000,0x00000001,0x0004006e,0x00000015,0x00000016,0x00000013,0x00040064,0x00000009,
++	0x00000018,0x0000000d,0x0007005f,0x0000000e,0x00000019,0x00000018,0x00000016,0x00000040,
++	0x00000017,0x00050051,0x00000006,0x0000001c,0x00000019,0x00000000,0x0003003e,0x00000008,
++	0x0000001c,0x000100fd,0x00010038
++};
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedColour.frag b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedColour.frag
+new file mode 100644
+index 00000000..8a7035b2
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedColour.frag
+@@ -0,0 +1,26 @@
++// Zeppelin I-442: the single-sampled back buffer into every sample of the multisampled one (Msaa.cpp).
++// Copyright (C) 2026 WarcraftXL
++//
++// This program is free software: you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program. If not, see <https://www.gnu.org/licenses/>.
++#version 450
++
++layout(set = 0, binding = 0) uniform sampler2D source;
++layout(location = 0) out vec4 outColor;
++
++// Run once per pixel (no sample shading): the one value lands in every covered sample, so an edge the
++// resolve already smoothed stays smooth and later draws are antialiased on top of it.
++void main()
++{
++    outColor = texelFetch(source, ivec2(gl_FragCoord.xy), 0);
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedColour.frag.spv.h b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedColour.frag.spv.h
+new file mode 100644
+index 00000000..352328c2
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedColour.frag.spv.h
+@@ -0,0 +1,26 @@
++	// 1116.6.0
++	 #pragma once
++const uint32_t kMsaaSeedColourFrag[] = {
++	0x07230203,0x00010000,0x0008000b,0x0000001a,0x00000000,0x00020011,0x00000001,0x0006000b,
++	0x00000001,0x4c534c47,0x6474732e,0x3035342e,0x00000000,0x0003000e,0x00000000,0x00000001,
++	0x0007000f,0x00000004,0x00000004,0x6e69616d,0x00000000,0x00000009,0x00000010,0x00030010,
++	0x00000004,0x00000007,0x00030003,0x00000002,0x000001c2,0x00040005,0x00000004,0x6e69616d,
++	0x00000000,0x00050005,0x00000009,0x4374756f,0x726f6c6f,0x00000000,0x00040005,0x0000000d,
++	0x72756f73,0x00006563,0x00060005,0x00000010,0x465f6c67,0x43676172,0x64726f6f,0x00000000,
++	0x00040047,0x00000009,0x0000001e,0x00000000,0x00040047,0x0000000d,0x00000021,0x00000000,
++	0x00040047,0x0000000d,0x00000022,0x00000000,0x00040047,0x00000010,0x0000000b,0x0000000f,
++	0x00020013,0x00000002,0x00030021,0x00000003,0x00000002,0x00030016,0x00000006,0x00000020,
++	0x00040017,0x00000007,0x00000006,0x00000004,0x00040020,0x00000008,0x00000003,0x00000007,
++	0x0004003b,0x00000008,0x00000009,0x00000003,0x00090019,0x0000000a,0x00000006,0x00000001,
++	0x00000000,0x00000000,0x00000000,0x00000001,0x00000000,0x0003001b,0x0000000b,0x0000000a,
++	0x00040020,0x0000000c,0x00000000,0x0000000b,0x0004003b,0x0000000c,0x0000000d,0x00000000,
++	0x00040020,0x0000000f,0x00000001,0x00000007,0x0004003b,0x0000000f,0x00000010,0x00000001,
++	0x00040017,0x00000011,0x00000006,0x00000002,0x00040015,0x00000014,0x00000020,0x00000001,
++	0x00040017,0x00000015,0x00000014,0x00000002,0x0004002b,0x00000014,0x00000017,0x00000000,
++	0x00050036,0x00000002,0x00000004,0x00000000,0x00000003,0x000200f8,0x00000005,0x0004003d,
++	0x0000000b,0x0000000e,0x0000000d,0x0004003d,0x00000007,0x00000012,0x00000010,0x0007004f,
++	0x00000011,0x00000013,0x00000012,0x00000012,0x00000000,0x00000001,0x0004006e,0x00000015,
++	0x00000016,0x00000013,0x00040064,0x0000000a,0x00000018,0x0000000e,0x0007005f,0x00000007,
++	0x00000019,0x00000018,0x00000016,0x00000002,0x00000017,0x0003003e,0x00000009,0x00000019,
++	0x000100fd,0x00010038
++};
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedDepth.frag b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedDepth.frag
+new file mode 100644
+index 00000000..93c9eb36
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedDepth.frag
+@@ -0,0 +1,23 @@
++// Zeppelin I-442: the single-sampled back depth into every sample of the multisampled one (Msaa.cpp).
++// Copyright (C) 2026 WarcraftXL
++//
++// This program is free software: you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program. If not, see <https://www.gnu.org/licenses/>.
++#version 450
++
++layout(set = 0, binding = 0) uniform sampler2D source;
++
++void main()
++{
++    gl_FragDepth = texelFetch(source, ivec2(gl_FragCoord.xy), 0).r;
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedDepth.frag.spv.h b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedDepth.frag.spv.h
+new file mode 100644
+index 00000000..c307fcf1
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/present/msaa/SeedDepth.frag.spv.h
+@@ -0,0 +1,28 @@
++	// 1116.6.0
++	 #pragma once
++const uint32_t kMsaaSeedDepthFrag[] = {
++	0x07230203,0x00010000,0x0008000b,0x0000001d,0x00000000,0x00020011,0x00000001,0x0006000b,
++	0x00000001,0x4c534c47,0x6474732e,0x3035342e,0x00000000,0x0003000e,0x00000000,0x00000001,
++	0x0007000f,0x00000004,0x00000004,0x6e69616d,0x00000000,0x00000008,0x00000010,0x00030010,
++	0x00000004,0x00000007,0x00030010,0x00000004,0x0000000c,0x00030003,0x00000002,0x000001c2,
++	0x00040005,0x00000004,0x6e69616d,0x00000000,0x00060005,0x00000008,0x465f6c67,0x44676172,
++	0x68747065,0x00000000,0x00040005,0x0000000c,0x72756f73,0x00006563,0x00060005,0x00000010,
++	0x465f6c67,0x43676172,0x64726f6f,0x00000000,0x00040047,0x00000008,0x0000000b,0x00000016,
++	0x00040047,0x0000000c,0x00000021,0x00000000,0x00040047,0x0000000c,0x00000022,0x00000000,
++	0x00040047,0x00000010,0x0000000b,0x0000000f,0x00020013,0x00000002,0x00030021,0x00000003,
++	0x00000002,0x00030016,0x00000006,0x00000020,0x00040020,0x00000007,0x00000003,0x00000006,
++	0x0004003b,0x00000007,0x00000008,0x00000003,0x00090019,0x00000009,0x00000006,0x00000001,
++	0x00000000,0x00000000,0x00000000,0x00000001,0x00000000,0x0003001b,0x0000000a,0x00000009,
++	0x00040020,0x0000000b,0x00000000,0x0000000a,0x0004003b,0x0000000b,0x0000000c,0x00000000,
++	0x00040017,0x0000000e,0x00000006,0x00000004,0x00040020,0x0000000f,0x00000001,0x0000000e,
++	0x0004003b,0x0000000f,0x00000010,0x00000001,0x00040017,0x00000011,0x00000006,0x00000002,
++	0x00040015,0x00000014,0x00000020,0x00000001,0x00040017,0x00000015,0x00000014,0x00000002,
++	0x0004002b,0x00000014,0x00000017,0x00000000,0x00040015,0x0000001a,0x00000020,0x00000000,
++	0x0004002b,0x0000001a,0x0000001b,0x00000000,0x00050036,0x00000002,0x00000004,0x00000000,
++	0x00000003,0x000200f8,0x00000005,0x0004003d,0x0000000a,0x0000000d,0x0000000c,0x0004003d,
++	0x0000000e,0x00000012,0x00000010,0x0007004f,0x00000011,0x00000013,0x00000012,0x00000012,
++	0x00000000,0x00000001,0x0004006e,0x00000015,0x00000016,0x00000013,0x00040064,0x00000009,
++	0x00000018,0x0000000d,0x0007005f,0x0000000e,0x00000019,0x00000018,0x00000016,0x00000002,
++	0x00000017,0x00050051,0x00000006,0x0000001c,0x00000019,0x00000000,0x0003003e,0x00000008,
++	0x0000001c,0x000100fd,0x00010038
++};
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.cpp
+index 210b0aff..9c3ec9bc 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.cpp
+@@ -142,10 +142,10 @@ namespace
+     State g;
+ 
+     /// Asks every live stage of the point whether it runs this frame (once per run); true when any does.
+-    bool AskWanted(Point p, bool& colour, bool& depth)
++    bool AskWanted(Point p, bool& colour, bool& writes, bool& depth)
+     {
+         bool any = false;
+-        colour = depth = false;
++        colour = writes = depth = false;
+         for (uint32_t i = 0; i < g.count; ++i)
+         {
+             Stage& s = *g.order[i];
+@@ -154,7 +154,9 @@ namespace
+             s.wanted = !s.desc.Wanted || s.desc.Wanted(s.desc.user) != 0;
+             if (!s.wanted) continue;
+             any    = true;
+-            colour = colour || (s.desc.flags & WXL_VK_STAGE_WRITES_COLOR) != 0;
++            // Zeppelin I-442: a stage that only reads the frame is copied in, not back.
++            colour = colour || (s.desc.flags & (WXL_VK_STAGE_WRITES_COLOR | WXL_VK_STAGE_READS_COLOR)) != 0;
++            writes = writes || (s.desc.flags & WXL_VK_STAGE_WRITES_COLOR) != 0;
+             depth  = depth || (s.desc.flags & WXL_VK_STAGE_NEEDS_DEPTH) != 0;
+         }
+         return any;
+@@ -294,7 +296,7 @@ namespace
+     }
+ 
+     /// The run proper, preconditions met.
+-    Outcome Execute(Point p, bool colour, bool depth, Io& io)
++    Outcome Execute(Point p, bool colour, bool writes, bool depth, Io& io)
+     {
+         io.cmd    = present::Outside();
+         io.slot   = present::Slot();
+@@ -321,7 +323,7 @@ namespace
+         if (depth) present::SceneDepth(io.cmd, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, io.depthView, io.depthFormat);
+         bool depthMissing = false;
+         const uint32_t ran = RunStages(p, io, depthMissing);
+-        if (colour) CopyOut(io);
++        if (colour && writes) CopyOut(io);
+         // HD/Cata: a snapshot stage can publish sampled images to the water's subsequent draws.
+         // The existing inter-stage compute barrier alone does not cover fragment/vertex readers.
+         // Image layouts and the ownership/lifetime of each published image remain the stage's duty.
+@@ -427,8 +429,8 @@ namespace wxlvk::stages::chain
+         if (point == Point::AfterOpaqueWorld) NoteWorld();
+         PointState& ps = g.points[static_cast<size_t>(point)];
+         if (present::FrameOpen() && ps.lastSerial == present::Serial()) return;   // once per frame
+-        bool colour = false, depth = false;
+-        if (!AskWanted(point, colour, depth))
++        bool colour = false, writes = false, depth = false;
++        if (!AskWanted(point, colour, writes, depth))
+         {
+             ps.outcome = Outcome::Idle;
+             ReleaseIdle();
+@@ -439,7 +441,7 @@ namespace wxlvk::stages::chain
+         if (outcome == Outcome::Ran)
+         {
+             ps.lastSerial = present::Serial();
+-            outcome = Execute(point, colour, depth, io);
++            outcome = Execute(point, colour, writes, depth, io);
+         }
+         ps.outcome = outcome;
+         ++ps.counts[static_cast<size_t>(outcome)];
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Loader.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Loader.cpp
+index 72d70bc7..14d97c4d 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Loader.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Loader.cpp
+@@ -353,6 +353,7 @@ namespace wxlvk::vk::loader
+         WXL_VK_DEVICE_PROC(CmdBeginQuery);
+         WXL_VK_DEVICE_PROC(CmdEndQuery);
+         WXL_VK_DEVICE_PROC(GetQueryPoolResults);
++        WXL_VK_DEVICE_PROC(CmdResolveImage);   // Zeppelin I-442: the MSAA colour resolve
+ 
+         // The pipeline cache persisted beside the DLL. 1.0 core.
+         WXL_VK_DEVICE_PROC(CreatePipelineCache);
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Loader.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Loader.hpp
+index 717562eb..c63d8c5b 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Loader.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Loader.hpp
+@@ -258,6 +258,8 @@ namespace wxlvk::vk::loader
+         PFN_vkCmdBeginQuery              CmdBeginQuery              = nullptr;
+         PFN_vkCmdEndQuery                CmdEndQuery                = nullptr;
+         PFN_vkGetQueryPoolResults        GetQueryPoolResults        = nullptr;
++        /// Zeppelin I-442: the multisampled back buffer resolved into the single-sampled one (1.0 core).
++        PFN_vkCmdResolveImage            CmdResolveImage            = nullptr;
+ 
+         // --- src/vulkan/Pipelines.cpp: the persisted pipeline cache ------------------------------
+         PFN_vkCreatePipelineCache        CreatePipelineCache        = nullptr;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
+index 52786e8d..bd14e67c 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
+@@ -46,7 +46,7 @@ namespace wxlvk::vk::pipelines
+         builds = s.buildCount;
+     }
+ 
+-    void PassCreated(VkRenderPass pass, VkFormat colour, VkFormat depth, bool gbuffer)
++    void PassCreated(VkRenderPass pass, VkFormat colour, VkFormat depth, bool gbuffer, uint32_t samples)
+     {
+         if (pass == VK_NULL_HANDLE) return;
+         // The class's description first, whatever the state: Build() reads the G-buffer flag for every
+@@ -58,11 +58,14 @@ namespace wxlvk::vk::pipelines
+             p.colour  = static_cast<uint32_t>(colour);
+             p.depth   = static_cast<uint32_t>(depth);
+             p.gbuffer = gbuffer ? 1u : 0u;
++            p.samples = samples ? samples : 1u;
+         }
+         if (!s.ready) return;
+-        Prewarm(pass, static_cast<uint32_t>(colour), static_cast<uint32_t>(depth), gbuffer);
++        Prewarm(pass, static_cast<uint32_t>(colour), static_cast<uint32_t>(depth), gbuffer, samples ? samples : 1u);
+     }
+ 
++    uint32_t PassSamples(VkRenderPass pass) { return static_cast<uint32_t>(SamplesOf(pass)); }
++
+     VkPipelineCache PipelineCache() { return s.ready ? s.cache : VK_NULL_HANDLE; }
+ 
+     void SavePipelineCache()
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp
+index 4b9ba990..a89f9520 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp
+@@ -141,8 +141,13 @@ namespace wxlvk::vk::pipelines
+      * @param bool gbuffer : the class carries the G-buffer's three attachments after the colour (four
+      *        colour attachments in all): its pipelines name four blend attachments, and the opaque
+      *        world's draws may take the modules' `gbuf` variants
++     * @param uint32 samples : Zeppelin I-442: its attachments' sample count (the multisampled back class);
++     *        its pipelines rasterise at that count
+      */
+-    void PassCreated(VkRenderPass pass, VkFormat colour, VkFormat depth, bool gbuffer);
++    void PassCreated(VkRenderPass pass, VkFormat colour, VkFormat depth, bool gbuffer, uint32_t samples = 1);
++
++    /// Zeppelin I-442: the sample count of a pass PassCreated described (1 for any other pass).
++    uint32_t PassSamples(VkRenderPass pass);
+ 
+     /// What a captured draw's shadow pipeline is built from (src/capture/ShadowPipelines.cpp).
+     struct ShadowSource
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp
+index 3c367229..de7e3960 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp
+@@ -281,7 +281,9 @@ namespace wxlvk::vk::pipelines::detail
+ 
+         VkPipelineMultisampleStateCreateInfo multisample = {};
+         multisample.sType                = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+-        multisample.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
++        // Zeppelin I-442: the pass class's count -- the multisampled back class's while the MSAA window is
++        // open (native/present/Msaa.cpp), 1 for every other class. No sample shading, no alpha to coverage.
++        multisample.rasterizationSamples = SamplesOf(pass);
+ 
+         // Depth from the key, against the pass class's depth attachment (src/native/Present.cpp).
+         // The semantics line up with D3D9 without translation: D3DRS_ZENABLE is
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Cache.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Cache.cpp
+index 4a3c8f03..c60d7972 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Cache.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Cache.cpp
+@@ -109,7 +109,7 @@ namespace wxlvk::vk::pipelines::detail
+ 
+     constexpr const char* kKeysFile    = "pipeline-keys.bin";
+     constexpr uint32_t    kKeysMagic   = 0x4B505857u;   // "WXPK"
+-    constexpr uint32_t    kKeysVersion = 2;   ///< 2: the G-buffer class bit
++    constexpr uint32_t    kKeysVersion = 3;   ///< 2: the G-buffer class bit; 3: the class's sample count (Zeppelin I-442)
+ 
+     enum KeyKind : uint32_t
+     {
+@@ -131,6 +131,7 @@ namespace wxlvk::vk::pipelines::detail
+         uint32_t depth;
+         uint32_t kind;
+         uint32_t gbuffer;   ///< the class carried the G-buffer's attachments (pipelines::PassCreated)
++        uint32_t samples;   ///< Zeppelin I-442: the class's sample count (the multisampled back class)
+         char     vmd5[33];
+         char     pmd5[33];
+         char     pad[2];
+@@ -197,6 +198,7 @@ namespace wxlvk::vk::pipelines::detail
+             k.depth  = info->depth;
+             k.kind   = e.row ? kKindRow : e.companion ? kKindCompanion : e.ffVertex ? kKindFfVertex : kKindModules;
+             k.gbuffer = info->gbuffer;
++            k.samples = info->samples;
+             if (e.vrec) std::memcpy(k.vmd5, e.vrec->md5, sizeof k.vmd5);
+             if (e.prec) std::memcpy(k.pmd5, e.prec->md5, sizeof k.pmd5);
+             out.push_back(k);
+@@ -264,14 +266,14 @@ namespace wxlvk::vk::pipelines::detail
+     }
+ 
+     /// Builds the persisted keys of one pass class (PassCreated).
+-    void Prewarm(VkRenderPass pass, uint32_t colour, uint32_t depth, bool gbuffer)
++    void Prewarm(VkRenderPass pass, uint32_t colour, uint32_t depth, bool gbuffer, uint32_t samples)
+     {
+         LARGE_INTEGER t0 = {}, t1 = {};
+         QueryPerformanceCounter(&t0);
+         uint32_t built = 0, skipped = 0;
+         for (const PersistedKey& p : g_keys)
+         {
+-            if (p.colour != colour || p.depth != depth || (p.gbuffer != 0) != gbuffer) continue;
++            if (p.colour != colour || p.depth != depth || (p.gbuffer != 0) != gbuffer || p.samples != samples) continue;
+             if (p.key.bones & 2u) continue;   // tree wind: built at its first draw, once its set 3 exists
+             if (s.pipelineCount >= kMaxPipelines) break;
+ 
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
+index 469ae275..2e227590 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
+@@ -599,8 +599,9 @@ namespace wxlvk::vk::pipelines::detail
+             uint32_t     colour = 0;
+             uint32_t     depth  = 0;
+             uint32_t     gbuffer = 0;   ///< the class carries the G-buffer's three attachments: four colour attachments in all
++            uint32_t     samples = 1;   ///< Zeppelin I-442: the attachments' sample count (the multisampled back class)
+         };
+-        PassInfo passInfo[12];
++        PassInfo passInfo[16];   ///< Zeppelin I-442: 16, as native/present/Internal.hpp kMaxPassClasses
+         uint32_t passInfoCount = 0;
+         uint64_t keysSavedAt   = 0;   ///< buildCount when pipeline-keys.bin was last written
+ 
+@@ -838,7 +839,7 @@ namespace wxlvk::vk::pipelines::detail
+     void LoadPipelineCache(const context::Handles& h);
+     void LoadKeys();
+     void SaveKeys();
+-    void Prewarm(VkRenderPass pass, uint32_t colour, uint32_t depth, bool gbuffer);
++    void Prewarm(VkRenderPass pass, uint32_t colour, uint32_t depth, bool gbuffer, uint32_t samples);
+ 
+     // --- one draw's record, in phases (Record.cpp, RecordInputs.cpp) -----------------------------
+ 
+@@ -927,6 +928,14 @@ namespace wxlvk::vk::pipelines::detail
+         return h & (kPipeHashSlots - 1);
+     }
+ 
++    /// Zeppelin I-442: the rasterisation samples of `pass`'s pipelines (PassCreated said so; 1 otherwise).
++    inline VkSampleCountFlagBits SamplesOf(VkRenderPass pass)
++    {
++        for (uint32_t i = 0; i < s.passInfoCount; ++i)
++            if (s.passInfo[i].pass == pass) return static_cast<VkSampleCountFlagBits>(s.passInfo[i].samples ? s.passInfo[i].samples : 1u);
++        return VK_SAMPLE_COUNT_1_BIT;
++    }
++
+     /// Whether `pass` is a G-buffer class (PassCreated said so): its pipelines name four colour
+     /// attachments, and its opaque world draws may take the `gbuf` variants.
+     inline bool IsGBufferPass(VkRenderPass pass)
+diff --git a/Engine/Source/Gx/GxSeam.cpp b/Engine/Source/Gx/GxSeam.cpp
+index d3858f09..fbd581a3 100644
+--- a/Engine/Source/Gx/GxSeam.cpp
++++ b/Engine/Source/Gx/GxSeam.cpp
+@@ -5,6 +5,9 @@ GxSeam g_gxSeams[GxSeams_Last] = {};
+ 
+ int32_t (*g_gxShaderKnown)(const void* code, uint32_t size) = nullptr;
+ 
++// Zeppelin I-442: the glue's model scene bracket (GxSeam.h).
++void (*g_gxModelScene)(int32_t open) = nullptr;
++
+ // Zeppelin F-234: the GPU frame time for the perf log (GxSeam.h).
+ bool (*g_gxGpuFrame)(GxGpuFrame* out) = nullptr;
+ int32_t g_gxGpuTimerWanted = 0;
+diff --git a/Engine/Source/Gx/GxSeam.h b/Engine/Source/Gx/GxSeam.h
+index 4441c20c..3773089d 100644
+--- a/Engine/Source/Gx/GxSeam.h
++++ b/Engine/Source/Gx/GxSeam.h
+@@ -45,6 +45,11 @@ inline Fn GxSeamBracket(EGxSeam seam) {
+ // Vulkan\shaders\translated\manifest.txt); null otherwise. The HD materials ask it before swapping their code in.
+ extern int32_t (*g_gxShaderKnown)(const void* code, uint32_t size);
+ 
++// Zeppelin I-442: the glue's character model scene (CSimpleModelFFX::Render) begins (1) or ends (0). While the
++// Vulkan device is up it renders that scene multisampled at gxMultisample, as it does the world
++// (CGxDeviceVulkan/wxl/src/native/present/Msaa.cpp); null otherwise, and D3D9 multisamples the whole back buffer.
++extern void (*g_gxModelScene)(int32_t open);
++
+ // Zeppelin F-234: the GPU's time per frame for the perf log (hdCataRenderPerf), from timestamp queries: the window's
+ // average and maximum in milliseconds since the last call, and the adapter's name. Set by the device that measures it
+ // (Vulkan: CGxDeviceVulkan/hd/HdVulkanPerf.cpp; D3D9: CGxDeviceD3d/GpuFrameTimerD3d9.cpp, armed by g_gxGpuTimerWanted);
+diff --git a/WoW/Source/Glue/CSimpleModelFFX.cpp b/WoW/Source/Glue/CSimpleModelFFX.cpp
+index e8786763..41ce17f7 100644
+--- a/WoW/Source/Glue/CSimpleModelFFX.cpp
++++ b/WoW/Source/Glue/CSimpleModelFFX.cpp
+@@ -6,6 +6,7 @@
+ #include "Engine/Source/Frame/CRenderBatch.h"
+ #include "Engine/Source/FrameXML/XMLTree.h"
+ #include "Engine/Source/Gx/Gx.h"
++#include "Engine/Source/Gx/GxSeam.h"
+ #include "Engine/Source/Model2/M2Model.h"
+ #include "Engine/Source/Storm/H/storm.h"
+ #include "Engine/Source/Tempest/CImVector.h"
+@@ -87,6 +88,12 @@ int32_t CSimpleModelFFX::GetScriptMetaTable() {
+ void CSimpleModelFFX::Render(void* arg) {
+     CSimpleModelFFX* model = static_cast<CSimpleModelFFX*>(arg);
+ 
++    // Zeppelin I-442: the Vulkan device renders the model scene multisampled (gxMultisample), from its clear to the
++    // glow's composite; null under D3D9, which multisamples the whole back buffer.
++    if (g_gxModelScene) {
++        g_gxModelScene(1);
++    }
++
+     CImVector clearColor;
+     clearColor.b = 0x00;
+     clearColor.g = 0x00;
+@@ -113,6 +120,10 @@ void CSimpleModelFFX::Render(void* arg) {
+     }
+ 
+     FFX::Finish();
++
++    if (g_gxModelScene) {
++        g_gxModelScene(0);
++    }
+ }
+ 
+ // VERIFY: 68232335 manual
+-- 
+2.34.1
+
