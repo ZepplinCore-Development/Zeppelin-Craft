@@ -1,0 +1,80 @@
+From 08971df49f2050538dd4ddbbfa92d885242baf58 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 04:06:32 +0000
+Subject: [PATCH] WIP: F-219 - step-clear walks only where no other mob
+ reaches; let-pass steps back off the line
+
+Add timing (2026-11-01 run): 149 of 171 adds came within 3 s, and 139 of those were defend fights -
+the bot walked into groups, not bad pulls. 38 began while stepping clear/resting, 35 on detours,
+22 right after a fight, 13 while standing to let a mob pass; mid-fight (10 s+) adds were 7.
+- step_clear: a spot counts only if the straight walk there stays out of every OTHER mob's reach
+  (the ones already on us are being left); none -> rest where we are
+- let pass: step 15 yd straight away from the mob (if that spot is clear of the rest) instead of
+  standing still
+Offline-tested: a group 40 yd north and a mob on top -> stepped 35 yd south-west, walk stays 40 yd
+from the group.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 33 ++++++++++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 5 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 09d4f95..0000f2c 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1550,15 +1550,29 @@ class Runner:
+         live += [(t[0], t[1], t[2]) for t in spawns]  # a respawn on top of us is the next fight too
+         # 20 and 35 yd first; inside a camp none of those is clear (Northshire's vineyard: the priest sat
+         # down "-13 yd outside" reach after clearing Defias and died to 5 at once) - then 55 and 80
++        # ...and the WALK there must not cross anyone else's reach: the step went straight through other
++        # mobs - 38 of the fleet's 139 multi-mob ambushes began while stepping clear or resting.
++        # The mobs already on top of us do not count (we are leaving them); everyone else must stay out
++        here = (me["x"], me["y"])
++        others = [m for m in live if math.dist(m[:2], here) >= reach(m)]
++
++        def walk_ok(p):
++            for k in range(1, 11):
++                q = (here[0] + (p[0] - here[0]) * k / 10, here[1] + (p[1] - here[1]) * k / 10)
++                if any(math.dist(m[:2], q) < reach(m) for m in others):
++                    return False
++            return True
+         best = None
+         for rings in ((20, 35), (55, 80)):
+             pts = [(me["x"] + r * math.cos(a * math.pi / 6), me["y"] + r * math.sin(a * math.pi / 6))
+                    for r in rings for a in range(12)]
+-            best = max(pts, key=lambda p: margin(*p))
+-            if margin(*best) >= 0:
+-                break
+-        if margin(*best) <= margin(me["x"], me["y"]) + 5:
+-            return  # nowhere quieter within reach: rest here
++            pts = [p for p in pts if walk_ok(p)]
++            if pts:
++                best = max(pts, key=lambda p: margin(*p))
++                if margin(*best) >= 0:
++                    break
++        if not best or margin(*best) <= margin(me["x"], me["y"]) + 5:
++            return  # no quieter spot we can walk to without passing others: rest here
+         g = call("move.ground", x=best[0], y=best[1], z=me.get("z", 0))
+         if not g.get("ok"):
+             return
+@@ -3269,6 +3283,15 @@ class Runner:
+             self._let_pass = now
+             print(f"  let {o['entry']} (level {lv}{', pack' if pack else ''}) pass - it reaches our road in {t:.1f} s", flush=True)
+             call("move.stop")
++            # step back off its line instead of standing where it - or a neighbour - can reach us (13 of the
++            # multi-mob ambushes came while standing to let one pass): 15 yd straight away from it
++            dx, dy = me["x"] - o["x"], me["y"] - o.get("y", 0)
++            n = max(math.hypot(dx, dy), 0.01)
++            bx, by = me["x"] + dx / n * 15, me["y"] + dy / n * 15
++            g = call("move.ground", x=bx, y=by, z=me.get("z", 0))
++            if g.get("ok") and not any(m is not o and math.dist((m["x"], m.get("y", 0)), (bx, by))
++                                       < self.aggro_r(top[m["entry"]], level) + 3 for m in mobs):
++                call("move.to", x=bx, y=by, z=g["z"], timeout_ms=4000)
+             for _ in range(15):
+                 time.sleep(1)
+                 if call("combat.state").get("attackers"):
+-- 
+2.34.1
+
