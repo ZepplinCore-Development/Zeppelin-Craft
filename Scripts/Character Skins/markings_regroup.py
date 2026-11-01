@@ -80,6 +80,7 @@ MIGRATION2 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round2.sql'
 MIGRATION3 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round3.sql'
 MIGRATION4 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round4.sql'
 MIGRATION5 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round5.sql'
+MIGRATION6 = ZPAK / 'sql_characters' / 'zz_[F-230]_markings_round6.sql'
 STATE = Path(__file__).with_name('markings_regroup.json')
 CACHE = CRAFT.parent / 'logs' / 'layer_sources'
 GLUE = CRAFT / 'zpaks' / 'patch-modern-login' / 'mpq' / 'source-assets' / 'Interface' / 'GlueXML' / 'CharacterCreate.lua'
@@ -121,9 +122,9 @@ CLEAN_FROM = {(2, 0, 15): 19, (2, 0, 44): 19, (2, 0, 45): 19, (2, 1, 44): 19, (2
 # 5b: clean colours remade with the Lab transfer (clean_colour). Batch 1 (2026-11-01) ships it only for the shipped
 # clean colours whose three-panel proof passed (Illidari male 35 / 37 -> 41 / 43) and for new
 # round-5 ones; every other shipped clean colour keeps the round-4 method (clean_colour_r4) until it is proofed.
-LAB_CLEAN = {(4, 0, 35), (4, 0, 37)}   # Eredar male 31 -> 42 waits with its Fel lines layer
+LAB_CLEAN = {(4, 0, 35), (4, 0, 37), (4, 0, 36)}   # + 36 violet runes, batch 2   # Eredar male 31 -> 42 waits with its Fel lines layer
 if os.environ.get('F230_STAGE_B2'):            # batch-2 candidates (staged proof runs only)
-    LAB_CLEAN |= {(11, 0, 30), (11, 0, 31), (11, 1, 30), (11, 1, 31), (4, 0, 34), (4, 0, 36)}
+    LAB_CLEAN |= {(4, 0, 36)}             # violet runes; the Eredar / fel-slash clean colours are parked with fel
 # round 3 (2026-10-30): sub-race signature colours keep their own tone as clean colours, so Illidari, Cenarion female,
 # Void Elf, Cultist gnome, Sand Troll and Eredar keep homes of their own colour
 FORCE_CLEAN |= {(4, 0, c) for c in (34, 35, 36, 37)} | {(4, 1, c) for c in (26, 27, 28, 29, 30, 31, 32)} \
@@ -614,6 +615,9 @@ def main():
     MIGRATION5.write_text(migration_round5_sql([e for e in retire if e.get('round') == 5],
                                                [f for f in faces if f.get('round') == 5],
                                                must_wear(proposed_gate_lists(values)), cutoff5))
+    cutoff6 = state.get('round6_guid_cutoff') or max_character_guid()
+    MIGRATION6.write_text(migration_round5_sql([e for e in retire if e.get('round') == 6],
+                                               [f for f in faces if f.get('round') == 6], [], cutoff6, rnd=6))
     STATE.write_text(json.dumps({'rows': {str(k): v for k, v in ROW_NAME.items()}, 'values': values,
                                  'old_to_new': old_map, 'retire': retire, 'glue_changes': glue_changes,
                                  'subrace_copies': copies, 'gates': gates,
@@ -622,7 +626,8 @@ def main():
                                  'troll_paint': [{'style': k[0], 'hair_colour': k[1], 'value': v}
                                                  for k, v in sorted(paint.items())],
                                  'round2_guid_cutoff': cutoff2, 'round3_guid_cutoff': cutoff3,
-                                 'round4_guid_cutoff': cutoff4, 'round5_guid_cutoff': cutoff5}, indent=1) + '\n')
+                                 'round4_guid_cutoff': cutoff4, 'round5_guid_cutoff': cutoff5,
+                                 'round6_guid_cutoff': cutoff6}, indent=1) + '\n')
     print(f'{removed} old layer files removed; {rid - LAYER_ID} layer rows -> {SQL.relative_to(CRAFT)}')
     print(f'-> {MIGRATION.relative_to(CRAFT)}, {STATE.name}')
 
@@ -677,7 +682,7 @@ def retire_baked(sources, src_values, files, query, bm, preview):
         coef, err = fit_map(atlas(race, g, base), a, m)
         b_at = atlas(race, g, base)
         gain = np.median(a[m], axis=0) / np.maximum(np.median(b_at[m], axis=0), 1.0)
-        if (race, g, entry['colour']) in LAB_CLEAN or entry.get('round') == 5:
+        if (race, g, entry['colour']) in LAB_CLEAN or entry.get('round', 1) >= 5:
             rows, rid = clean_colour(race, g, base, new, fit_lab(b_at, a, m), files, rows_of, b_at, rid, gain)
         else:
             rows, rid = clean_colour_r4(race, g, base, new, coef, files, rows_of, b_at, rid, gain)
@@ -1069,7 +1074,13 @@ def must_wear(gates):
     return out
 
 
-def migration_round5_sql(retire, faces, wear, cutoff):
+HEAD5 = [
+    '-- F-230 round 5: Cultist and Illidari baked colours -> clean colour + marking; human male 33 / 34 (+36 / 37) and',
+    '-- night elf male blindfold faces 5 / 20 (+14 / 27) -> plain face + face marking; Illidari / Cenarion characters',
+    '-- without a face / body marking get the first allowed value (no "none" for them).']
+
+
+def migration_round5_sql(retire, faces, wear, cutoff, rnd=5):
     """Round 5 (2026-10-31): Cultist / Illidari colours -> clean colour + marking; human male 33 / 34 and night elf male
     blindfold faces -> plain face + marking; Illidari and Cenarion characters with no face / body marking get the first
     allowed one (those sub-races always wear one). Own done-table."""
@@ -1078,44 +1089,42 @@ def migration_round5_sql(retire, faces, wear, cutoff):
             f"{(e['layers'].get(ROW_NAME[BODY_ROW]) or [{'value': 0}])[0]['value']})" for e in retire]
     face = [f"({f['race']},{f['sex']},{f['face']},{f['new_face']},{f['value']})" for f in faces]
     lines = [
-        '-- F-230 round 5: Cultist and Illidari baked colours -> clean colour + marking; human male 33 / 34 (+36 / 37) and',
-        '-- night elf male blindfold faces 5 / 20 (+14 / 27) -> plain face + face marking; Illidari / Cenarion characters',
-        '-- without a face / body marking get the first allowed value (no "none" for them).',
+        *(HEAD5 if rnd == 5 else [f'-- F-230 round {rnd} (batch 2): human Cultist colours -> clean colour + face paint marking.']),
         '-- GENERATED by Scripts/Character Skins/markings_regroup.py - do not edit, re-run the script.',
-        f'-- Idempotent: once per character (zep_f230_markings_round5_done), characters with guid <= {cutoff} only.',
-        'CREATE TABLE IF NOT EXISTS zep_f230_markings_round5_done (guid INT UNSIGNED NOT NULL PRIMARY KEY)',
-        "  ENGINE=InnoDB COMMENT='F-230 markings round 5: characters already migrated';",
-        'DROP TABLE IF EXISTS zep_tmp_r5_skin, zep_tmp_r5_face, zep_tmp_r5_todo;',
-        'CREATE TABLE zep_tmp_r5_skin (race TINYINT UNSIGNED, gender TINYINT UNSIGNED, skin TINYINT UNSIGNED,',
+        f'-- Idempotent: once per character (zep_f230_markings_round{rnd}_done), characters with guid <= {cutoff} only.',
+        f'CREATE TABLE IF NOT EXISTS zep_f230_markings_round{rnd}_done (guid INT UNSIGNED NOT NULL PRIMARY KEY)',
+        f"  ENGINE=InnoDB COMMENT='F-230 markings round {rnd}: characters already migrated';",
+        f'DROP TABLE IF EXISTS zep_tmp_r{rnd}_skin, zep_tmp_r{rnd}_face, zep_tmp_r{rnd}_todo;',
+        f'CREATE TABLE zep_tmp_r{rnd}_skin (race TINYINT UNSIGNED, gender TINYINT UNSIGNED, skin TINYINT UNSIGNED,',
         '  new_skin TINYINT UNSIGNED, face TINYINT UNSIGNED, body TINYINT UNSIGNED, PRIMARY KEY (race, gender, skin));',
-        *(['INSERT INTO zep_tmp_r5_skin VALUES', ',\n'.join(skin) + ';'] if skin else []),
-        'CREATE TABLE zep_tmp_r5_face (race TINYINT UNSIGNED, gender TINYINT UNSIGNED, face TINYINT UNSIGNED,',
+        *([f'INSERT INTO zep_tmp_r{rnd}_skin VALUES', ',\n'.join(skin) + ';'] if skin else []),
+        f'CREATE TABLE zep_tmp_r{rnd}_face (race TINYINT UNSIGNED, gender TINYINT UNSIGNED, face TINYINT UNSIGNED,',
         '  new_face TINYINT UNSIGNED, mark TINYINT UNSIGNED, PRIMARY KEY (race, gender, face));',
-        *(['INSERT INTO zep_tmp_r5_face VALUES', ',\n'.join(face) + ';'] if face else []),
-        'CREATE TABLE zep_tmp_r5_todo (guid INT UNSIGNED PRIMARY KEY);',
-        'INSERT INTO zep_tmp_r5_todo (guid) SELECT c.guid FROM characters AS c',
-        f'WHERE c.guid <= {cutoff} AND c.guid NOT IN (SELECT guid FROM zep_f230_markings_round5_done);']
+        *([f'INSERT INTO zep_tmp_r{rnd}_face VALUES', ',\n'.join(face) + ';'] if face else []),
+        f'CREATE TABLE zep_tmp_r{rnd}_todo (guid INT UNSIGNED PRIMARY KEY);',
+        f'INSERT INTO zep_tmp_r{rnd}_todo (guid) SELECT c.guid FROM characters AS c',
+        f'WHERE c.guid <= {cutoff} AND c.guid NOT IN (SELECT guid FROM zep_f230_markings_round{rnd}_done);']
     for cust, col in ((2, 'face'), (3, 'body')):
         lines += ['INSERT INTO character_customizations (guid, customization, choice)',
-                  f'SELECT c.guid, {cust}, s.{col} FROM characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
-                  f'JOIN zep_tmp_r5_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin WHERE s.{col} <> 0',
+                  f'SELECT c.guid, {cust}, s.{col} FROM characters AS c JOIN zep_tmp_r{rnd}_todo AS t ON t.guid = c.guid',
+                  f'JOIN zep_tmp_r{rnd}_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin WHERE s.{col} <> 0',
                   'ON DUPLICATE KEY UPDATE choice = IF(choice = 0, VALUES(choice), choice);']
-    lines += ['UPDATE characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
-              'JOIN zep_tmp_r5_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin SET c.skin = s.new_skin;',
+    lines += [f'UPDATE characters AS c JOIN zep_tmp_r{rnd}_todo AS t ON t.guid = c.guid',
+              f'JOIN zep_tmp_r{rnd}_skin AS s ON s.race = c.race AND s.gender = c.gender AND s.skin = c.skin SET c.skin = s.new_skin;',
               'INSERT INTO character_customizations (guid, customization, choice)',
-              'SELECT c.guid, 2, f.mark FROM characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
-              'JOIN zep_tmp_r5_face AS f ON f.race = c.race AND f.gender = c.gender AND f.face = c.face WHERE f.mark <> 0',
+              f'SELECT c.guid, 2, f.mark FROM characters AS c JOIN zep_tmp_r{rnd}_todo AS t ON t.guid = c.guid',
+              f'JOIN zep_tmp_r{rnd}_face AS f ON f.race = c.race AND f.gender = c.gender AND f.face = c.face WHERE f.mark <> 0',
               'ON DUPLICATE KEY UPDATE choice = IF(choice = 0, VALUES(choice), choice);',
-              'UPDATE characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
-              'JOIN zep_tmp_r5_face AS f ON f.race = c.race AND f.gender = c.gender AND f.face = c.face SET c.face = f.new_face;']
+              f'UPDATE characters AS c JOIN zep_tmp_r{rnd}_todo AS t ON t.guid = c.guid',
+              f'JOIN zep_tmp_r{rnd}_face AS f ON f.race = c.race AND f.gender = c.gender AND f.face = c.face SET c.face = f.new_face;']
     for race, g, cust, first, cols, sub in wear:
         lines += [f'-- {FOLDERS[race]} {SEXES[g]} {sub}: customization {cust} never "none" -> {first}',
                   'INSERT INTO character_customizations (guid, customization, choice)',
-                  f'SELECT c.guid, {cust}, {first} FROM characters AS c JOIN zep_tmp_r5_todo AS t ON t.guid = c.guid',
+                  f'SELECT c.guid, {cust}, {first} FROM characters AS c JOIN zep_tmp_r{rnd}_todo AS t ON t.guid = c.guid',
                   f'WHERE c.race = {race} AND c.gender = {g} AND c.skin IN ({", ".join(map(str, cols))})',
                   'ON DUPLICATE KEY UPDATE choice = IF(choice = 0, VALUES(choice), choice);']
-    lines += ['INSERT IGNORE INTO zep_f230_markings_round5_done (guid) SELECT guid FROM zep_tmp_r5_todo;',
-              'DROP TABLE zep_tmp_r5_skin, zep_tmp_r5_face, zep_tmp_r5_todo;']
+    lines += [f'INSERT IGNORE INTO zep_f230_markings_round{rnd}_done (guid) SELECT guid FROM zep_tmp_r{rnd}_todo;',
+              f'DROP TABLE zep_tmp_r{rnd}_skin, zep_tmp_r{rnd}_face, zep_tmp_r{rnd}_todo;']
     return '\n'.join(lines) + '\n'
 
 

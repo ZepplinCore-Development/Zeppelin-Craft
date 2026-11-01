@@ -99,6 +99,9 @@ DWARF_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}, FEMALE = {0, 1, 2,
 BLOODELF_FACES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19} };
 TROLL_FACES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13}, FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15} };
 DARKIRON_EYES = { MALE = {11, 13, 14, 15, 16, 17, 12}, FEMALE = {6, 8, 9, 10, 11, 12, 7} };	-- the full glowing eye and its 5 tints (+ DK eye)
+-- F-230 batch 2: the Cultist "Blind (white)" eye is the last human eye value (male 8, female 13), Cultist only
+HUMAN_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7}, FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12} };
+CULTIST_HUMAN_EYES = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8}, FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13} };
 CHAR_CREATE_SUBRACES = {
 	-- orc colours 28-43 bake markings (not offered: retail tattoos, scars and war paint now); Blackrock 15, 44, 45 and
 	-- Mag'har clan colours 46, 48, 49, 51, 52, 54, 55, 57 bake tattoos or paint (user review 2026-10-24)
@@ -193,15 +196,15 @@ CHAR_CREATE_SUBRACES = {
 	-- are Cultist's own. Cultist itself offers every face, because its skins 18-25 have no rows for the marked ones.
 	["HUMAN"] = {
 		shared = { MALE = {12, 13, 14}, FEMALE = {12, 13, 14} },
-		{ name = "Human", icon = "HUMAN",
+		{ name = "Human", icon = "HUMAN", eyes = HUMAN_EYES,
 			faces = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 35, 38},
 				FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 32, 35} },
 			MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15},
 			FEMALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15} },
-		{ name = "Cultist", lore = "Some of Lordaeron's survivors found answers in the Cult of the Damned's whispers and kept the marks long after they turned away. Pale, painted and tattooed with old rites, they are feared in every human city. Those who fight for the Alliance swear the darkness now serves the light, and few dare ask them twice.", title = "Cultist", icon = "CULTISTHUMAN",
+		{ name = "Cultist", lore = "Some of Lordaeron's survivors found answers in the Cult of the Damned's whispers and kept the marks long after they turned away. Pale, painted and tattooed with old rites, they are feared in every human city. Those who fight for the Alliance swear the darkness now serves the light, and few dare ask them twice.", title = "Cultist", icon = "CULTISTHUMAN", eyes = CULTIST_HUMAN_EYES,
 			faces = { MALE = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 35, 38} },	-- 33 / 34 (+36 / 37) are face 2 / 14 + eye socket paint now (round 5)
-			MALE = {16, 17},
-			FEMALE = {16, 17, 24, 25, 30, 31, 32, 33} },	-- 30-33 = 20-23 without the harness (Accessories 1, 2, round 5)
+			MALE = {26, 27},	-- = 16, 17 without the paint (Face Markings 5, 6; batch 2)
+			FEMALE = {26, 27, 28, 29, 30, 31, 32, 33} },	-- 26-29 = 16, 17, 24, 25 without the tear paint (Face Markings 7-10, batch 2); 30-33 = 20-23 without the harness (Accessories 1, 2)
 	},
 	-- night elf, undead and worgen sub-races from the 2026-10-28 skin review (marked colours allowed, like Wildhammer)
 	["NIGHTELF"] = {
@@ -324,8 +327,8 @@ CHAR_CREATE_MARK_GATES = {
 	},
 	["HUMAN"] = {
 		["Cultist"] = {
-			MALE = { [7] = {0, 1, 2, 3, 4} },
-			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6}, [8] = {0, 1} },
+			MALE = { [7] = {0, 1, 2, 3, 4, 5, 6} },
+			FEMALE = { [7] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, [8] = {0, 1} },
 		},
 		["Human"] = {
 			MALE = { [7] = {0} },

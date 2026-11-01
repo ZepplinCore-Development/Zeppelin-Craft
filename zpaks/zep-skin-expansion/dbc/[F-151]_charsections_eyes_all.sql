@@ -158,4 +158,6 @@ INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, 
 (100153, 12, 1, 5, 'Character\\Worgen\\Female\\WorgenFemaleEyes01Lower.blp', '', '', 17, 1, 0),
 (100154, 12, 1, 5, 'Character\\Worgen\\Female\\WorgenFemaleEyes02Lower.blp', '', '', 17, 2, 0),
 (100155, 5, 0, 5, '', '', '', 17, 10, 0),
-(100156, 5, 1, 5, '', '', '', 17, 7, 0);
+(100156, 5, 1, 5, '', '', '', 17, 7, 0),
+(100157, 1, 0, 5, 'Character\\Human\\Male\\HumanMaleEyes08Lower.blp', '', '', 1, 8, 0),
+(100158, 1, 1, 5, '', 'Character\\Human\\Female\\HumanFemaleEyes13Upper.blp', '', 1, 13, 0);

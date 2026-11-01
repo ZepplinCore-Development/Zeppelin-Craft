@@ -440,13 +440,244 @@ def skin_agnostic(layer, donor, matched, dark=12.0, black=35.0, glow=(60, 170), 
     if glow[0] <= 50:
         green &= Ld > Lm + 8            # flames glow: brighter than the skin under them (orange skin is not fire)
     darker = (Ld < Lm - dark) & (Ld < black)
-    keep = ndimage.binary_opening(darker, iterations=1) | ndimage.binary_dilation(green, iterations=1)
+    glowmask = ndimage.binary_dilation(green, iterations=1)
+    keep = ndimage.binary_opening(darker, iterations=1) | glowmask
     keep = ndimage.binary_closing(keep, iterations=1)
     if agree is not None:                     # another colour's keep of the same design: the pattern's layout
         keep &= ndimage.binary_dilation(agree, iterations=4)
+    # islands: specks below MIN_ISLAND px are skin noise, not pattern (batch-2 review: red flecks on lilac)
+    lab_, n = ndimage.label(keep)
+    if n:
+        keep = np.isin(lab_, 1 + np.flatnonzero(ndimage.sum(keep, lab_, range(1, n + 1)) >= MIN_ISLAND))
     soft = ndimage.gaussian_filter(keep.astype(np.float32), 0.8)
     out = layer.copy()
-    out[..., 3] = (layer[..., 3].astype(np.float32) * np.clip(soft * 1.3, 0, 1)).astype(np.uint8)
+    alpha = layer[..., 3].astype(np.float32) * np.clip(soft * 1.3, 0, 1)
+    # colour from the pattern only (batch-2 review: "colour bleed"): the glow keeps its own colour; the dark limbs are
+    # the donor's darkness with its hue taken out (a red or lilac skin's dark limb is near-black on any skin); every
+    # other pixel - the anti-aliased rim, which mixes in the source skin - takes the nearest interior pattern pixel's
+    # colour and keeps only its alpha (unmatte)
+    rgb = np.asarray(donor, np.float32).copy()
+    lum = rgb @ np.array([0.299, 0.587, 0.114], np.float32)
+    limb = keep & ~glowmask
+    rgb[limb] = (lum[limb][:, None] * np.array([1.0, 0.97, 1.03], np.float32)) * 0.9 + rgb[limb] * 0.1
+    core = ndimage.binary_erosion(keep, iterations=1) & (alpha > 200)
+    if core.any():
+        _, (iy, ix) = ndimage.distance_transform_edt(~core, return_indices=True)
+        rgb = np.where(core[..., None], rgb, rgb[iy, ix])
+    out[..., :3] = np.clip(rgb, 0, 255).astype(np.uint8)
+    out[..., 3] = np.where(ndimage.binary_dilation(keep, iterations=2), alpha, 0).astype(np.uint8)
+    return out
+
+
+MIN_ISLAND = 40
+
+
+def demon_skin(donor, matched, glow=(60, 170), agree=None, dark_rgb=(16, 13, 18), sigma=9.0, reach=40):
+    """F-230 batch 2 (user: "the original bake has dark areas of the skin to blend in, so everything below the elbow is
+    affected ... fail to apply the marking neatly"): the demon limbs as TWO parts, so they sit on any skin like the bake:
+    (a) a darkening gradient - alpha = how much darker the bake is than its tone-matched base (1 - L_bake / L_base in
+    linear light, low-passed), over one neutral near-black, so it fades into the skin above the elbow / knee exactly
+    as the bake does and darkens any skin tone the same way; (b) the fel lines / flames on top, crisp, their colour
+    their own (the rim unmatted to the nearest core glow pixel)."""
+    d = np.asarray(donor, np.float32) / 255
+    m = np.asarray(matched, np.float32) / 255
+    lin = lambda c: np.where(c > 0.04045, ((c + 0.055) / 1.055) ** 2.4, c / 12.92)  # noqa: E731
+    w = np.array([0.2126, 0.7152, 0.0722], np.float32)
+    Yd, Ym = lin(d) @ w, lin(m) @ w
+    mx, mn = d.max(axis=2), d.min(axis=2)
+    sat = (mx - mn) / np.maximum(mx, 1e-3)
+    hue = np.degrees(np.arctan2(np.sqrt(3) * (d[..., 1] - d[..., 2]), 2 * d[..., 0] - d[..., 1] - d[..., 2])) % 360
+    lum_d = 116 * np.cbrt(np.maximum(Yd, 0.008856)) - 16
+    lum_m = 116 * np.cbrt(np.maximum(Ym, 0.008856)) - 16
+    fire = glow[0] <= 50
+    lines = (hue > glow[0]) & (hue < glow[1]) & (sat > 0.3) & (mx > (0.55 if fire else 0.25))
+    if fire:
+        lines &= lum_d > lum_m + 8
+    lines = ndimage.binary_opening(lines, iterations=1) | (lines & ndimage.binary_dilation(ndimage.binary_opening(lines), iterations=1))
+    # (a) darkening, read off the bake itself (its bases were baked with other shading, female 30 over 15 showed it):
+    # how dark each spot is against the bake's own skin (the median light over the body, the demon limbs being the
+    # minority). The lines are filled in from their surroundings first, then low-passed: the fade, not the grain.
+    body = Ym > 0.01
+    # the skin's light: the bake's upper arm / upper leg / torso (never demon skin), 60th percentile
+    sz = d.shape[0] / 256
+    upper = np.zeros(Yd.shape, bool)
+    for x, y, w_, h_ in ((0, 0, 128, 64), (128, 96, 128, 64), (128, 0, 128, 64)):
+        upper[int(y * sz):int((y + h_) * sz), int(x * sz):int((x + w_) * sz)] = True
+    skin_ref = max(float(np.percentile(Yd[upper & body], 60)), 1e-3)
+    dark = np.clip(1 - Yd / skin_ref, 0, 1)
+    dark[ndimage.binary_dilation(lines, iterations=2)] = np.nan
+    nanm = np.isnan(dark)
+    if nanm.any():
+        _, (iy, ix) = ndimage.distance_transform_edt(nanm, return_indices=True)
+        dark = dark[iy, ix]
+    dark = ndimage.gaussian_filter(dark, sigma)
+    # the demon limbs: large regions the bake keeps near-black
+    # the demon skin is below the elbow and knee: ArmLower, Hand, LegLower, Foot only (the bake's other dark is shading)
+    limbs = np.zeros(Yd.shape, bool)
+    for x, y, w_, h_ in ((0, 64, 128, 96), (128, 160, 128, 96)):
+        limbs[int(y * sz):int((y + h_) * sz), int(x * sz):int((x + w_) * sz)] = True
+    core = (dark > 0.6) & limbs
+    core = ndimage.gaussian_filter(core.astype(np.float32), 3) > 0.5
+    lab_, n = ndimage.label(core)
+    if n:
+        core = np.isin(lab_, 1 + np.flatnonzero(ndimage.sum(core, lab_, range(1, n + 1)) >= 300))
+    if agree is not None:
+        core &= ndimage.binary_dilation(agree, iterations=6)
+    # the limb is dark all through (the bake shades its forearm lighter in the middle: a gap read as a blob at the
+    # elbow): close wide, fill, within the lower-limb boxes
+    core = ndimage.binary_fill_holes(ndimage.binary_closing(np.pad(core, 12), iterations=12)[12:-12, 12:-12]) & limbs
+    # inside: one even level; outside: a smooth distance fade (smoothstep over `fade` px, ~ a third of the upper arm on
+    # the atlas) into the skin above the elbow / knee. The bake's own shading there read as blotches on light skins
+    # (blue draenei proof), so the fade is geometric, not copied.
+    level = 0.88
+    fade = 30 * sz / 2
+    dist = ndimage.distance_transform_edt(~core)
+    x = np.clip(1 - dist / fade, 0, 1)
+    a_dark = level * (x * x * (3 - 2 * x))
+    a_dark = ndimage.gaussian_filter(a_dark, 1.5)
+    # (b) the lines: own colour, rim unmatted, alpha from the line mask (1 px soft edge)
+    rgb = np.empty_like(d)
+    rgb[:] = np.array(dark_rgb, np.float32) / 255
+    if lines.any():
+        solid = ndimage.binary_erosion(lines, iterations=1) if ndimage.binary_erosion(lines).sum() > 50 else lines
+        _, (iy, ix) = ndimage.distance_transform_edt(~solid, return_indices=True)
+        line_rgb = d[iy, ix]
+        a_line = np.clip(ndimage.gaussian_filter(lines.astype(np.float32), 0.6) * 1.4, 0, 1)
+        if agree is not None:
+            a_line *= ndimage.binary_dilation(agree, iterations=8)
+    else:
+        line_rgb, a_line = rgb, np.zeros(Yd.shape, np.float32)
+    # lines over the darkening (premultiplied over)
+    a = a_line + a_dark * (1 - a_line)
+    c = (line_rgb * a_line[..., None] + rgb * (a_dark * (1 - a_line))[..., None]) / np.maximum(a, 1e-3)[..., None]
+    return np.dstack([np.clip(c * 255, 0, 255), np.clip(a * 255, 0, 255)]).astype(np.uint8), core
+
+
+# Cultist paints (human ROUND5 kinds 121-124): (rgb scale, alpha gain) - the sources are the shipped originals (mod 907
+# faces, byte-identical), the cut just reads lighter than the bake on the clean skin (batch-2 review)
+DARKEN = {(1, 0, 121): (0.8, 1.4), (1, 0, 122): (0.8, 1.4), (1, 1, 121): (0.8, 1.4), (1, 1, 122): (0.8, 1.4),
+          (1, 1, 123): (0.8, 1.4), (1, 1, 124): (0.8, 1.4)}
+
+
+# face paints redrawn sharp (batch-2 review, user: "get the lines sharper ... cheek lines on female in particular"):
+# (race, sex, kind) -> (alpha threshold, closing radius at x4 px)
+HIRES = {(1, 0, 121): (0.35, 4), (1, 0, 122): (0.35, 4)}   # the female paints are FLAT (redrawn shapes)
+ESRGAN = Path('/workspace/project/Zeppelin-Tools/Esteria-review/Portraits/_upscale/RealESRGAN_x4plus.pth')
+_esrgan = []
+
+
+def esrgan4(rgb):
+    """x4 Real-ESRGAN (spandrel, CPU; the model F-151 used for the sub-race portraits). rgb: HxWx3 float 0-255."""
+    import torch
+    from spandrel import ModelLoader
+    if not _esrgan:
+        _esrgan.append(ModelLoader().load_from_file(str(ESRGAN)).eval())
+    x = torch.from_numpy(np.asarray(rgb, np.float32) / 255).permute(2, 0, 1)[None]
+    with torch.no_grad():
+        y = _esrgan[0](x)[0].clamp(0, 1).permute(1, 2, 0).numpy()
+    return y * 255
+
+
+# face paints whose cut picked up the base face's own differences (female 17 over 7: lip colour and nose-bridge blobs,
+# ragged crescent edges; batch-2 review): redrawn from the donor alone - (race, sex, kind) -> (darkness ratio, min px)
+# (race, sex, kind) -> the partner colour (donor, base) that paints the same design: 16 / 17 crescents, 24 / 25 streaks
+# the cut lifts base skin into these (light splotches, cut out of the layer: see flat_paint)
+SPLOTCHY = {(1, 1, 121)}
+FLAT = {(1, 1, 121): (17, 7), (1, 1, 122): (16, 1), (1, 1, 123): (25, 9), (1, 1, 124): (24, 5)}
+
+
+def flat_paint(layer, partner_alpha, head, eye, Z=4, min_px=20, skin=None):
+    """A paint redrawn as a clean shape: the cut's own mask kept only where the partner colour's cut of the same design
+    agrees (drops what the base face added - female 17 over 7: lip colour, nose-bridge blobs), holes filled, specks
+    dropped; the outline smoothed at x4 (blur + threshold: curves stay curves, thin streaks unbroken) and
+    anti-aliased back down. Colour: the cut's own paint pixels only (see below)."""
+    a = layer[..., 3] > 90
+    agree = ndimage.binary_dilation(partner_alpha > 60, iterations=2)
+    region = head & ~ndimage.binary_dilation(eye, iterations=1)
+    m = a & agree & region
+    lab_, n = ndimage.label(m)
+    if n:
+        m = np.isin(lab_, 1 + np.flatnonzero(ndimage.sum(m, lab_, range(1, n + 1)) >= min_px))
+    # fill only pinholes (a full fill closed the lids between the crescent tops and the eyes into paint)
+    holes, nh = ndimage.label(~m)
+    if nh:
+        small = 1 + np.flatnonzero(ndimage.sum(~m, holes, range(1, nh + 1)) < 12)
+        m |= np.isin(holes, small)
+    m &= region
+    big = np.kron(m.astype(np.float32), np.ones((Z, Z), np.float32))
+    big = ndimage.gaussian_filter(big, Z * 0.8) > 0.45
+    big_a = ndimage.gaussian_filter(big.astype(np.float32), Z * 0.35)
+    h, w = m.shape
+    alpha = big_a.reshape(h, Z, w, Z).mean(axis=(1, 3))
+    alpha[~region] = 0
+    # true paint pixels: solid in the cut and not lighter than the paint itself (the cut lifts base skin into the female
+    # 16 crescents as light grey splotches). Darker detail (the lids' shadow) stays.
+    rgb = layer[..., :3].astype(np.float32)
+    lum = rgb @ np.array([0.299, 0.587, 0.114], np.float32)
+    core = m & (layer[..., 3] > 180)
+    core = core if core.any() else m
+    # true paint: in the bake the paint is darker than the face skin around it; the grey splotches of female 16 (base
+    # skin lifted into the cut) are as light as the skin or lighter, so they are not paint
+    good = core.copy()
+    if skin is not None:
+        sl = np.asarray(skin, np.float32) @ np.array([0.299, 0.587, 0.114], np.float32)
+        skin_l = float(np.median(sl[head & ~ndimage.binary_dilation(core, iterations=3)]))
+        good = core & (sl < skin_l - 4)
+        truly = good.copy()                              # the paint's own colour comes only from these
+        # a splotch is lifted skin at the paint's EDGE (it touches the skin outside the shape); a light patch enclosed
+        # by paint is paint (user: "a hole with base colour passing through"), so only edge-touching patches are cut
+        outside = ndimage.binary_dilation(~ndimage.binary_dilation(m, iterations=1), iterations=1)
+        hl, nh = ndimage.label(core & ~good)
+        if nh:
+            touch = np.unique(hl[outside & (hl > 0)])
+            good |= (hl > 0) & ~np.isin(hl, touch)
+        good = ndimage.binary_fill_holes(good) & m | good
+    # user (batch 2): the off-colour splotches are cut out of the marking, not recoloured - pixels of the shape that
+    # are lighter than the paint (lifted skin) lose their alpha; the rim keeps its anti-aliasing, coloured from the paint
+    if skin is not None:
+        # only true paint and its own anti-aliased rim keep alpha
+        alpha = alpha * np.clip(ndimage.gaussian_filter(ndimage.binary_dilation(good, iterations=1).astype(np.float32), 0.6) * 1.5, 0, 1)
+        if truly.any():                                  # enclosed light patches are paint: the paint's colour
+            _, (iy, ix) = ndimage.distance_transform_edt(~truly, return_indices=True)
+            rgb = np.where(truly[..., None], rgb, rgb[iy, ix])
+    if good.any():
+        _, (iy, ix) = ndimage.distance_transform_edt(~good, return_indices=True)
+        rgb = np.where(good[..., None], rgb, rgb[iy, ix])
+    return np.dstack([np.clip(rgb, 0, 255), np.clip(alpha * 255, 0, 255)]).astype(np.uint8)
+
+
+def hires_paint(layer, head, thresh=0.3, close=6):
+    """A face paint redrawn sharp: the head block upscaled x4 (alpha and the unmatted colour separately), the alpha
+    rebuilt as a crisp matte there - threshold, gaps closed (broken thin lines, the female 17 nose-bridge gap), a
+    ~1.5 px feather - then brought back to atlas size with a box filter, which leaves clean 1 px anti-aliased edges."""
+    ys, xs = np.nonzero(head)
+    y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
+    blk = layer[y0:y1, x0:x1].astype(np.float32)
+    a = blk[..., 3] / 255
+    solid = a > 0.6
+    rgb = blk[..., :3]
+    if solid.any():
+        _, (iy, ix) = ndimage.distance_transform_edt(~solid, return_indices=True)
+        rgb = rgb[iy, ix]
+    big_rgb = esrgan4(rgb)
+    big_a = esrgan4(np.repeat(blk[..., 3:4], 3, axis=2)).mean(axis=2) / 255
+    m = big_a > thresh
+    if close:
+        st = ndimage.generate_binary_structure(2, 1)
+        m = ndimage.binary_closing(np.pad(m, close), structure=st, iterations=close)[close:-close, close:-close]
+    lab_, n = ndimage.label(m)
+    if n:
+        m = np.isin(lab_, 1 + np.flatnonzero(ndimage.sum(m, lab_, range(1, n + 1)) >= 64))
+    alpha = ndimage.gaussian_filter(m.astype(np.float32), 1.5)
+    # keep the paint's own opacity inside (translucent washes stay translucent), crisp edge from the matte
+    inner = np.clip(ndimage.gaussian_filter(big_a, 2.0) * 1.15, 0, 1)
+    alpha = alpha * np.maximum(inner, 0.85 * m)
+    h, w = a.shape
+    out_rgb = np.asarray(Image.fromarray(np.clip(big_rgb, 0, 255).astype(np.uint8)).resize((w, h), Image.BOX), np.float32)
+    out_a = np.asarray(Image.fromarray(np.clip(alpha * 255, 0, 255).astype(np.uint8)).resize((w, h), Image.BOX), np.float32)
+    out = layer.copy()
+    out[y0:y1, x0:x1, :3] = out_rgb.astype(np.uint8)
+    out[y0:y1, x0:x1, 3] = out_a.astype(np.uint8)
     return out
 
 
@@ -504,12 +735,13 @@ def split_markings(files, query, preview=None, table=None, extra=False):
                 # batch 2: the first pair's cut, kept only where it is pattern on ANY skin (see skin_agnostic); fire =
                 # the orange / yellow flames instead of fel green
                 agree = None
+                gl = (5, 60) if mode == 'agnostic_fire' else (60, 170)
                 if (race, g, kind) in AGREE:
                     d2, b2 = AGREE[(race, g, kind)]
-                    l2, _m2, _v2, mt2 = cut(atlas(race, g, d2), atlas(race, g, b2), race, g, parts, strength)
-                    agree = skin_agnostic(l2, atlas(race, g, d2), mt2)[..., 3] > 40
-                layer = skin_agnostic(cuts[0][0], atlas(race, g, donor), cuts[0][3],
-                                      glow=(5, 60) if mode == 'agnostic_fire' else (60, 170), agree=agree)
+                    agree = demon_skin(atlas(race, g, d2), atlas(race, g, b2), gl)[0][..., 3] > 60
+                layer, _core = demon_skin(atlas(race, g, donor), atlas(race, g, base), gl, agree)
+                body_r, head_r, _eye_r = regions(race, g)
+                layer[..., 3][~body_r] = 0
                 if (race, g) == (4, 0):
                     layer[..., 3][regions(race, g)[1]] = 0   # Illidari male's face row is the blindfold: body only
                 how, scores, cands = 'agnostic', [0.0], [('agnostic', layer)]
@@ -524,6 +756,24 @@ def split_markings(files, query, preview=None, table=None, extra=False):
             if extra and (race, g, kind) in ROUND2_HUE:
                 layer = keep_hue(layer, *ROUND2_HUE[(race, g, kind)])
                 how += ' - hue'
+            if extra and (race, g, kind) in FLAT:
+                body_r, head_r, eye_r = regions(race, g)
+                pd, pb = FLAT[(race, g, kind)]
+                partner = cut(atlas(race, g, pd), atlas(race, g, pb), race, g, parts, strength)[0][..., 3]
+                layer = flat_paint(cuts[0][0], partner, head_r, eye_r,
+                                   skin=atlas(race, g, donor) if (race, g, kind) in SPLOTCHY else None)
+                how += ' - flat paint'
+            if extra and (race, g, kind) in HIRES:
+                layer = hires_paint(layer, regions(race, g)[1], *HIRES[(race, g, kind)])
+                layer[..., 3][regions(race, g)[2]] = 0           # the paints stay off the eyeball
+                how += ' - hires'
+            if extra and (race, g, kind) in DARKEN:
+                # batch-2 review (user): the Cultist paints read too light on the clean skin - darker paint, more of it
+                scale, gain = DARKEN[(race, g, kind)]
+                layer = layer.copy()
+                layer[..., :3] = np.clip(layer[..., :3].astype(np.float32) * scale, 0, 255).astype(np.uint8)
+                layer[..., 3] = np.clip(layer[..., 3].astype(np.float32) * gain, 0, 255).astype(np.uint8)
+                how += f' - darker x{scale} alpha x{gain}'
             if extra and (race, g, kind) in ROUND2_DROP:
                 layer = drop_regions(layer, ROUND2_DROP[(race, g, kind)])
                 how += ' - ' + ', '.join(ROUND2_DROP[(race, g, kind)])
@@ -602,13 +852,12 @@ ROUND3 = {                                       # n >= 111: the source is flagg
 # -> (hue in degrees or None = the layer's own dominant hue, least HSV value): fel is the bright green glow (~100)
 ROUND2_HUE = {(4, 1, 116): (None, 0.4), (4, 1, 117): (None, 0.4), (4, 1, 118): (None, 0.4),
               (4, 0, 112): (100, 0.35), (4, 1, 112): (100, 0.35), (11, 0, 111): (100, 0.35), (11, 1, 111): (100, 0.35)}
-if os.environ.get('F230_STAGE_B2'):
+if True:   # batch 2 shipped (2026-11-01): violet runes as a self cut
     # batch-2 candidates for shipped round-3 values: Illidari male violet runes as a self cut (as white / blue), fel
     # slashes skin-agnostic (green glow + dark) instead of the glow-only hue filter
-    ROUND3[(4, 0)] = [(s, k, n, p, pt, st, 'self') if k == 114 else
-                      (s, k, n, p, pt, (60, 40), 'agnostic') if k == 112 else (s, k, n, p, pt, st, *o)
+    # (the fel slashes' agnostic cut is parked with the other fel patterns: it keeps its shipped cut)
+    ROUND3[(4, 0)] = [(s, k, n, p, pt, st, 'self') if k == 114 else (s, k, n, p, pt, st, *o)
                       for s, k, n, p, pt, st, *o in ROUND3[(4, 0)]]
-    del ROUND2_HUE[(4, 0, 112)]
 # (round 5: the fel slashes / fel lines are self cuts now; the hue filter kept only their glow)
 
 
@@ -973,10 +1222,17 @@ def troll_paint_sources(files, query, preview=None):
 # masked), so they would be values nobody can pick - they come back as blindfold + runes combinations if wanted.
 BATCH_ON = {'Bat eye sockets', 'Black eye sockets', 'Illidari blindfold', 'Illidari blindfold dark'}
 SHIPPED = set(BATCH_ON)                      # batch 1 (2026-11-01); later batches are added here as they ship
+# batch 2 (2026-11-01, user: "they look good, ship em"): the Cultist paints - round 6 (own migration)
+BATCH2_SHIPPED = {'Cultist pale points', 'Cultist dark mask', 'Cultist tear crescents pale', 'Cultist tear crescents dark',
+                  'Cultist tear streaks', 'Cultist tear streaks dark'}
+BATCH_ON |= BATCH2_SHIPPED
 # batch-2 candidates: on only in a staged proof run (F230_STAGE_B2=1), merged into BATCH_ON once approved
-BATCH2 = {'Fel pattern red', 'Fel pattern lilac', 'Illidari fel fire tattoo',
-          'Cultist pale points', 'Cultist dark mask', 'Cultist tear crescents pale', 'Cultist tear crescents dark',
+# batch 2 (2026-11-01): the Cultist paints. PARKED (user: "pin them across all races as defective ... block the
+# markings from shipping"): every fel / demon-skin / fire pattern - Fel pattern red / lilac (Eredar M / F), Illidari fel
+# fire tattoo, the agnostic fel slashes - stays off until the fel extraction issue note is resolved
+BATCH2 = {'Cultist pale points', 'Cultist dark mask', 'Cultist tear crescents pale', 'Cultist tear crescents dark',
           'Cultist tear streaks', 'Cultist tear streaks dark'}
+FEL_PARKED = {'Fel pattern red', 'Fel pattern lilac', 'Illidari fel fire tattoo'}
 if os.environ.get('F230_STAGE_B2'):
     BATCH_ON |= BATCH2
 
@@ -988,6 +1244,8 @@ def _batch(sources):
         return f"{s['design']} {s.get('colour') or ''}".strip() in names or s['design'] in names
     shipped = [s for s in sources if s.get('round') != 5 or on(s, SHIPPED)]
     staged = [s for s in sources if s.get('round') == 5 and not on(s, SHIPPED) and on(s, BATCH_ON)]
+    for s in staged:                       # round 6: batch 2 gets its own migration (round 5's is applied)
+        s['round'] = 6
     return shipped + staged
 
 
