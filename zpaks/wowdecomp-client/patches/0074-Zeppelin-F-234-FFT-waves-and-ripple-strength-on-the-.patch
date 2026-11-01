@@ -1,0 +1,1329 @@
+From b0d2c2b462e07bf7f3f4b2e47ed0169e2ac22d97 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 23:55:25 +0000
+Subject: [PATCH] Zeppelin F-234: FFT waves and ripple strength on the Vulkan
+ Cata water (no water shader change)
+
+- The Cata water pixel shaders derive normals from one-texel height differences of the ripple maps (s4/s8). A new
+  composite pass (CataRippleWaves.frag) writes two maps the water samples instead: 128 yd = Cata ripples x strength +
+  ship hulls + FFT waves (full to 40 yd, fading by 58 yd); 512 yd = waves alone (to 205-246 yd). Heights from the same
+  CPU FFT as D3D9 (HD::WaterWavesSample, device-free), Hermite-interpolated from the FFT slopes, scaled so the normal
+  tilt equals the wave slope; spectrum from the nearest Cata water's Forever liquid type.
+- hdWaterWaves / hdWaterWaveScale / hdWaterRipples / hdWaterRippleStrength now work on Vulkan; waves off and strength
+  1 = the old path at no cost. hdCataWaterInfo reports ripples and waves.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Gx/CGxDeviceVulkan/hd/CataRipples.cpp     | 364 +++++++++++++++++-
+ .../Gx/CGxDeviceVulkan/hd/CataRipples.h       |  31 +-
+ .../hd/shaders/CataRippleWaves.frag           |  78 ++++
+ .../hd/shaders/CataRippleWaves.frag.spv.h     | 309 +++++++++++++++
+ Engine/Source/Gx/GxSeam.h                     |  12 +
+ WoW/Source/WorldClient/HD/HdCataRipples.cpp   |  62 ++-
+ WoW/Source/WorldClient/HD/HdCataRipples.h     |  13 +
+ WoW/Source/WorldClient/HD/HdCataWater.cpp     |  10 +-
+ WoW/Source/WorldClient/HD/HdWater.cpp         |   8 +
+ WoW/Source/WorldClient/HD/HdWater.h           |   4 +
+ WoW/Source/WorldClient/HD/HdWaterRipples.cpp  |  13 +-
+ WoW/Source/WorldClient/HD/HdWaterRipples.h    |   5 +
+ WoW/Source/WorldClient/HD/HdWaterWaves.cpp    |  46 ++-
+ WoW/Source/WorldClient/HD/HdWaterWaves.h      |   9 +
+ 14 files changed, 945 insertions(+), 19 deletions(-)
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/CataRippleWaves.frag
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/CataRippleWaves.frag.spv.h
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/CataRipples.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/CataRipples.cpp
+index 703d4515..01938af1 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/CataRipples.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/CataRipples.cpp
+@@ -17,6 +17,7 @@
+ #include "shaders/CataRipplePerturb.frag.spv.h"
+ #include "shaders/CataRipplePerturb.vert.spv.h"
+ #include "shaders/CataRipplePropagate.frag.spv.h"
++#include "shaders/CataRippleWaves.frag.spv.h"   // Zeppelin F-234
+ 
+ namespace HD::CataWater {
+ namespace {
+@@ -30,6 +31,24 @@ constexpr float kDisplMapScale[2] = {1.0f, 1.0f};            // s_displMapScale
+ constexpr float kPerturbAmplitudeScale[2] = {1.25f, 0.25f};  // s_perturbAmplitudeScale
+ constexpr uint32_t kProxySlot = 5;                           // draw/Proxy.hpp: 0..4 the bridge's
+ constexpr uint32_t kMaxPerturbations = 256;                  // Liquid::CreatePerturbator / AddPerturbation
++// Zeppelin F-234: the FFT waves in the maps (CataRipples.h). Output 0 carries them near the player at Cata's texel
++// (0.125 yd), output 1 over a 512 yd window (0.5 yd) beyond; the hand-over is complementary, so the sum is the waves.
++constexpr VkFormat kWaveFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
++constexpr float kFarSize = 512.0f;
++constexpr float kNearFull = 40.0f, kNearZero = 58.0f;        // yards from the player: output 0's waves fade out
++constexpr float kFarFull = 205.0f, kFarZero = 246.0f;        // output 1's fade out (its window's half is 256)
++constexpr float kFarMinTile = 32.0f;                         // output 1 skips the cascades finer than its texels show
++
++uint16_t Half(float v) {
++    uint32_t x;
++    memcpy(&x, &v, 4);
++    const uint32_t sign = (x >> 16) & 0x8000u;
++    const int32_t e = static_cast<int32_t>((x >> 23) & 0xFF) - 127 + 15;
++    const uint32_t mant = x & 0x7FFFFFu;
++    if (e <= 0) return static_cast<uint16_t>(sign);
++    if (e >= 31) return static_cast<uint16_t>(sign | 0x7BFFu);
++    return static_cast<uint16_t>(sign | (static_cast<uint32_t>(e) << 10) | (mant >> 13));
++}
+ 
+ struct Op {
+     enum Kind { Perturb, Propagate } kind;
+@@ -123,6 +142,13 @@ bool Ripples::Initialize(const WXL_VkRenderApi* api) {
+         return false;
+     }
+     streams_.assign(device_.frameSlots, Stream());
++    // Zeppelin F-234: optional; without it the ripples run as Cata's, without the waves or a strength.
++    waveStaging_.assign(device_.frameSlots, Stream());
++    if (!CompositePipeline()) {
++        wxl::ScriptMgr::Log(WXL_LOG_WARN, "cata water: ripples: the waves' composite pipeline failed (no waves, ripple strength fixed at 1)");
++        if (composite_) d.DestroyPipeline(device_.device, composite_, nullptr);
++        composite_ = VK_NULL_HANDLE;
++    }
+ 
+     WXL_VkStageDesc stage{};
+     stage.structSize = sizeof stage;
+@@ -292,12 +318,120 @@ bool Ripples::Pipelines() {
+     return true;
+ }
+ 
++// Zeppelin F-234: the composite (CataRippleWaves.frag): the full-map triangle into an output map, written as it is.
++bool Ripples::CompositePipeline() {
++    const wxlvk::vk::loader::Device& d = *context::Get()->dapi;
++    VkShaderModuleCreateInfo module = {};
++    module.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
++    module.codeSize = sizeof kCataRippleWavesSpv;
++    module.pCode = kCataRippleWavesSpv;
++    if (d.CreateShaderModule(device_.device, &module, nullptr, &compositeModule_) != VK_SUCCESS) return false;
++    VkDescriptorSetLayoutBinding bindings[3] = {};
++    for (uint32_t i = 0; i < 3; ++i) {
++        bindings[i].binding = i;
++        bindings[i].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
++        bindings[i].descriptorCount = 1;
++        bindings[i].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
++    }
++    VkDescriptorSetLayoutCreateInfo setLayout = {};
++    setLayout.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
++    setLayout.bindingCount = 3;
++    setLayout.pBindings = bindings;
++    if (d.CreateDescriptorSetLayout(device_.device, &setLayout, nullptr, &compositeSetLayout_) != VK_SUCCESS) return false;
++    VkPushConstantRange range = {VK_SHADER_STAGE_FRAGMENT_BIT, 0, 28 * sizeof(float)};
++    VkPipelineLayoutCreateInfo layout = {};
++    layout.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
++    layout.setLayoutCount = 1;
++    layout.pSetLayouts = &compositeSetLayout_;
++    layout.pushConstantRangeCount = 1;
++    layout.pPushConstantRanges = &range;
++    if (d.CreatePipelineLayout(device_.device, &layout, nullptr, &compositeLayout_) != VK_SUCCESS) return false;
++    VkSamplerCreateInfo sampler = {};
++    sampler.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
++    sampler.magFilter = sampler.minFilter = VK_FILTER_NEAREST;   // texelFetch reads it; nearest keeps it valid anywhere
++    sampler.mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST;
++    sampler.addressModeU = sampler.addressModeV = sampler.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
++    if (d.CreateSampler(device_.device, &sampler, nullptr, &repeat_) != VK_SUCCESS) return false;
++    VkDescriptorPoolSize size = {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 3 * 6};
++    VkDescriptorPoolCreateInfo pool = {};
++    pool.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
++    pool.maxSets = 6;
++    pool.poolSizeCount = 1;
++    pool.pPoolSizes = &size;
++    if (d.CreateDescriptorPool(device_.device, &pool, nullptr, &compositePool_) != VK_SUCCESS) return false;
++    VkDescriptorSetLayout layouts[6];
++    for (auto& l : layouts) l = compositeSetLayout_;
++    VkDescriptorSetAllocateInfo allocate = {};
++    allocate.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
++    allocate.descriptorPool = compositePool_;
++    allocate.descriptorSetCount = 6;
++    allocate.pSetLayouts = layouts;
++    if (d.AllocateDescriptorSets(device_.device, &allocate, compositeSets_) != VK_SUCCESS) return false;
++
++    VkPipelineShaderStageCreateInfo stages[2] = {};
++    stages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
++    stages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
++    stages[0].module = modules_[0];   // CataRippleFull.vert
++    stages[0].pName = "main";
++    stages[1] = stages[0];
++    stages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
++    stages[1].module = compositeModule_;
++    VkPipelineVertexInputStateCreateInfo none = {};
++    none.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
++    VkPipelineInputAssemblyStateCreateInfo assembly = {};
++    assembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
++    assembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
++    VkPipelineViewportStateCreateInfo viewport = {};
++    viewport.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
++    viewport.viewportCount = 1;
++    viewport.scissorCount = 1;
++    VkPipelineRasterizationStateCreateInfo raster = {};
++    raster.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
++    raster.polygonMode = VK_POLYGON_MODE_FILL;
++    raster.cullMode = VK_CULL_MODE_NONE;
++    raster.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
++    raster.lineWidth = 1.0f;
++    VkPipelineMultisampleStateCreateInfo multisample = {};
++    multisample.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
++    multisample.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
++    VkPipelineColorBlendAttachmentState attachment = {};
++    attachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT;
++    VkPipelineColorBlendStateCreateInfo blend = {};
++    blend.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
++    blend.attachmentCount = 1;
++    blend.pAttachments = &attachment;
++    const VkDynamicState dynamics[2] = {VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR};
++    VkPipelineDynamicStateCreateInfo dynamic = {};
++    dynamic.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
++    dynamic.dynamicStateCount = 2;
++    dynamic.pDynamicStates = dynamics;
++    VkGraphicsPipelineCreateInfo info = {};
++    info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
++    info.stageCount = 2;
++    info.pStages = stages;
++    info.pVertexInputState = &none;
++    info.pInputAssemblyState = &assembly;
++    info.pViewportState = &viewport;
++    info.pRasterizationState = &raster;
++    info.pMultisampleState = &multisample;
++    info.pColorBlendState = &blend;
++    info.pDynamicState = &dynamic;
++    info.layout = compositeLayout_;
++    info.renderPass = load_;
++    info.basePipelineIndex = -1;
++    if (d.CreateGraphicsPipelines(device_.device, pipelines::PipelineCache(), 1, &info, nullptr, &composite_) != VK_SUCCESS) {
++        composite_ = VK_NULL_HANDLE;
++        return false;
++    }
++    return true;
++}
++
+ bool Ripples::Maps() {
+     if (images_[0].framebuffer) return true;
+     const context::Handles* h = context::Get();
+     if (!h || !h->dapi) return false;
+     const wxlvk::vk::loader::Device& d = *h->dapi;
+-    for (uint32_t i = 0; i < 2 * kMaps; ++i) {
++    for (uint32_t i = 0; i < 2 * kMaps + (composite_ ? kOutputs : 0); ++i) {   // Zeppelin F-234: and the outputs
+         Image& image = images_[i];
+         WXL_VkImageDesc desc{};
+         desc.format = kMapFormat;
+@@ -319,6 +453,7 @@ bool Ripples::Maps() {
+             error_ = "ripples: map allocation failed";
+             return false;
+         }
++        if (i >= 2 * kMaps) continue;   // an output is never a propagation's source
+         VkDescriptorImageInfo source = {point_, image.info.view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL};
+         VkWriteDescriptorSet write = {};
+         write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+@@ -328,6 +463,38 @@ bool Ripples::Maps() {
+         write.pImageInfo = &source;
+         d.UpdateDescriptorSets(device_.device, 1, &write, 0, nullptr);
+     }
++    // Zeppelin F-234: the waves' array and the composite's sets, written once (the maps they name never change).
++    if (composite_) {
++        WXL_VkImageDesc desc{};
++        desc.format = kWaveFormat;
++        desc.width = kWaveTexels;
++        desc.height = kWaveTexels * kWaveLayers;   // the cascades one under the other (no array layers in the API)
++        desc.mipLevels = 1;
++        desc.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
++        desc.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
++        wavesHandle_ = api_->CreateImage(&desc, &waves_);
++        if (!wavesHandle_ || !waves_.view) {
++            Retire(0);
++            error_ = "ripples: waves' array allocation failed";
++            return false;
++        }
++        wavesUploaded_ = false;
++        waveSerial_ = 0;
++        for (uint32_t k = 0; k < 6; ++k) {
++            const uint32_t a = k < 4 ? k / 2 : 2 + (k - 4);
++            const uint32_t b = k < 4 ? 2 + (k & 1) : a;
++            VkDescriptorImageInfo infos[3] = {{point_, images_[a].info.view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL},
++                                              {point_, images_[b].info.view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL},
++                                              {repeat_, waves_.view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL}};
++            VkWriteDescriptorSet write = {};
++            write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
++            write.dstSet = compositeSets_[k];
++            write.descriptorCount = 3;
++            write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
++            write.pImageInfo = infos;
++            d.UpdateDescriptorSets(device_.device, 1, &write, 0, nullptr);
++        }
++    }
+     dirty_ = true;
+     return true;
+ }
+@@ -411,7 +578,10 @@ void Ripples::Enable(bool enabled) {
+ 
+ int __cdecl Ripples::Wanted(void* self) {
+     const Ripples* r = static_cast<Ripples*>(self);
+-    return r->enabled_ && g_gxCataRipples.m_wanted ? 1 : 0;
++    // Zeppelin F-234: and something to put in the maps: the ripples (hdWaterRipples) or the waves (hdWaterWaves).
++    const GxCataRipples& io = g_gxCataRipples;
++    const bool content = io.m_ripples || (io.m_waves && io.m_waveCount && r->composite_);
++    return r->enabled_ && io.m_wanted && content ? 1 : 0;
+ }
+ 
+ void __cdecl Ripples::Run(void* self, const WXL_VkStageContext* ctx) {
+@@ -454,12 +624,87 @@ void Ripples::BeginPass(VkCommandBuffer cmd, uint32_t image, bool clear) {
+ // Cata Liquid::ClearDisplMap: every map to 0.
+ void Ripples::Clear(VkCommandBuffer cmd) {
+     const wxlvk::vk::loader::Device& d = *context::Get()->dapi;
+-    for (uint32_t i = 0; i < 2 * kMaps; ++i) {
++    for (uint32_t i = 0; i < 2 * kMaps + kOutputs; ++i) {   // Zeppelin F-234: and the outputs
++        if (!images_[i].framebuffer) continue;
+         BeginPass(cmd, i, true);
+         d.CmdEndRenderPass(cmd);
+     }
+ }
+ 
++// Zeppelin F-234: this frame's waves into the array (when the engine stepped them); the first time, the array is
++// cleared and made readable whatever comes. Outside any render pass, before the composite.
++bool Ripples::Waves(VkCommandBuffer cmd, const WXL_VkStageContext& ctx) {
++    const GxCataRipples& in = g_gxCataRipples;
++    const wxlvk::vk::loader::Device& d = *context::Get()->dapi;
++    VkImageMemoryBarrier barrier = {};
++    barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
++    barrier.srcQueueFamilyIndex = barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
++    barrier.image = waves_.image;
++    barrier.subresourceRange = {VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1};
++    if (!wavesUploaded_) {
++        barrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
++        barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
++        barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
++        d.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
++        const VkClearColorValue zero = {};
++        d.CmdClearColorImage(cmd, waves_.image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, &zero, 1, &barrier.subresourceRange);
++        barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
++        barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
++        barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
++        barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
++        d.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
++        wavesUploaded_ = true;
++        waveSerial_ = 0;
++    }
++    if (!in.m_waves || !in.m_waveCount || in.m_waveCount > kWaveLayers) return false;
++    if (in.m_waveSerial == waveSerial_) return true;
++    Stream& staging = waveStaging_[ctx.frameSlot];
++    if (staging.lastSerial > ctx.completedSerial) return true;   // keep last frame's waves
++    const uint32_t layerTexels = kWaveTexels * kWaveTexels;
++    if (!staging.handle) {
++        WXL_VkBufferDesc desc{VkDeviceSize(kWaveLayers) * layerTexels * 4 * sizeof(uint16_t), VK_BUFFER_USAGE_TRANSFER_SRC_BIT, WXL_VK_MEMORY_STREAM};
++        staging.handle = api_->CreateBuffer(&desc, &staging.info);
++        if (!staging.handle || !staging.info.mapped) {
++            if (staging.handle) api_->RetireBuffer(staging.handle, 0);
++            staging = Stream();
++            return true;
++        }
++    }
++    uint16_t* out = static_cast<uint16_t*>(staging.info.mapped);
++    const size_t count = static_cast<size_t>(in.m_waveCount) * layerTexels * 4;
++    for (size_t i = 0; i < count; ++i) out[i] = Half(in.m_waves[i]);
++    api_->FlushBuffer(staging.handle);
++    staging.lastSerial = ctx.serial;
++    barrier.oldLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;   // the composites before read it
++    barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
++    barrier.srcAccessMask = 0;
++    barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
++    d.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
++    VkBufferImageCopy region = {};
++    region.bufferOffset = 0;
++    region.imageSubresource = {VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1};
++    region.imageExtent = {kWaveTexels, kWaveTexels * in.m_waveCount, 1};
++    d.CmdCopyBufferToImage(cmd, staging.info.buffer, waves_.image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
++    barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
++    barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
++    barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
++    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
++    d.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
++    waveSerial_ = in.m_waveSerial;
++    return true;
++}
++
++// Zeppelin F-234: one output map (CataRippleWaves.frag); push = the shader's seven vec4.
++void Ripples::Composite(VkCommandBuffer cmd, uint32_t out, VkDescriptorSet set, const float push[28]) {
++    const wxlvk::vk::loader::Device& d = *context::Get()->dapi;
++    BeginPass(cmd, 2 * kMaps + out, false);
++    d.CmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, composite_);
++    d.CmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, compositeLayout_, 0, 1, &set, 0, nullptr);
++    d.CmdPushConstants(cmd, compositeLayout_, VK_SHADER_STAGE_FRAGMENT_BIT, 0, 28 * sizeof(float), push);
++    d.CmdDraw(cmd, 3, 1, 0, 0);
++    d.CmdEndRenderPass(cmd);
++}
++
+ // Cata Liquid::PerturbDisplMap: each perturbation (x, y, radius, amplitude, period) a quad of perturbTex around its
+ // texel, in the map as it lies now (rawPos). In Vulkan's NDC (y down, the map's first row on top as in D3D's), without
+ // D3D9's half-texel shift.
+@@ -530,6 +775,12 @@ void Ripples::Record(const WXL_VkStageContext& ctx) {
+         startTime_ = time;
+     }
+     SetDisplMapInfo(io.m_center);
++    // Zeppelin F-234: hdWaterRipples. Off, nothing perturbs or steps the maps; they stay clear and follow the player.
++    const bool ripples = io.m_ripples != 0;
++    if (ripples != lastRipples_) {
++        dirty_ = true;
++        lastRipples_ = ripples;
++    }
+     if (dirty_) {
+         Clear(ctx.cmd);
+         dirty_ = false;
+@@ -548,8 +799,14 @@ void Ripples::Record(const WXL_VkStageContext& ctx) {
+         if (op.quadCount || op.meshCount) ops.push_back(op);
+     };
+     // This frame's events (the rain's drops: surface 0), into each map as it is now.
+-    perturb(0, io.m_events, io.m_eventCount, false);
++    if (ripples) perturb(0, io.m_events, io.m_eventCount, false);
+     for (uint32_t i = 0; i < kMaps; ++i) {
++        if (!ripples) {   // Zeppelin F-234
++            memcpy(rawPos_[i], pos_[i], sizeof rawPos_[i]);
++            interpolation_[i] = 0.0f;
++            lastTime_[i] = time;
++            continue;
++        }
+         const uint32_t period = period_[i];
+         const uint32_t elapsed = time - lastTime_[i];
+         const uint32_t steps = elapsed / period;
+@@ -632,15 +889,83 @@ void Ripples::Record(const WXL_VkStageContext& ctx) {
+     }
+     lastSerial_ = ctx.serial;
+ 
++    // Zeppelin F-234: the composite (CataRipples.h), while the waves run or the ripples are not Cata's own.
++    const float strength = ripples ? io.m_rippleStrength : 0.0f;
++    const bool wavesIn = io.m_waves && io.m_waveCount && io.m_waveCount <= kWaveLayers;
++    const bool compose = composite_ && wavesHandle_ && images_[2 * kMaps].framebuffer &&
++                         (wavesIn || !ripples || std::fabs(strength - 1.0f) > 1e-3f);
++    bool wavesOn = false;
++    float outPos[kMaps][3], outSize[kMaps][2], outInterpolation[kMaps];
++    for (uint32_t i = 0; i < kMaps; ++i) {
++        memcpy(outPos[i], rawPos_[i], sizeof outPos[i]);
++        memcpy(outSize[i], size_[i], sizeof outSize[i]);
++        outInterpolation[i] = interpolation_[i];
++    }
++    if (compose) {
++        wavesOn = Waves(ctx.cmd, ctx) && wavesIn && waveSerial_ != 0;
++        // The map's height units per yard: the water's normal is (one-texel height difference) x c23.z, and the
++        // waves' should be their slope: units = 1 / (texel yards x c23.z).
++        const float normal = io.m_waveNormal > 0.05f ? io.m_waveNormal : 2.5f;
++        auto tiles = [&](float* push, const float corner[3], float size, float minTile) {
++            for (uint32_t c = 0; c < kWaveLayers; ++c) {
++                const float tile = c < io.m_waveCount ? io.m_waveTile[c] : 0.0f;
++                if (!(tile >= 1.0f) || tile < minTile) continue;
++                const double u = static_cast<double>(corner[0]) / tile, v = static_cast<double>(corner[1]) / tile;
++                push[16 + 2 * c] = static_cast<float>(u - std::floor(u));
++                push[17 + 2 * c] = static_cast<float>(v - std::floor(v));
++                push[24 + c] = size / tile;
++            }
++        };
++        // Output 0: map 0 x strength, with the waves: the hulls' map folded in and the waves near the player.
++        float push[28] = {};
++        push[2] = strength;
++        if (wavesOn) {
++            push[4] = (rawPos_[0][0] - rawPos_[1][0]) / size_[1][0];
++            push[5] = (rawPos_[0][1] - rawPos_[1][1]) / size_[1][1];
++            push[6] = strength;
++            push[7] = interpolation_[1];
++            push[10] = kNearFull / size_[0][0];
++            push[11] = kNearZero / size_[0][0];
++            push[12] = 1.0f / ((size_[0][0] / kTexSize) * normal);
++            push[13] = size_[0][0];
++            tiles(push, rawPos_[0], size_[0][0], 0.0f);
++        }
++        Composite(ctx.cmd, 0, compositeSets_[2 * (current_[0] & 1) + (current_[1] & 1)], push);
++        // Output 1: with the waves, the waves alone over the far window; without, map 1 x strength.
++        float distant[28] = {};
++        if (wavesOn) {
++            const float texel = kFarSize / kTexSize;
++            farPos_[0] = std::floor((io.m_center[0] - kFarSize * 0.5f) / texel) * texel;
++            farPos_[1] = std::floor((io.m_center[1] - kFarSize * 0.5f) / texel) * texel;
++            farPos_[2] = io.m_center[2];
++            distant[8] = kNearFull / kFarSize;
++            distant[9] = kNearZero / kFarSize;
++            distant[10] = kFarFull / kFarSize;
++            distant[11] = kFarZero / kFarSize;
++            distant[12] = 1.0f / (texel * normal);
++            distant[13] = kFarSize;
++            tiles(distant, farPos_, kFarSize, kFarMinTile);
++            memcpy(outPos[1], farPos_, sizeof farPos_);
++            outSize[1][0] = outSize[1][1] = kFarSize;
++            outInterpolation[1] = 0.0f;   // its two steps are the same
++        } else {
++            distant[2] = strength;
++        }
++        Composite(ctx.cmd, 1, compositeSets_[4 + (current_[1] & 1)], distant);
++    }
++    io.m_wavesOn = wavesOn ? 1 : 0;
++    io.m_waveReach[0] = kNearFull;
++    io.m_waveReach[1] = kFarZero;
++
+     // Where the maps are, for the water (Cata SetDisplacementConstants), and their images on the proxies.
+     namespace proxy = wxlvk::draw::proxy;
+     for (uint32_t i = 0; i < kMaps; ++i) {
+-        memcpy(io.m_rawPos[i], rawPos_[i], sizeof rawPos_[i]);
+-        io.m_size[i][0] = size_[i][0];
+-        io.m_size[i][1] = size_[i][1];
++        memcpy(io.m_rawPos[i], outPos[i], sizeof outPos[i]);
++        io.m_size[i][0] = outSize[i][0];
++        io.m_size[i][1] = outSize[i][1];
+         io.m_texSize[i] = kTexSize;
+-        io.m_interpolation[i] = interpolation_[i];
+-        const Image& image = images_[current_[i]];
++        io.m_interpolation[i] = outInterpolation[i];
++        const Image& image = images_[compose ? 2 * kMaps + i : current_[i]];
+         proxy::Set(kProxySlot + i, io.m_proxy[i],
+                    {image.info.image, image.info.view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, kMapFormat, {kTexSize, kTexSize}}, ctx.serial);
+     }
+@@ -649,6 +974,10 @@ void Ripples::Record(const WXL_VkStageContext& ctx) {
+ 
+ void Ripples::Retire(uint64_t serial) {
+     const context::Handles* h = context::Get();
++    if (wavesHandle_) api_->RetireImage(wavesHandle_, serial);   // Zeppelin F-234
++    wavesHandle_ = nullptr;
++    waves_ = WXL_VkImageInfo{};
++    wavesUploaded_ = false;
+     for (Image& image : images_) {
+         if (image.framebuffer && h && h->dapi) h->dapi->DestroyFramebuffer(device_.device, image.framebuffer, nullptr);
+         if (image.handle) api_->RetireImage(image.handle, serial);
+@@ -672,6 +1001,9 @@ void Ripples::StopAndDestroy() {
+     for (Stream& s : streams_)
+         if (s.handle) api_->RetireBuffer(s.handle, s.lastSerial);
+     streams_.clear();
++    for (Stream& s : waveStaging_)   // Zeppelin F-234
++        if (s.handle) api_->RetireBuffer(s.handle, s.lastSerial);
++    waveStaging_.clear();
+     if (textureHandle_) api_->RetireImage(textureHandle_, lastSerial_);
+     textureHandle_ = nullptr;
+     textureReady_ = false;
+@@ -689,7 +1021,21 @@ void Ripples::StopAndDestroy() {
+         if (linear_) d.DestroySampler(device_.device, linear_, nullptr);
+         if (load_) d.DestroyRenderPass(device_.device, load_, nullptr);
+         if (clear_) d.DestroyRenderPass(device_.device, clear_, nullptr);
++        // Zeppelin F-234
++        if (composite_) d.DestroyPipeline(device_.device, composite_, nullptr);
++        if (compositeModule_) d.DestroyShaderModule(device_.device, compositeModule_, nullptr);
++        if (compositeLayout_) d.DestroyPipelineLayout(device_.device, compositeLayout_, nullptr);
++        if (compositePool_) d.DestroyDescriptorPool(device_.device, compositePool_, nullptr);
++        if (compositeSetLayout_) d.DestroyDescriptorSetLayout(device_.device, compositeSetLayout_, nullptr);
++        if (repeat_) d.DestroySampler(device_.device, repeat_, nullptr);
+     }
++    composite_ = VK_NULL_HANDLE;
++    compositeModule_ = VK_NULL_HANDLE;
++    compositeLayout_ = VK_NULL_HANDLE;
++    compositePool_ = VK_NULL_HANDLE;
++    compositeSetLayout_ = VK_NULL_HANDLE;
++    repeat_ = VK_NULL_HANDLE;
++    for (VkDescriptorSet& set : compositeSets_) set = VK_NULL_HANDLE;
+     propagate_ = perturb_ = mesh_ = VK_NULL_HANDLE;
+     for (VkShaderModule& m : modules_) m = VK_NULL_HANDLE;
+     layout_ = VK_NULL_HANDLE;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/CataRipples.h b/Engine/Source/Gx/CGxDeviceVulkan/hd/CataRipples.h
+index b42d3779..b12e1097 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/CataRipples.h
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/CataRipples.h
+@@ -7,6 +7,15 @@
+ //
+ // A BeforeLiquids stage with its own passes. It reads what the engine gathered (GxCataRipples, GxSeam.h) and says
+ // where the maps are; the two maps are handed to the water through proxy textures (slots 5 and 6).
++//
++// Zeppelin F-234: hdWaterRipples / hdWaterRippleStrength and the FFT waves (hdWaterWaves, hdWaterWaveScale). The water
++// derives its normals from one-texel height differences of these maps (CataProcWaterAbove: s4 and s8, R and G lerped
++// by the interpolation), so the waves ride in them and need no water shader of their own. While the waves run or the
++// strength is not 1, a composite pass writes two output maps and the water samples those: output 0 = map 0 x strength
++// + map 1 (the hulls) folded in x strength + the waves near the player (full to 40 yd, gone at 58 yd, 0.125 yd texels);
++// output 1 = the waves alone over 512 x 512 yd (0.5 yd texels), fading in where output 0 fades out and out by 246 yd.
++// Water further than that keeps Cata's scrolling normal maps only. Without waves and at strength 1 the water samples
++// Cata's maps as before.
+ #pragma once
+ 
+ #include <cstdint>
+@@ -26,6 +35,8 @@ public:
+ private:
+     static constexpr uint32_t kMaps = 2;            // Cata GetRippleDetail() > 1
+     static constexpr uint32_t kTexSize = 1024;
++    static constexpr uint32_t kOutputs = kMaps;     // Zeppelin F-234: images_[2 * kMaps + i]: what the water samples
++    static constexpr uint32_t kWaveTexels = 64, kWaveLayers = 4;
+     struct Image {
+         void* handle = nullptr;
+         WXL_VkImageInfo info{};
+@@ -53,6 +64,10 @@ private:
+     void Perturb(VkCommandBuffer cmd, uint32_t map, const std::vector<Vertex>& quads, const std::vector<Vertex>& mesh);
+     void Propagate(VkCommandBuffer cmd, uint32_t map);
+     void BeginPass(VkCommandBuffer cmd, uint32_t image, bool clear);
++    // Zeppelin F-234
++    bool CompositePipeline();
++    bool Waves(VkCommandBuffer cmd, const WXL_VkStageContext& ctx);
++    void Composite(VkCommandBuffer cmd, uint32_t out, VkDescriptorSet set, const float push[28]);
+ 
+     const WXL_VkRenderApi* api_ = nullptr;
+     WXL_VkDeviceInfo device_{};
+@@ -67,7 +82,21 @@ private:
+     VkDescriptorPool pool_ = VK_NULL_HANDLE;
+     VkSampler point_ = VK_NULL_HANDLE, linear_ = VK_NULL_HANDLE;
+     VkDescriptorSet textureSet_ = VK_NULL_HANDLE;
+-    Image images_[2 * kMaps];
++    Image images_[2 * kMaps + kOutputs];
++    // Zeppelin F-234: the composite and the waves' image (RGBA16F 64 x 256: four 64 x 64 cascades one under another).
++    VkDescriptorSetLayout compositeSetLayout_ = VK_NULL_HANDLE;
++    VkPipelineLayout compositeLayout_ = VK_NULL_HANDLE;
++    VkPipeline composite_ = VK_NULL_HANDLE;
++    VkShaderModule compositeModule_ = VK_NULL_HANDLE;
++    VkDescriptorPool compositePool_ = VK_NULL_HANDLE;
++    VkSampler repeat_ = VK_NULL_HANDLE;
++    VkDescriptorSet compositeSets_[6] = {};         ///< output 0: [A 0/1][B 2/3] as 2a + b; output 1: 4 + (A 2/3)
++    void* wavesHandle_ = nullptr;
++    WXL_VkImageInfo waves_{};
++    std::vector<Stream> waveStaging_;               ///< per frame slot: the waves' upload
++    uint32_t waveSerial_ = 0;
++    bool wavesUploaded_ = false, lastRipples_ = true;
++    float farPos_[3] = {};                          ///< output 1's corner while it carries the waves
+     void* textureHandle_ = nullptr;
+     WXL_VkImageInfo texture_{};
+     bool textureReady_ = false;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/CataRippleWaves.frag b/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/CataRippleWaves.frag
+new file mode 100644
+index 00000000..64fa07dc
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/CataRippleWaves.frag
+@@ -0,0 +1,78 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++// Zeppelin F-234: the map the Cata water samples (CataRipples.cpp, Ripples::Composite), written over one of Cata's
++// displacement maps' window: Cata's map A (its two steps, x the height now and y the one before, kept for the water's
++// own interpolation), times the ripple strength; Cata's map B folded in at this frame's interpolation (the hulls' map,
++// whose window lies texel-aligned in A's); and the FFT waves' height (HdWaterWaves.cpp, D3D9's spectra), in the map's
++// height units, faded in and out by distance from the window's centre. The water derives its normals from one-texel
++// height differences, so the waves need no shader of their own; their heights are Hermite-interpolated from the FFT's
++// own slopes (exact float weights, C1: no facets in the normals, whatever the hardware filter precision).
++#version 450
++layout(set = 0, binding = 0) uniform sampler2D stateA;
++layout(set = 0, binding = 1) uniform sampler2D stateB;
++layout(set = 0, binding = 2) uniform sampler2D waves;   // 64 x 256: per cascade 64 rows of dh/dx, dh/dy, height (yd), Jacobian
++layout(push_constant) uniform Push {
++    vec4 a;          // xy: this texel's uv -> A's uv offset, z: A's strength (0: not read)
++    vec4 b;          // xy: -> B's uv offset, z: B's strength (0: not read), w: B's interpolation
++    vec4 fade;       // uv radii from the centre: from 0 at x to full at y (y <= 0: no fade-in), full at z to 0 at w
++    vec4 wave;       // x: map height units per yard, y: the window's size (yards)
++    vec4 tileOff0;   // cascades 0, 1: the window's corner in the tile (tile uv)
++    vec4 tileOff1;   // cascades 2, 3
++    vec4 tileScale;  // window size / tile size per cascade, 0: not used
++} pc;
++layout(location = 0) out vec4 outColor;
++
++const float kTexSize = 1024.0;
++const int kN = 64;
++
++// The height of one cascade at tile uv p: a bicubic Hermite patch over the FFT grid (corner heights and slopes, no
++// cross term), the slopes per yard turned into per grid step with the tile size.
++float Height(vec2 p, int layer, float step) {
++    vec2 g = p * float(kN);
++    vec2 cell = floor(g);
++    vec2 t = g - cell;
++    ivec2 i0 = ivec2(mod(cell, float(kN)));
++    ivec2 i1 = (i0 + 1) & (kN - 1);
++    int base = layer * kN;   // the cascades lie one under the other
++    vec4 c00 = texelFetch(waves, ivec2(i0.x, i0.y + base), 0);
++    vec4 c10 = texelFetch(waves, ivec2(i1.x, i0.y + base), 0);
++    vec4 c01 = texelFetch(waves, ivec2(i0.x, i1.y + base), 0);
++    vec4 c11 = texelFetch(waves, ivec2(i1.x, i1.y + base), 0);
++    vec2 t2 = t * t, t3 = t2 * t;
++    vec2 h0 = 2.0 * t3 - 3.0 * t2 + 1.0;   // value at 0
++    vec2 h1 = 1.0 - h0;                    // value at 1
++    vec2 d0 = (t3 - 2.0 * t2 + t) * step;  // slope at 0
++    vec2 d1 = (t3 - t2) * step;            // slope at 1
++    return c00.z * h0.x * h0.y + c10.z * h1.x * h0.y + c01.z * h0.x * h1.y + c11.z * h1.x * h1.y +
++           c00.x * d0.x * h0.y + c10.x * d1.x * h0.y + c01.x * d0.x * h1.y + c11.x * d1.x * h1.y +
++           c00.y * h0.x * d0.y + c10.y * h1.x * d0.y + c01.y * h0.x * d1.y + c11.y * h1.x * d1.y;
++}
++
++void main() {
++    vec2 uv = gl_FragCoord.xy / kTexSize;
++    vec2 h = vec2(0.0);
++    if (pc.a.z != 0.0) h += pc.a.z * texture(stateA, uv + pc.a.xy).xy;
++    if (pc.b.z != 0.0) {
++        vec2 ub = uv + pc.b.xy;
++        if (all(greaterThanEqual(ub, vec2(0.0))) && all(lessThanEqual(ub, vec2(1.0)))) {
++            vec2 s = texture(stateB, ub).xy;
++            h += pc.b.z * mix(s.y, s.x, pc.b.w);
++        }
++    }
++    if (pc.wave.x != 0.0) {
++        float r = length(uv - 0.5);
++        float w = 1.0 - smoothstep(pc.fade.z, pc.fade.w, r);
++        if (pc.fade.y > 0.0) w *= smoothstep(pc.fade.x, pc.fade.y, r);
++        if (w > 0.0) {
++            float sum = 0.0;
++            vec2 off[4] = vec2[4](pc.tileOff0.xy, pc.tileOff0.zw, pc.tileOff1.xy, pc.tileOff1.zw);
++            for (int c = 0; c < 4; ++c) {
++                float scale = pc.tileScale[c];
++                if (scale <= 0.0) continue;
++                // grid step in yards = tile / 64 = window / (scale * 64)
++                sum += Height(off[c] + uv * scale, c, pc.wave.y / (scale * float(kN)));
++            }
++            h += vec2(sum * pc.wave.x * w);
++        }
++    }
++    outColor = vec4(h, 0.0, 1.0);
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/CataRippleWaves.frag.spv.h b/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/CataRippleWaves.frag.spv.h
+new file mode 100644
+index 00000000..4ab1b199
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/CataRippleWaves.frag.spv.h
+@@ -0,0 +1,309 @@
++	// 1116.6.0
++	 #pragma once
++const uint32_t kCataRippleWavesSpv[] = {
++	0x07230203,0x00010000,0x0008000b,0x000001ba,0x00000000,0x00020011,0x00000001,0x0006000b,
++	0x00000001,0x4c534c47,0x6474732e,0x3035342e,0x00000000,0x0003000e,0x00000000,0x00000001,
++	0x0007000f,0x00000004,0x00000004,0x6e69616d,0x00000000,0x000000fc,0x000001b5,0x00030010,
++	0x00000004,0x00000007,0x00030003,0x00000002,0x000001c2,0x00040005,0x00000004,0x6e69616d,
++	0x00000000,0x00070005,0x00000010,0x67696548,0x76287468,0x693b3266,0x31663b31,0x0000003b,
++	0x00030005,0x0000000d,0x00000070,0x00040005,0x0000000e,0x6579616c,0x00000072,0x00040005,
++	0x0000000f,0x70657473,0x00000000,0x00030005,0x00000012,0x00000067,0x00040005,0x00000016,
++	0x6c6c6563,0x00000000,0x00030005,0x00000019,0x00000074,0x00030005,0x0000001f,0x00003069,
++	0x00030005,0x00000024,0x00003169,0x00040005,0x0000002c,0x65736162,0x00000000,0x00030005,
++	0x00000032,0x00303063,0x00040005,0x00000036,0x65766177,0x00000073,0x00030005,0x00000045,
++	0x00303163,0x00030005,0x00000050,0x00313063,0x00030005,0x0000005b,0x00313163,0x00030005,
++	0x00000066,0x00003274,0x00030005,0x0000006a,0x00003374,0x00030005,0x0000006e,0x00003068,
++	0x00030005,0x00000079,0x00003168,0x00030005,0x0000007d,0x00003064,0x00030005,0x00000086,
++	0x00003164,0x00030005,0x000000fa,0x00007675,0x00060005,0x000000fc,0x465f6c67,0x43676172,
++	0x64726f6f,0x00000000,0x00030005,0x00000102,0x00000068,0x00040005,0x00000105,0x68737550,
++	0x00000000,0x00040006,0x00000105,0x00000000,0x00000061,0x00040006,0x00000105,0x00000001,
++	0x00000062,0x00050006,0x00000105,0x00000002,0x65646166,0x00000000,0x00050006,0x00000105,
++	0x00000003,0x65766177,0x00000000,0x00060006,0x00000105,0x00000004,0x656c6974,0x3066664f,
++	0x00000000,0x00060006,0x00000105,0x00000005,0x656c6974,0x3166664f,0x00000000,0x00060006,
++	0x00000105,0x00000006,0x656c6974,0x6c616353,0x00000065,0x00030005,0x00000107,0x00006370,
++	0x00040005,0x00000111,0x74617473,0x00004165,0x00030005,0x00000123,0x00006275,0x00030005,
++	0x00000136,0x00000073,0x00040005,0x00000137,0x74617473,0x00004265,0x00030005,0x00000150,
++	0x00000072,0x00030005,0x00000156,0x00000077,0x00030005,0x00000170,0x006d7573,0x00030005,
++	0x00000174,0x0066666f,0x00030005,0x00000184,0x00000063,0x00040005,0x0000018c,0x6c616373,
++	0x00000065,0x00040005,0x000001a2,0x61726170,0x0000006d,0x00040005,0x000001a3,0x61726170,
++	0x0000006d,0x00040005,0x000001a5,0x61726170,0x0000006d,0x00050005,0x000001b5,0x4374756f,
++	0x726f6c6f,0x00000000,0x00040047,0x00000036,0x00000021,0x00000002,0x00040047,0x00000036,
++	0x00000022,0x00000000,0x00040047,0x000000fc,0x0000000b,0x0000000f,0x00030047,0x00000105,
++	0x00000002,0x00050048,0x00000105,0x00000000,0x00000023,0x00000000,0x00050048,0x00000105,
++	0x00000001,0x00000023,0x00000010,0x00050048,0x00000105,0x00000002,0x00000023,0x00000020,
++	0x00050048,0x00000105,0x00000003,0x00000023,0x00000030,0x00050048,0x00000105,0x00000004,
++	0x00000023,0x00000040,0x00050048,0x00000105,0x00000005,0x00000023,0x00000050,0x00050048,
++	0x00000105,0x00000006,0x00000023,0x00000060,0x00040047,0x00000111,0x00000021,0x00000000,
++	0x00040047,0x00000111,0x00000022,0x00000000,0x00040047,0x00000137,0x00000021,0x00000001,
++	0x00040047,0x00000137,0x00000022,0x00000000,0x00040047,0x000001b5,0x0000001e,0x00000000,
++	0x00020013,0x00000002,0x00030021,0x00000003,0x00000002,0x00030016,0x00000006,0x00000020,
++	0x00040017,0x00000007,0x00000006,0x00000002,0x00040020,0x00000008,0x00000007,0x00000007,
++	0x00040015,0x00000009,0x00000020,0x00000001,0x00040020,0x0000000a,0x00000007,0x00000009,
++	0x00040020,0x0000000b,0x00000007,0x00000006,0x00060021,0x0000000c,0x00000006,0x00000008,
++	0x0000000a,0x0000000b,0x0004002b,0x00000006,0x00000014,0x42800000,0x00040017,0x0000001d,
++	0x00000009,0x00000002,0x00040020,0x0000001e,0x00000007,0x0000001d,0x0004002b,0x00000009,
++	0x00000026,0x00000001,0x0004002b,0x00000009,0x00000029,0x0000003f,0x0004002b,0x00000009,
++	0x0000002e,0x00000040,0x00040017,0x00000030,0x00000006,0x00000004,0x00040020,0x00000031,
++	0x00000007,0x00000030,0x00090019,0x00000033,0x00000006,0x00000001,0x00000000,0x00000000,
++	0x00000000,0x00000001,0x00000000,0x0003001b,0x00000034,0x00000033,0x00040020,0x00000035,
++	0x00000000,0x00000034,0x0004003b,0x00000035,0x00000036,0x00000000,0x00040015,0x00000038,
++	0x00000020,0x00000000,0x0004002b,0x00000038,0x00000039,0x00000000,0x0004002b,0x00000038,
++	0x0000003c,0x00000001,0x0004002b,0x00000009,0x00000042,0x00000000,0x0004002b,0x00000006,
++	0x0000006f,0x40000000,0x0004002b,0x00000006,0x00000072,0x40400000,0x0004002b,0x00000006,
++	0x00000076,0x3f800000,0x0004002b,0x00000038,0x0000008c,0x00000002,0x00040020,0x000000fb,
++	0x00000001,0x00000030,0x0004003b,0x000000fb,0x000000fc,0x00000001,0x0004002b,0x00000006,
++	0x000000ff,0x44800000,0x0004002b,0x00000006,0x00000103,0x00000000,0x0005002c,0x00000007,
++	0x00000104,0x00000103,0x00000103,0x0009001e,0x00000105,0x00000030,0x00000030,0x00000030,
++	0x00000030,0x00000030,0x00000030,0x00000030,0x00040020,0x00000106,0x00000009,0x00000105,
++	0x0004003b,0x00000106,0x00000107,0x00000009,0x00040020,0x00000108,0x00000009,0x00000006,
++	0x00020014,0x0000010b,0x0004003b,0x00000035,0x00000111,0x00000000,0x00040020,0x00000114,
++	0x00000009,0x00000030,0x00040017,0x0000012a,0x0000010b,0x00000002,0x0005002c,0x00000007,
++	0x00000130,0x00000076,0x00000076,0x0004003b,0x00000035,0x00000137,0x00000000,0x0004002b,
++	0x00000038,0x00000142,0x00000003,0x0004002b,0x00000009,0x0000014a,0x00000003,0x0004002b,
++	0x00000006,0x00000152,0x3f000000,0x0004002b,0x00000009,0x00000157,0x00000002,0x0004002b,
++	0x00000038,0x00000171,0x00000004,0x0004001c,0x00000172,0x00000007,0x00000171,0x00040020,
++	0x00000173,0x00000007,0x00000172,0x0004002b,0x00000009,0x00000175,0x00000004,0x0004002b,
++	0x00000009,0x0000017c,0x00000005,0x0004002b,0x00000009,0x0000018d,0x00000006,0x00040020,
++	0x000001b4,0x00000003,0x00000030,0x0004003b,0x000001b4,0x000001b5,0x00000003,0x00050036,
++	0x00000002,0x00000004,0x00000000,0x00000003,0x000200f8,0x00000005,0x0004003b,0x00000008,
++	0x000000fa,0x00000007,0x0004003b,0x00000008,0x00000102,0x00000007,0x0004003b,0x00000008,
++	0x00000123,0x00000007,0x0004003b,0x00000008,0x00000136,0x00000007,0x0004003b,0x0000000b,
++	0x00000150,0x00000007,0x0004003b,0x0000000b,0x00000156,0x00000007,0x0004003b,0x0000000b,
++	0x00000170,0x00000007,0x0004003b,0x00000173,0x00000174,0x00000007,0x0004003b,0x0000000a,
++	0x00000184,0x00000007,0x0004003b,0x0000000b,0x0000018c,0x00000007,0x0004003b,0x00000008,
++	0x000001a2,0x00000007,0x0004003b,0x0000000a,0x000001a3,0x00000007,0x0004003b,0x0000000b,
++	0x000001a5,0x00000007,0x0004003d,0x00000030,0x000000fd,0x000000fc,0x0007004f,0x00000007,
++	0x000000fe,0x000000fd,0x000000fd,0x00000000,0x00000001,0x00050050,0x00000007,0x00000100,
++	0x000000ff,0x000000ff,0x00050088,0x00000007,0x00000101,0x000000fe,0x00000100,0x0003003e,
++	0x000000fa,0x00000101,0x0003003e,0x00000102,0x00000104,0x00060041,0x00000108,0x00000109,
++	0x00000107,0x00000042,0x0000008c,0x0004003d,0x00000006,0x0000010a,0x00000109,0x000500b7,
++	0x0000010b,0x0000010c,0x0000010a,0x00000103,0x000300f7,0x0000010e,0x00000000,0x000400fa,
++	0x0000010c,0x0000010d,0x0000010e,0x000200f8,0x0000010d,0x00060041,0x00000108,0x0000010f,
++	0x00000107,0x00000042,0x0000008c,0x0004003d,0x00000006,0x00000110,0x0000010f,0x0004003d,
++	0x00000034,0x00000112,0x00000111,0x0004003d,0x00000007,0x00000113,0x000000fa,0x00050041,
++	0x00000114,0x00000115,0x00000107,0x00000042,0x0004003d,0x00000030,0x00000116,0x00000115,
++	0x0007004f,0x00000007,0x00000117,0x00000116,0x00000116,0x00000000,0x00000001,0x00050081,
++	0x00000007,0x00000118,0x00000113,0x00000117,0x00050057,0x00000030,0x00000119,0x00000112,
++	0x00000118,0x0007004f,0x00000007,0x0000011a,0x00000119,0x00000119,0x00000000,0x00000001,
++	0x0005008e,0x00000007,0x0000011b,0x0000011a,0x00000110,0x0004003d,0x00000007,0x0000011c,
++	0x00000102,0x00050081,0x00000007,0x0000011d,0x0000011c,0x0000011b,0x0003003e,0x00000102,
++	0x0000011d,0x000200f9,0x0000010e,0x000200f8,0x0000010e,0x00060041,0x00000108,0x0000011e,
++	0x00000107,0x00000026,0x0000008c,0x0004003d,0x00000006,0x0000011f,0x0000011e,0x000500b7,
++	0x0000010b,0x00000120,0x0000011f,0x00000103,0x000300f7,0x00000122,0x00000000,0x000400fa,
++	0x00000120,0x00000121,0x00000122,0x000200f8,0x00000121,0x0004003d,0x00000007,0x00000124,
++	0x000000fa,0x00050041,0x00000114,0x00000125,0x00000107,0x00000026,0x0004003d,0x00000030,
++	0x00000126,0x00000125,0x0007004f,0x00000007,0x00000127,0x00000126,0x00000126,0x00000000,
++	0x00000001,0x00050081,0x00000007,0x00000128,0x00000124,0x00000127,0x0003003e,0x00000123,
++	0x00000128,0x0004003d,0x00000007,0x00000129,0x00000123,0x000500be,0x0000012a,0x0000012b,
++	0x00000129,0x00000104,0x0004009b,0x0000010b,0x0000012c,0x0000012b,0x000300f7,0x0000012e,
++	0x00000000,0x000400fa,0x0000012c,0x0000012d,0x0000012e,0x000200f8,0x0000012d,0x0004003d,
++	0x00000007,0x0000012f,0x00000123,0x000500bc,0x0000012a,0x00000131,0x0000012f,0x00000130,
++	0x0004009b,0x0000010b,0x00000132,0x00000131,0x000200f9,0x0000012e,0x000200f8,0x0000012e,
++	0x000700f5,0x0000010b,0x00000133,0x0000012c,0x00000121,0x00000132,0x0000012d,0x000300f7,
++	0x00000135,0x00000000,0x000400fa,0x00000133,0x00000134,0x00000135,0x000200f8,0x00000134,
++	0x0004003d,0x00000034,0x00000138,0x00000137,0x0004003d,0x00000007,0x00000139,0x00000123,
++	0x00050057,0x00000030,0x0000013a,0x00000138,0x00000139,0x0007004f,0x00000007,0x0000013b,
++	0x0000013a,0x0000013a,0x00000000,0x00000001,0x0003003e,0x00000136,0x0000013b,0x00060041,
++	0x00000108,0x0000013c,0x00000107,0x00000026,0x0000008c,0x0004003d,0x00000006,0x0000013d,
++	0x0000013c,0x00050041,0x0000000b,0x0000013e,0x00000136,0x0000003c,0x0004003d,0x00000006,
++	0x0000013f,0x0000013e,0x00050041,0x0000000b,0x00000140,0x00000136,0x00000039,0x0004003d,
++	0x00000006,0x00000141,0x00000140,0x00060041,0x00000108,0x00000143,0x00000107,0x00000026,
++	0x00000142,0x0004003d,0x00000006,0x00000144,0x00000143,0x0008000c,0x00000006,0x00000145,
++	0x00000001,0x0000002e,0x0000013f,0x00000141,0x00000144,0x00050085,0x00000006,0x00000146,
++	0x0000013d,0x00000145,0x0004003d,0x00000007,0x00000147,0x00000102,0x00050050,0x00000007,
++	0x00000148,0x00000146,0x00000146,0x00050081,0x00000007,0x00000149,0x00000147,0x00000148,
++	0x0003003e,0x00000102,0x00000149,0x000200f9,0x00000135,0x000200f8,0x00000135,0x000200f9,
++	0x00000122,0x000200f8,0x00000122,0x00060041,0x00000108,0x0000014b,0x00000107,0x0000014a,
++	0x00000039,0x0004003d,0x00000006,0x0000014c,0x0000014b,0x000500b7,0x0000010b,0x0000014d,
++	0x0000014c,0x00000103,0x000300f7,0x0000014f,0x00000000,0x000400fa,0x0000014d,0x0000014e,
++	0x0000014f,0x000200f8,0x0000014e,0x0004003d,0x00000007,0x00000151,0x000000fa,0x00050050,
++	0x00000007,0x00000153,0x00000152,0x00000152,0x00050083,0x00000007,0x00000154,0x00000151,
++	0x00000153,0x0006000c,0x00000006,0x00000155,0x00000001,0x00000042,0x00000154,0x0003003e,
++	0x00000150,0x00000155,0x00060041,0x00000108,0x00000158,0x00000107,0x00000157,0x0000008c,
++	0x0004003d,0x00000006,0x00000159,0x00000158,0x00060041,0x00000108,0x0000015a,0x00000107,
++	0x00000157,0x00000142,0x0004003d,0x00000006,0x0000015b,0x0000015a,0x0004003d,0x00000006,
++	0x0000015c,0x00000150,0x0008000c,0x00000006,0x0000015d,0x00000001,0x00000031,0x00000159,
++	0x0000015b,0x0000015c,0x00050083,0x00000006,0x0000015e,0x00000076,0x0000015d,0x0003003e,
++	0x00000156,0x0000015e,0x00060041,0x00000108,0x0000015f,0x00000107,0x00000157,0x0000003c,
++	0x0004003d,0x00000006,0x00000160,0x0000015f,0x000500ba,0x0000010b,0x00000161,0x00000160,
++	0x00000103,0x000300f7,0x00000163,0x00000000,0x000400fa,0x00000161,0x00000162,0x00000163,
++	0x000200f8,0x00000162,0x00060041,0x00000108,0x00000164,0x00000107,0x00000157,0x00000039,
++	0x0004003d,0x00000006,0x00000165,0x00000164,0x00060041,0x00000108,0x00000166,0x00000107,
++	0x00000157,0x0000003c,0x0004003d,0x00000006,0x00000167,0x00000166,0x0004003d,0x00000006,
++	0x00000168,0x00000150,0x0008000c,0x00000006,0x00000169,0x00000001,0x00000031,0x00000165,
++	0x00000167,0x00000168,0x0004003d,0x00000006,0x0000016a,0x00000156,0x00050085,0x00000006,
++	0x0000016b,0x0000016a,0x00000169,0x0003003e,0x00000156,0x0000016b,0x000200f9,0x00000163,
++	0x000200f8,0x00000163,0x0004003d,0x00000006,0x0000016c,0x00000156,0x000500ba,0x0000010b,
++	0x0000016d,0x0000016c,0x00000103,0x000300f7,0x0000016f,0x00000000,0x000400fa,0x0000016d,
++	0x0000016e,0x0000016f,0x000200f8,0x0000016e,0x0003003e,0x00000170,0x00000103,0x00050041,
++	0x00000114,0x00000176,0x00000107,0x00000175,0x0004003d,0x00000030,0x00000177,0x00000176,
++	0x0007004f,0x00000007,0x00000178,0x00000177,0x00000177,0x00000000,0x00000001,0x00050041,
++	0x00000114,0x00000179,0x00000107,0x00000175,0x0004003d,0x00000030,0x0000017a,0x00000179,
++	0x0007004f,0x00000007,0x0000017b,0x0000017a,0x0000017a,0x00000002,0x00000003,0x00050041,
++	0x00000114,0x0000017d,0x00000107,0x0000017c,0x0004003d,0x00000030,0x0000017e,0x0000017d,
++	0x0007004f,0x00000007,0x0000017f,0x0000017e,0x0000017e,0x00000000,0x00000001,0x00050041,
++	0x00000114,0x00000180,0x00000107,0x0000017c,0x0004003d,0x00000030,0x00000181,0x00000180,
++	0x0007004f,0x00000007,0x00000182,0x00000181,0x00000181,0x00000002,0x00000003,0x00070050,
++	0x00000172,0x00000183,0x00000178,0x0000017b,0x0000017f,0x00000182,0x0003003e,0x00000174,
++	0x00000183,0x0003003e,0x00000184,0x00000042,0x000200f9,0x00000185,0x000200f8,0x00000185,
++	0x000400f6,0x00000187,0x00000188,0x00000000,0x000200f9,0x00000189,0x000200f8,0x00000189,
++	0x0004003d,0x00000009,0x0000018a,0x00000184,0x000500b1,0x0000010b,0x0000018b,0x0000018a,
++	0x00000175,0x000400fa,0x0000018b,0x00000186,0x00000187,0x000200f8,0x00000186,0x0004003d,
++	0x00000009,0x0000018e,0x00000184,0x00060041,0x00000108,0x0000018f,0x00000107,0x0000018d,
++	0x0000018e,0x0004003d,0x00000006,0x00000190,0x0000018f,0x0003003e,0x0000018c,0x00000190,
++	0x0004003d,0x00000006,0x00000191,0x0000018c,0x000500bc,0x0000010b,0x00000192,0x00000191,
++	0x00000103,0x000300f7,0x00000194,0x00000000,0x000400fa,0x00000192,0x00000193,0x00000194,
++	0x000200f8,0x00000193,0x000200f9,0x00000188,0x000200f8,0x00000194,0x0004003d,0x00000009,
++	0x00000196,0x00000184,0x00050041,0x00000008,0x00000197,0x00000174,0x00000196,0x0004003d,
++	0x00000007,0x00000198,0x00000197,0x0004003d,0x00000007,0x00000199,0x000000fa,0x0004003d,
++	0x00000006,0x0000019a,0x0000018c,0x0005008e,0x00000007,0x0000019b,0x00000199,0x0000019a,
++	0x00050081,0x00000007,0x0000019c,0x00000198,0x0000019b,0x00060041,0x00000108,0x0000019d,
++	0x00000107,0x0000014a,0x0000003c,0x0004003d,0x00000006,0x0000019e,0x0000019d,0x0004003d,
++	0x00000006,0x0000019f,0x0000018c,0x00050085,0x00000006,0x000001a0,0x0000019f,0x00000014,
++	0x00050088,0x00000006,0x000001a1,0x0000019e,0x000001a0,0x0003003e,0x000001a2,0x0000019c,
++	0x0004003d,0x00000009,0x000001a4,0x00000184,0x0003003e,0x000001a3,0x000001a4,0x0003003e,
++	0x000001a5,0x000001a1,0x00070039,0x00000006,0x000001a6,0x00000010,0x000001a2,0x000001a3,
++	0x000001a5,0x0004003d,0x00000006,0x000001a7,0x00000170,0x00050081,0x00000006,0x000001a8,
++	0x000001a7,0x000001a6,0x0003003e,0x00000170,0x000001a8,0x000200f9,0x00000188,0x000200f8,
++	0x00000188,0x0004003d,0x00000009,0x000001a9,0x00000184,0x00050080,0x00000009,0x000001aa,
++	0x000001a9,0x00000026,0x0003003e,0x00000184,0x000001aa,0x000200f9,0x00000185,0x000200f8,
++	0x00000187,0x0004003d,0x00000006,0x000001ab,0x00000170,0x00060041,0x00000108,0x000001ac,
++	0x00000107,0x0000014a,0x00000039,0x0004003d,0x00000006,0x000001ad,0x000001ac,0x00050085,
++	0x00000006,0x000001ae,0x000001ab,0x000001ad,0x0004003d,0x00000006,0x000001af,0x00000156,
++	0x00050085,0x00000006,0x000001b0,0x000001ae,0x000001af,0x00050050,0x00000007,0x000001b1,
++	0x000001b0,0x000001b0,0x0004003d,0x00000007,0x000001b2,0x00000102,0x00050081,0x00000007,
++	0x000001b3,0x000001b2,0x000001b1,0x0003003e,0x00000102,0x000001b3,0x000200f9,0x0000016f,
++	0x000200f8,0x0000016f,0x000200f9,0x0000014f,0x000200f8,0x0000014f,0x0004003d,0x00000007,
++	0x000001b6,0x00000102,0x00050051,0x00000006,0x000001b7,0x000001b6,0x00000000,0x00050051,
++	0x00000006,0x000001b8,0x000001b6,0x00000001,0x00070050,0x00000030,0x000001b9,0x000001b7,
++	0x000001b8,0x00000103,0x00000076,0x0003003e,0x000001b5,0x000001b9,0x000100fd,0x00010038,
++	0x00050036,0x00000006,0x00000010,0x00000000,0x0000000c,0x00030037,0x00000008,0x0000000d,
++	0x00030037,0x0000000a,0x0000000e,0x00030037,0x0000000b,0x0000000f,0x000200f8,0x00000011,
++	0x0004003b,0x00000008,0x00000012,0x00000007,0x0004003b,0x00000008,0x00000016,0x00000007,
++	0x0004003b,0x00000008,0x00000019,0x00000007,0x0004003b,0x0000001e,0x0000001f,0x00000007,
++	0x0004003b,0x0000001e,0x00000024,0x00000007,0x0004003b,0x0000000a,0x0000002c,0x00000007,
++	0x0004003b,0x00000031,0x00000032,0x00000007,0x0004003b,0x00000031,0x00000045,0x00000007,
++	0x0004003b,0x00000031,0x00000050,0x00000007,0x0004003b,0x00000031,0x0000005b,0x00000007,
++	0x0004003b,0x00000008,0x00000066,0x00000007,0x0004003b,0x00000008,0x0000006a,0x00000007,
++	0x0004003b,0x00000008,0x0000006e,0x00000007,0x0004003b,0x00000008,0x00000079,0x00000007,
++	0x0004003b,0x00000008,0x0000007d,0x00000007,0x0004003b,0x00000008,0x00000086,0x00000007,
++	0x0004003d,0x00000007,0x00000013,0x0000000d,0x0005008e,0x00000007,0x00000015,0x00000013,
++	0x00000014,0x0003003e,0x00000012,0x00000015,0x0004003d,0x00000007,0x00000017,0x00000012,
++	0x0006000c,0x00000007,0x00000018,0x00000001,0x00000008,0x00000017,0x0003003e,0x00000016,
++	0x00000018,0x0004003d,0x00000007,0x0000001a,0x00000012,0x0004003d,0x00000007,0x0000001b,
++	0x00000016,0x00050083,0x00000007,0x0000001c,0x0000001a,0x0000001b,0x0003003e,0x00000019,
++	0x0000001c,0x0004003d,0x00000007,0x00000020,0x00000016,0x00050050,0x00000007,0x00000021,
++	0x00000014,0x00000014,0x0005008d,0x00000007,0x00000022,0x00000020,0x00000021,0x0004006e,
++	0x0000001d,0x00000023,0x00000022,0x0003003e,0x0000001f,0x00000023,0x0004003d,0x0000001d,
++	0x00000025,0x0000001f,0x00050050,0x0000001d,0x00000027,0x00000026,0x00000026,0x00050080,
++	0x0000001d,0x00000028,0x00000025,0x00000027,0x00050050,0x0000001d,0x0000002a,0x00000029,
++	0x00000029,0x000500c7,0x0000001d,0x0000002b,0x00000028,0x0000002a,0x0003003e,0x00000024,
++	0x0000002b,0x0004003d,0x00000009,0x0000002d,0x0000000e,0x00050084,0x00000009,0x0000002f,
++	0x0000002d,0x0000002e,0x0003003e,0x0000002c,0x0000002f,0x0004003d,0x00000034,0x00000037,
++	0x00000036,0x00050041,0x0000000a,0x0000003a,0x0000001f,0x00000039,0x0004003d,0x00000009,
++	0x0000003b,0x0000003a,0x00050041,0x0000000a,0x0000003d,0x0000001f,0x0000003c,0x0004003d,
++	0x00000009,0x0000003e,0x0000003d,0x0004003d,0x00000009,0x0000003f,0x0000002c,0x00050080,
++	0x00000009,0x00000040,0x0000003e,0x0000003f,0x00050050,0x0000001d,0x00000041,0x0000003b,
++	0x00000040,0x00040064,0x00000033,0x00000043,0x00000037,0x0007005f,0x00000030,0x00000044,
++	0x00000043,0x00000041,0x00000002,0x00000042,0x0003003e,0x00000032,0x00000044,0x0004003d,
++	0x00000034,0x00000046,0x00000036,0x00050041,0x0000000a,0x00000047,0x00000024,0x00000039,
++	0x0004003d,0x00000009,0x00000048,0x00000047,0x00050041,0x0000000a,0x00000049,0x0000001f,
++	0x0000003c,0x0004003d,0x00000009,0x0000004a,0x00000049,0x0004003d,0x00000009,0x0000004b,
++	0x0000002c,0x00050080,0x00000009,0x0000004c,0x0000004a,0x0000004b,0x00050050,0x0000001d,
++	0x0000004d,0x00000048,0x0000004c,0x00040064,0x00000033,0x0000004e,0x00000046,0x0007005f,
++	0x00000030,0x0000004f,0x0000004e,0x0000004d,0x00000002,0x00000042,0x0003003e,0x00000045,
++	0x0000004f,0x0004003d,0x00000034,0x00000051,0x00000036,0x00050041,0x0000000a,0x00000052,
++	0x0000001f,0x00000039,0x0004003d,0x00000009,0x00000053,0x00000052,0x00050041,0x0000000a,
++	0x00000054,0x00000024,0x0000003c,0x0004003d,0x00000009,0x00000055,0x00000054,0x0004003d,
++	0x00000009,0x00000056,0x0000002c,0x00050080,0x00000009,0x00000057,0x00000055,0x00000056,
++	0x00050050,0x0000001d,0x00000058,0x00000053,0x00000057,0x00040064,0x00000033,0x00000059,
++	0x00000051,0x0007005f,0x00000030,0x0000005a,0x00000059,0x00000058,0x00000002,0x00000042,
++	0x0003003e,0x00000050,0x0000005a,0x0004003d,0x00000034,0x0000005c,0x00000036,0x00050041,
++	0x0000000a,0x0000005d,0x00000024,0x00000039,0x0004003d,0x00000009,0x0000005e,0x0000005d,
++	0x00050041,0x0000000a,0x0000005f,0x00000024,0x0000003c,0x0004003d,0x00000009,0x00000060,
++	0x0000005f,0x0004003d,0x00000009,0x00000061,0x0000002c,0x00050080,0x00000009,0x00000062,
++	0x00000060,0x00000061,0x00050050,0x0000001d,0x00000063,0x0000005e,0x00000062,0x00040064,
++	0x00000033,0x00000064,0x0000005c,0x0007005f,0x00000030,0x00000065,0x00000064,0x00000063,
++	0x00000002,0x00000042,0x0003003e,0x0000005b,0x00000065,0x0004003d,0x00000007,0x00000067,
++	0x00000019,0x0004003d,0x00000007,0x00000068,0x00000019,0x00050085,0x00000007,0x00000069,
++	0x00000067,0x00000068,0x0003003e,0x00000066,0x00000069,0x0004003d,0x00000007,0x0000006b,
++	0x00000066,0x0004003d,0x00000007,0x0000006c,0x00000019,0x00050085,0x00000007,0x0000006d,
++	0x0000006b,0x0000006c,0x0003003e,0x0000006a,0x0000006d,0x0004003d,0x00000007,0x00000070,
++	0x0000006a,0x0005008e,0x00000007,0x00000071,0x00000070,0x0000006f,0x0004003d,0x00000007,
++	0x00000073,0x00000066,0x0005008e,0x00000007,0x00000074,0x00000073,0x00000072,0x00050083,
++	0x00000007,0x00000075,0x00000071,0x00000074,0x00050050,0x00000007,0x00000077,0x00000076,
++	0x00000076,0x00050081,0x00000007,0x00000078,0x00000075,0x00000077,0x0003003e,0x0000006e,
++	0x00000078,0x0004003d,0x00000007,0x0000007a,0x0000006e,0x00050050,0x00000007,0x0000007b,
++	0x00000076,0x00000076,0x00050083,0x00000007,0x0000007c,0x0000007b,0x0000007a,0x0003003e,
++	0x00000079,0x0000007c,0x0004003d,0x00000007,0x0000007e,0x0000006a,0x0004003d,0x00000007,
++	0x0000007f,0x00000066,0x0005008e,0x00000007,0x00000080,0x0000007f,0x0000006f,0x00050083,
++	0x00000007,0x00000081,0x0000007e,0x00000080,0x0004003d,0x00000007,0x00000082,0x00000019,
++	0x00050081,0x00000007,0x00000083,0x00000081,0x00000082,0x0004003d,0x00000006,0x00000084,
++	0x0000000f,0x0005008e,0x00000007,0x00000085,0x00000083,0x00000084,0x0003003e,0x0000007d,
++	0x00000085,0x0004003d,0x00000007,0x00000087,0x0000006a,0x0004003d,0x00000007,0x00000088,
++	0x00000066,0x00050083,0x00000007,0x00000089,0x00000087,0x00000088,0x0004003d,0x00000006,
++	0x0000008a,0x0000000f,0x0005008e,0x00000007,0x0000008b,0x00000089,0x0000008a,0x0003003e,
++	0x00000086,0x0000008b,0x00050041,0x0000000b,0x0000008d,0x00000032,0x0000008c,0x0004003d,
++	0x00000006,0x0000008e,0x0000008d,0x00050041,0x0000000b,0x0000008f,0x0000006e,0x00000039,
++	0x0004003d,0x00000006,0x00000090,0x0000008f,0x00050085,0x00000006,0x00000091,0x0000008e,
++	0x00000090,0x00050041,0x0000000b,0x00000092,0x0000006e,0x0000003c,0x0004003d,0x00000006,
++	0x00000093,0x00000092,0x00050085,0x00000006,0x00000094,0x00000091,0x00000093,0x00050041,
++	0x0000000b,0x00000095,0x00000045,0x0000008c,0x0004003d,0x00000006,0x00000096,0x00000095,
++	0x00050041,0x0000000b,0x00000097,0x00000079,0x00000039,0x0004003d,0x00000006,0x00000098,
++	0x00000097,0x00050085,0x00000006,0x00000099,0x00000096,0x00000098,0x00050041,0x0000000b,
++	0x0000009a,0x0000006e,0x0000003c,0x0004003d,0x00000006,0x0000009b,0x0000009a,0x00050085,
++	0x00000006,0x0000009c,0x00000099,0x0000009b,0x00050081,0x00000006,0x0000009d,0x00000094,
++	0x0000009c,0x00050041,0x0000000b,0x0000009e,0x00000050,0x0000008c,0x0004003d,0x00000006,
++	0x0000009f,0x0000009e,0x00050041,0x0000000b,0x000000a0,0x0000006e,0x00000039,0x0004003d,
++	0x00000006,0x000000a1,0x000000a0,0x00050085,0x00000006,0x000000a2,0x0000009f,0x000000a1,
++	0x00050041,0x0000000b,0x000000a3,0x00000079,0x0000003c,0x0004003d,0x00000006,0x000000a4,
++	0x000000a3,0x00050085,0x00000006,0x000000a5,0x000000a2,0x000000a4,0x00050081,0x00000006,
++	0x000000a6,0x0000009d,0x000000a5,0x00050041,0x0000000b,0x000000a7,0x0000005b,0x0000008c,
++	0x0004003d,0x00000006,0x000000a8,0x000000a7,0x00050041,0x0000000b,0x000000a9,0x00000079,
++	0x00000039,0x0004003d,0x00000006,0x000000aa,0x000000a9,0x00050085,0x00000006,0x000000ab,
++	0x000000a8,0x000000aa,0x00050041,0x0000000b,0x000000ac,0x00000079,0x0000003c,0x0004003d,
++	0x00000006,0x000000ad,0x000000ac,0x00050085,0x00000006,0x000000ae,0x000000ab,0x000000ad,
++	0x00050081,0x00000006,0x000000af,0x000000a6,0x000000ae,0x00050041,0x0000000b,0x000000b0,
++	0x00000032,0x00000039,0x0004003d,0x00000006,0x000000b1,0x000000b0,0x00050041,0x0000000b,
++	0x000000b2,0x0000007d,0x00000039,0x0004003d,0x00000006,0x000000b3,0x000000b2,0x00050085,
++	0x00000006,0x000000b4,0x000000b1,0x000000b3,0x00050041,0x0000000b,0x000000b5,0x0000006e,
++	0x0000003c,0x0004003d,0x00000006,0x000000b6,0x000000b5,0x00050085,0x00000006,0x000000b7,
++	0x000000b4,0x000000b6,0x00050081,0x00000006,0x000000b8,0x000000af,0x000000b7,0x00050041,
++	0x0000000b,0x000000b9,0x00000045,0x00000039,0x0004003d,0x00000006,0x000000ba,0x000000b9,
++	0x00050041,0x0000000b,0x000000bb,0x00000086,0x00000039,0x0004003d,0x00000006,0x000000bc,
++	0x000000bb,0x00050085,0x00000006,0x000000bd,0x000000ba,0x000000bc,0x00050041,0x0000000b,
++	0x000000be,0x0000006e,0x0000003c,0x0004003d,0x00000006,0x000000bf,0x000000be,0x00050085,
++	0x00000006,0x000000c0,0x000000bd,0x000000bf,0x00050081,0x00000006,0x000000c1,0x000000b8,
++	0x000000c0,0x00050041,0x0000000b,0x000000c2,0x00000050,0x00000039,0x0004003d,0x00000006,
++	0x000000c3,0x000000c2,0x00050041,0x0000000b,0x000000c4,0x0000007d,0x00000039,0x0004003d,
++	0x00000006,0x000000c5,0x000000c4,0x00050085,0x00000006,0x000000c6,0x000000c3,0x000000c5,
++	0x00050041,0x0000000b,0x000000c7,0x00000079,0x0000003c,0x0004003d,0x00000006,0x000000c8,
++	0x000000c7,0x00050085,0x00000006,0x000000c9,0x000000c6,0x000000c8,0x00050081,0x00000006,
++	0x000000ca,0x000000c1,0x000000c9,0x00050041,0x0000000b,0x000000cb,0x0000005b,0x00000039,
++	0x0004003d,0x00000006,0x000000cc,0x000000cb,0x00050041,0x0000000b,0x000000cd,0x00000086,
++	0x00000039,0x0004003d,0x00000006,0x000000ce,0x000000cd,0x00050085,0x00000006,0x000000cf,
++	0x000000cc,0x000000ce,0x00050041,0x0000000b,0x000000d0,0x00000079,0x0000003c,0x0004003d,
++	0x00000006,0x000000d1,0x000000d0,0x00050085,0x00000006,0x000000d2,0x000000cf,0x000000d1,
++	0x00050081,0x00000006,0x000000d3,0x000000ca,0x000000d2,0x00050041,0x0000000b,0x000000d4,
++	0x00000032,0x0000003c,0x0004003d,0x00000006,0x000000d5,0x000000d4,0x00050041,0x0000000b,
++	0x000000d6,0x0000006e,0x00000039,0x0004003d,0x00000006,0x000000d7,0x000000d6,0x00050085,
++	0x00000006,0x000000d8,0x000000d5,0x000000d7,0x00050041,0x0000000b,0x000000d9,0x0000007d,
++	0x0000003c,0x0004003d,0x00000006,0x000000da,0x000000d9,0x00050085,0x00000006,0x000000db,
++	0x000000d8,0x000000da,0x00050081,0x00000006,0x000000dc,0x000000d3,0x000000db,0x00050041,
++	0x0000000b,0x000000dd,0x00000045,0x0000003c,0x0004003d,0x00000006,0x000000de,0x000000dd,
++	0x00050041,0x0000000b,0x000000df,0x00000079,0x00000039,0x0004003d,0x00000006,0x000000e0,
++	0x000000df,0x00050085,0x00000006,0x000000e1,0x000000de,0x000000e0,0x00050041,0x0000000b,
++	0x000000e2,0x0000007d,0x0000003c,0x0004003d,0x00000006,0x000000e3,0x000000e2,0x00050085,
++	0x00000006,0x000000e4,0x000000e1,0x000000e3,0x00050081,0x00000006,0x000000e5,0x000000dc,
++	0x000000e4,0x00050041,0x0000000b,0x000000e6,0x00000050,0x0000003c,0x0004003d,0x00000006,
++	0x000000e7,0x000000e6,0x00050041,0x0000000b,0x000000e8,0x0000006e,0x00000039,0x0004003d,
++	0x00000006,0x000000e9,0x000000e8,0x00050085,0x00000006,0x000000ea,0x000000e7,0x000000e9,
++	0x00050041,0x0000000b,0x000000eb,0x00000086,0x0000003c,0x0004003d,0x00000006,0x000000ec,
++	0x000000eb,0x00050085,0x00000006,0x000000ed,0x000000ea,0x000000ec,0x00050081,0x00000006,
++	0x000000ee,0x000000e5,0x000000ed,0x00050041,0x0000000b,0x000000ef,0x0000005b,0x0000003c,
++	0x0004003d,0x00000006,0x000000f0,0x000000ef,0x00050041,0x0000000b,0x000000f1,0x00000079,
++	0x00000039,0x0004003d,0x00000006,0x000000f2,0x000000f1,0x00050085,0x00000006,0x000000f3,
++	0x000000f0,0x000000f2,0x00050041,0x0000000b,0x000000f4,0x00000086,0x0000003c,0x0004003d,
++	0x00000006,0x000000f5,0x000000f4,0x00050085,0x00000006,0x000000f6,0x000000f3,0x000000f5,
++	0x00050081,0x00000006,0x000000f7,0x000000ee,0x000000f6,0x000200fe,0x000000f7,0x00010038
++};
+diff --git a/Engine/Source/Gx/GxSeam.h b/Engine/Source/Gx/GxSeam.h
+index 3773089d..95310245 100644
+--- a/Engine/Source/Gx/GxSeam.h
++++ b/Engine/Source/Gx/GxSeam.h
+@@ -137,6 +137,18 @@ struct GxCataRipples {
+     float m_size[2][2];               // its size in yards
+     uint32_t m_texSize[2];            // its texels a side
+     float m_interpolation[2];         // between its last two steps (Cata GetDynamicDisplMapInterpolation)
++    // Zeppelin F-234: the ripple controls and the FFT waves (HdWaterRipples.h, HdWaterWaves.h), engine side; the
++    // device folds the waves' heights into the maps it hands the water (CataRipples.cpp, Ripples::Composite).
++    int32_t m_ripples;                // hdWaterRipples: the units, the rain and the hulls perturb the maps
++    float m_rippleStrength;           // hdWaterRippleStrength (0 to 4), 1 = Cata's
++    const float* m_waves;             // per cascade 64 x 64 x (dh/dx, dh/dy, height yd, Jacobian); nullptr: no waves
++    uint32_t m_waveCount;             // cascades (0 to 4)
++    uint32_t m_waveSerial;            // changes whenever m_waves holds new values
++    float m_waveTile[4];              // each cascade's tile size (yards)
++    float m_waveNormal;               // the water's ripple normal scale (Cata LiquidType float 15, PS c23.z)
++    // device
++    float m_waveReach[2];             // yards from the player the waves reach at full height, and fade out at
++    int32_t m_wavesOn;                // this frame's maps carry the waves
+ };
+ 
+ extern GxCataRipples g_gxCataRipples;
+diff --git a/WoW/Source/WorldClient/HD/HdCataRipples.cpp b/WoW/Source/WorldClient/HD/HdCataRipples.cpp
+index 7361e193..59b14532 100644
+--- a/WoW/Source/WorldClient/HD/HdCataRipples.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataRipples.cpp
+@@ -26,6 +26,10 @@
+ #include "WoW/Source/WorldClient/MapWeather.h"
+ #include "WoW/Source/WorldClient/World.h"
+ #include "WoW/Source/WorldClient/HD/HdDataFile.h"
++#include "WoW/Source/WorldClient/HD/HdWater.h"
++#include "WoW/Source/WorldClient/HD/HdWaterRipples.h"
++#include "WoW/Source/WorldClient/HD/HdWaterWaves.h"
++#include "Engine/Source/Tempest/CAaSphere.h"
+ 
+ namespace {
+     constexpr uint32_t kMaxUnits = 256;     // Liquid::CreatePerturbator, unless it is the active player's
+@@ -55,6 +59,12 @@ namespace {
+     bool s_wanted = false;
+     uint32_t s_lastDrawn = 0;
+ 
++    // Zeppelin F-234: the FFT waves' water: the nearest Cata water drawn last frame (CataRipplesWater), this frame's.
++    struct WaveWater { bool seen = false; float distance = 0.0f; int32_t pbr = 1240; float normal = 2.5f; };
++    WaveWater s_waveNext, s_waveNow;
++    C3Vector s_center;
++    char s_info[96] = "";
++
+     // XTextures\Ripples\perturbTex: Cata's runtime BLP2 (DXT1), decoded once to RGBA8 levels for the device.
+     std::vector<uint8_t> s_texels;
+     uint32_t s_texWidth = 0, s_texHeight = 0, s_texLevels = 0;
+@@ -257,7 +267,30 @@ namespace {
+ }
+ 
+ bool HD::CataRipplesActive() {
+-    return s_wanted && g_gxCataRipples.m_active;
++    return s_wanted && g_gxCataRipples.m_active && g_gxCataRipples.m_ripples;   // Zeppelin F-234: hdWaterRipples
++}
++
++void HD::CataRipplesWater(uint32_t liquidType, bool ocean, float normalScale, const CAaSphere& bounds) {
++    const float dx = bounds.c.x - s_center.x, dy = bounds.c.y - s_center.y, dz = bounds.c.z - s_center.z;
++    float distance = sqrtf(dx * dx + dy * dy + dz * dz) - bounds.r;
++    if (distance < 0.0f) distance = 0.0f;
++    if (s_waveNext.seen && distance >= s_waveNext.distance) return;
++    s_waveNext.seen = true;
++    s_waveNext.distance = distance;
++    s_waveNext.pbr = HD::WaterForeverType(static_cast<int32_t>(liquidType), ocean);
++    s_waveNext.normal = normalScale > 0.05f && normalScale < 100.0f ? normalScale : 2.5f;
++}
++
++const char* HD::CataRipplesInfo() {
++    const GxCataRipples& io = g_gxCataRipples;
++    s_info[0] = 0;
++    if (!io.m_ready) return s_info;
++    int n = 0;
++    if (io.m_ripples) n = snprintf(s_info, sizeof(s_info), ", ripples x%.2f", io.m_rippleStrength);
++    if (io.m_wavesOn && n >= 0 && n < static_cast<int>(sizeof(s_info)))
++        snprintf(s_info + n, sizeof(s_info) - n, ", waves %u x%.2f (%.0f-%.0f yd)", io.m_waveCount, HD::WaterWavesScale(), io.m_waveReach[0],
++                 io.m_waveReach[1]);
++    return s_info;
+ }
+ 
+ void HD::CataRipplesUnit(CGUnit_C* unit, float liquidHeight) {
+@@ -316,15 +349,36 @@ void HD::CataRipplesBeginFrame(const C3Vector& camera) {
+     io.m_wanted = s_wanted ? 1 : 0;
+     io.m_unitCount = io.m_eventCount = io.m_meshCount = 0;
+     s_events.clear();
++    // Cata CWorldScene::Render: SetDisplMapInfo(s_playerPos, ...): the maps follow the player (the camera without one).
++    C3Vector center = camera;
++    if (CGPlayer_C* player = ClntObjMgrGetActivePlayerObj()) center = static_cast<CGUnit_C*>(player)->GetPosition();
++    s_center = center;   // Zeppelin F-234: for this frame's CataRipplesWater
++    // Zeppelin F-234: the ripple controls and the waves of last frame's nearest water (none: no Cata water was drawn).
++    io.m_ripples = HD::WaterRipplesEnabled() && HD::WaterRippleStrength() > 0.0f ? 1 : 0;
++    io.m_rippleStrength = HD::WaterRippleStrength();
++    s_waveNow = s_waveNext;
++    s_waveNext = WaveWater();
++    io.m_waves = nullptr;
++    io.m_waveCount = 0;
++    if (s_wanted && s_waveNow.seen) {
++        const float* waves = nullptr;
++        float tile[4] = {};
++        uint32_t serial = 0;
++        const int32_t count = HD::WaterWavesSample(s_waveNow.pbr, &waves, tile, &serial);
++        if (count > 0 && waves) {
++            io.m_waves = waves;
++            io.m_waveCount = static_cast<uint32_t>(count);
++            io.m_waveSerial = serial;
++            memcpy(io.m_waveTile, tile, sizeof tile);
++            io.m_waveNormal = s_waveNow.normal;
++        }
++    }
+     if (!s_wanted) {
+         s_units.clear();
+         s_others = 0;
+         return;
+     }
+ 
+-    // Cata CWorldScene::Render: SetDisplMapInfo(s_playerPos, ...): the maps follow the player (the camera without one).
+-    C3Vector center = camera;
+-    if (CGPlayer_C* player = ClntObjMgrGetActivePlayerObj()) center = static_cast<CGUnit_C*>(player)->GetPosition();
+     io.m_time = FrameTime::s_curTimeMs;
+     io.m_center[0] = center.x;
+     io.m_center[1] = center.y;
+diff --git a/WoW/Source/WorldClient/HD/HdCataRipples.h b/WoW/Source/WorldClient/HD/HdCataRipples.h
+index 940b8438..59372034 100644
+--- a/WoW/Source/WorldClient/HD/HdCataRipples.h
++++ b/WoW/Source/WorldClient/HD/HdCataRipples.h
+@@ -6,8 +6,14 @@
+ // and the moving ships' hulls (the same function's map object meshes). This gathers them each frame for the device,
+ // which steps Cata's two maps (Engine/Source/Gx/CGxDeviceVulkan/hd/CataRipples.cpp); the water samples them
+ // (HdCataWater.cpp). While it runs, the units make no 3.3.5 ring ripples, as in Cata.
++// Zeppelin F-234: hdWaterRipples 0 stops the ripples (the 3.3.5 splashes come back, as on D3D9), hdWaterRippleStrength
++// scales them; hdWaterWaves 1 hands the device the FFT waves of the nearest water (HdWaterWaves.cpp, D3D9's own
++// spectra), which it folds into the maps (CataRipples.cpp): the waves need no shader of their own.
++
++#include <cstdint>
+ 
+ class C3Vector;
++class CAaSphere;
+ class CGUnit_C;
+ 
+ namespace HD {
+@@ -20,6 +26,13 @@ namespace HD {
+     // HD::CataWaterBeginLiquidPass: this frame's perturbations, the rain and the hulls (Cata UpdateRipples) handed to
+     // the device's stage, which runs right after.
+     void CataRipplesBeginFrame(const C3Vector& camera);
++
++    // Zeppelin F-234: each Cata water instance drawn (HdCataWater.cpp): the one nearest the player picks the FFT waves'
++    // water type (hdWaterWaves, HdWaterWaves.h) for the next frame. normalScale: its LiquidType float 15 (PS c23.z).
++    void CataRipplesWater(uint32_t liquidType, bool ocean, float normalScale, const CAaSphere& bounds);
++
++    // Zeppelin F-234: ", ripples x1.00, waves 3 x1.00 (40 yd)" for hdCataWaterInfo, or "" while neither runs.
++    const char* CataRipplesInfo();
+ }
+ 
+ #endif
+diff --git a/WoW/Source/WorldClient/HD/HdCataWater.cpp b/WoW/Source/WorldClient/HD/HdCataWater.cpp
+index fb7ae23b..010504cb 100644
+--- a/WoW/Source/WorldClient/HD/HdCataWater.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataWater.cpp
+@@ -522,6 +522,8 @@ bool HD::CataWaterRender(Liquid::IEnvironment* environment, Liquid::IGeomFactory
+         SetInfo("LiquidType %u is not a Cata water (material 1) row: 3.3.5 water", liquidType);
+         return KeepOld(Kept_Type);
+     }
++    // Zeppelin F-234: the nearest Cata water picks next frame's FFT waves (hdWaterWaves) and their normal scale.
++    HD::CataRipplesWater(liquidType, type->name.find("Ocean") != std::string::npos, type->floats[15], *bounds);
+ 
+     // A chunk's factory bakes the transform into its vertices (SetTransform true: identity model); a map object's
+     // (CMeshGeomFactory, false) keeps them in the group's space and the instance transform is Cata's model matrix.
+@@ -638,10 +640,12 @@ bool HD::CataWaterRender(Liquid::IEnvironment* environment, Liquid::IGeomFactory
+     g_theGxDevicePtr->RsPop();
+     g_gxCataWater.m_drawn++;
+ 
+-    if (s_submerged) SetInfo("on: LiquidType %u (%s), seen from below%s", liquidType, type->name.c_str(), rippled ? ", ripples" : "");
+-    else if (mirrored) SetInfo("on: LiquidType %u (%s), reflection%s", liquidType, type->name.c_str(), rippled ? ", ripples" : "");
++    // Zeppelin F-234: what the maps carry (ripples and their strength, the FFT waves and their reach).
++    const char* maps = rippled ? HD::CataRipplesInfo() : "";
++    if (s_submerged) SetInfo("on: LiquidType %u (%s), seen from below%s", liquidType, type->name.c_str(), maps);
++    else if (mirrored) SetInfo("on: LiquidType %u (%s), reflection%s", liquidType, type->name.c_str(), maps);
+     else SetInfo("on: LiquidType %u (%s), %s%s (%s %.1f..%.1f, plane %s %.1f)", liquidType, type->name.c_str(),
+-                 sky ? "sky reflection" : "no reflection", rippled ? ", ripples" : "", mesh ? "map object water" : "water", mesh ? meshBox.b.z : bounds->c.z,
++                 sky ? "sky reflection" : "no reflection", maps, mesh ? "map object water" : "water", mesh ? meshBox.b.z : bounds->c.z,
+                  mesh ? meshBox.t.z : bounds->c.z, g_gxCataPlane.m_valid ? "at" : "none, last", g_gxCataPlane.m_height);
+     return true;
+ }
+diff --git a/WoW/Source/WorldClient/HD/HdWater.cpp b/WoW/Source/WorldClient/HD/HdWater.cpp
+index ba593921..7a228529 100644
+--- a/WoW/Source/WorldClient/HD/HdWater.cpp
++++ b/WoW/Source/WorldClient/HD/HdWater.cpp
+@@ -1401,6 +1401,14 @@ void HD::WaterAfterDraw() {
+     s_planarRawBound = false;
+ }
+ 
++// Zeppelin F-234: the Forever type of a 3.3.5 liquid type, for the Vulkan Cata water's FFT waves (HdCataRipples.cpp).
++int32_t HD::WaterForeverType(int32_t legacyType, bool ocean) {
++    LoadTypes();
++    std::map<int32_t, LegacyMap>::const_iterator m = s_legacy.find(legacyType);
++    if (m != s_legacy.end()) return m->second.pbr;
++    return ocean ? 1250 : 1240;   // as TypeFor without the map: by kind
++}
++
+ bool HD::WaterWantsDepth() {
+     RegisterCVars();
+     HD::WaterPlanarReset(); // HD: hdWaterPlanar's cvars exist from the first frame
+diff --git a/WoW/Source/WorldClient/HD/HdWater.h b/WoW/Source/WorldClient/HD/HdWater.h
+index 40f18f21..c2e33195 100644
+--- a/WoW/Source/WorldClient/HD/HdWater.h
++++ b/WoW/Source/WorldClient/HD/HdWater.h
+@@ -53,6 +53,10 @@ namespace HD {
+ 
+     // Called by hdFog's device release hook (window resize, device lost).
+     void WaterReleaseDeviceResources();
++
++    // Zeppelin F-234: the Forever water type (hd_forever_liquid.txt's map) of a 3.3.5 liquid type; one the map does
++    // not know gets the ocean or the lake type. For the FFT waves on the Vulkan Cata water (HdCataRipples.cpp).
++    int32_t WaterForeverType(int32_t legacyType, bool ocean);
+ }
+ 
+ #endif
+diff --git a/WoW/Source/WorldClient/HD/HdWaterRipples.cpp b/WoW/Source/WorldClient/HD/HdWaterRipples.cpp
+index f7b620e0..b8e82951 100644
+--- a/WoW/Source/WorldClient/HD/HdWaterRipples.cpp
++++ b/WoW/Source/WorldClient/HD/HdWaterRipples.cpp
+@@ -84,7 +84,7 @@ float4 main(float4 iLocal : TEXCOORD0, float4 iRipple : TEXCOORD1, float4 iDir :
+         static bool registered = false;
+         if (registered) return;
+         registered = true;
+-        s_enabled = CVar::Register("hdWaterRipples", "HD: 1 = ripples on hdWater's water around units in it, 0 = off", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_enabled = CVar::Register("hdWaterRipples", "HD: 1 = ripples on the water around units in it (hdWater 1 on D3D9, hdCataWater 1 on Vulkan), 0 = off", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_strength = CVar::Register("hdWaterRippleStrength", "HD: water ripple strength, 1 = normal", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+@@ -256,3 +256,14 @@ void HD::WaterRipplesRelease() {
+     if (s_ps) { s_ps->Release(); s_ps = nullptr; }
+     s_valid = false;
+ }
++
++// Zeppelin F-234: the same two CVars for the Vulkan Cata water (HdWaterRipples.h).
++bool HD::WaterRipplesEnabled() {
++    RegisterCVars();
++    return s_enabled ? s_enabled->m_intValue != 0 : true;
++}
++
++float HD::WaterRippleStrength() {
++    RegisterCVars();
++    return Strength();
++}
+diff --git a/WoW/Source/WorldClient/HD/HdWaterRipples.h b/WoW/Source/WorldClient/HD/HdWaterRipples.h
+index 75db8de2..15c31074 100644
+--- a/WoW/Source/WorldClient/HD/HdWaterRipples.h
++++ b/WoW/Source/WorldClient/HD/HdWaterRipples.h
+@@ -27,6 +27,11 @@ namespace HD {
+     void WaterRipplesConstants(float* out);
+     // Called with HD::WaterReleaseDeviceResources (device lost, resize).
+     void WaterRipplesRelease();
++
++    // Zeppelin F-234: hdWaterRipples and hdWaterRippleStrength (0 to 4) for the Vulkan Cata water's ripples too
++    // (HdCataRipples.cpp): off, they are not simulated and the units make the 3.3.5 splashes again, as on D3D9.
++    bool WaterRipplesEnabled();
++    float WaterRippleStrength();
+ }
+ 
+ #endif
+diff --git a/WoW/Source/WorldClient/HD/HdWaterWaves.cpp b/WoW/Source/WorldClient/HD/HdWaterWaves.cpp
+index 899f3657..a758c89a 100644
+--- a/WoW/Source/WorldClient/HD/HdWaterWaves.cpp
++++ b/WoW/Source/WorldClient/HD/HdWaterWaves.cpp
+@@ -63,7 +63,7 @@ namespace {
+         static bool registered = false;
+         if (registered) return;
+         registered = true;
+-        s_enabled = CVar::Register("hdWaterWaves", "HD: 1 = FFT waves on the Forever water (hdWater 1), 0 = the 3.3.5 normal maps", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        s_enabled = CVar::Register("hdWaterWaves", "HD: 1 = FFT waves on the water (hdWater 1 on D3D9; hdCataWater 1 on Vulkan, near the player), 0 = off", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_scale = CVar::Register("hdWaterWaveScale", "HD: FFT wave height multiplier, 1 = the tiles' own (0 to 4)", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+@@ -469,6 +469,50 @@ bool HD::WaterWavesEnabled() {
+     return s_enabled ? s_enabled->m_intValue != 0 : true;
+ }
+ 
++// Zeppelin F-234: the Vulkan Cata water's waves (HdWaterWaves.h). The spectra are the D3D9 path's own (s_waves, so
++// both renderers show the same sea); only the evaluated floats are kept, the device uploads them.
++int32_t HD::WaterWavesSample(int32_t pbrType, const float** data, float* tile, uint32_t* serial) {
++    static std::vector<float> s_data;
++    static uint32_t s_lastMs = 0, s_serial = 0;
++    static int32_t s_type = 0x7FFFFFFF, s_count = 0;
++    static float s_scale = -1.0f;
++    RegisterCVars();
++    if (!WaterWavesEnabled()) return 0;
++    Load();
++    const float heading = HeadingRadians();
++    WaveType*& w = s_waves[pbrType];
++    if (w && std::fabs(w->heading - heading) > 1e-4f) {
++        if (s_current == w) s_current = nullptr;   // the D3D9 path builds it again at its next update
++        Free(w);
++        w = nullptr;
++    }
++    if (!w) {
++        w = Build(pbrType, heading);
++        s_type = 0x7FFFFFFF;
++    }
++    if (w->count == 0) return 0;
++    const uint32_t now = OsGetAsyncTimeMs();
++    const float scale = WaterWavesScale();
++    if (s_type != pbrType || s_scale != scale || now - s_lastMs >= 8u) {
++        s_type = pbrType;
++        s_scale = scale;
++        s_lastMs = now;
++        s_count = w->count;
++        const double t = (now % 3600000u) * 0.001;   // wraps once an hour, as WaterWavesUpdate
++        std::vector<float> one;
++        s_data.resize(static_cast<size_t>(s_count) * kN * kN * 4);
++        for (int32_t i = 0; i < s_count; i++) {
++            Evaluate(w->cascades[i], t, scale, one);
++            memcpy(&s_data[static_cast<size_t>(i) * kN * kN * 4], one.data(), sizeof(float) * kN * kN * 4);
++        }
++        s_serial++;
++    }
++    for (int32_t i = 0; i < kMaxTiles; i++) tile[i] = i < s_count ? w->cascades[i].size : 0.0f;
++    *data = s_data.data();
++    *serial = s_serial;
++    return s_count;
++}
++
+ void HD::WaterWavesRelease() {
+     // managed textures survive a device reset, but the device itself may be going away: drop them all
+     for (std::map<int32_t, WaveType*>::iterator it = s_waves.begin(); it != s_waves.end(); ++it) {
+diff --git a/WoW/Source/WorldClient/HD/HdWaterWaves.h b/WoW/Source/WorldClient/HD/HdWaterWaves.h
+index 96fb7bf1..1132d42d 100644
+--- a/WoW/Source/WorldClient/HD/HdWaterWaves.h
++++ b/WoW/Source/WorldClient/HD/HdWaterWaves.h
+@@ -41,6 +41,15 @@ namespace HD {
+ 
+     // Called with HD::WaterReleaseDeviceResources (device lost, resize).
+     void WaterWavesRelease();
++
++    // Zeppelin F-234: the same waves without D3D9 textures, for the Vulkan Cata water (HdCataRipples.cpp hands them to
++    // the device, which folds their heights into Cata's displacement maps). Steps this Forever water type's cascades
++    // to now (at most every 8 ms) and returns how many there are, 0 when hdWaterWaves is 0. *data = per cascade
++    // WaterWaveTexels x WaterWaveTexels x 4 floats (dh/dx, dh/dy, height in yards, Jacobian, rows along +y), the
++    // cascades one after another, valid until the next call; tile[i] = cascade i's tile size (yards); *serial changes
++    // whenever *data holds new values.
++    enum { WaterWaveTexels = 64 };
++    int32_t WaterWavesSample(int32_t pbrType, const float** data, float* tile, uint32_t* serial);
+ }
+ 
+ #endif
+-- 
+2.34.1
+
