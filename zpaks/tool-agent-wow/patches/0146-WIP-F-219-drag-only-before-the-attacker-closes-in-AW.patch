@@ -1,0 +1,63 @@
+From 859fee22386aab6d537c71817290aa03f16fd839 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 21:24:15 +0000
+Subject: [PATCH] WIP: F-219 - drag only before the attacker closes in;
+ AW_NO_DRAG switch; deaths.py tags drags/routes
+
+Run 2026-11-01 (route planner + drag): deaths right after a drag - rogue 7 of 9, priest 7 of 20,
+mage 4 of 15, hunter 2 of 13. Running with a mob already in melee gave it free hits and walked into
+unseen mobs. drag_clear now returns when any attacker is within 8 yd.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/deaths.py     |  3 ++-
+ zeppelin/tests/start_area.py | 12 ++++++++----
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/zeppelin/tests/deaths.py b/zeppelin/tests/deaths.py
+index 44d4cc0..e25e1f0 100644
+--- a/zeppelin/tests/deaths.py
++++ b/zeppelin/tests/deaths.py
+@@ -20,7 +20,8 @@ def context(L, i):
+         t = L[j].strip()
+         if not t or t.startswith(("fight", "!")) or "died" in t:
+             continue
+-        for key, label in (("revive:", "just revived"), ("spirit rez", "just revived"), ("engage on our terms", "road engage"),
++        for key, label in (("drag: ", "dragging the fight"), ("route: ", "walking a planned route"),
++                           ("~ route hop", "walking a planned route"), ("revive:", "just revived"), ("spirit rez", "just revived"), ("engage on our terms", "road engage"),
+                            ("let ", "letting a mob pass"), ("grind", "grinding"), ("clear camp", "clearing a camp"),
+                            ("rest: stepping", "resting"), ("detour around", "travelling (detour)"), ("travel ", "travelling"),
+                            ("repair", "repair trip"), ("body-pulling", "body pull"), ("[PASS]", "questing"), ("hit ", "questing"),
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 56929ea..8b29a14 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1529,16 +1529,20 @@ class Runner:
+         of their reach first - the attacker follows - and fight there, not beside the camp. 22 of the
+         fleet's 139 multi-mob ambushes began right after a fight, the next group walking into the
+         old one. Same walk test as step_clear: the way there crosses no other mob's reach."""
+-        if time.time() - getattr(self, "_drag_t", 0) < 20:
+-            return False  # one drag per fight: running about is no way to fight
++        if os.environ.get("AW_NO_DRAG") or time.time() - getattr(self, "_drag_t", 0) < 20:
++            return False  # one drag per fight: running about is no way to fight (AW_NO_DRAG: off for A/B)
+         s = call("interact.self")
+         level = s.get("level", 1)
+         top = {}
+         for t in self.threats():
+             top[t[3]] = max(top.get(t[3], 0), t[2])
+         on_us = {int(a) for a in attackers}
+-        others = [(o["x"], o.get("y", 0), top[o["entry"]]) for o in
+-                  call("interact.find", type=3, radius=80, limit=80).get("objects", [])
++        seen = call("interact.find", type=3, radius=80, limit=80).get("objects", [])
++        # only BEFORE it closes in: running with a mob already on us is free hits in the back and new
++        # mobs on the way - 7 of the rogue's 9 deaths (and 7 of the priest's 20) came straight after a drag
++        if any(int(o["guid"]) in on_us and o.get("distance", 99) < 8 for o in seen):
++            return False
++        others = [(o["x"], o.get("y", 0), top[o["entry"]]) for o in seen
+                   if o.get("health", 0) > 0 and not o.get("npcFlags") and o.get("entry") in top
+                   and int(o["guid"]) not in on_us and top[o["entry"]] > gray_level(level)]
+         me = self.me()
+-- 
+2.34.1
+
