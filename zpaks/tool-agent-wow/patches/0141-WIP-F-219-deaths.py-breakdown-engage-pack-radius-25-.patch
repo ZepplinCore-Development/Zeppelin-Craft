@@ -1,0 +1,155 @@
+From 40ac69deae41dc5137318f06b9f392570da56991 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 00:35:05 +0000
+Subject: [PATCH] WIP: F-219 - deaths.py breakdown; engage pack radius 25 yd +
+ rest/mana first; rest spots out to 80 yd
+
+From the hunter/priest/mage cause-of-death breakdown (2026-10-31 run):
+- engage: another hostile within 25 yd (was 18) makes it a pack - engaged mobs brought their
+  neighbour and the second one killed the bot at full health
+- engage: rest first when below 70 % HP or 60 % mana (mana classes)
+- step_clear: look at 55/80 yd rings when nothing within 35 yd is outside every reach (the priest
+  rested "-13 yd outside" reach inside the vineyard camp and died to 5)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/deaths.py     | 55 ++++++++++++++++++++++++++++++++++++
+ zeppelin/tests/start_area.py | 29 +++++++++++++------
+ 2 files changed, 75 insertions(+), 9 deletions(-)
+ create mode 100644 zeppelin/tests/deaths.py
+
+diff --git a/zeppelin/tests/deaths.py b/zeppelin/tests/deaths.py
+new file mode 100644
+index 0000000..c3c0a2e
+--- /dev/null
++++ b/zeppelin/tests/deaths.py
+@@ -0,0 +1,55 @@
++"""deaths.py AREA [AREA...] - cause-of-death breakdown for each bot's latest run (F-219).
++Per death: the killing fight (pull / defend / engage, attackers), health going in (= damage taken in
++the fatal fight, as it ends at 0), the killer's level against ours, and what the bot was doing."""
++import collections, re, subprocess, sys
++sys.path.insert(0, __file__.rsplit("/", 1)[0])
++from fleet import area_dir
++
++FIGHT = re.compile(r"fight (\d+): we died \[(\w+) x(\d+)[^\]]*\].*?taken (\d+) hp 0/(\d+)")
++
++def levels(entries):
++    if not entries:
++        return {}
++    q = f"SELECT entry,minlevel,maxlevel,name FROM creature_template WHERE entry IN ({','.join(map(str, entries))})"
++    out = subprocess.run([sys.executable, "-m", "cli.zep", "world", "sql", "query", q], capture_output=True, text=True,
++                         cwd="/workspace/project/Zeppelin-Craft").stdout.splitlines()[1:]
++    return {int(r.split("\t")[0]): (int(r.split("\t")[1]), int(r.split("\t")[2]), r.split("\t")[3]) for r in out if r.strip()}
++
++def context(L, i):
++    for j in range(i - 1, max(0, i - 15), -1):
++        t = L[j].strip()
++        if not t or t.startswith(("fight", "!")) or "died" in t:
++            continue
++        for key, label in (("revive:", "just revived"), ("spirit rez", "just revived"), ("engage on our terms", "road engage"),
++                           ("let ", "letting a mob pass"), ("grind", "grinding"), ("clear camp", "clearing a camp"),
++                           ("rest: stepping", "resting"), ("detour around", "travelling (detour)"), ("travel ", "travelling"),
++                           ("repair", "repair trip"), ("body-pulling", "body pull"), ("[PASS]", "questing"), ("hit ", "questing"),
++                           ("open GO", "questing"), ("use ", "questing")):
++            if key in t:
++                return label
++        return "other: " + t[:50]
++    return "?"
++
++for area in sys.argv[1:]:
++    log = open(f"{area_dir(area)}/fleet.log", errors="replace").read().splitlines()
++    start = max(i for i, l in enumerate(log) if "] new character" in l)
++    L = log[start:]
++    level = 1
++    rows = []
++    for i, l in enumerate(L):
++        m = re.search(r"\[TRAIN\] level (\d+)", l)
++        if m:
++            level = int(m[1])
++        d = FIGHT.search(l)
++        if d and " swings 0 dealt 0 taken 0" not in l:
++            rows.append(dict(entry=int(d[1]), kind=d[2], n=int(d[3]), start=int(d[4]) * 100 // int(d[5]), lvl=level,
++                             ctx=context(L, i)))
++    info = levels({r["entry"] for r in rows})
++    print(f"=== {area}: {len(rows)} deaths")
++    c = collections.Counter
++    print("  fight:", dict(c(f"{r['kind']} x{min(r['n'], 3)}{'+' if r['n'] > 3 else ''}" for r in rows).most_common()))
++    print("  health going in:", dict(c(("<50%" if r["start"] < 50 else "50-89%" if r["start"] < 90 else "90%+") for r in rows).most_common()))
++    print("  killer vs us:", dict(c(("+%d" % (info.get(r["entry"], (0, 0))[1] - r["lvl"])) for r in rows).most_common()))
++    print("  doing:", dict(c(r["ctx"] for r in rows).most_common(8)))
++    print("  killers:", ", ".join(f"{info.get(e, (0, 0, '?'))[2]} {info.get(e, (0, 0))[0]}-{info.get(e, (0, 0))[1]} x{k}"
++                                for e, k in c(r["entry"] for r in rows).most_common(5)))
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index aa30489..bac4017 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1537,7 +1537,7 @@ class Runner:
+         for t in self.threats():
+             top[t[3]] = max(top.get(t[3], 0), t[2])
+         live = [(o["x"], o.get("y", 0), top.get(o["entry"], level)) for o in
+-                call("interact.find", type=3, radius=70, limit=80).get("objects", [])
++                call("interact.find", type=3, radius=100, limit=80).get("objects", [])
+                 if o.get("health", 0) > 0 and not o.get("npcFlags") and o["entry"] in top]
+         me = self.me()
+         reach = lambda m: self.aggro_r(m[2], level) + 8
+@@ -1546,11 +1546,17 @@ class Runner:
+             return min((math.dist(m[:2], (x, y)) - reach(m) for m in live), default=99)
+         if margin(me["x"], me["y"]) >= 0:
+             return
+-        spawns = [t for t in self.threats() if math.dist(t[:2], (me["x"], me["y"])) < 70]
++        spawns = [t for t in self.threats() if math.dist(t[:2], (me["x"], me["y"])) < 100]
+         live += [(t[0], t[1], t[2]) for t in spawns]  # a respawn on top of us is the next fight too
+-        pts = [(me["x"] + r * math.cos(a * math.pi / 6), me["y"] + r * math.sin(a * math.pi / 6))
+-               for r in (20, 35) for a in range(12)]
+-        best = max(pts, key=lambda p: margin(*p))
++        # 20 and 35 yd first; inside a camp none of those is clear (Northshire's vineyard: the priest sat
++        # down "-13 yd outside" reach after clearing Defias and died to 5 at once) - then 55 and 80
++        best = None
++        for rings in ((20, 35), (55, 80)):
++            pts = [(me["x"] + r * math.cos(a * math.pi / 6), me["y"] + r * math.sin(a * math.pi / 6))
++                   for r in rings for a in range(12)]
++            best = max(pts, key=lambda p: margin(*p))
++            if margin(*best) >= 0:
++                break
+         if margin(*best) <= margin(me["x"], me["y"]) + 5:
+             return  # nowhere quieter within reach: rest here
+         g = call("move.ground", x=best[0], y=best[1], z=me.get("z", 0))
+@@ -1558,7 +1564,7 @@ class Runner:
+             return
+         print(f"  rest: stepping clear to ({best[0]:.0f},{best[1]:.0f}), {margin(*best):.0f} yd outside the nearest "
+               f"reach (was {margin(me['x'], me['y']):.0f})", flush=True)
+-        call("move.to", x=best[0], y=best[1], z=g["z"], timeout_ms=12000)
++        call("move.to", x=best[0], y=best[1], z=g["z"], timeout_ms=20000)
+ 
+     def maybe_repair(self, below=0.3, max_walk=600):
+         """Repair everything at the nearest repair NPC when any worn item is below `below` of its
+@@ -3226,8 +3232,11 @@ class Runner:
+             return False
+         t, o, lv, (vx, vy) = risk
+         moving = math.hypot(vx, vy) > 0.5
++        # a pack = another hostile within 25 yd of it (its assist/aggro reach): at 18 yd the engaged mob
++        # brought its neighbour - Tirisfal Farmers and Teldrassil's Timberlings/Sprites came two at a
++        # time and killed the mage and hunter at full health ("pull x2" then a fatal defend)
+         pack = any(m is not o and top.get(m["entry"], 0) > gray_level(level)
+-                   and math.dist((m["x"], m.get("y", 0)), (o["x"], o.get("y", 0))) < 18 for m in mobs)
++                   and math.dist((m["x"], m.get("y", 0)), (o["x"], o.get("y", 0))) < 25 for m in mobs)
+         if lv <= level + 1 and not pack and o.get("distance", 0) > 55:
+             # the kill RPC will not chase past 60 yd ("too far": a third of all engagements) - walk a short
+             # slice instead and look again before we reach it
+@@ -3235,8 +3244,10 @@ class Runner:
+             return False
+         if lv <= level + 1 and not pack and now - tried.get(int(o["guid"]), 0) > 120:
+             tried[int(o["guid"])] = now
+-            if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70:
+-                self.rest(95)  # never start it hurt
++            dry = (self.w.cls in MANA_CLASSES and s.get("powerType", 0) == 0 and s.get("maxPower")
++                   and s.get("power", 0) * 100 < s["maxPower"] * 60)
++            if dry or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70):
++                self.rest(95)  # never start it hurt or dry
+             if self.w.cls == 4:
+                 self.stealth(wait=True)
+             print(f"  engage on our terms: {o['entry']} (level {lv}) {o.get('distance', 0):.0f} yd away, "
+-- 
+2.34.1
+
