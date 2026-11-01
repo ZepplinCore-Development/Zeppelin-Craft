@@ -1,0 +1,586 @@
+From bf484c332733ab78301ffc79948b3da30f0f810b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 12:42:13 +0000
+Subject: [PATCH] Zeppelin I-442: antialiased alpha-tested foliage under MSAA
+ (grass, leaves, fences) - hdAlphaAA, default supersampled alpha test
+
+- Alpha-tested "solid" draws on a multisampled pass (blend<=1, or blend 2 with depth write: ground clutter) get a key bit:
+  hdAlphaAA 1 = alpha to coverage (alphaRef zeroed so alpha becomes the sample mask, blending off; capture copies keep the
+  hard test for the Cata mirror and shadow cut-outs); 2 (default) = supersampled alpha test (sampleShadingEnable, min 1,
+  pixel module loaded as a per-sample variant: user inputs decorated Sample, SampleRateShading added, patched at load,
+  nothing retranslated); falls back to 1 without the sampleRateShading feature. 1x passes never change.
+- hdAlphaAAInfo reports the mode in use; changes live.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp | 59 ++++++++++++
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.h   |  8 ++
+ .../CGxDeviceVulkan/wxl/compat/src/Seams.cpp  |  7 +-
+ .../wxl/src/native/render/WorldPass.cpp       |  2 +
+ .../wxl/src/vulkan/Context.cpp                |  1 +
+ .../wxl/src/vulkan/Context.hpp                |  1 +
+ .../wxl/src/vulkan/Pipelines.cpp              | 13 +++
+ .../wxl/src/vulkan/Pipelines.hpp              | 15 +++
+ .../wxl/src/vulkan/Shaders.cpp                | 94 ++++++++++++++++++-
+ .../wxl/src/vulkan/Shaders.hpp                |  9 ++
+ .../wxl/src/vulkan/context/Internal.hpp       |  1 +
+ .../wxl/src/vulkan/context/Logical.cpp        |  5 +
+ .../wxl/src/vulkan/pipelines/Build.cpp        | 25 ++++-
+ .../wxl/src/vulkan/pipelines/Internal.hpp     | 12 ++-
+ .../wxl/src/vulkan/pipelines/Keys.cpp         | 11 ++-
+ .../wxl/src/vulkan/pipelines/Record.cpp       | 19 +++-
+ .../wxl/src/vulkan/pipelines/RecordInputs.cpp |  3 +
+ 17 files changed, 275 insertions(+), 10 deletions(-)
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.h
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp
+new file mode 100644
+index 00000000..5e3ce981
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp
+@@ -0,0 +1,59 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++// Zeppelin I-442: hdAlphaAA -- antialiasing of the alpha test on the multisampled Vulkan passes (I-442's MSAA).
++//
++// The engine's alpha test reaches Vulkan as a discard in every pixel module (translated stock shaders, the HD blobs
++// such as HdGrass, ff.frag, combiners_mod.frag): `if (misc.x > 0 && a < misc.x) discard`, misc.x = alphaRef / 255 from
++// the draw's uniform slice. MSAA alone leaves that edge hard, since the discard decides per pixel. Two remedies that
++// need no retranslation, both pipeline state on the alpha-tested draws of an N-sample pass only (vulkan/pipelines
++// MakeKey bits 3 / 4); a 1x pass never changes:
++//   1  alpha to coverage: misc.x is zeroed for those draws so nothing is discarded, and the fragment's alpha becomes
++//      the sample mask. Cheap; edges as soft as the texture's own alpha ramp (no sharpening: that would need a
++//      change in every translated module).
++//   2  supersampled alpha test (sample shading at rate 1): the shader, its texture fetch at each sample's position
++//      and its discard run once per sample -- NVIDIA's transparency supersampling under D3D9. The sharpest, and the
++//      foliage keeps its exact thickness; costs N shader runs per covered pixel for those draws. Falls back to 1
++//      on a device without sampleRateShading.
++#include "HdVulkanAlphaAA.h"
++#include <cstdio>
++#include <cstring>
++#include "Engine/Source/ConsoleBase/ConsoleVar.h"
++#include "Engine/Source/ConsoleBase/Types.h"
++#include "native/Present.hpp"
++#include "vulkan/Pipelines.hpp"
++
++namespace HD::VulkanAlphaAA {
++namespace {
++CVar* mode = nullptr;
++CVar* info = nullptr;
++char lastInfo[96] = "";
++CVar* Var(const char* name, const char* help, const char* value, uint32_t flags = 1) {
++    if (auto* old = CVar::LookupRegistered(name)) return old;
++    return CVar::Register(name, help, flags, value, nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++}
++void Info(const char* value) {
++    if (info && std::strcmp(lastInfo, value)) {
++        std::snprintf(lastInfo, sizeof lastInfo, "%s", value);
++        info->Set(lastInfo, true, false, false, false);
++    }
++}
++}
++
++void Update() {
++    if (!mode) {
++        mode = Var("hdAlphaAA", "HD: Vulkan MSAA on alpha-tested grass/leaves: 0 off, 1 alpha to coverage, 2 supersampled alpha test", "2");
++        info = Var("hdAlphaAAInfo", "HD: alpha-test antialiasing status", "off", 0x80);
++    }
++    const int requested = mode ? mode->m_intValue : 0;
++    const uint32_t used = wxlvk::vk::pipelines::SetAlphaAA(requested > 0 ? static_cast<uint32_t>(requested) : 0u);
++    const uint32_t samples = wxlvk::native::present::MultisampleCount();
++    char line[96];
++    if (samples <= 1)
++        std::snprintf(line, sizeof line, "off: no MSAA (gxMultisample 1)");
++    else if (used == 0)
++        std::snprintf(line, sizeof line, "off");
++    else
++        std::snprintf(line, sizeof line, "%s at %ux%s", used == 2 ? "supersampled alpha test" : "alpha to coverage", samples,
++                      requested == 2 && used == 1 ? " (no sampleRateShading)" : "");
++    Info(line);
++}
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.h b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.h
+new file mode 100644
+index 00000000..7f7d54f4
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.h
+@@ -0,0 +1,8 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++// Zeppelin I-442: hdAlphaAA, antialiasing of the alpha test (grass, leaves, fences) on the multisampled Vulkan passes.
++#pragma once
++namespace HD::VulkanAlphaAA {
++// Reads hdAlphaAA (registering it on first use) and hands it to the pipelines (wxlvk::vk::pipelines::SetAlphaAA);
++// sets hdAlphaAAInfo. Called before the world scene and the glue's model scene, so a change applies next frame.
++void Update();
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/compat/src/Seams.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/compat/src/Seams.cpp
+index 2cb9f5b2..a1633d58 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/compat/src/Seams.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/compat/src/Seams.cpp
+@@ -9,6 +9,7 @@
+ #include "wxlcompat/Seams.hpp"
+ 
+ #include "native/Present.hpp"
++#include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.h"
+ #include "shaders/Translated.hpp"
+ #include "wxl/PluginApi.h"
+ #include "wxlcompat/Engine.hpp"
+@@ -91,7 +92,11 @@ namespace
+     bool g_enabled = false;
+ 
+     // Zeppelin I-442: the glue's model scene, the MSAA window's second half (the world is NoteWorld).
+-    void ModelScene(int32_t open) { wxlvk::native::present::NoteModelScene(open != 0); }
++    void ModelScene(int32_t open)
++    {
++        if (open) HD::VulkanAlphaAA::Update();   // Zeppelin I-442: hdAlphaAA on the glue's multisampled model scene
++        wxlvk::native::present::NoteModelScene(open != 0);
++    }
+ 
+     int32_t ShaderKnown(const void* code, uint32_t size)
+     {
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp
+index e10a8cd3..77824a10 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp
+@@ -20,6 +20,7 @@
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.h" // HD: hdFog
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanBloom.h" // HD: hdBloom
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.h" // HD: hdGrade
++#include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.h" // Zeppelin I-442: hdAlphaAA
+ 
+ #include "capture/Capture.hpp"
+ #include "native/Present.hpp"
+@@ -42,6 +43,7 @@ namespace
+         HD::VulkanFog::Resize(); // HD: hdFog
+         HD::VulkanBloom::Resize(); // HD: hdBloom / hdRays
+         HD::VulkanGrade::Resize(); // HD: hdGrade
++        HD::VulkanAlphaAA::Update(); // Zeppelin I-442: hdAlphaAA, the alpha test on the multisampled world pass
+         wxlvk::native::present::NoteWorld(true);   // the G-buffer class may be taken from here to AfterOpaqueWorld
+         wxlvk::native::render::jitter::BeginWorld();
+         wxlvk::capture::BeginWorld();
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Context.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Context.cpp
+index a028b9b4..4a01335e 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Context.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Context.cpp
+@@ -268,6 +268,7 @@ namespace wxlvk::vk::context
+         view.samplerAnisotropy = g.anisotropy;
+         view.occlusionQueryPrecise = g.preciseOcclusion;
+         view.independentBlend      = g.independentBlend;
++        view.sampleRateShading     = g.sampleRateShading;   // Zeppelin I-442
+         view.iapi           = &g.iapi;
+         view.dapi           = &g.dapi;
+         return &view;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Context.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Context.hpp
+index 1993624f..49d72564 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Context.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Context.hpp
+@@ -130,6 +130,7 @@ namespace wxlvk::vk::context
+         bool             samplerAnisotropy;    ///< anisotropic samplers are legal on this device
+         bool             occlusionQueryPrecise; ///< VK_QUERY_CONTROL_PRECISE_BIT is legal: exact sample counts
+         bool             independentBlend;      ///< per-attachment blend state is legal (the G-buffer pass class needs it)
++        bool             sampleRateShading;     ///< Zeppelin I-442: sample shading is legal (hdAlphaAA 2, the per-sample alpha test)
+         const loader::Instance* iapi;
+         const loader::Device*   dapi;
+     };
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
+index bd14e67c..9629f8c7 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
+@@ -66,6 +66,19 @@ namespace wxlvk::vk::pipelines
+ 
+     uint32_t PassSamples(VkRenderPass pass) { return static_cast<uint32_t>(SamplesOf(pass)); }
+ 
++    uint32_t SetAlphaAA(uint32_t mode)
++    {
++        if (mode > 2) mode = 2;
++        if (mode == 2)
++        {
++            // Sample shading is a device feature: without it the supersampled test is alpha to coverage.
++            const context::Handles* h = context::Get();
++            if (!h || !h->sampleRateShading) mode = 1;
++        }
++        s.alphaAA = mode;
++        return mode;
++    }
++
+     VkPipelineCache PipelineCache() { return s.ready ? s.cache : VK_NULL_HANDLE; }
+ 
+     void SavePipelineCache()
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp
+index a89f9520..e03ce6b9 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp
+@@ -149,6 +149,21 @@ namespace wxlvk::vk::pipelines
+     /// Zeppelin I-442: the sample count of a pass PassCreated described (1 for any other pass).
+     uint32_t PassSamples(VkRenderPass pass);
+ 
++    /**
++     * Zeppelin I-442: antialiasing of the alpha test on a multisampled pass (hdAlphaAA, set every world frame by
++     * CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp). Applies only to alpha-tested draws (blend 0 / 1 with the alpha
++     * test on, or the AlphaKey blend) on a pass class of more than one sample; single-sampled passes never
++     * change.
++     *
++     * @param uint32 mode : 0 off (the hard per-pixel test, as at 1x); 1 alpha to coverage (the test's
++     *        discard is lifted for those draws and the fragment's alpha becomes the sample coverage);
++     *        2 supersampled alpha test (sample shading: the shader and its discard run once per sample; the
++     *        sharpest, at N times the shading cost of those draws; alpha to coverage where the device
++     *        has no sampleRateShading)
++     * @return uint32 : the mode in force
++     */
++    uint32_t SetAlphaAA(uint32_t mode);
++
+     /// What a captured draw's shadow pipeline is built from (src/capture/ShadowPipelines.cpp).
+     struct ShadowSource
+     {
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp
+index fb4493fb..1e78bffc 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp
+@@ -164,6 +164,78 @@ namespace
+ 
+ namespace
+ {
++    /**
++     * Zeppelin I-442: a fragment module whose inputs are interpolated at each sample's position -- the per-sample
++     * variant the supersampled alpha test (hdAlphaAA 2) draws with. Vulkan's sample shading alone runs the shader
++     * per sample but may still interpolate an undecorated input at the pixel centre, which leaves every sample of
++     * a pixel with the same texel and the same discard: the edge stays hard. So every user Input variable that is
++     * not built in, flat, centroid or already per-sample gets `OpDecorate %v Sample`, and the module declares
++     * SampleRateShading (the device enables that feature, vulkan/context/Logical.cpp). A mechanical patch of the
++     * module as loaded: the translated modules and the hand-written rows are not rebuilt.
++     *
++     * @param vector& words : the module; patched in place
++     * @return uint32 : the inputs decorated (0: nothing to do, the module unchanged)
++     */
++    uint32_t PatchSampleInterpolation(std::vector<uint32_t>& words)
++    {
++        constexpr uint32_t kOpCapability = 17, kOpDecorate = 71, kOpMemberDecorate = 72, kOpVariable = 59,
++                           kOpTypePointer = 32, kOpTypeStruct = 30, kOpFunction = 54;
++        constexpr uint32_t kCapSampleRateShading = 35, kStorageInput = 1;
++        constexpr uint32_t kDecBuiltIn = 11, kDecFlat = 14, kDecCentroid = 16, kDecSample = 17;
++        if (words.size() < 5) return 0;
++        const uint32_t bound = words[3];
++        std::vector<uint8_t> skip(bound, 0), isStruct(bound, 0);
++        std::vector<uint32_t> pointee(bound, 0), inputs;
++        bool hasCap = false;
++        size_t firstCapEnd = 0, firstAnnotation = 0;
++        for (size_t i = 5; i < words.size();)
++        {
++            const uint32_t op = words[i] & 0xFFFFu, n = words[i] >> 16;
++            if (n == 0 || i + n > words.size()) return 0;   // malformed: leave it alone
++            if (op == kOpCapability)
++            {
++                if (words[i + 1] == kCapSampleRateShading) hasCap = true;
++                if (!firstCapEnd) firstCapEnd = i + n;
++            }
++            else if ((op == kOpDecorate || op == kOpMemberDecorate) && !firstAnnotation) firstAnnotation = i;
++            if (op == kOpDecorate && n >= 3 && words[i + 1] < bound)
++            {
++                const uint32_t d = words[i + 2];
++                if (d == kDecBuiltIn || d == kDecFlat || d == kDecCentroid || d == kDecSample) skip[words[i + 1]] = 1;
++            }
++            else if (op == kOpTypeStruct && n >= 2 && words[i + 1] < bound) isStruct[words[i + 1]] = 1;
++            else if (op == kOpTypePointer && n >= 4 && words[i + 1] < bound) pointee[words[i + 1]] = words[i + 3];
++            else if (op == kOpVariable && n >= 4 && words[i + 3] == kStorageInput && words[i + 2] < bound)
++            {
++                inputs.push_back(words[i + 2]);   // pairs: the variable's id, its pointer type
++                inputs.push_back(words[i + 1]);
++            }
++            else if (op == kOpFunction) break;   // no globals after the first function
++            i += n;
++        }
++        if (!firstCapEnd || !firstAnnotation) return 0;
++        std::vector<uint32_t> decorations;
++        for (size_t k = 0; k + 1 < inputs.size(); k += 2)
++        {
++            const uint32_t id = inputs[k], type = inputs[k + 1];
++            if (skip[id]) continue;
++            const uint32_t target = type < bound ? pointee[type] : 0;
++            if (target < bound && isStruct[target]) continue;   // a block (built-ins live in those)
++            decorations.push_back((3u << 16) | kOpDecorate);
++            decorations.push_back(id);
++            decorations.push_back(kDecSample);
++        }
++        if (decorations.empty()) return 0;
++        // The annotations first (they come after the capabilities, so the capability's index still holds).
++        words.insert(words.begin() + static_cast<std::ptrdiff_t>(firstAnnotation), decorations.begin(), decorations.end());
++        if (!hasCap)
++        {
++            const uint32_t cap[2] = { (2u << 16) | kOpCapability, kCapSampleRateShading };
++            words.insert(words.begin() + static_cast<std::ptrdiff_t>(firstCapEnd), cap, cap + 2);
++        }
++        return static_cast<uint32_t>(decorations.size() / 3);
++    }
++
+     /**
+      * The shared load: one key, one path under shaders/, the cache, the checks and the create.
+      *
+@@ -171,7 +243,7 @@ namespace
+      * @param string relative : the file under the extension's folder, with "shaders\\" prefixed
+      * @return VkShaderModule module : VK_NULL_HANDLE on any refusal, each logged once per key
+      */
+-    VkShaderModule Load(const char* key, const char* relative)
++    VkShaderModule Load(const char* key, const char* relative, bool perSample = false)
+     {
+         if (Entry* e = Find(key)) return e->module; // VK_NULL_HANDLE when it failed before
+ 
+@@ -246,10 +318,12 @@ namespace
+             return VK_NULL_HANDLE;
+         }
+         std::memcpy(words.data(), bytes.data(), bytes.size());
++        // Zeppelin I-442: the per-sample variant (hdAlphaAA 2).
++        const uint32_t patched = perSample ? PatchSampleInterpolation(words) : 0u;
+ 
+         VkShaderModuleCreateInfo info = {};
+         info.sType    = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+-        info.codeSize = bytes.size();
++        info.codeSize = words.size() * sizeof(uint32_t);
+         info.pCode    = words.data();
+ 
+         VkShaderModule module = VK_NULL_HANDLE;
+@@ -265,8 +339,9 @@ namespace
+         e.module = module;
+         e.failed = false;
+ 
+-        wxl::ScriptMgr::Log(WXL_LOG_DEBUG, "vulkan: shaders: loaded \"%s\": %llu bytes of SPIR-V",
+-                            key, static_cast<unsigned long long>(bytes.size()));
++        wxl::ScriptMgr::Log(WXL_LOG_DEBUG, "vulkan: shaders: loaded \"%s\": %llu bytes of SPIR-V%s",
++                            key, static_cast<unsigned long long>(bytes.size()),
++                            perSample ? (patched ? ", inputs per sample" : ", per sample (nothing to patch)") : "");
+         return module;
+     }
+ }
+@@ -346,4 +421,15 @@ namespace wxlvk::vk::shaders
+         std::snprintf(relative, sizeof relative, "shaders\\%s", path);
+         return Load(path, relative);
+     }
++
++    VkShaderModule GetPerSample(const char* name, bool isPath)
++    {
++        if (!s.ready || !name || !*name || std::strlen(name) + 7 > kMaxName) return VK_NULL_HANDLE;
++        char key[kMaxName + 1];
++        std::snprintf(key, sizeof key, "%s#sample", name);
++        char relative[8 + kMaxName + 5];
++        if (isPath) std::snprintf(relative, sizeof relative, "shaders\\%s", name);
++        else        std::snprintf(relative, sizeof relative, "shaders\\%s.spv", name);
++        return Load(key, relative, true);
++    }
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.hpp
+index 35fc71a4..87876c79 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.hpp
+@@ -66,4 +66,13 @@ namespace wxlvk::vk::shaders
+      * @return VkShaderModule module : as Get()
+      */
+     VkShaderModule GetPath(const char* relative);
++
++    /**
++     * Zeppelin I-442: the per-sample variant of a fragment module (hdAlphaAA 2, the supersampled alpha test): the
++     * same file with every user input interpolated at the sample position (`Sample`), cached as "<name>#sample".
++     *
++     * @param string name : a stem as Get() takes it, or a path as GetPath() takes it
++     * @param bool isPath : `name` is a path under shaders/ (GetPath's spelling)
++     */
++    VkShaderModule GetPerSample(const char* name, bool isPath);
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/context/Internal.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/context/Internal.hpp
+index 1aaa641b..e60160c1 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/context/Internal.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/context/Internal.hpp
+@@ -92,6 +92,7 @@ namespace wxlvk::vk::context::detail
+         bool               anisotropy  = false; ///< samplerAnisotropy was enabled on the device
+         bool               preciseOcclusion = false; ///< occlusionQueryPrecise was enabled on the device
+         bool               independentBlend = false; ///< independentBlend was enabled: per-attachment blend state (the G-buffer pass class)
++        bool               sampleRateShading = false; ///< Zeppelin I-442: sampleRateShading was enabled (per-sample alpha test)
+ 
+         bool vsync      = true;    ///< the engine's format asks for vsync (SetVsync)
+ 
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/context/Logical.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/context/Logical.cpp
+index 12dc6606..553e23e0 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/context/Logical.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/context/Logical.cpp
+@@ -107,6 +107,11 @@ namespace wxlvk::vk::context::detail
+             // one blend state for all its attachments.
+             features.independentBlend = have.independentBlend;
+             g.independentBlend        = have.independentBlend == VK_TRUE;
++            // Zeppelin I-442: sampleRateShading, for the supersampled alpha test on a multisampled pass
++            // (hdAlphaAA 2: the alpha-tested pipelines run per sample, so each sample keeps or drops its
++            // own texel). Without it hdAlphaAA 2 falls back to alpha to coverage.
++            features.sampleRateShading = have.sampleRateShading;
++            g.sampleRateShading        = have.sampleRateShading == VK_TRUE;
+             if (!g.bc)
+                 wxl::ScriptMgr::Log(WXL_LOG_WARN,
+                                     "vulkan: the adapter has no textureCompressionBC; DXT textures "
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp
+index de7e3960..d5f22d5c 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp
+@@ -163,6 +163,9 @@ namespace wxlvk::vk::pipelines::detail
+             return false;
+         }
+         blend.colorWriteMask = WriteMask(k.colorWrite);
++        // Zeppelin I-442: with alpha to coverage the alpha is the coverage; blending by it too (the ground clutter's
++        // blend 2) would apply it twice, so those draws write without blending.
++        if (k.bones & kKeyAlphaCoverage) blend.blendEnable = VK_FALSE;
+ 
+         // The manifest's paths are relative to its own directory, shaders/translated/; the shader
+         // loader resolves relative to shaders/.
+@@ -196,7 +199,13 @@ namespace wxlvk::vk::pipelines::detail
+         VariantPath(fragPath, sizeof fragPath, pr ? (windPix ? pr->wind : pr->spv) : "", gbufVar);
+         const VkShaderModule vert = fromModules ? shaders::GetPath(vertPath)
+                                   : shaders::Get(ffVertex ? kFfSemanticVertStem : row->vertSpv);
+-        const VkShaderModule frag = (fromModules || ffVertex) ? shaders::GetPath(fragPath) : shaders::Get(row->fragSpv);
++        // Zeppelin I-442: the supersampled alpha test (key bit 4) draws with the pixel module's per-sample variant,
++        // its inputs interpolated at each sample (vulkan/Shaders.cpp PatchSampleInterpolation) -- sample shading alone
++        // may interpolate at the pixel centre and leave every sample with the same discard.
++        const bool perSample = (k.bones & kKeyAlphaPerSample) != 0u && SamplesOf(pass) != VK_SAMPLE_COUNT_1_BIT;
++        const VkShaderModule frag = perSample
++                                        ? ((fromModules || ffVertex) ? shaders::GetPerSample(fragPath, true) : shaders::GetPerSample(row->fragSpv, false))
++                                        : ((fromModules || ffVertex) ? shaders::GetPath(fragPath) : shaders::Get(row->fragSpv));
+         if (vert == VK_NULL_HANDLE || frag == VK_NULL_HANDLE)
+         {
+             why = "a SPIR-V module did not load (see the shaders line above)";
+@@ -282,8 +291,20 @@ namespace wxlvk::vk::pipelines::detail
+         VkPipelineMultisampleStateCreateInfo multisample = {};
+         multisample.sType                = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+         // Zeppelin I-442: the pass class's count -- the multisampled back class's while the MSAA window is
+-        // open (native/present/Msaa.cpp), 1 for every other class. No sample shading, no alpha to coverage.
++        // open (native/present/Msaa.cpp), 1 for every other class.
+         multisample.rasterizationSamples = SamplesOf(pass);
++        // Zeppelin I-442: an alpha-tested draw on that class (MakeKey bits 3 / 4, hdAlphaAA). Coverage: the
++        // fragment's alpha becomes the sample mask, the shader's discard lifted (PlanSlice zeroes misc.x).
++        // Per sample: the shader, its texture fetch and its discard run once per sample.
++        if (multisample.rasterizationSamples != VK_SAMPLE_COUNT_1_BIT)
++        {
++            if (k.bones & kKeyAlphaCoverage) multisample.alphaToCoverageEnable = VK_TRUE;
++            if (k.bones & kKeyAlphaPerSample)
++            {
++                multisample.sampleShadingEnable = VK_TRUE;
++                multisample.minSampleShading    = 1.0f;
++            }
++        }
+ 
+         // Depth from the key, against the pass class's depth attachment (src/native/Present.cpp).
+         // The semantics line up with D3D9 without translation: D3DRS_ZENABLE is
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
+index 2e227590..f0333173 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
+@@ -376,6 +376,8 @@ namespace wxlvk::vk::pipelines::detail
+         // Bit 2: an opaque world draw on a G-buffer pass class (depth tested and written, opaque or
+         // alpha-keyed, colour written, a shader pair) that takes the modules' `gbuf` variants when
+         // both have one and writes the pass's three extra attachments; the same rule again.
++        // Bits 3 / 4 (Zeppelin I-442): an alpha-tested draw on a multisampled pass, with alpha to coverage /
++        // with sample shading (hdAlphaAA, kKeyAlphaCoverage / kKeyAlphaPerSample).
+         uint32_t bones;
+     };
+     static_assert(Cmd::kNameChars % 4 == 0, "the names must keep the key padding-free");
+@@ -499,6 +501,9 @@ namespace wxlvk::vk::pipelines::detail
+         // cursor per slot, and the palette each slot wrote last. bonesReady is false when any of it
+         // could not be made; every 256-row draw then takes the 256-row modules.
+         bool                  bonesReady  = false;
++        /// Zeppelin I-442: hdAlphaAA (SetAlphaAA): 0 off, 1 alpha to coverage, 2 sample shading; MakeKey marks the
++        /// alpha-tested draws of a multisampled pass with key bit 3 (coverage) or 4 (per sample).
++        uint32_t              alphaAA     = 0;
+         VkDescriptorSetLayout bonesLayout = VK_NULL_HANDLE;
+         VkDescriptorPool      bonesPool   = VK_NULL_HANDLE;
+         VkDescriptorSet       bonesSets[wxlvk::vk::pipelines::kFrameSlots] = {};
+@@ -782,7 +787,12 @@ namespace wxlvk::vk::pipelines::detail
+     void DropRing();
+ 
+     // Keys.cpp
+-    void MakeKey(const Cmd& c, uint32_t frameSlot, bool windy, bool gbuffer, Key& out);
++    void MakeKey(const Cmd& c, uint32_t frameSlot, bool windy, bool gbuffer, Key& out, uint32_t samples = 1);
++
++    /// Zeppelin I-442: key bits 3 and 4 (Key::bones): an alpha-tested draw on a multisampled pass, antialiased by
++    /// alpha to coverage (its discard lifted, RecordInputs.cpp PlanSlice) or by sample shading.
++    constexpr uint32_t kKeyAlphaCoverage  = 8u;
++    constexpr uint32_t kKeyAlphaPerSample = 16u;
+     void SkipUnsupported(const Key& k, const char* why);
+     void RefusePair(const Key& k, const char* what, const char* semantic);
+     void CountSkip(uint32_t bucket, const Key& k, const Cmd& c, const PipelineEntry* e, int32_t slot, uint32_t detail,
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Keys.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Keys.cpp
+index 6fa49f1c..783cfa0d 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Keys.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Keys.cpp
+@@ -30,7 +30,7 @@ namespace wxlvk::vk::pipelines::detail
+      * @param bool gbuffer : the draw's pass is of the G-buffer class
+      * @param Key& k : receives the key
+      */
+-    void MakeKey(const Cmd& c, uint32_t frameSlot, bool windy, bool gbuffer, Key& k)
++    void MakeKey(const Cmd& c, uint32_t frameSlot, bool windy, bool gbuffer, Key& k, uint32_t samples)
+     {
+         // The names are copied whole: the reader pads them with NUL to the field's full width
+         // (src/draw/Reader.cpp ReadShader), and the last byte is always NUL there, so a name the
+@@ -77,6 +77,15 @@ namespace wxlvk::vk::pipelines::detail
+         // alpha-keyed (blend 0 / 1), colour written -- the capture's own rule for a world draw.
+         if (gbuffer && !c.fixedFunction && c.depthTest && c.depthWrite && c.blend <= 1u && c.colorWrite != 0u)
+             k.bones |= 4u;
++        // Zeppelin I-442: the alpha test antialiased on a multisampled pass -- an alpha-tested draw, colour
++        // written, that either does not blend (opaque with the test on, or the AlphaKey blend: leaves, fences) or
++        // blends but writes depth like a solid (the ground clutter: DetailDoodad draws with blend 2, the
++        // detailDoodadAlphaRef test and depth writes on). Truly translucent draws (no depth write) keep their hard
++        // test, the interface's alphaRef 1 among them.
++        const bool tested = c.blend == 1u || c.alphaRef != 0u;
++        const bool solid  = c.blend <= 1u || (c.blend == 2u && c.depthTest && c.depthWrite);
++        if (samples > 1 && s.alphaAA && tested && solid && c.colorWrite != 0u)
++            k.bones |= s.alphaAA == 2u ? kKeyAlphaPerSample : kKeyAlphaCoverage;
+     }
+ 
+     /**
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Record.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Record.cpp
+index 7666e8a7..45433894 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Record.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Record.cpp
+@@ -46,7 +46,7 @@ namespace
+     {
+         // Tree wind: the draw noted against the watched models; its push values when it is a windy one.
+         dr.windDraw = wxlvk::vk::wind::Observe(c, dr.frameSlot);
+-        MakeKey(c, dr.frameSlot, dr.windDraw != nullptr, IsGBufferPass(pass), dr.key);
++        MakeKey(c, dr.frameSlot, dr.windDraw != nullptr, IsGBufferPass(pass), dr.key, static_cast<uint32_t>(SamplesOf(pass)));
+         Key& key = dr.key;
+ 
+         // --- what cannot be drawn, decided before anything is bound -----------------------------
+@@ -482,6 +482,23 @@ namespace
+         cd.vertexOffset = c.vertexOffset;
+         cd.indexed      = c.indexed ? 1u : 0u;
+         cd.alphaTest    = (key.blend == 1u || c.alphaRef != 0u) ? 1u : 0u;
++        if (key.bones & kKeyAlphaCoverage)
++        {
++            // Zeppelin I-442: the draw's own slice has misc.x zeroed for alpha to coverage, but the replays
++            // (the Cata water's mirror, the shadow cut-outs) run its pixel module single-sampled and need the hard
++            // test back: they get a copy of the slice with the reference restored, or not this draw at all.
++            const uint32_t fs = dr.frameSlot;
++            if (s.ringCursor[fs] + kRingRange > kRingBytes) return;
++            float rows[kRingRange / 16][4];
++            const uint32_t count = Cmd::kPixelRegs + 1u + Cmd::kVertexRegs + dr.highRows;
++            std::memcpy(rows, s.lastSliceData[fs], static_cast<size_t>(count) * 16u);
++            rows[Cmd::kPixelRegs][0] = c.alphaRef >= 1u ? static_cast<float>(c.alphaRef) / 255.0f : 0.0f;
++            const uint32_t at = s.ringCursor[fs];
++            s.ringCursor[fs] += dr.padded;
++            std::memcpy(static_cast<char*>(RingBuffer(fs).block.mapped) + at, rows, static_cast<size_t>(count) * 16u);
++            memory::FlushHost(RingBuffer(fs).block);
++            cd.ringOffset = at;
++        }
+         // A mover: a model draw (its vertex layout carries bone weights, which the terrain and the map
+         // objects have not) of a UNIT -- a model one of whose draws wears a character's, a creature's or
+         // an item's texture, which vulkan/Wind.cpp reads off every file texture's path (a body's own skin
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/RecordInputs.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/RecordInputs.cpp
+index cf040b99..7221f8bb 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/RecordInputs.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/RecordInputs.cpp
+@@ -231,6 +231,9 @@ namespace wxlvk::vk::pipelines::detail
+         dr.padded = entry->vconst == Cmd::kVertexRegsHigh ? s.padded256 : s.padded64;
+ 
+         dr.misc[0] = c.alphaRef >= 1u ? static_cast<float>(c.alphaRef) / 255.0f : 0.0f;
++        // Zeppelin I-442: alpha to coverage takes the test's place -- every translated module discards when
++        // misc.x > 0 and its alpha is below it, so a zero lets the alpha through to the sample mask.
++        if (entry->key.bones & kKeyAlphaCoverage) dr.misc[0] = 0.0f;
+         dr.misc[1] = static_cast<float>(c.ffColorMode);
+         dr.misc[2] = static_cast<float>(c.ffColorOp);
+         dr.misc[3] = static_cast<float>(c.ffAlphaOp);
+-- 
+2.34.1
+
