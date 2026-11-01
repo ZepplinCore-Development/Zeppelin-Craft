@@ -1,0 +1,206 @@
+From f5e74b36c52e7d18a9b1395411806a0bdfcd34a7 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 08:21:48 +0000
+Subject: [PATCH] Zeppelin I-448: M2 index buffer sized by its skin sections
+ (overlapping sections overran it: Un'Goro crash), crash log to Errors\ with a
+ timestamp
+
+- CM2Shared::SetIndices: buffer = max(index list, sum of section index counts); reads past the index list give index 0.
+  The F-216 modular models DesertLasherOrchid/Dragonspawn2/Dragonspawn2Darkshade_Modular00.skin have overlapping
+  sections (e.g. 13770 indices, sections 27318): every Bloodpetal creature in Un'Goro crashed the client.
+- crash_log.cpp: Errors\<YYYY-MM-DD HH.MM.SS> WowClient_crash.log, made on first line, never deleted; module+offset
+  stacks without dbghelp (it crashed on the corrupted heap); re-entrancy guard, at most 8 crashes a run.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ Engine/Source/Model2/M2Shared.cpp | 18 +++++--
+ Tools/WowClient/crash_log.cpp     | 83 ++++++++++++++++++-------------
+ 2 files changed, 64 insertions(+), 37 deletions(-)
+
+diff --git a/Engine/Source/Model2/M2Shared.cpp b/Engine/Source/Model2/M2Shared.cpp
+index 1c5599a4..c7dfb4c2 100644
+--- a/Engine/Source/Model2/M2Shared.cpp
++++ b/Engine/Source/Model2/M2Shared.cpp
+@@ -337,9 +337,20 @@ static void ConvertTextureComboEntry(TextureComboList* list, int32_t adjust, uin
+ // VERIFY: 59c9e83f manual
+ // OFFSET: 0x008360A0
+ int32_t CM2Shared::SetIndices() {
++    // Zeppelin I-448: the copy below writes each section's own indices, so the buffer holds the sum of the sections'
++    // index counts. The original sized it from the skin's index list, and a skin whose sections overlap (reuse a range,
++    // as the F-216 modular models do: DesertLasherOrchid_Modular00.skin 13770 indices, sections 27318) wrote past its end.
++    uint32_t sectionIndices = 0;
++
++    for (uint32_t i = 0; i < this->m_skinData->m_skinSections.m_count; i++) {
++        sectionIndices += this->m_skinSections[i].m_indexCount;
++    }
++
++    uint32_t indexCount = sectionIndices > this->m_skinData->m_indices.m_count ? sectionIndices : this->m_skinData->m_indices.m_count;
++
+     if (!this->m_indexPool) {
+-        this->m_indexPool = g_theGxDevicePtr->PoolCreate(GxPoolTarget_Index, GxPoolUsage_Dynamic, sizeof(uint16_t) * this->m_instances * this->m_skinData->m_indices.m_count, GxPoolHintBit_Unk1, this->m_fileNameWithoutPath);
+-        this->m_indexBuf = g_theGxDevicePtr->BufCreate(this->m_indexPool, sizeof(uint16_t), this->m_instances * this->m_skinData->m_indices.m_count, 0);
++        this->m_indexPool = g_theGxDevicePtr->PoolCreate(GxPoolTarget_Index, GxPoolUsage_Dynamic, sizeof(uint16_t) * this->m_instances * indexCount, GxPoolHintBit_Unk1, this->m_fileNameWithoutPath);
++        this->m_indexBuf = g_theGxDevicePtr->BufCreate(this->m_indexPool, sizeof(uint16_t), this->m_instances * indexCount, 0);
+ 
+         if (!this->m_indexPool || !this->m_indexBuf) {
+             return 0;
+@@ -363,7 +374,8 @@ int32_t CM2Shared::SetIndices() {
+ 
+             for (uint32_t instance = 0; instance < this->m_instances; instance++) {
+                 for (uint32_t j = 0; j < section->m_indexCount; j++) {
+-                    indices[j] = offset + this->m_skinData->m_indices[start + j];
++                    // Zeppelin I-448: a section reaching past the skin's index list reads index 0 there, not past it
++                    indices[j] = start + j < this->m_skinData->m_indices.m_count ? offset + this->m_skinData->m_indices[start + j] : offset;
+                 }
+ 
+                 indices += section->m_indexCount;
+diff --git a/Tools/WowClient/crash_log.cpp b/Tools/WowClient/crash_log.cpp
+index d0483faa..94c237f5 100644
+--- a/Tools/WowClient/crash_log.cpp
++++ b/Tools/WowClient/crash_log.cpp
+@@ -1,16 +1,41 @@
+ #include <windows.h>
+-#include <dbghelp.h>
+ #include <crtdbg.h>
+ #include <intrin.h>
+ #include <cstdlib>
+ #include <cstdio>
+ #include <cstring>
+ 
++// Zeppelin I-448: the log goes to Errors\<YYYY-MM-DD HH.MM.SS> WowClient_crash.log (WoW's own Errors folder and naming),
++// made on the first line written and never deleted, so every crash of every run is kept. Stacks are module+offset only:
++// dbghelp (SymInitialize, SymFromAddr) allocates, and after a heap-corrupting overrun that allocation crashed too and
++// buried the real fault under hundreds of follow-on lines. Offsets are symbolised offline from the build's
++// WowClient64.map. At most kMaxCrashes crashes a run are logged, and a fault inside the handler is not logged again.
++static char s_exeDir[MAX_PATH];
+ static char s_logPath[MAX_PATH];
+ static HANDLE s_console = INVALID_HANDLE_VALUE;
+ static HANDLE s_logFile = INVALID_HANDLE_VALUE;
++static volatile LONG s_inHandler = 0;
++static volatile LONG s_crashes = 0;
++static const LONG kMaxCrashes = 8;
++
++static void OpenLog() {
++    if (s_logFile != INVALID_HANDLE_VALUE || !s_exeDir[0]) {
++        return;
++    }
++
++    char dir[MAX_PATH];
++    _snprintf_s(dir, sizeof(dir), _TRUNCATE, "%sErrors", s_exeDir);
++    CreateDirectoryA(dir, nullptr);
++
++    SYSTEMTIME t;
++    GetLocalTime(&t);
++    _snprintf_s(s_logPath, sizeof(s_logPath), _TRUNCATE, "%s\\%04u-%02u-%02u %02u.%02u.%02u WowClient_crash.log", dir, t.wYear, t.wMonth, t.wDay, t.wHour, t.wMinute, t.wSecond);
++    s_logFile = CreateFileA(s_logPath, FILE_APPEND_DATA, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
++}
+ 
+ static void LogLine(const char* text) {
++    OpenLog();
++
+     fputs(text, stderr);
+     fflush(stderr);
+ 
+@@ -40,44 +65,24 @@ static void ModuleOffset(void* address, char* out, size_t size) {
+ 
+ static void LogStack(CONTEXT* context) {
+ #if defined(_M_X64)
+-    HANDLE process = GetCurrentProcess();
+-    SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES);
+-    SymInitialize(process, nullptr, TRUE);
+-
+     CONTEXT frame = *context;
+ 
+-    for (int depth = 0; depth < 24 && frame.Rip; depth++) {
++    for (int depth = 0; depth < 32 && frame.Rip; depth++) {
+         char where[MAX_PATH + 32];
+         ModuleOffset(reinterpret_cast<void*>(frame.Rip), where, sizeof(where));
+ 
+-        char buffer[sizeof(SYMBOL_INFO) + 256] = {};
+-        SYMBOL_INFO* symbol = reinterpret_cast<SYMBOL_INFO*>(buffer);
+-        symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+-        symbol->MaxNameLen = 255;
+-        DWORD64 displacement = 0;
+-
+-        IMAGEHLP_LINE64 source = {};
+-        source.SizeOfStruct = sizeof(source);
+-        DWORD lineDisplacement = 0;
+-
+-        char line[1024];
+-
+-        if (SymFromAddr(process, frame.Rip, &displacement, symbol)) {
+-            if (SymGetLineFromAddr64(process, frame.Rip, &lineDisplacement, &source)) {
+-                _snprintf_s(line, sizeof(line), _TRUNCATE, "  #%02d %s %s+0x%llX (%s:%lu)\n", depth, where, symbol->Name, static_cast<unsigned long long>(displacement), source.FileName, source.LineNumber);
+-            } else {
+-                _snprintf_s(line, sizeof(line), _TRUNCATE, "  #%02d %s %s+0x%llX\n", depth, where, symbol->Name, static_cast<unsigned long long>(displacement));
+-            }
+-        } else {
+-            _snprintf_s(line, sizeof(line), _TRUNCATE, "  #%02d %s\n", depth, where);
+-        }
+-
++        char line[MAX_PATH + 64];
++        _snprintf_s(line, sizeof(line), _TRUNCATE, "  #%02d %s\n", depth, where);
+         LogLine(line);
+ 
+         DWORD64 imageBase = 0;
+         PRUNTIME_FUNCTION function = RtlLookupFunctionEntry(frame.Rip, &imageBase, nullptr);
+ 
+         if (!function) {
++            // a leaf: the return address is on top of the stack
++            if (!frame.Rsp || IsBadReadPtr(reinterpret_cast<void*>(frame.Rsp), sizeof(DWORD64))) {
++                break;
++            }
+             frame.Rip = *reinterpret_cast<DWORD64*>(frame.Rsp);
+             frame.Rsp += 8;
+             continue;
+@@ -94,6 +99,15 @@ static LONG CALLBACK FirstChanceHandler(EXCEPTION_POINTERS* info) {
+     DWORD code = info->ExceptionRecord->ExceptionCode;
+ 
+     if (code == EXCEPTION_ACCESS_VIOLATION || code == EXCEPTION_ILLEGAL_INSTRUCTION || code == EXCEPTION_INT_DIVIDE_BY_ZERO || code == EXCEPTION_STACK_OVERFLOW || code == EXCEPTION_PRIV_INSTRUCTION) {
++        // Zeppelin I-448: not from inside this handler, and not past kMaxCrashes a run
++        if (InterlockedExchange(&s_inHandler, 1) != 0) {
++            return EXCEPTION_CONTINUE_SEARCH;
++        }
++        if (InterlockedIncrement(&s_crashes) > kMaxCrashes) {
++            InterlockedExchange(&s_inHandler, 0);
++            return EXCEPTION_CONTINUE_SEARCH;
++        }
++
+         char where[MAX_PATH + 32];
+         ModuleOffset(info->ExceptionRecord->ExceptionAddress, where, sizeof(where));
+ 
+@@ -107,6 +121,7 @@ static LONG CALLBACK FirstChanceHandler(EXCEPTION_POINTERS* info) {
+ 
+         LogLine(line);
+         LogStack(info->ContextRecord);
++        InterlockedExchange(&s_inHandler, 0);
+     }
+ 
+     return EXCEPTION_CONTINUE_SEARCH;
+@@ -130,16 +145,16 @@ static int CrtReportHook(int type, char* message, int* returnValue) {
+ 
+ static struct CrashLogInit {
+     CrashLogInit() {
+-        GetModuleFileNameA(nullptr, s_logPath, sizeof(s_logPath));
+-        char* slash = strrchr(s_logPath, '\\');
++        // Zeppelin I-448: the log file is made on its first line (OpenLog), in Errors\ beside the exe
++        GetModuleFileNameA(nullptr, s_exeDir, sizeof(s_exeDir));
++        char* slash = strrchr(s_exeDir, '\\');
+ 
+         if (slash) {
+-            strcpy_s(slash + 1, sizeof(s_logPath) - (slash + 1 - s_logPath), "WowClient_crash.log");
++            slash[1] = 0;
++        } else {
++            s_exeDir[0] = 0;
+         }
+ 
+-        DeleteFileA(s_logPath);
+-        s_logFile = CreateFileA(s_logPath, FILE_APPEND_DATA, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+-
+         if (AllocConsole()) {
+             SetConsoleTitleA("WowClient");
+             s_console = CreateFileA("CONOUT$", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 0, nullptr);
+-- 
+2.34.1
+
