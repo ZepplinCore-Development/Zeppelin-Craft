@@ -50,7 +50,7 @@ def write_manifests(outfits: Dict[str, dict], customs: Dict[str, dict], result: 
         if not x:
             notes.append(f'display {did}: not a character display, outfit skipped')
             continue
-        look = {k: int(x.get(k) or 0) for k in LOOK}
+        look = {'gender': int(x.get('gender') or 0), **{k: int(x.get(k) or 0) for k in LOOK}}   # the builder keys base_display by it
         cu = customs.get(did_s) or {}
         for k in ('hair_style', 'facial_hair'):
             if k in cu:

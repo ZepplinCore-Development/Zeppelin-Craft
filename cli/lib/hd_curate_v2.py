@@ -210,7 +210,9 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
     report.setdefault('fixed', [])
     fixed_src: Dict[str, str] = {}
     fixed_dir = Path('/workspace/project/logs/curate_fixed')
-    for fpath in list(hcf.recipes()):
+    # models first: a skin recipe that runs after its model's m2.graft (F-230 facial grafts: island splits of the grafted
+    # geosets) needs the GRAFTED model, and the recipe file lists skins before their models
+    for fpath in sorted(hcf.recipes(), key=lambda p_: not p_.endswith('.m2')):
         f = want.get(fpath)
         if f is None:
             continue
@@ -514,7 +516,10 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
             continue
         mr_ = cmd_now.get((int(r_.get('model_id') or 0),))
         mp_ = ms.norm(str((mr_ or {}).get('model_path') or '')).replace('.mdx', '.m2')
-        if mp_.startswith('creature/'):
+        # any model path, not only creature/: packs repoint creature displays onto character-folder models
+        # with creature skin slots (model 912 -> character/skeleton/male/skeletonmale.m2, skins skeleton2_*:
+        # skeleton 6412 drew green). The type 11-13 check below keeps it to models that read display skins
+        if mp_:
             skins_of.setdefault(mp_, set()).update(
                 str(r_.get(f'texture_variation_{i}') or '').lower() for i in (1, 2, 3))
     for mp_, f_ in list(want.items()):

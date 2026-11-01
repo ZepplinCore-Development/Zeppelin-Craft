@@ -31,8 +31,17 @@ WXL_CORE = TOOLS_ROOT / 'WarcraftXL' / 'wxl-core-main'
 # same name (OrcMaleFaceLower00_101) that baked a classic face onto the HD orc.
 def _external_roots():
     from commands.sql import get_enabled_zpaks_by_priority
-    roots = [CRAFT_ROOT / 'zpaks' / n / 'mpq' / 'source-assets' for n, _m in reversed(get_enabled_zpaks_by_priority(CRAFT_ROOT))]
-    return [r for r in roots if r.is_dir() and r.parent.parent.name != 'zep-npc-wardrobe'] + [ASSET_LIBRARY_PATH]
+    roots = []
+    for n, _m in reversed(get_enabled_zpaks_by_priority(CRAFT_ROOT)):
+        if n == 'zep-npc-wardrobe':
+            continue
+        # parsed-assets too: zep-hd-curated ships ONLY parsed-assets (curate writes them), so the HD character
+        # skins / faces it carries were invisible here (I-449: HumanMaleSkin00_06 'not found in any client root')
+        roots += [CRAFT_ROOT / 'zpaks' / n / 'mpq' / sub for sub in ('source-assets', 'parsed-assets')]
+    # the stock client by MPQ, newest first (Asset Library/STOCK/files/<mpq>); GAME ASSETS is a partial extraction
+    stock = ASSET_LIBRARY_PATH.parent / 'STOCK' / 'files'
+    roots += [stock / m for m in ('patch-3', 'patch-2', 'patch', 'lichking', 'expansion', 'common-2', 'common')]
+    return [r for r in roots if r.is_dir()] + [ASSET_LIBRARY_PATH]
 
 
 EXTERNAL_ROOTS = _external_roots()

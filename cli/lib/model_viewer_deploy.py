@@ -147,7 +147,19 @@ def _stage_pane(name: str, r: 'ms.Resolved', files: SourceFiles, out_root: Path,
     if data:
         bbox = _mesh_bbox(data)
     for v in range(0 if tbc else (m.views if m else 1)):
-        put(f'{stem}{v:02d}.skin')
+        sp = f'{stem}{v:02d}.skin'
+        if files.find(sp) is None and m is not None and (m.particles or m.ribbons) and mf is not None \
+                and not int.from_bytes(mf.read_bytes()[0x3C:0x40], 'little'):
+            # a mesh-less effect whose pack ships no (or a misnamed) skin: the client takes the next MPQ's - stock's
+            # empty skin (moltenblast_impact_chest, I-445). Without one the engine draws nothing.
+            sf_ = ms.stock_asset(sp)
+            if sf_ is not None:
+                if files.log is not None:
+                    files.log.append((sp, sf_))
+                _copy(sf_, dest / sp)
+                staged.append(sp)
+                continue
+        put(sp)
     for k, f in files.anims(stem).items():
         _copy(f, dest / k)
     # Stage only what the model actually draws: models often list textures no

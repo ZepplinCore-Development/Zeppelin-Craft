@@ -36,6 +36,7 @@
     }
   },
   "appearance": {
+    "gender": 0,
     "skin_color": 6,
     "face_type": 3,
     "hair_style": 0,

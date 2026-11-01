@@ -142,7 +142,7 @@ UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00188_HD
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00189_HD.blp' WHERE `id` = 189;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00190_HD.blp' WHERE `id` = 190;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00191_HD.blp' WHERE `id` = 191;
-UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00192_HD.blp' WHERE `id` = 192;
+UPDATE `creaturedisplayinfoextra` SET `helm_id` = 15491, `texture` = 'CreatureDisplayExtra-00192_HD.blp' WHERE `id` = 192;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00193_HD.blp' WHERE `id` = 193;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00194_HD.blp' WHERE `id` = 194;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00195_HD.blp' WHERE `id` = 195;
@@ -563,7 +563,7 @@ UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00637_HD
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00638_HD.blp' WHERE `id` = 638;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00640_HD.blp' WHERE `id` = 640;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00641_HD.blp' WHERE `id` = 641;
-UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00642_HD.blp' WHERE `id` = 642;
+UPDATE `creaturedisplayinfoextra` SET `skin_color` = 5, `hair_style` = 1, `hair_color` = 6, `shoulders_id` = 30328, `cape_id` = 56114, `texture` = 'CreatureDisplayExtra-00642_HD.blp' WHERE `id` = 642;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00643_HD.blp' WHERE `id` = 643;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00644_HD.blp' WHERE `id` = 644;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-00645_HD.blp' WHERE `id` = 645;
@@ -6832,7 +6832,7 @@ UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-11005_HD
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-11006_HD.blp' WHERE `id` = 11006;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-11007_HD.blp' WHERE `id` = 11007;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-11008_HD.blp' WHERE `id` = 11008;
-UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-11009_HD.blp' WHERE `id` = 11009;
+UPDATE `creaturedisplayinfoextra` SET `shoulders_id` = 34253, `texture` = 'CreatureDisplayExtra-11009_HD.blp' WHERE `id` = 11009;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-11010_HD.blp' WHERE `id` = 11010;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-11011_HD.blp' WHERE `id` = 11011;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-11012_HD.blp' WHERE `id` = 11012;
@@ -9316,7 +9316,7 @@ UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-13815_HD
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-13816_HD.blp' WHERE `id` = 13816;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-13817_HD.blp' WHERE `id` = 13817;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-13819_HD.blp' WHERE `id` = 13819;
-UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-13820_HD.blp' WHERE `id` = 13820;
+UPDATE `creaturedisplayinfoextra` SET `helm_id` = 46214, `texture` = 'CreatureDisplayExtra-13820_HD.blp' WHERE `id` = 13820;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-13822_HD.blp' WHERE `id` = 13822;
 UPDATE `creaturedisplayinfoextra` SET `skin_color` = 6, `face_type` = 4, `hair_color` = 5, `facial_hair` = 5, `texture` = 'CreatureDisplayExtra-13823.blp' WHERE `id` = 13823;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-13824_HD.blp' WHERE `id` = 13824;
@@ -11519,7 +11519,7 @@ UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16681_HD
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16682_HD.blp' WHERE `id` = 16682;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16683_HD.blp' WHERE `id` = 16683;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16684_HD.blp' WHERE `id` = 16684;
-UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16685_HD.blp' WHERE `id` = 16685;
+UPDATE `creaturedisplayinfoextra` SET `shoulders_id` = 45953, `texture` = 'CreatureDisplayExtra-16685_HD.blp' WHERE `id` = 16685;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16686_HD.blp' WHERE `id` = 16686;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16687_HD.blp' WHERE `id` = 16687;
 UPDATE `creaturedisplayinfoextra` SET `face_type` = 2, `hair_style` = 18, `facial_hair` = 13 WHERE `id` = 16689;
@@ -11635,9 +11635,9 @@ UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16833_HD
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16834_HD.blp' WHERE `id` = 16834;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16835_HD.blp' WHERE `id` = 16835;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16836_HD.blp' WHERE `id` = 16836;
-UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16837_HD.blp' WHERE `id` = 16837;
-UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16838_HD.blp' WHERE `id` = 16838;
-UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16839_HD.blp' WHERE `id` = 16839;
+UPDATE `creaturedisplayinfoextra` SET `shoulders_id` = 45953, `texture` = 'CreatureDisplayExtra-16837_HD.blp' WHERE `id` = 16837;
+UPDATE `creaturedisplayinfoextra` SET `shoulders_id` = 45953, `texture` = 'CreatureDisplayExtra-16838_HD.blp' WHERE `id` = 16838;
+UPDATE `creaturedisplayinfoextra` SET `shoulders_id` = 45953, `texture` = 'CreatureDisplayExtra-16839_HD.blp' WHERE `id` = 16839;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16840_HD.blp' WHERE `id` = 16840;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16841_HD.blp' WHERE `id` = 16841;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-16842_HD.blp' WHERE `id` = 16842;
@@ -12609,7 +12609,7 @@ UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-17954_HD
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-17955_HD.blp' WHERE `id` = 17955;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-17956_HD.blp' WHERE `id` = 17956;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-17957_HD.blp' WHERE `id` = 17957;
-UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-17958_HD.blp' WHERE `id` = 17958;
+UPDATE `creaturedisplayinfoextra` SET `shoulders_id` = 45953, `texture` = 'CreatureDisplayExtra-17958_HD.blp' WHERE `id` = 17958;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-17959_HD.blp' WHERE `id` = 17959;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-17964_HD.blp' WHERE `id` = 17964;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-17966_HD.blp' WHERE `id` = 17966;
@@ -14303,7 +14303,7 @@ UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-20845_HD
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-20846_HD.blp' WHERE `id` = 20846;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-20850_HD.blp' WHERE `id` = 20850;
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 20864;
-INSERT INTO `creaturedisplayinfoextra` (`id`, `race`, `gender`, `skin_color`, `face_type`, `hair_style`, `hair_color`, `facial_hair`, `helm_id`, `shoulders_id`, `shirt_id`, `chest_id`, `belt_id`, `legs_id`, `boots_id`, `wrists_id`, `gloves_id`, `tabard_id`, `cape_id`, `can_equip`, `texture`) VALUES (20864, 12, 0, 0, 0, 0, 0, 0, 0, 0, 65809, 64533, 64562, 64563, 68659, 64381, 0, 0, 22988, 0, 'CreatureDisplayExtra-20864.blp');
+INSERT INTO `creaturedisplayinfoextra` (`id`, `race`, `gender`, `skin_color`, `face_type`, `hair_style`, `hair_color`, `facial_hair`, `helm_id`, `shoulders_id`, `shirt_id`, `chest_id`, `belt_id`, `legs_id`, `boots_id`, `wrists_id`, `gloves_id`, `tabard_id`, `cape_id`, `can_equip`, `texture`) VALUES (20864, 12, 0, 0, 0, 0, 4, 0, 0, 0, 65809, 64533, 64562, 64563, 68659, 64381, 0, 0, 22988, 0, 'CreatureDisplayExtra-20864.blp');
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-20883_HD.blp' WHERE `id` = 20883;
 UPDATE `creaturedisplayinfoextra` SET `texture` = 'CreatureDisplayExtra-20884_HD.blp' WHERE `id` = 20884;
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 20892;
@@ -14414,7 +14414,7 @@ INSERT INTO `creaturedisplayinfoextra` (`id`, `race`, `gender`, `skin_color`, `f
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 23889;
 INSERT INTO `creaturedisplayinfoextra` (`id`, `race`, `gender`, `skin_color`, `face_type`, `hair_style`, `hair_color`, `facial_hair`, `helm_id`, `shoulders_id`, `shirt_id`, `chest_id`, `belt_id`, `legs_id`, `boots_id`, `wrists_id`, `gloves_id`, `tabard_id`, `cape_id`, `can_equip`, `texture`) VALUES (23889, 9, 0, 5, 1, 14, 4, 7, 0, 0, 62670, 62614, 73498, 62671, 62617, 0, 62683, 0, 0, 0, 'CreatureDisplayExtra-23889.blp');
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 24081;
-INSERT INTO `creaturedisplayinfoextra` (`id`, `race`, `gender`, `skin_color`, `face_type`, `hair_style`, `hair_color`, `facial_hair`, `helm_id`, `shoulders_id`, `shirt_id`, `chest_id`, `belt_id`, `legs_id`, `boots_id`, `wrists_id`, `gloves_id`, `tabard_id`, `cape_id`, `can_equip`, `texture`) VALUES (24081, 12, 0, 1, 1, 4, 0, 1, 0, 0, 0, 0, 0, 1883, 0, 0, 0, 13909, 0, 0, 'CreatureDisplayExtra-24081.blp');
+INSERT INTO `creaturedisplayinfoextra` (`id`, `race`, `gender`, `skin_color`, `face_type`, `hair_style`, `hair_color`, `facial_hair`, `helm_id`, `shoulders_id`, `shirt_id`, `chest_id`, `belt_id`, `legs_id`, `boots_id`, `wrists_id`, `gloves_id`, `tabard_id`, `cape_id`, `can_equip`, `texture`) VALUES (24081, 12, 0, 1, 1, 4, 1, 1, 0, 0, 0, 0, 0, 1883, 0, 0, 0, 13909, 0, 0, 'CreatureDisplayExtra-24081.blp');
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 24690;
 INSERT INTO `creaturedisplayinfoextra` (`id`, `race`, `gender`, `skin_color`, `face_type`, `hair_style`, `hair_color`, `facial_hair`, `helm_id`, `shoulders_id`, `shirt_id`, `chest_id`, `belt_id`, `legs_id`, `boots_id`, `wrists_id`, `gloves_id`, `tabard_id`, `cape_id`, `can_equip`, `texture`) VALUES (24690, 9, 0, 7, 4, 14, 5, 6, 0, 0, 65497, 59832, 0, 59834, 59835, 0, 0, 0, 0, 0, 'CreatureDisplayExtra-24690.blp');
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 24852;

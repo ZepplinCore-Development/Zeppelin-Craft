@@ -417,6 +417,9 @@ class Deployer:
             if ok and any(not m.endswith(('.blp', '.skin', '.m2', '.anim', '.wmo')) and
                           f._resolve(mvd.client_texture_name(m)) is not None for m in hit['pane'].get('missing') or ()):
                 ok = False
+            # a skin cached as missing that stock ships: a mesh-less effect now takes stock's (I-445 moltenblast)
+            if ok and any(m.endswith('.skin') and ms.stock_asset(m) is not None for m in hit['pane'].get('missing') or ()):
+                ok = False
             if ok:
                 self._publish(key, hit)
                 self.reused += 1
@@ -2495,13 +2498,18 @@ def broken_reason(path: str, files: Dict[str, Path]) -> Optional[str]:
     b = f.read_bytes()
     if b[:4] != b'MD20' or len(b) < 0x48:
         return None
+    nverts = struct.unpack_from('<I', b, 0x3C)[0]
+    if not nverts and (struct.unpack_from('<I', b, 0x128)[0] or struct.unpack_from('<I', b, 0x120)[0]):
+        # a particle / ribbon effect with no mesh needs no geometry: moltenblast_impact_chest ships its skin misnamed
+        # (no '00'), and in game the client takes stock's empty 00.skin from a lower MPQ (I-445)
+        return None
     if struct.unpack_from('<I', b, 4)[0] >= 264:
         if sk is None:
             return 'no .skin: the model cannot draw'
         s = sk.read_bytes()
         if len(s) < 0x30 or s[:4] != b'SKIN' or not struct.unpack_from('<I', s, 12)[0]:
             return 'empty .skin: no triangles'
-    if not struct.unpack_from('<I', b, 0x3C)[0]:
+    if not nverts:
         return 'no vertices'
     from lib import skin_fill as sf
     tt = sf.texture_table(b)
