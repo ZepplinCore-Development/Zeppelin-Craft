@@ -47,11 +47,11 @@ PARSED = ZPAK / 'mpq' / 'parsed-assets'
 SQL = ZPAK / 'dbc' / '[F-230]_charsections_facialhair_colours.sql'
 ID_BASE = 104000                  # 104000-104999: this script
 ID_END = 104999
-TARGETS = [(11, 0), (5, 0)]       # race, sex (night elf female rows of this kind belong to other work)
+TARGETS = [(11, 0), (5, 0), (5, 1)]     # race, sex (night elf female rows of this kind belong to other work)
 # race, sex whose facial-hair textures are not hair-coloured: an empty row takes the textures of the same style at
 # colour 0 (the lowest colour with any) as they are. Undead male: the "facial hair" is the jaw skin of the jaw its row
 # shapes (F-230 Jaw button); mod 907's hair colour 10 has empty rows, so on that colour the jaw lost its skin
-REUSE = {(5, 0)}
+REUSE = {(5, 0), (5, 1)}
 
 
 def query(sql):

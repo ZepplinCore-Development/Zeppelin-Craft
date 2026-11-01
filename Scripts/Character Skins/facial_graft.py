@@ -94,7 +94,15 @@ CFG = {
                    geosets=[[105, 108], [108, 109], [110, 110], [111, 111], [112, 112], [209, 208], [210, 209]],
                    note='F-230: retail taurenmale_hd facial hair grafted (our rig = retail x 20/27, fur atlas u -> 0.75u + 0.25): '
                         'facial hair 108-112 (retail 105/108/110/111/112), hair 208/209 (retail 209/210). NPC rows name none.'),
-    'gnome': dict(folder='GNOME', fdid=900914, scale=20 / 23, uv={}, template=102, geosets=[], note=''),
+    # gnome: our rig = retail x 20/23 and our hair atlas is retail's left half, island for island (retail 304 / 3401-
+    # 3403 = our 306 / 202-204 with identical UVs; the 0.39 whole-image correlation was retail's unused right half), so
+    # UVs carry over. Retail 101 / 103-106, 302-306, 3401-3405 are our split pieces (<= 0.21 cm): left out.
+    'gnome': dict(folder='GNOME', fdid=900914, scale=20 / 23, uv={}, template={'1': 102, '2': 202, '3': 303},
+                  geosets=[[102, 109], [107, 110], [108, 111], [301, 309], [307, 310], [308, 311], [309, 312], [310, 313],
+                           [3406, 207], [3407, 208], [3408, 209]],
+                  note='F-230: retail gnomemale_hd facial hair grafted (our rig = retail x 20/23, same hair atlas): beards 109-111 '
+                       '(retail 102/107/108), moustaches 309-313 (retail 301/307-310), eyebrows 207-209 (retail 3406-3408). '
+                       'NPC rows name none of them.'),
     # retail beards / moustaches are ours remodelled (0.06-1.1 cm) and retail's brow mesh 3401 is our always-on brow
     # (geoset 0, 0.3 cm): nothing new there. New: nose rings (retail 1601-1605) with their own texture
     # (dwarfmale_earrings, shipped as DWARFMALE_EARRINGS.BLP).

@@ -143,26 +143,41 @@ choice 4 0 3 1607
 choice 4 0 3 1608
 imply 4 0 304 1604
 facial 4 1 legacy 19
-facial 5 0 texture 5 0,1,3,4,8,9,10,11,12,13,16
-slot 5 0 1 11 3 3
-choice 5 0 1 0
-choice 5 0 1 302
-choice 5 0 1 303
-choice 5 0 1 304
-choice 5 0 1 305
-slot 5 0 2 12 2 2
-choice 5 0 2 0
-choice 5 0 2 202
-choice 5 0 2 204
-exclude 5 0 104 302,305,204
-exclude 5 0 101 305
-exclude 5 0 102 305
-exclude 5 0 105 305
-exclude 5 0 103 204
-exclude 5 0 106 204
+facial 5 0 hidden 0
+slot 5 0 1 5 1 1
+choice 5 0 1 102
+choice 5 0 1 103
+choice 5 0 1 104
+slot 5 0 2 24 14 1
+choice 5 0 2 1401
+choice 5 0 2 1402 tex=1
+choice 5 0 2 1403 tex=2
+choice 5 0 2 1404 swap=102:101 tex=3
+choice 5 0 2 1405 swap=102:105 tex=4
+choice 5 0 2 1406 swap=103:106 tex=4
+choice 5 0 2 1407 tex=5
+choice 5 0 2 1408 tex=6
+slot 5 0 3 11 3 3
+choice 5 0 3 0
+choice 5 0 3 303
+choice 5 0 3 304
+slot 5 0 4 12 2 2
+choice 5 0 4 0
+choice 5 0 4 202
+slot 5 0 5 25 16 3
+choice 5 0 5 0
+choice 5 0 5 1602
+choice 5 0 5 1605
+choice 5 0 5 1604
+exclude 5 0 101 1406,1407,1408,1605
+exclude 5 0 102 1406,1407,1408,1605
+exclude 5 0 105 1406,1407,1408,1605
+exclude 5 0 103 1402,1405,1407,1408,1602,1604
+exclude 5 0 106 1402,1405,1407,1408,1602,1604
+exclude 5 0 104 1401,1402,1403,1404,1405,1406,1602,1604,1605
 exclude 5 0 202 303,304
 eyeglow 5 0 eyerow
-facial 5 1 texture 20 0,1,4,5,6
+facial 5 1 hidden 0
 slot 5 1 0 5 1 1
 choice 5 1 0 102
 choice 5 1 0 104
@@ -172,6 +187,15 @@ choice 5 1 1 302
 choice 5 1 1 303
 choice 5 1 1 304
 choice 5 1 1 305
+slot 5 1 2 24 14 1
+choice 5 1 2 1401
+choice 5 1 2 1402 tex=1
+choice 5 1 2 1403 tex=2
+choice 5 1 2 1404 tex=3
+choice 5 1 2 1405 tex=4
+exclude 5 1 102 1404
+exclude 5 1 104 1401,1402,1403,1405
+eyeglow 5 1 eyerow
 facial 6 0 hidden 0
 slot 6 0 0 1 1 1
 choice 6 0 0 0
@@ -217,21 +241,32 @@ choice 7 0 0 104 tex=2
 choice 7 0 0 105 tex=3
 choice 7 0 0 106 tex=4
 choice 7 0 0 107 tex=5
+choice 7 0 0 109 tex=6
+choice 7 0 0 110 tex=7
+choice 7 0 0 111 tex=8
 slot 7 0 1 2 3 1
 choice 7 0 1 0
-choice 7 0 1 303 tex=6
-choice 7 0 1 304 tex=7
-choice 7 0 1 305 tex=8
-choice 7 0 1 306 tex=9
-choice 7 0 1 307 tex=10
-choice 7 0 1 308 tex=11
+choice 7 0 1 303 tex=9
+choice 7 0 1 304 tex=10
+choice 7 0 1 305 tex=11
+choice 7 0 1 306 tex=12
+choice 7 0 1 307 tex=13
+choice 7 0 1 308 tex=14
+choice 7 0 1 309 tex=15
+choice 7 0 1 310 tex=16
+choice 7 0 1 311 tex=17
+choice 7 0 1 312 tex=18
+choice 7 0 1 313 tex=19
 slot 7 0 2 22 2 1
 choice 7 0 2 0
-choice 7 0 2 202 tex=12
-choice 7 0 2 203 tex=13
-choice 7 0 2 204 tex=14
-choice 7 0 2 205 tex=15
-choice 7 0 2 206 tex=16
+choice 7 0 2 202 tex=20
+choice 7 0 2 203 tex=21
+choice 7 0 2 204 tex=22
+choice 7 0 2 205 tex=23
+choice 7 0 2 206 tex=24
+choice 7 0 2 207 tex=25
+choice 7 0 2 208 tex=26
+choice 7 0 2 209 tex=27
 imply 7 0 102 202
 imply 7 0 103 203
 imply 7 0 103 303

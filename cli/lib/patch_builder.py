@@ -955,7 +955,9 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
     if not dry_run and letter in ('L', 'Q', 'Z') and mode != 'off':
         _print_step_header('SKIN-CHECK', 'F-151')
         from lib import skin_check
-        errors, text, png = skin_check.run(Path(__file__).resolve().parents[2], letter=letter)
+        # the baked-marking detector only warns and costs ~45 min uncached: builds skip it unless ZEP_BAKED_CHECK=on
+        errors, text, png = skin_check.run(Path(__file__).resolve().parents[2], letter=letter,
+                                           baked=os.environ.get('ZEP_BAKED_CHECK') == 'on')
         print(text)
         if png:
             print(f"flagged faces: {png}")

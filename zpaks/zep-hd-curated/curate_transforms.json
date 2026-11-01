@@ -5662,9 +5662,8 @@
  },
  "character/gnome/male/gnomemale00.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt. F-230: retail gnomemale_hd facial hair grafted (our rig = retail x 20/23, same hair atlas): beards 109-111 (retail 102/107/108), moustaches 309-313 (retail 301/307-310), eyebrows 207-209 (retail 3406-3408). NPC rows name none of them.",
   "base_sha256": "cad1c154a64d5958884793eb2244c98281b9fa926d51151a8ebd035f69f51703",
-  "result_sha256": "b1f5d1473aa49e20af511d98dd93273aef72b1d16ca8b258cc1135eac07aa070",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5695,14 +5694,78 @@
       "majority": 0.5
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 900914,
+    "donor_sha256": "01b0b32cbef9f99391d68bde4eb6f14dc0d9c7741e53054736d67fb7c134558f",
+    "donor_skin_fdid": 900966,
+    "donor_skin_sha256": "cfb39d0c14f79a30e1dd077381d1b4c724e6bceb486ee07267fa8d8fe9c61cd3",
+    "geosets": [
+     [
+      102,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      301,
+      309
+     ],
+     [
+      307,
+      310
+     ],
+     [
+      308,
+      311
+     ],
+     [
+      309,
+      312
+     ],
+     [
+      310,
+      313
+     ],
+     [
+      3406,
+      207
+     ],
+     [
+      3407,
+      208
+     ],
+     [
+      3408,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202,
+     "3": 303
+    },
+    "uv": {},
+    "scale": 0.8695652173913043,
+    "expect_vertices": 13422,
+    "expect_bone_lookup": 855,
+    "skel_fdid": 2184855,
+    "skel_sha256": "8c24a57554cc82e4b56676097ce6083e4109d0a0436ebf61b6edf6a4f0735844"
    }
-  ]
+  ],
+  "result_sha256": "cb7dafcf1aebe0add254377fa01fbfc89b62ab689c8b50a94ac33b48037f7925"
  },
  "character/gnome/male/gnomemale01.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt. F-230: retail gnomemale_hd facial hair grafted (our rig = retail x 20/23, same hair atlas): beards 109-111 (retail 102/107/108), moustaches 309-313 (retail 301/307-310), eyebrows 207-209 (retail 3406-3408). NPC rows name none of them.",
   "base_sha256": "5ed1f4b11794ab45a8f24f79572fc668bf8449b17e89b27c2c0da9496fc8e080",
-  "result_sha256": "8a8ad166462e0f6c636d5e222f1c9ee8c5d3b6837b57d0e04e22d19dafb16490",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5733,14 +5796,78 @@
       "majority": 0.5
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 900914,
+    "donor_sha256": "01b0b32cbef9f99391d68bde4eb6f14dc0d9c7741e53054736d67fb7c134558f",
+    "donor_skin_fdid": 900966,
+    "donor_skin_sha256": "cfb39d0c14f79a30e1dd077381d1b4c724e6bceb486ee07267fa8d8fe9c61cd3",
+    "geosets": [
+     [
+      102,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      301,
+      309
+     ],
+     [
+      307,
+      310
+     ],
+     [
+      308,
+      311
+     ],
+     [
+      309,
+      312
+     ],
+     [
+      310,
+      313
+     ],
+     [
+      3406,
+      207
+     ],
+     [
+      3407,
+      208
+     ],
+     [
+      3408,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202,
+     "3": 303
+    },
+    "uv": {},
+    "scale": 0.8695652173913043,
+    "expect_vertices": 13422,
+    "expect_bone_lookup": 855,
+    "skel_fdid": 2184855,
+    "skel_sha256": "8c24a57554cc82e4b56676097ce6083e4109d0a0436ebf61b6edf6a4f0735844"
    }
-  ]
+  ],
+  "result_sha256": "ff4a4708eeeda5d0b99674816fedbe98b80b41136a7b5c1023215e9689978fb3"
  },
  "character/gnome/male/gnomemale02.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt. F-230: retail gnomemale_hd facial hair grafted (our rig = retail x 20/23, same hair atlas): beards 109-111 (retail 102/107/108), moustaches 309-313 (retail 301/307-310), eyebrows 207-209 (retail 3406-3408). NPC rows name none of them.",
   "base_sha256": "420168f78be89a07494d1c914c34200357fc6633980d2357acdbb3ccae48e25f",
-  "result_sha256": "cf37a6795d7f570fe48ee6e38a645792194d5edb266b990047b9088a90d74754",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5771,14 +5898,78 @@
       "majority": 0.5
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 900914,
+    "donor_sha256": "01b0b32cbef9f99391d68bde4eb6f14dc0d9c7741e53054736d67fb7c134558f",
+    "donor_skin_fdid": 900966,
+    "donor_skin_sha256": "cfb39d0c14f79a30e1dd077381d1b4c724e6bceb486ee07267fa8d8fe9c61cd3",
+    "geosets": [
+     [
+      102,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      301,
+      309
+     ],
+     [
+      307,
+      310
+     ],
+     [
+      308,
+      311
+     ],
+     [
+      309,
+      312
+     ],
+     [
+      310,
+      313
+     ],
+     [
+      3406,
+      207
+     ],
+     [
+      3407,
+      208
+     ],
+     [
+      3408,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202,
+     "3": 303
+    },
+    "uv": {},
+    "scale": 0.8695652173913043,
+    "expect_vertices": 13422,
+    "expect_bone_lookup": 855,
+    "skel_fdid": 2184855,
+    "skel_sha256": "8c24a57554cc82e4b56676097ce6083e4109d0a0436ebf61b6edf6a4f0735844"
    }
-  ]
+  ],
+  "result_sha256": "7c5f024fc469d637e1fc0167b9e493aa8ae1737bdf04c638bf99b04850477f90"
  },
  "character/gnome/male/gnomemale03.skin": {
   "source": "patch-hd-creatures-mounts",
-  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt.",
+  "note": "F-230: gnome male facial hair split by mesh island into beard (1xx, jaw islands), moustache (3xx, head islands) and eyebrows (2xx, islands above z 0.875); 103 and 108 have no beard part left. NPC looks kept by imply lines in Zeppelin\\\\CharCustomizations.txt. F-230: retail gnomemale_hd facial hair grafted (our rig = retail x 20/23, same hair atlas): beards 109-111 (retail 102/107/108), moustaches 309-313 (retail 301/307-310), eyebrows 207-209 (retail 3406-3408). NPC rows name none of them.",
   "base_sha256": "fc2e67fd564453580f3146e18797d998576d611c4990b6ae85fc77f4ed0800fb",
-  "result_sha256": "51b2425539acf9d3e061129d8f8b0808bff4851dbfedea30a77fb9db465da5bd",
   "ops": [
    {
     "op": "skin.geoset.island_split",
@@ -5809,8 +6000,73 @@
       "majority": 0.5
      }
     ]
+   },
+   {
+    "op": "skin.graft",
+    "donor_fdid": 900914,
+    "donor_sha256": "01b0b32cbef9f99391d68bde4eb6f14dc0d9c7741e53054736d67fb7c134558f",
+    "donor_skin_fdid": 900966,
+    "donor_skin_sha256": "cfb39d0c14f79a30e1dd077381d1b4c724e6bceb486ee07267fa8d8fe9c61cd3",
+    "geosets": [
+     [
+      102,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      301,
+      309
+     ],
+     [
+      307,
+      310
+     ],
+     [
+      308,
+      311
+     ],
+     [
+      309,
+      312
+     ],
+     [
+      310,
+      313
+     ],
+     [
+      3406,
+      207
+     ],
+     [
+      3407,
+      208
+     ],
+     [
+      3408,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202,
+     "3": 303
+    },
+    "uv": {},
+    "scale": 0.8695652173913043,
+    "expect_vertices": 13422,
+    "expect_bone_lookup": 855,
+    "skel_fdid": 2184855,
+    "skel_sha256": "8c24a57554cc82e4b56676097ce6083e4109d0a0436ebf61b6edf6a4f0735844"
    }
-  ]
+  ],
+  "result_sha256": "c6b2c799bb88c825d0e74b2a79fe1bf4b82eff5f2e1a31c1882b3db8bac41dfc"
  },
  "character/nightelf/male/nightelfmale00.skin": {
   "source": "patch-hd-creatures-mounts",
@@ -8877,5 +9133,77 @@
    }
   ],
   "result_sha256": "f793c67885cd0974654fd6efbe9466b294006ecfd504f32b3db745290476ad25"
+ },
+ "character/gnome/male/gnomemale.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "F-230: retail gnomemale_hd facial hair grafted (our rig = retail x 20/23, same hair atlas): beards 109-111 (retail 102/107/108), moustaches 309-313 (retail 301/307-310), eyebrows 207-209 (retail 3406-3408). NPC rows name none of them.",
+  "base_sha256": "760e53e91f7c34d50667e11d8afc6da0286f745d65970e253fd119875f15b902",
+  "ops": [
+   {
+    "op": "m2.graft",
+    "donor_fdid": 900914,
+    "donor_sha256": "01b0b32cbef9f99391d68bde4eb6f14dc0d9c7741e53054736d67fb7c134558f",
+    "donor_skin_fdid": 900966,
+    "donor_skin_sha256": "cfb39d0c14f79a30e1dd077381d1b4c724e6bceb486ee07267fa8d8fe9c61cd3",
+    "geosets": [
+     [
+      102,
+      109
+     ],
+     [
+      107,
+      110
+     ],
+     [
+      108,
+      111
+     ],
+     [
+      301,
+      309
+     ],
+     [
+      307,
+      310
+     ],
+     [
+      308,
+      311
+     ],
+     [
+      309,
+      312
+     ],
+     [
+      310,
+      313
+     ],
+     [
+      3406,
+      207
+     ],
+     [
+      3407,
+      208
+     ],
+     [
+      3408,
+      209
+     ]
+    ],
+    "template": {
+     "1": 102,
+     "2": 202,
+     "3": 303
+    },
+    "uv": {},
+    "scale": 0.8695652173913043,
+    "expect_vertices": 13422,
+    "expect_bone_lookup": 855,
+    "skel_fdid": 2184855,
+    "skel_sha256": "8c24a57554cc82e4b56676097ce6083e4109d0a0436ebf61b6edf6a4f0735844"
+   }
+  ],
+  "result_sha256": "11bd89e3aeb6922790932bcdb5246e5bcebfdddc9d425310d998958ed07ec403"
  }
 }

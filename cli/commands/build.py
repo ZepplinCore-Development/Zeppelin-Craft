@@ -445,19 +445,31 @@ def _build_all_mode_menu(patches: dict) -> Optional[dict]:
 
 @build.command('skin-check')
 @click.option('--race', '-r', 'races', multiple=True, type=int, help='Race id(s) to check (default: playable 1-11)')
+@click.option('--sex', '-s', 'sexes', multiple=True, type=int, help='Sex id(s): 0 male, 1 female (default: both)')
+@click.option('--colour', '-c', 'colours', multiple=True, type=int, help='Only report these skin colours')
+@click.option('--face', '-f', 'faces', multiple=True, type=int, help='Only report these face types (face findings)')
+@click.option('--baked', is_flag=True, help='Also run the baked-marking detector (slow: aim it with -r/-s)')
 @click.pass_context
-def skin_check_cmd(ctx, races):
+def skin_check_cmd(ctx, races, sexes, colours, faces, baked):
     """Check the playable character skins as a build would ship them.
 
     Resolves every CharSections texture through the enabled zpaks' parsed-assets in patch load order over the
     stock client: missing / undecodable files and HD models wearing classic art are errors; faces off-colour
-    from their body, stray dark blobs, missing face types, duplicate rows and baked markings (a skin or face
-    carrying paint / tattoos its plain siblings lack, F-230; ZEP_BAKED_CHECK=off skips) are warnings. Writes
+    from their body, stray dark blobs, missing face types and duplicate rows are warnings. Writes
     logs/skin_check/report.txt, findings.json and faces.png (a sheet of every flagged face - look at it).
     Runs before packing PATCH-L and PATCH-Q (errors stop the build) and PATCH-Z (report only).
+
+    \b
+    --baked adds the F-230 baked-marking detector (a skin or face carrying paint / tattoos its plain siblings
+    lack). It compares each skin with its race/sex siblings, so it always analyses a whole race and sex
+    (cached), then reports only the --colour / --face you name. Builds never run it. Example, checking the
+    skins an agent just reworked:
+        zep build skin-check --baked -r 4 -s 0 -c 33 -c 40 -f 5
     """
     from lib import skin_check
-    errors, text, png = skin_check.run(ctx.obj['craft_root'], races or skin_check.PLAYABLE)
+    errors, text, png = skin_check.run(ctx.obj['craft_root'], races or skin_check.PLAYABLE, baked=baked,
+                                       sexes=set(sexes) or None, colours=set(colours) or None,
+                                       faces=set(faces) or None)
     click.echo(text)
     if png:
         click.echo(f'\nflagged faces: {png}')

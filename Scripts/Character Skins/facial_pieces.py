@@ -365,6 +365,9 @@ def auto_race(race, sex, q, files):
             if geo == 0 and m is not None:          # painted, no mesh: the mesh (grafted ones too) that fits the paint best
                 score, best = max(((iou(m, fp[x]), x) for x in fp), default=(0.0, 0))
                 geo = best if score >= FIT_MIN else 0
+            fix = fs.MIG_FIX.get(key, {}).get(v, {}).get(g)
+            if fix is not None:                     # hand mapping (facial_split.MIG_FIX): renders beat the paint fit
+                geo = fix
             pick[v] = geos.index(geo)
             if geo and m is not None:
                 cands.setdefault(geo, []).append(v)

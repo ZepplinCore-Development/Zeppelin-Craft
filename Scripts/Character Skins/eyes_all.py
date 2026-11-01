@@ -69,14 +69,15 @@ SEXES = {0: 'Male', 1: 'Female'}
 FULL_EYE_SUBRACE = {(3, 0), (3, 1)}     # races whose full-colour eyes go to one sub-race (dwarf: Dark Iron)
 REPORT = Path(__file__).with_name('eyes_all.json')
 # (race, sex) whose every eye glows: texture_3 = the race's own glow in the eye's colour (geoset 1703 draws it)
-GLOW_RACES = {(4, 0), (4, 1), (5, 0)}
+GLOW_RACES = {(4, 0), (4, 1), (5, 0), (5, 1)}
 RACE_GLOW = 'Character\\{folder}\\{sex}\\{folder}{sex}EyeGlow.blp'   # the M2's type-0 eye glow (geoset 1702)
 # a glow source other than RACE_GLOW: the undead male model has no ScourgeMaleEyeGlow; its 1703 planes draw its own
 # deathKnightEyeGlow (F-230 undead male: the glow follows the eye colour, CharCustomizations.txt "eyeglow eyerow")
-GLOW_SOURCE = {(5, 0): 'Character\\Scourge\\Male\\deathKnightEyeGlow.blp'}
+GLOW_SOURCE = {(5, 0): 'Character\\Scourge\\Male\\deathKnightEyeGlow.blp',
+               (5, 1): 'Character\\Scourge\\Female\\deathKnightEyeGlow.blp'}
 # (race, sex) with a last "Sockets" eye: no layer, no glow (the empty sockets, user request 2026-10-30: the undead
 # male look its facial rows 2-4 / 10-11 gave before the glow followed the eye colour)
-SOCKET_EYE = {(5, 0)}
+SOCKET_EYE = {(5, 0), (5, 1)}     # undead female too (I-433: her legacy row 5 baked the sockets)
 DARK_IRON_GLOW = 'Character\\Dwarf\\{sex}\\deathKnightEyeGlow.blp'
 # the Dark Iron full eye's tints: a gradient map of its luminance (dark, mid, bright sRGB), values after the DK eye
 # fire tones only (user review 2026-10-30: Fel Green and Shadowflame dropped, Sulfur Yellow took Fel Green's value)

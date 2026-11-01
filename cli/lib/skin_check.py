@@ -292,9 +292,11 @@ def _baked(race, sex, skins, face_parts, files, stats) -> List[Finding]:
     return out
 
 
-def check(query, craft_root: Path, races=PLAYABLE, baked=None) -> Tuple[List[Finding], Dict]:
+def check(query, craft_root: Path, races=PLAYABLE, baked=None, sexes=None) -> Tuple[List[Finding], Dict]:
+    """baked: run the baked-marking detector (default off: ZEP_BAKED_CHECK=on or the --baked option turns it on);
+    sexes: limit to these sex ids (default both)."""
     if baked is None:
-        baked = os.environ.get('ZEP_BAKED_CHECK', 'on') != 'off'
+        baked = os.environ.get('ZEP_BAKED_CHECK') == 'on'
     files = shipped_index(craft_root)
     hd = hd_pack_index()
     imgs = Images()
@@ -317,6 +319,8 @@ def check(query, craft_root: Path, races=PLAYABLE, baked=None) -> Tuple[List[Fin
     for race in races:
         rname = names.get(race, '')
         for sex, sname in SEXES.items():
+            if sexes is not None and sex not in sexes:
+                continue
             m2 = f'character/{rname.lower()}/{sname}/{rname.lower()}{sname}.m2'
             model_owner = files.get(m2, (None, 'missing'))[1]
             model_hd = model_owner != 'stock' and m2 in hd
@@ -541,13 +545,16 @@ def to_json(findings: List[Finding]) -> str:
 LOG_DIR = Path('/workspace/project/logs/skin_check')
 
 
-def run(craft_root: Path, races=PLAYABLE, out_dir: Path = LOG_DIR, letter: Optional[str] = None
-        ) -> Tuple[int, str, Optional[Path]]:
+def run(craft_root: Path, races=PLAYABLE, out_dir: Path = LOG_DIR, letter: Optional[str] = None,
+        baked: Optional[bool] = None, sexes=None, colours=None, faces=None) -> Tuple[int, str, Optional[Path]]:
     """Check the live DBC against what the build ships. Writes report.txt, findings.json and faces.png into
     out_dir; returns (error count, report text, sheet path). With `letter`, the count is only the errors that patch
     ships: a file of one of its zpaks, or (PATCH-Z) a row naming a missing file."""
     from commands.wardrobe import _dbc_query_fn
-    findings, stats = check(_dbc_query_fn('live'), craft_root, races)
+    findings, stats = check(_dbc_query_fn('live'), craft_root, races, baked=baked, sexes=sexes)
+    if colours or faces:                                       # targeted check: only the named skins / face types
+        findings = [f for f in findings
+                    if (not colours or f.colour in colours) and (not faces or f.section != 1 or f.type in faces)]
     out_dir.mkdir(parents=True, exist_ok=True)
     text = report(findings, stats)
     (out_dir / 'report.txt').write_text(text + '\n')
