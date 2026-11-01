@@ -13,6 +13,7 @@ staged too; its LiquidType.dbc goes through the DBC pipeline instead (dbc/[F-234
 optim-cata\\ (nothing reads it), the exe, the installer and the WaystoneHD addon.
 
 Then hd_blobs.py adds the HD materials' prebuilt bytecode (hd-blobs/, Vulkan\\hd-blobs\\...) and its translation.
+Last, gen_retail_light.py (F-239) appends retail's Outland / Northrend / dungeon lights to forever_data.
 
 Usage: stage_hd_data.py [--pack /workspace/project/Zeppelin-Tools/wow-hd-2026-10-28]
 """
@@ -65,6 +66,8 @@ def main():
     print(f'staged {sum(1 for f in xtex.rglob("*") if f.is_file()):6d} files from patch-w.mpq       XTextures')
 
     subprocess.run([sys.executable, str(HERE / 'hd_blobs.py'), str(assets / 'Vulkan' / 'shaders' / 'translated')], check=True)
+    # F-239: the pack's forever_data has no Outland / Northrend / dungeon lights; add retail's (re-staging wipes them)
+    subprocess.run([sys.executable, str(HERE / 'gen_retail_light.py')], cwd=CRAFT, check=True)
 
 
 if __name__ == '__main__':
