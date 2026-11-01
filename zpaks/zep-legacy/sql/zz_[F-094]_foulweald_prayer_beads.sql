@@ -9,6 +9,9 @@
 -- Reward: a choice of three necklaces Yama strings from the beads. Item level
 -- 27 greens, fields follow the Ashenvale rewards beside it (Je'neu of the
 -- Earthen Ring 824, King of the Foulweald 6621).
+-- Chain: opens Gurda Ragescar's Heart of the Grove 91226 and The Grovewarden
+-- 91227 together (both PrevQuestID 91224). They are in other woods, so the
+-- gate never sends the player back over ground already cleared.
 -- ============================================================================
 
 SET @QUESTID := 91224;
@@ -60,7 +63,7 @@ INSERT INTO `quest_request_items` (`ID`, `EmoteOnComplete`, `EmoteOnIncomplete`,
 
 DELETE FROM `quest_offer_reward` WHERE `ID` = @QUESTID;
 INSERT INTO `quest_offer_reward` (`ID`, `Emote1`, `RewardText`) VALUES
-    (@QUESTID, 2, 'Eight strands. Eight families. Ruul would weep to see them.$B$BSit with me a moment while I work. A bead for strength, a bead for the swift foot, a bead for the quiet mind - the furbolgs knew what each one asked of the one who wore it. Choose the strand that suits your path, $N, and carry their ancestors with honour, since they no longer can.');
+    (@QUESTID, 2, 'Eight strands. Eight families. Ruul would weep to see them.$B$BSit with me a moment while I work. A bead for strength, a bead for the swift foot, a bead for the quiet mind - the furbolgs knew what each one asked of the one who wore it. Choose the strand that suits your path, $N, and carry their ancestors with honour, since they no longer can.$B$BThe sickness did not stop with the furbolgs, $N. Gurda Ragescar at the west gate says the trees themselves have started to walk. Go to her when you can.');
 
 DELETE FROM `creature_queststarter` WHERE `quest` = @QUESTID;
 INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES (@YAMA, @QUESTID);

@@ -44,7 +44,7 @@ INSERT INTO `quest_request_items` (`ID`, `EmoteOnComplete`, `EmoteOnIncomplete`,
 
 DELETE FROM `quest_offer_reward` WHERE `ID` = @QUESTID;
 INSERT INTO `quest_offer_reward` (`ID`, `Emote1`, `RewardText`) VALUES
-    (@QUESTID, 1, 'Good thick hides. These will be cloaks and boot linings by the time the next wind rider leaves. Some grunt on the Splintertree wall is going to be warm this season because of you, and he''ll never know your name. That''s the Horde. Here - for your trouble.');
+    (@QUESTID, 1, 'Good thick hides. These will be cloaks and boot linings by the time the next wind rider leaves. Some grunt on the Splintertree wall is going to be warm this season because of you, and he''ll never know your name. That''s the Horde. Here - for your trouble.$B$BAnd go and see Senani Thunderheart before you sleep. She''s been watching those wolves for weeks, and she says the Howlers aren''t the ones running the pack.');
 
 DELETE FROM `creature_queststarter` WHERE `quest` = @QUESTID;
 INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES (@MASTOK, @QUESTID);

@@ -1,0 +1,829 @@
+side,zone_id,zone,entry,name,level,rank,spawns,other_side_quests
+A,36,Alterac Mountains,2408,Snapjaw,30-31,0,67,
+A,36,Alterac Mountains,2349,Giant Moss Creeper,24-25,0,20,496
+A,36,Alterac Mountains,6033,Lake Frenzy,15-16,0,14,
+H,36,Alterac Mountains,2408,Snapjaw,30-31,0,67,
+H,36,Alterac Mountains,2252,Crushridge Ogre,34-35,0,49,500 540
+H,36,Alterac Mountains,2243,Syndicate Sentry,36-37,0,31,512
+H,36,Alterac Mountains,2253,Crushridge Brute,35-36,0,30,500 540
+H,36,Alterac Mountains,2287,Crushridge Warmonger,39-40,1,26,500 504 540
+H,36,Alterac Mountains,2242,Syndicate Spy,35-36,0,23,512
+H,36,Alterac Mountains,2246,Syndicate Assassin,38-39,0,16,512
+H,36,Alterac Mountains,6033,Lake Frenzy,15-16,0,14,
+H,36,Alterac Mountains,2256,Crushridge Enforcer,38-39,1,13,500 540
+H,36,Alterac Mountains,2247,Syndicate Enforcer,39-40,0,11,512
+H,36,Alterac Mountains,2319,Syndicate Wizard,34-35,0,11,512
+A,45,Arathi Highlands,2563,Plains Creeper,32-33,0,113,
+A,45,Arathi Highlands,2565,Giant Plains Creeper,35-36,0,43,
+A,45,Arathi Highlands,2566,Boulderfist Brute,35-36,0,21,678
+A,45,Arathi Highlands,2578,Young Mesa Buzzard,31-32,0,18,
+A,45,Arathi Highlands,2562,Boulderfist Ogre,32-33,0,17,676
+A,45,Arathi Highlands,2592,Rumbling Exile,38-39,0,16,
+A,45,Arathi Highlands,2564,Boulderfist Enforcer,33-34,0,15,676
+A,45,Arathi Highlands,2579,Mesa Buzzard,34-35,0,14,
+A,45,Arathi Highlands,2761,Cresting Exile,38-39,0,14,
+A,45,Arathi Highlands,2762,Thundering Exile,38-39,0,12,
+A,45,Arathi Highlands,2587,Syndicate Pathstalker,32-33,0,10,671
+A,45,Arathi Highlands,2648,Vilebranch Aman'zasi Guard,50-51,0,10,7861
+H,45,Arathi Highlands,2563,Plains Creeper,32-33,0,113,
+H,45,Arathi Highlands,2565,Giant Plains Creeper,35-36,0,43,
+H,45,Arathi Highlands,2578,Young Mesa Buzzard,31-32,0,18,
+H,45,Arathi Highlands,2592,Rumbling Exile,38-39,0,16,
+H,45,Arathi Highlands,2579,Mesa Buzzard,34-35,0,14,
+H,45,Arathi Highlands,2761,Cresting Exile,38-39,0,14,
+H,45,Arathi Highlands,2762,Thundering Exile,38-39,0,12,
+A,331,Ashenvale,3819,Wildthorn Stalker,20-21,0,109,
+A,331,Ashenvale,3816,Wild Buck,18-19,0,81,
+A,331,Ashenvale,3818,Elder Shadowhorn Stag,26-27,0,78,
+A,331,Ashenvale,3817,Shadowhorn Stag,22-23,0,70,
+A,331,Ashenvale,3823,Ghostpaw Runner,19-20,0,69,
+A,331,Ashenvale,3928,Rotting Slime,20-22,0,41,
+A,331,Ashenvale,3814,Spined Crawler,20-21,0,36,
+A,331,Ashenvale,3824,Ghostpaw Howler,23-24,0,34,91222
+A,331,Ashenvale,3812,Clattering Crawler,19-20,0,32,
+A,331,Ashenvale,3924,Thistlefur Shaman,23-24,0,29,216 6571
+A,331,Ashenvale,3782,Shadethicket Stone Mover,25-26,0,29,
+A,331,Ashenvale,3820,Wildthorn Venomspitter,24-25,0,28,91223
+A,331,Ashenvale,3821,Wildthorn Lurker,28-29,0,26,
+A,331,Ashenvale,3825,Ghostpaw Alpha,27-28,0,25,
+A,331,Ashenvale,3925,Thistlefur Avenger,23-24,0,22,216 6571
+A,331,Ashenvale,3783,Shadethicket Raincaller,22-23,0,22,
+A,331,Ashenvale,3784,Shadethicket Bark Ripper,26-27,0,21,
+A,331,Ashenvale,3780,Shadethicket Moss Eater,21-23,0,17,
+A,331,Ashenvale,3774,Felslayer,22-23,0,17,
+A,331,Ashenvale,3922,Thistlefur Totemic,23-24,0,16,6571
+A,331,Ashenvale,3789,Terrowulf Fleshripper,28-29,0,13,
+A,331,Ashenvale,3772,Lesser Felguard,23-24,0,13,
+A,331,Ashenvale,3921,Thistlefur Ursa,23-24,0,11,6571
+A,331,Ashenvale,3932,Bloodtooth Guard,27-28,0,11,
+A,331,Ashenvale,3770,Bleakheart Shadowstalker,27-28,0,10,1842
+A,331,Ashenvale,3781,Shadethicket Wood Shaper,23-24,0,10,
+H,331,Ashenvale,3819,Wildthorn Stalker,20-21,0,109,
+H,331,Ashenvale,3816,Wild Buck,18-19,0,81,
+H,331,Ashenvale,3818,Elder Shadowhorn Stag,26-27,0,78,
+H,331,Ashenvale,3817,Shadowhorn Stag,22-23,0,70,
+H,331,Ashenvale,3823,Ghostpaw Runner,19-20,0,69,
+H,331,Ashenvale,3928,Rotting Slime,20-22,0,41,
+H,331,Ashenvale,3814,Spined Crawler,20-21,0,36,
+H,331,Ashenvale,3812,Clattering Crawler,19-20,0,32,
+H,331,Ashenvale,3782,Shadethicket Stone Mover,25-26,0,29,
+H,331,Ashenvale,3821,Wildthorn Lurker,28-29,0,26,
+H,331,Ashenvale,3825,Ghostpaw Alpha,27-28,0,25,
+H,331,Ashenvale,3783,Shadethicket Raincaller,22-23,0,22,
+H,331,Ashenvale,3784,Shadethicket Bark Ripper,26-27,0,21,
+H,331,Ashenvale,3780,Shadethicket Moss Eater,21-23,0,17,
+H,331,Ashenvale,3774,Felslayer,22-23,0,17,
+H,331,Ashenvale,3789,Terrowulf Fleshripper,28-29,0,13,
+H,331,Ashenvale,3772,Lesser Felguard,23-24,0,13,
+H,331,Ashenvale,3932,Bloodtooth Guard,27-28,0,11,
+H,331,Ashenvale,3781,Shadethicket Wood Shaper,23-24,0,10,
+A,16,Azshara,6378,Thunderhead Skystormer,50-52,0,65,
+A,16,Azshara,6352,Coralshell Lurker,53-54,0,45,
+A,16,Azshara,6380,Thunderhead Consort,52-54,0,42,
+A,16,Azshara,6377,Thunderhead Stagwing,48-50,0,41,
+A,16,Azshara,6194,Spitelash Serpent Guard,48-49,0,41,
+A,16,Azshara,6188,Timbermaw Shaman,50-51,0,31,
+A,16,Azshara,6349,Great Wavethrasher,53-54,0,30,
+A,16,Azshara,6147,Cliff Thunderer,53-54,1,29,
+A,16,Azshara,6189,Timbermaw Ursa,51-52,0,29,
+A,16,Azshara,8759,Mosshoof Runner,45-47,0,29,
+A,16,Azshara,6190,Spitelash Warrior,46-47,0,28,
+A,16,Azshara,6148,Cliff Walker,52-53,1,27,
+A,16,Azshara,6379,Thunderhead Patriarch,52-54,0,26,
+A,16,Azshara,6351,Storm Bay Oracle,54-55,0,26,
+A,16,Azshara,6371,Storm Bay Warrior,51-52,0,25,
+A,16,Azshara,6146,Cliff Breaker,54-55,1,24,
+A,16,Azshara,8762,Timberweb Recluse,47-48,0,24,
+A,16,Azshara,6135,Arkkoran Clacker,53-54,0,24,
+A,16,Azshara,6350,Makrinni Razorclaw,54-55,0,24,
+A,16,Azshara,6193,Spitelash Screamer,47-48,0,23,
+A,16,Azshara,6137,Arkkoran Pincer,54-55,0,23,
+A,16,Azshara,6131,Draconic Mageweaver,51-52,1,22,
+A,16,Azshara,6375,Thunderhead Hippogryph,46-48,0,21,
+A,16,Azshara,6138,Arkkoran Oracle,54-55,0,20,
+A,16,Azshara,6136,Arkkoran Muckdweller,53-54,0,18,
+A,16,Azshara,6348,Wavethrasher,52-53,0,18,
+A,16,Azshara,6370,Makrinni Scrabbler,52-53,0,18,
+A,16,Azshara,6130,Blue Scalebane,52-53,1,17,
+A,16,Azshara,6185,Timbermaw Warrior,47-48,0,16,
+A,16,Azshara,8766,Forest Ooze,52-53,0,14,
+A,16,Azshara,6187,Timbermaw Den Watcher,49-50,0,14,
+A,16,Azshara,6143,Servant of Arkkoroc,53-54,1,12,
+A,16,Azshara,6347,Young Wavethrasher,51-52,0,10,
+A,16,Azshara,8764,Mistwing Ravager,52-53,0,10,
+A,16,Azshara,6184,Timbermaw Pathfinder,46-47,0,10,
+H,16,Azshara,6378,Thunderhead Skystormer,50-52,0,65,
+H,16,Azshara,6352,Coralshell Lurker,53-54,0,45,
+H,16,Azshara,6380,Thunderhead Consort,52-54,0,42,
+H,16,Azshara,6377,Thunderhead Stagwing,48-50,0,41,
+H,16,Azshara,6194,Spitelash Serpent Guard,48-49,0,41,
+H,16,Azshara,6188,Timbermaw Shaman,50-51,0,31,
+H,16,Azshara,6349,Great Wavethrasher,53-54,0,30,
+H,16,Azshara,6147,Cliff Thunderer,53-54,1,29,
+H,16,Azshara,6189,Timbermaw Ursa,51-52,0,29,
+H,16,Azshara,8759,Mosshoof Runner,45-47,0,29,
+H,16,Azshara,6190,Spitelash Warrior,46-47,0,28,
+H,16,Azshara,6148,Cliff Walker,52-53,1,27,
+H,16,Azshara,6379,Thunderhead Patriarch,52-54,0,26,
+H,16,Azshara,6351,Storm Bay Oracle,54-55,0,26,
+H,16,Azshara,6371,Storm Bay Warrior,51-52,0,25,
+H,16,Azshara,6146,Cliff Breaker,54-55,1,24,
+H,16,Azshara,8762,Timberweb Recluse,47-48,0,24,
+H,16,Azshara,6135,Arkkoran Clacker,53-54,0,24,
+H,16,Azshara,6350,Makrinni Razorclaw,54-55,0,24,
+H,16,Azshara,6193,Spitelash Screamer,47-48,0,23,
+H,16,Azshara,6137,Arkkoran Pincer,54-55,0,23,
+H,16,Azshara,6131,Draconic Mageweaver,51-52,1,22,
+H,16,Azshara,6375,Thunderhead Hippogryph,46-48,0,21,
+H,16,Azshara,6138,Arkkoran Oracle,54-55,0,20,
+H,16,Azshara,6136,Arkkoran Muckdweller,53-54,0,18,
+H,16,Azshara,6348,Wavethrasher,52-53,0,18,
+H,16,Azshara,6370,Makrinni Scrabbler,52-53,0,18,
+H,16,Azshara,6130,Blue Scalebane,52-53,1,17,
+H,16,Azshara,6185,Timbermaw Warrior,47-48,0,16,
+H,16,Azshara,8766,Forest Ooze,52-53,0,14,
+H,16,Azshara,6187,Timbermaw Den Watcher,49-50,0,14,
+H,16,Azshara,6143,Servant of Arkkoroc,53-54,1,12,
+H,16,Azshara,6347,Young Wavethrasher,51-52,0,10,
+H,16,Azshara,8764,Mistwing Ravager,52-53,0,10,
+H,16,Azshara,6184,Timbermaw Pathfinder,46-47,0,10,
+A,3524,Azuremyst Isle,17200,Moongraze Stag,5-6,0,108,
+A,3524,Azuremyst Isle,17197,Root Thresher,7-8,0,97,
+A,3524,Azuremyst Isle,17203,Nightstalker,8-9,0,81,
+A,3524,Azuremyst Isle,17373,Timberstrider,6-8,0,32,
+A,3524,Azuremyst Isle,17374,Greater Timberstrider,7-9,0,31,
+A,3524,Azuremyst Isle,17591,Blood Elf Bandit,7-7,0,30,
+A,3524,Azuremyst Isle,17372,Timberstrider Fledgling,5-6,0,29,
+A,3524,Azuremyst Isle,16518,Nestlewood Owlkin,3-4,0,17,
+A,3524,Azuremyst Isle,17184,Bristlelimb Windcaller,7-9,0,16,
+A,3524,Azuremyst Isle,17185,Bristlelimb Ursa,8-9,0,15,
+A,3524,Azuremyst Isle,17183,Bristlelimb Furbolg,7-8,0,11,
+A,3,Badlands,2732,Ridge Huntress,38-39,0,42,
+A,3,Badlands,2731,Ridge Stalker,36-37,0,25,
+A,3,Badlands,2743,Shadowforge Warrior,38-39,0,23,
+A,3,Badlands,2734,Ridge Stalker Patriarch,40-41,0,22,
+A,3,Badlands,4844,Shadowforge Surveyor,35-36,0,14,
+A,3,Badlands,2742,Shadowforge Chanter,38-39,0,14,
+A,3,Badlands,2749,Siege Golem,40-40,2,14,
+A,3,Badlands,2739,Shadowforge Tunneler,35-36,0,11,
+H,3,Badlands,2732,Ridge Huntress,38-39,0,42,
+H,3,Badlands,2731,Ridge Stalker,36-37,0,25,
+H,3,Badlands,2743,Shadowforge Warrior,38-39,0,23,
+H,3,Badlands,2734,Ridge Stalker Patriarch,40-41,0,22,
+H,3,Badlands,4844,Shadowforge Surveyor,35-36,0,14,
+H,3,Badlands,2742,Shadowforge Chanter,38-39,0,14,
+H,3,Badlands,2749,Siege Golem,40-40,2,14,
+H,3,Badlands,2739,Shadowforge Tunneler,35-36,0,11,
+H,3,Badlands,2717,Dustbelcher Mauler,41-42,0,11,733
+H,3,Badlands,2720,Dustbelcher Ogre Mage,43-44,0,10,733
+A,4,Blasted Lands,8718,Manahound,60-60,1,14,
+A,4,Blasted Lands,8675,Felbeast,50-51,0,11,
+A,4,Blasted Lands,8297,Magronos the Unyielding,56-56,4,10,
+H,4,Blasted Lands,8718,Manahound,60-60,1,14,
+H,4,Blasted Lands,8675,Felbeast,50-51,0,11,
+H,4,Blasted Lands,8297,Magronos the Unyielding,56-56,4,10,
+A,3525,Bloodmyst Isle,17343,Thistle Lasher,11-12,0,87,
+A,3525,Bloodmyst Isle,17347,Grizzled Brown Bear,12-13,0,48,
+A,3525,Bloodmyst Isle,17680,Webbed Creature,15-15,0,39,
+A,3525,Bloodmyst Isle,17345,Brown Bear,9-10,0,24,
+A,3525,Bloodmyst Isle,17331,Wrathscale Shorestalker,12-13,0,21,
+A,3525,Bloodmyst Isle,17333,Wrathscale Screamer,12-13,0,20,
+A,3525,Bloodmyst Isle,17320,Bristlelimb Shaman,10-11,0,18,
+A,3525,Bloodmyst Isle,17321,Bristlelimb Warrior,10-11,0,17,
+A,3525,Bloodmyst Isle,17325,Blacksilt Forager,11-12,0,17,
+A,3525,Bloodmyst Isle,17524,Nazzivus Summoner,13-13,0,16,
+A,3525,Bloodmyst Isle,17341,Axxarien Trickster,16-16,0,12,
+A,3525,Bloodmyst Isle,17327,Blacksilt Tidecaller,11-13,0,12,
+A,46,Burning Steppes,7039,War Reaver,53-55,0,20,4061
+A,46,Burning Steppes,9779,Flamekin Rager,54-56,0,15,
+A,46,Burning Steppes,9778,Flamekin Torcher,54-56,0,15,
+A,46,Burning Steppes,9044,Scarshield Sentry,53-54,1,12,
+A,46,Burning Steppes,9695,Deathlash Scorpid,54-55,0,12,
+A,46,Burning Steppes,8917,Quarry Slave,46-48,0,11,
+A,46,Burning Steppes,9691,Venomtip Scorpid,52-53,0,11,
+H,46,Burning Steppes,7033,Firegut Ogre,50-51,0,27,3823
+H,46,Burning Steppes,7034,Firegut Ogre Mage,51-52,0,25,3823
+H,46,Burning Steppes,7035,Firegut Brute,52-53,0,21,3823
+H,46,Burning Steppes,7027,Blackrock Slayer,56-57,0,20,4283
+H,46,Burning Steppes,7028,Blackrock Warlock,56-57,0,17,4283
+H,46,Burning Steppes,9779,Flamekin Rager,54-56,0,15,
+H,46,Burning Steppes,9778,Flamekin Torcher,54-56,0,15,
+H,46,Burning Steppes,9044,Scarshield Sentry,53-54,1,12,
+H,46,Burning Steppes,9695,Deathlash Scorpid,54-55,0,12,
+H,46,Burning Steppes,8917,Quarry Slave,46-48,0,11,
+H,46,Burning Steppes,7026,Blackrock Sorcerer,55-56,0,11,4283
+H,46,Burning Steppes,9691,Venomtip Scorpid,52-53,0,11,
+H,46,Burning Steppes,7025,Blackrock Soldier,55-56,0,11,4283
+A,148,Darkshore,2321,Foreststrider Fledgling,11-13,0,98,
+A,148,Darkshore,2163,Thistle Bear,11-12,0,81,
+A,148,Darkshore,2322,Foreststrider,14-16,0,48,
+A,148,Darkshore,2174,Coastal Frenzy,14-16,0,46,
+A,148,Darkshore,2181,Stormscale Myrmidon,18-19,0,34,
+A,148,Darkshore,2168,Blackwood Warrior,16-17,0,27,
+A,148,Darkshore,10158,Moonkin,12-13,0,26,
+A,148,Darkshore,2182,Stormscale Sorceress,19-20,0,23,
+A,148,Darkshore,10160,Raging Moonkin,12-14,0,22,
+A,148,Darkshore,2183,Stormscale Warrior,20-21,0,19,
+A,148,Darkshore,2180,Stormscale Siren,16-17,0,19,
+A,148,Darkshore,2179,Stormscale Wave Rider,15-16,0,17,
+A,148,Darkshore,2169,Blackwood Totemic,17-18,0,14,
+A,148,Darkshore,10159,Young Moonkin,11-12,0,12,
+A,148,Darkshore,2170,Blackwood Ursa,18-19,0,12,
+A,405,Desolace,4692,Dread Swoop,32-33,0,98,
+A,405,Desolace,4728,Gritjaw Basilisk,31-32,0,77,
+A,405,Desolace,4726,Raging Thunder Lizard,33-34,0,77,
+A,405,Desolace,4729,Hulking Gritjaw Basilisk,35-36,0,57,
+A,405,Desolace,4693,Dread Flyer,36-37,0,49,
+A,405,Desolace,4727,Elder Thunder Lizard,37-38,0,40,
+A,405,Desolace,4649,Gelkis Windchaser,33-34,0,26,
+A,405,Desolace,4663,Burning Blade Augur,30-31,0,23,1480
+A,405,Desolace,4666,Burning Blade Felsworn,31-32,0,23,1480
+A,405,Desolace,4648,Gelkis Stamper,33-34,0,22,
+A,405,Desolace,4640,Magram Wrangler,33-34,0,19,
+A,405,Desolace,4641,Magram Windchaser,33-34,0,18,
+A,405,Desolace,4665,Burning Blade Adept,31-32,0,17,1480
+A,405,Desolace,4701,Dying Kodo,35-36,0,15,
+A,405,Desolace,11577,Whirlwind Stormwalker,35-37,0,15,
+A,405,Desolace,4655,Maraudine Wrangler,37-38,0,15,
+A,405,Desolace,4695,Carrion Horror,35-37,0,15,
+A,405,Desolace,4664,Burning Blade Reaver,30-31,0,14,1480
+A,405,Desolace,11785,Ambereye Basilisk,40-41,1,14,
+A,405,Desolace,4657,Maraudine Windchaser,38-39,0,14,
+A,405,Desolace,4651,Gelkis Earthcaller,34-35,0,14,
+A,405,Desolace,4661,Gelkis Rumbler,29-30,0,14,
+A,405,Desolace,12347,Enraged Reef Crawler,30-32,0,13,6142
+A,405,Desolace,4656,Maraudine Mauler,38-39,0,13,
+A,405,Desolace,11578,Whirlwind Shredder,32-34,0,13,
+A,405,Desolace,11576,Whirlwind Ripper,32-34,0,12,
+A,405,Desolace,4654,Maraudine Scout,37-38,0,11,
+A,405,Desolace,11787,Rock Borer,40-41,1,10,
+A,405,Desolace,11788,Rock Worm,41-42,1,10,
+A,405,Desolace,4694,Dread Ripper,39-40,0,10,
+A,405,Desolace,4642,Magram Stormer,34-35,0,10,
+H,405,Desolace,4692,Dread Swoop,32-33,0,98,
+H,405,Desolace,4728,Gritjaw Basilisk,31-32,0,77,
+H,405,Desolace,4726,Raging Thunder Lizard,33-34,0,77,
+H,405,Desolace,4696,Scorpashi Snapper,30-31,0,69,1459
+H,405,Desolace,4729,Hulking Gritjaw Basilisk,35-36,0,57,
+H,405,Desolace,4693,Dread Flyer,36-37,0,49,
+H,405,Desolace,4727,Elder Thunder Lizard,37-38,0,40,
+H,405,Desolace,4697,Scorpashi Lasher,34-35,0,26,1459
+H,405,Desolace,4649,Gelkis Windchaser,33-34,0,26,
+H,405,Desolace,11561,Undead Ravager,37-38,0,26,261
+H,405,Desolace,4648,Gelkis Stamper,33-34,0,22,
+H,405,Desolace,4700,Aged Kodo,34-35,0,20,1459
+H,405,Desolace,4640,Magram Wrangler,33-34,0,19,
+H,405,Desolace,4641,Magram Windchaser,33-34,0,18,
+H,405,Desolace,4701,Dying Kodo,35-36,0,15,
+H,405,Desolace,11577,Whirlwind Stormwalker,35-37,0,15,
+H,405,Desolace,4655,Maraudine Wrangler,37-38,0,15,
+H,405,Desolace,4695,Carrion Horror,35-37,0,15,
+H,405,Desolace,4699,Scorpashi Venomlash,38-39,0,15,1459
+H,405,Desolace,11785,Ambereye Basilisk,40-41,1,14,
+H,405,Desolace,4657,Maraudine Windchaser,38-39,0,14,
+H,405,Desolace,4651,Gelkis Earthcaller,34-35,0,14,
+H,405,Desolace,4661,Gelkis Rumbler,29-30,0,14,
+H,405,Desolace,4635,Kolkar Windchaser,31-32,0,13,1384
+H,405,Desolace,4636,Kolkar Battle Lord,32-33,0,13,1384
+H,405,Desolace,4656,Maraudine Mauler,38-39,0,13,
+H,405,Desolace,11578,Whirlwind Shredder,32-34,0,13,
+H,405,Desolace,11576,Whirlwind Ripper,32-34,0,12,
+H,405,Desolace,4634,Kolkar Mauler,31-32,0,11,1384 1386
+H,405,Desolace,4654,Maraudine Scout,37-38,0,11,
+H,405,Desolace,11787,Rock Borer,40-41,1,10,
+H,405,Desolace,11788,Rock Worm,41-42,1,10,
+H,405,Desolace,4694,Dread Ripper,39-40,0,10,
+H,405,Desolace,4642,Magram Stormer,34-35,0,10,
+A,1,Dun Morogh,1125,Crag Boar,5-6,0,73,
+A,1,Dun Morogh,1126,Large Crag Boar,6-7,0,43,
+A,1,Dun Morogh,1689,Scarred Crag Boar,9-10,0,32,
+A,1,Dun Morogh,1131,Winter Wolf,7-8,0,23,
+A,1,Dun Morogh,1116,Rockjaw Ambusher,9-10,0,18,
+A,1,Dun Morogh,1121,Frostmane Snowstrider,8-9,0,15,
+A,1,Dun Morogh,1199,Juvenile Snow Leopard,5-6,0,15,
+A,1,Dun Morogh,1138,Snow Tracker Wolf,6-7,0,12,
+A,1,Dun Morogh,1122,Frostmane Hideskinner,9-10,0,11,
+A,1,Dun Morogh,1718,Rockjaw Raider,3-4,0,10,
+H,14,Durotar,3100,Elder Mottled Boar,8-9,0,120,
+H,14,Durotar,3099,Dire Mottled Boar,6-7,0,114,
+H,14,Durotar,3125,Clattering Scorpid,5-6,0,71,
+H,14,Durotar,3126,Armored Scorpid,7-8,0,63,
+H,14,Durotar,3122,Bloodtalon Taillasher,6-8,0,59,
+H,14,Durotar,3123,Bloodtalon Scythemaw,8-10,0,36,
+H,14,Durotar,3115,Dustwind Harpy,7-8,0,16,
+H,14,Durotar,3116,Dustwind Pillager,7-8,0,12,
+H,14,Durotar,3130,Thunder Lizard,9-10,0,11,
+H,14,Durotar,3131,Lightning Hide,10-11,0,11,
+A,10,Duskwood,923,Young Black Ravager,23-24,0,40,
+A,10,Duskwood,3094,Unseen,49-51,0,28,
+A,10,Duskwood,521,Lupos,23-23,4,16,
+A,10,Duskwood,215,Defias Night Runner,24-25,0,16,
+A,10,Duskwood,909,Defias Night Blade,25-26,0,16,
+A,10,Duskwood,212,Splinter Fist Warrior,29-30,0,11,
+A,10,Duskwood,771,Commander Felstrom,32-32,4,10,
+A,15,Dustwallow Marsh,4344,Mottled Drywallow Crocolisk,38-39,0,60,
+A,15,Dustwallow Marsh,4343,Drywallow Snapper,37-38,0,48,
+A,15,Dustwallow Marsh,5057,Theramore Deserter,37-37,0,37,
+A,15,Dustwallow Marsh,4334,Firemane Flamecaller,43-44,0,36,
+A,15,Dustwallow Marsh,4323,Searing Hatchling,41-42,0,35,1169
+A,15,Dustwallow Marsh,4404,Muckshell Scrabbler,42-43,0,28,1261 1262
+A,15,Dustwallow Marsh,4403,Muckshell Pincer,41-42,0,25,1261 1262
+A,15,Dustwallow Marsh,4415,Giant Darkfang Spider,40-41,0,24,1322
+A,15,Dustwallow Marsh,4414,Darkfang Venomspitter,37-38,0,23,1322
+A,15,Dustwallow Marsh,4331,Firemane Ash Tail,42-43,0,23,1168
+A,15,Dustwallow Marsh,4346,Noxious Flayer,35-36,0,22,
+A,15,Dustwallow Marsh,4393,Acidic Swamp Ooze,39-41,0,22,
+A,15,Dustwallow Marsh,4329,Firemane Scout,41-42,0,22,1168
+A,15,Dustwallow Marsh,4401,Muckshell Clacker,39-40,0,20,1261 1262
+A,15,Dustwallow Marsh,4328,Firemane Scalebane,43-44,0,18,1168
+A,15,Dustwallow Marsh,4351,Bloodfen Raptor,35-36,0,17,
+A,15,Dustwallow Marsh,4352,Bloodfen Screecher,36-37,0,16,
+A,15,Dustwallow Marsh,4394,Bubbling Swamp Ooze,39-40,1,15,
+A,15,Dustwallow Marsh,4389,Murk Thresher,41-43,0,14,
+A,15,Dustwallow Marsh,23591,Defias Diver,37-38,0,13,
+A,15,Dustwallow Marsh,4347,Noxious Reaver,37-38,0,13,
+A,15,Dustwallow Marsh,4374,Strashaz Hydra,59-61,1,12,
+A,15,Dustwallow Marsh,4385,Withervine Rager,38-39,0,10,
+A,15,Dustwallow Marsh,4387,Withervine Mire Beast,37-38,0,10,
+A,15,Dustwallow Marsh,15591,Minion of Weavil,60-61,1,10,
+H,15,Dustwallow Marsh,4344,Mottled Drywallow Crocolisk,38-39,0,60,
+H,15,Dustwallow Marsh,4343,Drywallow Snapper,37-38,0,48,
+H,15,Dustwallow Marsh,4388,Young Murk Thresher,39-41,0,48,11192
+H,15,Dustwallow Marsh,4397,Mudrock Spikeshell,37-38,0,46,1204
+H,15,Dustwallow Marsh,5057,Theramore Deserter,37-37,0,37,
+H,15,Dustwallow Marsh,4334,Firemane Flamecaller,43-44,0,36,
+H,15,Dustwallow Marsh,4346,Noxious Flayer,35-36,0,22,
+H,15,Dustwallow Marsh,4393,Acidic Swamp Ooze,39-41,0,22,
+H,15,Dustwallow Marsh,4351,Bloodfen Raptor,35-36,0,17,
+H,15,Dustwallow Marsh,4352,Bloodfen Screecher,36-37,0,16,
+H,15,Dustwallow Marsh,4394,Bubbling Swamp Ooze,39-40,1,15,
+H,15,Dustwallow Marsh,4389,Murk Thresher,41-43,0,14,
+H,15,Dustwallow Marsh,23591,Defias Diver,37-38,0,13,
+H,15,Dustwallow Marsh,4347,Noxious Reaver,37-38,0,13,
+H,15,Dustwallow Marsh,4374,Strashaz Hydra,59-61,1,12,
+H,15,Dustwallow Marsh,4385,Withervine Rager,38-39,0,10,
+H,15,Dustwallow Marsh,4387,Withervine Mire Beast,37-38,0,10,
+H,15,Dustwallow Marsh,15591,Minion of Weavil,60-61,1,10,
+A,139,Eastern Plaguelands,9447,Scarlet Warder,53-54,1,59,
+A,139,Eastern Plaguelands,9452,Scarlet Enchanter,53-55,1,44,
+A,139,Eastern Plaguelands,9449,Scarlet Cleric,54-55,1,44,
+A,139,Eastern Plaguelands,8543,Stitched Horror,57-58,0,40,6022
+A,139,Eastern Plaguelands,8530,Cannibal Ghoul,54-55,0,31,
+A,139,Eastern Plaguelands,8534,Putrid Gargoyle,54-56,0,30,
+A,139,Eastern Plaguelands,8561,Mossflayer Shadowhunter,58-59,0,25,
+A,139,Eastern Plaguelands,8524,Cursed Mage,54-55,0,23,
+A,139,Eastern Plaguelands,8523,Scourge Soldier,53-54,0,23,
+A,139,Eastern Plaguelands,8532,Diseased Flayer,58-59,0,22,
+A,139,Eastern Plaguelands,8606,Living Decay,55-56,0,22,
+A,139,Eastern Plaguelands,17878,Scourge Siege Engineer,60-60,0,19,9725
+A,139,Eastern Plaguelands,16117,Plagued Swine,60-60,0,17,
+A,139,Eastern Plaguelands,8548,Vile Tutor,56-57,0,16,
+A,139,Eastern Plaguelands,8546,Dark Adept,58-59,0,15,
+A,139,Eastern Plaguelands,8527,Scourge Guard,57-58,0,14,
+A,139,Eastern Plaguelands,9450,Scarlet Curate,55-56,1,14,
+A,139,Eastern Plaguelands,8562,Mossflayer Cannibal,57-59,0,13,
+A,139,Eastern Plaguelands,8557,Crypt Horror,57-58,0,13,
+A,139,Eastern Plaguelands,8560,Mossflayer Scout,57-58,0,12,
+A,139,Eastern Plaguelands,8558,Crypt Slayer,58-59,0,12,
+A,139,Eastern Plaguelands,8556,Crypt Walker,55-56,0,11,
+A,139,Eastern Plaguelands,8555,Crypt Stalker,53-54,0,11,
+A,139,Eastern Plaguelands,11291,Unliving Mossflayer,54-55,0,11,
+A,139,Eastern Plaguelands,8520,Plague Ravager,55-56,0,11,
+A,139,Eastern Plaguelands,9451,Scarlet Archmage,55-57,1,11,
+A,139,Eastern Plaguelands,11288,Spectral Betrayer,57-58,0,10,
+H,139,Eastern Plaguelands,9447,Scarlet Warder,53-54,1,59,
+H,139,Eastern Plaguelands,9452,Scarlet Enchanter,53-55,1,44,
+H,139,Eastern Plaguelands,9449,Scarlet Cleric,54-55,1,44,
+H,139,Eastern Plaguelands,8530,Cannibal Ghoul,54-55,0,31,
+H,139,Eastern Plaguelands,8534,Putrid Gargoyle,54-56,0,30,
+H,139,Eastern Plaguelands,8561,Mossflayer Shadowhunter,58-59,0,25,
+H,139,Eastern Plaguelands,8524,Cursed Mage,54-55,0,23,
+H,139,Eastern Plaguelands,8523,Scourge Soldier,53-54,0,23,
+H,139,Eastern Plaguelands,8532,Diseased Flayer,58-59,0,22,
+H,139,Eastern Plaguelands,8606,Living Decay,55-56,0,22,
+H,139,Eastern Plaguelands,16117,Plagued Swine,60-60,0,17,
+H,139,Eastern Plaguelands,8548,Vile Tutor,56-57,0,16,
+H,139,Eastern Plaguelands,8546,Dark Adept,58-59,0,15,
+H,139,Eastern Plaguelands,8527,Scourge Guard,57-58,0,14,
+H,139,Eastern Plaguelands,9450,Scarlet Curate,55-56,1,14,
+H,139,Eastern Plaguelands,8562,Mossflayer Cannibal,57-59,0,13,
+H,139,Eastern Plaguelands,8557,Crypt Horror,57-58,0,13,
+H,139,Eastern Plaguelands,8560,Mossflayer Scout,57-58,0,12,
+H,139,Eastern Plaguelands,8558,Crypt Slayer,58-59,0,12,
+H,139,Eastern Plaguelands,8556,Crypt Walker,55-56,0,11,
+H,139,Eastern Plaguelands,8555,Crypt Stalker,53-54,0,11,
+H,139,Eastern Plaguelands,11291,Unliving Mossflayer,54-55,0,11,
+H,139,Eastern Plaguelands,8520,Plague Ravager,55-56,0,11,
+H,139,Eastern Plaguelands,9451,Scarlet Archmage,55-57,1,11,
+H,139,Eastern Plaguelands,11288,Spectral Betrayer,57-58,0,10,
+A,12,Elwynn Forest,524,Rockhide Boar,7-8,0,90,
+A,12,Elwynn Forest,525,Mangy Wolf,5-6,0,85,
+A,12,Elwynn Forest,1922,Gray Forest Wolf,7-8,0,55,
+A,12,Elwynn Forest,113,Stonetusk Boar,5-6,0,49,
+A,12,Elwynn Forest,94,Defias Cutpurse,5-6,0,38,
+A,12,Elwynn Forest,30,Forest Spider,5-6,0,15,
+H,3430,Eversong Woods,15650,Crazed Dragonhawk,7-8,0,126,
+H,3430,Eversong Woods,15644,Wretched Urchin,4-5,0,67,
+H,3430,Eversong Woods,15649,Feral Dragonhawk Hatchling,5-6,0,50,
+H,3430,Eversong Woods,15636,Eversong Green Keeper,7-9,0,37,
+H,3430,Eversong Woods,15656,Angershade,7-8,0,19,
+H,3430,Eversong Woods,15642,Amani Shadowpriest,8-10,0,19,
+H,3430,Eversong Woods,15655,Rotlimb Cannibal,6-7,0,13,
+H,3430,Eversong Woods,33712,Golden Crawler,5-6,0,12,
+A,361,Felwood,7092,Tainted Ooze,51-52,0,34,4293 4661
+A,361,Felwood,7086,Cursed Ooze,49-50,0,24,4293 4661
+A,361,Felwood,7099,Ironbeak Hunter,50-51,0,19,
+A,361,Felwood,7097,Ironbeak Owl,48-49,0,14,
+A,361,Felwood,7098,Ironbeak Screecher,52-53,0,13,
+A,361,Felwood,11516,Timbermaw Warder,53-54,0,10,
+H,361,Felwood,7105,Jadefire Satyr,49-50,0,34,939
+H,361,Felwood,7109,Jadefire Felsworn,50-51,0,31,939 4421
+H,361,Felwood,7107,Jadefire Trickster,52-53,0,26,939 4906
+H,361,Felwood,7099,Ironbeak Hunter,50-51,0,19,
+H,361,Felwood,7097,Ironbeak Owl,48-49,0,14,
+H,361,Felwood,7111,Jadefire Hellcaller,53-54,0,13,939 4906
+H,361,Felwood,7098,Ironbeak Screecher,52-53,0,13,
+H,361,Felwood,7110,Jadefire Shadowstalker,51-52,0,11,939 4421
+H,361,Felwood,11516,Timbermaw Warder,53-54,0,10,
+A,357,Feralas,5286,Longtooth Runner,40-41,0,98,
+A,357,Feralas,11443,Gordok Ogre-Mage,52-53,1,61,
+A,357,Feralas,5254,Woodpaw Mystic,42-43,0,44,2862
+A,357,Feralas,5287,Longtooth Howler,43-44,0,38,
+A,357,Feralas,5255,Woodpaw Reaver,42-43,0,36,2862
+A,357,Feralas,5247,Zukk'ash Tunneler,45-46,0,29,7730
+A,357,Feralas,5251,Woodpaw Trapper,41-42,0,28,2862
+A,357,Feralas,5288,Rabid Longtooth,47-48,0,27,
+A,357,Feralas,5249,Woodpaw Mongrel,40-41,0,27,2862
+A,357,Feralas,11440,Gordok Enforcer,53-54,1,24,
+A,357,Feralas,5305,Frayfeather Skystormer,45-46,0,24,3128
+A,357,Feralas,5308,Rogue Vale Screecher,44-46,0,20,
+A,357,Feralas,5253,Woodpaw Brute,41-42,0,20,2862
+A,357,Feralas,5304,Frayfeather Stagwing,44-45,0,19,3128
+A,357,Feralas,11442,Gordok Mauler,53-54,1,17,
+A,357,Feralas,5229,Gordunni Ogre,40-41,0,17,2975
+A,357,Feralas,5328,Coast Crawl Deepseer,43-44,0,17,
+A,357,Feralas,5238,Gordunni Battlemaster,45-46,0,16,
+A,357,Feralas,5241,Gordunni Warlord,46-47,0,16,
+A,357,Feralas,5366,Northspring Windcaller,49-50,0,15,3062 3063
+A,357,Feralas,5239,Gordunni Mage-Lord,45-46,0,15,2979 3002
+A,357,Feralas,5327,Coast Crawl Snapclaw,44-45,0,14,
+A,357,Feralas,12418,Gordok Hyena,52-54,0,13,
+A,357,Feralas,5300,Frayfeather Hippogryph,43-44,0,13,3128
+A,357,Feralas,5358,Cliff Giant,49-50,1,12,3128
+A,357,Feralas,5258,Woodpaw Alpha,43-44,0,12,2862 2863
+A,357,Feralas,5234,Gordunni Mauler,43-44,0,12,2980
+A,357,Feralas,5237,Gordunni Ogre Mage,41-42,0,10,2975
+A,357,Feralas,5244,Zukk'ash Stinger,45-46,0,10,7730
+A,357,Feralas,5245,Zukk'ash Wasp,44-45,0,10,7730
+A,357,Feralas,5246,Zukk'ash Worker,44-45,0,10,7730
+H,357,Feralas,5286,Longtooth Runner,40-41,0,98,
+H,357,Feralas,5268,Ironfur Bear,41-42,0,67,1452
+H,357,Feralas,11443,Gordok Ogre-Mage,52-53,1,61,
+H,357,Feralas,5287,Longtooth Howler,43-44,0,38,
+H,357,Feralas,5272,Grizzled Ironfur Bear,44-45,0,32,1452
+H,357,Feralas,5336,Hatecrest Sorceress,43-44,0,29,2869
+H,357,Feralas,5333,Hatecrest Serpent Guard,44-45,0,29,2869
+H,357,Feralas,5274,Ironfur Patriarch,48-49,0,28,1452
+H,357,Feralas,5288,Rabid Longtooth,47-48,0,27,
+H,357,Feralas,11440,Gordok Enforcer,53-54,1,24,
+H,357,Feralas,5335,Hatecrest Screamer,41-42,0,22,2869
+H,357,Feralas,5308,Rogue Vale Screecher,44-46,0,20,
+H,357,Feralas,11442,Gordok Mauler,53-54,1,17,
+H,357,Feralas,5328,Coast Crawl Deepseer,43-44,0,17,
+H,357,Feralas,5331,Hatecrest Warrior,42-43,0,16,2869
+H,357,Feralas,5238,Gordunni Battlemaster,45-46,0,16,
+H,357,Feralas,5241,Gordunni Warlord,46-47,0,16,
+H,357,Feralas,5327,Coast Crawl Snapclaw,44-45,0,14,
+H,357,Feralas,12418,Gordok Hyena,52-54,0,13,
+H,357,Feralas,5334,Hatecrest Myrmidon,43-44,0,11,2869
+H,3433,Ghostlands,16317,Deatholme Necromancer,18-19,0,17,
+H,3433,Ghostlands,16300,Risen Creeper,9-10,0,11,
+H,3433,Ghostlands,16316,Stonewing Tracker,16-17,0,10,
+A,3483,Hellfire Peninsula,18978,Heckling Fel Sprite,57-58,0,64,
+A,3483,Hellfire Peninsula,16950,Netherhound,58-58,0,29,
+A,3483,Hellfire Peninsula,16938,Dreghood Brute,56-57,0,29,
+A,3483,Hellfire Peninsula,19259,Infernal Invader,60-61,0,11,
+H,3483,Hellfire Peninsula,18978,Heckling Fel Sprite,57-58,0,64,
+H,3483,Hellfire Peninsula,16950,Netherhound,58-58,0,29,
+H,3483,Hellfire Peninsula,16938,Dreghood Brute,56-57,0,29,
+H,3483,Hellfire Peninsula,19259,Infernal Invader,60-61,0,11,
+A,267,Hillsbrad Foothills,2349,Giant Moss Creeper,24-25,0,106,496
+A,267,Hillsbrad Foothills,2261,Syndicate Watchman,20-21,0,48,549
+A,267,Hillsbrad Foothills,2350,Forest Moss Creeper,20-21,0,44,496
+A,267,Hillsbrad Foothills,2384,Starving Mountain Lion,23-24,0,42,501 1136
+A,267,Hillsbrad Foothills,2348,Elder Moss Creeper,26-27,0,26,496
+A,267,Hillsbrad Foothills,2244,Syndicate Shadow Mage,21-22,0,23,1066
+A,267,Hillsbrad Foothills,2385,Feral Mountain Lion,27-28,0,18,501 1136
+A,267,Hillsbrad Foothills,2408,Snapjaw,30-31,0,16,
+A,267,Hillsbrad Foothills,2260,Syndicate Rogue,21-22,0,12,549
+A,267,Hillsbrad Foothills,2372,Mudsnout Gnoll,26-27,0,12,
+H,267,Hillsbrad Foothills,2408,Snapjaw,30-31,0,16,
+H,267,Hillsbrad Foothills,2372,Mudsnout Gnoll,26-27,0,12,
+A,4080,Isle of Quel'Danas,25084,Greengill Slave,60-61,0,86,
+H,4080,Isle of Quel'Danas,25084,Greengill Slave,60-61,0,86,
+A,38,Loch Modan,1191,Mangy Mountain Boar,14-15,0,32,
+A,38,Loch Modan,1193,Loch Frenzy,12-13,0,26,
+A,38,Loch Modan,1190,Mountain Boar,10-11,0,26,
+A,38,Loch Modan,1186,Elder Black Bear,11-12,0,24,
+A,38,Loch Modan,1188,Grizzled Black Bear,13-14,0,23,
+A,38,Loch Modan,1189,Black Bear Patriarch,16-17,0,22,
+A,38,Loch Modan,1224,Young Threshadon,19-20,0,21,
+A,38,Loch Modan,4844,Shadowforge Surveyor,35-36,0,13,
+A,38,Loch Modan,4845,Shadowforge Ruffian,36-37,1,11,
+H,215,Mulgore,2976,Venture Co. Laborer,6-7,0,14,
+H,215,Mulgore,2975,Venture Co. Hireling,5-6,0,11,
+A,44,Redridge Mountains,547,Great Goretusk,16-17,0,30,
+A,44,Redridge Mountains,442,Tarantula,15-16,0,22,
+A,44,Redridge Mountains,428,Dire Condor,18-19,0,20,
+A,44,Redridge Mountains,616,Chatter,23-23,4,14,
+A,44,Redridge Mountains,505,Greater Tarantula,19-20,0,14,
+A,44,Redridge Mountains,712,Redridge Thrasher,14-15,0,12,
+A,44,Redridge Mountains,819,Servant of Ilgalar,24-25,0,11,
+A,51,Searing Gorge,5857,Searing Lava Spider,45-47,0,26,
+A,51,Searing Gorge,8917,Quarry Slave,46-48,0,20,
+A,51,Searing Gorge,8890,Anvilrage Warden,49-50,0,19,4081
+A,51,Searing Gorge,8889,Anvilrage Overseer,48-49,0,15,
+H,51,Searing Gorge,5857,Searing Lava Spider,45-47,0,26,
+H,51,Searing Gorge,8917,Quarry Slave,46-48,0,20,
+H,51,Searing Gorge,8889,Anvilrage Overseer,48-49,0,15,
+A,3520,Shadowmoon Valley,21049,Spirit of the Past,60-65,0,14,
+H,3520,Shadowmoon Valley,21049,Spirit of the Past,60-65,0,14,
+H,130,Silverpine Forest,1766,Mottled Worg,11-12,0,40,
+H,130,Silverpine Forest,1924,Moonrage Bloodhowler,15-16,0,33,
+H,130,Silverpine Forest,1765,Worg,10-11,0,28,
+H,130,Silverpine Forest,1866,Ravenclaw Slave,11-12,0,26,
+H,130,Silverpine Forest,1923,Bloodsnout Worg,16-17,0,22,
+H,130,Silverpine Forest,6033,Lake Frenzy,15-16,0,16,
+H,130,Silverpine Forest,2173,Reef Frenzy,14-15,0,16,
+H,130,Silverpine Forest,1772,Rot Hide Gladerunner,11-12,0,11,
+H,130,Silverpine Forest,1865,Ravenclaw Raider,12-13,0,11,
+A,406,Stonetalon Mountains,4007,Deepmoss Venomspitter,17-18,0,55,6461
+A,406,Stonetalon Mountains,3999,Windshear Digger,21-22,0,46,1838
+A,406,Stonetalon Mountains,4006,Deepmoss Webspinner,19-20,0,45,
+A,406,Stonetalon Mountains,11911,Grimtotem Mercenary,14-15,0,33,6548
+A,406,Stonetalon Mountains,4009,Raging Cliff Stormer,18-19,0,29,
+A,406,Stonetalon Mountains,4026,Bloodfury Windcaller,24-25,0,25,
+A,406,Stonetalon Mountains,11912,Grimtotem Brute,15-16,0,24,6629
+A,406,Stonetalon Mountains,4018,Antlered Courser,22-23,0,23,1058
+A,406,Stonetalon Mountains,4005,Deepmoss Creeper,16-17,0,23,6461
+A,406,Stonetalon Mountains,11917,Gogger Geomancer,16-17,0,23,6421
+A,406,Stonetalon Mountains,4020,Sap Beast,22-23,0,19,1058
+A,406,Stonetalon Mountains,11915,Gogger Rock Keeper,16-17,0,19,6421
+A,406,Stonetalon Mountains,4008,Cliff Stormer,15-17,0,17,
+A,406,Stonetalon Mountains,11913,Grimtotem Sorcerer,15-16,0,17,
+A,406,Stonetalon Mountains,11910,Grimtotem Ruffian,14-15,0,17,6548
+A,406,Stonetalon Mountains,4067,Twilight Runner,23-24,0,15,1058
+A,406,Stonetalon Mountains,4027,Bloodfury Storm Witch,26-27,0,15,
+A,406,Stonetalon Mountains,11918,Gogger Stonepounder,17-18,0,11,6421
+H,406,Stonetalon Mountains,4006,Deepmoss Webspinner,19-20,0,45,
+H,406,Stonetalon Mountains,3991,Venture Co. Deforester,19-20,0,36,1071
+H,406,Stonetalon Mountains,4009,Raging Cliff Stormer,18-19,0,29,
+H,406,Stonetalon Mountains,4026,Bloodfury Windcaller,24-25,0,25,
+H,406,Stonetalon Mountains,4008,Cliff Stormer,15-17,0,17,
+H,406,Stonetalon Mountains,11913,Grimtotem Sorcerer,15-16,0,17,
+H,406,Stonetalon Mountains,4027,Bloodfury Storm Witch,26-27,0,15,
+H,406,Stonetalon Mountains,4014,Pridewing Consort,22-23,0,14,1134
+H,406,Stonetalon Mountains,4012,Pridewing Wyvern,21-22,0,14,1134
+H,406,Stonetalon Mountains,4041,Scorched Basilisk,27-28,0,11,1078
+H,406,Stonetalon Mountains,4013,Pridewing Skyhunter,23-24,0,10,1134
+A,33,Stranglethorn Vale,772,Stranglethorn Tigress,37-38,0,52,570
+A,33,Stranglethorn Vale,2544,Southern Sand Crawler,40-41,0,24,
+A,33,Stranglethorn Vale,940,Kurzen Medicine Man,32-33,0,23,
+A,33,Stranglethorn Vale,11355,Gurubashi Warrior,54-55,1,19,
+A,33,Stranglethorn Vale,905,Sharptooth Frenzy,31-32,0,18,
+A,33,Stranglethorn Vale,709,Mosh'Ogg Warmonger,41-42,0,15,
+A,33,Stranglethorn Vale,2522,Jaguero Stalker,50-50,0,14,
+A,33,Stranglethorn Vale,1151,Saltwater Crocolisk,35-36,0,13,
+A,33,Stranglethorn Vale,942,Kurzen Witch Doctor,36-37,0,13,
+A,33,Stranglethorn Vale,1094,Venture Co. Miner,34-35,0,12,
+A,33,Stranglethorn Vale,4461,Murkgill Warrior,35-36,0,12,
+H,33,Stranglethorn Vale,691,Lesser Water Elemental,36-37,0,24,601
+H,33,Stranglethorn Vale,2544,Southern Sand Crawler,40-41,0,24,
+H,33,Stranglethorn Vale,940,Kurzen Medicine Man,32-33,0,23,
+H,33,Stranglethorn Vale,11355,Gurubashi Warrior,54-55,1,19,
+H,33,Stranglethorn Vale,905,Sharptooth Frenzy,31-32,0,18,
+H,33,Stranglethorn Vale,937,Kurzen Jungle Fighter,32-33,0,16,203
+H,33,Stranglethorn Vale,938,Kurzen Commando,34-35,0,15,574
+H,33,Stranglethorn Vale,709,Mosh'Ogg Warmonger,41-42,0,15,
+H,33,Stranglethorn Vale,939,Kurzen Elite,36-37,0,14,202
+H,33,Stranglethorn Vale,2522,Jaguero Stalker,50-50,0,14,
+H,33,Stranglethorn Vale,1151,Saltwater Crocolisk,35-36,0,13,
+H,33,Stranglethorn Vale,978,Kurzen Subchief,38-38,0,13,202
+H,33,Stranglethorn Vale,942,Kurzen Witch Doctor,36-37,0,13,
+H,33,Stranglethorn Vale,1094,Venture Co. Miner,34-35,0,12,
+H,33,Stranglethorn Vale,4461,Murkgill Warrior,35-36,0,12,
+A,8,Swamp of Sorrows,750,Marsh Inkspewer,42-43,0,46,1426 1428
+A,8,Swamp of Sorrows,769,Deathstrike Tarantula,40-41,0,38,
+A,8,Swamp of Sorrows,1087,Sawtooth Snapper,41-42,0,35,698 699
+A,8,Swamp of Sorrows,1082,Sawtooth Crocolisk,38-39,0,25,698
+A,8,Swamp of Sorrows,5263,Mummified Atal'ai,46-47,1,17,
+A,8,Swamp of Sorrows,760,Lost One Muckdweller,36-37,0,13,
+A,8,Swamp of Sorrows,759,Lost One Hunter,36-37,0,12,
+A,8,Swamp of Sorrows,768,Shadow Panther,39-40,0,12,1383
+A,8,Swamp of Sorrows,751,Marsh Flesheater,43-44,0,10,1426 1428
+H,8,Swamp of Sorrows,767,Swamp Jaguar,36-37,0,46,1396
+H,8,Swamp of Sorrows,769,Deathstrike Tarantula,40-41,0,38,
+H,8,Swamp of Sorrows,858,Sorrow Spinner,36-37,0,27,1396
+H,8,Swamp of Sorrows,766,Tangled Horror,40-41,0,26,1364
+H,8,Swamp of Sorrows,922,Silt Crawler,40-41,0,25,1258
+H,8,Swamp of Sorrows,1084,Young Sawtooth Crocolisk,35-36,0,20,1396
+H,8,Swamp of Sorrows,14448,Molt Thorn,42-42,4,19,1364
+H,8,Swamp of Sorrows,5263,Mummified Atal'ai,46-47,1,17,
+H,8,Swamp of Sorrows,760,Lost One Muckdweller,36-37,0,13,
+H,8,Swamp of Sorrows,759,Lost One Hunter,36-37,0,12,
+H,8,Swamp of Sorrows,764,Swampwalker,38-39,0,11,1364
+A,440,Tanaris,5431,Surf Glider,48-50,0,134,
+A,440,Tanaris,5426,Blisterpaw Hyena,44-45,0,128,654
+A,440,Tanaris,5420,Glasshide Gazer,45-46,0,121,654
+A,440,Tanaris,5424,Scorpid Dunestalker,46-47,0,100,654
+A,440,Tanaris,5427,Rabid Blisterpaw,47-48,0,99,654
+A,440,Tanaris,5423,Scorpid Tail Lasher,43-44,0,85,654
+A,440,Tanaris,5419,Glasshide Basilisk,42-43,0,75,654
+A,440,Tanaris,5425,Starving Blisterpaw,41-42,0,61,654
+A,440,Tanaris,5421,Glasshide Petrifier,48-49,0,54,654
+A,440,Tanaris,5422,Scorpid Hunter,40-41,0,43,654
+A,440,Tanaris,14123,Steeljaw Snapper,42-43,0,43,
+A,440,Tanaris,5441,Hazzali Wasp,47-48,0,42,
+A,440,Tanaris,5451,Hazzali Swarmer,49-50,0,39,
+A,440,Tanaris,5647,Sandfury Firecaller,43-44,0,23,
+A,440,Tanaris,5452,Hazzali Worker,47-48,0,23,
+A,440,Tanaris,5450,Hazzali Stinger,49-50,0,19,
+A,440,Tanaris,5453,Hazzali Tunneler,48-49,0,19,
+A,440,Tanaris,5454,Hazzali Sandreaver,49-50,0,18,
+A,440,Tanaris,5475,Dunemaul Warlock,47-48,0,17,
+A,440,Tanaris,5646,Sandfury Axe Thrower,42-44,0,11,
+A,440,Tanaris,5471,Dunemaul Ogre,45-46,0,10,
+A,440,Tanaris,5466,Coast Strider,48-49,1,10,
+H,440,Tanaris,5431,Surf Glider,48-50,0,134,
+H,440,Tanaris,14123,Steeljaw Snapper,42-43,0,43,
+H,440,Tanaris,5441,Hazzali Wasp,47-48,0,42,
+H,440,Tanaris,5429,Fire Roc,43-45,0,41,1452
+H,440,Tanaris,5451,Hazzali Swarmer,49-50,0,39,
+H,440,Tanaris,5647,Sandfury Firecaller,43-44,0,23,
+H,440,Tanaris,5452,Hazzali Worker,47-48,0,23,
+H,440,Tanaris,5428,Roc,41-43,0,19,1452
+H,440,Tanaris,5450,Hazzali Stinger,49-50,0,19,
+H,440,Tanaris,5453,Hazzali Tunneler,48-49,0,19,
+H,440,Tanaris,5454,Hazzali Sandreaver,49-50,0,18,
+H,440,Tanaris,5475,Dunemaul Warlock,47-48,0,17,
+H,440,Tanaris,5646,Sandfury Axe Thrower,42-44,0,11,
+H,440,Tanaris,5471,Dunemaul Ogre,45-46,0,10,
+H,440,Tanaris,5466,Coast Strider,48-49,1,10,
+A,141,Teldrassil,2005,Vicious Grell,7-7,0,11,
+A,141,Teldrassil,2003,Shadow Sprite,5-6,0,10,
+A,3519,Terokkar Forest,22355,Netherweb Victim,60-60,0,12,
+H,3519,Terokkar Forest,22355,Netherweb Victim,60-60,0,12,
+H,17,The Barrens,4127,Hecklefang Hyena,15-16,0,108,
+H,17,The Barrens,3248,Barrens Giraffe,15-16,0,75,
+H,17,The Barrens,3284,Venture Co. Drudger,14-15,0,51,
+H,17,The Barrens,3463,Wandering Barrens Giraffe,18-19,0,37,
+H,17,The Barrens,4128,Hecklefang Stalker,22-23,0,37,
+H,17,The Barrens,4129,Hecklefang Snarler,18-19,0,28,
+H,17,The Barrens,3379,Burning Blade Bruiser,10-11,0,26,
+H,17,The Barrens,3383,Southsea Cutthroat,14-15,0,22,
+H,17,The Barrens,3380,Burning Blade Acolyte,11-12,0,19,
+H,17,The Barrens,3384,Southsea Privateer,14-15,0,17,
+H,17,The Barrens,3457,Razormane Stalker,22-23,0,17,
+H,17,The Barrens,3282,Venture Co. Mercenary,15-16,0,15,
+H,17,The Barrens,3285,Venture Co. Peon,13-14,0,15,
+H,17,The Barrens,3633,Deviate Slayer,16-17,1,14,
+H,17,The Barrens,3456,Razormane Pathfinder,20-21,0,13,
+H,17,The Barrens,3632,Deviate Creeper,15-16,1,12,
+H,17,The Barrens,4316,Kolkar Packhound,13-13,0,12,
+H,17,The Barrens,3638,Devouring Ectoplasm,16-17,1,10,
+A,47,The Hinterlands,2505,Saltwater Snapjaw,49-50,0,63,7815
+A,47,The Hinterlands,2928,Primitive Owlbeast,44-45,0,44,3128
+A,47,The Hinterlands,2646,Vilebranch Blood Drinker,49-50,0,28,7862
+A,47,The Hinterlands,2927,Vicious Owlbeast,42-43,0,27,3128
+A,47,The Hinterlands,4466,Vilebranch Scalper,46-47,0,23,7844
+A,47,The Hinterlands,4467,Vilebranch Soothsayer,46-47,0,22,7844
+A,47,The Hinterlands,2925,Silvermane Howler,45-46,0,20,7828
+A,47,The Hinterlands,2653,Witherbark Sadist,44-45,0,20,2932
+A,47,The Hinterlands,2686,Witherbark Broodguard,44-45,0,20,2934
+A,47,The Hinterlands,2645,Vilebranch Shadow Hunter,48-49,0,19,7862
+A,47,The Hinterlands,4465,Vilebranch Warrior,45-46,0,19,
+A,47,The Hinterlands,2651,Witherbark Hideskinner,42-43,0,18,2932
+A,47,The Hinterlands,2648,Vilebranch Aman'zasi Guard,50-51,0,18,7861
+A,47,The Hinterlands,2643,Vilebranch Berserker,47-48,0,15,7862
+A,47,The Hinterlands,2644,Vilebranch Hideskinner,48-49,0,15,
+A,47,The Hinterlands,2647,Vilebranch Soul Eater,49-50,0,15,7862
+A,47,The Hinterlands,2680,Vilebranch Wolf Pup,46-47,0,14,
+A,47,The Hinterlands,2649,Witherbark Scalper,40-41,0,13,2932
+A,47,The Hinterlands,4468,Jade Sludge,47-48,0,11,
+A,47,The Hinterlands,2681,Vilebranch Raiding Wolf,50-51,0,11,
+A,47,The Hinterlands,2929,Savage Owlbeast,46-47,0,10,3128 7829
+H,47,The Hinterlands,2655,Green Sludge,46-47,0,46,2877
+H,47,The Hinterlands,2656,Jade Ooze,47-48,0,45,2877
+H,47,The Hinterlands,2924,Silvermane Wolf,43-44,0,32,9471
+H,47,The Hinterlands,2923,Mangy Silvermane,41-42,0,22,9471
+H,47,The Hinterlands,4465,Vilebranch Warrior,45-46,0,19,
+H,47,The Hinterlands,2644,Vilebranch Hideskinner,48-49,0,15,
+H,47,The Hinterlands,2680,Vilebranch Wolf Pup,46-47,0,14,
+H,47,The Hinterlands,4468,Jade Sludge,47-48,0,11,
+H,47,The Hinterlands,2681,Vilebranch Raiding Wolf,50-51,0,11,
+H,4720,The Lost Isles,36719,Pterrordax Scavenger,6-7,0,67,
+H,4720,The Lost Isles,34763,Daggertooth Shark,5-6,0,54,
+H,4720,The Lost Isles,35904,Jungle Cat,7-8,0,34,
+H,4720,The Lost Isles,38816,Goblin Zombie,7-8,0,30,
+H,4720,The Lost Isles,34699,Bomb-Throwing Monkey,5-6,0,25,
+H,4720,The Lost Isles,40068,Venom Spitter,10-11,0,20,
+H,4720,The Lost Isles,40067,Iceeya,10-11,0,15,
+A,400,Thousand Needles,4124,Needles Cougar,27-28,0,41,
+A,400,Thousand Needles,4133,Silithid Hive Drone,33-34,0,32,1147 1148
+A,400,Thousand Needles,4096,Galak Windchaser,24-25,0,28,4841
+A,400,Thousand Needles,4093,Galak Wrangler,25-26,0,23,4841
+A,400,Thousand Needles,4094,Galak Scout,24-25,0,21,4841
+A,400,Thousand Needles,4119,Elder Cloud Serpent,27-29,0,20,
+A,400,Thousand Needles,10759,Grimtotem Stomper,26-27,0,17,
+A,400,Thousand Needles,4099,Galak Marauder,26-27,0,15,
+A,400,Thousand Needles,4095,Galak Mauler,27-28,0,15,
+A,400,Thousand Needles,10760,Grimtotem Geomancer,25-27,0,15,
+A,400,Thousand Needles,4120,Thundering Boulderkin,28-29,0,14,9431
+A,400,Thousand Needles,4097,Galak Stormer,26-27,0,13,
+A,400,Thousand Needles,4118,Venomous Cloud Serpent,26-28,0,12,
+A,400,Thousand Needles,4101,Screeching Roguefeather,29-30,0,11,
+A,400,Thousand Needles,10757,Boiling Elemental,27-28,0,10,
+H,400,Thousand Needles,4124,Needles Cougar,27-28,0,41,
+H,400,Thousand Needles,4119,Elder Cloud Serpent,27-29,0,20,
+H,400,Thousand Needles,10759,Grimtotem Stomper,26-27,0,17,
+H,400,Thousand Needles,4107,Highperch Wyvern,28-29,0,17,1135
+H,400,Thousand Needles,4099,Galak Marauder,26-27,0,15,
+H,400,Thousand Needles,4095,Galak Mauler,27-28,0,15,
+H,400,Thousand Needles,10760,Grimtotem Geomancer,25-27,0,15,
+H,400,Thousand Needles,4097,Galak Stormer,26-27,0,13,
+H,400,Thousand Needles,4118,Venomous Cloud Serpent,26-28,0,12,
+H,400,Thousand Needles,4101,Screeching Roguefeather,29-30,0,11,
+H,400,Thousand Needles,10757,Boiling Elemental,27-28,0,10,
+H,85,Tirisfal Glades,3617,Lordaeron Citizen,15-15,0,32,
+H,85,Tirisfal Glades,4282,Scarlet Magician,29-30,1,16,
+H,85,Tirisfal Glades,4281,Scarlet Scout,29-30,1,12,
+H,85,Tirisfal Glades,1527,Hungering Dead,7-8,0,10,
+A,490,Un'Goro Crater,6559,Glutinous Ooze,52-54,0,43,4294 4561
+A,490,Un'Goro Crater,6505,Ravasaur,48-49,0,38,4300
+A,490,Un'Goro Crater,6557,Primal Ooze,50-52,0,27,4294 4561
+A,490,Un'Goro Crater,6508,Venomhide Ravasaur,50-51,0,22,4300
+A,490,Un'Goro Crater,6506,Ravasaur Runner,49-50,0,21,4300
+A,490,Un'Goro Crater,6507,Ravasaur Hunter,49-50,0,19,4300
+A,490,Un'Goro Crater,6556,Muculent Ooze,48-50,0,12,4294 4561
+A,28,Western Plaguelands,1883,Scarlet Worker,55-57,0,56,
+A,28,Western Plaguelands,1834,Scarlet Paladin,55-56,0,37,
+A,28,Western Plaguelands,1824,Plague Lurker,54-55,0,32,
+A,28,Western Plaguelands,1821,Carrion Lurker,52-53,0,31,
+A,28,Western Plaguelands,1815,Diseased Black Bear,51-52,0,27,
+A,28,Western Plaguelands,1884,Scarlet Lumberjack,54-56,0,25,
+A,28,Western Plaguelands,1827,Scarlet Sentinel,55-56,0,24,
+A,28,Western Plaguelands,1822,Venom Mist Lurker,50-51,0,22,
+A,28,Western Plaguelands,1812,Rotting Behemoth,55-56,0,15,
+A,28,Western Plaguelands,1806,Vile Slime,54-55,0,12,
+A,28,Western Plaguelands,1808,Devouring Ooze,55-56,0,10,
+H,28,Western Plaguelands,1883,Scarlet Worker,55-57,0,56,
+H,28,Western Plaguelands,1834,Scarlet Paladin,55-56,0,37,
+H,28,Western Plaguelands,1824,Plague Lurker,54-55,0,32,
+H,28,Western Plaguelands,1821,Carrion Lurker,52-53,0,31,
+H,28,Western Plaguelands,1815,Diseased Black Bear,51-52,0,27,
+H,28,Western Plaguelands,1884,Scarlet Lumberjack,54-56,0,25,
+H,28,Western Plaguelands,1827,Scarlet Sentinel,55-56,0,24,
+H,28,Western Plaguelands,1822,Venom Mist Lurker,50-51,0,22,
+H,28,Western Plaguelands,1812,Rotting Behemoth,55-56,0,15,
+H,28,Western Plaguelands,1806,Vile Slime,54-55,0,12,
+H,28,Western Plaguelands,1808,Devouring Ooze,55-56,0,10,
+A,40,Westfall,157,Goretusk,14-15,0,54,
+A,40,Westfall,454,Young Goretusk,12-13,0,45,
+A,40,Westfall,834,Coyote,10-11,0,44,
+A,40,Westfall,1109,Fleshripper,13-14,0,43,
+A,40,Westfall,824,Defias Digger,15-16,0,40,
+A,40,Westfall,199,Young Fleshripper,10-11,0,37,
+A,40,Westfall,1727,Defias Worker,16-17,0,28,
+A,40,Westfall,1216,Shore Crawler,17-18,0,22,
+A,40,Westfall,833,Coyote Packleader,11-12,0,21,
+A,40,Westfall,830,Sand Crawler,13-14,0,17,
+A,40,Westfall,547,Great Goretusk,16-17,0,17,
+A,40,Westfall,462,Vultros,26-26,4,16,
+A,40,Westfall,154,Greater Fleshripper,16-17,0,13,
+A,40,Westfall,831,Sea Crawler,15-16,0,12,
+A,11,Wetlands,1400,Wetlands Crocolisk,23-24,0,52,
+A,11,Wetlands,1018,Highland Razormaw,27-28,0,32,
+A,11,Wetlands,1069,Crimson Whelp,25-26,0,26,
+A,11,Wetlands,1030,Black Slime,20-21,0,24,
+A,11,Wetlands,1028,Bluegill Muckdweller,23-24,0,23,
+A,11,Wetlands,1015,Highland Raptor,23-24,0,22,
+A,11,Wetlands,1043,Lost Whelp,24-25,0,21,
+A,11,Wetlands,1017,Highland Scytheclaw,25-26,0,20,
+A,11,Wetlands,1025,Bluegill Puddlejumper,21-22,0,19,
+A,11,Wetlands,1019,Elder Razormaw,29-29,0,18,
+A,11,Wetlands,1027,Bluegill Warrior,24-25,0,18,
+A,11,Wetlands,1016,Highland Lashtail,24-25,0,18,
+A,11,Wetlands,1039,Fen Dweller,20-21,0,17,
+A,11,Wetlands,1042,Red Whelp,23-24,0,13,
+A,11,Wetlands,1044,Flamesnorting Whelp,26-27,0,10,
+A,618,Winterspring,7455,Winterspring Owl,54-56,0,44,
+A,618,Winterspring,7456,Winterspring Screecher,57-59,0,37,
+A,618,Winterspring,10660,Cobalt Broodling,55-56,0,22,
+A,618,Winterspring,10659,Cobalt Whelp,54-55,0,18,
+A,618,Winterspring,10661,Spell Eater,54-56,0,11,
+H,618,Winterspring,7455,Winterspring Owl,54-56,0,44,
+H,618,Winterspring,7456,Winterspring Screecher,57-59,0,37,
+H,618,Winterspring,10660,Cobalt Broodling,55-56,0,22,
+H,618,Winterspring,10659,Cobalt Whelp,54-55,0,18,
+H,618,Winterspring,10661,Spell Eater,54-56,0,11,
+H,3521,Zangarmarsh,20387,Young Sporebat,60-61,0,80,9801
