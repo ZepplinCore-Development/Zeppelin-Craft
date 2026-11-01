@@ -1,0 +1,90 @@
+From 9871ec4a0d1cf3460d331a1723c1f3551a6a474d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Nov 2026 08:22:31 +0000
+Subject: [PATCH] WIP: F-219 - drag the fight out of other mobs' reach before
+ fighting
+
+drag_clear(): when something is on us and other (non-grey, not-attacking) hostiles stand within
+their reach of this spot, back off up to 35 yd to the spot farthest outside their reach - the walk
+there crossing nobody else's reach - and fight there (the attacker follows). Once per 20 s.
+22 of 139 multi-mob ambushes began right after a fight, the next group joining the old one.
+Offline: a pair 20 yd east -> fight moved 35 yd west (55 yd from the pair); nobody near -> stays.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 51 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 945f9e1..56929ea 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1524,6 +1524,52 @@ class Runner:
+                 break
+         return r
+ 
++    def drag_clear(self, attackers):
++        """Something is on us and OTHER hostiles stand within reach of this spot: back off to a spot out
++        of their reach first - the attacker follows - and fight there, not beside the camp. 22 of the
++        fleet's 139 multi-mob ambushes began right after a fight, the next group walking into the
++        old one. Same walk test as step_clear: the way there crosses no other mob's reach."""
++        if time.time() - getattr(self, "_drag_t", 0) < 20:
++            return False  # one drag per fight: running about is no way to fight
++        s = call("interact.self")
++        level = s.get("level", 1)
++        top = {}
++        for t in self.threats():
++            top[t[3]] = max(top.get(t[3], 0), t[2])
++        on_us = {int(a) for a in attackers}
++        others = [(o["x"], o.get("y", 0), top[o["entry"]]) for o in
++                  call("interact.find", type=3, radius=80, limit=80).get("objects", [])
++                  if o.get("health", 0) > 0 and not o.get("npcFlags") and o.get("entry") in top
++                  and int(o["guid"]) not in on_us and top[o["entry"]] > gray_level(level)]
++        me = self.me()
++        here = (me["x"], me["y"])
++        reach = lambda m: self.aggro_r(m[2], level) + 6
++
++        def margin(p):
++            return min((math.dist(m[:2], p) - reach(m) for m in others), default=99)
++        if margin(here) >= 0:
++            return False  # nobody else close enough to join: fight here
++
++        def walk_ok(p):
++            return all(all(math.dist(m[:2], (here[0] + (p[0] - here[0]) * k / 8, here[1] + (p[1] - here[1]) * k / 8))
++                           >= reach(m) for m in others if math.dist(m[:2], here) >= reach(m)) for k in range(1, 9))
++        pts = [(here[0] + r * math.cos(a * math.pi / 6), here[1] + r * math.sin(a * math.pi / 6))
++               for r in (15, 25, 35) for a in range(12)]
++        pts = [p for p in pts if walk_ok(p)]
++        if not pts:
++            return False
++        best = max(pts, key=margin)
++        if margin(best) <= margin(here) + 5:
++            return False
++        g = call("move.ground", x=best[0], y=best[1], z=me.get("z", 0))
++        if not g.get("ok"):
++            return False
++        self._drag_t = time.time()
++        print(f"  drag: fight moved to ({best[0]:.0f},{best[1]:.0f}), {margin(best):.0f} yd outside the others' "
++              f"reach (was {margin(here):.0f})", flush=True)
++        call("move.to", x=best[0], y=best[1], z=g["z"], timeout_ms=6000)
++        return True
++
+     def step_clear(self):
+         """Before sitting down hurt, step out of reach of the hostiles around us. A third of the weak bots'
+         deaths came at half health right after a fight or a rez, a mob 4-26 yd away (Tirisfal: the
+@@ -2646,6 +2692,11 @@ class Runner:
+             except StepFailed as e:
+                 print(f"  ~ repair: {str(e)[:80]}", flush=True)
+             return
++        if st.get("attackers"):
++            try:
++                self.drag_clear(st["attackers"])
++            except (StepFailed, KeyError) as e:
++                print(f"  ~ drag: {str(e)[:80]}", flush=True)
+         for g in st.get("attackers", []):
+             try:
+                 r = call("combat.kill", guid=int(g), **self.fight_args(defend=True), loot=True)
+-- 
+2.34.1
+
