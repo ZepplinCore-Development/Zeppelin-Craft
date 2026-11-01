@@ -94,6 +94,14 @@ class SourceFiles:
         return out
 
 
+def client_texture_name(p: str) -> str:
+    """The file the 3.3.5 client loads for a stored texture name: the extension (after the last '.' of the
+    file name, if any) replaced by '.blp' (wowdecomp Texture.cpp TextureCreate / CreateBlpTexture)."""
+    d, _, n = p.rpartition('/')
+    n = n.rsplit('.', 1)[0] if '.' in n else n
+    return (d + '/' if d else '') + n + '.blp'
+
+
 def _stage_pane(name: str, r: 'ms.Resolved', files: SourceFiles, out_root: Path,
                 fdid_alloc: Callable[[str, Path], int]) -> dict:
     """Copy everything one pane needs; return the pane descriptor."""
@@ -153,7 +161,20 @@ def _stage_pane(name: str, r: 'ms.Resolved', files: SourceFiles, out_root: Path,
             drawn = ms.batch_textures(m, skf.read_bytes())
         for i, (tt, tn) in enumerate(m.textures):
             if tt == 0 and tn and (drawn is None or i in drawn):
-                put(ms.norm(tn))
+                tp = ms.norm(tn)
+                if not tp.endswith('.blp') and files.find(tp) is None:
+                    # the client loads <name without extension>.blp (TextureCreate: OsPathFindExtensionWithDot,
+                    # then CreateBlpTexture writes '.blp' there): Project Reforged's elwynntreestump01 names
+                    # 'stumps/elwynnstump02_trunk', truncated names end '.b'. Stage that file under the
+                    # stored name - the one the engine requests (I-438)
+                    cf = files.find(client_texture_name(tp))
+                    if cf is not None:
+                        if files.log is not None:
+                            files.log.append((tp, cf))
+                        _copy(cf, dest / tp)
+                        staged.append(tp)
+                        continue
+                put(tp)
     skin_types = {t for t, _ in (m.textures if m else [])}
     skin_ids = [0, 0, 0]
     model_dir = r.model_path.rsplit('/', 1)[0]

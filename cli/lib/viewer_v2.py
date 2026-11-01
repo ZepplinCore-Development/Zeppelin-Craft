@@ -28,7 +28,7 @@ TABS = ('creature', 'character', 'object', 'item', 'wmo')
 # the picker reads data/v2 while a deploy runs: build data/v2.new, swap it in when done
 STAGE = 'v2.new'
 CHAR_PANE_VERSION = 2          # 2: each option wears the bake it ships with (bake_for), not the live DBC's
-WMO_PANE_VERSION = 1          # WMO panes only (1: bbox from the root's MOHD - every WMO opened inside itself at the 2.5-unit fallback camera)
+WMO_PANE_VERSION = 2          # WMO panes only (1: bbox from the root's MOHD - every WMO opened inside itself at the 2.5-unit fallback camera; 2: doodads staged, I-444)
 PANE_CODE_VERSION = 4          # bump when pane building changes: every cached pane is rebuilt (2: geoset 0 nibbles, I-388; 3: item textures follow their item mesh; 4: TBC v256 models measured from their v264 conversion)
 PANE_CACHE = Path('/workspace/project/logs/viewer_pane_cache.pkl')
 
@@ -260,6 +260,22 @@ def _dep_sig(f) -> Optional[str]:
     return s_
 
 
+def _wmo_doodads(root) -> List[str]:
+    """A WMO root's doodad models (MODN; .mdx names stored for .m2), normalised, in file order."""
+    try:
+        b = Path(root).read_bytes()
+    except (OSError, TypeError):
+        return []
+    o = 0
+    while o + 8 <= len(b):
+        tag, size = b[o:o + 4], struct.unpack_from('<I', b, o + 4)[0]
+        if tag == b'NDOM':
+            names = [ms.norm(n.decode('latin-1')) for n in b[o + 8:o + 8 + size].split(b'\0') if n]
+            return list(dict.fromkeys(n[:-4] + '.m2' if n.endswith('.mdx') else n for n in names))
+        o += 8 + size
+    return []
+
+
 def _wmo_bbox(root) -> Optional[List[float]]:
     """A WMO root's bounding box (MOHD: 6 floats at +36; chunk tags stored reversed), or None. Without it a
     WMO pane got the fallback camera (target 0,0,1 at 2.5) and opened inside the building."""
@@ -397,6 +413,10 @@ class Deployer:
                 if _dep_sig(r) != fs:
                     ok = False
                     break
+            # a texture named without '.blp' cached as missing, now resolved the client's way (I-438 stumps)
+            if ok and any(not m.endswith(('.blp', '.skin', '.m2', '.anim', '.wmo')) and
+                          f._resolve(mvd.client_texture_name(m)) is not None for m in hit['pane'].get('missing') or ()):
+                ok = False
             if ok:
                 self._publish(key, hit)
                 self.reused += 1
@@ -840,6 +860,17 @@ class Deployer:
                     finder.find(p)
                 for t in ai.wmo_textures(root):
                     finder.find(t)
+                # its doodads (MODN): the engine loads them by name, and unstaged they 404ed - stormwind's
+                # statues, trees and lamps, the farm's barrel and chimney smoke (I-444). Each as currently picked.
+                from lib import skin_fill as sf
+                for d in _wmo_doodads(root):
+                    f = finder.find(d)
+                    if f is None:
+                        continue
+                    finder.find(d[:-3] + '00.skin')
+                    for typ, name in self.ix._meta_cache().get('textab', f, lambda x: sf.texture_table(x.read_bytes())):
+                        if typ == 0 and name:
+                            finder.find(name)
             else:
                 r = ms.Resolved(int(row.get('model_id') or 0) if row else 0, path, label(opt.sources), info, skins, [])
                 pane = mvd._stage_pane('v2', r, finder, Path('/nonexistent'), alloc)
@@ -2453,6 +2484,64 @@ def merge_same_form(dep: 'Deployer', assets: List[dict], log: Callable = print) 
     log(f'  same form: {n:,} pack options merged into another pack\'s option (layers differ only, or both downports of one retail model)')
 
 
+def broken_reason(path: str, files: Dict[str, Path]) -> Optional[str]:
+    """Why a pack's .m2 option can draw nothing in the 3.3.5 client, or None: no 00.skin (a v264 model draws only
+    through its .skin - the client would pair it with another source's .skin for a different mesh), no vertices,
+    or a .skin with no triangles, or only unnamed textures (I-438: westfallcabbage, orctent02,
+    g_controlconsolezippelin, g_nutcracker)."""
+    f, sk = files.get(path), files.get(path[:-3] + '00.skin')
+    if f is None or not path.endswith('.m2'):
+        return None
+    b = f.read_bytes()
+    if b[:4] != b'MD20' or len(b) < 0x48:
+        return None
+    if struct.unpack_from('<I', b, 4)[0] >= 264:
+        if sk is None:
+            return 'no .skin: the model cannot draw'
+        s = sk.read_bytes()
+        if len(s) < 0x30 or s[:4] != b'SKIN' or not struct.unpack_from('<I', s, 12)[0]:
+            return 'empty .skin: no triangles'
+    if not struct.unpack_from('<I', b, 0x3C)[0]:
+        return 'no vertices'
+    from lib import skin_fill as sf
+    tt = sf.texture_table(b)
+    if tt and all(typ == 0 and not name for typ, name in tt):
+        # a retail model whose textures were FileDataIDs, converted without names (g_nutcracker): white in game
+        return 'textures have no file names: draws white'
+    return None
+
+
+def drop_broken(dep: 'Deployer', assets: List[dict], log: Callable = print) -> None:
+    """A pack option that cannot draw is no choice (the user's rule for textures, I-438): dropped from model
+    cards, kept on the card as e['broken'] = [[sources, reason]]. A picked option stays (its pick ships)."""
+    picked = {p: {c.get('option'), c.get('file_option')} for p, c in (dep.choices.get('mesh') or {}).items()}
+    n = 0
+    for e in assets:
+        if e.get('tab') == 'display' or len(e.get('panes') or []) < 2 or not e['path'].endswith('.m2'):
+            continue
+        a = dep.ix.meshes.get(e['path'])
+        if a is None:
+            continue
+        by_key = {o.key: o for o in a.options}
+        keep = []
+        for p in e['panes']:
+            o = by_key.get(p.get('option'))
+            why = None if o is None or 'stock' in p['sources'] or p['option'] in picked.get(e['path'], ()) \
+                else broken_reason(e['path'], o.files)
+            if why:
+                e.setdefault('broken', []).append([p['sources'], why])
+                n += 1
+            else:
+                keep.append(p)
+        if len(keep) != len(e['panes']) and keep:
+            e['panes'] = keep
+            if e.get('current') not in {p['option'] for p in keep}:
+                e['current'] = keep[0]['option']
+            if len(keep) == 1:
+                e['single'] = True
+    log(f'  broken options: {n:,} pack options that cannot draw dropped from their cards')
+
+
 def flag_unique(dep: 'Deployer', assets: List[dict], log: Callable = print) -> None:
     """pane['unique'] (lib/m2_unique): on a model card, what a pack option changes from the stock
     option - [[kind, text]], kind 'minor' for context - so the card says what to look for
@@ -3033,6 +3122,7 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
         merge_identical_panes(assets, log)
         merge_retroports(assets, log)
         merge_same_form(dep, assets, log)
+        drop_broken(dep, assets, log)
         (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
     except Exception as ex:                                  # a preview nicety: never block a deploy
         log(f'  retroports: skipped - {ex}')

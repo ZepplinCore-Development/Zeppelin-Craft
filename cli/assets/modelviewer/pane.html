@@ -234,6 +234,17 @@ function upgradeM2(buf) {
         if (!ok) {
           for (let k = 0; k < 7; k++) dv.setFloat32(b + 4 * k, dv.getFloat32(0xA0 + 4 * k, true), true);   // bbox + radius
           badBounds = true;
+          continue;
+        }
+        // bounds that hold the mesh but centred far off it (Project Reforged's generalhanginglantern01: z -15.5..3.6
+        // round a mesh at z -0.6..2.4, I-438): the engine aims there and the model sits out of view. Use the mesh's
+        // own bounds when the centres are more than 1.5 mesh half-diagonals apart
+        const half = Math.max(0.25, 0.5 * Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]));
+        const off = Math.hypot(...[0, 1, 2].map(k => (dv.getFloat32(b + 4 * k, true) + dv.getFloat32(b + 12 + 4 * k, true)) / 2 - (lo[k] + hi[k]) / 2));
+        if (off > 1.5 * half) {
+          for (let k = 0; k < 3; k++) { dv.setFloat32(b + 4 * k, lo[k], true); dv.setFloat32(b + 12 + 4 * k, hi[k], true); }
+          dv.setFloat32(b + 24, half, true);
+          badBounds = true;
         }
       }
     }
@@ -413,6 +424,34 @@ function fixLegacySkin(skinBuf, m2Buf) {
     s.setUint32(4 + 8 * 4, w, true);
   }
   return skinBuf;
+}
+
+// WMO root: the engine reads a material texture offset of 0 as "no texture" (WmoObject::getTexture, retail's
+// convention), but in a 3.3.5 file offset 0 is the FIRST name in MOTX - every material using it drew nothing
+// (I-444: duskwood_human_farm's outer plaster, elwynnfootbridge's fence posts, nsabbey's roofs). Prepend 4 zero
+// bytes to MOTX and shift the MOMT texture offsets (texture_1 always; texture_2 / texture_3 only when set:
+// unused slots point at an empty string, never 0, in these files).
+function fixWmoRoot(buf) {
+  const u = new Uint8Array(buf), dv = new DataView(buf);
+  const tags = [];
+  for (let o = 0; o + 8 <= u.length; ) {
+    const size = dv.getUint32(o + 4, true);
+    tags.push([String.fromCharCode(u[o + 3], u[o + 2], u[o + 1], u[o]), o, size]);
+    o += 8 + size;
+  }
+  const motx = tags.find(c => c[0] === 'MOTX'), momt = tags.find(c => c[0] === 'MOMT');
+  if (!motx || !momt || motx[1] > momt[1]) return buf;
+  const out = new Uint8Array(u.length + 4), odv = new DataView(out.buffer);
+  out.set(u.subarray(0, motx[1] + 8));
+  odv.setUint32(motx[1] + 4, motx[2] + 4, true);
+  out.set(u.subarray(motx[1] + 8), motx[1] + 12);          // 4 zero bytes, then the names and everything after
+  const m0 = momt[1] + 4 + 8;
+  for (let i = 0; i < momt[2] / 64; i++) {
+    const at = m0 + 64 * i;
+    odv.setUint32(at + 12, odv.getUint32(at + 12, true) + 4, true);
+    [24, 36].forEach(k => { const v = odv.getUint32(at + k, true); if (v) odv.setUint32(at + k, v + 4, true); });
+  }
+  return out.buffer;
 }
 
 // BLP2 mip tables sometimes carry garbage past the real mip chain (seen: a
@@ -873,17 +912,25 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
   });
   function fixResponse(logical) {
     const path = logical.split('?')[0];
+    // the URL path is still percent-encoded ('passive%20doodads'); MODEL is not: compare decoded (I-438 - every model
+    // whose path has a space missed its root-model handling: items, skin regions, the hidden-at-rest start sequence)
+    let lpath; try { lpath = decodeURIComponent(path).toLowerCase(); } catch (e) { lpath = path.toLowerCase(); }
+    if (/\.wmo$/i.test(path) && !/_\d\d\d\.wmo$/i.test(path)) {
+      Object.defineProperty(this, 'response', { value: fixWmoRoot(this.response), configurable: true });
+      return;
+    }
     if (isM2) {
       const raw = this.response;
       const isLegacy = raw.byteLength > 8 && new DataView(raw).getUint32(0, true) === 0x3032444D
         && new DataView(raw).getUint32(4, true) < 272;
       let up = upgradeM2(raw);
-      if (path.toLowerCase().endsWith('/' + MODEL.toLowerCase())) {
+      if (lpath.endsWith('/' + MODEL.toLowerCase())) {
+        if (revealHidden(up)) parent.postMessage({ type: 'pane-revealed', src: SRC }, '*');
         up = mergeItemsM2(up);
         if (ITEMS.length) parent.postMessage({ type: 'pane-items', src: SRC, merged: itemsMerged, wanted: ITEMS.length }, '*');
       }
       if (isLegacy) legacyM2[path.slice(0, -3)] = up;
-      if (path.toLowerCase().endsWith('/' + MODEL.toLowerCase())) geoM2 = raw;
+      if (lpath.endsWith('/' + MODEL.toLowerCase())) geoM2 = raw;
       if (up !== raw) Object.defineProperty(this, 'response', { value: up, configurable: true });
     } else if (RETAIL_FDID && path.endsWith('/fdid/' + RETAIL_FDID)) {
       // the retail model itself (MD21 -> MD20 at +8): report its stats to the picker, and frame a
@@ -940,11 +987,11 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
       const fixedBlp = sanitizeBlp(this.response);
       if (fixedBlp !== this.response) Object.defineProperty(this, 'response', { value: fixedBlp, configurable: true });
     } else if (/\d\d\.skin$/i.test(path)) {
-      if (path.toLowerCase().endsWith('/' + MODEL.toLowerCase().replace(/\.m2$/, '00.skin'))) sendRegions(this.response);
+      if (lpath.endsWith('/' + MODEL.toLowerCase().replace(/\.m2$/, '00.skin'))) sendRegions(this.response);
       const m2 = legacyM2[path.replace(/\d\d\.skin$/i, '')];
       if (m2) {
         let sk = this.response.slice(0);
-        if (path.toLowerCase().endsWith('/' + MODEL.toLowerCase().replace(/\.m2$/, '00.skin'))) {
+        if (lpath.endsWith('/' + MODEL.toLowerCase().replace(/\.m2$/, '00.skin'))) {
           if (q.get('scalp')) sk = promoteScalp(sk);
           if (GEOALL.size) sk = promoteGroups(sk);
           sk = mergeItemsSkin(sk);
@@ -1019,7 +1066,11 @@ let frameDt = 0;                          // the dt the coming _gameloop call wi
 function wmoPlace() {
   const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch), cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
   const right = [-sy, cy, 0], up = [-sp * cy, -sp * sy, cp];
-  const t = CAM0.target.map((v, i) => v + right[i] * panOff[0] + up[i] * panOff[1]);
+  // the WMO scene places the root like an ADT map object at a fixed spot (WmoScene: position 17064.66, 0, 17066.67,
+  // rotation 0): file (x, y, z) lands at (-x - 0.0072, -y + 2.0045, z). The target is in file coordinates, so map it
+  // (I-444: wallpiece01's centre at y 24 drew at y -22 and the camera orbited empty space)
+  const t0 = [-CAM0.target[0] - 0.0072, -CAM0.target[1] + 2.0045, CAM0.target[2]];
+  const t = t0.map((v, i) => v + right[i] * panOff[0] + up[i] * panOff[1]);
   if (!(frameDt > 0)) return;           // the turn would be dropped: keep last frame's view
   Module._setScenePos(t[0] + cam.dist * cp * cy, t[1] + cam.dist * cp * sy, t[2] + cam.dist * sp);
   const D = 180 / Math.PI;               // camera -> target, from the default gaze (ah = av = 0)
@@ -1126,8 +1177,17 @@ const wrapPi = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 // capped per frame; it still lands exactly, over a few frames.
 const CAM_GAIN = 0.3, CAM_MAX_ANGLE = 0.25;   // share of the error per frame; at most ~14 degrees a frame
 const clampAbs = (v, m) => Math.max(-m, Math.min(m, v));
+// The engine draws to 1,000 units and CULLS objects beyond 400 (config.h farPlane / farPlaneForCulling): a big
+// WMO lost whole groups (I-444: worldtree's chunks, stormwind) and one framed from 1,133 units drew nothing.
+// Both planes follow the camera: its distance plus twice the model's framing distance.
+let farSet = 0;
+function syncFar() {
+  const need = Math.max(1000, Math.ceil((cam.dist + 2 * CAM0.dist) / 100) * 100);
+  if (need !== farSet) { Module._setFarPlane(need); Module._setFarPlaneForCulling(need); farSet = need; }
+}
 function camStep() {                     // called every frame
   if (!camLive) return;
+  syncFar();
   if (WMO) { wmoPlace(); return; }
   const m = measureCam(), D = 180 / Math.PI;
   const dy = wrapPi(cam.yaw - m.yaw), dp = cam.pitch - m.pitch, dd = cam.dist - m.dist;
@@ -1217,6 +1277,34 @@ function cstr(text) {
   return ptr;
 }
 function setAnim(id) { if (ready) Module._setAnimationId(id | 0); }
+// A model invisible at rest (every texture weight 0 in its first sequence: alliancehangingonyxiatrophy is revealed in
+// game by its fade-in 148, I-438) is shown revealed: every weight set to full. Playing 148 here kept it at 0 (the
+// engine holds the first key), so the weights are forced instead. -> true when forced
+function revealHidden(buf) {
+  const dv = new DataView(buf), n32 = (o) => dv.getUint32(o, true);
+  if (buf.byteLength < 0x60 || n32(0) !== 0x3032444D) return false;
+  const nS = n32(0x1C), oS = n32(0x20), nW = n32(0x58), oW = n32(0x5C);
+  if (!nS || !nW || oS + 64 * nS > buf.byteLength || oW + 20 * nW > buf.byteLength) return false;
+  const shows = (s) => {                  // any weight track with a non-zero key in sequence s (no keys = not animated: shows)
+    for (let w = 0; w < nW; w++) {
+      const nv = n32(oW + 20 * w + 12), ov = n32(oW + 20 * w + 16);
+      if (s >= nv) return true;
+      const n = n32(ov + 8 * s), o = n32(ov + 8 * s + 4);
+      if (!n) return true;
+      for (let k = 0; k < n; k++) if (o + 2 * k + 2 <= buf.byteLength && dv.getInt16(o + 2 * k, true) !== 0) return true;
+    }
+    return false;
+  };
+  if (shows(0)) return false;
+  for (let w = 0; w < nW; w++) {
+    const nv = n32(oW + 20 * w + 12), ov = n32(oW + 20 * w + 16);
+    for (let s = 0; s < nv; s++) {
+      const n = n32(ov + 8 * s), o = n32(ov + 8 * s + 4);
+      for (let k = 0; k < n; k++) if (o + 2 * k + 2 <= buf.byteLength) dv.setInt16(o + 2 * k, 32767, true);
+    }
+  }
+  return true;
+}
 
 var Module = {
   canvas: document.getElementById('wowcanvas'),
