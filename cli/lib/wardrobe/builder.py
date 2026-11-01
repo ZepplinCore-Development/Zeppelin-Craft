@@ -426,7 +426,8 @@ class WardrobeBuilder:
             k = (base, typ, color)
             if k not in cache:
                 rows = self.dbc(f'SELECT texture_1, texture_2, texture_3 FROM charsections WHERE race = {race} '
-                                f'AND gender = {gender} AND base_section = {base} AND type = {typ} AND color_index = {color}')
+                                f'AND gender = {gender} AND base_section = {base} AND type = {typ} AND color_index = {color} '
+                                f'ORDER BY id DESC LIMIT 1')   # duplicate key: the client takes the highest id (F-225)
                 cache[k] = rows[0] if rows else None
             return cache[k]
         return get

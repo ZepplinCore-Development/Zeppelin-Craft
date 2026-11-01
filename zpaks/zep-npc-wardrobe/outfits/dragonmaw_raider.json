@@ -27,7 +27,7 @@
   {
    "gender": 0,
    "skin_color": 14,
-   "face_type": 12,
+   "face_type": 8,
    "hair_style": 3,
    "hair_color": 5,
    "facial_hair": 6
@@ -43,8 +43,8 @@
   {
    "gender": 0,
    "skin_color": 14,
-   "face_type": 13,
-   "hair_style": 7,
+   "face_type": 5,
+   "hair_style": 6,
    "hair_color": 0,
    "facial_hair": 10
   },
