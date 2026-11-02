@@ -1,0 +1,727 @@
+From 82684809083ac149ea8db83000411bff20e2ea38 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 2 Nov 2026 15:25:09 +0000
+Subject: [PATCH] Zeppelin F-223B: shadow quality split into independent
+ settings; extShadowQuality becomes a preset
+
+- hdShadowChar (0 off / 1 1024 / 2 2048), hdShadowCharRadius, hdShadowWorld (0 / 1024 / 2048), hdShadowWorldUpdate
+  (tiles after moving / every frame), hdShadowWorldCasters (buildings / + near foliage / everything), hdShadowWorldDistance
+  (cascade scale), hdShadowUnitDim. Changing extShadowQuality writes the stock combination; saved settings win on load.
+- s_shadowMode is derived from them, so every mode test, the shader value and the water-reflection override behave;
+  scattered tests go through CShadowCache helpers (WorldShadows, BandsEveryFrame, CharacterShadows, DimUnitsInShadow,
+  PlayerMapQueryFlags, BandQueryFlags). Separate player-map and cascade sizes; cached tiles marked with 0x10.
+- hdSunShadows forces world shadows on (SetWorldShadowsForced) instead of bumping and restoring the mode.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanContact.cpp |   2 +-
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp     |   2 +-
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp |   8 +-
+ Engine/Source/ShaderEffect/ShadowCache.cpp    | 187 ++++++++++++++----
+ Engine/Source/ShaderEffect/ShadowCache.h      |  32 +++
+ WoW/Source/WorldClient/HD/HdContactShadow.cpp |   2 +-
+ WoW/Source/WorldClient/HD/HdFog.cpp           |   2 +-
+ WoW/Source/WorldClient/ShadowQuery.cpp        |   3 +-
+ WoW/Source/WorldClient/World.cpp              |   3 +-
+ WoW/Source/WorldClient/WorldParam_CVar.cpp    | 126 +++++++++++-
+ WoW/Source/WorldClient/shadow.cpp             |   4 +-
+ 11 files changed, 317 insertions(+), 54 deletions(-)
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanContact.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanContact.cpp
+index c8c1f95e..08c4e085 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanContact.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanContact.cpp
+@@ -98,7 +98,7 @@ bool Resize(uint32_t w, uint32_t h) {
+ // One of the client's sun shadow cascades as a sampled R32F image (shadow quality high or very high), as the full
+ // path's CaptureNativeMaps finds them; null when it is missing or not readable now.
+ const wxlvk::vk::texture::Image* Band(int i) {
+-    if (CShadowCache::GetShadowMode() <= SHADOW_MEDIUM) return nullptr;
++    if (!CShadowCache::WorldShadowsActive()) return nullptr; // Zeppelin F-223B (was GetShadowMode() <= SHADOW_MEDIUM)
+     CShadowBand& band = CShadowCache::s_extShadowBands[i];
+     CTexture* texture = band.m_textures[band.m_current];
+     if (!texture) return nullptr;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp
+index 2d398575..9ff6dbc4 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.cpp
+@@ -354,7 +354,7 @@ void __cdecl Stage(void*,const WXL_VkStageContext* ctx) {if(ctx) {sawRecord=true
+ bool IsVulkan() {return g_theGxDevicePtr && g_theGxDevicePtr->DeviceApi()==GxApi_Vulkan;}
+ ShadowMaps Maps(uint64_t serial) {
+     ShadowMaps result;
+-    if(!shadow || !shadow->m_intValue || CShadowCache::GetShadowMode()<=SHADOW_MEDIUM) return result;
++    if(!shadow || !shadow->m_intValue || !CShadowCache::WorldShadowsActive()) return result; // Zeppelin F-223B (was GetShadowMode()<=SHADOW_MEDIUM)
+     for(int i=0;i<3;++i) {
+         auto& band=CShadowCache::s_extShadowBands[i];
+         CTexture* texture=band.m_textures[band.m_current];if(!texture) return {};
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp
+index 18efa12d..675e0575 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.cpp
+@@ -252,7 +252,7 @@ const char* Effect::Error() const {return state_?state_->error:"not initialized"
+ namespace {
+ Effect effect;Settings config;NativeMaps nativeMaps;
+ const WXL_VkRenderApi* renderApi=nullptr;void* registration=nullptr;bool requested=false,active=false,receiverReady=false;
+-EShadowMode oldMode=SHADOW_LOWEST;bool oldPcf=false,pcfReload=false;
++bool oldPcf=false,pcfReload=false;
+ CVar *enabled=nullptr,*contact=nullptr,*quality=nullptr,*debug=nullptr,*strength=nullptr,*angle=nullptr,*penumbra=nullptr,*bias=nullptr,*length=nullptr,*thickness=nullptr,*contactStrength=nullptr,*tagTolerance=nullptr,*grassShade=nullptr,*info=nullptr;
+ char lastInfo[256]{};
+ void Info(const char*s){if(info&&std::strcmp(s,lastInfo)){std::snprintf(lastInfo,sizeof lastInfo,"%s",s);info->Set(lastInfo,true,false,false,false);}}
+@@ -260,8 +260,10 @@ CVar* Var(const char*n,const char*h,const char*v,uint32_t flags=1){if(auto*c=CVa
+ int __cdecl Wanted(void*){return config.enabled?1:0;}void __cdecl Stage(void*,const WXL_VkStageContext*c){if(c)Record(*c);}
+ void Mode(bool on){
+  if(on==active)return;
+- if(on){oldMode=CShadowCache::s_shadowMode;oldPcf=CShaderEffect::s_usePcfFiltering;CShaderEffect::s_usePcfFiltering=0;CShadowCache::SetShadowMode(std::max(oldMode,SHADOW_MEDIUM_HIGH));CShadowCache::NotifyTexturesRecreate();}
+- else {CShaderEffect::s_usePcfFiltering=oldPcf;CShadowCache::SetShadowMode(oldMode);CShadowCache::NotifyTexturesRecreate();}
++ // Zeppelin F-223B: needs the sun cascades: world shadows forced on with the hdShadowWorld* settings (was: shadow mode
++ // raised to at least MEDIUM_HIGH and put back when off, which also undid any shadow change made in between)
++ if(on){oldPcf=CShaderEffect::s_usePcfFiltering;CShaderEffect::s_usePcfFiltering=0;CShadowCache::SetWorldShadowsForced(1);CShadowCache::NotifyTexturesRecreate();}
++ else {CShaderEffect::s_usePcfFiltering=oldPcf;CShadowCache::SetWorldShadowsForced(0);CShadowCache::NotifyTexturesRecreate();}
+  // HD: like the hwPCF callback, the terrain must swap Terrain2/3 <-> Terrain2/3_pcf with the flag, or it keeps
+  // sampling the R32F maps through its PCF shaders (shadow tint changing with the camera). Done at a safe point.
+  pcfReload=true;
+diff --git a/Engine/Source/ShaderEffect/ShadowCache.cpp b/Engine/Source/ShaderEffect/ShadowCache.cpp
+index 89f6874e..cd71fa07 100644
+--- a/Engine/Source/ShaderEffect/ShadowCache.cpp
++++ b/Engine/Source/ShaderEffect/ShadowCache.cpp
+@@ -100,6 +100,87 @@ CShadowBand CShadowCache::s_extShadowBands[3];
+ // STATIC: 0x00D43348
+ C4Vector CShadowCache::s_shadowMatrices[12];
+ 
++// Zeppelin F-223B: the stock levels as split settings, in the order of SplitSettings. Preset 0..5 = extShadowQuality.
++//                                                      char size  radius world size  every casters dist  dim
++const CShadowCache::SplitSettings CShadowCache::s_presets[NUM_SHADOW_MODES] = {
++    { 0, 1024, 20.0f, 0, 1024, 0, 1, 1.0f, 1 }, // LOWEST
++    { 1, 1024, 20.0f, 0, 1024, 0, 1, 1.0f, 1 }, // LOW
++    { 1, 2048, 20.0f, 0, 1024, 0, 1, 1.0f, 0 }, // MEDIUM
++    { 1, 1024, 20.0f, 1, 1024, 0, 1, 1.0f, 0 }, // MEDIUM-HIGH
++    { 1, 2048, 20.0f, 1, 2048, 0, 1, 1.0f, 0 }, // HIGH
++    { 1, 2048, 20.0f, 1, 2048, 1, 2, 1.0f, 0 }, // VERY HIGH
++};
++
++CShadowCache::SplitSettings CShadowCache::s_split = CShadowCache::s_presets[SHADOW_LOWEST];
++int32_t CShadowCache::s_worldForced;
++CTexture* CShadowCache::s_pcfBandTarget;
++uint32_t CShadowCache::s_charMapSize = 1024;
++uint32_t CShadowCache::s_bandMapSize = 1024;
++
++// Zeppelin F-223B: the effective mode the split settings stand for. Every stock test of s_shadowMode (shader value,
++// band textures, tile or full updates) then follows the settings. Falls back like the stock slider when the device
++// cannot do the cascades.
++void CShadowCache::ApplySplitSettings() {
++    const SplitSettings& split = CShadowCache::s_split;
++    EShadowMode mode = SHADOW_LOWEST;
++
++    if (split.worldShadows || CShadowCache::s_worldForced) {
++        mode = split.worldEveryFrame ? SHADOW_VERY_HIGH : (split.worldSize >= 2048 ? SHADOW_HIGH : SHADOW_MEDIUM_HIGH);
++
++        if (!CShadowCache::ValidateShadowMode(mode)) {
++            mode = SHADOW_LOWEST;
++        }
++    }
++
++    if (mode == SHADOW_LOWEST && split.charShadows) {
++        mode = split.charSize >= 2048 ? SHADOW_MEDIUM : SHADOW_LOW;
++    }
++
++    if (!CShadowCache::ValidateShadowMode(mode)) {
++        mode = SHADOW_LOWEST;
++    }
++
++    CShadowCache::s_shadowMode = mode;
++    CShadowCache::s_recreateTextures = 1;
++}
++
++void CShadowCache::SetWorldShadowsForced(int32_t forced) {
++    CShadowCache::s_worldForced = forced;
++    CShadowCache::ApplySplitSettings();
++}
++
++// Zeppelin F-223B: what the player map (20 yards around the camera target) draws. 1 = units, 4 = foliage and indoor
++// buildings, 8 = buildings, solid doodads and terrain. Stock: 1 (LOW, MEDIUM), 5 (MEDIUM-HIGH, HIGH), 13 (VERY HIGH).
++int32_t CShadowCache::PlayerMapQueryFlags() {
++    int32_t flags = CShadowCache::CharacterShadows() ? 0x1 : 0;
++
++    if (CShadowCache::WorldShadows()) {
++        if (CShadowCache::s_split.worldCasters >= 2) {
++            flags |= 0xC;
++        } else if (CShadowCache::s_split.worldCasters == 1) {
++            flags |= 0x4;
++        }
++    }
++
++    return flags;
++}
++
++// Zeppelin F-223B: what the cascades draw. Stock: 8 in tiles (MEDIUM-HIGH, HIGH), 13 every frame (VERY HIGH). Units
++// never go into tiles: a tile is kept until you move, they would leave their shadow behind.
++int32_t CShadowCache::BandQueryFlags() {
++    int32_t flags = CShadowCache::s_split.worldCasters >= 2 ? 0xC : 0x8;
++
++    if (!CShadowCache::BandsEveryFrame()) {
++        return flags | CShadowCache::QUERY_CACHED_BAND;
++    }
++
++    if (CShadowCache::s_split.worldCasters >= 2 && CShadowCache::CharacterShadows()) {
++        flags |= 0x1;
++    }
++
++    return flags;
++}
++
+ static void ShadowCacheTextureCallback(EGxTexCommand command, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevel, void* userArg, uint32_t& texelStrideInBytes, const void*& texels) {
+ }
+ 
+@@ -263,8 +344,9 @@ int32_t CShadowCache::SetShadowMode(EShadowMode mode) {
+         return 0;
+     }
+ 
+-    CShadowCache::s_shadowMode = mode;
+-    CShadowCache::s_recreateTextures = 1;
++    // Zeppelin F-223B: a level is a preset of the split settings (extShadowQuality writes the hdShadow* CVars too)
++    CShadowCache::s_split = CShadowCache::s_presets[mode];
++    CShadowCache::ApplySplitSettings();
+ 
+     return 1;
+ }
+@@ -282,6 +364,12 @@ void CShadowCache::Destroy() {
+         CShadowCache::s_extDynShadow.m_textures[1] = nullptr;
+     }
+ 
++    // Zeppelin F-223B
++    if (CShadowCache::s_pcfBandTarget) {
++        HandleClose(reinterpret_cast<HOBJECT>(CShadowCache::s_pcfBandTarget));
++        CShadowCache::s_pcfBandTarget = nullptr;
++    }
++
+     if (CShadowCache::s_intDynShadow) {
+         HandleClose(reinterpret_cast<HOBJECT>(CShadowCache::s_intDynShadow));
+         CShadowCache::s_intDynShadow = nullptr;
+@@ -364,7 +452,7 @@ void CShadowCache::SetShadowMapGenericGlobal() {
+     GxShaderConstantsSet(GxSh_Pixel, 4, &CShadowCache::s_sunDirViewSpace.x, 1);
+     GxShaderConstantsSet(GxSh_Pixel, 5, &CShadowCache::s_pcfOffsets[0].x, 8);
+ 
+-    if (mode > SHADOW_MEDIUM) {
++    if (CShadowCache::WorldShadows()) { // Zeppelin F-223B (stock: mode > SHADOW_MEDIUM)
+         CShadowBand* bands = CShadowCache::s_extShadowBands;
+         g_theGxDevicePtr->RsSet(GxRs_Texture5, TextureGetGxTex(bands[0].m_textures[bands[0].m_current], 1, nullptr));
+         g_theGxDevicePtr->RsSet(GxRs_Texture6, TextureGetGxTex(bands[1].m_textures[bands[1].m_current], 1, nullptr));
+@@ -391,7 +479,7 @@ void CShadowCache::SetShadowMapGenericInterior(int32_t interior) {
+     if (!interior) {
+         texture = TextureGetGxTex(CShadowCache::s_extDynShadow.m_textures[CShaderEffect::s_usePcfFiltering], 1, nullptr);
+ 
+-        if (mode > SHADOW_MEDIUM) {
++        if (CShadowCache::WorldShadows()) { // Zeppelin F-223B (stock: mode > SHADOW_MEDIUM)
+             cutoffPlane = &CShadowCache::s_cutoffPlaneDefault;
+         }
+     }
+@@ -417,7 +505,7 @@ void CShadowCache::SetShadowMapTerrain() {
+     GxShaderConstantsSet(GxSh_Pixel, 3, &CShadowCache::s_pcfOffsets[0].x, 8);
+     g_theGxDevicePtr->RsSet(GxRs_Texture5, TextureGetGxTex(CShadowCache::s_extDynShadow.m_textures[CShaderEffect::s_usePcfFiltering], 1, nullptr));
+ 
+-    if (mode > SHADOW_MEDIUM) {
++    if (CShadowCache::WorldShadows()) { // Zeppelin F-223B (stock: mode > SHADOW_MEDIUM)
+         CShadowBand* bands = CShadowCache::s_extShadowBands;
+         g_theGxDevicePtr->RsSet(GxRs_Texture6, TextureGetGxTex(bands[0].m_textures[bands[0].m_current], 1, nullptr));
+         g_theGxDevicePtr->RsSet(GxRs_Texture7, TextureGetGxTex(bands[1].m_textures[bands[1].m_current], 1, nullptr));
+@@ -444,7 +532,7 @@ void CShadowCache::SetShadowMapDetailDoodad() {
+     GxShaderConstantsSet(GxSh_Pixel, 5, &CShadowCache::s_pcfOffsets[0].x, 8);
+     g_theGxDevicePtr->RsSet(GxRs_Texture4, TextureGetGxTex(CShadowCache::s_extDynShadow.m_textures[CShaderEffect::s_usePcfFiltering], 1, nullptr));
+ 
+-    if (mode > SHADOW_MEDIUM) {
++    if (CShadowCache::WorldShadows()) { // Zeppelin F-223B (stock: mode > SHADOW_MEDIUM)
+         CShadowBand* bands = CShadowCache::s_extShadowBands;
+         g_theGxDevicePtr->RsSet(GxRs_Texture5, TextureGetGxTex(bands[0].m_textures[bands[0].m_current], 1, nullptr));
+         g_theGxDevicePtr->RsSet(GxRs_Texture6, TextureGetGxTex(bands[1].m_textures[bands[1].m_current], 1, nullptr));
+@@ -457,7 +545,7 @@ void CShadowCache::SetShadowMapDetailDoodad() {
+ void CShadowCache::GatherBands(CShadowCacheQueryData& data, const C3Vector& pos, CFrustum& frustum, int32_t useCullFrustum) {
+     uint32_t frame = 0;
+ 
+-    if (CShadowCache::GetShadowMode() < SHADOW_VERY_HIGH) {
++    if (!CShadowCache::BandsEveryFrame()) { // Zeppelin F-223B (stock: GetShadowMode() < SHADOW_VERY_HIGH)
+         C44Matrix identity;
+ 
+         for (uint32_t i = 0; i < 3; i++) {
+@@ -502,8 +590,8 @@ void CShadowCache::GatherBands(CShadowCacheQueryData& data, const C3Vector& pos,
+             data.m_bounds[i][2] = row * step - data.m_radius[i];
+             data.m_bounds[i][3] = step + data.m_bounds[i][2];
+ 
+-            data.m_bounds[i][1] = data.m_radius[i] * 2.0f * (ceil(CShadowCache::s_shadowSize / (data.m_radius[i] + data.m_radius[i]) * data.m_bounds[i][1]) / CShadowCache::s_shadowSize);
+-            data.m_bounds[i][3] = ceil(CShadowCache::s_shadowSize / (2.0f * data.m_radius[i]) * data.m_bounds[i][3]) / CShadowCache::s_shadowSize * (data.m_radius[i] + data.m_radius[i]);
++            data.m_bounds[i][1] = data.m_radius[i] * 2.0f * (ceil(CShadowCache::s_bandMapSize / (data.m_radius[i] + data.m_radius[i]) * data.m_bounds[i][1]) / CShadowCache::s_bandMapSize);
++            data.m_bounds[i][3] = ceil(CShadowCache::s_bandMapSize / (2.0f * data.m_radius[i]) * data.m_bounds[i][3]) / CShadowCache::s_bandMapSize * (data.m_radius[i] + data.m_radius[i]);
+ 
+             float scale = 0.5f / data.m_radius[i];
+             data.m_texBounds[i][0] = data.m_bounds[i][0] * scale + 0.5f;
+@@ -521,7 +609,7 @@ void CShadowCache::GatherBands(CShadowCacheQueryData& data, const C3Vector& pos,
+                 data.m_useCullFrustum[i] = 0;
+             }
+ 
+-            data.m_queryFlags[i] = 8;
++            data.m_queryFlags[i] = CShadowCache::BandQueryFlags(); // Zeppelin F-223B (stock: 8)
+ 
+             float bounds[4];
+             bounds[0] = data.m_bounds[i][0];
+@@ -600,7 +688,7 @@ void CShadowCache::GatherBands(CShadowCacheQueryData& data, const C3Vector& pos,
+                 data.m_cullFrustums[i] = frustum;
+             }
+ 
+-            data.m_queryFlags[i] = 13;
++            data.m_queryFlags[i] = CShadowCache::BandQueryFlags(); // Zeppelin F-223B (stock: 13)
+             frustum = data.m_frustums[i];
+             frustum.InvertPlanes();
+ 
+@@ -617,7 +705,7 @@ void CShadowCache::GatherBands(CShadowCacheQueryData& data, const C3Vector& pos,
+ // VERIFY: bfe3e321 manual
+ // OFFSET: 0x00874FB0
+ void CShadowCache::RenderBands(CShadowCacheQueryData& data) {
+-    EShadowMode mode = CShadowCache::GetShadowMode();
++    bool everyFrame = CShadowCache::BandsEveryFrame(); // Zeppelin F-223B (stock: GetShadowMode() >= SHADOW_VERY_HIGH)
+ 
+     for (int32_t i = 0; i <= data.m_lastBand; i++) {
+         if (!data.m_active[i]) {
+@@ -629,14 +717,15 @@ void CShadowCache::RenderBands(CShadowCacheQueryData& data) {
+         CGxTex* target;
+ 
+         if (CShaderEffect::s_usePcfFiltering) {
+-            if (mode < SHADOW_VERY_HIGH) {
++            if (!everyFrame) {
+                 colorTarget = TextureGetGxTex(band.m_textures[data.m_textureIndex[i]], 1, nullptr);
+             } else {
+                 colorTarget = TextureGetGxTex(band.m_textures[0], 1, nullptr);
+             }
+ 
+-            target = TextureGetGxTex(CShadowCache::s_extDynShadow.m_textures[0], 1, nullptr);
+-        } else if (mode >= SHADOW_VERY_HIGH) {
++            // Zeppelin F-223B: a colour target of the cascade size when the player map has another size
++            target = TextureGetGxTex(CShadowCache::s_pcfBandTarget ? CShadowCache::s_pcfBandTarget : CShadowCache::s_extDynShadow.m_textures[0], 1, nullptr);
++        } else if (everyFrame) {
+             target = TextureGetGxTex(band.m_textures[0], 1, nullptr);
+         } else {
+             target = TextureGetGxTex(band.m_textures[data.m_textureIndex[i]], 1, nullptr);
+@@ -735,7 +824,7 @@ CShadowCacheQueryData::CShadowCacheQueryData() {
+ // VERIFY: e0449636 manual
+ // OFFSET: 0x00875760
+ void CShadowCache::ClearBandTextures() {
+-    if (CShadowCache::s_shadowMode <= SHADOW_MEDIUM) {
++    if (!CShadowCache::WorldShadows()) { // Zeppelin F-223B (stock: s_shadowMode <= SHADOW_MEDIUM)
+         CShadowCache::s_needsRebuild = 0;
+         return;
+     }
+@@ -798,7 +887,10 @@ void CShadowCache::ClearBandTextures() {
+     if (CShaderEffect::s_usePcfFiltering) {
+         buffer = GxBuffers_Depth;
+ 
+-        if (CShadowCache::s_extDynShadow.m_textures[0]) {
++        // Zeppelin F-223B: s_pcfBandTarget when the cascades and the player map differ in size
++        if (CShadowCache::s_pcfBandTarget) {
++            GxRenderTargetSet(GxBuffers_Color, TextureGetGxTex(CShadowCache::s_pcfBandTarget, 1, nullptr), 0);
++        } else if (CShadowCache::s_extDynShadow.m_textures[0]) {
+             GxRenderTargetSet(GxBuffers_Color, TextureGetGxTex(CShadowCache::s_extDynShadow.m_textures[0], 1, nullptr), 0);
+         }
+     } else {
+@@ -862,17 +954,19 @@ void CShadowCache::PreUpdate(const C3Vector& sunDir) {
+ // VERIFY: 98b606e7 manual
+ // OFFSET: 0x00875D30
+ void CShadowCache::Init() {
+-    CShadowCache::s_shadowSize = 1024;
+-
+-    if (CShadowCache::s_shadowMode >= SHADOW_HIGH || CShadowCache::s_shadowMode == SHADOW_MEDIUM) {
+-        CShadowCache::s_shadowSize = 2048;
+-    }
++    // Zeppelin F-223B: the player map and the cascades take their own sizes (stock: one size, 2048 at MEDIUM and
++    // >= HIGH, else 1024). The PCF offsets and the half-texel offset are shared shader constants: they follow the
++    // cascades when they are on.
++    CShadowCache::s_charMapSize = CShadowCache::s_split.charSize >= 2048 ? 2048 : 1024;
++    CShadowCache::s_bandMapSize = CShadowCache::s_split.worldSize >= 2048 ? 2048 : 1024;
++    CShadowCache::s_shadowSize = CShadowCache::WorldShadows() ? CShadowCache::s_bandMapSize : CShadowCache::s_charMapSize;
+ 
+     CShadowCache::InitPcfOffsets();
+ 
+     CShadowCache::s_extDynShadow.m_textures[0] = nullptr;
+     CShadowCache::s_extDynShadow.m_textures[1] = nullptr;
+     CShadowCache::s_intDynShadow = nullptr;
++    CShadowCache::s_pcfBandTarget = nullptr; // Zeppelin F-223B
+ 
+     for (uint32_t i = 0; i < 3; i++) {
+         CShadowCache::s_extShadowBands[i].m_textures[0] = nullptr;
+@@ -894,7 +988,7 @@ void CShadowCache::Init() {
+     flags.m_wrapV = 0;
+     flags.m_renderTarget = 1;
+ 
+-    uint32_t size = CShadowCache::s_shadowSize;
++    uint32_t size = CShadowCache::s_charMapSize; // Zeppelin F-223B (stock: s_shadowSize)
+ 
+     if (CShadowCache::s_shadowMode) {
+         if (CShaderEffect::s_usePcfFiltering) {
+@@ -906,19 +1000,30 @@ void CShadowCache::Init() {
+         }
+ 
+         CShadowCache::s_intDynShadow = TextureCreate(GxTex_2d, size, size, 0, format, format, flags, nullptr, ShadowCacheTextureCallback, "ShadowCache", 0);
+-        CShadowCache::s_extDynShadow.m_radius = 20.0f;
++        // Zeppelin F-223B: hdShadowCharRadius (stock 20)
++        float radius = CShadowCache::s_split.charRadius;
++        CShadowCache::s_extDynShadow.m_radius = radius < 5.0f ? 5.0f : (radius > 80.0f ? 80.0f : radius);
++
++        if (CShadowCache::WorldShadows()) { // Zeppelin F-223B (stock: s_shadowMode > SHADOW_MEDIUM)
++            uint32_t bandSize = CShadowCache::s_bandMapSize;
++            float scale = CShadowCache::s_split.worldDistance;
++            scale = scale < 0.25f ? 0.25f : (scale > 4.0f ? 4.0f : scale);
+ 
+-        if (CShadowCache::s_shadowMode > SHADOW_MEDIUM) {
+             for (uint32_t i = 0; i < 3; i++) {
+                 CShadowBand& band = CShadowCache::s_extShadowBands[i];
+-                band.m_textures[0] = TextureCreate(GxTex_2d, size, size, 0, format, format, flags, nullptr, ShadowCacheTextureCallback, "ShadowCache", 0);
++                band.m_textures[0] = TextureCreate(GxTex_2d, bandSize, bandSize, 0, format, format, flags, nullptr, ShadowCacheTextureCallback, "ShadowCache", 0);
+ 
+-                if (CShadowCache::s_shadowMode < SHADOW_VERY_HIGH) {
+-                    band.m_textures[1] = TextureCreate(GxTex_2d, size, size, 0, format, format, flags, nullptr, ShadowCacheTextureCallback, "ShadowCache", 0);
++                if (!CShadowCache::BandsEveryFrame()) {
++                    band.m_textures[1] = TextureCreate(GxTex_2d, bandSize, bandSize, 0, format, format, flags, nullptr, ShadowCacheTextureCallback, "ShadowCache", 0);
+                 }
+ 
+-                band.m_radius = CShadowCache::s_bandRadius[i];
+-                band.m_updateDistance = CShadowCache::s_bandUpdateDistance[i];
++                // hdShadowWorldDistance scales the cascades; m_updateDistance is compared with a squared distance
++                band.m_radius = CShadowCache::s_bandRadius[i] * scale;
++                band.m_updateDistance = CShadowCache::s_bandUpdateDistance[i] * scale * scale;
++            }
++
++            if (CShaderEffect::s_usePcfFiltering && bandSize != size) {
++                CShadowCache::s_pcfBandTarget = TextureCreate(GxTex_2d, bandSize, bandSize, 0, GxTex_Argb8888, GxTex_Argb8888, flags, nullptr, ShadowCacheTextureCallback, "ShadowCache", 0);
+             }
+         }
+     }
+@@ -970,7 +1075,7 @@ int32_t CShadowCache::Update(const C3Vector& pos, int32_t useCullFrustum) {
+     float radius = CShadowCache::s_extDynShadow.m_radius;
+     data.m_radius[0] = radius;
+ 
+-    float size = CShadowCache::s_shadowSize;
++    float size = CShadowCache::s_charMapSize; // Zeppelin F-223B (stock: s_shadowSize)
+     CShadowCache::s_extDynShadow.m_lastPos = pos;
+     data.m_pos[0] = pos;
+ 
+@@ -1006,11 +1111,12 @@ int32_t CShadowCache::Update(const C3Vector& pos, int32_t useCullFrustum) {
+ 
+     data.m_lastBand = 0;
+ 
+-    if (mode >= SHADOW_VERY_HIGH) {
++    if (CShadowCache::BandsEveryFrame()) { // Zeppelin F-223B (stock: mode >= SHADOW_VERY_HIGH)
+         frame = CShadowCache::s_frameCounter;
+     }
+ 
+-    data.m_queryFlags[0] = 3;
++    // Zeppelin F-223B: hdShadowChar 0 leaves the units out; with nothing to draw the map is only cleared
++    data.m_queryFlags[0] = CShadowCache::CharacterShadows() ? 3 : 0;
+     data.m_useFrustum = 0;
+     CShadowCache::s_queryCallback(data, frame);
+ 
+@@ -1025,13 +1131,8 @@ int32_t CShadowCache::Update(const C3Vector& pos, int32_t useCullFrustum) {
+     CShadowCache::s_renderCallback(data, 0, target, colorTarget, CShadowCache::s_extDynShadow.m_dir);
+ 
+     if (useCullFrustum) {
+-        data.m_queryFlags[0] = 1;
+-
+-        if (mode > SHADOW_HIGH) {
+-            data.m_queryFlags[0] = 13;
+-        } else if (mode > SHADOW_MEDIUM) {
+-            data.m_queryFlags[0] = 5;
+-        }
++        // Zeppelin F-223B: stock 1, 5 above MEDIUM, 13 above HIGH; now from hdShadowChar and hdShadowWorldCasters
++        data.m_queryFlags[0] = CShadowCache::PlayerMapQueryFlags();
+ 
+         CShadowCache::s_queryCallback(data, frame);
+ 
+@@ -1045,16 +1146,16 @@ int32_t CShadowCache::Update(const C3Vector& pos, int32_t useCullFrustum) {
+         CShadowCache::s_renderCallback(data, 0, target, colorTarget, CShadowCache::s_extDynShadow.m_dir);
+     }
+ 
+-    if (mode > SHADOW_MEDIUM) {
++    if (CShadowCache::WorldShadows()) { // Zeppelin F-223B (stock: mode > SHADOW_MEDIUM)
+         if (CShadowCache::s_needsRebuild) {
+             CShadowCache::ClearBandTextures();
+         }
+ 
+-        if (useCullFrustum || mode < SHADOW_VERY_HIGH) {
++        if (useCullFrustum || !CShadowCache::BandsEveryFrame()) {
+             int32_t useBandCull = 0;
+             CFrustum frustum;
+ 
+-            if (mode < SHADOW_VERY_HIGH) {
++            if (!CShadowCache::BandsEveryFrame()) {
+                 data.m_useFrustum = 0;
+             } else {
+                 useBandCull = 1;
+diff --git a/Engine/Source/ShaderEffect/ShadowCache.h b/Engine/Source/ShaderEffect/ShadowCache.h
+index 55d1df7c..d8852bce 100644
+--- a/Engine/Source/ShaderEffect/ShadowCache.h
++++ b/Engine/Source/ShaderEffect/ShadowCache.h
+@@ -83,6 +83,38 @@ class CShadowCache {
+     static C4Vector s_sunDirViewSpace;
+     static float s_textureSize[2];
+ 
++    // Zeppelin F-223B: the stock extShadowQuality levels split into independent settings (hdShadow* CVars). The
++    // effective s_shadowMode is derived from them (ApplySplitSettings), so it still means: LOWEST = no live shadow
++    // maps, LOW/MEDIUM = the player map only, MEDIUM_HIGH/HIGH = + sun cascades updated in tiles, VERY_HIGH = + sun
++    // cascades redrawn every frame. Read it through the helpers below, not with mode comparisons.
++    struct SplitSettings {
++        int32_t charShadows;    // units cast into the player map (s_extDynShadow, s_intDynShadow)
++        uint32_t charSize;      // player map resolution
++        float charRadius;       // player map half size, yards (stock 20)
++        int32_t worldShadows;   // sun cascades (s_extShadowBands)
++        uint32_t worldSize;     // cascade resolution
++        int32_t worldEveryFrame; // 1 = redraw every frame (stock VERY HIGH), 0 = tiles after moving
++        int32_t worldCasters;   // 0 = buildings and solid doodads, 1 = + foliage near you (stock), 2 = + foliage everywhere and units (stock VERY HIGH)
++        float worldDistance;    // cascade size scale (stock 1 = 40 / 160 / 640 yards)
++        int32_t unitDimming;    // units standing in baked terrain shadow are darkened (stock LOWEST and LOW)
++    };
++    static SplitSettings s_split;
++    static int32_t s_worldForced;  // HD Vulkan soft sun shadows need the cascades: world shadows on while set
++    static CTexture* s_pcfBandTarget; // PCF only: colour target of the cascade size when it differs from the player map
++    static uint32_t s_charMapSize;  // sizes of the textures Init made
++    static uint32_t s_bandMapSize;
++    static const SplitSettings s_presets[NUM_SHADOW_MODES];
++    static void ApplySplitSettings();
++    static void SetWorldShadowsForced(int32_t forced);
++    static bool CharacterShadows() { return s_shadowMode != SHADOW_LOWEST && s_split.charShadows; }
++    static bool WorldShadows() { return s_shadowMode > SHADOW_MEDIUM; }
++    static bool WorldShadowsActive() { return GetShadowMode() > SHADOW_MEDIUM; } // false while the maps are being recreated
++    static bool BandsEveryFrame() { return s_shadowMode >= SHADOW_VERY_HIGH; }
++    static bool DimUnitsInShadow() { return s_split.unitDimming != 0; }
++    static const int32_t QUERY_CACHED_BAND = 0x10; // marks a cascade tile kept between frames (stock tested queryFlags == 8)
++    static int32_t PlayerMapQueryFlags();
++    static int32_t BandQueryFlags();
++
+     static void ClearBandTextures();
+     static void Destroy();
+     static void GatherBands(CShadowCacheQueryData& data, const C3Vector& pos, CFrustum& frustum, int32_t useCullFrustum);
+diff --git a/WoW/Source/WorldClient/HD/HdContactShadow.cpp b/WoW/Source/WorldClient/HD/HdContactShadow.cpp
+index da9fcc1f..f11373d7 100644
+--- a/WoW/Source/WorldClient/HD/HdContactShadow.cpp
++++ b/WoW/Source/WorldClient/HD/HdContactShadow.cpp
+@@ -432,7 +432,7 @@ float4 Apply(float2 vpos : VPOS) : COLOR0
+     // HD: the client's sun shadow cascade i (CShadowCache, shadow quality high or very high), as hdFog takes it
+     // (HdFog.cpp ShadowBand); depthCompare = a D24 depth map (sampled with the hardware compare), else R32F distances.
+     IDirect3DBaseTexture9* ShadowBand(int32_t i, bool* depthCompare) {
+-        if (CShadowCache::GetShadowMode() <= SHADOW_MEDIUM) return nullptr;
++        if (!CShadowCache::WorldShadowsActive()) return nullptr; // Zeppelin F-223B (was GetShadowMode() <= SHADOW_MEDIUM)
+         CShadowBand& band = CShadowCache::s_extShadowBands[i];
+         CTexture* texture = band.m_textures[band.m_current];
+         if (!texture) return nullptr;
+diff --git a/WoW/Source/WorldClient/HD/HdFog.cpp b/WoW/Source/WorldClient/HD/HdFog.cpp
+index 3075e892..069db286 100644
+--- a/WoW/Source/WorldClient/HD/HdFog.cpp
++++ b/WoW/Source/WorldClient/HD/HdFog.cpp
+@@ -524,7 +524,7 @@ float4 main(float2 vpos : VPOS) : COLOR0 {
+     // HD: the client's sun shadow cascade i (CShadowCache, shadow quality high or very high), as SetShadowMapGenericGlobal
+     // binds it; depthCompare = a D24 depth map (sampled with the hardware compare), else R32F distances.
+     IDirect3DBaseTexture9* ShadowBand(int32_t i, bool* depthCompare) {
+-        if (CShadowCache::GetShadowMode() <= SHADOW_MEDIUM) return nullptr;
++        if (!CShadowCache::WorldShadowsActive()) return nullptr; // Zeppelin F-223B (was GetShadowMode() <= SHADOW_MEDIUM)
+         CShadowBand& band = CShadowCache::s_extShadowBands[i];
+         CTexture* texture = band.m_textures[band.m_current];
+         if (!texture) return nullptr;
+diff --git a/WoW/Source/WorldClient/ShadowQuery.cpp b/WoW/Source/WorldClient/ShadowQuery.cpp
+index 0262d54d..616ee1ee 100644
+--- a/WoW/Source/WorldClient/ShadowQuery.cpp
++++ b/WoW/Source/WorldClient/ShadowQuery.cpp
+@@ -224,7 +224,8 @@ void CShadowQuery::FrustumCallback(CFrustum& frustum, C44Matrix& matrix, const C
+     CFrustum& cull = data.m_bandFrustums[band];
+     cull = frustum;
+ 
+-    if (data.m_queryFlags[band] == 8 || !g_shadowCull->m_intValue) {
++    // Zeppelin F-223B: a cascade tile kept between frames is not cut to the view (stock: queryFlags == 8)
++    if ((data.m_queryFlags[band] & CShadowCache::QUERY_CACHED_BAND) || !g_shadowCull->m_intValue) {
+         return;
+     }
+ 
+diff --git a/WoW/Source/WorldClient/World.cpp b/WoW/Source/WorldClient/World.cpp
+index 51223558..5b0c0cd6 100644
+--- a/WoW/Source/WorldClient/World.cpp
++++ b/WoW/Source/WorldClient/World.cpp
+@@ -4459,7 +4459,8 @@ void CMap::UpdateEntity(CMapEntity* entity) {
+     color.r = static_cast<uint8_t>(static_cast<int32_t>(r));
+     entity->m_targetAmbientColor = color;
+ 
+-    if (CShadowCache::GetShadowMode() > 1 || (entity->m_flags & 0x200) || !CMap::QueryShadow(&entity->m_position)) {
++    // Zeppelin F-223B: hdShadowUnitDim (stock: dimmed while GetShadowMode() <= SHADOW_LOW)
++    if (!CShadowCache::DimUnitsInShadow() || (entity->m_flags & 0x200) || !CMap::QueryShadow(&entity->m_position)) {
+         entity->m_targetDiffuseLightScale = 2.5f;
+     } else {
+         entity->m_staticFlags |= 0x8;
+diff --git a/WoW/Source/WorldClient/WorldParam_CVar.cpp b/WoW/Source/WorldClient/WorldParam_CVar.cpp
+index 1a616ef0..34273c3d 100644
+--- a/WoW/Source/WorldClient/WorldParam_CVar.cpp
++++ b/WoW/Source/WorldClient/WorldParam_CVar.cpp
+@@ -451,6 +451,124 @@ bool CWorldParam::EnvironmentDetailCallback(CVar* var, const char* oldValue, con
+     return true;
+ }
+ 
++// Zeppelin F-223B: the stock shadow levels split into independent CVars. extShadowQuality stays as the preset: changing
++// it writes these to the stock combination, after which each one can be changed on its own.
++enum ShadowSplitVar {
++    SHADOW_SPLIT_CHAR,           // hdShadowChar          0 off, 1 = 1024, 2 = 2048
++    SHADOW_SPLIT_CHAR_RADIUS,    // hdShadowCharRadius    yards
++    SHADOW_SPLIT_WORLD,          // hdShadowWorld         0 off, 1 = 1024, 2 = 2048
++    SHADOW_SPLIT_WORLD_UPDATE,   // hdShadowWorldUpdate   0 tiles after moving, 1 every frame
++    SHADOW_SPLIT_WORLD_CASTERS,  // hdShadowWorldCasters  0..2
++    SHADOW_SPLIT_WORLD_DISTANCE, // hdShadowWorldDistance cascade size scale
++    SHADOW_SPLIT_UNIT_DIM,       // hdShadowUnitDim       0/1
++    NUM_SHADOW_SPLIT_VARS
++};
++
++static CVar* s_shadowSplitVars[NUM_SHADOW_SPLIT_VARS];
++
++static void ShadowPresetValue(uint32_t which, uint32_t mode, char* buffer, size_t size) {
++    const CShadowCache::SplitSettings& preset = CShadowCache::s_presets[mode];
++
++    switch (which) {
++        case SHADOW_SPLIT_CHAR: SStrPrintf(buffer, size, "%d", preset.charShadows ? (preset.charSize >= 2048 ? 2 : 1) : 0); break;
++        case SHADOW_SPLIT_CHAR_RADIUS: SStrPrintf(buffer, size, "%g", preset.charRadius); break;
++        case SHADOW_SPLIT_WORLD: SStrPrintf(buffer, size, "%d", preset.worldShadows ? (preset.worldSize >= 2048 ? 2 : 1) : 0); break;
++        case SHADOW_SPLIT_WORLD_UPDATE: SStrPrintf(buffer, size, "%d", preset.worldEveryFrame); break;
++        case SHADOW_SPLIT_WORLD_CASTERS: SStrPrintf(buffer, size, "%d", preset.worldCasters); break;
++        case SHADOW_SPLIT_WORLD_DISTANCE: SStrPrintf(buffer, size, "%g", preset.worldDistance); break;
++        default: SStrPrintf(buffer, size, "%d", preset.unitDimming); break;
++    }
++}
++
++// Writes the preset into the registered hdShadow* CVars (their callbacks fill CShadowCache::s_split).
++static void WriteShadowPreset(uint32_t mode) {
++    char value[32];
++
++    for (uint32_t i = 0; i < NUM_SHADOW_SPLIT_VARS; i++) {
++        if (s_shadowSplitVars[i]) {
++            ShadowPresetValue(i, mode, value, sizeof(value));
++            s_shadowSplitVars[i]->Set(value, true, false, false, true);
++        }
++    }
++}
++
++static bool ShadowSplitCallback(CVar* var, const char* oldValue, const char* value, void* arg) {
++    CShadowCache::SplitSettings& split = CShadowCache::s_split;
++    int32_t number = SStrToInt(value);
++    float scale = SStrToFloat(value);
++
++    switch (static_cast<uint32_t>(reinterpret_cast<uintptr_t>(arg))) {
++        case SHADOW_SPLIT_CHAR:
++            if (number < 0 || number > 2) return false;
++            split.charShadows = number > 0;
++            split.charSize = number >= 2 ? 2048 : 1024;
++            break;
++        case SHADOW_SPLIT_CHAR_RADIUS:
++            if (scale < 5.0f || scale > 80.0f) return false;
++            split.charRadius = scale;
++            break;
++        case SHADOW_SPLIT_WORLD:
++            if (number < 0 || number > 2) return false;
++            split.worldShadows = number > 0;
++            split.worldSize = number >= 2 ? 2048 : 1024; // off: 1024, what Soft Sun Shadows force on (stock MEDIUM-HIGH)
++            break;
++        case SHADOW_SPLIT_WORLD_UPDATE:
++            if (number < 0 || number > 1) return false;
++            split.worldEveryFrame = number;
++            break;
++        case SHADOW_SPLIT_WORLD_CASTERS:
++            if (number < 0 || number > 2) return false;
++            split.worldCasters = number;
++            break;
++        case SHADOW_SPLIT_WORLD_DISTANCE:
++            if (scale < 0.25f || scale > 4.0f) return false;
++            split.worldDistance = scale;
++            break;
++        default:
++            split.unitDimming = number != 0;
++            break;
++    }
++
++    CShadowCache::ApplySplitSettings();
++
++    return true;
++}
++
++static void RegisterShadowSplitCVars() {
++    static const struct {
++        const char* name;
++        const char* help;
++    } s_vars[NUM_SHADOW_SPLIT_VARS] = {
++        { "hdShadowChar", "Character shadows (the live map around you): 0 off, 1 = 1024, 2 = 2048" },
++        { "hdShadowCharRadius", "Yards around you the character shadow map covers (stock 20)" },
++        { "hdShadowWorld", "World sun shadows (3 cascades): 0 off, 1 = 1024, 2 = 2048" },
++        { "hdShadowWorldUpdate", "World sun shadows: 0 = redrawn in tiles after you move, 1 = every frame" },
++        { "hdShadowWorldCasters", "World sun shadow casters: 0 buildings and solid objects, 1 + foliage near you, 2 + foliage everywhere and characters" },
++        { "hdShadowWorldDistance", "World sun shadow cascade size scale (1 = 40 / 160 / 640 yards)" },
++        { "hdShadowUnitDim", "Darken characters standing in baked terrain shadow" },
++    };
++
++    uint32_t preset = CWorldParam::cvar_extShadowQuality ? CWorldParam::cvar_extShadowQuality->m_intValue : 0;
++
++    if (preset >= NUM_SHADOW_MODES) {
++        preset = SHADOW_LOWEST;
++    }
++
++    // A config written before the split has extShadowQuality only: the new CVars start as its preset.
++    bool missing = false;
++    char value[32];
++
++    for (uint32_t i = 0; i < NUM_SHADOW_SPLIT_VARS; i++) {
++        missing = missing || !CVar::Lookup(s_vars[i].name);
++        ShadowPresetValue(i, SHADOW_LOWEST, value, sizeof(value));
++        s_shadowSplitVars[i] = CVar::Register(s_vars[i].name, s_vars[i].help, 1, value, ShadowSplitCallback, CATEGORY_GRAPHICS, false, reinterpret_cast<void*>(static_cast<uintptr_t>(i)), false);
++    }
++
++    if (missing) {
++        WriteShadowPreset(preset);
++    }
++}
++
+ // VERIFY: 782f4c26 manual
+ // OFFSET: 0x0078DCB0
+ bool CWorldParam::ExtShadowQualityCallback(CVar* var, const char* oldValue, const char* value, void* arg) {
+@@ -461,7 +579,12 @@ bool CWorldParam::ExtShadowQualityCallback(CVar* var, const char* oldValue, cons
+         return false;
+     }
+ 
+-    CShadowCache::SetShadowMode(static_cast<EShadowMode>(mode));
++    // Zeppelin F-223B: a preset now. Loading the config calls this with the saved value as both old and new: then the
++    // saved hdShadow* CVars stand (RegisterShadowSplitCVars).
++    if (!oldValue || SStrCmpI(oldValue, value, STORM_MAX_STR)) {
++        CShadowCache::SetShadowMode(static_cast<EShadowMode>(mode));
++        WriteShadowPreset(mode);
++    }
+ 
+     return true;
+ }
+@@ -655,6 +778,7 @@ void CWorldParam::Initialize() {
+     CWorldParam::cvar_environmentDetail = CVar::Register("environmentDetail", "Environment detail", 1, "1.0", CWorldParam::EnvironmentDetailCallback, CATEGORY_GRAPHICS, false, nullptr, false);
+     CWorldParam::cvar_hwPCF = CVar::Register("hwPCF", "Hardware PCF Filtering", 1, "1", CWorldParam::HWPCFCallback, CATEGORY_GRAPHICS, false, nullptr, false);
+     CWorldParam::cvar_extShadowQuality = CVar::Register("extShadowQuality", "Quality of exterior shadows (0-5)", 1, "0", CWorldParam::ExtShadowQualityCallback, CATEGORY_GRAPHICS, false, nullptr, false);
++    RegisterShadowSplitCVars(); // Zeppelin F-223B
+     CWorldParam::cvar_projectedTextures = CVar::Register("projectedTextures", "Projected Textures", 1, "0", CWorldParam::ProjectedTexturesCallback, CATEGORY_GRAPHICS, false, nullptr, false);
+     CWorldParam::cvar_gxTextureCacheSize = CVar::Register("gxTextureCacheSize", "GX Texture Cache Size", 1, "0", CWorldParam::GxTextureCacheSizeCallback, CATEGORY_GRAPHICS, false, nullptr, false);
+     CVar::Register("spellEffectLevel", "Video Option: Spell Effects", 1, "9", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+diff --git a/WoW/Source/WorldClient/shadow.cpp b/WoW/Source/WorldClient/shadow.cpp
+index 42a505cb..83587be1 100644
+--- a/WoW/Source/WorldClient/shadow.cpp
++++ b/WoW/Source/WorldClient/shadow.cpp
+@@ -21,6 +21,7 @@
+ #include "Engine/Source/Gx/CGxVertexPC.h"
+ #include "Engine/Source/Gx/CGxDevice/CGxDevice.h"
+ #include "Engine/Source/ShaderEffect/ShaderEffect.h"
++#include "Engine/Source/ShaderEffect/ShadowCache.h" // Zeppelin F-223B
+ #include "Engine/Source/Tempest/C4Vector.h"
+ #include "Engine/Source/Tempest/C44Matrix.h"
+ #include "Engine/Source/Tempest/C33Matrix.h"
+@@ -238,7 +239,8 @@ CGxTex* ProjectTex2dGetAddFadeTex() {
+ // VERIFY: ff93aa7d auto
+ // OFFSET: 0x007E49E0
+ void CWorldScene::RequestModelStreaming(CM2Model* model, const CAaBox* box) {
+-    if (model && model->IsDrawable(0, 0) && !(model->m_fFlags & 0x4000) && !box->IsEmpty() && s_cvExtShadowQuality->m_intValue <= 0 && s_shadowLOD == 1) {
++    if (model && model->IsDrawable(0, 0) && !(model->m_fFlags & 0x4000) && !box->IsEmpty() && !CShadowCache::CharacterShadows() && s_shadowLOD == 1) {
++        // Zeppelin F-223B: the blob under units whenever they cast no live shadow (stock: extShadowQuality <= 0)
+         CWorldScene::RenderStreamingRequestDecal(model, box, 0.4f);
+     }
+ }
+-- 
+2.34.1
+
