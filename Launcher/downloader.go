@@ -106,13 +106,17 @@ func performDownload(
 			if memberCurrent(pr, f) { // 3.3.0: only the members whose md5 changed are downloaded
 				continue
 			}
+			if memberStaged(f) { // 3.3.2: already downloaded while the game ran, installs when it closes
+				anyPending = true
+				continue
+			}
 			todo = append(todo, f)
 			total += int64(f.SizeMB * (1 << 20))
 		}
 		var offset int64
 		for i, f := range todo {
 			bp := &bundleProgress{offset: offset, total: total, part: i + 1, parts: len(todo)}
-			r := downloadOne(f.Name, filename, pr, progressCh, cancelCh, bp)
+			r := downloadOne(f.Name, filename, f.Checksum, pr, progressCh, cancelCh, bp)
 			offset += int64(f.SizeMB * (1 << 20))
 			if !r.Success {
 				return DownloadResult{filename, false, fmt.Sprintf("%s: %s", f.Name, r.Message), "missing"}
@@ -120,6 +124,7 @@ func performDownload(
 			fetched++
 			if r.FinalState == "pending" {
 				anyPending = true
+				recordStaged(f.Name, f.Checksum)
 			} else {
 				recordMember(f.Name, f.Checksum)
 			}
@@ -131,7 +136,30 @@ func performDownload(
 		}
 		return DownloadResult{filename, true, fmt.Sprintf("Downloaded %s", filename), state}
 	}
-	return downloadOne(filename, filename, pr, progressCh, cancelCh, nil)
+	checksum := ""
+	if info, ok := pr.GetPatchInfo(filename); ok {
+		checksum = info.Checksum
+	}
+	return downloadOne(filename, filename, checksum, pr, progressCh, cancelCh, nil)
+}
+
+// partPath is where an archive downloads before it is complete (3.3.2). The name carries the md5 the
+// register lists, so a part left by a crash or a dropped connection resumes only into the same build;
+// parts of other builds of the same file are deleted. "" = no resume (no md5, or not an archive).
+func partPath(localPath, filename, checksum string) string {
+	if !isMPQ(filename) || len(checksum) < 8 {
+		return ""
+	}
+	dir := filepath.Dir(localPath)
+	want := filepath.Join(dir, fmt.Sprintf("%s.%s.part", filepath.Base(localPath), strings.ToLower(checksum[:8])))
+	if old, _ := filepath.Glob(filepath.Join(dir, filepath.Base(localPath)+".*.part")); len(old) > 0 {
+		for _, o := range old {
+			if o != want {
+				os.Remove(o)
+			}
+		}
+	}
+	return want
 }
 
 // downloadOne fetches a single file, reporting progress + the result under displayName (which is the
@@ -139,6 +167,7 @@ func performDownload(
 func downloadOne(
 	filename string,
 	displayName string,
+	checksum string, // the register md5; names the resumable .part file
 	pr *PatchRegisterClient,
 	progressCh chan<- DownloadProgress,
 	cancelCh <-chan struct{},
@@ -150,35 +179,72 @@ func downloadOne(
 
 	logInfo(fmt.Sprintf("Downloading %s from %s", filename, fileURL))
 
-	// Make the request (no timeout for large downloads)
-	client := &http.Client{Timeout: 0}
-	resp, err := client.Get(fileURL)
+	// An archive downloads into a .part file and resumes from it after a crash or a dropped connection
+	// (3.3.2): a ~1 GB piece over a slow link used to start again from byte 0.
+	writePath := localPath
+	part := partPath(localPath, filename, checksum)
+	var have int64
+	if part != "" {
+		writePath = part
+		if info, err := os.Stat(part); err == nil {
+			have = info.Size()
+		}
+	}
+
+	req, err := http.NewRequest("GET", fileURL, nil)
+	if err != nil {
+		return DownloadResult{filename, false, fmt.Sprintf("Download failed: %v", err), "missing"}
+	}
+	if have > 0 {
+		req.Header.Set("Range", fmt.Sprintf("bytes=%d-", have))
+	}
+	client := &http.Client{Timeout: 0} // no timeout for large downloads
+	resp, err := client.Do(req)
 	if err != nil {
 		logError(fmt.Sprintf("Download failed for %s: %v", filename, err))
 		return DownloadResult{filename, false, fmt.Sprintf("Download failed: %v", err), "missing"}
 	}
 	defer resp.Body.Close()
 
+	flags := os.O_CREATE | os.O_WRONLY | os.O_TRUNC
+	switch {
+	case have > 0 && resp.StatusCode == http.StatusPartialContent:
+		flags = os.O_CREATE | os.O_WRONLY | os.O_APPEND
+		logInfo(fmt.Sprintf("Resuming %s at %.1f MB", filename, float64(have)/(1<<20)))
+	case have > 0 && resp.StatusCode == http.StatusRequestedRangeNotSatisfiable:
+		resp.Body.Close() // the part is complete or longer than the file: start over
+		os.Remove(part)
+		return downloadOne(filename, displayName, checksum, pr, progressCh, cancelCh, bp)
+	case resp.StatusCode != http.StatusOK:
+		logError(fmt.Sprintf("Download failed for %s: HTTP %s", filename, resp.Status))
+		return DownloadResult{filename, false, fmt.Sprintf("Download failed: HTTP %s", resp.Status), "missing"}
+	default:
+		have = 0 // the server ignored the range: whole file
+	}
+
 	total := resp.ContentLength
+	if total > 0 {
+		total += have
+	}
 
 	// Create parent directory
 	os.MkdirAll(filepath.Dir(localPath), 0755)
 
-	out, err := os.Create(localPath)
+	out, err := os.OpenFile(writePath, flags, 0644)
 	if err != nil {
-		logError(fmt.Sprintf("Failed to create file %s: %v", localPath, err))
+		logError(fmt.Sprintf("Failed to create file %s: %v", writePath, err))
 		return DownloadResult{filename, false, fmt.Sprintf("File creation failed: %v", err), "missing"}
 	}
 
 	buf := make([]byte, DownloadChunkSize)
-	var downloaded int64
+	downloaded := have
 
 	for {
 		// Check for cancellation
 		select {
 		case <-cancelCh:
 			out.Close()
-			os.Remove(localPath)
+			os.Remove(writePath)
 			logInfo(fmt.Sprintf("Download cancelled: %s", filename))
 			return DownloadResult{filename, false, "Cancelled", "missing"}
 		default:
@@ -186,7 +252,11 @@ func downloadOne(
 
 		n, readErr := resp.Body.Read(buf)
 		if n > 0 {
-			out.Write(buf[:n])
+			if _, werr := out.Write(buf[:n]); werr != nil {
+				out.Close()
+				logError(fmt.Sprintf("Write error for %s: %v", filename, werr))
+				return DownloadResult{filename, false, fmt.Sprintf("Write error: %v", werr), "missing"}
+			}
 			downloaded += int64(n)
 			if bp != nil && bp.total > 0 {
 				done := bp.offset + downloaded
@@ -203,7 +273,9 @@ func downloadOne(
 				break
 			}
 			out.Close()
-			os.Remove(localPath)
+			if part == "" { // an archive's .part stays and resumes on the next attempt
+				os.Remove(writePath)
+			}
 			logError(fmt.Sprintf("Download read error for %s: %v", filename, readErr))
 			return DownloadResult{filename, false, fmt.Sprintf("Read error: %v", readErr), "missing"}
 		}
@@ -212,15 +284,22 @@ func downloadOne(
 
 	// Validate size
 	if total > 0 {
-		info, err := os.Stat(localPath)
+		info, err := os.Stat(writePath)
 		if err != nil || info.Size() != total {
-			os.Remove(localPath)
+			os.Remove(writePath)
 			actual := int64(0)
 			if info != nil {
 				actual = info.Size()
 			}
 			logError(fmt.Sprintf("Size mismatch for %s: expected %d, got %d", filename, total, actual))
 			return DownloadResult{filename, false, "Size validation failed", "missing"}
+		}
+	}
+	if part != "" {
+		os.Remove(localPath)
+		if err := os.Rename(part, localPath); err != nil {
+			logError(fmt.Sprintf("Failed to move %s into place: %v", part, err))
+			return DownloadResult{filename, false, fmt.Sprintf("Install failed: %v", err), "missing"}
 		}
 	}
 

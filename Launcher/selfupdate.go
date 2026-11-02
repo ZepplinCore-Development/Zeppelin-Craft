@@ -107,7 +107,9 @@ func selfUpdate(rel *LauncherRelease, status func(string)) {
 
 	status(fmt.Sprintf("Updating launcher to v%s...", rel.Version))
 	logInfo(fmt.Sprintf("Launcher update: v%s -> v%s from %s", AppVersion, rel.Version, LauncherURL+a.File))
-	os.WriteFile(updateAttemptFile(), []byte(rel.Version), 0644)
+	// The attempt is recorded only once the new binary is installed (3.3.2). Recording it up front made a
+	// single failed download (slow link, dropped connection) skip that release for good, leaving the
+	// player on the old launcher.
 
 	newPath := self + ".new"
 	fail := func(msg string, err error) {
@@ -116,7 +118,7 @@ func selfUpdate(rel *LauncherRelease, status func(string)) {
 		status("Launcher update failed - see the log")
 	}
 
-	client := &http.Client{Timeout: 10 * time.Minute}
+	client := &http.Client{Timeout: 60 * time.Minute} // ~35 MB; a slow remote link needs far more than 10 min
 	resp, err := client.Get(LauncherURL + a.File)
 	if err != nil {
 		fail("download", err)
@@ -159,6 +161,9 @@ func selfUpdate(rel *LauncherRelease, status func(string)) {
 		fail("install new launcher", err)
 		return
 	}
+
+	os.MkdirAll(filepath.Dir(updateAttemptFile()), 0755)
+	os.WriteFile(updateAttemptFile(), []byte(rel.Version), 0644) // loop guard: see updateAttemptFile
 
 	cmd := exec.Command(self, os.Args[1:]...)
 	cmd.Dir = filepath.Dir(self)

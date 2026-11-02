@@ -21,6 +21,10 @@ var memberStore *VersionManager
 
 const memberKeyPrefix = "member:"
 
+// stagedKeyPrefix records the md5 of a member downloaded while the game ran and staged in temp_patches/
+// (3.3.2). Kept apart from member:<name>, which describes the copy in Data/ until the staged one installs.
+const stagedKeyPrefix = "staged:"
+
 func isMPQ(name string) bool { return strings.HasSuffix(strings.ToLower(name), ".mpq") }
 
 // memberPath is the installed path of a bundle member: an archive piece in Data/, a client binary or
@@ -50,11 +54,44 @@ func recordMember(name, checksum string) {
 	}
 }
 
-// recordInstalledMember records a just-installed bundle member at its register md5.
+func recordStaged(name, checksum string) {
+	if memberStore != nil && checksum != "" {
+		memberStore.SetVersion(stagedKeyPrefix+name, strings.ToLower(checksum))
+	}
+}
+
+// recordInstalledMember records a just-installed bundle member. A member staged by 3.3.2+ carries the md5
+// it was downloaded at (staged:<name>); one staged by an older launcher falls back to the register md5.
 func recordInstalledMember(pr *PatchRegisterClient, name string) {
+	if memberStore != nil {
+		if sum := memberStore.GetVersion(stagedKeyPrefix + name); sum != "" {
+			memberStore.ClearVersion(stagedKeyPrefix + name)
+			recordMember(name, sum)
+			return
+		}
+	}
 	if f, ok := pr.memberEntry(name); ok {
 		recordMember(name, f.Checksum)
 	}
+}
+
+// sizeMatches compares an archive's size with the register's size_mb (rounded to 0.1 MB).
+func sizeMatches(f WxlFile, size int64) bool {
+	return !isMPQ(f.Name) || f.SizeMB <= 0 || math.Abs(float64(size)/(1<<20)-f.SizeMB) <= 0.06
+}
+
+// memberStaged reports whether member f already sits in temp_patches/ at the register md5 (downloaded
+// while the game ran, installed when it closes). Without this a launcher restart before the install
+// downloaded every staged piece again (3.3.2).
+func memberStaged(f WxlFile) bool {
+	if memberStore == nil || f.Checksum == "" {
+		return false
+	}
+	info, err := os.Stat(filepath.Join(getTempDownloadDir(), f.Name))
+	if err != nil || memberStore.GetVersion(stagedKeyPrefix+f.Name) != strings.ToLower(f.Checksum) {
+		return false
+	}
+	return sizeMatches(f, info.Size())
 }
 
 // memberCurrent reports whether member f is installed at the build the register lists: it exists, it was
@@ -66,13 +103,27 @@ func memberCurrent(pr *PatchRegisterClient, f WxlFile) bool {
 	if err != nil || memberStore == nil {
 		return false
 	}
-	if memberStore.GetVersion(memberKeyPrefix+f.Name) != strings.ToLower(f.Checksum) || f.Checksum == "" {
+	if f.Checksum == "" || !sizeMatches(f, info.Size()) {
 		return false
 	}
-	if isMPQ(f.Name) && f.SizeMB > 0 && math.Abs(float64(info.Size())/(1<<20)-f.SizeMB) > 0.06 {
-		return false
+	if memberStore.GetVersion(memberKeyPrefix+f.Name) != strings.ToLower(f.Checksum) {
+		if !legacyMemberCurrent(f) {
+			return false
+		}
+		recordMember(f.Name, f.Checksum)
 	}
 	return checksumMatches(pr, f.Name, path)
+}
+
+// legacyMemberCurrent: a group bundle (3.3.2) lists MPQs that used to be their own register lines, so an
+// install holds them under their old key (client_versions "PATCH-T.MPQ": "9") and no member: record. The
+// group carries each member's version; when the recorded one equals it, the file in Data/ is that build
+// and is not downloaded again.
+func legacyMemberCurrent(f WxlFile) bool {
+	if f.Version <= 0 || memberStore.GetVersion(memberKeyPrefix+f.Name) != "" {
+		return false
+	}
+	return memberStore.GetVersion(f.Name) == fmt.Sprintf("%d", f.Version)
 }
 
 var pieceName = regexp.MustCompile(`(?i)^(patch-[a-z0-9]+)-[^.]+\.mpq$`)

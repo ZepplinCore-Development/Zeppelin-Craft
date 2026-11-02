@@ -35,6 +35,7 @@ from lib.patch_register import (
     bump_dbc_version,
     get_patch_output_path,
     update_patch_entry,
+    zpak_group,
 )
 
 logger = get_logger('lib.patch_builder')
@@ -1101,7 +1102,8 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
         bump_dbc_version(register)
 
     update_patch_entry(register, patch_name, output_path,
-                       zpak_name=display_name, description=description)
+                       zpak_name=display_name, description=description,
+                       group=zpak_group(zpaks))
 
     elapsed = time.time() - start
     size_mb = output_path.stat().st_size / (1024 * 1024) if output_path.exists() else 0

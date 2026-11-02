@@ -124,6 +124,9 @@ func installPendingPatches(pr *PatchRegisterClient) InstallResult {
 			result.FailedPatches = append(result.FailedPatches, name)
 			result.ValidationFailed = append(result.ValidationFailed, name)
 			os.Remove(tempFile)
+			if memberStore != nil {
+				memberStore.ClearVersion(stagedKeyPrefix + name)
+			}
 			continue
 		}
 

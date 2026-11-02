@@ -15,6 +15,7 @@ type WxlFile struct {
 	Name     string  `json:"name"`
 	Checksum string  `json:"checksum"`
 	SizeMB   float64 `json:"size_mb"`
+	Version  int     `json:"version,omitempty"` // group bundles (3.3.2): the member's own patch version
 }
 
 type PatchEntry struct {

@@ -43,7 +43,7 @@ def load_register(nginx_path: Path = None) -> Dict[str, Any]:
 
     try:
         with open(register_path, 'r') as f:
-            data = json.load(f)
+            data = unfold_groups(json.load(f))
         logger.info(f"Loaded patch register: build #{data.get('server_metadata', {}).get('build_number', '?')}")
         data[_SNAPSHOT_KEY] = copy.deepcopy(data)  # what this writer saw; save_register merges against it
         return data
@@ -78,19 +78,28 @@ def save_register(register: Dict[str, Any], nginx_path: Path = None) -> bool:
         with open(register_path.with_name(REGISTER_FILENAME + '.lock'), 'w') as lock:
             fcntl.flock(lock, fcntl.LOCK_EX)
             current = None
+            current_raw = None
             if snapshot is not None and register_path.exists():
                 try:
                     with open(register_path, 'r') as f:
-                        current = json.load(f)
+                        current_raw = json.load(f)
+                    current = unfold_groups(copy.deepcopy(current_raw))
                 except (json.JSONDecodeError, OSError):
                     current = None
+            previous_raw = current_raw if current is not None else None
+            if previous_raw is None and register_path.exists():
+                try:
+                    with open(register_path, 'r') as f:
+                        previous_raw = json.load(f)
+                except (json.JSONDecodeError, OSError):
+                    previous_raw = None
 
             merged = _merge_register(snapshot, register, current) if current is not None else register
             merged['last_updated'] = _utc_timestamp()
 
             tmp = register_path.with_name(f'.{REGISTER_FILENAME}.{os.getpid()}.tmp')
             with open(tmp, 'w') as f:
-                json.dump(merged, f, indent=2)
+                json.dump(fold_groups(merged, previous_raw), f, indent=2)
                 f.write('\n')
             os.replace(tmp, register_path)
 
@@ -108,6 +117,83 @@ def save_register(register: Dict[str, Any], nginx_path: Path = None) -> bool:
 
 
 _SNAPSHOT_KEY = '__loaded_snapshot__'  # in-memory only: popped before every write
+
+# --- Launcher groups (F-167, launcher 3.3.2) ---------------------------------------------------------------
+# Small patch letters can share ONE launcher line: every zpak of a letter whose zpak.json sets
+# `launcher.group` ("Extras") lists that letter in the group. Each letter stays its own MPQ (load order is
+# untouched); on the wire the group is one bundle entry 'GROUP-<name>' whose `files` are the letters'
+# archives, each with its own md5 and version, so a player downloads only the letters that changed.
+# In memory (everything load_register hands out) the letters are ordinary 'PATCH-<L>.MPQ' entries
+# carrying `group`, so builders, regenerate and orphan cleanup work unchanged; save_register folds them.
+GROUP_PREFIX = 'GROUP-'
+
+
+def unfold_groups(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Replace each group bundle in data['patches'] with its member letters' own entries (in place)."""
+    patches = data.get('patches') or {}
+    for key in [k for k, e in patches.items() if isinstance(e, dict) and e.get('build_source') == 'group']:
+        group = patches.pop(key)
+        for member in group.get('files', []):
+            entry = dict(member.get('entry') or {})
+            entry.update({'version': member.get('version', entry.get('version', 0)),
+                          'size_mb': member.get('size_mb', entry.get('size_mb', 0)),
+                          'checksum': member.get('checksum', entry.get('checksum', '')),
+                          'group': group.get('name', key[len(GROUP_PREFIX):])})
+            patches[member['name']] = entry
+    return data
+
+
+def fold_groups(data: Dict[str, Any], previous_raw: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """The on-disk form of an in-memory register: letters with a `group` collapse into one bundle entry.
+
+    The bundle's version moves on (from the previous file's) whenever any member's md5 or the member set
+    changes, which is what the launcher's line compares.
+    """
+    out = copy.deepcopy(data)
+    patches = out.get('patches') or {}
+    old = (previous_raw or {}).get('patches') or {}
+    groups: Dict[str, List[str]] = {}
+    for key, entry in patches.items():
+        if isinstance(entry, dict) and entry.get('group') and key.upper().endswith('.MPQ'):
+            groups.setdefault(entry['group'], []).append(key)
+    for name, keys in groups.items():
+        members = []
+        for key in sorted(keys):
+            entry = patches.pop(key)
+            inner = {k: v for k, v in entry.items() if k != 'group'}
+            members.append({'name': key, 'checksum': entry.get('checksum', ''),
+                            'size_mb': entry.get('size_mb', 0), 'version': entry.get('version', 0),
+                            'entry': inner})
+        gkey = GROUP_PREFIX + name
+        prev = old.get(gkey) or {}
+        sig = [(m['name'], m['checksum']) for m in members]
+        prev_sig = [(m.get('name'), m.get('checksum')) for m in prev.get('files', [])]
+        version = prev.get('version', 0)
+        if sig != prev_sig or not version:
+            version = next_version(version)
+        patches[gkey] = {
+            'name': name,
+            'description': '\n'.join(f"{m['name'][:-4]} - {m['entry'].get('description', '')}" for m in members),
+            'requires': [],
+            'required_for': [],
+            'build_source': 'group',
+            'version': version,
+            'size_mb': round(sum(m['size_mb'] for m in members), 1),
+            'checksum': hashlib.md5(''.join(c for _, c in sig).encode()).hexdigest(),
+            'last_modified': max((m['entry'].get('last_modified', '') for m in members), default='')
+            if sig == prev_sig and prev else _utc_timestamp(),
+            'files': members,
+        }
+    return out
+
+
+def zpak_group(zpaks: List[Dict[str, Any]]) -> Optional[str]:
+    """The launcher group of a letter: the first `launcher.group` among its zpaks, or None."""
+    for z in zpaks:
+        g = (z.get('manifest') or {}).get('launcher', {}).get('group')
+        if g:
+            return g
+    return None
 _MISSING = object()
 
 
@@ -156,7 +242,8 @@ def format_version(version) -> str:
 def update_patch_entry(register: Dict[str, Any], patch_name: str,
                        mpq_path: Path,
                        zpak_name: Optional[str] = None,
-                       description: Optional[str] = None) -> Dict[str, Any]:
+                       description: Optional[str] = None,
+                       group: Optional[str] = None) -> Dict[str, Any]:
     """Update metadata for a single patch after building.
 
     Increments version, recalculates checksum and size, updates timestamp.
@@ -190,6 +277,10 @@ def update_patch_entry(register: Dict[str, Any], patch_name: str,
         logger.warning(f"MPQ file not found for metadata update: {mpq_path}")
 
     entry['last_modified'] = _utc_timestamp()
+    if group:
+        entry['group'] = group  # one launcher line with the letter's other group members (fold_groups)
+    else:
+        entry.pop('group', None)
 
     patches[patch_name] = entry
     return entry
@@ -417,6 +508,9 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
             if not old_entry.get('checksum') or current_size != old_size:
                 entry['checksum'] = _calculate_checksum(mpq_path)
 
+        group = zpak_group(zpaks)
+        if group:
+            entry['group'] = group
         new_patches[patch_key] = entry
         synced.append(patch_key)
 

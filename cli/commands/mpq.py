@@ -571,8 +571,9 @@ def mpq_info(ctx):
     register_path = NGINX_PATH / 'patch_register.json'
     if register_path.exists():
         try:
+            from lib.patch_register import unfold_groups  # a launcher group lists its letters as members
             with open(register_path) as f:
-                register_data = json.load(f)
+                register_data = unfold_groups(json.load(f))
             register = register_data.get('patches', {})
         except (json.JSONDecodeError, PermissionError):
             pass

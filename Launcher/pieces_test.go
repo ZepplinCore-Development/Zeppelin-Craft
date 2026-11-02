@@ -1,12 +1,15 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"sort"
 	"testing"
+	"time"
 )
 
 func splitRegister(pieces map[string]string) *PatchRegisterClient {
@@ -117,5 +120,109 @@ func TestBundleProgressIsCumulative(t *testing.T) {
 	}
 	if n == 0 || last.Downloaded != last.Total || last.Part != 2 {
 		t.Errorf("last progress %+v (%d reports), want the bundle total on piece 2", last, n)
+	}
+}
+
+// 3.3.2: a piece cut off mid-download resumes from its .part file with a Range request instead of starting
+// again at byte 0, and a part from another build (md5 in its name) is discarded.
+func TestPieceResumesFromPart(t *testing.T) {
+	body := make([]byte, 400<<10)
+	for i := range body {
+		body[i] = byte(i * 7)
+	}
+	var ranges []string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ranges = append(ranges, r.Header.Get("Range"))
+		http.ServeContent(w, r, "x", time.Time{}, bytes.NewReader(body))
+	}))
+	defer srv.Close()
+	old := MPQDownloadURL
+	MPQDownloadURL = srv.URL + "/MPQ/"
+	defer func() { MPQDownloadURL = old }()
+	memberStore = &VersionManager{versionFile: filepath.Join(t.TempDir(), "v.json"), versions: map[string]string{}}
+	defer func() { memberStore = nil }()
+
+	name, sum := "PATCH-Q-07.MPQ", md5Hex(body)
+	tmp := filepath.Join(getTempDownloadDir(), name)
+	defer os.Remove(memberPath(name))
+	defer os.Remove(tmp)
+	stale := tmp + ".deadbeef.part"
+	os.WriteFile(stale, []byte("old build"), 0644)
+	part := partPath(tmp, name, sum)
+	os.WriteFile(part, body[:150<<10], 0644) // what a crash left behind
+	if _, err := os.Stat(stale); err == nil {
+		t.Error("part of another build kept")
+	}
+
+	pr := &PatchRegisterClient{Register: PatchRegister{Patches: map[string]PatchEntry{
+		"PATCH-Q": {Version: 1, Files: []WxlFile{{Name: name, Checksum: sum, SizeMB: float64(len(body)) / (1 << 20)}}}}}}
+	ch := make(chan DownloadProgress, 4096)
+	res := performDownload("PATCH-Q", pr, ch, make(chan struct{}))
+	close(ch)
+	if !res.Success {
+		t.Fatalf("download failed: %s", res.Message)
+	}
+	if len(ranges) != 1 || ranges[0] != fmt.Sprintf("bytes=%d-", 150<<10) {
+		t.Errorf("requests %q, want one resume at 150 KB", ranges)
+	}
+	got, _ := os.ReadFile(memberPath(name))
+	if md5Hex(got) != sum {
+		t.Error("resumed piece is not the server's file")
+	}
+	if _, err := os.Stat(part); err == nil {
+		t.Error(".part left behind")
+	}
+	if !memberCurrent(pr, pr.Register.Patches["PATCH-Q"].Files[0]) {
+		t.Error("resumed piece not recorded")
+	}
+}
+
+// 3.3.2: a piece staged in temp_patches/ (downloaded while the game ran) is not downloaded again when the
+// launcher restarts before it is installed; installing it records the md5 it was staged at.
+func TestStagedPieceNotDownloadedAgain(t *testing.T) {
+	memberStore = &VersionManager{versionFile: filepath.Join(t.TempDir(), "v.json"), versions: map[string]string{}}
+	defer func() { memberStore = nil }()
+	name := "PATCH-Q-08.MPQ"
+	tmp := filepath.Join(getTempDownloadDir(), name)
+	os.WriteFile(tmp, []byte("staged"), 0644)
+	defer os.Remove(tmp)
+	f := WxlFile{Name: name, Checksum: "abc"}
+	if memberStaged(f) {
+		t.Error("unrecorded staged file counted")
+	}
+	recordStaged(name, "abc")
+	if !memberStaged(f) || memberStaged(WxlFile{Name: name, Checksum: "newer"}) {
+		t.Error("staged file at the register md5 should count, another build should not")
+	}
+	pr := &PatchRegisterClient{Register: PatchRegister{Patches: map[string]PatchEntry{"PATCH-Q": {Version: 1, Files: []WxlFile{{Name: name, Checksum: "newer"}}}}}}
+	recordInstalledMember(pr, name)
+	if memberStore.GetVersion(memberKeyPrefix+name) != "abc" || memberStore.GetVersion(stagedKeyPrefix+name) != "" {
+		t.Errorf("install recorded %q, want the staged md5", memberStore.GetVersion(memberKeyPrefix+name))
+	}
+}
+
+// 3.3.2 group bundle: an MPQ that used to be its own line (client_versions "PATCH-T.MPQ": "9") is current
+// when the group lists it at that version, so moving T/V/X into a group downloads nothing.
+func TestGroupMemberLegacyVersion(t *testing.T) {
+	dataDir, _ := ensureDirectories()
+	memberStore = &VersionManager{versionFile: filepath.Join(t.TempDir(), "v.json"), versions: map[string]string{}}
+	defer func() { memberStore = nil }()
+	name := "PATCH-T.MPQ"
+	os.WriteFile(filepath.Join(dataDir, name), make([]byte, 1<<20), 0644)
+	defer os.Remove(filepath.Join(dataDir, name))
+	memberStore.SetVersion(name, "9")
+	pr := &PatchRegisterClient{}
+	if !memberCurrent(pr, WxlFile{Name: name, Checksum: "aaa", SizeMB: 1.0, Version: 9}) {
+		t.Fatal("legacy install at the listed version not current")
+	}
+	if memberStore.GetVersion(memberKeyPrefix+name) != "aaa" {
+		t.Error("legacy member not recorded at the register md5")
+	}
+	if memberCurrent(pr, WxlFile{Name: name, Checksum: "bbb", SizeMB: 1.0, Version: 10}) {
+		t.Error("newer build counted as current")
+	}
+	memberStore.ClearVersion(memberKeyPrefix + name)
+	if memberCurrent(pr, WxlFile{Name: name, Checksum: "aaa", SizeMB: 2.0, Version: 9}) {
+		t.Error("size mismatch counted as current")
 	}
 }
