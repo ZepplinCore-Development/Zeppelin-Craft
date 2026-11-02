@@ -1,4 +1,4 @@
-"""F-222: face + underwear textures for gnome female skin colours 5/6 (_100 / _101).
+"""F-230G: face + underwear textures for gnome female skin colours 5/6 (_100 / _101).
 
 The HD skin atlases GnomeFemaleSkin00_100/_101 are pixel-aligned recolours of the
 playable tones, so a quadratic RGB map fitted on the body (atlas minus the face

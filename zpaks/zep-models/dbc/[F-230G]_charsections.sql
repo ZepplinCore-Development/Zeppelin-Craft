@@ -1,4 +1,4 @@
--- F-222: Gnome female skin colours 5 and 6 (GnomeFemaleSkin00_100 / _101) selectable at character create
+-- F-230G (was F-222): Gnome female skin colours 5 and 6 (GnomeFemaleSkin00_100 / _101) selectable at character create
 -- Stock rows 4922/4923 are NPC-only (flags 8) and had no face or underwear rows.
 -- Textures (zep-models source-assets, Character/Gnome/Female):
 --   face 0      = the face already painted in the skin atlas (keeps _100's face paint)

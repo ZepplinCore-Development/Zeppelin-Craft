@@ -13,7 +13,7 @@ Per referenced texture:
   in neither                          -> row dropped (the pack names 483 files it never shipped)
 
 Then every offered colour (ours and the pack's) gets a row for every face type / hair style its
-race/sex offers. A missing face, or one of our F-150 / I-398 rows that only repeats another face,
+race/sex offers. A missing face, or one of our F-230B / I-398 rows that only repeats another face,
 gets that face from the nearest skin tone colour-shifted to the colour (generate()). The pack's
 re-indexed copies of the stock DK skins are dropped as duplicates.
 
@@ -155,7 +155,7 @@ def main(pack_dir, pack_dbc):
     check(kept)
 
 
-PLACEHOLDER_IDS = range(25001, 30000)   # F-150 / I-398 rows that repeat another face's texture
+PLACEHOLDER_IDS = range(25001, 30000)   # F-230B / I-398 rows that repeat another face's texture
 FACE_NUM = re.compile(r'face(?:lower|upper)(\d+)_', re.I)
 
 
@@ -168,7 +168,7 @@ def fill(our_rows, kept, dup):
     """Give every offered colour a row for every variation its race/sex offers. The client skips a colour
     whose row for the current face / style is missing (I-398), and the pack's new face types 18+ exist
     only for its own colours. A missing face, and a custom face row that only repeats another face's
-    texture (F-150 / I-398 placeholders, overridden by a higher id, F-225), is marked for generation:
+    texture (F-230B / I-398 placeholders, overridden by a higher id, F-225), is marked for generation:
     the real face of that type from the nearest skin tone, colour-shifted (generate()). Missing hair /
     facial hair rows repeat the colour's nearest style. Skin colours without underwear are dropped."""
     rows = our_rows + kept
@@ -228,7 +228,7 @@ def generate(out, by, files):
     """Textures for the rows fill() marked gen: for face type t at colour c, take the real face of type t
     (its file is that face, not a repeat) from the colour whose body is nearest in tone, fit a quadratic
     RGB map from that colour's body atlas to c's (face block excluded) and run the face through it.
-    Only skin-like pixels are recoloured, so eyes, DK glow, teeth and paint stay as painted (F-222)."""
+    Only skin-like pixels are recoloured, so eyes, DK glow, teeth and paint stay as painted (F-230G)."""
     feats, write_blp = gfx.feats, gfx.write_blp
     img_cache, fit_cache, dist_cache, made = {}, {}, {}, collections.Counter()
 
@@ -300,7 +300,7 @@ def generate(out, by, files):
         target = mean(race, g, c)
         if not real or target is None:
             # no real face of this type anywhere: an override keeps the placeholder it would replace,
-            # a missing face repeats the colour's nearest face (F-150 style)
+            # a missing face repeats the colour's nearest face (F-230B style)
             donors = [s for s in by[(race, g, 1)] if s['color'] == c and s['flags'] & 1 and s['t1'] and not s.get('gen')]
             if r.get('override') or not donors:
                 r['gen'] = 'none'

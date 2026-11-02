@@ -23,7 +23,7 @@ They are cached as PNGs in logs/layer_sources/ (--sources rebuilds the cache).
 Baked marked skins: a colour whose marking is now layer parts is retired (taken out of CHAR_CREATE_SUBRACES; the
 glue is the owner's) only if a plain colour of the same tone exists for that race / sex (median CIE Lab of the body
 and of the face, marking and eyeball left out, deltaE <= TONE_DE). A unique tone first gets a clean colour: the
-nearest plain colour recoloured to the marked colour's tone by a quadratic RGB map fitted outside the marking (F-222
+nearest plain colour recoloured to the marked colour's tone by a quadratic RGB map fitted outside the marking (F-230G
 method): skin, _Extra, every face type (eyeball kept), underwear. New color_index after the race's highest.
 FORCE_CLEAN names marked colours that get a clean colour even with a plain match (undead female 22). SUBRACE_COPIES
 gives sub-races left without colours (Wildhammer, Grimtotem) plain copies of chosen colours (same rows and textures,

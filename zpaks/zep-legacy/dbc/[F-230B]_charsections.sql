@@ -1,4 +1,4 @@
--- F-150: Custom Orc Skins - Face, Pelvis, and DK entries
+-- F-230B (was F-150): Custom Orc Skins - Face, Pelvis, and DK entries
 -- Restores missing CharSections entries for custom orc male skins
 -- Also fixes flags on worgoblin body entries to include playable bit
 -- Also expands standard DK skins (CI 15-17) from 3 face entries to 9

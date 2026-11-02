@@ -8,7 +8,7 @@ layout, which retail also still ships for the old colours. So each new colour is
   2. k = the colour whose retail HD body is nearest in tone to N
   3. one CIE Lab move from retail HD body k's lit colour to retail HD body N's (lightness scaled, hue shifted)
   4. every CharSections texture of our colour k (body, _Extra, faces of every type, underwear) put
-     through that map; only skin/fur-like pixels change, so eyes and DK glow keep their paint (F-222)
+     through that map; only skin/fur-like pixels change, so eyes and DK glow keep their paint (F-230G)
 
 The colours come from ChrCustomizationChoice (retail option "Skin Color" / "Fur Color"); transmog-only
 choices and the NPC colours are skipped. Retail DB2 csv is read from wago.tools, textures from the local

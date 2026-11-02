@@ -5,7 +5,7 @@ CURRENTLY selected face type exists at that colour and passes the class flag che
 (0x4F39A0: a DK needs flags & 1, flags & 0x14, not flags & 8). A DK can only wear
 the DK face types (flags 5) on the normal colours, but stock gives the DK colours
 face rows on regular face types only (e.g. gnome female 0/3/5 vs DK faces 7-13),
-so every DK colour is skipped. F-150 fixed orc male by hand; this does every race.
+so every DK colour is skipped. F-230B fixed orc male by hand; this does every race.
 
 For each race/gender, every DK colour gets a face row (flags 5) for every DK face
 type the normal colours offer, cycling that colour's existing face textures.

@@ -27,7 +27,7 @@ LISTFILE = TOOLS_ROOT / 'Retroport' / 'retroport_tools' / 'MultiConverter2' / 'l
 WXL_CORE = TOOLS_ROOT / 'WarcraftXL' / 'wxl-core-main'
 # client roots below our zpak, highest priority first (character/item art only): every ENABLED zpak's
 # source assets by priority, then the Asset Library. Not just the HD pack: the client loads the custom
-# orc skins' faces from zep-legacy (F-150), and the Asset Library holds an older classic file of the
+# orc skins' faces from zep-legacy (F-230B), and the Asset Library holds an older classic file of the
 # same name (OrcMaleFaceLower00_101) that baked a classic face onto the HD orc.
 def _external_roots():
     from commands.sql import get_enabled_zpaks_by_priority
