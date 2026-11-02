@@ -1,6 +1,6 @@
 -- F-234: Video Options as themed pages. Built-in UI loaded from ZepFrameXML.toc (F-232), not an addon.
 --   Display             the stock Resolution page, renamed, plus the Renderer (Vulkan) check box
---   View Distance       Lighting & Shadows   Atmosphere   Terrain & Grass   Water   Textures & Effects   Performance
+--   View Distance       Lighting   Shadows   Atmosphere   Terrain & Grass   Water   Textures & Effects   Performance
 -- The stock Effects page and the F-232 Advanced page are absorbed: their controls are rebuilt here on the same CVars
 -- (with the stock special cases: inverted texture resolution, terrain detail via Get/SetTerrainMip, restart and logout
 -- prompts, player texture availability, the x64 far clip range and step) and their entries leave the category list.
@@ -32,6 +32,18 @@ local VIEW_QUALITY = { [0] = "Low", "Fair", "Good", "High", "Ultra" };
 local GRASS_SHADER = { [0] = "Blizzard", "HD", "HD Classic" };
 local ALPHA_AA = { [0] = "Off", "Coverage", "Supersampled" };
 local SHADOW_QUALITY = { [0] = "Lowest", "Low", "Medium", "Medium-High", "High", "Ultra" };
+-- Zeppelin F-223E: the shadow preset split into independent controls. Same table as CShadowCache::s_presets in the client:
+-- the client writes these CVars when extShadowQuality changes, the page shows them as soon as the preset slider moves.
+local SHADOW_MAP = { [0] = "Off", "1024", "2048" };
+local SHADOW_CASTERS = { [0] = "Buildings", "Standard", "Everything" };
+local SHADOW_PRESETS = {
+	[0] = { hdShadowChar = 0, hdShadowCharRadius = 20, hdShadowWorld = 0, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 1 },
+	[1] = { hdShadowChar = 1, hdShadowCharRadius = 20, hdShadowWorld = 0, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 1 },
+	[2] = { hdShadowChar = 2, hdShadowCharRadius = 20, hdShadowWorld = 0, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 0 },
+	[3] = { hdShadowChar = 1, hdShadowCharRadius = 20, hdShadowWorld = 1, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 0 },
+	[4] = { hdShadowChar = 2, hdShadowCharRadius = 20, hdShadowWorld = 2, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 0 },
+	[5] = { hdShadowChar = 2, hdShadowCharRadius = 20, hdShadowWorld = 2, hdShadowWorldUpdate = 1, hdShadowWorldCasters = 2, hdShadowWorldDistance = 1, hdShadowUnitDim = 0 },
+};
 local TEXTURE_FILTER = { [0] = "Bilinear", "Trilinear", "2x", "4x", "8x", "16x" };
 local LOW_HIGH = { [0] = LOW or "Low", HIGH or "High" };
 local PLAYER_TEXTURE = { [8] = LOW or "Low", [9] = HIGH or "High" };
@@ -66,6 +78,26 @@ local function TerrainMipSetup (slider)
 	end
 	slider.GetCurrentValue = function () return GetTerrainMip(); end
 	slider.defaultValue = 1 - (tonumber(GetCVarDefault("shadowLevel")) or 0);
+end
+
+-- Zeppelin F-223E: moving the preset moves the shadow controls to its combination (pending until Apply, like any change).
+local function ShadowPresetAfter (slider)
+	slider:HookScript("OnValueChanged", function (self, value)
+		local panel = self:GetParent();
+		local preset = SHADOW_PRESETS[floor(value + 0.5)];
+		if ( panel.zepRefreshing or not preset or not panel.zepByKey ) then
+			return;
+		end
+		for cvar, setting in pairs(preset) do
+			local control = panel.zepByKey[cvar];
+			if ( control and control.type == CONTROLTYPE_CHECKBOX ) then
+				control:SetChecked(setting == 1);
+				BlizzardOptionsPanel_CheckButton_SetNewValue(control);
+			elseif ( control ) then
+				control:SetDisplayValue(setting);
+			end
+		end
+	end);
 end
 
 local function PlayerTextureAfter (slider)
@@ -104,21 +136,11 @@ local PAGES = {
 		},
 	},
 	{
-		name = "ZepVideoLightingPanel", title = "Lighting & Shadows",
-		subText = "Shadows, ambient occlusion and the light in the world.",
+		-- Zeppelin F-223E: the shadows moved to their own page (the split shadow controls did not fit here).
+		name = "ZepVideoLightingPanel", title = "Lighting",
+		subText = "Ambient occlusion and the light in the world.",
 		columns = {
 			{
-				S{ cvar = "extShadowQuality", text = "SHADOW_QUALITY", minValue = 0, maxValue = 4, valueStep = 1, names = SHADOW_QUALITY,
-				   info = "Lowest: baked terrain shadows. Low, Medium: plus characters. Medium-High, High: plus the world. Ultra: three shadow cascades, redrawn every frame.",
-				   cost = "sun shadows take 3.6 ms CPU per frame at Ultra, 1.8 ms at High." },
-				C{ cvar = "hdSunShadows", text = "Soft Sun Shadows", vulkan = true,
-				   tooltip = "Sun shadows that soften with distance from what casts them, like real sunlight.",
-				   info = "Sun shadows that soften with distance from what casts them, like real sunlight. While on, Shadow Quality is raised to at least Medium-High.",
-				   cost = "about +3 to 4 ms GPU per frame, the most expensive setting." },
-				C{ cvar = "hdSunContact", text = "Contact Detail", sub = true, parent = "hdSunShadows", vulkan = true,
-				   tooltip = "Fine shadows where small things touch the ground, too small for the shadow maps." },
-				S{ cvar = "hdSunStrength", parent = "hdSunShadows", text = "Sun Shadow Strength", minValue = 0, maxValue = 1, valueStep = 0.05, vulkan = true,
-				   tooltip = "How dark the soft sun shadows are. 1 is full." },
 				C{ cvar = "hdForever", text = "Forever Lighting",
 				   tooltip = "Light, ambient and sky colours from WoW Forever wherever it has them, instead of the original ones.",
 				   cost = NO_COST },
@@ -145,6 +167,53 @@ local PAGES = {
 				   tooltip = "How far, in yards, things shade the surfaces around them." },
 				S{ cvar = "hdAOThin", parent = "hdAO", text = "Ignore Grass", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
 				   tooltip = "How much grass, leaves and other thin things are left out of the occlusion, so the ground under them is not darkened. 0 is the old look." },
+			},
+		},
+		status = {
+			{ "Forever", "hdForeverInfo" },
+			{ "Occlusion", "hdAOInfo", vulkan = true },
+			{ "Global Illumination", "hdGIInfo", d3d9 = true },
+			{ "Lamps", "hdLightsInfo", d3d9 = true },
+		},
+	},
+	{
+		-- Zeppelin F-223E: Shadows. The stock Shadow Quality slider is a preset now; the controls under it split it into
+		-- character shadows, world (sun) shadows and the dimming of characters in baked shade, each on its own.
+		name = "ZepVideoShadowPanel", title = "Shadows",
+		subText = "Character and world shadows, set one by one or by the preset.",
+		columns = {
+			{
+				-- Zeppelin F-223E: the stock Shadow Quality slider is now a preset over the shadow controls.
+				S{ cvar = "extShadowQuality", text = "Shadow Preset", minValue = 0, maxValue = 5, valueStep = 1, names = SHADOW_QUALITY, after = ShadowPresetAfter,
+				   info = "Sets the shadow controls below to an original Shadow Quality level. Lowest: baked terrain shadows only. Low, Medium: plus characters. Medium-High, High: plus the world. Ultra: the world redrawn every frame. Change any control below afterwards to override it.",
+				   cost = "sun shadows take 3.6 ms CPU per frame at Ultra, 1.8 ms at High." },
+				S{ cvar = "hdShadowChar", text = "Character Shadows", minValue = 0, maxValue = 2, valueStep = 1, names = SHADOW_MAP,
+				   info = "Live shadows of characters and creatures around you. 1024 or 2048 is the shadow map's resolution: sharper at 2048. Off: a round blob under each one instead." },
+				S{ cvar = "hdShadowCharRadius", text = "Character Shadow Range", minValue = 10, maxValue = 40, valueStep = 5,
+				   info = "How many yards around you characters cast live shadows. One map covers the whole range, so a longer range is blurrier. The original is 20." },
+				C{ cvar = "hdShadowUnitDim", text = "Darken Characters in Shade",
+				   info = "Characters standing in the terrain's baked shadow are drawn darker. The original does this at Lowest and Low, where nothing else shades them.",
+				   cost = NO_COST },
+			},
+			{
+				S{ cvar = "hdShadowWorld", text = "World Shadows", minValue = 0, maxValue = 2, valueStep = 1, names = SHADOW_MAP,
+				   info = "Sun shadows of buildings, trees and objects, in three maps out to about 640 yards. 1024 or 2048 is each map's resolution. Soft Sun Shadows, fog light shafts and Contact Shadows need it (Soft Sun Shadows turn it on).",
+				   cost = "1.8 ms CPU per frame at High (2048, drawn in tiles)." },
+				C{ cvar = "hdShadowWorldUpdate", text = "Redraw Every Frame",
+				   info = "Redraws the world shadows every frame (the original Ultra). Off: each map is redrawn in tiles only after you move, so shadows of moving things can lag.",
+				   cost = "Ultra (with Everything) 3.6 ms CPU per frame, against 1.8 ms at High." },
+				S{ cvar = "hdShadowWorldCasters", text = "World Shadow Detail", minValue = 0, maxValue = 2, valueStep = 1, names = SHADOW_CASTERS,
+				   info = "What casts world shadows. Buildings: buildings, solid objects and terrain. Standard (original High): plus trees and foliage near you. Everything (original Ultra): plus foliage at all distances, and far characters when redrawn every frame." },
+				S{ cvar = "hdShadowWorldDistance", text = "World Shadow Distance", minValue = 0.5, maxValue = 2, valueStep = 0.25, decimals = 2,
+				   info = "Scales how far the three world shadow maps reach (1 = the original 40, 160 and 640 yards). Further is blurrier, as the maps keep their resolution." },
+				C{ cvar = "hdSunShadows", text = "Soft Sun Shadows", vulkan = true,
+				   tooltip = "Sun shadows that soften with distance from what casts them, like real sunlight.",
+				   info = "Sun shadows that soften with distance from what casts them, like real sunlight. Needs World Shadows: while on, they are on even when set to Off (at 1024).",
+				   cost = "about +3 to 4 ms GPU per frame, the most expensive setting." },
+				C{ cvar = "hdSunContact", text = "Contact Detail", sub = true, parent = "hdSunShadows", vulkan = true,
+				   tooltip = "Fine shadows where small things touch the ground, too small for the shadow maps." },
+				S{ cvar = "hdSunStrength", parent = "hdSunShadows", text = "Sun Shadow Strength", minValue = 0, maxValue = 1, valueStep = 0.05, vulkan = true,
+				   tooltip = "How dark the soft sun shadows are. 1 is full." },
 				C{ cvar = "hdContactShadow", text = "Contact Shadows", d3d9 = true,
 				   tooltip = "Fine shadows where small objects touch the ground." },
 				C{ cvar = "hdContactShadowUnits", text = "Characters Too", sub = true, parent = "hdContactShadow", d3d9 = true,
@@ -154,12 +223,8 @@ local PAGES = {
 			},
 		},
 		status = {
-			{ "Forever", "hdForeverInfo" },
 			{ "Sun Shadows", "hdSunInfo", vulkan = true },
-			{ "Occlusion", "hdAOInfo", vulkan = true },
 			{ "Contact Shadows", "hdContactShadowInfo", d3d9 = true },
-			{ "Global Illumination", "hdGIInfo", d3d9 = true },
-			{ "Lamps", "hdLightsInfo", d3d9 = true },
 		},
 	},
 	{
@@ -257,15 +322,17 @@ local PAGES = {
 				   cost = "about +1 ms GPU per frame." },
 				C{ cvar = "hdWater", text = "HD Water", d3d9 = true,
 				   tooltip = "WoW Forever's water: depth colour, reflections of the world and foam." },
-				C{ cvar = "hdWaterRipples", text = "Ripples", sub = true, parent = "hdWater", d3d9 = true,
+				-- Zeppelin F-234: both renderers; on Vulkan they hang under Cataclysm Water (parentVulkan).
+				C{ cvar = "hdWaterRipples", text = "Ripples", sub = true, parent = "hdWater", parentVulkan = "hdCataWater",
 				   tooltip = "Rings spread on the water around players and creatures in it." },
-				C{ cvar = "hdWaterWaves", text = "Waves", sub = true, parent = "hdWater", d3d9 = true,
-				   tooltip = "Moving waves on the water instead of the original flat normal maps." },
+				C{ cvar = "hdWaterWaves", text = "Waves", sub = true, parent = "hdWater", parentVulkan = "hdCataWater",
+				   tooltip = "Moving waves on the water instead of the original flat normal maps.",
+				   works = "Both renderers. On Vulkan the waves reach about 250 yards around you; water further away keeps Cataclysm's own small waves." },
 			},
 			{
-				S{ cvar = "hdWaterRippleStrength", parent = "hdWaterRipples", text = "Ripple Strength", minValue = 0, maxValue = 2, valueStep = 0.05, d3d9 = true,
+				S{ cvar = "hdWaterRippleStrength", parent = "hdWaterRipples", text = "Ripple Strength", minValue = 0, maxValue = 2, valueStep = 0.05,
 				   tooltip = "How strong the ripples are. 1 is normal." },
-				S{ cvar = "hdWaterWaveScale", parent = "hdWaterWaves", text = "Wave Height", minValue = 0, maxValue = 4, valueStep = 0.05, d3d9 = true,
+				S{ cvar = "hdWaterWaveScale", parent = "hdWaterWaves", text = "Wave Height", minValue = 0, maxValue = 4, valueStep = 0.05,
 				   tooltip = "How high the waves are. 1 is the water's own." },
 			},
 		},
@@ -566,7 +633,9 @@ local function BuildControls (panel)
 	for column, entries in ipairs(def.columns) do
 		local x, y = COLUMN_X[column], -10;
 		for _, entry in ipairs(entries) do
-			if ( Exists(entry) and (not entry.parent or byKey[entry.parent]) ) then
+			-- Zeppelin F-234: a control shared by both renderers can hang under a different parent on Vulkan.
+			local parent = (entry.parentVulkan and VulkanRunning()) and entry.parentVulkan or entry.parent;
+			if ( Exists(entry) and (not parent or byKey[parent]) ) then
 				local control;
 				if ( entry.kind == CONTROLTYPE_CHECKBOX ) then
 					control = AddCheck(panel, entry, x, y);
@@ -576,8 +645,8 @@ local function BuildControls (panel)
 					y = y - SLIDER_HEIGHT;
 				end
 				byKey[entry.cvar or entry.label] = control;
-				if ( entry.parent ) then
-					BlizzardOptionsPanel_SetupDependentControl(byKey[entry.parent], control);
+				if ( parent ) then
+					BlizzardOptionsPanel_SetupDependentControl(byKey[parent], control);
 				end
 				HookExplain(panel, control, entry);
 			end
@@ -672,6 +741,17 @@ end
 PAGES[1].refresh = function (self)
 	BlizzardOptionsPanel_Refresh(self);
 	LockViewDistance(self);
+end
+
+-- Zeppelin F-223E: a refresh shows the saved values; it must not push the preset over the shadow controls.
+for _, def in ipairs(PAGES) do
+	if ( def.name == "ZepVideoShadowPanel" ) then
+		def.refresh = function (self)
+			self.zepRefreshing = true;
+			BlizzardOptionsPanel_Refresh(self);
+			self.zepRefreshing = nil;
+		end
+	end
 end
 
 local built = {};
