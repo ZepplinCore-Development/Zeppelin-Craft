@@ -1,0 +1,101 @@
+From a180200e98717b05af9f1c782e06d63dccee671a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 3 Nov 2026 23:56:59 +0000
+Subject: [PATCH] Zeppelin F-223A: Vulkan image table 16384 -> 65536, image
+ count logged every 30 s
+
+- A user's session filled the 16384-image table in ten minutes of teleporting (Ashenvale): every later texture was
+  refused, so terrain, models and the UI drew without them
+- NoteCount logs tracked/peak/made/destroyed every 30 s and once at three quarters full, to tell a leak from a
+  large working set
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../wxl/src/vulkan/texture/Create.cpp         |  1 +
+ .../wxl/src/vulkan/texture/Internal.hpp       |  9 +++++++-
+ .../wxl/src/vulkan/texture/Registry.cpp       | 22 +++++++++++++++++++
+ 3 files changed, 31 insertions(+), 1 deletion(-)
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Create.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Create.cpp
+index 8cd07105..9aa3e421 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Create.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Create.cpp
+@@ -227,6 +227,7 @@ namespace wxlvk::vk::texture::detail
+         s.owned[s.ownedCount].block  = block;
+         HashInsert(s.ownedCount);
+         ++s.ownedCount;
++        NoteCount(+1); // Zeppelin F-223A
+ 
+         out.handle = image;
+         out.view   = imageView;
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Internal.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Internal.hpp
+index c6368e57..627f36ea 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Internal.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Internal.hpp
+@@ -51,7 +51,10 @@ namespace wxlvk::vk::texture::detail
+     /// refusal rather than silent growth. One image per engine texture with an image (render
+     /// targets included); a zone holds a few thousand. Heap-allocated at Init() (~450 KiB) rather
+     /// than static, so it does not ship in the DLL's .data.
+-    constexpr uint32_t kMaxImages = 16384;
++    /// Zeppelin F-223A: 65536 (was 16384, about 3.5 MiB now). A user's session filled 16384 in ten minutes of
++    /// teleporting through texture-heavy zones (Ashenvale); every texture after that was refused, so terrain, models
++    /// and the UI drew without them. NoteCount() logs the count every 30 seconds to tell a leak from a large set.
++    constexpr uint32_t kMaxImages = 65536;
+ 
+     /// The index over the table, twice its size (a load factor of at most one half keeps
+     /// linear probing short), a power of two for the mask.
+@@ -141,6 +144,10 @@ namespace wxlvk::vk::texture::detail
+     uint32_t HashSlotOf(uint32_t index);
+     void HashInsert(uint32_t index);
+     void RemoveOwned(uint32_t i);
++
++    /// Zeppelin F-223A: counts a create (+1) or a destroy (-1); at most every 30 seconds, and once when the table
++    /// passes three quarters, logs "N images tracked (peak P), M made, D destroyed".
++    void NoteCount(int32_t change);
+     void FreeTables();
+     VkImageSubresourceRange WholeColour(uint32_t levels, uint32_t layers);
+     void Transition(VkCommandBuffer cmd, VkImage image, uint32_t levels, uint32_t layers, VkImageLayout from, VkImageLayout to, VkPipelineStageFlags srcStage, VkAccessFlags srcAccess, VkPipelineStageFlags dstStage, VkAccessFlags dstAccess);
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Registry.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Registry.cpp
+index 84b40e5c..3ecf9309 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Registry.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/texture/Registry.cpp
+@@ -16,6 +16,7 @@
+ 
+ 
+ #include "vulkan/texture/Internal.hpp"
++#include <chrono> // Zeppelin F-223A: NoteCount
+ 
+ namespace wxlvk::vk::texture::detail
+ {
+@@ -285,6 +286,27 @@ namespace wxlvk::vk::texture::detail
+         s.owned[i]    = s.owned[last];
+         s.owned[last] = Owned();
+         --s.ownedCount;
++        NoteCount(-1); // Zeppelin F-223A
++    }
++
++    void NoteCount(int32_t change)
++    {
++        static uint64_t made = 0, destroyed = 0;
++        static uint32_t peak = 0;
++        static bool warned = false;
++        static std::chrono::steady_clock::time_point last;
++        if (change > 0) ++made;
++        else ++destroyed;
++        if (s.ownedCount > peak) peak = s.ownedCount;
++        const auto now = std::chrono::steady_clock::now();
++        const bool high = !warned && s.ownedCount >= kMaxImages / 4 * 3;
++        if (!high && now - last < std::chrono::seconds(30)) return;
++        last = now;
++        if (high) warned = true;
++        wxl::ScriptMgr::Log(high ? WXL_LOG_WARN : WXL_LOG_INFO,
++                            "vulkan: texture: %u images tracked (peak %u, limit %u); %llu made, %llu destroyed since start",
++                            s.ownedCount, peak, kMaxImages, static_cast<unsigned long long>(made),
++                            static_cast<unsigned long long>(destroyed));
+     }
+ 
+     void FreeTables()
+-- 
+2.34.1
+

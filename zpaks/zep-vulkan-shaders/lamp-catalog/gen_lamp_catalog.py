@@ -17,7 +17,9 @@ OFF = re.compile(r'nolight|particle|(^|[_\\-])off([_\d.]|$)|onoff|unlit|nofire|n
 FIRE = (0.47, 0.29, 0.13)          # the stock fires, braziers and firepits
 CANDLE = (0.42, 0.29, 0.14)
 LAMP = (0.62, 0.48, 0.26)          # classic oil lamps and lanterns: warm, a little whiter than fire
+MOON = (0.40, 0.55, 0.85)          # night elf lamps, lanterns and magical implements: moonlight
 KINDS = [
+    (r'nemagicimplement', 'glow', MOON, False, 0.8),   # Ashenvale's glowing night elf braziers (user, 2026-11-04)
     (r'chandelier|candelabra', 'chandelier', CANDLE, True, 1.2),
     (r'candle', 'candle', CANDLE, True, 0.45),
     (r'bonfire|largefire|bigfire', 'bonfire', FIRE, True, 1.6),
@@ -52,15 +54,28 @@ def classify(r):
     else:
         return None
     emitters = int(r['emitters'])
+    if kind == 'glow' and emitters == 0:
+        return None                    # the implements without a glow are plain urns
     # Flames need their particles: a "fire" or brazier model with none is unlit (or a fire-themed prop).
     if flicker and emitters == 0 and kind not in ('chandelier', 'candle', 'sconce', 'torch'):
         return None
     # The model's own file name only, colour words starting a word (felbrazier, bt_brazier_blue): directories and
     # texture paths gave false tints (Goldshire -> gold, DEVICES -> ice).
+    # Night elf lights are moonlight, whatever the kind.
+    if re.search(r'\\nightelf|ancientnightelf|nightelflantern', path, re.I) and kind in ('lamp', 'lantern', 'lamppost', 'glow'):
+        colour = MOON
+    tinted = False
     for pat, tint in TINTS:
         if re.search(r'(?<![a-z])(' + pat + ')', name, re.I):
             colour = tint
+            tinted = True
             break
+    # A coloured flame texture (FlameLickSmallBlue): its own file name only, and only the plain colour words.
+    if not tinted:
+        for word, tint in (('blue', TINTS[1][1]), ('green', TINTS[0][1]), ('purple', TINTS[2][1])):
+            if any(word in t.split('\\')[-1].lower() for t in r['particle_textures'].split(';') if t):
+                colour = tint
+                break
     rgb = tuple(c * scale for c in colour)
     mn = [float(r[k]) for k in ('minx', 'miny', 'minz')]
     mx = [float(r[k]) for k in ('maxx', 'maxy', 'maxz')]

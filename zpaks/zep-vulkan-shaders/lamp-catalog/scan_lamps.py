@@ -9,7 +9,7 @@ Our own catalog: written from the client's own files, not from any other project
 import os, re, struct, sys
 ROOT = '/workspace/project/Zeppelin-Tools/Asset Library/STOCK/files'
 ORDER = ['common', 'common-2', 'expansion', 'lichking', 'patch', 'patch-2', 'patch-3']
-KEEP = re.compile(r'lamp|torch|brazier|lantern|candle|campfire|bonfire|firepit|fireplace|fire_?pit|sconce|chandelier|'
+KEEP = re.compile(r'nemagicimplement|lamp|torch|brazier|lantern|candle|campfire|bonfire|firepit|fireplace|fire_?pit|sconce|chandelier|'
                   r'streetlight|lightpost|lamppost|candelabra|hearth|furnace|forge|fire|light|glow|crystal|orb', re.I)
 DROP = re.compile(r'lightning|lighthouse|lightforge|flight|lightbeam|light_?ray|lightshaft|sunlight|moonlight|'
                   r'firework|fireflies|firefly|fireplume|ray|shaft|spotlight|beam', re.I)
