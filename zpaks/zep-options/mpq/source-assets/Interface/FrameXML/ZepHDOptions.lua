@@ -32,19 +32,11 @@ local AO_QUALITY = { [0] = "Low", "Medium", "High", "Ultra" };
 local VIEW_QUALITY = { [0] = "Low", "Fair", "Good", "High", "Ultra" };
 local GRASS_SHADER = { [0] = "Blizzard", "HD", "HD Classic" };
 local ALPHA_AA = { [0] = "Off", "Coverage", "Supersampled" };
-local SHADOW_QUALITY = { [0] = "Lowest", "Low", "Medium", "Medium-High", "High", "Ultra" };
--- Zeppelin F-223E: the shadow preset split into independent controls. Same table as CShadowCache::s_presets in the client:
--- the client writes these CVars when extShadowQuality changes, the page shows them as soon as the preset slider moves.
+-- Zeppelin F-223E: the shadows as independent controls; the stock Shadow Quality preset (extShadowQuality) has no control
+-- any more (user, 2026-11-03): the client derives its shadow mode from these settings.
 local SHADOW_MAP = { [0] = "Off", "1024", "2048" };
 local SHADOW_CASTERS = { [0] = "Buildings", "Standard", "Everything" };
-local SHADOW_PRESETS = {
-	[0] = { hdShadowChar = 0, hdShadowCharRadius = 20, hdShadowWorld = 0, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 1 },
-	[1] = { hdShadowChar = 1, hdShadowCharRadius = 20, hdShadowWorld = 0, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 1 },
-	[2] = { hdShadowChar = 2, hdShadowCharRadius = 20, hdShadowWorld = 0, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 0 },
-	[3] = { hdShadowChar = 1, hdShadowCharRadius = 20, hdShadowWorld = 1, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 0 },
-	[4] = { hdShadowChar = 2, hdShadowCharRadius = 20, hdShadowWorld = 2, hdShadowWorldUpdate = 0, hdShadowWorldCasters = 1, hdShadowWorldDistance = 1, hdShadowUnitDim = 0 },
-	[5] = { hdShadowChar = 2, hdShadowCharRadius = 20, hdShadowWorld = 2, hdShadowWorldUpdate = 1, hdShadowWorldCasters = 2, hdShadowWorldDistance = 1, hdShadowUnitDim = 0 },
-};
+local WEATHER = { [-1] = "Server", [0] = "Clear", "Rain", "Snow", "Sandstorm" };
 local TEXTURE_FILTER = { [0] = "Bilinear", "Trilinear", "2x", "4x", "8x", "16x" };
 local LOW_HIGH = { [0] = LOW or "Low", HIGH or "High" };
 local PLAYER_TEXTURE = { [8] = LOW or "Low", [9] = HIGH or "High" };
@@ -79,26 +71,6 @@ local function TerrainMipSetup (slider)
 	end
 	slider.GetCurrentValue = function () return GetTerrainMip(); end
 	slider.defaultValue = 1 - (tonumber(GetCVarDefault("shadowLevel")) or 0);
-end
-
--- Zeppelin F-223E: moving the preset moves the shadow controls to its combination (pending until Apply, like any change).
-local function ShadowPresetAfter (slider)
-	slider:HookScript("OnValueChanged", function (self, value)
-		local panel = self:GetParent();
-		local preset = SHADOW_PRESETS[floor(value + 0.5)];
-		if ( panel.zepRefreshing or not preset or not panel.zepByKey ) then
-			return;
-		end
-		for cvar, setting in pairs(preset) do
-			local control = panel.zepByKey[cvar];
-			if ( control and control.type == CONTROLTYPE_CHECKBOX ) then
-				control:SetChecked(setting == 1);
-				BlizzardOptionsPanel_CheckButton_SetNewValue(control);
-			elseif ( control ) then
-				control:SetDisplayValue(setting);
-			end
-		end
-	end);
 end
 
 local function PlayerTextureAfter (slider)
@@ -185,16 +157,12 @@ local PAGES = {
 		},
 	},
 	{
-		-- Zeppelin F-223E: Shadows. The stock Shadow Quality slider is a preset now; the controls under it split it into
-		-- character shadows, world (sun) shadows and the dimming of characters in baked shade, each on its own.
+		-- Zeppelin F-223E: Shadows, split into character shadows, world (sun) shadows and the dimming of characters in
+		-- baked shade, each on its own.
 		name = "ZepVideoShadowPanel", title = "Shadows",
-		subText = "Character and world shadows, set one by one or by the preset.",
+		subText = "Character and world shadows, each set on its own.",
 		columns = {
 			{
-				-- Zeppelin F-223E: the stock Shadow Quality slider is now a preset over the shadow controls.
-				S{ cvar = "extShadowQuality", text = "Shadow Preset", minValue = 0, maxValue = 5, valueStep = 1, names = SHADOW_QUALITY, after = ShadowPresetAfter,
-				   info = "Sets the shadow controls below to an original Shadow Quality level. Lowest: baked terrain shadows only. Low, Medium: plus characters. Medium-High, High: plus the world. Ultra: the world redrawn every frame. Change any control below afterwards to override it.",
-				   cost = "sun shadows take 3.6 ms CPU per frame at Ultra, 1.8 ms at High." },
 				S{ cvar = "hdShadowChar", text = "Character Shadows", minValue = 0, maxValue = 2, valueStep = 1, names = SHADOW_MAP,
 				   info = "Live shadows of characters and creatures around you. 1024 or 2048 is the shadow map's resolution: sharper at 2048. Off: a round blob under each one instead." },
 				S{ cvar = "hdShadowCharRadius", text = "Character Shadow Range", minValue = 10, maxValue = 40, valueStep = 5,
@@ -202,13 +170,13 @@ local PAGES = {
 				C{ cvar = "hdShadowUnitDim", text = "Darken Characters in Shade",
 				   info = "Characters standing in the terrain's baked shadow are drawn darker. The original does this at Lowest and Low, where nothing else shades them.",
 				   cost = NO_COST },
-				C{ cvar = "hdContactShadow", text = "Contact Shadows", d3d9 = true,
-				   other = "On Vulkan use Soft Sun Shadows.",
-				   tooltip = "Fine shadows where small objects touch the ground." },
-				C{ cvar = "hdContactShadowUnits", text = "Characters Too", sub = true, parent = "hdContactShadow", d3d9 = true,
-				   tooltip = "Characters and creatures cast contact shadows as well as receiving them." },
-				S{ cvar = "hdContactShadowStrength", parent = "hdContactShadow", d3d9 = true, text = "Contact Shadow", minValue = 0, maxValue = 1, valueStep = 0.05,
-				   tooltip = "1 is as dark as the game's own shadows, 0 is none." },
+				C{ cvar = "hdSunShadows", text = "Soft Sun Shadows", vulkan = true, noMsaa = true,
+				   other = "On Direct3D 9 the world shadows stay hard.",
+				   tooltip = "Sun shadows that soften with distance from what casts them, like real sunlight.",
+				   info = "Sun shadows that soften with distance from what casts them. Turns World Shadows on (at least 1024).",
+				   cost = "about +3 to 4 ms GPU per frame, the most expensive setting." },
+				S{ cvar = "hdSunStrength", parent = "hdSunShadows", text = "Sun Shadow Strength", minValue = 0, maxValue = 1, valueStep = 0.05, vulkan = true, noMsaa = true,
+				   tooltip = "How dark the soft sun shadows are. 1 is full." },
 			},
 			{
 				S{ cvar = "hdShadowWorld", text = "World Shadows", minValue = 0, maxValue = 2, valueStep = 1, names = SHADOW_MAP,
@@ -221,22 +189,41 @@ local PAGES = {
 				   info = "What casts world shadows. Buildings: buildings, solid objects and terrain. Standard (original High): plus trees and foliage near you. Everything (original Ultra): plus foliage at all distances, and far characters when redrawn every frame." },
 				S{ cvar = "hdShadowWorldDistance", text = "World Shadow Distance", minValue = 0.5, maxValue = 2, valueStep = 0.25, decimals = 2,
 				   info = "Scales how far the three world shadow maps reach (1 = the original 40, 160 and 640 yards). Further is blurrier, as the maps keep their resolution." },
-				C{ cvar = "hdSunShadows", text = "Soft Sun Shadows", vulkan = true,
-				   other = "On Direct3D 9 use Contact Shadows.",
-				   tooltip = "Sun shadows that soften with distance from what casts them, like real sunlight.",
-				   info = "Sun shadows that soften with distance from what casts them, like real sunlight. Needs World Shadows: while on, they are on even when set to Off (at 1024).",
-				   cost = "about +3 to 4 ms GPU per frame, the most expensive setting." },
-				C{ cvar = "hdSunContact", text = "Contact Detail", sub = true, parent = "hdSunShadows", vulkan = true,
-				   other = "On Direct3D 9 use Contact Shadows.",
+				-- Zeppelin F-223E: one contact shadow control per concept; vulkanAs swaps in the Vulkan setting (hdSunContact,
+				-- part of the soft sun shadows, or on its own under Multisampling) for the Direct3D 9 one.
+				C{ cvar = "hdContactShadow", text = "Contact Shadows",
+				   vulkanAs = { cvar = "hdSunContact", parent = "hdSunShadows", msaaAlone = true },
 				   tooltip = "Fine shadows where small things touch the ground, too small for the shadow maps." },
-				S{ cvar = "hdSunStrength", parent = "hdSunShadows", text = "Sun Shadow Strength", minValue = 0, maxValue = 1, valueStep = 0.05, vulkan = true,
-				   tooltip = "How dark the soft sun shadows are. 1 is full." },
+				C{ cvar = "hdContactShadowUnits", text = "Characters Too", sub = true, parent = "hdContactShadow", d3d9 = true,
+				   tooltip = "Characters and creatures cast contact shadows as well as receiving them." },
+				S{ cvar = "hdContactShadowStrength", parent = "hdContactShadow", text = "Contact Strength", minValue = 0, maxValue = 1, valueStep = 0.05,
+				   vulkanAs = { cvar = "hdSunContactStrength", parent = "hdSunContact" },
+				   tooltip = "How dark the contact shadows are. 1 is full, 0 is none." },
 			},
 		},
 		status = {
 			{ "Sun Shadows", "hdSunInfo", vulkan = true },
 			{ "Contact Shadows", "hdContactShadowInfo", d3d9 = true },
 		},
+	},
+	{
+		-- Zeppelin F-223E: look at an area at any hour and in any weather. Client-side only (hdTime, hdWeather).
+		name = "ZepVideoTimeWeatherPanel", title = "Time & Weather",
+		subText = "See an area at any hour and in any weather. Only your screen changes: the server and other players do not.",
+		columns = {
+			{
+				S{ cvar = "hdTime", text = "Time of Day", minValue = -1, maxValue = 23.5, valueStep = 0.5, clock = true, live = true,
+				   info = "Forces the hour on your screen, so you can see an area by day, at dusk or at night. Real Time follows the server's clock.",
+				   cost = NO_COST },
+			},
+			{
+				S{ cvar = "hdWeather", text = "Weather", minValue = -1, maxValue = 3, valueStep = 1, names = WEATHER, live = true,
+				   info = "Forces rain, snow, a sandstorm or a clear sky on your screen. Server follows the zone's own weather. Stays through zone changes until set back to Server." },
+				S{ cvar = "hdWeatherIntensity", text = "Weather Strength", minValue = 0, maxValue = 1, valueStep = 0.05, live = true,
+				   info = "How heavy the forced rain, snow or sand is, and how thick its fog." },
+			},
+		},
+		status = {},
 	},
 	{
 		name = "ZepVideoAtmospherePanel", title = "Atmosphere",
@@ -428,6 +415,29 @@ local function ForRenderer (entry)
 	return not ((entry.d3d9 and VulkanRunning()) or (entry.vulkan and not VulkanRunning()));
 end
 
+-- Zeppelin F-223A: the client reports it in hdSunInfo ("... MSAA is on ..."), so this is the running state, not a
+-- Multisampling value still waiting for a restart.
+local function MsaaRunning ()
+	return VulkanRunning() and strfind(GetCVar("hdSunInfo") or "", "MSAA is on", 1, true) ~= nil;
+end
+
+-- Zeppelin F-223E: an entry with vulkanAs stands for another setting under Vulkan (same control, the Vulkan CVar).
+local function Resolve (entry)
+	if ( not entry.vulkanAs or not VulkanRunning() ) then
+		return entry;
+	end
+	local resolved = { baseCvar = entry.cvar };
+	for k, v in pairs(entry) do resolved[k] = v; end
+	for k, v in pairs(entry.vulkanAs) do resolved[k] = v; end
+	resolved.vulkanAs = nil;
+	return resolved;
+end
+
+-- Usable now: the running renderer has it, and Multisampling does not switch it off (entry.noMsaa).
+local function Usable (entry)
+	return ForRenderer(entry) and not (entry.noMsaa and MsaaRunning());
+end
+
 local function Exists (entry)
 	if ( not ForRenderer(entry) ) then
 		return false;
@@ -442,7 +452,14 @@ local function Label (entry)
 end
 
 local function FormatValue (entry, value)
-	if ( entry.zeroText and value < 0.5 ) then
+	if ( entry.clock ) then
+		-- Zeppelin F-223E: hours as a clock; below 0 the client follows the server's time.
+		if ( value < 0 ) then
+			return "Real Time";
+		end
+		local minutes = floor(value * 60 + 0.5);
+		return format("%02d:%02d", floor(minutes / 60), minutes % 60);
+	elseif ( entry.zeroText and value < 0.5 ) then
 		return entry.zeroText;
 	elseif ( entry.decimals ) then
 		return format("%."..entry.decimals.."f", value);
@@ -463,6 +480,10 @@ end
 local function Slider_OnValueChanged (self, value)
 	self.newValue = value;
 	Slider_UpdateText(self, value);
+	-- Zeppelin F-223E: a preview control (time of day, weather) takes effect while it is dragged.
+	if ( self.zepEntry.live and self:GetParent():IsVisible() ) then
+		SetCVar(self.zepEntry.cvar, value);
+	end
 	if ( self:GetParent():IsVisible() ) then
 		VideoOptionsFrameApply:Enable();
 	end
@@ -470,10 +491,12 @@ end
 
 -- [[ The explanation box ]] --
 
--- Only a greyed-out control (one for the other renderer) gets a renderer line.
+-- Only a greyed-out control (one for the other renderer, or one Multisampling switches off) gets this line.
 local function Needs (entry)
-	if ( ForRenderer(entry) ) then
+	if ( Usable(entry) ) then
 		return "";
+	elseif ( ForRenderer(entry) ) then
+		return "|cffff2020Needs Multisampling off|r (Display page).";
 	end
 	local text = "|cffff2020Needs "..(entry.vulkan and "Vulkan" or "Direct3D 9")..".|r";
 	return entry.other and (text.." "..entry.other) or text;
@@ -603,7 +626,8 @@ end
 
 local function AddCheck (panel, entry, x, y)
 	local check = CreateFrame("CheckButton", panel:GetName().."Check"..(#panel.controls + 1), panel, "VideoOptionsSmallCheckButtonTemplate");
-	check:SetPoint("TOPLEFT", panel.subText, "BOTTOMLEFT", x + (entry.sub and 16 or 0), y);
+	local sub = entry.sub and not (entry.msaaAlone and MsaaRunning());
+	check:SetPoint("TOPLEFT", panel.subText, "BOTTOMLEFT", x + (sub and 16 or 0), y);
 	check.type = CONTROLTYPE_CHECKBOX;
 	check.cvar = entry.cvar;
 	check.label = entry.label;
@@ -671,13 +695,17 @@ local function BuildControls (panel)
 		-- The running renderer's controls first, then the other renderer's greyed out at the foot of the column, so a
 		-- shared control never sits under the other renderer's parent (Ripples under HD Water on Vulkan).
 		local ordered = {};
-		for _, entry in ipairs(entries) do if ( ForRenderer(entry) ) then tinsert(ordered, entry); end end
-		for _, entry in ipairs(entries) do if ( not ForRenderer(entry) ) then tinsert(ordered, entry); end end
+		for _, entry in ipairs(entries) do entry = Resolve(entry); if ( Usable(entry) ) then tinsert(ordered, entry); end end
+		for _, entry in ipairs(entries) do entry = Resolve(entry); if ( not Usable(entry) ) then tinsert(ordered, entry); end end
 		for _, entry in ipairs(ordered) do
 			-- Zeppelin F-234: a control shared by both renderers can hang under a different parent on Vulkan.
 			local parent = (entry.parentVulkan and VulkanRunning()) and entry.parentVulkan or entry.parent;
-			if ( not ForRenderer(entry) and (not parent or greyed[parent] or byKey[parent]) ) then
+			if ( entry.msaaAlone and MsaaRunning() ) then
+				parent = nil;
+			end
+			if ( not Usable(entry) and (not parent or greyed[parent] or byKey[parent]) ) then
 				greyed[entry.cvar or entry.label] = AddGreyed(panel, entry, x, y);
+				if ( entry.baseCvar ) then greyed[entry.baseCvar] = greyed[entry.cvar]; end
 				y = y - (entry.kind == CONTROLTYPE_CHECKBOX and CHECK_HEIGHT or SLIDER_HEIGHT);
 				HookExplain(panel, greyed[entry.cvar or entry.label], entry);
 			elseif ( Exists(entry) and (not parent or byKey[parent]) ) then
@@ -690,6 +718,7 @@ local function BuildControls (panel)
 					y = y - SLIDER_HEIGHT;
 				end
 				byKey[entry.cvar or entry.label] = control;
+				if ( entry.baseCvar ) then byKey[entry.baseCvar] = control; end -- children name the Direct3D 9 setting
 				if ( parent ) then
 					BlizzardOptionsPanel_SetupDependentControl(byKey[parent], control);
 				end
@@ -786,17 +815,6 @@ end
 PAGES[1].refresh = function (self)
 	BlizzardOptionsPanel_Refresh(self);
 	LockViewDistance(self);
-end
-
--- Zeppelin F-223E: a refresh shows the saved values; it must not push the preset over the shadow controls.
-for _, def in ipairs(PAGES) do
-	if ( def.name == "ZepVideoShadowPanel" ) then
-		def.refresh = function (self)
-			self.zepRefreshing = true;
-			BlizzardOptionsPanel_Refresh(self);
-			self.zepRefreshing = nil;
-		end
-	end
 end
 
 local built = {};
