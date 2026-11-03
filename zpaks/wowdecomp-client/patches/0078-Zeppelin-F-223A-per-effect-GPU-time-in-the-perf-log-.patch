@@ -1,0 +1,225 @@
+From 69c0eaecc8865d6a9891332ddb0c8c7948b2aa32 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 3 Nov 2026 14:25:23 +0000
+Subject: [PATCH] Zeppelin F-223A: per-effect GPU time in the perf log,
+ Bench.log writer for the menu's cost measurement
+
+- Stage timing lanes keep a per-window average (WindowTake); g_gxStageTimes seam; the perf log writes
+  gpu_stages_ms name=ms for every Vulkan effect stage that ran in the window
+- hdBenchLog: a line set there is appended to Logs\Bench.log (ZepHDOptions.lua Measure Costs)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp    |  8 +++++++
+ .../CGxDeviceVulkan/wxl/src/stages/Chain.cpp  | 21 +++++++++++++++++++
+ .../CGxDeviceVulkan/wxl/src/stages/Chain.hpp  |  4 ++++
+ .../CGxDeviceVulkan/wxl/src/stages/Timing.cpp | 12 +++++++++++
+ .../CGxDeviceVulkan/wxl/src/stages/Timing.hpp |  6 ++++++
+ Engine/Source/Gx/GxSeam.cpp                   |  1 +
+ Engine/Source/Gx/GxSeam.h                     |  4 ++++
+ .../WorldClient/HD/HdCataRenderPerf.cpp       |  9 ++++++++
+ 8 files changed, 65 insertions(+)
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp
+index 5a483293..5240037c 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanPerf.cpp
+@@ -5,6 +5,7 @@
+ #include "Engine/Source/Gx/GxSeam.h"
+ #include "wxl/Script.hpp"
+ #include "wxl/VkRenderApi.h"
++#include "stages/Chain.hpp"
+ 
+ namespace HD::VulkanPerf {
+ namespace {
+@@ -23,6 +24,11 @@ bool Read(GxGpuFrame* out) {
+     out->m_frames = static_cast<uint32_t>(stats.frames);
+     return true;
+ }
++
++// Zeppelin F-223A: the stage chain's per-window GPU times (wxl/src/stages/Chain.cpp WindowLine).
++uint32_t StageTimes(char* out, uint32_t size) {
++    return static_cast<uint32_t>(wxlvk::stages::chain::WindowLine(out, size));
++}
+ }
+ 
+ void Init() {
+@@ -40,10 +46,12 @@ void Init() {
+         }
+     }
+     g_gxGpuFrame = &Read;
++    g_gxStageTimes = &StageTimes;
+ }
+ 
+ void Shutdown() {
+     if (g_gxGpuFrame == &Read) g_gxGpuFrame = nullptr;
++    if (g_gxStageTimes == &StageTimes) g_gxStageTimes = nullptr;
+     s_api = nullptr;
+ }
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.cpp
+index 9c3ec9bc..78d39f7c 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.cpp
+@@ -28,6 +28,7 @@
+ 
+ #include "wxl/Script.hpp"
+ 
++#include <cstdio>
+ #include <cstring>
+ 
+ namespace
+@@ -448,6 +449,26 @@ namespace wxlvk::stages::chain
+         ReleaseIdle();
+     }
+ 
++    size_t WindowLine(char* out, size_t size)
++    {
++        if (!out || !size) return 0;
++        out[0] = '\0';
++        if (!timing::Available()) return 0;
++        size_t used = 0;
++        for (uint32_t i = 0; i < g.count && used + 1 < size; ++i)
++        {
++            const Stage& s = *g.order[i];
++            uint64_t samples = 0;
++            const double ms = timing::WindowTake(s.lane, samples);
++            if (!samples) continue;
++            const char* name = std::strncmp(s.name, "HD.", 3) == 0 ? s.name + 3 : s.name;
++            const int n = std::snprintf(out + used, size - used, " %s=%.3f", name, ms);
++            if (n < 0 || static_cast<size_t>(n) >= size - used) break;
++            used += static_cast<size_t>(n);
++        }
++        return used;
++    }
++
+     void LogStats()
+     {
+         for (uint32_t p = 0; p < kPoints; ++p)
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.hpp
+index 5de42960..0d63cd8e 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Chain.hpp
+@@ -59,4 +59,8 @@ namespace wxlvk::stages::chain
+ 
+     /// The stats lines: runs, skips, GPU times, working memory.
+     void LogStats();
++
++    /// Zeppelin F-223A: " name=ms" for every stage that ran in the perf log's window (GPU average per run, "HD."
++    /// dropped from the name), and starts that window over. The length written.
++    size_t WindowLine(char* out, size_t size);
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Timing.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Timing.cpp
+index 1e8e3837..77147d02 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Timing.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Timing.cpp
+@@ -86,6 +86,8 @@ namespace
+         lane.sumMs += ms;
+         if (ms > lane.maxMs) lane.maxMs = ms;
+         ++lane.samples;
++        lane.winSumMs += ms; // Zeppelin F-223A
++        ++lane.winSamples;
+     }
+ 
+     /// Reads the lanes the slot's previous run wrote, without waiting.
+@@ -140,6 +142,16 @@ namespace wxlvk::stages::timing
+ 
+     const Lane& Get(uint32_t lane) { return g.lanes[lane < kLanes ? lane : 0]; }
+ 
++    double WindowTake(uint32_t lane, uint64_t& samples)
++    {
++        Lane& l = g.lanes[lane < kLanes ? lane : 0];
++        samples = l.winSamples;
++        const double avg = l.winSamples ? l.winSumMs / static_cast<double>(l.winSamples) : 0.0;
++        l.winSumMs = 0.0;
++        l.winSamples = 0;
++        return avg;
++    }
++
+     void Reset()
+     {
+         for (Lane& l : g.lanes)
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Timing.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Timing.hpp
+index 73ad33ad..4fef9e11 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Timing.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/stages/Timing.hpp
+@@ -37,6 +37,8 @@ namespace wxlvk::stages::timing
+         double   sumMs   = 0.0;  ///< since the last Reset
+         double   maxMs   = 0.0;
+         uint64_t samples = 0;
++        double   winSumMs   = 0.0;  ///< Zeppelin F-223A: since the last WindowTake (the perf log's window)
++        uint64_t winSamples = 0;
+     };
+ 
+     /**
+@@ -54,6 +56,10 @@ namespace wxlvk::stages::timing
+     /// A lane's figures.
+     const Lane& Get(uint32_t lane);
+ 
++    /// Zeppelin F-223A: a lane's average over the perf log's window (since the last call) and its sample count;
++    /// starts that window over. Independent of Reset (the session-end stats line).
++    double WindowTake(uint32_t lane, uint64_t& samples);
++
+     /// Starts every lane's window over (the stats line's sum and max).
+     void Reset();
+ 
+diff --git a/Engine/Source/Gx/GxSeam.cpp b/Engine/Source/Gx/GxSeam.cpp
+index fbd581a3..9e8da301 100644
+--- a/Engine/Source/Gx/GxSeam.cpp
++++ b/Engine/Source/Gx/GxSeam.cpp
+@@ -10,6 +10,7 @@ void (*g_gxModelScene)(int32_t open) = nullptr;
+ 
+ // Zeppelin F-234: the GPU frame time for the perf log (GxSeam.h).
+ bool (*g_gxGpuFrame)(GxGpuFrame* out) = nullptr;
++uint32_t (*g_gxStageTimes)(char* out, uint32_t size) = nullptr; // Zeppelin F-223A
+ int32_t g_gxGpuTimerWanted = 0;
+ 
+ // HD: the Cata water reflection plane (GxSeam.h).
+diff --git a/Engine/Source/Gx/GxSeam.h b/Engine/Source/Gx/GxSeam.h
+index 95310245..5bf8ecc7 100644
+--- a/Engine/Source/Gx/GxSeam.h
++++ b/Engine/Source/Gx/GxSeam.h
+@@ -63,6 +63,10 @@ struct GxGpuFrame {
+ extern bool (*g_gxGpuFrame)(GxGpuFrame* out);
+ extern int32_t g_gxGpuTimerWanted;   // the perf log is on: the D3D9 device times its frames
+ 
++// Zeppelin F-223A: each Vulkan effect stage's GPU time over the perf log's window, as " name=ms ..." (average per run
++// since the last call); the length written. Set by the Vulkan device (hd/HdVulkanPerf.cpp), null otherwise.
++extern uint32_t (*g_gxStageTimes)(char* out, uint32_t size);
++
+ // HD: the Cata water's reflection plane, shared by the engine (WoW/Source/WorldClient/HD/HdCataMirror.cpp) and the
+ // Vulkan device (CGxDeviceVulkan/hd/CataMirror.cpp). The device sets m_wanted while hdCataWater is on and its mirror
+ // is up; the engine then picks the plane of the nearest flat outdoor water each frame, before the liquid pass, and
+diff --git a/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp b/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
+index 27466250..14f059b3 100644
+--- a/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
++++ b/WoW/Source/WorldClient/HD/HdCataRenderPerf.cpp
+@@ -106,8 +106,15 @@ void WriteAddons(double f){
+  std::fputs("\r\n",logFile);
+ }
+ }
++// Zeppelin F-223A: the video menu's cost measurement (ZepHDOptions.lua, Performance page) writes each result line to
++// hdBenchLog; it is appended to Logs\Bench.log with the time, for the menu's measured costs.
++bool BenchLog(CVar*,const char*,const char*s,void*){
++ if(s&&*s){if(FILE*f=std::fopen("Logs\\Bench.log","ab")){char stamp[32];Stamp(stamp,sizeof stamp);std::fprintf(f,"%s %s\r\n",stamp,s);std::fclose(f);}}
++ return true;
++}
+ void Initialize(){
+  if(initialized)return;
++ CVar::Register("hdBenchLog","HD: a line set here is appended to Logs\\Bench.log (the menu's cost measurement)",0x80,"",BenchLog,CATEGORY_GRAPHICS,false,nullptr,false);
+  CVar*toggle=CVar::Register("hdCataRenderPerf","HD: CPU stages; Logs/CataRenderPerf.log every 2s, no FPS limit changes",1,"0",Toggle,CATEGORY_GRAPHICS,false,nullptr,false);
+  info=CVar::Register("hdCataRenderPerfInfo","HD: last CPU measurements (milliseconds per scene render)",0x80,"off",nullptr,CATEGORY_GRAPHICS,false,nullptr,false);
+  initialized=true;enabled=toggle&&toggle->m_intValue!=0;g_gxGpuTimerWanted=enabled?1:0;Reset();
+@@ -149,6 +156,8 @@ void FrameEnd(){
+   if(g_gxGpuFrame&&g_gxGpuFrame(&gpu))std::snprintf(gpuText,sizeof gpuText,"gpu_ms avg=%.2f max=%.2f",gpu.m_avgMs,gpu.m_maxMs);
+   std::fprintf(logFile,"%s renderer=%s fps=%.1f frame_ms avg=%.2f p50=%.2f p95=%.2f p99=%.2f max=%.2f | cpu_ms world=%.2f scene=%.2f outside_world=%.2f | %s\r\n",
+    stamp,Renderer(),seconds>0?frames/seconds:0.0,Ms(Stage::Frame,f),p50,p95,p99,fmax,Ms(Stage::WorldFrame,f),Ms(Stage::Render,f),Ms(Stage::Frame,f)-Ms(Stage::WorldFrame,f),gpuText);
++  // Zeppelin F-223A: each Vulkan effect's own GPU time this window (per run), so its cost shows without toggling it.
++  if(g_gxStageTimes){char stages[1024];if(g_gxStageTimes(stages,sizeof stages))std::fprintf(logFile,"gpu_stages_ms%s (GPU time of each Vulkan effect, average per frame it ran)\r\n",stages);}
+   const Settings current=Snapshot();
+   if(current!=lastSettings){
+    std::fprintf(logFile,"%s settings changed:",stamp);
+-- 
+2.34.1
+

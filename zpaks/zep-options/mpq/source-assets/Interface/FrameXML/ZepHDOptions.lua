@@ -27,6 +27,8 @@ local STATUS_LINES = 5;
 -- Measured costs come from the user's own performance logs on one machine.
 local RIG = "RTX 3080 Ti, 3840x2160, Vulkan";
 local NO_COST = "no measurable cost.";
+-- Zeppelin F-223A: this session's measured costs (Performance page, Measure Costs), by CVar: { text = "..." }.
+local benchResults = {};
 
 local AO_QUALITY = { [0] = "Low", "Medium", "High", "Ultra" };
 local VIEW_QUALITY = { [0] = "Low", "Fair", "Good", "High", "Ultra" };
@@ -522,7 +524,9 @@ local function ShowInfo (panel, entry)
 	box.name:SetText(Label(entry));
 	box.text:SetText(Explain(entry));
 	box.works:SetText(Needs(entry));
-	if ( entry.cost ) then
+	if ( entry.cvar and benchResults[entry.cvar] ) then
+		box.cost:SetText("|cffffd100Measured on this PC:|r "..benchResults[entry.cvar].text);
+	elseif ( entry.cost ) then
 		box.cost:SetText("|cffffd100Cost|r ("..RIG.."): "..entry.cost);
 	else
 		box.cost:SetText("|cffffd100Cost:|r not measured yet.");
@@ -876,3 +880,232 @@ for _, panel in ipairs(rest) do
 end
 VideoOptionsEffectsPanel:Hide();
 VideoOptionsFrameCategoryFrame:update();
+
+-- [[ Zeppelin F-223A: Measure Costs ]] --
+-- Flips every setting on the themed pages between its lowest and highest value while the player stands still and
+-- times the frames: the cost in frames per second on this PC. Two rounds, low-high then high-low, so a slow drift
+-- in the scene cancels. Each setting goes back to its own value afterwards. Results show in each setting's box
+-- ("Measured on this PC") and are written to Logs\Bench.log (hdBenchLog). Skipped: the Performance and Time &
+-- Weather pages, settings that need a logout or reload textures, and children whose parent is off.
+-- Each phase: BENCH_SETTLE seconds and BENCH_SKIP frames are thrown away (a setting's first frames can hitch:
+-- shaders compiling, terrain loading), then at least BENCH_MEASURE seconds and BENCH_MIN frames are kept, and the
+-- phase's figure is the median frame time, so one long frame cannot swing it.
+local BENCH_SETTLE, BENCH_MEASURE, BENCH_SKIP, BENCH_MIN = 0.75, 2.5, 5, 5;
+local bench = CreateFrame("Frame");
+bench:Hide();
+local benchText = UIParent:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge");
+benchText:SetPoint("TOP", UIParent, "TOP", 0, -120);
+benchText:Hide();
+
+local function BenchLog (line)
+	if ( GetCVar("hdBenchLog") ) then -- the client's Logs\Bench.log writer (HdCataRenderPerf.cpp)
+		SetCVar("hdBenchLog", line);
+	end
+end
+
+local function BenchCandidates ()
+	local tests = {};
+	for _, def in ipairs(PAGES) do
+		if ( def.name ~= "ZepVideoPerformancePanel" and def.name ~= "ZepVideoTimeWeatherPanel" ) then
+			for _, entries in ipairs(def.columns) do
+				for _, raw in ipairs(entries) do
+					local e = Resolve(raw);
+					local parent = (e.parentVulkan and VulkanRunning()) and e.parentVulkan or e.parent;
+					if ( e.msaaAlone and MsaaRunning() ) then
+						parent = nil;
+					end
+					if ( e.cvar and not e.logout and not e.setup and not e.label and not e.key and not e.live
+						and Usable(e) and Exists(e) and (not parent or GetCVar(parent) ~= "0") ) then
+						local low, high = 0, 1;
+						if ( e.kind == CONTROLTYPE_SLIDER ) then
+							low, high = e.minValue, e.maxValue;
+						end
+						if ( low ~= high ) then
+							tinsert(tests, { entry = e, low = low, high = high, original = GetCVar(e.cvar), ms = { {}, {} } });
+						end
+					end
+				end
+			end
+		end
+	end
+	return tests;
+end
+
+local function BenchValueName (e, value)
+	if ( e.kind == CONTROLTYPE_CHECKBOX ) then
+		return value == 0 and "Off" or "On";
+	end
+	return FormatValue(e, value);
+end
+
+local function BenchFinish (cancelled)
+	local run = bench.run;
+	bench:Hide();
+	benchText:Hide();
+	if ( not run ) then
+		return;
+	end
+	local test = run.tests[run.index];
+	if ( test ) then
+		SetCVar(test.entry.cvar, test.original);
+	end
+	SetCVar("maxFPS", run.maxFPS);
+	bench.run = nil;
+	if ( cancelled ) then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffd100Measure Costs:|r cancelled; settings restored.");
+		BenchLog("bench cancelled");
+		return;
+	end
+	local ranked = {};
+	for _, t in ipairs(run.tests) do
+		if ( t.result ) then
+			tinsert(ranked, t);
+		end
+	end
+	sort(ranked, function (a, b) return a.result.costFps > b.result.costFps; end);
+	DEFAULT_CHAT_FRAME:AddMessage(format("|cffffd100Measure Costs:|r done, %d settings. Most expensive (lowest to highest):", #ranked));
+	for i = 1, min(10, #ranked) do
+		local t = ranked[i];
+		DEFAULT_CHAT_FRAME:AddMessage(format("  %s: %s", Label(t.entry), benchResults[t.entry.cvar].text));
+	end
+	DEFAULT_CHAT_FRAME:AddMessage("Point at a setting in Video Options to see its measured cost. All results: Logs\\Bench.log.");
+	BenchLog("bench done");
+end
+
+local function BenchPhaseValue (run)
+	local t = run.tests[run.index];
+	-- Round 1 low then high, round 2 high then low.
+	local high = (run.round == 1) == (run.phase == 2);
+	return t, high and t.high or t.low, high and 2 or 1;
+end
+
+local function BenchStartPhase (run)
+	local t, value = BenchPhaseValue(run);
+	SetCVar(t.entry.cvar, value);
+	run.elapsed, run.measured, run.seen = 0, 0, 0;
+	run.samples = {};
+	benchText:SetText(format("Measuring costs: %s (%d of %d)\nStand still and do not move the camera.  /zepbench stop to cancel",
+		Label(t.entry), run.index, #run.tests));
+end
+
+local function BenchResult (run, t)
+	local function Mean (list) local s = 0; for _, v in ipairs(list) do s = s + v; end return #list > 0 and s / #list or 0; end
+	local msLow, msHigh = Mean(t.ms[1]), Mean(t.ms[2]);
+	if ( msLow <= 0 or msHigh <= 0 ) then
+		return;
+	end
+	local fpsLow, fpsHigh = 1000 / msLow, 1000 / msHigh;
+	local costFps, costMs = fpsLow - fpsHigh, msHigh - msLow;
+	local e = t.entry;
+	local change = BenchValueName(e, t.low).." to "..BenchValueName(e, t.high);
+	local text;
+	if ( math.abs(costFps) < 0.5 and math.abs(costMs) < 0.05 ) then
+		text = format("%s: no measurable cost (%.0f fps).", change, fpsLow);
+	else
+		text = format("%s: %s%.1f fps (%.0f to %.0f fps), %s%.2f ms a frame.", change, costFps >= 0 and "-" or "+",
+			math.abs(costFps), fpsLow, fpsHigh, costMs >= 0 and "+" or "-", math.abs(costMs));
+	end
+	t.result = { costFps = costFps };
+	benchResults[e.cvar] = { text = text };
+	BenchLog(format("bench cvar=%s label=\"%s\" low=%s high=%s fps_low=%.1f fps_high=%.1f ms_low=%.3f ms_high=%.3f cost_fps=%.1f cost_ms=%.3f",
+		e.cvar, Label(e), tostring(t.low), tostring(t.high), fpsLow, fpsHigh, msLow, msHigh, costFps, costMs));
+end
+
+bench:SetScript("OnUpdate", function (self, elapsed)
+	local run = self.run;
+	if ( not run ) then
+		self:Hide();
+		return;
+	end
+	run.elapsed = run.elapsed + elapsed;
+	run.seen = run.seen + 1;
+	if ( run.elapsed <= BENCH_SETTLE or run.seen <= BENCH_SKIP ) then
+		return;
+	end
+	tinsert(run.samples, elapsed * 1000);
+	run.measured = run.measured + elapsed;
+	if ( run.measured < BENCH_MEASURE or #run.samples < BENCH_MIN ) then
+		return;
+	end
+	local t, _, slot = BenchPhaseValue(run);
+	sort(run.samples);
+	tinsert(t.ms[slot], run.samples[floor((#run.samples + 1) / 2)]);
+	run.phase = run.phase + 1;
+	if ( run.phase > 2 ) then
+		run.phase = 1;
+		run.round = run.round + 1;
+		if ( run.round > run.rounds ) then
+			SetCVar(t.entry.cvar, t.original);
+			BenchResult(run, t);
+			run.round = 1;
+			run.index = run.index + 1;
+			if ( run.index > #run.tests ) then
+				BenchFinish(false);
+				return;
+			end
+		end
+	end
+	BenchStartPhase(run);
+end);
+
+bench:RegisterEvent("PLAYER_LEAVING_WORLD");
+bench:SetScript("OnEvent", function () if ( bench.run ) then BenchFinish(true); end end);
+
+local function BenchStart (rounds)
+	if ( bench.run ) then
+		return;
+	end
+	local tests = BenchCandidates();
+	if ( #tests == 0 ) then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffd100Measure Costs:|r nothing to measure (open Video Options once first).");
+		return;
+	end
+	if ( VideoOptionsFrame:IsShown() ) then
+		VideoOptionsFrame:Hide();
+	end
+	local run = { tests = tests, index = 1, round = 1, phase = 1, rounds = rounds, maxFPS = GetCVar("maxFPS") };
+	SetCVar("maxFPS", "0");
+	local seconds = #tests * rounds * 2 * (BENCH_SETTLE + BENCH_MEASURE);
+	DEFAULT_CHAT_FRAME:AddMessage(format("|cffffd100Measure Costs:|r %d settings, about %d minutes. Stand still somewhere typical and do not touch the mouse.", #tests, ceil(seconds / 60)));
+	if ( GetCVar("gxVSync") == "1" ) then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffff2020VSync is on:|r the frame rate cannot go above your screen's refresh, so costs below that are hidden. Turn VSync off (Display page, restart) for true figures.");
+	end
+	BenchLog(format("bench start renderer=%s resolution=%s msaa=%s vsync=%s zone=\"%s\" settings=%d rounds=%d", RendererName(),
+		tostring(GetCVar("gxResolution")), tostring(GetCVar("gxMultisample")), tostring(GetCVar("gxVSync")),
+		tostring(GetRealZoneText()), #tests, rounds));
+	bench.run = run;
+	benchText:Show();
+	BenchStartPhase(run);
+	bench:Show();
+end
+
+SLASH_ZEPBENCH1 = "/zepbench";
+SlashCmdList.ZEPBENCH = function (msg)
+	msg = strlower(strtrim(msg or ""));
+	if ( msg == "stop" ) then
+		BenchFinish(true);
+	else
+		BenchStart(msg == "quick" and 1 or 2);
+	end
+end
+
+do
+	local panel = ZepVideoPerformancePanel;
+	local button = CreateFrame("Button", "ZepBenchButton", panel, "UIPanelButtonTemplate");
+	button:SetWidth(170);
+	button:SetHeight(22);
+	button:SetPoint("BOTTOMRIGHT", panel, "BOTTOMRIGHT", -16, INFO_HEIGHT + 16);
+	button:SetText("Measure Costs");
+	button:SetScript("OnClick", function ()
+		if ( VideoOptionsFrameApply:IsEnabled() == 1 or VideoOptionsFrameApply:IsEnabled() == true ) then
+			DEFAULT_CHAT_FRAME:AddMessage("|cffffd100Measure Costs:|r apply or cancel your changes first.");
+			return;
+		end
+		BenchStart(2);
+	end);
+	local info = { text = "Measure Costs",
+		info = "Measures what each setting on these pages costs in frames per second on this PC: each is switched between its lowest and highest value while you stand still. Takes several minutes; /zepbench quick halves it. Results show in each setting's box.",
+		cost = "nothing afterwards: every setting goes back to its own value." };
+	button:HookScript("OnEnter", function () ShowInfo(panel, info); end);
+	button:HookScript("OnLeave", function () ShowStatus(panel); end);
+end
