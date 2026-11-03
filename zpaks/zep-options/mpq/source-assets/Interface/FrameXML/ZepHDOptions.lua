@@ -7,10 +7,11 @@
 -- farclip keeps F-232's step of 50 yd over the x64 range (177 to 10000 from GetCVarMin/Max): the stock tenth of the
 -- range would leave 11 stops. The stock graphics quality preset slider is not carried over: its presets span several pages now.
 -- Each themed page has a box at the bottom: the live hd*Info status lines, or, while the mouse is over a control, what
--- it does, which renderer it works on and its measured cost.
+-- it does and its measured cost.
 -- Many HD CVars register on the first world frame, after this file loads, so a page builds its controls the first time
 -- it is shown; a control whose CVar the running renderer never registered is left out. A control marked d3d9 / vulkan
--- is left out under the other renderer, where it does nothing.
+-- is shown greyed out under the other renderer (user, 2026-11-03), and only then does the box name the renderer it needs
+-- (plus entry.other, the running renderer's counterpart).
 
 local VULKAN_KEY = "zepVulkanRenderer";
 local STATUS_INTERVAL = 0.5;
@@ -147,15 +148,14 @@ local PAGES = {
 				S{ cvar = "hdForeverLight", parent = "hdForever", text = "Forever Sun and Ambient", minValue = 0, maxValue = 1, valueStep = 0.05,
 				   tooltip = "1 lights the world with Forever's sun and ambient, 0 with the original ones, between mixes them." },
 				C{ cvar = "hdLights", text = "Per-Pixel Lamps", d3d9 = true,
-				   works = "Direct3D 9 only, and only while Forever Lighting is on. Lights the ground. On Vulkan use Lamp Lighting.",
-				   tooltip = "Lamps and fires light the ground per pixel, as in WoW Forever, instead of per vertex." },
+				   other = "On Vulkan use Lamp Lighting.",
+				   tooltip = "Lamps and fires light the ground per pixel, as in WoW Forever, instead of per vertex. Needs Forever Lighting." },
 				C{ cvar = "hdLightPass", text = "Lamp Lighting (experimental)", vulkan = true,
-				   works = "Vulkan only. Direct3D 9 has Per-Pixel Lamps, which lights the ground only.",
+				   other = "On Direct3D 9 use Per-Pixel Lamps.",
 				   info = "Every lamp, fire and glowing object lights the world around it per pixel, with no limit of 4 lights per object. Replaces the game's own lamp lighting while on. Works with multisampling. Experimental: the gain depends on how many models carry lights (Project Reforged models carry many)." },
 				S{ cvar = "hdLightPassStrength", parent = "hdLightPass", text = "Lamp Light Strength", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
 				   info = "How bright the lamp light is. 1 is normal." },
 				C{ cvar = "hdGI", text = "Global Illumination", d3d9 = true,
-				   works = "Direct3D 9 only. Vulkan has no bounce light yet.",
 				   tooltip = "Light bounces once off nearby surfaces and picks up their colour." },
 				S{ cvar = "hdGIStrength", parent = "hdGI", d3d9 = true, text = "Bounce Light", minValue = 0, maxValue = 2, valueStep = 0.05,
 				   tooltip = "How bright the bounced light is. 1 is normal." },
@@ -164,7 +164,6 @@ local PAGES = {
 			},
 			{
 				C{ cvar = "hdAO", text = "Ambient Occlusion", vulkan = true,
-				   works = "Vulkan only. Direct3D 9 has no ambient occlusion.",
 				   tooltip = "Soft shadowing where objects meet and in creases and corners." },
 				S{ cvar = "hdAOStrength", parent = "hdAO", vulkan = true, text = "Occlusion", minValue = 0, maxValue = 2, valueStep = 0.05,
 				   tooltip = "How dark the ambient occlusion is." },
@@ -203,6 +202,13 @@ local PAGES = {
 				C{ cvar = "hdShadowUnitDim", text = "Darken Characters in Shade",
 				   info = "Characters standing in the terrain's baked shadow are drawn darker. The original does this at Lowest and Low, where nothing else shades them.",
 				   cost = NO_COST },
+				C{ cvar = "hdContactShadow", text = "Contact Shadows", d3d9 = true,
+				   other = "On Vulkan use Soft Sun Shadows.",
+				   tooltip = "Fine shadows where small objects touch the ground." },
+				C{ cvar = "hdContactShadowUnits", text = "Characters Too", sub = true, parent = "hdContactShadow", d3d9 = true,
+				   tooltip = "Characters and creatures cast contact shadows as well as receiving them." },
+				S{ cvar = "hdContactShadowStrength", parent = "hdContactShadow", d3d9 = true, text = "Contact Shadow", minValue = 0, maxValue = 1, valueStep = 0.05,
+				   tooltip = "1 is as dark as the game's own shadows, 0 is none." },
 			},
 			{
 				S{ cvar = "hdShadowWorld", text = "World Shadows", minValue = 0, maxValue = 2, valueStep = 1, names = SHADOW_MAP,
@@ -216,22 +222,15 @@ local PAGES = {
 				S{ cvar = "hdShadowWorldDistance", text = "World Shadow Distance", minValue = 0.5, maxValue = 2, valueStep = 0.25, decimals = 2,
 				   info = "Scales how far the three world shadow maps reach (1 = the original 40, 160 and 640 yards). Further is blurrier, as the maps keep their resolution." },
 				C{ cvar = "hdSunShadows", text = "Soft Sun Shadows", vulkan = true,
-				   works = "Vulkan only. On Direct3D 9, Contact Shadows gives the contact detail (without the soft sun shadows).",
+				   other = "On Direct3D 9 use Contact Shadows.",
 				   tooltip = "Sun shadows that soften with distance from what casts them, like real sunlight.",
 				   info = "Sun shadows that soften with distance from what casts them, like real sunlight. Needs World Shadows: while on, they are on even when set to Off (at 1024).",
 				   cost = "about +3 to 4 ms GPU per frame, the most expensive setting." },
 				C{ cvar = "hdSunContact", text = "Contact Detail", sub = true, parent = "hdSunShadows", vulkan = true,
-				   works = "Vulkan only. The Direct3D 9 version of this is Contact Shadows.",
+				   other = "On Direct3D 9 use Contact Shadows.",
 				   tooltip = "Fine shadows where small things touch the ground, too small for the shadow maps." },
 				S{ cvar = "hdSunStrength", parent = "hdSunShadows", text = "Sun Shadow Strength", minValue = 0, maxValue = 1, valueStep = 0.05, vulkan = true,
 				   tooltip = "How dark the soft sun shadows are. 1 is full." },
-				C{ cvar = "hdContactShadow", text = "Contact Shadows", d3d9 = true,
-				   works = "Direct3D 9 only. On Vulkan the same detail is Soft Sun Shadows, Contact Detail.",
-				   tooltip = "Fine shadows where small objects touch the ground." },
-				C{ cvar = "hdContactShadowUnits", text = "Characters Too", sub = true, parent = "hdContactShadow", d3d9 = true,
-				   tooltip = "Characters and creatures cast contact shadows as well as receiving them." },
-				S{ cvar = "hdContactShadowStrength", parent = "hdContactShadow", d3d9 = true, text = "Contact Shadow", minValue = 0, maxValue = 1, valueStep = 0.05,
-				   tooltip = "1 is as dark as the game's own shadows, 0 is none." },
 			},
 		},
 		status = {
@@ -246,7 +245,6 @@ local PAGES = {
 			{
 				C{ cvar = "hdFog", text = "Volumetric Fog",
 				   tooltip = "Fog that fills the air in layers, lit by the sun.",
-				   works = "Both renderers.",
 				   cost = "about +2 to 3 ms GPU per frame." },
 				C{ cvar = "hdFogShadow", text = "Light Shafts", sub = true, parent = "hdFog",
 				   tooltip = "The sun's shadows reach into the fog: beams of light through trees and windows." },
@@ -330,19 +328,17 @@ local PAGES = {
 		columns = {
 			{
 				C{ cvar = "hdCataWater", text = "Cataclysm Water", vulkan = true,
-				   works = "Vulkan only. Direct3D 9 has HD Water instead. Ripples and Waves work under either.",
+				   other = "On Direct3D 9 use HD Water.",
 				   tooltip = "Cataclysm's water: reflections of the world and ripples.",
 				   cost = "about +1 ms GPU per frame." },
 				C{ cvar = "hdWater", text = "HD Water", d3d9 = true,
-				   works = "Direct3D 9 only. Vulkan has Cataclysm Water instead. Ripples and Waves work under either.",
+				   other = "On Vulkan use Cataclysm Water.",
 				   tooltip = "WoW Forever's water: depth colour, reflections of the world and foam." },
 				-- Zeppelin F-234: both renderers; on Vulkan they hang under Cataclysm Water (parentVulkan).
 				C{ cvar = "hdWaterRipples", text = "Ripples", sub = true, parent = "hdWater", parentVulkan = "hdCataWater",
-				   works = "Both renderers.",
 				   tooltip = "Rings spread on the water around players and creatures in it." },
 				C{ cvar = "hdWaterWaves", text = "Waves", sub = true, parent = "hdWater", parentVulkan = "hdCataWater",
-				   tooltip = "Moving waves on the water instead of the original flat normal maps.",
-				   works = "Both renderers. On Vulkan the waves reach about 250 yards around you; water further away keeps Cataclysm's own small waves." },
+				   tooltip = "Moving waves on the water instead of the original flat normal maps. On Vulkan they reach about 250 yards around you; water further away keeps Cataclysm's own small waves." },
 			},
 			{
 				S{ cvar = "hdWaterRippleStrength", parent = "hdWaterRipples", text = "Ripple Strength", minValue = 0, maxValue = 2, valueStep = 0.05,
@@ -474,15 +470,13 @@ end
 
 -- [[ The explanation box ]] --
 
-local function Works (entry)
-	if ( entry.works ) then
-		return entry.works;
-	elseif ( entry.vulkan ) then
-		return "Vulkan only.";
-	elseif ( entry.d3d9 ) then
-		return "Direct3D 9 only.";
+-- Only a greyed-out control (one for the other renderer) gets a renderer line.
+local function Needs (entry)
+	if ( ForRenderer(entry) ) then
+		return "";
 	end
-	return "Both renderers.";
+	local text = "|cffff2020Needs "..(entry.vulkan and "Vulkan" or "Direct3D 9")..".|r";
+	return entry.other and (text.." "..entry.other) or text;
 end
 
 local function Explain (entry)
@@ -504,7 +498,7 @@ local function ShowInfo (panel, entry)
 	local box = panel.zepBox;
 	box.name:SetText(Label(entry));
 	box.text:SetText(Explain(entry));
-	box.works:SetText("|cffffd100Renderer:|r "..Works(entry));
+	box.works:SetText(Needs(entry));
 	if ( entry.cost ) then
 		box.cost:SetText("|cffffd100Cost|r ("..RIG.."): "..entry.cost);
 	else
@@ -640,17 +634,53 @@ local function AddSlider (panel, entry, x, y)
 	return slider;
 end
 
+-- A control for the other renderer: drawn greyed out, not registered with the panel (its CVar may not exist under this
+-- renderer, so Okay, Cancel, Defaults and Apply must never touch it).
+local function AddGreyed (panel, entry, x, y)
+	panel.zepGreyed = (panel.zepGreyed or 0) + 1;
+	local name = panel:GetName().."Greyed"..panel.zepGreyed;
+	local control;
+	if ( entry.kind == CONTROLTYPE_CHECKBOX ) then
+		control = CreateFrame("CheckButton", name, panel, "VideoOptionsSmallCheckButtonTemplate");
+		control:SetPoint("TOPLEFT", panel.subText, "BOTTOMLEFT", x + (entry.sub and 16 or 0), y);
+		_G[name.."Text"]:SetText(Label(entry));
+		control:SetChecked(false);
+		BlizzardOptionsPanel_CheckButton_Disable(control);
+	else
+		control = CreateFrame("Slider", name, panel, "OptionsSliderTemplate");
+		control:SetWidth(SLIDER_WIDTH);
+		control:SetPoint("TOPLEFT", panel.subText, "BOTTOMLEFT", x + 4, y - SLIDER_LABEL);
+		control:SetMinMaxValues(entry.minValue, entry.maxValue);
+		control:SetValueStep(entry.valueStep);
+		control:SetValue(entry.minValue);
+		_G[name.."Text"]:SetText(Label(entry));
+		_G[name.."Low"]:SetText(FormatValue(entry, entry.minValue));
+		_G[name.."High"]:SetText(FormatValue(entry, entry.maxValue));
+		BlizzardOptionsPanel_Slider_Disable(control);
+	end
+	return control;
+end
+
 local function BuildControls (panel)
 	local def = panel.zepDef;
 	-- Setting up the sliders runs their OnValueChanged while the page is visible, which would light up Apply.
 	local applyWasEnabled = VideoOptionsFrameApply:IsEnabled() == 1 or VideoOptionsFrameApply:IsEnabled() == true;
-	local byKey = {};
+	local byKey, greyed = {}, {};
 	for column, entries in ipairs(def.columns) do
 		local x, y = COLUMN_X[column], -10;
-		for _, entry in ipairs(entries) do
+		-- The running renderer's controls first, then the other renderer's greyed out at the foot of the column, so a
+		-- shared control never sits under the other renderer's parent (Ripples under HD Water on Vulkan).
+		local ordered = {};
+		for _, entry in ipairs(entries) do if ( ForRenderer(entry) ) then tinsert(ordered, entry); end end
+		for _, entry in ipairs(entries) do if ( not ForRenderer(entry) ) then tinsert(ordered, entry); end end
+		for _, entry in ipairs(ordered) do
 			-- Zeppelin F-234: a control shared by both renderers can hang under a different parent on Vulkan.
 			local parent = (entry.parentVulkan and VulkanRunning()) and entry.parentVulkan or entry.parent;
-			if ( Exists(entry) and (not parent or byKey[parent]) ) then
+			if ( not ForRenderer(entry) and (not parent or greyed[parent] or byKey[parent]) ) then
+				greyed[entry.cvar or entry.label] = AddGreyed(panel, entry, x, y);
+				y = y - (entry.kind == CONTROLTYPE_CHECKBOX and CHECK_HEIGHT or SLIDER_HEIGHT);
+				HookExplain(panel, greyed[entry.cvar or entry.label], entry);
+			elseif ( Exists(entry) and (not parent or byKey[parent]) ) then
 				local control;
 				if ( entry.kind == CONTROLTYPE_CHECKBOX ) then
 					control = AddCheck(panel, entry, x, y);
