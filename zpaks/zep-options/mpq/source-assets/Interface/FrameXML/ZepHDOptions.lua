@@ -89,7 +89,7 @@ local PAGES = {
 			{
 				S{ cvar = "farclip", text = "FARCLIP", minValue = 177, maxValue = 1277, valueStep = 50,
 				   info = "How far away terrain and objects are drawn, in yards. Higher shows more of the world. Greyed out while Cataclysm View Distance is on." },
-				S{ cvar = "horizonFarclipScale", text = "Horizon Distance", minValue = 3, maxValue = 12, valueStep = 0.5,
+				S{ cvar = "horizonFarclipScale", text = "Horizon Distance", minValue = 3, maxValue = 12, valueStep = 0.5, bench = true,
 				   tooltip = "How far past the view distance the low-detail horizon terrain is drawn, as a multiple of the view distance.",
 				   info = "How far past the view distance the low-detail horizon is drawn, as a multiple of it. Greyed out while Cataclysm View Distance is on." },
 				C{ cvar = "hdCataViewDistance", text = "Cataclysm View Distance",
@@ -192,7 +192,7 @@ local PAGES = {
 				   cost = "Ultra (with Everything) 3.6 ms CPU per frame, against 1.8 ms at High." },
 				S{ cvar = "hdShadowWorldCasters", text = "World Shadow Detail", minValue = 0, maxValue = 2, valueStep = 1, names = SHADOW_CASTERS,
 				   info = "What casts world shadows. Buildings: buildings, solid objects and terrain. Standard (original High): plus trees and foliage near you. Everything (original Ultra): plus foliage at all distances, and far characters when redrawn every frame." },
-				S{ cvar = "hdShadowWorldDistance", text = "World Shadow Distance", minValue = 0.5, maxValue = 2, valueStep = 0.25, decimals = 2,
+				S{ cvar = "hdShadowWorldDistance", text = "World Shadow Distance", minValue = 0.5, maxValue = 2, valueStep = 0.25, decimals = 2, bench = true,
 				   info = "Scales how far the three world shadow maps reach (1 = the original 40, 160 and 640 yards). Further is blurrier, as the maps keep their resolution." },
 				-- Zeppelin F-223E: one contact shadow control per concept; vulkanAs swaps in the Vulkan setting (hdSunContact,
 				-- part of the soft sun shadows, or on its own under Multisampling) for the Direct3D 9 one.
@@ -886,14 +886,17 @@ VideoOptionsFrameCategoryFrame:update();
 
 -- [[ Zeppelin F-223A: Measure Costs ]] --
 -- Flips every setting on the themed pages between its lowest and highest value while the player stands still and
--- times the frames: the cost in frames per second on this PC. Two rounds, low-high then high-low, so a slow drift
--- in the scene cancels. Each setting goes back to its own value afterwards. Results show in each setting's box
+-- times the frames: the cost in frames per second on this PC. Each setting runs low, high, low (quick: low, high), so
+-- a slow drift in the scene cancels; a full run takes about 3 minutes, inside the AFK timer. Each setting goes back to its own value afterwards. Results show in each setting's box
 -- ("Measured on this PC") and are written to Logs\Bench.log (hdBenchLog). Skipped: the Performance and Time &
 -- Weather pages, settings that need a logout or reload textures, and children whose parent is off.
 -- Each phase: BENCH_SETTLE seconds and BENCH_SKIP frames are thrown away (a setting's first frames can hitch:
--- shaders compiling, terrain loading), then at least BENCH_MEASURE seconds and BENCH_MIN frames are kept, and the
--- phase's figure is the median frame time, so one long frame cannot swing it.
-local BENCH_SETTLE, BENCH_MEASURE, BENCH_SKIP, BENCH_MIN = 0.75, 2.5, 5, 5;
+-- shaders compiling, terrain loading), then at least BENCH_MEASURE seconds and BENCH_MIN frames are kept. The phase's
+-- figure is the mean of the middle 60% of its frame times: the frame timer ticks in whole milliseconds, so a median
+-- could only land on 10, 11, 12 ... ms (the first user run, 2026-11-04); the trimmed mean resolves fractions of one
+-- and still ignores hitches.
+-- Short enough that a full run (about 2 minutes) stays well inside the client's AFK timer (user, 2026-11-04).
+local BENCH_SETTLE, BENCH_MEASURE, BENCH_SKIP, BENCH_MIN = 0.3, 1.2, 3, 20;
 local bench = CreateFrame("Frame");
 bench:Hide();
 local benchText = UIParent:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge");
@@ -917,13 +920,16 @@ local function BenchCandidates ()
 					if ( e.msaaAlone and MsaaRunning() ) then
 						parent = nil;
 					end
-					if ( e.cvar and not e.logout and not e.setup and not e.label and not e.key and not e.live
+					if ( e.cvar and not e.logout and not e.gameRestart and not e.restart and not e.setup and not e.after and not e.label and not e.key and not e.live
 						and Usable(e) and Exists(e) and (not parent or GetCVar(parent) ~= "0") ) then
 						local low, high = 0, 1;
+						-- Strength, colour and radius sliders change the look, not the frame rate: left out unless
+						-- marked bench = true (a continuous slider that does cost frames).
+						local continuous = e.kind == CONTROLTYPE_SLIDER and not e.names and (e.decimals or e.valueStep < 1);
 						if ( e.kind == CONTROLTYPE_SLIDER ) then
 							low, high = e.minValue, e.maxValue;
 						end
-						if ( low ~= high ) then
+						if ( low ~= high and (not continuous or e.bench) ) then
 							tinsert(tests, { entry = e, low = low, high = high, original = GetCVar(e.cvar), ms = { {}, {} } });
 						end
 					end
@@ -977,8 +983,8 @@ end
 
 local function BenchPhaseValue (run)
 	local t = run.tests[run.index];
-	-- Round 1 low then high, round 2 high then low.
-	local high = (run.round == 1) == (run.phase == 2);
+	-- The phase's place in the sequence: low, high, low (quick: low, high).
+	local high = run.phase == 2;
 	return t, high and t.high or t.low, high and 2 or 1;
 end
 
@@ -1032,20 +1038,21 @@ bench:SetScript("OnUpdate", function (self, elapsed)
 	end
 	local t, _, slot = BenchPhaseValue(run);
 	sort(run.samples);
-	tinsert(t.ms[slot], run.samples[floor((#run.samples + 1) / 2)]);
+	local first, last = floor(#run.samples * 0.2) + 1, ceil(#run.samples * 0.8);
+	local sum = 0;
+	for i = first, last do
+		sum = sum + run.samples[i];
+	end
+	tinsert(t.ms[slot], sum / (last - first + 1));
 	run.phase = run.phase + 1;
-	if ( run.phase > 2 ) then
+	if ( run.phase > run.phases ) then
+		SetCVar(t.entry.cvar, t.original);
+		BenchResult(run, t);
 		run.phase = 1;
-		run.round = run.round + 1;
-		if ( run.round > run.rounds ) then
-			SetCVar(t.entry.cvar, t.original);
-			BenchResult(run, t);
-			run.round = 1;
-			run.index = run.index + 1;
-			if ( run.index > #run.tests ) then
-				BenchFinish(false);
-				return;
-			end
+		run.index = run.index + 1;
+		if ( run.index > #run.tests ) then
+			BenchFinish(false);
+			return;
 		end
 	end
 	BenchStartPhase(run);
@@ -1054,7 +1061,7 @@ end);
 bench:RegisterEvent("PLAYER_LEAVING_WORLD");
 bench:SetScript("OnEvent", function () if ( bench.run ) then BenchFinish(true); end end);
 
-local function BenchStart (rounds)
+local function BenchStart (quick)
 	if ( bench.run ) then
 		return;
 	end
@@ -1066,16 +1073,17 @@ local function BenchStart (rounds)
 	if ( VideoOptionsFrame:IsShown() ) then
 		VideoOptionsFrame:Hide();
 	end
-	local run = { tests = tests, index = 1, round = 1, phase = 1, rounds = rounds, maxFPS = GetCVar("maxFPS") };
+	local phases = quick and 2 or 3;
+	local run = { tests = tests, index = 1, phase = 1, phases = phases, maxFPS = GetCVar("maxFPS") };
 	SetCVar("maxFPS", "0");
-	local seconds = #tests * rounds * 2 * (BENCH_SETTLE + BENCH_MEASURE);
-	DEFAULT_CHAT_FRAME:AddMessage(format("|cffffd100Measure Costs:|r %d settings, about %d minutes. Stand still somewhere typical and do not touch the mouse.", #tests, ceil(seconds / 60)));
+	local seconds = #tests * phases * (BENCH_SETTLE + BENCH_MEASURE + 0.1);
+	DEFAULT_CHAT_FRAME:AddMessage(format("|cffffd100Measure Costs:|r %d settings, about %d seconds. Stand still somewhere typical and do not touch the mouse.", #tests, ceil(seconds / 10) * 10));
 	if ( GetCVar("gxVSync") == "1" ) then
 		DEFAULT_CHAT_FRAME:AddMessage("|cffff2020VSync is on:|r the frame rate cannot go above your screen's refresh, so costs below that are hidden. Turn VSync off (Display page, restart) for true figures.");
 	end
-	BenchLog(format("bench start renderer=%s resolution=%s msaa=%s vsync=%s zone=\"%s\" settings=%d rounds=%d", RendererName(),
+	BenchLog(format("bench start renderer=%s resolution=%s msaa=%s vsync=%s zone=\"%s\" settings=%d phases=%d", RendererName(),
 		tostring(GetCVar("gxResolution")), tostring(GetCVar("gxMultisample")), tostring(GetCVar("gxVSync")),
-		tostring(GetRealZoneText()), #tests, rounds));
+		tostring(GetRealZoneText()), #tests, phases));
 	bench.run = run;
 	benchText:Show();
 	BenchStartPhase(run);
@@ -1088,7 +1096,7 @@ SlashCmdList.ZEPBENCH = function (msg)
 	if ( msg == "stop" ) then
 		BenchFinish(true);
 	else
-		BenchStart(msg == "quick" and 1 or 2);
+		BenchStart(msg == "quick");
 	end
 end
 
@@ -1104,10 +1112,10 @@ do
 			DEFAULT_CHAT_FRAME:AddMessage("|cffffd100Measure Costs:|r apply or cancel your changes first.");
 			return;
 		end
-		BenchStart(2);
+		BenchStart(false);
 	end);
 	local info = { text = "Measure Costs",
-		info = "Measures what each setting on these pages costs in frames per second on this PC: each is switched between its lowest and highest value while you stand still. Takes several minutes; /zepbench quick halves it. Results show in each setting's box.",
+		info = "Measures what each setting on these pages costs in frames per second on this PC: each is switched between its lowest and highest value while you stand still. Takes about 3 minutes (/zepbench quick: 2). Strength and colour sliders are left out. Results show in each setting's box.",
 		cost = "nothing afterwards: every setting goes back to its own value." };
 	button:HookScript("OnEnter", function () ShowInfo(panel, info); end);
 	button:HookScript("OnLeave", function () ShowStatus(panel); end);
