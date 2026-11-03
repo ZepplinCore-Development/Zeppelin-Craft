@@ -126,7 +126,7 @@ local PAGES = {
 				   tooltip = "Lamps and fires light the ground per pixel, as in WoW Forever, instead of per vertex. Needs Forever Lighting." },
 				C{ cvar = "hdLightPass", text = "Lamp Lighting (experimental)", vulkan = true,
 				   other = "On Direct3D 9 use Per-Pixel Lamps.",
-				   info = "Every lamp, fire and glowing object lights the world around it per pixel, with no limit of 4 lights per object. Replaces the game's own lamp lighting while on. Works with multisampling. Experimental: the gain depends on how many models carry lights (Project Reforged models carry many)." },
+				   info = "Every lamp, fire and glowing object lights the world around it per pixel, with no limit of 4 lights per object. Replaces the game's own lamp lighting while on. Works with multisampling. Light Classic Lamps gives light to the many lamps that have none of their own." },
 				S{ cvar = "hdLightPassStrength", parent = "hdLightPass", text = "Lamp Light Strength", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
 				   info = "How bright the lamp light is. 1 is normal." },
 				C{ cvar = "hdGI", text = "Global Illumination", d3d9 = true,
@@ -148,6 +148,9 @@ local PAGES = {
 				   tooltip = "How far, in yards, things shade the surfaces around them." },
 				S{ cvar = "hdAOThin", parent = "hdAO", text = "Ignore Grass", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
 				   tooltip = "How much grass, leaves and other thin things are left out of the occlusion, so the ground under them is not darkened. 0 is the old look." },
+				-- Zeppelin F-223A: Zeppelin\LampCatalog.txt (PATCH-V); feeds both renderers' lamp lights.
+				C{ cvar = "hdLampCatalog", text = "Light Classic Lamps",
+				   info = "Lamps, lanterns, torches, braziers, candles and fires that have no light of their own light the world around them, as the game's few lit lamps do. About 400 classic models. Used by Lamp Lighting (Vulkan) and Per-Pixel Lamps (Direct3D 9)." },
 			},
 		},
 		status = {
