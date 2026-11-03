@@ -148,6 +148,10 @@ local PAGES = {
 				   tooltip = "1 lights the world with Forever's sun and ambient, 0 with the original ones, between mixes them." },
 				C{ cvar = "hdLights", text = "Per-Pixel Lamps", d3d9 = true,
 				   tooltip = "Lamps and fires light the ground per pixel, as in WoW Forever, instead of per vertex." },
+				C{ cvar = "hdLightPass", text = "Lamp Lighting (experimental)", vulkan = true,
+				   info = "Every lamp, fire and glowing object lights the world around it per pixel, with no limit of 4 lights per object. Replaces the game's own lamp lighting while on. Works with multisampling. Experimental: the gain depends on how many models carry lights (Project Reforged models carry many)." },
+				S{ cvar = "hdLightPassStrength", parent = "hdLightPass", text = "Lamp Light Strength", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
+				   info = "How bright the lamp light is. 1 is normal." },
 				C{ cvar = "hdGI", text = "Global Illumination", d3d9 = true,
 				   tooltip = "Light bounces once off nearby surfaces and picks up their colour." },
 				S{ cvar = "hdGIStrength", parent = "hdGI", d3d9 = true, text = "Bounce Light", minValue = 0, maxValue = 2, valueStep = 0.05,
@@ -174,6 +178,7 @@ local PAGES = {
 			{ "Occlusion", "hdAOInfo", vulkan = true },
 			{ "Global Illumination", "hdGIInfo", d3d9 = true },
 			{ "Lamps", "hdLightsInfo", d3d9 = true },
+			{ "Lamp Lighting", "hdLightPassInfo", vulkan = true },
 		},
 	},
 	{
