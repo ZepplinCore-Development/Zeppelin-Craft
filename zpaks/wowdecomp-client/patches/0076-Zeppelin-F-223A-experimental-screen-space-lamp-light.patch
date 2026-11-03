@@ -1,0 +1,1455 @@
+From a6e6ae197642be82c9ac42b1348969806f8de4fd Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 3 Nov 2026 01:36:04 +0000
+Subject: [PATCH] Zeppelin F-223A: experimental screen-space lamp light pass on
+ Vulkan (hdLightPass, default off)
+
+- Every M2 point light of the frame (HD::LightsGather, the D3D9 HD lamps' gathering) is culled to the view and the
+  nearest hdLightPassMax uploaded; one compute stage at AfterOpaqueWorld builds per-tile lamp lists from depth and
+  lights each pixel with WoW Forever's lamp falloff, applied as colour x (1 + lamp / engine light)^(1/2.2) with the
+  engine light estimated from the sun's ambient+diffuse. No G-buffer: works under MSAA; no 4-light cap.
+- Replace, not add: while the pass runs, CM2Lighting::AddLight drops point lights (models, terrain, WMO groups), so
+  nothing is lit twice; fail-safe back to stock lamps if the stage did not fire. hdLightPassStock keeps stock lamps.
+- CVars hdLightPass, Strength, Max, Radius, Floor, Stock, Debug, Info. D3D9 and pass-off paths unchanged.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp    |  12 +
+ .../CGxDeviceVulkan/hd/HdVulkanLightPass.cpp  | 357 +++++++++
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.h |  48 ++
+ .../hd/shaders/lights/HdVulkanLightPass.comp  | 103 +++
+ .../hd/shaders/lights/HdVulkanLightPass.spv.h | 712 ++++++++++++++++++
+ .../wxl/src/native/render/WorldPass.cpp       |   3 +
+ Engine/Source/Model2/M2Light.cpp              |  13 +
+ WoW/Source/WorldClient/HD/HdLights.cpp        |  29 +
+ WoW/Source/WorldClient/HD/HdLights.h          |  15 +
+ 9 files changed, 1292 insertions(+)
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.cpp
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.h
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/lights/HdVulkanLightPass.comp
+ create mode 100644 Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/lights/HdVulkanLightPass.spv.h
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp b/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp
+index 5fac8680..e9b205b6 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp
+@@ -22,6 +22,7 @@
+ #include "hd/CataWaterService.h" // HD: Cata water
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.h" // HD: step 4 sun shadows (hdSunShadows)
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.h" // HD: hdAO
++#include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.h" // Zeppelin F-223A: hdLightPass
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanModelLights.h" // HD: hdModelLightTest
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.h" // HD: hdFog
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanBloom.h" // HD: hdBloom / hdRays
+@@ -92,6 +93,7 @@ CGxDeviceVulkan::CGxDeviceVulkan() {
+ CGxDeviceVulkan::~CGxDeviceVulkan() {
+     HD::VulkanShadows::Shutdown(); // HD step 4: idempotent after DeviceDestroy
+     HD::VulkanAO::Shutdown(); // HD: idempotent after DeviceDestroy
++    HD::VulkanLightPass::Shutdown(); // Zeppelin F-223A: idempotent after DeviceDestroy
+     HD::VulkanFog::Shutdown(); // HD: idempotent
+     HD::VulkanBloom::Shutdown(); // HD: idempotent
+     HD::VulkanGrade::Shutdown(); // HD: idempotent
+@@ -464,6 +466,9 @@ int32_t CGxDeviceVulkan::DeviceCreate(GxWindowProc windowProc, const CGxFormat&
+     if (created && !HD::VulkanAO::Init()) { // HD: hdAO under Vulkan (hd/HdVulkanAO.h)
+         CGxDevice::Log("HD Vulkan AO: initialization failed; AO stays unavailable");
+     }
++    if (created && !HD::VulkanLightPass::Init()) { // Zeppelin F-223A: hdLightPass (hd/HdVulkanLightPass.h)
++        CGxDevice::Log("HD Vulkan light pass: initialization failed; light pass unavailable");
++    }
+     if (created && !HD::VulkanFog::Init()) { // HD: hdFog under Vulkan (hd/HdVulkanFog.h)
+         CGxDevice::Log("HD Vulkan fog: initialization failed; fog unavailable");
+     }
+@@ -485,6 +490,10 @@ void CGxDeviceVulkan::DeviceDestroy() {
+         CGxDevice::Log("HD Vulkan AO: shutdown could not finish its serial; retry before device destruction");
+         return;
+     }
++    if (!HD::VulkanLightPass::Shutdown()) { // Zeppelin F-223A: its serial must finish before the device goes
++        CGxDevice::Log("HD Vulkan light pass: outstanding serial; retry before device destruction");
++        return;
++    }
+     if (!HD::VulkanFog::Shutdown()) { // HD
+         CGxDevice::Log("HD Vulkan fog: outstanding serial; retry before device destruction");
+         return;
+@@ -654,6 +663,9 @@ int32_t CGxDeviceVulkan::DeviceCreate(void* window, const CGxFormat& format) {
+     if (created && !HD::VulkanAO::Init()) { // HD: hdAO under Vulkan (hd/HdVulkanAO.h)
+         CGxDevice::Log("HD Vulkan AO: initialization failed; AO stays unavailable");
+     }
++    if (created && !HD::VulkanLightPass::Init()) { // Zeppelin F-223A: hdLightPass (hd/HdVulkanLightPass.h)
++        CGxDevice::Log("HD Vulkan light pass: initialization failed; light pass unavailable");
++    }
+     if (created && !HD::VulkanFog::Init()) { // HD: hdFog under Vulkan (hd/HdVulkanFog.h)
+         CGxDevice::Log("HD Vulkan fog: initialization failed; fog unavailable");
+     }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.cpp
+new file mode 100644
+index 00000000..d102e44b
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.cpp
+@@ -0,0 +1,357 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++// Zeppelin F-223A: screen-space light pass for the Vulkan renderer (hdLightPass). See HdVulkanLightPass.h.
++#include "HdVulkanLightPass.h"
++#include <algorithm>
++#include <array>
++#include <cmath>
++#include <cstdio>
++#include <cstring>
++#include <new>
++#include <vector>
++#include <windows.h>
++#include "HdVulkanAO.h"
++#include "Engine/Source/ConsoleBase/ConsoleVar.h"
++#include "Engine/Source/ConsoleBase/Types.h"
++#include "Engine/Source/Model2/M2Light.h"
++#include "Engine/Source/Tempest/C3Vector.h"
++#include "WoW/Source/WorldClient/HD/HdLights.h"
++#include "WoW/Source/WorldClient/Map.h"
++#include "WoW/Source/WorldClient/MapLight.h"
++#include "WoW/Source/WorldClient/World.h"
++#include "native/Present.hpp"
++#include "wxl/Script.hpp"
++
++namespace HD::VulkanLightPass {
++bool g_ownsPointLights = false;
++namespace {
++#include "shaders/lights/HdVulkanLightPass.spv.h"
++constexpr uint32_t MaxSlots = 8, Tile = 16;
++constexpr size_t LightBytes = sizeof(Header) + sizeof(Lamp) * MaxLamps;
++
++struct Settings {
++    bool enabled = false, keepStock = false;
++    float strength = 1, radius = 1, floor = .03f;
++    uint32_t maxLamps = 256, debug = 0;
++};
++struct FrameFigures {uint32_t gathered = 0, inView = 0, drawn = 0, tiles = 0;};
++
++#define LP_FUNCTIONS(X) \
++    X(CreateDescriptorSetLayout) X(DestroyDescriptorSetLayout) X(CreatePipelineLayout) X(DestroyPipelineLayout) \
++    X(CreateDescriptorPool) X(DestroyDescriptorPool) X(AllocateDescriptorSets) X(UpdateDescriptorSets) \
++    X(CreateSampler) X(DestroySampler) X(CreateShaderModule) X(DestroyShaderModule) \
++    X(CreateComputePipelines) X(DestroyPipeline) X(CmdPipelineBarrier) X(CmdBindPipeline) \
++    X(CmdBindDescriptorSets) X(CmdDispatch)
++
++struct State {
++    const WXL_VkRenderApi* api = nullptr;
++    WXL_VkDeviceInfo device{};
++    const char* error = "";
++    VkDescriptorSetLayout setLayout = VK_NULL_HANDLE;
++    VkPipelineLayout layout = VK_NULL_HANDLE;
++    VkPipeline pipeline = VK_NULL_HANDLE;
++    VkDescriptorPool pool = VK_NULL_HANDLE;
++    VkSampler sampler = VK_NULL_HANDLE;
++    struct Slot {
++        VkDescriptorSet set = VK_NULL_HANDLE;
++        void* lights = nullptr; WXL_VkBufferInfo lightInfo{};
++        void* stats = nullptr; WXL_VkBufferInfo statsInfo{};
++        uint64_t serial = 0;
++        bool statsPending = false;
++    };
++    std::array<Slot, MaxSlots> slots{};
++    uint64_t last = 0;
++#define LP_DECLARE(n) PFN_vk##n n = nullptr;
++    LP_FUNCTIONS(LP_DECLARE)
++#undef LP_DECLARE
++};
++
++State* state = nullptr;
++Settings config;
++const WXL_VkRenderApi* renderApi = nullptr;
++void* registration = nullptr;
++CVar *enabled = nullptr, *strength = nullptr, *maxLamps = nullptr, *radius = nullptr, *floorVar = nullptr, *stock = nullptr,
++     *debug = nullptr, *info = nullptr;
++char lastInfo[300]{};
++bool ranThisWorld = false, lastOk = true;
++FrameFigures figures;
++GpuStats gpu;          // the latest completed frame's tile figures
++ULONGLONG infoTime = 0;
++std::vector<Lamp> lamps;
++std::vector<std::pair<float, uint32_t>> order;
++
++CVar* Var(const char* name, const char* help, const char* value, uint32_t flags = 1) {
++    if (auto* existing = CVar::LookupRegistered(name)) return existing;
++    return CVar::Register(name, help, flags, value, nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++}
++void Info(const char* value) {
++    if (info && std::strcmp(lastInfo, value)) {std::snprintf(lastInfo, sizeof lastInfo, "%s", value); info->Set(lastInfo, true, false, false, false);}
++}
++float Clamp(float v, float lo, float hi, float fallback) {return std::isfinite(v) ? std::clamp(v, lo, hi) : fallback;}
++
++void ReleaseSlots(State* s) {
++    for (auto& slot : s->slots) {
++        if (slot.lights) s->api->RetireBuffer(slot.lights, slot.serial);
++        if (slot.stats) s->api->RetireBuffer(slot.stats, slot.serial);
++        slot.lights = slot.stats = nullptr;
++    }
++}
++void Destroy(State* s) {
++    ReleaseSlots(s);
++    if (s->pool) s->DestroyDescriptorPool(s->device.device, s->pool, nullptr);
++    if (s->sampler) s->DestroySampler(s->device.device, s->sampler, nullptr);
++    if (s->pipeline) s->DestroyPipeline(s->device.device, s->pipeline, nullptr);
++    if (s->layout) s->DestroyPipelineLayout(s->device.device, s->layout, nullptr);
++    if (s->setLayout) s->DestroyDescriptorSetLayout(s->device.device, s->setLayout, nullptr);
++    delete s;
++}
++
++State* Create(const WXL_VkRenderApi* api) {
++    if (!api || api->apiVersion != WXL_VK_RENDER_API_VERSION || api->structSize < offsetof(WXL_VkRenderApi, RetireImage) + sizeof(api->RetireImage) ||
++        !api->GetDeviceInfo || !api->CreateBuffer || !api->RetireBuffer || !api->FlushBuffer) return nullptr;
++    auto* s = new(std::nothrow) State();
++    if (!s) return nullptr;
++    s->api = api; s->device.structSize = sizeof s->device;
++    if (!api->GetDeviceInfo(&s->device) || !s->device.device || !s->device.getDeviceProcAddr || !s->device.frameSlots ||
++        s->device.frameSlots > MaxSlots) {delete s; return nullptr;}
++#define LP_LOAD(n) s->n = reinterpret_cast<PFN_vk##n>(s->device.getDeviceProcAddr(s->device.device, "vk" #n)); if (!s->n) {delete s; return nullptr;}
++    LP_FUNCTIONS(LP_LOAD)
++#undef LP_LOAD
++    VkDescriptorSetLayoutBinding bindings[4]{};
++    const VkDescriptorType types[4] = {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
++                                       VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER};
++    for (uint32_t i = 0; i < 4; ++i) {bindings[i].binding = i; bindings[i].descriptorCount = 1; bindings[i].descriptorType = types[i]; bindings[i].stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;}
++    VkDescriptorSetLayoutCreateInfo sl{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO}; sl.bindingCount = 4; sl.pBindings = bindings;
++    if (s->CreateDescriptorSetLayout(s->device.device, &sl, nullptr, &s->setLayout) != VK_SUCCESS) {s->error = "descriptor layout"; Destroy(s); return nullptr;}
++    VkPipelineLayoutCreateInfo pl{VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO}; pl.setLayoutCount = 1; pl.pSetLayouts = &s->setLayout;
++    if (s->CreatePipelineLayout(s->device.device, &pl, nullptr, &s->layout) != VK_SUCCESS) {Destroy(s); return nullptr;}
++    VkShaderModuleCreateInfo sm{VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO}; sm.codeSize = sizeof kHdVulkanLightPass; sm.pCode = kHdVulkanLightPass;
++    VkShaderModule module = VK_NULL_HANDLE;
++    if (s->CreateShaderModule(s->device.device, &sm, nullptr, &module) != VK_SUCCESS) {Destroy(s); return nullptr;}
++    VkComputePipelineCreateInfo cp{VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO};
++    cp.stage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO; cp.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
++    cp.stage.module = module; cp.stage.pName = "main"; cp.layout = s->layout;
++    VkResult result = s->CreateComputePipelines(s->device.device, s->device.pipelineCache, 1, &cp, nullptr, &s->pipeline);
++    s->DestroyShaderModule(s->device.device, module, nullptr);
++    if (result != VK_SUCCESS) {Destroy(s); return nullptr;}
++    VkSamplerCreateInfo si{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO}; si.magFilter = si.minFilter = VK_FILTER_NEAREST; si.mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST;
++    si.addressModeU = si.addressModeV = si.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
++    if (s->CreateSampler(s->device.device, &si, nullptr, &s->sampler) != VK_SUCCESS) {Destroy(s); return nullptr;}
++    const uint32_t n = s->device.frameSlots;
++    VkDescriptorPoolSize sizes[3] = {{VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, n}, {VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, n}, {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 2 * n}};
++    VkDescriptorPoolCreateInfo pi{VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO}; pi.maxSets = n; pi.poolSizeCount = 3; pi.pPoolSizes = sizes;
++    if (s->CreateDescriptorPool(s->device.device, &pi, nullptr, &s->pool) != VK_SUCCESS) {Destroy(s); return nullptr;}
++    std::array<VkDescriptorSetLayout, MaxSlots> layouts{}; layouts.fill(s->setLayout);
++    std::array<VkDescriptorSet, MaxSlots> sets{};
++    VkDescriptorSetAllocateInfo ai{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO}; ai.descriptorPool = s->pool; ai.descriptorSetCount = n; ai.pSetLayouts = layouts.data();
++    if (s->AllocateDescriptorSets(s->device.device, &ai, sets.data()) != VK_SUCCESS) {Destroy(s); return nullptr;}
++    // Per frame slot: the lamp list the CPU writes each frame (STREAM) and the tile figures the GPU writes back (HOST).
++    for (uint32_t i = 0; i < n; ++i) {
++        auto& slot = s->slots[i]; slot.set = sets[i];
++        WXL_VkBufferDesc lights{LightBytes, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, WXL_VK_MEMORY_STREAM};
++        WXL_VkBufferDesc stats{sizeof(GpuStats), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, WXL_VK_MEMORY_HOST};
++        slot.lights = api->CreateBuffer(&lights, &slot.lightInfo);
++        slot.stats = api->CreateBuffer(&stats, &slot.statsInfo);
++        if (!slot.lights || !slot.stats || !slot.lightInfo.mapped || !slot.statsInfo.mapped) {Destroy(s); return nullptr;}
++        std::memset(slot.statsInfo.mapped, 0, sizeof(GpuStats)); api->FlushBuffer(slot.stats);
++    }
++    return s;
++}
++
++// World -> view, row vectors (WXL_VkSceneConstants::view): the eye's offset first, in double (world positions are large).
++void ToView(const float* v, const double eye[3], const float world[3], float out[3]) {
++    const double x = double(world[0]) - eye[0], y = double(world[1]) - eye[1], z = double(world[2]) - eye[2];
++    // the eye's own view position (eye * V + T) is 0 up to rounding; add it back so the result is exactly p * V
++    for (int k = 0; k < 3; ++k) {
++        const double e = eye[0] * v[k] + eye[1] * v[4 + k] + eye[2] * v[8 + k] + v[12 + k];
++        out[k] = float(x * v[k] + y * v[4 + k] + z * v[8 + k] + e);
++    }
++}
++void RotateToView(const float* v, const C3Vector& d, float out[3]) {
++    for (int k = 0; k < 3; ++k) out[k] = d.x * v[k] + d.y * v[4 + k] + d.z * v[8 + k];
++    const float len = std::sqrt(out[0] * out[0] + out[1] * out[1] + out[2] * out[2]);
++    if (len > 1e-6f) for (int k = 0; k < 3; ++k) out[k] /= len;
++}
++
++// The frame's lamps in view space, culled to the view frustum, nearest config.maxLamps kept. Fills `header`'s light rows.
++uint32_t BuildLamps(const WXL_VkStageContext& ctx, Header& header) {
++    const float* v = ctx.scene->view; const float* p = ctx.scene->projection;
++    const double eye[3] = {ctx.scene->cameraPos[0], ctx.scene->cameraPos[1], ctx.scene->cameraPos[2]};
++    const HD::FrameLamp* frame = nullptr;
++    const uint32_t count = World::s_m2Scene ? HD::LightsGather(World::s_m2Scene, C3Vector(float(eye[0]), float(eye[1]), float(eye[2])), &frame) : 0;
++    figures.gathered = count;
++    // The view frustum's side planes (D3D projection, row vectors: x_ndc = (p0 x + p8 z) / z), normals inward.
++    float planes[4][3] = {{p[0], 0, p[8] + 1}, {-p[0], 0, 1 - p[8]}, {0, p[5], p[9] + 1}, {0, -p[5], 1 - p[9]}};
++    for (auto& pl : planes) {const float len = std::sqrt(pl[0] * pl[0] + pl[1] * pl[1] + pl[2] * pl[2]); for (float& c : pl) c /= len > 0 ? len : 1;}
++    lamps.clear(); order.clear();
++    for (uint32_t i = 0; i < count && frame; ++i) {
++        const HD::FrameLamp& f = frame[i];
++        Lamp lamp{};
++        float r = f.radius * config.radius;
++        if (!(r > 0) || !std::isfinite(r)) continue;
++        ToView(v, eye, f.pos, lamp.posRadius);
++        const float* c = lamp.posRadius;
++        if (!std::isfinite(c[0]) || !std::isfinite(c[1]) || !std::isfinite(c[2]) || c[2] + r <= 0) continue;
++        bool outside = false;
++        for (auto& pl : planes) if (pl[0] * c[0] + pl[1] * c[1] + pl[2] * c[2] < -r) {outside = true; break;}
++        if (outside) continue;
++        lamp.posRadius[3] = r;
++        lamp.colorInvFade[0] = f.color[0]; lamp.colorInvFade[1] = f.color[1]; lamp.colorInvFade[2] = f.color[2];
++        lamp.colorInvFade[3] = 1.0f / std::max(f.fade * config.radius, 0.05f);
++        const float d = std::sqrt(c[0] * c[0] + c[1] * c[1] + c[2] * c[2]);
++        order.emplace_back(std::max(d - r, 0.0f), uint32_t(lamps.size()));
++        lamps.push_back(lamp);
++    }
++    figures.inView = uint32_t(lamps.size());
++    const uint32_t drawn = std::min<uint32_t>(figures.inView, config.maxLamps);
++    if (drawn < order.size()) std::nth_element(order.begin(), order.begin() + drawn, order.end());
++    auto* out = reinterpret_cast<Lamp*>(reinterpret_cast<uint8_t*>(&header) + sizeof(Header));
++    for (uint32_t i = 0; i < drawn; ++i) out[i] = lamps[order[i].second];
++    figures.drawn = drawn;
++
++    // The engine's sun (CMap::s_mapLight, set from DayNight each frame) for the estimate of the light already in the colour.
++    C3Vector ambient(.3f, .3f, .3f), diffuse(0, 0, 0), dir(0, 0, -1);
++    if (CMap::s_mapLight && CMap::s_mapLight->m_light.m_type != M2LIGHT_POINT) {
++        ambient = CMap::s_mapLight->m_light.m_ambColor; diffuse = CMap::s_mapLight->m_light.m_dirColor; dir = CMap::s_mapLight->m_light.m_dir;
++    }
++    header.ambient[0] = ambient.x; header.ambient[1] = ambient.y; header.ambient[2] = ambient.z; header.ambient[3] = config.floor;
++    header.diffuse[0] = diffuse.x; header.diffuse[1] = diffuse.y; header.diffuse[2] = diffuse.z; header.diffuse[3] = config.strength;
++    RotateToView(v, dir, header.sunDir);
++    return drawn;
++}
++
++bool Record(const WXL_VkStageContext& ctx) {
++    auto* s = state;
++    if (!s) return false;
++    if (ctx.structSize < sizeof ctx || !ctx.cmd || !ctx.colorView || !ctx.depthView || !ctx.serial || ctx.point != WXL_VK_POINT_AFTER_OPAQUE_WORLD ||
++        ctx.frameSlot >= s->device.frameSlots || ctx.frameSlots != s->device.frameSlots || ctx.colorFormat != VK_FORMAT_R8G8B8A8_UNORM ||
++        ctx.colorLayout != VK_IMAGE_LAYOUT_GENERAL || !ctx.extent.width || !ctx.extent.height ||
++        (ctx.depthLayout != VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL && ctx.depthLayout != VK_IMAGE_LAYOUT_GENERAL &&
++         ctx.depthLayout != VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL)) {s->error = "Vulkan light pass: frame/depth/layout not ready"; return false;}
++    auto& slot = s->slots[ctx.frameSlot];
++    if (ctx.serial <= s->last || slot.serial > ctx.completedSerial) {s->error = "Vulkan light pass: duplicate/in-flight slot"; return false;}
++    HD::VulkanAO::Constants rows;
++    if (!HD::VulkanAO::BuildConstants(ctx, HD::VulkanAO::Settings{}, rows)) {s->error = "Vulkan light pass: needs forward-Z perspective depth"; return false;}
++    // The slot's previous frame has completed (checked above): its tile figures are final.
++    if (slot.statsPending) {std::memcpy(&gpu, slot.statsInfo.mapped, sizeof gpu); slot.statsPending = false;}
++    auto* header = static_cast<Header*>(slot.lightInfo.mapped);
++    std::memcpy(header->screen, rows.screen, 16); std::memcpy(header->view, rows.view, 16); std::memcpy(header->rect, rows.rect, 16);
++    std::memcpy(header->depth, rows.depth, 16); std::memcpy(header->full, rows.full, 16);
++    const uint32_t drawn = BuildLamps(ctx, *header);
++    header->counts[0] = drawn; header->counts[1] = config.debug; header->counts[2] = ctx.swapRB; header->counts[3] = 1;
++    const uint32_t groupsX = (ctx.extent.width + Tile - 1) / Tile, groupsY = (ctx.extent.height + Tile - 1) / Tile;
++    figures.tiles = groupsX * groupsY;
++    if (!drawn && config.debug != 2) {gpu = {}; s->error = ""; return true;} // nothing to light: the frame stays as it is, GPU cost 0
++    s->api->FlushBuffer(slot.lights);
++    std::memset(slot.statsInfo.mapped, 0, sizeof(GpuStats)); s->api->FlushBuffer(slot.stats);
++
++    VkDescriptorImageInfo images[2] = {{s->sampler, ctx.depthView, ctx.depthLayout}, {VK_NULL_HANDLE, ctx.colorView, ctx.colorLayout}};
++    VkDescriptorBufferInfo buffers[2] = {{slot.lightInfo.buffer, 0, sizeof(Header) + sizeof(Lamp) * std::max(drawn, 1u)}, {slot.statsInfo.buffer, 0, sizeof(GpuStats)}};
++    VkWriteDescriptorSet writes[4]{};
++    for (uint32_t i = 0; i < 4; ++i) {
++        auto& w = writes[i]; w.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET; w.dstSet = slot.set; w.dstBinding = i; w.descriptorCount = 1;
++        w.descriptorType = i == 0 ? VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER : i == 1 ? VK_DESCRIPTOR_TYPE_STORAGE_IMAGE : VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
++        if (i < 2) w.pImageInfo = &images[i]; else w.pBufferInfo = &buffers[i - 2];
++    }
++    s->UpdateDescriptorSets(s->device.device, 4, writes, 0, nullptr);
++    VkMemoryBarrier barrier{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
++    barrier.srcAccessMask = VK_ACCESS_MEMORY_WRITE_BIT; barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
++    s->CmdPipelineBarrier(ctx.cmd, VK_PIPELINE_STAGE_ALL_COMMANDS_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &barrier, 0, nullptr, 0, nullptr);
++    s->CmdBindPipeline(ctx.cmd, VK_PIPELINE_BIND_POINT_COMPUTE, s->pipeline);
++    s->CmdBindDescriptorSets(ctx.cmd, VK_PIPELINE_BIND_POINT_COMPUTE, s->layout, 0, 1, &slot.set, 0, nullptr);
++    s->CmdDispatch(ctx.cmd, groupsX, groupsY, 1);
++    barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
++    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_TRANSFER_READ_BIT | VK_ACCESS_HOST_READ_BIT;
++    s->CmdPipelineBarrier(ctx.cmd, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
++                          VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT | VK_PIPELINE_STAGE_TRANSFER_BIT | VK_PIPELINE_STAGE_HOST_BIT, 0, 1, &barrier, 0, nullptr, 0, nullptr);
++    slot.serial = s->last = ctx.serial; slot.statsPending = true;
++    s->error = ""; return true;
++}
++
++void ShowInfo() {
++    const ULONGLONG now = GetTickCount64();
++    if (infoTime && now - infoTime < 500) return;
++    infoTime = now;
++    char text[300];
++    const float average = gpu.litTiles ? float(gpu.pairs) / float(gpu.litTiles) : 0.0f;
++    static const char* const debugNames[3] = {"", ", debug: lamp light only", ", debug: lamps per tile"};
++    // GPU time of the stage (its timestamps; -1 when the queue has none)
++    float gpuMs = -1;
++    if (renderApi && registration && renderApi->structSize >= offsetof(WXL_VkRenderApi, GetStageStats) + sizeof(renderApi->GetStageStats) &&
++        renderApi->GetStageStats) {
++        WXL_VkStageStats st{}; st.structSize = sizeof st;
++        if (renderApi->GetStageStats(registration, &st)) gpuMs = st.avgMs;
++    }
++    std::snprintf(text, sizeof text, "Vulkan light pass: %u lamps gathered, %u in view, %u drawn (max %u); %u tiles, %u lit, %.1f lamps/lit tile, max %u; "
++                  "GPU %.3f ms; stock lamps %s%s", figures.gathered, figures.inView, figures.drawn, config.maxLamps, figures.tiles, gpu.litTiles, average,
++                  gpu.maxPerTile, gpuMs, config.keepStock ? "kept (double)" : "replaced", debugNames[std::min(config.debug, 2u)]);
++    Info(text);
++}
++
++int __cdecl Wanted(void*) {return config.enabled ? 1 : 0;}
++void __cdecl Stage(void*, const WXL_VkStageContext* ctx) {
++    g_ownsPointLights = false; // from here on (liquids, late models) the engine lights with its own lamps again
++    ranThisWorld = true;
++    if (!ctx || !Record(*ctx)) {lastOk = false; Info(state ? state->error : "Vulkan light pass: not initialized"); return;}
++    lastOk = true;
++    ShowInfo();
++}
++}
++
++bool Init() {
++    if (registration) return true;
++    enabled = Var("hdLightPass", "HD (Vulkan): lamps, fires and M2 light emitters light the world per pixel, every lamp (no 4-light cap), 0 off / 1 on", "0");
++    strength = Var("hdLightPassStrength", "HD (Vulkan): light pass lamp strength 0..4 (1 = WoW Forever's falloff)", "1");
++    maxLamps = Var("hdLightPassMax", "HD (Vulkan): light pass lamps drawn per frame, nearest first (1..1024)", "256");
++    radius = Var("hdLightPassRadius", "HD (Vulkan): light pass lamp radius multiplier 0.25..4", "1");
++    floorVar = Var("hdLightPassFloor", "HD (Vulkan): light pass floor of the estimated engine light (0.005..1; lower = brighter lamps in dark places)", "0.03");
++    stock = Var("hdLightPassStock", "HD (Vulkan): 1 keeps the engine's per-vertex lamps as well (lights them twice, for comparison) / 0 replaces them", "0", 0);
++    debug = Var("hdLightPassDebug", "HD (Vulkan): light pass debug view, 0 off / 1 lamp light only / 2 lamps per tile", "0", 0);
++    info = Var("hdLightPassInfo", "HD (Vulkan): light pass status (read only)", "off", 0x80);
++    renderApi = wxl::ScriptMgr::GetInterface<const WXL_VkRenderApi>(WXL_VK_RENDER_API_NAME, WXL_VK_RENDER_API_VERSION);
++    if (!renderApi || renderApi->structSize < offsetof(WXL_VkRenderApi, UnregisterStage) + sizeof(renderApi->UnregisterStage) ||
++        !renderApi->RegisterStage || !renderApi->UnregisterStage || !(state = Create(renderApi))) {Info("Vulkan light pass: Init failed"); return false;}
++    WXL_VkStageDesc desc{}; desc.structSize = sizeof desc; desc.point = WXL_VK_POINT_AFTER_OPAQUE_WORLD;
++    desc.order = 150; // after AO (100): the lamp light is not darkened by the occlusion of the ambient twice over the clamp
++    desc.flags = WXL_VK_STAGE_NEEDS_DEPTH | WXL_VK_STAGE_WRITES_COLOR; desc.Wanted = Wanted; desc.Run = Stage;
++    registration = renderApi->RegisterStage(&desc, "HD.LightPass");
++    if (!registration) {Destroy(state); state = nullptr; Info("Vulkan light pass: stage registration failed"); return false;}
++    Info("off"); return true;
++}
++
++void Resize() {
++    g_ownsPointLights = false;
++    if (!registration) return;
++    config.enabled = enabled && enabled->m_intValue != 0;
++    config.strength = Clamp(strength ? strength->m_floatValue : 1, 0, 4, 1);
++    config.maxLamps = uint32_t(std::clamp(maxLamps ? maxLamps->m_intValue : 256, 1, int32_t(MaxLamps)));
++    config.radius = Clamp(radius ? radius->m_floatValue : 1, .25f, 4, 1);
++    config.floor = Clamp(floorVar ? floorVar->m_floatValue : .03f, .005f, 1, .03f);
++    config.keepStock = stock && stock->m_intValue != 0;
++    config.debug = debug ? uint32_t(std::clamp(debug->m_intValue, 0, 2)) : 0;
++    if (!config.enabled) {Info("off"); lastOk = true; return;}
++    // The engine's point lights are left out only while the pass is expected to run (it ran the last world): a pass that
++    // failed or did not fire gives the next frame back the engine's own lamps instead of none.
++    g_ownsPointLights = !config.keepStock && lastOk;
++    ranThisWorld = false;
++}
++
++void EndWorld() {
++    if (g_ownsPointLights || (config.enabled && !ranThisWorld)) lastOk = false; // the stage never ran inside this world
++    g_ownsPointLights = false;
++}
++
++bool Shutdown() {
++    g_ownsPointLights = false;
++    if (!renderApi && !registration) return true;
++    if (registration) {renderApi->UnregisterStage(registration); registration = nullptr;}
++    if (state) {
++        if (state->last > wxlvk::native::present::Completed()) {
++            if (wxlvk::native::present::FrameOpen() && !wxlvk::native::present::FlushAndWait()) return false;
++            if (!wxlvk::native::present::WaitSerial(state->last)) return false;
++        }
++        Destroy(state); state = nullptr;
++    }
++    renderApi = nullptr; config.enabled = false; Info("off");
++    return true;
++}
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.h b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.h
+new file mode 100644
+index 00000000..9138ec44
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.h
+@@ -0,0 +1,48 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++// Zeppelin F-223A: screen-space light pass for the Vulkan renderer (hdLightPass, default off).
++//
++// Lamps, braziers, fires: every M2 point light of the frame (HD::LightsGather, the same gathering as the D3D9 per-pixel
++// terrain lamps) lights the opaque world per pixel, with no 4-light cap and no G-buffer, so it works under MSAA. A compute
++// stage at AfterOpaqueWorld (after AO) culls the lamps to the frustum on the CPU, uploads them in view space, and one
++// 16x16 workgroup per screen tile culls them to the tile's depth range, then lights each pixel from depth and a
++// depth-derived normal: colour x (1 + buffer / light^2.2)^(1/2.2) (shaders/lights/HdVulkanLightPass.comp).
++//
++// Double lighting: while the pass will run this frame, CM2Lighting::AddLight leaves the point lights out
++// (g_ownsPointLights), so the engine's per-vertex lamps (4 per model, 3 per terrain chunk) are replaced, not added to,
++// the way hdLights does it for the D3D9 HD terrain. It is set before the world is drawn and cleared when the stage runs,
++// so everything lit after the opaque world (liquids) keeps the engine's lamps. Pass off (or hdLightPassStock 1): the
++// engine's lighting is untouched.
++//
++//   hdLightPass          0 off / 1 on (Vulkan only; D3D9 unchanged)
++//   hdLightPassStrength  0..4 lamp light multiplier (1 = WoW Forever's falloff)
++//   hdLightPassMax       1..1024 lamps drawn per frame, nearest first
++//   hdLightPassRadius    0.25..4 multiplier of each lamp's radius (hdLightsRadius, or from its colour)
++//   hdLightPassFloor     0.005..1 floor of the estimated engine light^2.2 (caps the gain in dark places)
++//   hdLightPassStock     1 keeps the engine's per-vertex lamps too (A/B test of the double lighting), 0 default
++//   hdLightPassDebug     0 off / 1 lamp light only / 2 lamps per tile
++//   hdLightPassInfo      read only: lamps gathered / in view / drawn, tiles lit, per-tile average and maximum
++#pragma once
++#include <cstddef>
++#include <cstdint>
++#include "wxl/VkRenderApi.h"
++
++namespace HD::VulkanLightPass {
++extern bool g_ownsPointLights; // read by CM2Lighting::AddLight (Model2/M2Light.cpp)
++
++constexpr uint32_t MaxLamps = 1024;
++struct alignas(16) Lamp {float posRadius[4], colorInvFade[4];};
++struct alignas(16) Header {
++    float screen[4], view[4], rect[4], depth[4], full[4];
++    float ambient[4], diffuse[4], sunDir[4];
++    uint32_t counts[4]; // lamps, debug, swapRB, stats
++};
++static_assert(sizeof(Lamp) == 32 && sizeof(Header) == 144, "GLSL std430 layout");
++struct GpuStats {uint32_t tiles = 0, litTiles = 0, pairs = 0, maxPerTile = 0;};
++
++// Engine owner, like HdVulkanAO: Init after DeviceCreate, Resize before each world (reads the cvars, decides the cut),
++// EndWorld after it, Shutdown before the device goes.
++bool Init();
++void Resize();
++void EndWorld();
++bool Shutdown();
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/lights/HdVulkanLightPass.comp b/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/lights/HdVulkanLightPass.comp
+new file mode 100644
+index 00000000..84cebcf6
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/lights/HdVulkanLightPass.comp
+@@ -0,0 +1,103 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++// Zeppelin F-223A: screen-space light pass (hdLightPass). One 16x16 workgroup per screen tile: it takes the tile's depth
++// range, culls this frame's lamps (every M2 point light the engine has, not 4 per draw) against the tile's frustum into a
++// shared list, then lights each pixel from its depth and a normal derived from depth. No G-buffer, so it runs on the
++// resolved depth under MSAA. There is no albedo either: the frame's colour is albedo x the engine's light, so the lamp
++// light is applied as WoW Forever does on the ground, albedo x (light^2.2 + buffer)^(1/2.2), which for the frame's colour
++// is colour x (1 + buffer / light^2.2)^(1/2.2), with `light` estimated from the sun's ambient and diffuse at that normal.
++// Falloff = CM2Light's 0 / 0.7 / 0.03 (Forever's legacy lightbufferomni), windowed to 0 at the light's radius.
++#version 450
++layout(local_size_x=16,local_size_y=16)in;
++layout(binding=0)uniform sampler2D RawDepth;
++layout(binding=1,rgba8)uniform image2D Frame;
++struct Lamp {vec4 posRadius;vec4 colorInvFade;}; // view-space position, radius (yards); rgb, 1 / fade width
++layout(std430,binding=2)readonly buffer Lights {
++    vec4 screen,view,rect,depth,full; // the AO module's reconstruction rows (HdVulkanAO.h BuildConstants)
++    vec4 ambient;  // rgb = the sun's ambient (gamma), w = floor of the estimated light^2.2
++    vec4 diffuse;  // rgb = the sun's diffuse (gamma), w = strength
++    vec4 sunDir;   // xyz = the direction the sunlight travels, view space
++    uvec4 counts;  // lamps, debug view (0 off, 1 lamp light only, 2 lamps per tile), swapRB, 0
++    Lamp lamps[];
++} L;
++layout(std430,binding=3)buffer Stats {uint tiles,litTiles,pairs,maxPerTile;} S;
++
++const uint kTileMax=256u;
++shared uint sMinZ,sMaxZ,sCount;
++shared uint sList[kTileMax];
++
++vec2 Local(vec2 uv){return (uv-L.rect.xy-L.full.zw*L.full.xy)*L.rect.zw;}
++float ViewZ(ivec2 p){
++    ivec2 size=textureSize(RawDepth,0);
++    if(any(lessThan(p,ivec2(0)))||any(greaterThanEqual(p,size)))return 0;
++    float raw=texelFetch(RawDepth,p,0).r,z01=raw*L.screen.z+L.screen.w;
++    if(isnan(raw)||isinf(raw)||z01<0||z01>=L.depth.z)return 0; // 0 = sky / outside the world's viewport
++    vec2 v=Local((vec2(p)+.5)*L.full.xy);
++    if(any(lessThan(v,vec2(0)))||any(greaterThan(v,vec2(1))))return 0;
++    return L.depth.y/max(L.depth.x-z01,1e-7);
++}
++vec3 Ray(vec2 pixel){return vec3(Local(pixel*L.full.xy)*L.view.xy+L.view.zw,1);} // view position at z = 1
++vec3 Position(ivec2 p,float z){return Ray(vec2(p)+.5)*z;}
++// Normal from depth: on each axis the neighbour closer in depth (no smearing across silhouettes), facing the eye.
++vec3 Normal(ivec2 p,vec3 c,float z){
++    float zl=ViewZ(p+ivec2(-1,0)),zr=ViewZ(p+ivec2(1,0)),zt=ViewZ(p+ivec2(0,-1)),zb=ViewZ(p+ivec2(0,1));
++    vec3 dx,dy;
++    bool useR=zr>0&&(zl<=0||abs(zr-z)<abs(zl-z)),useB=zb>0&&(zt<=0||abs(zb-z)<abs(zt-z));
++    if(useR)dx=Position(p+ivec2(1,0),zr)-c;else if(zl>0)dx=c-Position(p+ivec2(-1,0),zl);else dx=vec3(1,0,0);
++    if(useB)dy=Position(p+ivec2(0,1),zb)-c;else if(zt>0)dy=c-Position(p+ivec2(0,-1),zt);else dy=vec3(0,-1,0);
++    vec3 n=cross(dy,dx);float len=length(n);
++    n=len>1e-12?n/len:-normalize(c);
++    return dot(n,c)>0?-n:n;
++}
++vec4 Plane(vec3 a,vec3 b,vec3 inside){vec3 n=normalize(cross(a,b));return vec4(dot(n,inside)<0?-n:n,0);}
++
++void main(){
++    ivec2 p=ivec2(gl_GlobalInvocationID.xy);uint index=gl_LocalInvocationIndex;
++    ivec2 size=imageSize(Frame);bool inside=all(lessThan(p,size));
++    if(index==0u){sMinZ=0x7f7fffffu;sMaxZ=0u;sCount=0u;}
++    barrier();
++    float z=inside?ViewZ(p):0;
++    if(z>0){atomicMin(sMinZ,floatBitsToUint(z));atomicMax(sMaxZ,floatBitsToUint(z));} // positive floats order as uints
++    barrier();
++    float minZ=uintBitsToFloat(sMinZ),maxZ=uintBitsToFloat(sMaxZ);
++    bool hasDepth=sMaxZ!=0u;
++    if(hasDepth){
++        // The tile's four side planes through the eye, then its depth range.
++        vec2 lo=vec2(gl_WorkGroupID.xy*16u),hi=min(lo+16.0,vec2(size));
++        vec3 a=Ray(lo),b=Ray(vec2(hi.x,lo.y)),c=Ray(hi),d=Ray(vec2(lo.x,hi.y)),mid=Ray((lo+hi)*.5);
++        vec4 planes[4]={Plane(a,b,mid),Plane(b,c,mid),Plane(c,d,mid),Plane(d,a,mid)};
++        for(uint i=index;i<L.counts.x;i+=256u){
++            vec4 s=L.lamps[i].posRadius;
++            if(s.z+s.w<minZ||s.z-s.w>maxZ)continue;
++            if(dot(planes[0].xyz,s.xyz)<-s.w||dot(planes[1].xyz,s.xyz)<-s.w||dot(planes[2].xyz,s.xyz)<-s.w||dot(planes[3].xyz,s.xyz)<-s.w)continue;
++            uint slot=atomicAdd(sCount,1u);if(slot<kTileMax)sList[slot]=i;
++        }
++    }
++    barrier();
++    uint count=min(sCount,kTileMax);
++    if(index==0u&&L.counts.w!=0u){atomicAdd(S.tiles,1u);if(count>0u){atomicAdd(S.litTiles,1u);atomicAdd(S.pairs,count);atomicMax(S.maxPerTile,count);}}
++    if(!inside)return;
++    uint debug=L.counts.y;
++    if(debug==2u){ // lamps per tile: blue 1 .. red 32+, dark where none
++        vec4 color=imageLoad(Frame,p);float t=clamp(float(count)/32.0,0,1);
++        vec3 heat=count==0u?color.rgb*.25:mix(vec3(0,.2,1),vec3(1,.1,0),t);
++        if(L.counts.z!=0u)heat=heat.bgr;
++        imageStore(Frame,p,vec4(heat,color.a));return;
++    }
++    if(z<=0||count==0u){if(debug==1u)imageStore(Frame,p,vec4(0,0,0,imageLoad(Frame,p).a));return;}
++    vec3 pos=Position(p,z),n=Normal(p,pos,z),lamplight=vec3(0);
++    for(uint k=0u;k<count;++k){
++        Lamp lamp=L.lamps[sList[k]];
++        vec3 l=lamp.posRadius.xyz-pos;float d2=max(dot(l,l),1e-6),inv=inversesqrt(d2),dist=d2*inv;
++        if(dist>=lamp.posRadius.w)continue;
++        float nl=max(dot(l,n)*inv,0);
++        lamplight+=lamp.colorInvFade.rgb*(nl/((inv*.7+.03)*d2))*clamp((lamp.posRadius.w-dist)*lamp.colorInvFade.w,0,1);
++    }
++    lamplight*=L.diffuse.w;
++    vec4 color=imageLoad(Frame,p);
++    if(debug==1u){vec3 shown=lamplight/(1+lamplight);if(L.counts.z!=0u)shown=shown.bgr;imageStore(Frame,p,vec4(shown,color.a));return;}
++    vec3 light=L.ambient.rgb+L.diffuse.rgb*max(dot(n,-L.sunDir.xyz),0);
++    vec3 base=max(pow(max(light,vec3(0)),vec3(2.2)),vec3(L.ambient.w));
++    vec3 gain=pow(vec3(1)+lamplight/base,vec3(1.0/2.2));
++    if(L.counts.z!=0u)gain=gain.bgr; // with swapRB the image's .r is blue
++    imageStore(Frame,p,vec4(min(color.rgb*gain,vec3(1)),color.a));
++}
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/lights/HdVulkanLightPass.spv.h b/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/lights/HdVulkanLightPass.spv.h
+new file mode 100644
+index 00000000..3068f4f3
+--- /dev/null
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/shaders/lights/HdVulkanLightPass.spv.h
+@@ -0,0 +1,712 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++// Generated by Zeppelin-Tools/wowdecomp-build/shader-work/lights_spv.py; edit HdVulkanLightPass.comp, not this array.
++static const uint32_t kHdVulkanLightPass[] = {
++    0x07230203u, 0x00010000u, 0x0008000bu, 0x000003b5u, 0x00000000u, 0x00020011u, 0x00000001u, 0x00020011u,
++    0x00000032u, 0x0006000bu, 0x00000001u, 0x4c534c47u, 0x6474732eu, 0x3035342eu, 0x00000000u, 0x0003000eu,
++    0x00000000u, 0x00000001u, 0x0008000fu, 0x00000005u, 0x00000004u, 0x6e69616du, 0x00000000u, 0x0000018eu,
++    0x00000196u, 0x000001ceu, 0x00060010u, 0x00000004u, 0x00000011u, 0x00000010u, 0x00000010u, 0x00000001u,
++    0x00030003u, 0x00000002u, 0x000001c2u, 0x00040005u, 0x00000004u, 0x6e69616du, 0x00000000u, 0x00050005u,
++    0x0000000bu, 0x61636f4cu, 0x6676286cu, 0x00003b32u, 0x00030005u, 0x0000000au, 0x00007675u, 0x00050005u,
++    0x00000012u, 0x77656956u, 0x6976285au, 0x00003b32u, 0x00030005u, 0x00000011u, 0x00000070u, 0x00050005u,
++    0x00000017u, 0x28796152u, 0x3b326676u, 0x00000000u, 0x00040005u, 0x00000016u, 0x65786970u, 0x0000006cu,
++    0x00070005u, 0x0000001du, 0x69736f50u, 0x6e6f6974u, 0x32697628u, 0x3b31663bu, 0x00000000u, 0x00030005u,
++    0x0000001bu, 0x00000070u, 0x00030005u, 0x0000001cu, 0x0000007au, 0x00070005u, 0x00000024u, 0x6d726f4eu,
++    0x76286c61u, 0x763b3269u, 0x663b3366u, 0x00003b31u, 0x00030005u, 0x00000021u, 0x00000070u, 0x00030005u,
++    0x00000022u, 0x00000063u, 0x00030005u, 0x00000023u, 0x0000007au, 0x00070005u, 0x0000002bu, 0x6e616c50u,
++    0x66762865u, 0x66763b33u, 0x66763b33u, 0x00003b33u, 0x00030005u, 0x00000028u, 0x00000061u, 0x00030005u,
++    0x00000029u, 0x00000062u, 0x00040005u, 0x0000002au, 0x69736e69u, 0x00006564u, 0x00040005u, 0x00000030u,
++    0x706d614cu, 0x00000000u, 0x00060006u, 0x00000030u, 0x00000000u, 0x52736f70u, 0x75696461u, 0x00000073u,
++    0x00070006u, 0x00000030u, 0x00000001u, 0x6f6c6f63u, 0x766e4972u, 0x65646146u, 0x00000000u, 0x00040005u,
++    0x00000032u, 0x6867694cu, 0x00007374u, 0x00050006u, 0x00000032u, 0x00000000u, 0x65726373u, 0x00006e65u,
++    0x00050006u, 0x00000032u, 0x00000001u, 0x77656976u, 0x00000000u, 0x00050006u, 0x00000032u, 0x00000002u,
++    0x74636572u, 0x00000000u, 0x00050006u, 0x00000032u, 0x00000003u, 0x74706564u, 0x00000068u, 0x00050006u,
++    0x00000032u, 0x00000004u, 0x6c6c7566u, 0x00000000u, 0x00050006u, 0x00000032u, 0x00000005u, 0x69626d61u,
++    0x00746e65u, 0x00050006u, 0x00000032u, 0x00000006u, 0x66666964u, 0x00657375u, 0x00050006u, 0x00000032u,
++    0x00000007u, 0x446e7573u, 0x00007269u, 0x00050006u, 0x00000032u, 0x00000008u, 0x6e756f63u, 0x00007374u,
++    0x00050006u, 0x00000032u, 0x00000009u, 0x706d616cu, 0x00000073u, 0x00030005u, 0x00000034u, 0x0000004cu,
++    0x00040005u, 0x0000004au, 0x657a6973u, 0x00000000u, 0x00050005u, 0x0000004eu, 0x44776152u, 0x68747065u,
++    0x00000000u, 0x00030005u, 0x00000065u, 0x00776172u, 0x00030005u, 0x0000006cu, 0x0031307au, 0x00030005u,
++    0x0000008eu, 0x00000076u, 0x00040005u, 0x00000098u, 0x61726170u, 0x0000006du, 0x00040005u, 0x000000bbu,
++    0x61726170u, 0x0000006du, 0x00040005u, 0x000000cfu, 0x61726170u, 0x0000006du, 0x00030005u, 0x000000d5u,
++    0x00006c7au, 0x00040005u, 0x000000dau, 0x61726170u, 0x0000006du, 0x00030005u, 0x000000dcu, 0x0000727au,
++    0x00040005u, 0x000000e0u, 0x61726170u, 0x0000006du, 0x00030005u, 0x000000e2u, 0x0000747au, 0x00040005u,
++    0x000000e6u, 0x61726170u, 0x0000006du, 0x00030005u, 0x000000e8u, 0x0000627au, 0x00040005u, 0x000000ecu,
++    0x61726170u, 0x0000006du, 0x00040005u, 0x000000efu, 0x52657375u, 0x00000000u, 0x00040005u, 0x00000104u,
++    0x42657375u, 0x00000000u, 0x00030005u, 0x0000011cu, 0x00007864u, 0x00040005u, 0x0000011fu, 0x61726170u,
++    0x0000006du, 0x00040005u, 0x00000120u, 0x61726170u, 0x0000006du, 0x00040005u, 0x0000012du, 0x61726170u,
++    0x0000006du, 0x00040005u, 0x0000012eu, 0x61726170u, 0x0000006du, 0x00030005u, 0x00000137u, 0x00007964u,
++    0x00040005u, 0x0000013au, 0x61726170u, 0x0000006du, 0x00040005u, 0x0000013bu, 0x61726170u, 0x0000006du,
++    0x00040005u, 0x00000148u, 0x61726170u, 0x0000006du, 0x00040005u, 0x00000149u, 0x61726170u, 0x0000006du,
++    0x00030005u, 0x00000150u, 0x0000006eu, 0x00030005u, 0x00000154u, 0x006e656cu, 0x00030005u, 0x00000174u,
++    0x0000006eu, 0x00030005u, 0x0000018bu, 0x00000070u, 0x00080005u, 0x0000018eu, 0x475f6c67u, 0x61626f6cu,
++    0x766e496cu, 0x7461636fu, 0x496e6f69u, 0x00000044u, 0x00040005u, 0x00000194u, 0x65646e69u, 0x00000078u,
++    0x00080005u, 0x00000196u, 0x4c5f6c67u, 0x6c61636fu, 0x6f766e49u, 0x69746163u, 0x6e496e6fu, 0x00786564u,
++    0x00040005u, 0x00000198u, 0x657a6973u, 0x00000000u, 0x00040005u, 0x0000019bu, 0x6d617246u, 0x00000065u,
++    0x00040005u, 0x0000019eu, 0x69736e69u, 0x00006564u, 0x00040005u, 0x000001a8u, 0x6e694d73u, 0x0000005au,
++    0x00040005u, 0x000001aau, 0x78614d73u, 0x0000005au, 0x00040005u, 0x000001abu, 0x756f4373u, 0x0000746eu,
++    0x00030005u, 0x000001adu, 0x0000007au, 0x00040005u, 0x000001b2u, 0x61726170u, 0x0000006du, 0x00040005u,
++    0x000001c1u, 0x5a6e696du, 0x00000000u, 0x00040005u, 0x000001c4u, 0x5a78616du, 0x00000000u, 0x00050005u,
++    0x000001c7u, 0x44736168u, 0x68747065u, 0x00000000u, 0x00030005u, 0x000001cdu, 0x00006f6cu, 0x00060005u,
++    0x000001ceu, 0x575f6c67u, 0x476b726fu, 0x70756f72u, 0x00004449u, 0x00030005u, 0x000001d5u, 0x00006968u,
++    0x00030005u, 0x000001ddu, 0x00000061u, 0x00040005u, 0x000001deu, 0x61726170u, 0x0000006du, 0x00030005u,
++    0x000001e1u, 0x00000062u, 0x00040005u, 0x000001e7u, 0x61726170u, 0x0000006du, 0x00030005u, 0x000001e9u,
++    0x00000063u, 0x00040005u, 0x000001eau, 0x61726170u, 0x0000006du, 0x00030005u, 0x000001edu, 0x00000064u,
++    0x00040005u, 0x000001f3u, 0x61726170u, 0x0000006du, 0x00030005u, 0x000001f5u, 0x0064696du, 0x00040005u,
++    0x000001fau, 0x61726170u, 0x0000006du, 0x00040005u, 0x000001ffu, 0x6e616c70u, 0x00007365u, 0x00040005u,
++    0x00000200u, 0x61726170u, 0x0000006du, 0x00040005u, 0x00000202u, 0x61726170u, 0x0000006du, 0x00040005u,
++    0x00000204u, 0x61726170u, 0x0000006du, 0x00040005u, 0x00000207u, 0x61726170u, 0x0000006du, 0x00040005u,
++    0x00000209u, 0x61726170u, 0x0000006du, 0x00040005u, 0x0000020bu, 0x61726170u, 0x0000006du, 0x00040005u,
++    0x0000020eu, 0x61726170u, 0x0000006du, 0x00040005u, 0x00000210u, 0x61726170u, 0x0000006du, 0x00040005u,
++    0x00000212u, 0x61726170u, 0x0000006du, 0x00040005u, 0x00000215u, 0x61726170u, 0x0000006du, 0x00040005u,
++    0x00000217u, 0x61726170u, 0x0000006du, 0x00040005u, 0x00000219u, 0x61726170u, 0x0000006du, 0x00030005u,
++    0x0000021du, 0x00000069u, 0x00030005u, 0x0000022bu, 0x00000073u, 0x00040005u, 0x0000027cu, 0x746f6c73u,
++    0x00000000u, 0x00040005u, 0x00000285u, 0x73694c73u, 0x00000074u, 0x00040005u, 0x0000028bu, 0x6e756f63u,
++    0x00000074u, 0x00040005u, 0x00000298u, 0x74617453u, 0x00000073u, 0x00050006u, 0x00000298u, 0x00000000u,
++    0x656c6974u, 0x00000073u, 0x00060006u, 0x00000298u, 0x00000001u, 0x5474696cu, 0x73656c69u, 0x00000000u,
++    0x00050006u, 0x00000298u, 0x00000002u, 0x72696170u, 0x00000073u, 0x00060006u, 0x00000298u, 0x00000003u,
++    0x5078616du, 0x69547265u, 0x0000656cu, 0x00030005u, 0x0000029au, 0x00000053u, 0x00040005u, 0x000002aeu,
++    0x75626564u, 0x00000067u, 0x00040005u, 0x000002b5u, 0x6f6c6f63u, 0x00000072u, 0x00030005u, 0x000002b9u,
++    0x00000074u, 0x00040005u, 0x000002bfu, 0x74616568u, 0x00000000u, 0x00030005u, 0x000002f6u, 0x00736f70u,
++    0x00040005u, 0x000002f7u, 0x61726170u, 0x0000006du, 0x00040005u, 0x000002f9u, 0x61726170u, 0x0000006du,
++    0x00030005u, 0x000002fcu, 0x0000006eu, 0x00040005u, 0x000002fdu, 0x61726170u, 0x0000006du, 0x00040005u,
++    0x000002ffu, 0x61726170u, 0x0000006du, 0x00040005u, 0x00000301u, 0x61726170u, 0x0000006du, 0x00050005u,
++    0x00000304u, 0x706d616cu, 0x6867696cu, 0x00000074u, 0x00030005u, 0x00000306u, 0x0000006bu, 0x00040005u,
++    0x0000030fu, 0x706d614cu, 0x00000000u, 0x00060006u, 0x0000030fu, 0x00000000u, 0x52736f70u, 0x75696461u,
++    0x00000073u, 0x00070006u, 0x0000030fu, 0x00000001u, 0x6f6c6f63u, 0x766e4972u, 0x65646146u, 0x00000000u,
++    0x00040005u, 0x00000311u, 0x706d616cu, 0x00000000u, 0x00030005u, 0x0000031cu, 0x0000006cu, 0x00030005u,
++    0x00000322u, 0x00003264u, 0x00030005u, 0x00000328u, 0x00766e69u, 0x00040005u, 0x0000032bu, 0x74736964u,
++    0x00000000u, 0x00030005u, 0x00000336u, 0x00006c6eu, 0x00040005u, 0x0000035cu, 0x6f6c6f63u, 0x00000072u,
++    0x00040005u, 0x00000364u, 0x776f6873u, 0x0000006eu, 0x00040005u, 0x0000037bu, 0x6867696cu, 0x00000074u,
++    0x00040005u, 0x0000038du, 0x65736162u, 0x00000000u, 0x00040005u, 0x00000397u, 0x6e696167u, 0x00000000u,
++    0x00050048u, 0x00000030u, 0x00000000u, 0x00000023u, 0x00000000u, 0x00050048u, 0x00000030u, 0x00000001u,
++    0x00000023u, 0x00000010u, 0x00040047u, 0x00000031u, 0x00000006u, 0x00000020u, 0x00030047u, 0x00000032u,
++    0x00000003u, 0x00040048u, 0x00000032u, 0x00000000u, 0x00000018u, 0x00050048u, 0x00000032u, 0x00000000u,
++    0x00000023u, 0x00000000u, 0x00040048u, 0x00000032u, 0x00000001u, 0x00000018u, 0x00050048u, 0x00000032u,
++    0x00000001u, 0x00000023u, 0x00000010u, 0x00040048u, 0x00000032u, 0x00000002u, 0x00000018u, 0x00050048u,
++    0x00000032u, 0x00000002u, 0x00000023u, 0x00000020u, 0x00040048u, 0x00000032u, 0x00000003u, 0x00000018u,
++    0x00050048u, 0x00000032u, 0x00000003u, 0x00000023u, 0x00000030u, 0x00040048u, 0x00000032u, 0x00000004u,
++    0x00000018u, 0x00050048u, 0x00000032u, 0x00000004u, 0x00000023u, 0x00000040u, 0x00040048u, 0x00000032u,
++    0x00000005u, 0x00000018u, 0x00050048u, 0x00000032u, 0x00000005u, 0x00000023u, 0x00000050u, 0x00040048u,
++    0x00000032u, 0x00000006u, 0x00000018u, 0x00050048u, 0x00000032u, 0x00000006u, 0x00000023u, 0x00000060u,
++    0x00040048u, 0x00000032u, 0x00000007u, 0x00000018u, 0x00050048u, 0x00000032u, 0x00000007u, 0x00000023u,
++    0x00000070u, 0x00040048u, 0x00000032u, 0x00000008u, 0x00000018u, 0x00050048u, 0x00000032u, 0x00000008u,
++    0x00000023u, 0x00000080u, 0x00040048u, 0x00000032u, 0x00000009u, 0x00000018u, 0x00050048u, 0x00000032u,
++    0x00000009u, 0x00000023u, 0x00000090u, 0x00030047u, 0x00000034u, 0x00000018u, 0x00040047u, 0x00000034u,
++    0x00000021u, 0x00000002u, 0x00040047u, 0x00000034u, 0x00000022u, 0x00000000u, 0x00040047u, 0x0000004eu,
++    0x00000021u, 0x00000000u, 0x00040047u, 0x0000004eu, 0x00000022u, 0x00000000u, 0x00040047u, 0x0000018eu,
++    0x0000000bu, 0x0000001cu, 0x00040047u, 0x00000196u, 0x0000000bu, 0x0000001du, 0x00040047u, 0x0000019bu,
++    0x00000021u, 0x00000001u, 0x00040047u, 0x0000019bu, 0x00000022u, 0x00000000u, 0x00040047u, 0x000001ceu,
++    0x0000000bu, 0x0000001au, 0x00030047u, 0x00000298u, 0x00000003u, 0x00050048u, 0x00000298u, 0x00000000u,
++    0x00000023u, 0x00000000u, 0x00050048u, 0x00000298u, 0x00000001u, 0x00000023u, 0x00000004u, 0x00050048u,
++    0x00000298u, 0x00000002u, 0x00000023u, 0x00000008u, 0x00050048u, 0x00000298u, 0x00000003u, 0x00000023u,
++    0x0000000cu, 0x00040047u, 0x0000029au, 0x00000021u, 0x00000003u, 0x00040047u, 0x0000029au, 0x00000022u,
++    0x00000000u, 0x00040047u, 0x000003b4u, 0x0000000bu, 0x00000019u, 0x00020013u, 0x00000002u, 0x00030021u,
++    0x00000003u, 0x00000002u, 0x00030016u, 0x00000006u, 0x00000020u, 0x00040017u, 0x00000007u, 0x00000006u,
++    0x00000002u, 0x00040020u, 0x00000008u, 0x00000007u, 0x00000007u, 0x00040021u, 0x00000009u, 0x00000007u,
++    0x00000008u, 0x00040015u, 0x0000000du, 0x00000020u, 0x00000001u, 0x00040017u, 0x0000000eu, 0x0000000du,
++    0x00000002u, 0x00040020u, 0x0000000fu, 0x00000007u, 0x0000000eu, 0x00040021u, 0x00000010u, 0x00000006u,
++    0x0000000fu, 0x00040017u, 0x00000014u, 0x00000006u, 0x00000003u, 0x00040021u, 0x00000015u, 0x00000014u,
++    0x00000008u, 0x00040020u, 0x00000019u, 0x00000007u, 0x00000006u, 0x00050021u, 0x0000001au, 0x00000014u,
++    0x0000000fu, 0x00000019u, 0x00040020u, 0x0000001fu, 0x00000007u, 0x00000014u, 0x00060021u, 0x00000020u,
++    0x00000014u, 0x0000000fu, 0x0000001fu, 0x00000019u, 0x00040017u, 0x00000026u, 0x00000006u, 0x00000004u,
++    0x00060021u, 0x00000027u, 0x00000026u, 0x0000001fu, 0x0000001fu, 0x0000001fu, 0x00040015u, 0x0000002eu,
++    0x00000020u, 0x00000000u, 0x00040017u, 0x0000002fu, 0x0000002eu, 0x00000004u, 0x0004001eu, 0x00000030u,
++    0x00000026u, 0x00000026u, 0x0003001du, 0x00000031u, 0x00000030u, 0x000c001eu, 0x00000032u, 0x00000026u,
++    0x00000026u, 0x00000026u, 0x00000026u, 0x00000026u, 0x00000026u, 0x00000026u, 0x00000026u, 0x0000002fu,
++    0x00000031u, 0x00040020u, 0x00000033u, 0x00000002u, 0x00000032u, 0x0004003bu, 0x00000033u, 0x00000034u,
++    0x00000002u, 0x0004002bu, 0x0000000du, 0x00000035u, 0x00000002u, 0x00040020u, 0x00000036u, 0x00000002u,
++    0x00000026u, 0x0004002bu, 0x0000000du, 0x0000003bu, 0x00000004u, 0x00090019u, 0x0000004bu, 0x00000006u,
++    0x00000001u, 0x00000000u, 0x00000000u, 0x00000000u, 0x00000001u, 0x00000000u, 0x0003001bu, 0x0000004cu,
++    0x0000004bu, 0x00040020u, 0x0000004du, 0x00000000u, 0x0000004cu, 0x0004003bu, 0x0000004du, 0x0000004eu,
++    0x00000000u, 0x0004002bu, 0x0000000du, 0x00000050u, 0x00000000u, 0x00020014u, 0x00000053u, 0x0005002cu,
++    0x0000000eu, 0x00000055u, 0x00000050u, 0x00000050u, 0x00040017u, 0x00000056u, 0x00000053u, 0x00000002u,
++    0x0004002bu, 0x00000006u, 0x00000063u, 0x00000000u, 0x0004002bu, 0x0000002eu, 0x0000006au, 0x00000000u,
++    0x0004002bu, 0x0000002eu, 0x0000006eu, 0x00000002u, 0x00040020u, 0x0000006fu, 0x00000002u, 0x00000006u,
++    0x0004002bu, 0x0000002eu, 0x00000073u, 0x00000003u, 0x0004002bu, 0x0000000du, 0x00000086u, 0x00000003u,
++    0x0004002bu, 0x00000006u, 0x00000091u, 0x3f000000u, 0x0005002cu, 0x00000007u, 0x0000009bu, 0x00000063u,
++    0x00000063u, 0x0004002bu, 0x00000006u, 0x000000a2u, 0x3f800000u, 0x0005002cu, 0x00000007u, 0x000000a3u,
++    0x000000a2u, 0x000000a2u, 0x0004002bu, 0x0000002eu, 0x000000aau, 0x00000001u, 0x0004002bu, 0x00000006u,
++    0x000000b1u, 0x33d6bf95u, 0x0004002bu, 0x0000000du, 0x000000bdu, 0x00000001u, 0x0004002bu, 0x0000000du,
++    0x000000d7u, 0xffffffffu, 0x0005002cu, 0x0000000eu, 0x000000d8u, 0x000000d7u, 0x00000050u, 0x0005002cu,
++    0x0000000eu, 0x000000deu, 0x000000bdu, 0x00000050u, 0x0005002cu, 0x0000000eu, 0x000000e4u, 0x00000050u,
++    0x000000d7u, 0x0005002cu, 0x0000000eu, 0x000000eau, 0x00000050u, 0x000000bdu, 0x00040020u, 0x000000eeu,
++    0x00000007u, 0x00000053u, 0x0006002cu, 0x00000014u, 0x00000133u, 0x000000a2u, 0x00000063u, 0x00000063u,
++    0x0004002bu, 0x00000006u, 0x0000014eu, 0xbf800000u, 0x0006002cu, 0x00000014u, 0x0000014fu, 0x00000063u,
++    0x0000014eu, 0x00000063u, 0x0004002bu, 0x00000006u, 0x00000158u, 0x2b8cbcccu, 0x00040017u, 0x0000018cu,
++    0x0000002eu, 0x00000003u, 0x00040020u, 0x0000018du, 0x00000001u, 0x0000018cu, 0x0004003bu, 0x0000018du,
++    0x0000018eu, 0x00000001u, 0x00040017u, 0x0000018fu, 0x0000002eu, 0x00000002u, 0x00040020u, 0x00000193u,
++    0x00000007u, 0x0000002eu, 0x00040020u, 0x00000195u, 0x00000001u, 0x0000002eu, 0x0004003bu, 0x00000195u,
++    0x00000196u, 0x00000001u, 0x00090019u, 0x00000199u, 0x00000006u, 0x00000001u, 0x00000000u, 0x00000000u,
++    0x00000000u, 0x00000002u, 0x00000004u, 0x00040020u, 0x0000019au, 0x00000000u, 0x00000199u, 0x0004003bu,
++    0x0000019au, 0x0000019bu, 0x00000000u, 0x00040020u, 0x000001a7u, 0x00000004u, 0x0000002eu, 0x0004003bu,
++    0x000001a7u, 0x000001a8u, 0x00000004u, 0x0004002bu, 0x0000002eu, 0x000001a9u, 0x7f7fffffu, 0x0004003bu,
++    0x000001a7u, 0x000001aau, 0x00000004u, 0x0004003bu, 0x000001a7u, 0x000001abu, 0x00000004u, 0x0004002bu,
++    0x0000002eu, 0x000001acu, 0x00000108u, 0x0004003bu, 0x0000018du, 0x000001ceu, 0x00000001u, 0x0004002bu,
++    0x0000002eu, 0x000001d1u, 0x00000010u, 0x0004002bu, 0x00000006u, 0x000001d7u, 0x41800000u, 0x0004002bu,
++    0x0000002eu, 0x000001fcu, 0x00000004u, 0x0004001cu, 0x000001fdu, 0x00000026u, 0x000001fcu, 0x00040020u,
++    0x000001feu, 0x00000007u, 0x000001fdu, 0x0004002bu, 0x0000000du, 0x00000225u, 0x00000008u, 0x00040020u,
++    0x00000226u, 0x00000002u, 0x0000002eu, 0x00040020u, 0x0000022au, 0x00000007u, 0x00000026u, 0x0004002bu,
++    0x0000000du, 0x0000022cu, 0x00000009u, 0x0004002bu, 0x0000002eu, 0x0000027fu, 0x00000100u, 0x0004001cu,
++    0x00000283u, 0x0000002eu, 0x0000027fu, 0x00040020u, 0x00000284u, 0x00000004u, 0x00000283u, 0x0004003bu,
++    0x00000284u, 0x00000285u, 0x00000004u, 0x0006001eu, 0x00000298u, 0x0000002eu, 0x0000002eu, 0x0000002eu,
++    0x0000002eu, 0x00040020u, 0x00000299u, 0x00000002u, 0x00000298u, 0x0004003bu, 0x00000299u, 0x0000029au,
++    0x00000002u, 0x0004002bu, 0x00000006u, 0x000002bcu, 0x42000000u, 0x0004002bu, 0x00000006u, 0x000002c7u,
++    0x3e800000u, 0x0004002bu, 0x00000006u, 0x000002cau, 0x3e4ccccdu, 0x0006002cu, 0x00000014u, 0x000002cbu,
++    0x00000063u, 0x000002cau, 0x000000a2u, 0x0004002bu, 0x00000006u, 0x000002ccu, 0x3dcccccdu, 0x0006002cu,
++    0x00000014u, 0x000002cdu, 0x000000a2u, 0x000002ccu, 0x00000063u, 0x0006002cu, 0x00000014u, 0x00000305u,
++    0x00000063u, 0x00000063u, 0x00000063u, 0x0004001eu, 0x0000030fu, 0x00000026u, 0x00000026u, 0x00040020u,
++    0x00000310u, 0x00000007u, 0x0000030fu, 0x00040020u, 0x00000315u, 0x00000002u, 0x00000030u, 0x0004002bu,
++    0x00000006u, 0x00000326u, 0x358637bdu, 0x0004002bu, 0x00000006u, 0x00000342u, 0x3f333333u, 0x0004002bu,
++    0x00000006u, 0x00000344u, 0x3cf5c28fu, 0x0004002bu, 0x0000000du, 0x00000357u, 0x00000006u, 0x0004002bu,
++    0x0000000du, 0x0000037cu, 0x00000005u, 0x0004002bu, 0x0000000du, 0x00000384u, 0x00000007u, 0x0004002bu,
++    0x00000006u, 0x00000390u, 0x400ccccdu, 0x0006002cu, 0x00000014u, 0x00000391u, 0x00000390u, 0x00000390u,
++    0x00000390u, 0x0006002cu, 0x00000014u, 0x00000398u, 0x000000a2u, 0x000000a2u, 0x000000a2u, 0x0004002bu,
++    0x00000006u, 0x0000039du, 0x3ee8ba2fu, 0x0006002cu, 0x00000014u, 0x0000039eu, 0x0000039du, 0x0000039du,
++    0x0000039du, 0x0006002cu, 0x0000018cu, 0x000003b4u, 0x000001d1u, 0x000001d1u, 0x000000aau, 0x00050036u,
++    0x00000002u, 0x00000004u, 0x00000000u, 0x00000003u, 0x000200f8u, 0x00000005u, 0x0004003bu, 0x0000000fu,
++    0x0000018bu, 0x00000007u, 0x0004003bu, 0x00000193u, 0x00000194u, 0x00000007u, 0x0004003bu, 0x0000000fu,
++    0x00000198u, 0x00000007u, 0x0004003bu, 0x000000eeu, 0x0000019eu, 0x00000007u, 0x0004003bu, 0x00000019u,
++    0x000001adu, 0x00000007u, 0x0004003bu, 0x00000019u, 0x000001afu, 0x00000007u, 0x0004003bu, 0x0000000fu,
++    0x000001b2u, 0x00000007u, 0x0004003bu, 0x00000019u, 0x000001c1u, 0x00000007u, 0x0004003bu, 0x00000019u,
++    0x000001c4u, 0x00000007u, 0x0004003bu, 0x000000eeu, 0x000001c7u, 0x00000007u, 0x0004003bu, 0x00000008u,
++    0x000001cdu, 0x00000007u, 0x0004003bu, 0x00000008u, 0x000001d5u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x000001ddu, 0x00000007u, 0x0004003bu, 0x00000008u, 0x000001deu, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x000001e1u, 0x00000007u, 0x0004003bu, 0x00000008u, 0x000001e7u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x000001e9u, 0x00000007u, 0x0004003bu, 0x00000008u, 0x000001eau, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x000001edu, 0x00000007u, 0x0004003bu, 0x00000008u, 0x000001f3u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x000001f5u, 0x00000007u, 0x0004003bu, 0x00000008u, 0x000001fau, 0x00000007u, 0x0004003bu, 0x000001feu,
++    0x000001ffu, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x00000200u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x00000202u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x00000204u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x00000207u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x00000209u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x0000020bu, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x0000020eu, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x00000210u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x00000212u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x00000215u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x00000217u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x00000219u, 0x00000007u, 0x0004003bu, 0x00000193u, 0x0000021du, 0x00000007u, 0x0004003bu, 0x0000022au,
++    0x0000022bu, 0x00000007u, 0x0004003bu, 0x00000193u, 0x0000027cu, 0x00000007u, 0x0004003bu, 0x00000193u,
++    0x0000028bu, 0x00000007u, 0x0004003bu, 0x00000193u, 0x000002aeu, 0x00000007u, 0x0004003bu, 0x0000022au,
++    0x000002b5u, 0x00000007u, 0x0004003bu, 0x00000019u, 0x000002b9u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x000002bfu, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x000002c2u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x000002f6u, 0x00000007u, 0x0004003bu, 0x0000000fu, 0x000002f7u, 0x00000007u, 0x0004003bu, 0x00000019u,
++    0x000002f9u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x000002fcu, 0x00000007u, 0x0004003bu, 0x0000000fu,
++    0x000002fdu, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x000002ffu, 0x00000007u, 0x0004003bu, 0x00000019u,
++    0x00000301u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x00000304u, 0x00000007u, 0x0004003bu, 0x00000193u,
++    0x00000306u, 0x00000007u, 0x0004003bu, 0x00000310u, 0x00000311u, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x0000031cu, 0x00000007u, 0x0004003bu, 0x00000019u, 0x00000322u, 0x00000007u, 0x0004003bu, 0x00000019u,
++    0x00000328u, 0x00000007u, 0x0004003bu, 0x00000019u, 0x0000032bu, 0x00000007u, 0x0004003bu, 0x00000019u,
++    0x00000336u, 0x00000007u, 0x0004003bu, 0x0000022au, 0x0000035cu, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x00000364u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x0000037bu, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x0000038du, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x00000397u, 0x00000007u, 0x0004003du, 0x0000018cu,
++    0x00000190u, 0x0000018eu, 0x0007004fu, 0x0000018fu, 0x00000191u, 0x00000190u, 0x00000190u, 0x00000000u,
++    0x00000001u, 0x0004007cu, 0x0000000eu, 0x00000192u, 0x00000191u, 0x0003003eu, 0x0000018bu, 0x00000192u,
++    0x0004003du, 0x0000002eu, 0x00000197u, 0x00000196u, 0x0003003eu, 0x00000194u, 0x00000197u, 0x0004003du,
++    0x00000199u, 0x0000019cu, 0x0000019bu, 0x00040068u, 0x0000000eu, 0x0000019du, 0x0000019cu, 0x0003003eu,
++    0x00000198u, 0x0000019du, 0x0004003du, 0x0000000eu, 0x0000019fu, 0x0000018bu, 0x0004003du, 0x0000000eu,
++    0x000001a0u, 0x00000198u, 0x000500b1u, 0x00000056u, 0x000001a1u, 0x0000019fu, 0x000001a0u, 0x0004009bu,
++    0x00000053u, 0x000001a2u, 0x000001a1u, 0x0003003eu, 0x0000019eu, 0x000001a2u, 0x0004003du, 0x0000002eu,
++    0x000001a3u, 0x00000194u, 0x000500aau, 0x00000053u, 0x000001a4u, 0x000001a3u, 0x0000006au, 0x000300f7u,
++    0x000001a6u, 0x00000000u, 0x000400fau, 0x000001a4u, 0x000001a5u, 0x000001a6u, 0x000200f8u, 0x000001a5u,
++    0x0003003eu, 0x000001a8u, 0x000001a9u, 0x0003003eu, 0x000001aau, 0x0000006au, 0x0003003eu, 0x000001abu,
++    0x0000006au, 0x000200f9u, 0x000001a6u, 0x000200f8u, 0x000001a6u, 0x000400e0u, 0x0000006eu, 0x0000006eu,
++    0x000001acu, 0x0004003du, 0x00000053u, 0x000001aeu, 0x0000019eu, 0x000300f7u, 0x000001b1u, 0x00000000u,
++    0x000400fau, 0x000001aeu, 0x000001b0u, 0x000001b5u, 0x000200f8u, 0x000001b0u, 0x0004003du, 0x0000000eu,
++    0x000001b3u, 0x0000018bu, 0x0003003eu, 0x000001b2u, 0x000001b3u, 0x00050039u, 0x00000006u, 0x000001b4u,
++    0x00000012u, 0x000001b2u, 0x0003003eu, 0x000001afu, 0x000001b4u, 0x000200f9u, 0x000001b1u, 0x000200f8u,
++    0x000001b5u, 0x0003003eu, 0x000001afu, 0x00000063u, 0x000200f9u, 0x000001b1u, 0x000200f8u, 0x000001b1u,
++    0x0004003du, 0x00000006u, 0x000001b6u, 0x000001afu, 0x0003003eu, 0x000001adu, 0x000001b6u, 0x0004003du,
++    0x00000006u, 0x000001b7u, 0x000001adu, 0x000500bau, 0x00000053u, 0x000001b8u, 0x000001b7u, 0x00000063u,
++    0x000300f7u, 0x000001bau, 0x00000000u, 0x000400fau, 0x000001b8u, 0x000001b9u, 0x000001bau, 0x000200f8u,
++    0x000001b9u, 0x0004003du, 0x00000006u, 0x000001bbu, 0x000001adu, 0x0004007cu, 0x0000002eu, 0x000001bcu,
++    0x000001bbu, 0x000700edu, 0x0000002eu, 0x000001bdu, 0x000001a8u, 0x000000aau, 0x0000006au, 0x000001bcu,
++    0x0004003du, 0x00000006u, 0x000001beu, 0x000001adu, 0x0004007cu, 0x0000002eu, 0x000001bfu, 0x000001beu,
++    0x000700efu, 0x0000002eu, 0x000001c0u, 0x000001aau, 0x000000aau, 0x0000006au, 0x000001bfu, 0x000200f9u,
++    0x000001bau, 0x000200f8u, 0x000001bau, 0x000400e0u, 0x0000006eu, 0x0000006eu, 0x000001acu, 0x0004003du,
++    0x0000002eu, 0x000001c2u, 0x000001a8u, 0x0004007cu, 0x00000006u, 0x000001c3u, 0x000001c2u, 0x0003003eu,
++    0x000001c1u, 0x000001c3u, 0x0004003du, 0x0000002eu, 0x000001c5u, 0x000001aau, 0x0004007cu, 0x00000006u,
++    0x000001c6u, 0x000001c5u, 0x0003003eu, 0x000001c4u, 0x000001c6u, 0x0004003du, 0x0000002eu, 0x000001c8u,
++    0x000001aau, 0x000500abu, 0x00000053u, 0x000001c9u, 0x000001c8u, 0x0000006au, 0x0003003eu, 0x000001c7u,
++    0x000001c9u, 0x0004003du, 0x00000053u, 0x000001cau, 0x000001c7u, 0x000300f7u, 0x000001ccu, 0x00000000u,
++    0x000400fau, 0x000001cau, 0x000001cbu, 0x000001ccu, 0x000200f8u, 0x000001cbu, 0x0004003du, 0x0000018cu,
++    0x000001cfu, 0x000001ceu, 0x0007004fu, 0x0000018fu, 0x000001d0u, 0x000001cfu, 0x000001cfu, 0x00000000u,
++    0x00000001u, 0x00050050u, 0x0000018fu, 0x000001d2u, 0x000001d1u, 0x000001d1u, 0x00050084u, 0x0000018fu,
++    0x000001d3u, 0x000001d0u, 0x000001d2u, 0x00040070u, 0x00000007u, 0x000001d4u, 0x000001d3u, 0x0003003eu,
++    0x000001cdu, 0x000001d4u, 0x0004003du, 0x00000007u, 0x000001d6u, 0x000001cdu, 0x00050050u, 0x00000007u,
++    0x000001d8u, 0x000001d7u, 0x000001d7u, 0x00050081u, 0x00000007u, 0x000001d9u, 0x000001d6u, 0x000001d8u,
++    0x0004003du, 0x0000000eu, 0x000001dau, 0x00000198u, 0x0004006fu, 0x00000007u, 0x000001dbu, 0x000001dau,
++    0x0007000cu, 0x00000007u, 0x000001dcu, 0x00000001u, 0x00000025u, 0x000001d9u, 0x000001dbu, 0x0003003eu,
++    0x000001d5u, 0x000001dcu, 0x0004003du, 0x00000007u, 0x000001dfu, 0x000001cdu, 0x0003003eu, 0x000001deu,
++    0x000001dfu, 0x00050039u, 0x00000014u, 0x000001e0u, 0x00000017u, 0x000001deu, 0x0003003eu, 0x000001ddu,
++    0x000001e0u, 0x00050041u, 0x00000019u, 0x000001e2u, 0x000001d5u, 0x0000006au, 0x0004003du, 0x00000006u,
++    0x000001e3u, 0x000001e2u, 0x00050041u, 0x00000019u, 0x000001e4u, 0x000001cdu, 0x000000aau, 0x0004003du,
++    0x00000006u, 0x000001e5u, 0x000001e4u, 0x00050050u, 0x00000007u, 0x000001e6u, 0x000001e3u, 0x000001e5u,
++    0x0003003eu, 0x000001e7u, 0x000001e6u, 0x00050039u, 0x00000014u, 0x000001e8u, 0x00000017u, 0x000001e7u,
++    0x0003003eu, 0x000001e1u, 0x000001e8u, 0x0004003du, 0x00000007u, 0x000001ebu, 0x000001d5u, 0x0003003eu,
++    0x000001eau, 0x000001ebu, 0x00050039u, 0x00000014u, 0x000001ecu, 0x00000017u, 0x000001eau, 0x0003003eu,
++    0x000001e9u, 0x000001ecu, 0x00050041u, 0x00000019u, 0x000001eeu, 0x000001cdu, 0x0000006au, 0x0004003du,
++    0x00000006u, 0x000001efu, 0x000001eeu, 0x00050041u, 0x00000019u, 0x000001f0u, 0x000001d5u, 0x000000aau,
++    0x0004003du, 0x00000006u, 0x000001f1u, 0x000001f0u, 0x00050050u, 0x00000007u, 0x000001f2u, 0x000001efu,
++    0x000001f1u, 0x0003003eu, 0x000001f3u, 0x000001f2u, 0x00050039u, 0x00000014u, 0x000001f4u, 0x00000017u,
++    0x000001f3u, 0x0003003eu, 0x000001edu, 0x000001f4u, 0x0004003du, 0x00000007u, 0x000001f6u, 0x000001cdu,
++    0x0004003du, 0x00000007u, 0x000001f7u, 0x000001d5u, 0x00050081u, 0x00000007u, 0x000001f8u, 0x000001f6u,
++    0x000001f7u, 0x0005008eu, 0x00000007u, 0x000001f9u, 0x000001f8u, 0x00000091u, 0x0003003eu, 0x000001fau,
++    0x000001f9u, 0x00050039u, 0x00000014u, 0x000001fbu, 0x00000017u, 0x000001fau, 0x0003003eu, 0x000001f5u,
++    0x000001fbu, 0x0004003du, 0x00000014u, 0x00000201u, 0x000001ddu, 0x0003003eu, 0x00000200u, 0x00000201u,
++    0x0004003du, 0x00000014u, 0x00000203u, 0x000001e1u, 0x0003003eu, 0x00000202u, 0x00000203u, 0x0004003du,
++    0x00000014u, 0x00000205u, 0x000001f5u, 0x0003003eu, 0x00000204u, 0x00000205u, 0x00070039u, 0x00000026u,
++    0x00000206u, 0x0000002bu, 0x00000200u, 0x00000202u, 0x00000204u, 0x0004003du, 0x00000014u, 0x00000208u,
++    0x000001e1u, 0x0003003eu, 0x00000207u, 0x00000208u, 0x0004003du, 0x00000014u, 0x0000020au, 0x000001e9u,
++    0x0003003eu, 0x00000209u, 0x0000020au, 0x0004003du, 0x00000014u, 0x0000020cu, 0x000001f5u, 0x0003003eu,
++    0x0000020bu, 0x0000020cu, 0x00070039u, 0x00000026u, 0x0000020du, 0x0000002bu, 0x00000207u, 0x00000209u,
++    0x0000020bu, 0x0004003du, 0x00000014u, 0x0000020fu, 0x000001e9u, 0x0003003eu, 0x0000020eu, 0x0000020fu,
++    0x0004003du, 0x00000014u, 0x00000211u, 0x000001edu, 0x0003003eu, 0x00000210u, 0x00000211u, 0x0004003du,
++    0x00000014u, 0x00000213u, 0x000001f5u, 0x0003003eu, 0x00000212u, 0x00000213u, 0x00070039u, 0x00000026u,
++    0x00000214u, 0x0000002bu, 0x0000020eu, 0x00000210u, 0x00000212u, 0x0004003du, 0x00000014u, 0x00000216u,
++    0x000001edu, 0x0003003eu, 0x00000215u, 0x00000216u, 0x0004003du, 0x00000014u, 0x00000218u, 0x000001ddu,
++    0x0003003eu, 0x00000217u, 0x00000218u, 0x0004003du, 0x00000014u, 0x0000021au, 0x000001f5u, 0x0003003eu,
++    0x00000219u, 0x0000021au, 0x00070039u, 0x00000026u, 0x0000021bu, 0x0000002bu, 0x00000215u, 0x00000217u,
++    0x00000219u, 0x00070050u, 0x000001fdu, 0x0000021cu, 0x00000206u, 0x0000020du, 0x00000214u, 0x0000021bu,
++    0x0003003eu, 0x000001ffu, 0x0000021cu, 0x0004003du, 0x0000002eu, 0x0000021eu, 0x00000194u, 0x0003003eu,
++    0x0000021du, 0x0000021eu, 0x000200f9u, 0x0000021fu, 0x000200f8u, 0x0000021fu, 0x000400f6u, 0x00000221u,
++    0x00000222u, 0x00000000u, 0x000200f9u, 0x00000223u, 0x000200f8u, 0x00000223u, 0x0004003du, 0x0000002eu,
++    0x00000224u, 0x0000021du, 0x00060041u, 0x00000226u, 0x00000227u, 0x00000034u, 0x00000225u, 0x0000006au,
++    0x0004003du, 0x0000002eu, 0x00000228u, 0x00000227u, 0x000500b0u, 0x00000053u, 0x00000229u, 0x00000224u,
++    0x00000228u, 0x000400fau, 0x00000229u, 0x00000220u, 0x00000221u, 0x000200f8u, 0x00000220u, 0x0004003du,
++    0x0000002eu, 0x0000022du, 0x0000021du, 0x00070041u, 0x00000036u, 0x0000022eu, 0x00000034u, 0x0000022cu,
++    0x0000022du, 0x00000050u, 0x0004003du, 0x00000026u, 0x0000022fu, 0x0000022eu, 0x0003003eu, 0x0000022bu,
++    0x0000022fu, 0x00050041u, 0x00000019u, 0x00000230u, 0x0000022bu, 0x0000006eu, 0x0004003du, 0x00000006u,
++    0x00000231u, 0x00000230u, 0x00050041u, 0x00000019u, 0x00000232u, 0x0000022bu, 0x00000073u, 0x0004003du,
++    0x00000006u, 0x00000233u, 0x00000232u, 0x00050081u, 0x00000006u, 0x00000234u, 0x00000231u, 0x00000233u,
++    0x0004003du, 0x00000006u, 0x00000235u, 0x000001c1u, 0x000500b8u, 0x00000053u, 0x00000236u, 0x00000234u,
++    0x00000235u, 0x000400a8u, 0x00000053u, 0x00000237u, 0x00000236u, 0x000300f7u, 0x00000239u, 0x00000000u,
++    0x000400fau, 0x00000237u, 0x00000238u, 0x00000239u, 0x000200f8u, 0x00000238u, 0x00050041u, 0x00000019u,
++    0x0000023au, 0x0000022bu, 0x0000006eu, 0x0004003du, 0x00000006u, 0x0000023bu, 0x0000023au, 0x00050041u,
++    0x00000019u, 0x0000023cu, 0x0000022bu, 0x00000073u, 0x0004003du, 0x00000006u, 0x0000023du, 0x0000023cu,
++    0x00050083u, 0x00000006u, 0x0000023eu, 0x0000023bu, 0x0000023du, 0x0004003du, 0x00000006u, 0x0000023fu,
++    0x000001c4u, 0x000500bau, 0x00000053u, 0x00000240u, 0x0000023eu, 0x0000023fu, 0x000200f9u, 0x00000239u,
++    0x000200f8u, 0x00000239u, 0x000700f5u, 0x00000053u, 0x00000241u, 0x00000236u, 0x00000220u, 0x00000240u,
++    0x00000238u, 0x000300f7u, 0x00000243u, 0x00000000u, 0x000400fau, 0x00000241u, 0x00000242u, 0x00000243u,
++    0x000200f8u, 0x00000242u, 0x000200f9u, 0x00000222u, 0x000200f8u, 0x00000243u, 0x00050041u, 0x0000022au,
++    0x00000245u, 0x000001ffu, 0x00000050u, 0x0004003du, 0x00000026u, 0x00000246u, 0x00000245u, 0x0008004fu,
++    0x00000014u, 0x00000247u, 0x00000246u, 0x00000246u, 0x00000000u, 0x00000001u, 0x00000002u, 0x0004003du,
++    0x00000026u, 0x00000248u, 0x0000022bu, 0x0008004fu, 0x00000014u, 0x00000249u, 0x00000248u, 0x00000248u,
++    0x00000000u, 0x00000001u, 0x00000002u, 0x00050094u, 0x00000006u, 0x0000024au, 0x00000247u, 0x00000249u,
++    0x00050041u, 0x00000019u, 0x0000024bu, 0x0000022bu, 0x00000073u, 0x0004003du, 0x00000006u, 0x0000024cu,
++    0x0000024bu, 0x0004007fu, 0x00000006u, 0x0000024du, 0x0000024cu, 0x000500b8u, 0x00000053u, 0x0000024eu,
++    0x0000024au, 0x0000024du, 0x000400a8u, 0x00000053u, 0x0000024fu, 0x0000024eu, 0x000300f7u, 0x00000251u,
++    0x00000000u, 0x000400fau, 0x0000024fu, 0x00000250u, 0x00000251u, 0x000200f8u, 0x00000250u, 0x00050041u,
++    0x0000022au, 0x00000252u, 0x000001ffu, 0x000000bdu, 0x0004003du, 0x00000026u, 0x00000253u, 0x00000252u,
++    0x0008004fu, 0x00000014u, 0x00000254u, 0x00000253u, 0x00000253u, 0x00000000u, 0x00000001u, 0x00000002u,
++    0x0004003du, 0x00000026u, 0x00000255u, 0x0000022bu, 0x0008004fu, 0x00000014u, 0x00000256u, 0x00000255u,
++    0x00000255u, 0x00000000u, 0x00000001u, 0x00000002u, 0x00050094u, 0x00000006u, 0x00000257u, 0x00000254u,
++    0x00000256u, 0x00050041u, 0x00000019u, 0x00000258u, 0x0000022bu, 0x00000073u, 0x0004003du, 0x00000006u,
++    0x00000259u, 0x00000258u, 0x0004007fu, 0x00000006u, 0x0000025au, 0x00000259u, 0x000500b8u, 0x00000053u,
++    0x0000025bu, 0x00000257u, 0x0000025au, 0x000200f9u, 0x00000251u, 0x000200f8u, 0x00000251u, 0x000700f5u,
++    0x00000053u, 0x0000025cu, 0x0000024eu, 0x00000243u, 0x0000025bu, 0x00000250u, 0x000400a8u, 0x00000053u,
++    0x0000025du, 0x0000025cu, 0x000300f7u, 0x0000025fu, 0x00000000u, 0x000400fau, 0x0000025du, 0x0000025eu,
++    0x0000025fu, 0x000200f8u, 0x0000025eu, 0x00050041u, 0x0000022au, 0x00000260u, 0x000001ffu, 0x00000035u,
++    0x0004003du, 0x00000026u, 0x00000261u, 0x00000260u, 0x0008004fu, 0x00000014u, 0x00000262u, 0x00000261u,
++    0x00000261u, 0x00000000u, 0x00000001u, 0x00000002u, 0x0004003du, 0x00000026u, 0x00000263u, 0x0000022bu,
++    0x0008004fu, 0x00000014u, 0x00000264u, 0x00000263u, 0x00000263u, 0x00000000u, 0x00000001u, 0x00000002u,
++    0x00050094u, 0x00000006u, 0x00000265u, 0x00000262u, 0x00000264u, 0x00050041u, 0x00000019u, 0x00000266u,
++    0x0000022bu, 0x00000073u, 0x0004003du, 0x00000006u, 0x00000267u, 0x00000266u, 0x0004007fu, 0x00000006u,
++    0x00000268u, 0x00000267u, 0x000500b8u, 0x00000053u, 0x00000269u, 0x00000265u, 0x00000268u, 0x000200f9u,
++    0x0000025fu, 0x000200f8u, 0x0000025fu, 0x000700f5u, 0x00000053u, 0x0000026au, 0x0000025cu, 0x00000251u,
++    0x00000269u, 0x0000025eu, 0x000400a8u, 0x00000053u, 0x0000026bu, 0x0000026au, 0x000300f7u, 0x0000026du,
++    0x00000000u, 0x000400fau, 0x0000026bu, 0x0000026cu, 0x0000026du, 0x000200f8u, 0x0000026cu, 0x00050041u,
++    0x0000022au, 0x0000026eu, 0x000001ffu, 0x00000086u, 0x0004003du, 0x00000026u, 0x0000026fu, 0x0000026eu,
++    0x0008004fu, 0x00000014u, 0x00000270u, 0x0000026fu, 0x0000026fu, 0x00000000u, 0x00000001u, 0x00000002u,
++    0x0004003du, 0x00000026u, 0x00000271u, 0x0000022bu, 0x0008004fu, 0x00000014u, 0x00000272u, 0x00000271u,
++    0x00000271u, 0x00000000u, 0x00000001u, 0x00000002u, 0x00050094u, 0x00000006u, 0x00000273u, 0x00000270u,
++    0x00000272u, 0x00050041u, 0x00000019u, 0x00000274u, 0x0000022bu, 0x00000073u, 0x0004003du, 0x00000006u,
++    0x00000275u, 0x00000274u, 0x0004007fu, 0x00000006u, 0x00000276u, 0x00000275u, 0x000500b8u, 0x00000053u,
++    0x00000277u, 0x00000273u, 0x00000276u, 0x000200f9u, 0x0000026du, 0x000200f8u, 0x0000026du, 0x000700f5u,
++    0x00000053u, 0x00000278u, 0x0000026au, 0x0000025fu, 0x00000277u, 0x0000026cu, 0x000300f7u, 0x0000027au,
++    0x00000000u, 0x000400fau, 0x00000278u, 0x00000279u, 0x0000027au, 0x000200f8u, 0x00000279u, 0x000200f9u,
++    0x00000222u, 0x000200f8u, 0x0000027au, 0x000700eau, 0x0000002eu, 0x0000027du, 0x000001abu, 0x000000aau,
++    0x0000006au, 0x000000aau, 0x0003003eu, 0x0000027cu, 0x0000027du, 0x0004003du, 0x0000002eu, 0x0000027eu,
++    0x0000027cu, 0x000500b0u, 0x00000053u, 0x00000280u, 0x0000027eu, 0x0000027fu, 0x000300f7u, 0x00000282u,
++    0x00000000u, 0x000400fau, 0x00000280u, 0x00000281u, 0x00000282u, 0x000200f8u, 0x00000281u, 0x0004003du,
++    0x0000002eu, 0x00000286u, 0x0000027cu, 0x0004003du, 0x0000002eu, 0x00000287u, 0x0000021du, 0x00050041u,
++    0x000001a7u, 0x00000288u, 0x00000285u, 0x00000286u, 0x0003003eu, 0x00000288u, 0x00000287u, 0x000200f9u,
++    0x00000282u, 0x000200f8u, 0x00000282u, 0x000200f9u, 0x00000222u, 0x000200f8u, 0x00000222u, 0x0004003du,
++    0x0000002eu, 0x00000289u, 0x0000021du, 0x00050080u, 0x0000002eu, 0x0000028au, 0x00000289u, 0x0000027fu,
++    0x0003003eu, 0x0000021du, 0x0000028au, 0x000200f9u, 0x0000021fu, 0x000200f8u, 0x00000221u, 0x000200f9u,
++    0x000001ccu, 0x000200f8u, 0x000001ccu, 0x000400e0u, 0x0000006eu, 0x0000006eu, 0x000001acu, 0x0004003du,
++    0x0000002eu, 0x0000028cu, 0x000001abu, 0x0007000cu, 0x0000002eu, 0x0000028du, 0x00000001u, 0x00000026u,
++    0x0000028cu, 0x0000027fu, 0x0003003eu, 0x0000028bu, 0x0000028du, 0x0004003du, 0x0000002eu, 0x0000028eu,
++    0x00000194u, 0x000500aau, 0x00000053u, 0x0000028fu, 0x0000028eu, 0x0000006au, 0x000300f7u, 0x00000291u,
++    0x00000000u, 0x000400fau, 0x0000028fu, 0x00000290u, 0x00000291u, 0x000200f8u, 0x00000290u, 0x00060041u,
++    0x00000226u, 0x00000292u, 0x00000034u, 0x00000225u, 0x00000073u, 0x0004003du, 0x0000002eu, 0x00000293u,
++    0x00000292u, 0x000500abu, 0x00000053u, 0x00000294u, 0x00000293u, 0x0000006au, 0x000200f9u, 0x00000291u,
++    0x000200f8u, 0x00000291u, 0x000700f5u, 0x00000053u, 0x00000295u, 0x0000028fu, 0x000001ccu, 0x00000294u,
++    0x00000290u, 0x000300f7u, 0x00000297u, 0x00000000u, 0x000400fau, 0x00000295u, 0x00000296u, 0x00000297u,
++    0x000200f8u, 0x00000296u, 0x00050041u, 0x00000226u, 0x0000029bu, 0x0000029au, 0x00000050u, 0x000700eau,
++    0x0000002eu, 0x0000029cu, 0x0000029bu, 0x000000aau, 0x0000006au, 0x000000aau, 0x0004003du, 0x0000002eu,
++    0x0000029du, 0x0000028bu, 0x000500acu, 0x00000053u, 0x0000029eu, 0x0000029du, 0x0000006au, 0x000300f7u,
++    0x000002a0u, 0x00000000u, 0x000400fau, 0x0000029eu, 0x0000029fu, 0x000002a0u, 0x000200f8u, 0x0000029fu,
++    0x00050041u, 0x00000226u, 0x000002a1u, 0x0000029au, 0x000000bdu, 0x000700eau, 0x0000002eu, 0x000002a2u,
++    0x000002a1u, 0x000000aau, 0x0000006au, 0x000000aau, 0x00050041u, 0x00000226u, 0x000002a3u, 0x0000029au,
++    0x00000035u, 0x0004003du, 0x0000002eu, 0x000002a4u, 0x0000028bu, 0x000700eau, 0x0000002eu, 0x000002a5u,
++    0x000002a3u, 0x000000aau, 0x0000006au, 0x000002a4u, 0x00050041u, 0x00000226u, 0x000002a6u, 0x0000029au,
++    0x00000086u, 0x0004003du, 0x0000002eu, 0x000002a7u, 0x0000028bu, 0x000700efu, 0x0000002eu, 0x000002a8u,
++    0x000002a6u, 0x000000aau, 0x0000006au, 0x000002a7u, 0x000200f9u, 0x000002a0u, 0x000200f8u, 0x000002a0u,
++    0x000200f9u, 0x00000297u, 0x000200f8u, 0x00000297u, 0x0004003du, 0x00000053u, 0x000002a9u, 0x0000019eu,
++    0x000400a8u, 0x00000053u, 0x000002aau, 0x000002a9u, 0x000300f7u, 0x000002acu, 0x00000000u, 0x000400fau,
++    0x000002aau, 0x000002abu, 0x000002acu, 0x000200f8u, 0x000002abu, 0x000100fdu, 0x000200f8u, 0x000002acu,
++    0x00060041u, 0x00000226u, 0x000002afu, 0x00000034u, 0x00000225u, 0x000000aau, 0x0004003du, 0x0000002eu,
++    0x000002b0u, 0x000002afu, 0x0003003eu, 0x000002aeu, 0x000002b0u, 0x0004003du, 0x0000002eu, 0x000002b1u,
++    0x000002aeu, 0x000500aau, 0x00000053u, 0x000002b2u, 0x000002b1u, 0x0000006eu, 0x000300f7u, 0x000002b4u,
++    0x00000000u, 0x000400fau, 0x000002b2u, 0x000002b3u, 0x000002b4u, 0x000200f8u, 0x000002b3u, 0x0004003du,
++    0x00000199u, 0x000002b6u, 0x0000019bu, 0x0004003du, 0x0000000eu, 0x000002b7u, 0x0000018bu, 0x00050062u,
++    0x00000026u, 0x000002b8u, 0x000002b6u, 0x000002b7u, 0x0003003eu, 0x000002b5u, 0x000002b8u, 0x0004003du,
++    0x0000002eu, 0x000002bau, 0x0000028bu, 0x00040070u, 0x00000006u, 0x000002bbu, 0x000002bau, 0x00050088u,
++    0x00000006u, 0x000002bdu, 0x000002bbu, 0x000002bcu, 0x0008000cu, 0x00000006u, 0x000002beu, 0x00000001u,
++    0x0000002bu, 0x000002bdu, 0x00000063u, 0x000000a2u, 0x0003003eu, 0x000002b9u, 0x000002beu, 0x0004003du,
++    0x0000002eu, 0x000002c0u, 0x0000028bu, 0x000500aau, 0x00000053u, 0x000002c1u, 0x000002c0u, 0x0000006au,
++    0x000300f7u, 0x000002c4u, 0x00000000u, 0x000400fau, 0x000002c1u, 0x000002c3u, 0x000002c9u, 0x000200f8u,
++    0x000002c3u, 0x0004003du, 0x00000026u, 0x000002c5u, 0x000002b5u, 0x0008004fu, 0x00000014u, 0x000002c6u,
++    0x000002c5u, 0x000002c5u, 0x00000000u, 0x00000001u, 0x00000002u, 0x0005008eu, 0x00000014u, 0x000002c8u,
++    0x000002c6u, 0x000002c7u, 0x0003003eu, 0x000002c2u, 0x000002c8u, 0x000200f9u, 0x000002c4u, 0x000200f8u,
++    0x000002c9u, 0x0004003du, 0x00000006u, 0x000002ceu, 0x000002b9u, 0x00060050u, 0x00000014u, 0x000002cfu,
++    0x000002ceu, 0x000002ceu, 0x000002ceu, 0x0008000cu, 0x00000014u, 0x000002d0u, 0x00000001u, 0x0000002eu,
++    0x000002cbu, 0x000002cdu, 0x000002cfu, 0x0003003eu, 0x000002c2u, 0x000002d0u, 0x000200f9u, 0x000002c4u,
++    0x000200f8u, 0x000002c4u, 0x0004003du, 0x00000014u, 0x000002d1u, 0x000002c2u, 0x0003003eu, 0x000002bfu,
++    0x000002d1u, 0x00060041u, 0x00000226u, 0x000002d2u, 0x00000034u, 0x00000225u, 0x0000006eu, 0x0004003du,
++    0x0000002eu, 0x000002d3u, 0x000002d2u, 0x000500abu, 0x00000053u, 0x000002d4u, 0x000002d3u, 0x0000006au,
++    0x000300f7u, 0x000002d6u, 0x00000000u, 0x000400fau, 0x000002d4u, 0x000002d5u, 0x000002d6u, 0x000200f8u,
++    0x000002d5u, 0x0004003du, 0x00000014u, 0x000002d7u, 0x000002bfu, 0x0008004fu, 0x00000014u, 0x000002d8u,
++    0x000002d7u, 0x000002d7u, 0x00000002u, 0x00000001u, 0x00000000u, 0x0003003eu, 0x000002bfu, 0x000002d8u,
++    0x000200f9u, 0x000002d6u, 0x000200f8u, 0x000002d6u, 0x0004003du, 0x00000199u, 0x000002d9u, 0x0000019bu,
++    0x0004003du, 0x0000000eu, 0x000002dau, 0x0000018bu, 0x0004003du, 0x00000014u, 0x000002dbu, 0x000002bfu,
++    0x00050041u, 0x00000019u, 0x000002dcu, 0x000002b5u, 0x00000073u, 0x0004003du, 0x00000006u, 0x000002ddu,
++    0x000002dcu, 0x00050051u, 0x00000006u, 0x000002deu, 0x000002dbu, 0x00000000u, 0x00050051u, 0x00000006u,
++    0x000002dfu, 0x000002dbu, 0x00000001u, 0x00050051u, 0x00000006u, 0x000002e0u, 0x000002dbu, 0x00000002u,
++    0x00070050u, 0x00000026u, 0x000002e1u, 0x000002deu, 0x000002dfu, 0x000002e0u, 0x000002ddu, 0x00040063u,
++    0x000002d9u, 0x000002dau, 0x000002e1u, 0x000100fdu, 0x000200f8u, 0x000002b4u, 0x0004003du, 0x00000006u,
++    0x000002e3u, 0x000001adu, 0x000500bcu, 0x00000053u, 0x000002e4u, 0x000002e3u, 0x00000063u, 0x0004003du,
++    0x0000002eu, 0x000002e5u, 0x0000028bu, 0x000500aau, 0x00000053u, 0x000002e6u, 0x000002e5u, 0x0000006au,
++    0x000500a6u, 0x00000053u, 0x000002e7u, 0x000002e4u, 0x000002e6u, 0x000300f7u, 0x000002e9u, 0x00000000u,
++    0x000400fau, 0x000002e7u, 0x000002e8u, 0x000002e9u, 0x000200f8u, 0x000002e8u, 0x0004003du, 0x0000002eu,
++    0x000002eau, 0x000002aeu, 0x000500aau, 0x00000053u, 0x000002ebu, 0x000002eau, 0x000000aau, 0x000300f7u,
++    0x000002edu, 0x00000000u, 0x000400fau, 0x000002ebu, 0x000002ecu, 0x000002edu, 0x000200f8u, 0x000002ecu,
++    0x0004003du, 0x00000199u, 0x000002eeu, 0x0000019bu, 0x0004003du, 0x0000000eu, 0x000002efu, 0x0000018bu,
++    0x0004003du, 0x00000199u, 0x000002f0u, 0x0000019bu, 0x0004003du, 0x0000000eu, 0x000002f1u, 0x0000018bu,
++    0x00050062u, 0x00000026u, 0x000002f2u, 0x000002f0u, 0x000002f1u, 0x00050051u, 0x00000006u, 0x000002f3u,
++    0x000002f2u, 0x00000003u, 0x00070050u, 0x00000026u, 0x000002f4u, 0x00000063u, 0x00000063u, 0x00000063u,
++    0x000002f3u, 0x00040063u, 0x000002eeu, 0x000002efu, 0x000002f4u, 0x000200f9u, 0x000002edu, 0x000200f8u,
++    0x000002edu, 0x000100fdu, 0x000200f8u, 0x000002e9u, 0x0004003du, 0x0000000eu, 0x000002f8u, 0x0000018bu,
++    0x0003003eu, 0x000002f7u, 0x000002f8u, 0x0004003du, 0x00000006u, 0x000002fau, 0x000001adu, 0x0003003eu,
++    0x000002f9u, 0x000002fau, 0x00060039u, 0x00000014u, 0x000002fbu, 0x0000001du, 0x000002f7u, 0x000002f9u,
++    0x0003003eu, 0x000002f6u, 0x000002fbu, 0x0004003du, 0x0000000eu, 0x000002feu, 0x0000018bu, 0x0003003eu,
++    0x000002fdu, 0x000002feu, 0x0004003du, 0x00000014u, 0x00000300u, 0x000002f6u, 0x0003003eu, 0x000002ffu,
++    0x00000300u, 0x0004003du, 0x00000006u, 0x00000302u, 0x000001adu, 0x0003003eu, 0x00000301u, 0x00000302u,
++    0x00070039u, 0x00000014u, 0x00000303u, 0x00000024u, 0x000002fdu, 0x000002ffu, 0x00000301u, 0x0003003eu,
++    0x000002fcu, 0x00000303u, 0x0003003eu, 0x00000304u, 0x00000305u, 0x0003003eu, 0x00000306u, 0x0000006au,
++    0x000200f9u, 0x00000307u, 0x000200f8u, 0x00000307u, 0x000400f6u, 0x00000309u, 0x0000030au, 0x00000000u,
++    0x000200f9u, 0x0000030bu, 0x000200f8u, 0x0000030bu, 0x0004003du, 0x0000002eu, 0x0000030cu, 0x00000306u,
++    0x0004003du, 0x0000002eu, 0x0000030du, 0x0000028bu, 0x000500b0u, 0x00000053u, 0x0000030eu, 0x0000030cu,
++    0x0000030du, 0x000400fau, 0x0000030eu, 0x00000308u, 0x00000309u, 0x000200f8u, 0x00000308u, 0x0004003du,
++    0x0000002eu, 0x00000312u, 0x00000306u, 0x00050041u, 0x000001a7u, 0x00000313u, 0x00000285u, 0x00000312u,
++    0x0004003du, 0x0000002eu, 0x00000314u, 0x00000313u, 0x00060041u, 0x00000315u, 0x00000316u, 0x00000034u,
++    0x0000022cu, 0x00000314u, 0x0004003du, 0x00000030u, 0x00000317u, 0x00000316u, 0x00050051u, 0x00000026u,
++    0x00000318u, 0x00000317u, 0x00000000u, 0x00050041u, 0x0000022au, 0x00000319u, 0x00000311u, 0x00000050u,
++    0x0003003eu, 0x00000319u, 0x00000318u, 0x00050051u, 0x00000026u, 0x0000031au, 0x00000317u, 0x00000001u,
++    0x00050041u, 0x0000022au, 0x0000031bu, 0x00000311u, 0x000000bdu, 0x0003003eu, 0x0000031bu, 0x0000031au,
++    0x00050041u, 0x0000022au, 0x0000031du, 0x00000311u, 0x00000050u, 0x0004003du, 0x00000026u, 0x0000031eu,
++    0x0000031du, 0x0008004fu, 0x00000014u, 0x0000031fu, 0x0000031eu, 0x0000031eu, 0x00000000u, 0x00000001u,
++    0x00000002u, 0x0004003du, 0x00000014u, 0x00000320u, 0x000002f6u, 0x00050083u, 0x00000014u, 0x00000321u,
++    0x0000031fu, 0x00000320u, 0x0003003eu, 0x0000031cu, 0x00000321u, 0x0004003du, 0x00000014u, 0x00000323u,
++    0x0000031cu, 0x0004003du, 0x00000014u, 0x00000324u, 0x0000031cu, 0x00050094u, 0x00000006u, 0x00000325u,
++    0x00000323u, 0x00000324u, 0x0007000cu, 0x00000006u, 0x00000327u, 0x00000001u, 0x00000028u, 0x00000325u,
++    0x00000326u, 0x0003003eu, 0x00000322u, 0x00000327u, 0x0004003du, 0x00000006u, 0x00000329u, 0x00000322u,
++    0x0006000cu, 0x00000006u, 0x0000032au, 0x00000001u, 0x00000020u, 0x00000329u, 0x0003003eu, 0x00000328u,
++    0x0000032au, 0x0004003du, 0x00000006u, 0x0000032cu, 0x00000322u, 0x0004003du, 0x00000006u, 0x0000032du,
++    0x00000328u, 0x00050085u, 0x00000006u, 0x0000032eu, 0x0000032cu, 0x0000032du, 0x0003003eu, 0x0000032bu,
++    0x0000032eu, 0x0004003du, 0x00000006u, 0x0000032fu, 0x0000032bu, 0x00060041u, 0x00000019u, 0x00000330u,
++    0x00000311u, 0x00000050u, 0x00000073u, 0x0004003du, 0x00000006u, 0x00000331u, 0x00000330u, 0x000500beu,
++    0x00000053u, 0x00000332u, 0x0000032fu, 0x00000331u, 0x000300f7u, 0x00000334u, 0x00000000u, 0x000400fau,
++    0x00000332u, 0x00000333u, 0x00000334u, 0x000200f8u, 0x00000333u, 0x000200f9u, 0x0000030au, 0x000200f8u,
++    0x00000334u, 0x0004003du, 0x00000014u, 0x00000337u, 0x0000031cu, 0x0004003du, 0x00000014u, 0x00000338u,
++    0x000002fcu, 0x00050094u, 0x00000006u, 0x00000339u, 0x00000337u, 0x00000338u, 0x0004003du, 0x00000006u,
++    0x0000033au, 0x00000328u, 0x00050085u, 0x00000006u, 0x0000033bu, 0x00000339u, 0x0000033au, 0x0007000cu,
++    0x00000006u, 0x0000033cu, 0x00000001u, 0x00000028u, 0x0000033bu, 0x00000063u, 0x0003003eu, 0x00000336u,
++    0x0000033cu, 0x00050041u, 0x0000022au, 0x0000033du, 0x00000311u, 0x000000bdu, 0x0004003du, 0x00000026u,
++    0x0000033eu, 0x0000033du, 0x0008004fu, 0x00000014u, 0x0000033fu, 0x0000033eu, 0x0000033eu, 0x00000000u,
++    0x00000001u, 0x00000002u, 0x0004003du, 0x00000006u, 0x00000340u, 0x00000336u, 0x0004003du, 0x00000006u,
++    0x00000341u, 0x00000328u, 0x00050085u, 0x00000006u, 0x00000343u, 0x00000341u, 0x00000342u, 0x00050081u,
++    0x00000006u, 0x00000345u, 0x00000343u, 0x00000344u, 0x0004003du, 0x00000006u, 0x00000346u, 0x00000322u,
++    0x00050085u, 0x00000006u, 0x00000347u, 0x00000345u, 0x00000346u, 0x00050088u, 0x00000006u, 0x00000348u,
++    0x00000340u, 0x00000347u, 0x0005008eu, 0x00000014u, 0x00000349u, 0x0000033fu, 0x00000348u, 0x00060041u,
++    0x00000019u, 0x0000034au, 0x00000311u, 0x00000050u, 0x00000073u, 0x0004003du, 0x00000006u, 0x0000034bu,
++    0x0000034au, 0x0004003du, 0x00000006u, 0x0000034cu, 0x0000032bu, 0x00050083u, 0x00000006u, 0x0000034du,
++    0x0000034bu, 0x0000034cu, 0x00060041u, 0x00000019u, 0x0000034eu, 0x00000311u, 0x000000bdu, 0x00000073u,
++    0x0004003du, 0x00000006u, 0x0000034fu, 0x0000034eu, 0x00050085u, 0x00000006u, 0x00000350u, 0x0000034du,
++    0x0000034fu, 0x0008000cu, 0x00000006u, 0x00000351u, 0x00000001u, 0x0000002bu, 0x00000350u, 0x00000063u,
++    0x000000a2u, 0x0005008eu, 0x00000014u, 0x00000352u, 0x00000349u, 0x00000351u, 0x0004003du, 0x00000014u,
++    0x00000353u, 0x00000304u, 0x00050081u, 0x00000014u, 0x00000354u, 0x00000353u, 0x00000352u, 0x0003003eu,
++    0x00000304u, 0x00000354u, 0x000200f9u, 0x0000030au, 0x000200f8u, 0x0000030au, 0x0004003du, 0x0000002eu,
++    0x00000355u, 0x00000306u, 0x00050080u, 0x0000002eu, 0x00000356u, 0x00000355u, 0x000000bdu, 0x0003003eu,
++    0x00000306u, 0x00000356u, 0x000200f9u, 0x00000307u, 0x000200f8u, 0x00000309u, 0x00060041u, 0x0000006fu,
++    0x00000358u, 0x00000034u, 0x00000357u, 0x00000073u, 0x0004003du, 0x00000006u, 0x00000359u, 0x00000358u,
++    0x0004003du, 0x00000014u, 0x0000035au, 0x00000304u, 0x0005008eu, 0x00000014u, 0x0000035bu, 0x0000035au,
++    0x00000359u, 0x0003003eu, 0x00000304u, 0x0000035bu, 0x0004003du, 0x00000199u, 0x0000035du, 0x0000019bu,
++    0x0004003du, 0x0000000eu, 0x0000035eu, 0x0000018bu, 0x00050062u, 0x00000026u, 0x0000035fu, 0x0000035du,
++    0x0000035eu, 0x0003003eu, 0x0000035cu, 0x0000035fu, 0x0004003du, 0x0000002eu, 0x00000360u, 0x000002aeu,
++    0x000500aau, 0x00000053u, 0x00000361u, 0x00000360u, 0x000000aau, 0x000300f7u, 0x00000363u, 0x00000000u,
++    0x000400fau, 0x00000361u, 0x00000362u, 0x00000363u, 0x000200f8u, 0x00000362u, 0x0004003du, 0x00000014u,
++    0x00000365u, 0x00000304u, 0x0004003du, 0x00000014u, 0x00000366u, 0x00000304u, 0x00060050u, 0x00000014u,
++    0x00000367u, 0x000000a2u, 0x000000a2u, 0x000000a2u, 0x00050081u, 0x00000014u, 0x00000368u, 0x00000367u,
++    0x00000366u, 0x00050088u, 0x00000014u, 0x00000369u, 0x00000365u, 0x00000368u, 0x0003003eu, 0x00000364u,
++    0x00000369u, 0x00060041u, 0x00000226u, 0x0000036au, 0x00000034u, 0x00000225u, 0x0000006eu, 0x0004003du,
++    0x0000002eu, 0x0000036bu, 0x0000036au, 0x000500abu, 0x00000053u, 0x0000036cu, 0x0000036bu, 0x0000006au,
++    0x000300f7u, 0x0000036eu, 0x00000000u, 0x000400fau, 0x0000036cu, 0x0000036du, 0x0000036eu, 0x000200f8u,
++    0x0000036du, 0x0004003du, 0x00000014u, 0x0000036fu, 0x00000364u, 0x0008004fu, 0x00000014u, 0x00000370u,
++    0x0000036fu, 0x0000036fu, 0x00000002u, 0x00000001u, 0x00000000u, 0x0003003eu, 0x00000364u, 0x00000370u,
++    0x000200f9u, 0x0000036eu, 0x000200f8u, 0x0000036eu, 0x0004003du, 0x00000199u, 0x00000371u, 0x0000019bu,
++    0x0004003du, 0x0000000eu, 0x00000372u, 0x0000018bu, 0x0004003du, 0x00000014u, 0x00000373u, 0x00000364u,
++    0x00050041u, 0x00000019u, 0x00000374u, 0x0000035cu, 0x00000073u, 0x0004003du, 0x00000006u, 0x00000375u,
++    0x00000374u, 0x00050051u, 0x00000006u, 0x00000376u, 0x00000373u, 0x00000000u, 0x00050051u, 0x00000006u,
++    0x00000377u, 0x00000373u, 0x00000001u, 0x00050051u, 0x00000006u, 0x00000378u, 0x00000373u, 0x00000002u,
++    0x00070050u, 0x00000026u, 0x00000379u, 0x00000376u, 0x00000377u, 0x00000378u, 0x00000375u, 0x00040063u,
++    0x00000371u, 0x00000372u, 0x00000379u, 0x000100fdu, 0x000200f8u, 0x00000363u, 0x00050041u, 0x00000036u,
++    0x0000037du, 0x00000034u, 0x0000037cu, 0x0004003du, 0x00000026u, 0x0000037eu, 0x0000037du, 0x0008004fu,
++    0x00000014u, 0x0000037fu, 0x0000037eu, 0x0000037eu, 0x00000000u, 0x00000001u, 0x00000002u, 0x00050041u,
++    0x00000036u, 0x00000380u, 0x00000034u, 0x00000357u, 0x0004003du, 0x00000026u, 0x00000381u, 0x00000380u,
++    0x0008004fu, 0x00000014u, 0x00000382u, 0x00000381u, 0x00000381u, 0x00000000u, 0x00000001u, 0x00000002u,
++    0x0004003du, 0x00000014u, 0x00000383u, 0x000002fcu, 0x00050041u, 0x00000036u, 0x00000385u, 0x00000034u,
++    0x00000384u, 0x0004003du, 0x00000026u, 0x00000386u, 0x00000385u, 0x0008004fu, 0x00000014u, 0x00000387u,
++    0x00000386u, 0x00000386u, 0x00000000u, 0x00000001u, 0x00000002u, 0x0004007fu, 0x00000014u, 0x00000388u,
++    0x00000387u, 0x00050094u, 0x00000006u, 0x00000389u, 0x00000383u, 0x00000388u, 0x0007000cu, 0x00000006u,
++    0x0000038au, 0x00000001u, 0x00000028u, 0x00000389u, 0x00000063u, 0x0005008eu, 0x00000014u, 0x0000038bu,
++    0x00000382u, 0x0000038au, 0x00050081u, 0x00000014u, 0x0000038cu, 0x0000037fu, 0x0000038bu, 0x0003003eu,
++    0x0000037bu, 0x0000038cu, 0x0004003du, 0x00000014u, 0x0000038eu, 0x0000037bu, 0x0007000cu, 0x00000014u,
++    0x0000038fu, 0x00000001u, 0x00000028u, 0x0000038eu, 0x00000305u, 0x0007000cu, 0x00000014u, 0x00000392u,
++    0x00000001u, 0x0000001au, 0x0000038fu, 0x00000391u, 0x00060041u, 0x0000006fu, 0x00000393u, 0x00000034u,
++    0x0000037cu, 0x00000073u, 0x0004003du, 0x00000006u, 0x00000394u, 0x00000393u, 0x00060050u, 0x00000014u,
++    0x00000395u, 0x00000394u, 0x00000394u, 0x00000394u, 0x0007000cu, 0x00000014u, 0x00000396u, 0x00000001u,
++    0x00000028u, 0x00000392u, 0x00000395u, 0x0003003eu, 0x0000038du, 0x00000396u, 0x0004003du, 0x00000014u,
++    0x00000399u, 0x00000304u, 0x0004003du, 0x00000014u, 0x0000039au, 0x0000038du, 0x00050088u, 0x00000014u,
++    0x0000039bu, 0x00000399u, 0x0000039au, 0x00050081u, 0x00000014u, 0x0000039cu, 0x00000398u, 0x0000039bu,
++    0x0007000cu, 0x00000014u, 0x0000039fu, 0x00000001u, 0x0000001au, 0x0000039cu, 0x0000039eu, 0x0003003eu,
++    0x00000397u, 0x0000039fu, 0x00060041u, 0x00000226u, 0x000003a0u, 0x00000034u, 0x00000225u, 0x0000006eu,
++    0x0004003du, 0x0000002eu, 0x000003a1u, 0x000003a0u, 0x000500abu, 0x00000053u, 0x000003a2u, 0x000003a1u,
++    0x0000006au, 0x000300f7u, 0x000003a4u, 0x00000000u, 0x000400fau, 0x000003a2u, 0x000003a3u, 0x000003a4u,
++    0x000200f8u, 0x000003a3u, 0x0004003du, 0x00000014u, 0x000003a5u, 0x00000397u, 0x0008004fu, 0x00000014u,
++    0x000003a6u, 0x000003a5u, 0x000003a5u, 0x00000002u, 0x00000001u, 0x00000000u, 0x0003003eu, 0x00000397u,
++    0x000003a6u, 0x000200f9u, 0x000003a4u, 0x000200f8u, 0x000003a4u, 0x0004003du, 0x00000199u, 0x000003a7u,
++    0x0000019bu, 0x0004003du, 0x0000000eu, 0x000003a8u, 0x0000018bu, 0x0004003du, 0x00000026u, 0x000003a9u,
++    0x0000035cu, 0x0008004fu, 0x00000014u, 0x000003aau, 0x000003a9u, 0x000003a9u, 0x00000000u, 0x00000001u,
++    0x00000002u, 0x0004003du, 0x00000014u, 0x000003abu, 0x00000397u, 0x00050085u, 0x00000014u, 0x000003acu,
++    0x000003aau, 0x000003abu, 0x0007000cu, 0x00000014u, 0x000003adu, 0x00000001u, 0x00000025u, 0x000003acu,
++    0x00000398u, 0x00050041u, 0x00000019u, 0x000003aeu, 0x0000035cu, 0x00000073u, 0x0004003du, 0x00000006u,
++    0x000003afu, 0x000003aeu, 0x00050051u, 0x00000006u, 0x000003b0u, 0x000003adu, 0x00000000u, 0x00050051u,
++    0x00000006u, 0x000003b1u, 0x000003adu, 0x00000001u, 0x00050051u, 0x00000006u, 0x000003b2u, 0x000003adu,
++    0x00000002u, 0x00070050u, 0x00000026u, 0x000003b3u, 0x000003b0u, 0x000003b1u, 0x000003b2u, 0x000003afu,
++    0x00040063u, 0x000003a7u, 0x000003a8u, 0x000003b3u, 0x000100fdu, 0x00010038u, 0x00050036u, 0x00000007u,
++    0x0000000bu, 0x00000000u, 0x00000009u, 0x00030037u, 0x00000008u, 0x0000000au, 0x000200f8u, 0x0000000cu,
++    0x0004003du, 0x00000007u, 0x0000002du, 0x0000000au, 0x00050041u, 0x00000036u, 0x00000037u, 0x00000034u,
++    0x00000035u, 0x0004003du, 0x00000026u, 0x00000038u, 0x00000037u, 0x0007004fu, 0x00000007u, 0x00000039u,
++    0x00000038u, 0x00000038u, 0x00000000u, 0x00000001u, 0x00050083u, 0x00000007u, 0x0000003au, 0x0000002du,
++    0x00000039u, 0x00050041u, 0x00000036u, 0x0000003cu, 0x00000034u, 0x0000003bu, 0x0004003du, 0x00000026u,
++    0x0000003du, 0x0000003cu, 0x0007004fu, 0x00000007u, 0x0000003eu, 0x0000003du, 0x0000003du, 0x00000002u,
++    0x00000003u, 0x00050041u, 0x00000036u, 0x0000003fu, 0x00000034u, 0x0000003bu, 0x0004003du, 0x00000026u,
++    0x00000040u, 0x0000003fu, 0x0007004fu, 0x00000007u, 0x00000041u, 0x00000040u, 0x00000040u, 0x00000000u,
++    0x00000001u, 0x00050085u, 0x00000007u, 0x00000042u, 0x0000003eu, 0x00000041u, 0x00050083u, 0x00000007u,
++    0x00000043u, 0x0000003au, 0x00000042u, 0x00050041u, 0x00000036u, 0x00000044u, 0x00000034u, 0x00000035u,
++    0x0004003du, 0x00000026u, 0x00000045u, 0x00000044u, 0x0007004fu, 0x00000007u, 0x00000046u, 0x00000045u,
++    0x00000045u, 0x00000002u, 0x00000003u, 0x00050085u, 0x00000007u, 0x00000047u, 0x00000043u, 0x00000046u,
++    0x000200feu, 0x00000047u, 0x00010038u, 0x00050036u, 0x00000006u, 0x00000012u, 0x00000000u, 0x00000010u,
++    0x00030037u, 0x0000000fu, 0x00000011u, 0x000200f8u, 0x00000013u, 0x0004003bu, 0x0000000fu, 0x0000004au,
++    0x00000007u, 0x0004003bu, 0x00000019u, 0x00000065u, 0x00000007u, 0x0004003bu, 0x00000019u, 0x0000006cu,
++    0x00000007u, 0x0004003bu, 0x00000008u, 0x0000008eu, 0x00000007u, 0x0004003bu, 0x00000008u, 0x00000098u,
++    0x00000007u, 0x0004003du, 0x0000004cu, 0x0000004fu, 0x0000004eu, 0x00040064u, 0x0000004bu, 0x00000051u,
++    0x0000004fu, 0x00050067u, 0x0000000eu, 0x00000052u, 0x00000051u, 0x00000050u, 0x0003003eu, 0x0000004au,
++    0x00000052u, 0x0004003du, 0x0000000eu, 0x00000054u, 0x00000011u, 0x000500b1u, 0x00000056u, 0x00000057u,
++    0x00000054u, 0x00000055u, 0x0004009au, 0x00000053u, 0x00000058u, 0x00000057u, 0x000400a8u, 0x00000053u,
++    0x00000059u, 0x00000058u, 0x000300f7u, 0x0000005bu, 0x00000000u, 0x000400fau, 0x00000059u, 0x0000005au,
++    0x0000005bu, 0x000200f8u, 0x0000005au, 0x0004003du, 0x0000000eu, 0x0000005cu, 0x00000011u, 0x0004003du,
++    0x0000000eu, 0x0000005du, 0x0000004au, 0x000500afu, 0x00000056u, 0x0000005eu, 0x0000005cu, 0x0000005du,
++    0x0004009au, 0x00000053u, 0x0000005fu, 0x0000005eu, 0x000200f9u, 0x0000005bu, 0x000200f8u, 0x0000005bu,
++    0x000700f5u, 0x00000053u, 0x00000060u, 0x00000058u, 0x00000013u, 0x0000005fu, 0x0000005au, 0x000300f7u,
++    0x00000062u, 0x00000000u, 0x000400fau, 0x00000060u, 0x00000061u, 0x00000062u, 0x000200f8u, 0x00000061u,
++    0x000200feu, 0x00000063u, 0x000200f8u, 0x00000062u, 0x0004003du, 0x0000004cu, 0x00000066u, 0x0000004eu,
++    0x0004003du, 0x0000000eu, 0x00000067u, 0x00000011u, 0x00040064u, 0x0000004bu, 0x00000068u, 0x00000066u,
++    0x0007005fu, 0x00000026u, 0x00000069u, 0x00000068u, 0x00000067u, 0x00000002u, 0x00000050u, 0x00050051u,
++    0x00000006u, 0x0000006bu, 0x00000069u, 0x00000000u, 0x0003003eu, 0x00000065u, 0x0000006bu, 0x0004003du,
++    0x00000006u, 0x0000006du, 0x00000065u, 0x00060041u, 0x0000006fu, 0x00000070u, 0x00000034u, 0x00000050u,
++    0x0000006eu, 0x0004003du, 0x00000006u, 0x00000071u, 0x00000070u, 0x00050085u, 0x00000006u, 0x00000072u,
++    0x0000006du, 0x00000071u, 0x00060041u, 0x0000006fu, 0x00000074u, 0x00000034u, 0x00000050u, 0x00000073u,
++    0x0004003du, 0x00000006u, 0x00000075u, 0x00000074u, 0x00050081u, 0x00000006u, 0x00000076u, 0x00000072u,
++    0x00000075u, 0x0003003eu, 0x0000006cu, 0x00000076u, 0x0004003du, 0x00000006u, 0x00000077u, 0x00000065u,
++    0x0004009cu, 0x00000053u, 0x00000078u, 0x00000077u, 0x000400a8u, 0x00000053u, 0x00000079u, 0x00000078u,
++    0x000300f7u, 0x0000007bu, 0x00000000u, 0x000400fau, 0x00000079u, 0x0000007au, 0x0000007bu, 0x000200f8u,
++    0x0000007au, 0x0004003du, 0x00000006u, 0x0000007cu, 0x00000065u, 0x0004009du, 0x00000053u, 0x0000007du,
++    0x0000007cu, 0x000200f9u, 0x0000007bu, 0x000200f8u, 0x0000007bu, 0x000700f5u, 0x00000053u, 0x0000007eu,
++    0x00000078u, 0x00000062u, 0x0000007du, 0x0000007au, 0x0004003du, 0x00000006u, 0x0000007fu, 0x0000006cu,
++    0x000500b8u, 0x00000053u, 0x00000080u, 0x0000007fu, 0x00000063u, 0x000500a6u, 0x00000053u, 0x00000081u,
++    0x0000007eu, 0x00000080u, 0x000400a8u, 0x00000053u, 0x00000082u, 0x00000081u, 0x000300f7u, 0x00000084u,
++    0x00000000u, 0x000400fau, 0x00000082u, 0x00000083u, 0x00000084u, 0x000200f8u, 0x00000083u, 0x0004003du,
++    0x00000006u, 0x00000085u, 0x0000006cu, 0x00060041u, 0x0000006fu, 0x00000087u, 0x00000034u, 0x00000086u,
++    0x0000006eu, 0x0004003du, 0x00000006u, 0x00000088u, 0x00000087u, 0x000500beu, 0x00000053u, 0x00000089u,
++    0x00000085u, 0x00000088u, 0x000200f9u, 0x00000084u, 0x000200f8u, 0x00000084u, 0x000700f5u, 0x00000053u,
++    0x0000008au, 0x00000081u, 0x0000007bu, 0x00000089u, 0x00000083u, 0x000300f7u, 0x0000008cu, 0x00000000u,
++    0x000400fau, 0x0000008au, 0x0000008bu, 0x0000008cu, 0x000200f8u, 0x0000008bu, 0x000200feu, 0x00000063u,
++    0x000200f8u, 0x0000008cu, 0x0004003du, 0x0000000eu, 0x0000008fu, 0x00000011u, 0x0004006fu, 0x00000007u,
++    0x00000090u, 0x0000008fu, 0x00050050u, 0x00000007u, 0x00000092u, 0x00000091u, 0x00000091u, 0x00050081u,
++    0x00000007u, 0x00000093u, 0x00000090u, 0x00000092u, 0x00050041u, 0x00000036u, 0x00000094u, 0x00000034u,
++    0x0000003bu, 0x0004003du, 0x00000026u, 0x00000095u, 0x00000094u, 0x0007004fu, 0x00000007u, 0x00000096u,
++    0x00000095u, 0x00000095u, 0x00000000u, 0x00000001u, 0x00050085u, 0x00000007u, 0x00000097u, 0x00000093u,
++    0x00000096u, 0x0003003eu, 0x00000098u, 0x00000097u, 0x00050039u, 0x00000007u, 0x00000099u, 0x0000000bu,
++    0x00000098u, 0x0003003eu, 0x0000008eu, 0x00000099u, 0x0004003du, 0x00000007u, 0x0000009au, 0x0000008eu,
++    0x000500b8u, 0x00000056u, 0x0000009cu, 0x0000009au, 0x0000009bu, 0x0004009au, 0x00000053u, 0x0000009du,
++    0x0000009cu, 0x000400a8u, 0x00000053u, 0x0000009eu, 0x0000009du, 0x000300f7u, 0x000000a0u, 0x00000000u,
++    0x000400fau, 0x0000009eu, 0x0000009fu, 0x000000a0u, 0x000200f8u, 0x0000009fu, 0x0004003du, 0x00000007u,
++    0x000000a1u, 0x0000008eu, 0x000500bau, 0x00000056u, 0x000000a4u, 0x000000a1u, 0x000000a3u, 0x0004009au,
++    0x00000053u, 0x000000a5u, 0x000000a4u, 0x000200f9u, 0x000000a0u, 0x000200f8u, 0x000000a0u, 0x000700f5u,
++    0x00000053u, 0x000000a6u, 0x0000009du, 0x0000008cu, 0x000000a5u, 0x0000009fu, 0x000300f7u, 0x000000a8u,
++    0x00000000u, 0x000400fau, 0x000000a6u, 0x000000a7u, 0x000000a8u, 0x000200f8u, 0x000000a7u, 0x000200feu,
++    0x00000063u, 0x000200f8u, 0x000000a8u, 0x00060041u, 0x0000006fu, 0x000000abu, 0x00000034u, 0x00000086u,
++    0x000000aau, 0x0004003du, 0x00000006u, 0x000000acu, 0x000000abu, 0x00060041u, 0x0000006fu, 0x000000adu,
++    0x00000034u, 0x00000086u, 0x0000006au, 0x0004003du, 0x00000006u, 0x000000aeu, 0x000000adu, 0x0004003du,
++    0x00000006u, 0x000000afu, 0x0000006cu, 0x00050083u, 0x00000006u, 0x000000b0u, 0x000000aeu, 0x000000afu,
++    0x0007000cu, 0x00000006u, 0x000000b2u, 0x00000001u, 0x00000028u, 0x000000b0u, 0x000000b1u, 0x00050088u,
++    0x00000006u, 0x000000b3u, 0x000000acu, 0x000000b2u, 0x000200feu, 0x000000b3u, 0x00010038u, 0x00050036u,
++    0x00000014u, 0x00000017u, 0x00000000u, 0x00000015u, 0x00030037u, 0x00000008u, 0x00000016u, 0x000200f8u,
++    0x00000018u, 0x0004003bu, 0x00000008u, 0x000000bbu, 0x00000007u, 0x0004003du, 0x00000007u, 0x000000b6u,
++    0x00000016u, 0x00050041u, 0x00000036u, 0x000000b7u, 0x00000034u, 0x0000003bu, 0x0004003du, 0x00000026u,
++    0x000000b8u, 0x000000b7u, 0x0007004fu, 0x00000007u, 0x000000b9u, 0x000000b8u, 0x000000b8u, 0x00000000u,
++    0x00000001u, 0x00050085u, 0x00000007u, 0x000000bau, 0x000000b6u, 0x000000b9u, 0x0003003eu, 0x000000bbu,
++    0x000000bau, 0x00050039u, 0x00000007u, 0x000000bcu, 0x0000000bu, 0x000000bbu, 0x00050041u, 0x00000036u,
++    0x000000beu, 0x00000034u, 0x000000bdu, 0x0004003du, 0x00000026u, 0x000000bfu, 0x000000beu, 0x0007004fu,
++    0x00000007u, 0x000000c0u, 0x000000bfu, 0x000000bfu, 0x00000000u, 0x00000001u, 0x00050085u, 0x00000007u,
++    0x000000c1u, 0x000000bcu, 0x000000c0u, 0x00050041u, 0x00000036u, 0x000000c2u, 0x00000034u, 0x000000bdu,
++    0x0004003du, 0x00000026u, 0x000000c3u, 0x000000c2u, 0x0007004fu, 0x00000007u, 0x000000c4u, 0x000000c3u,
++    0x000000c3u, 0x00000002u, 0x00000003u, 0x00050081u, 0x00000007u, 0x000000c5u, 0x000000c1u, 0x000000c4u,
++    0x00050051u, 0x00000006u, 0x000000c6u, 0x000000c5u, 0x00000000u, 0x00050051u, 0x00000006u, 0x000000c7u,
++    0x000000c5u, 0x00000001u, 0x00060050u, 0x00000014u, 0x000000c8u, 0x000000c6u, 0x000000c7u, 0x000000a2u,
++    0x000200feu, 0x000000c8u, 0x00010038u, 0x00050036u, 0x00000014u, 0x0000001du, 0x00000000u, 0x0000001au,
++    0x00030037u, 0x0000000fu, 0x0000001bu, 0x00030037u, 0x00000019u, 0x0000001cu, 0x000200f8u, 0x0000001eu,
++    0x0004003bu, 0x00000008u, 0x000000cfu, 0x00000007u, 0x0004003du, 0x0000000eu, 0x000000cbu, 0x0000001bu,
++    0x0004006fu, 0x00000007u, 0x000000ccu, 0x000000cbu, 0x00050050u, 0x00000007u, 0x000000cdu, 0x00000091u,
++    0x00000091u, 0x00050081u, 0x00000007u, 0x000000ceu, 0x000000ccu, 0x000000cdu, 0x0003003eu, 0x000000cfu,
++    0x000000ceu, 0x00050039u, 0x00000014u, 0x000000d0u, 0x00000017u, 0x000000cfu, 0x0004003du, 0x00000006u,
++    0x000000d1u, 0x0000001cu, 0x0005008eu, 0x00000014u, 0x000000d2u, 0x000000d0u, 0x000000d1u, 0x000200feu,
++    0x000000d2u, 0x00010038u, 0x00050036u, 0x00000014u, 0x00000024u, 0x00000000u, 0x00000020u, 0x00030037u,
++    0x0000000fu, 0x00000021u, 0x00030037u, 0x0000001fu, 0x00000022u, 0x00030037u, 0x00000019u, 0x00000023u,
++    0x000200f8u, 0x00000025u, 0x0004003bu, 0x00000019u, 0x000000d5u, 0x00000007u, 0x0004003bu, 0x0000000fu,
++    0x000000dau, 0x00000007u, 0x0004003bu, 0x00000019u, 0x000000dcu, 0x00000007u, 0x0004003bu, 0x0000000fu,
++    0x000000e0u, 0x00000007u, 0x0004003bu, 0x00000019u, 0x000000e2u, 0x00000007u, 0x0004003bu, 0x0000000fu,
++    0x000000e6u, 0x00000007u, 0x0004003bu, 0x00000019u, 0x000000e8u, 0x00000007u, 0x0004003bu, 0x0000000fu,
++    0x000000ecu, 0x00000007u, 0x0004003bu, 0x000000eeu, 0x000000efu, 0x00000007u, 0x0004003bu, 0x000000eeu,
++    0x00000104u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x0000011cu, 0x00000007u, 0x0004003bu, 0x0000000fu,
++    0x0000011fu, 0x00000007u, 0x0004003bu, 0x00000019u, 0x00000120u, 0x00000007u, 0x0004003bu, 0x0000000fu,
++    0x0000012du, 0x00000007u, 0x0004003bu, 0x00000019u, 0x0000012eu, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x00000137u, 0x00000007u, 0x0004003bu, 0x0000000fu, 0x0000013au, 0x00000007u, 0x0004003bu, 0x00000019u,
++    0x0000013bu, 0x00000007u, 0x0004003bu, 0x0000000fu, 0x00000148u, 0x00000007u, 0x0004003bu, 0x00000019u,
++    0x00000149u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x00000150u, 0x00000007u, 0x0004003bu, 0x00000019u,
++    0x00000154u, 0x00000007u, 0x0004003bu, 0x0000001fu, 0x0000015au, 0x00000007u, 0x0004003bu, 0x0000001fu,
++    0x0000016au, 0x00000007u, 0x0004003du, 0x0000000eu, 0x000000d6u, 0x00000021u, 0x00050080u, 0x0000000eu,
++    0x000000d9u, 0x000000d6u, 0x000000d8u, 0x0003003eu, 0x000000dau, 0x000000d9u, 0x00050039u, 0x00000006u,
++    0x000000dbu, 0x00000012u, 0x000000dau, 0x0003003eu, 0x000000d5u, 0x000000dbu, 0x0004003du, 0x0000000eu,
++    0x000000ddu, 0x00000021u, 0x00050080u, 0x0000000eu, 0x000000dfu, 0x000000ddu, 0x000000deu, 0x0003003eu,
++    0x000000e0u, 0x000000dfu, 0x00050039u, 0x00000006u, 0x000000e1u, 0x00000012u, 0x000000e0u, 0x0003003eu,
++    0x000000dcu, 0x000000e1u, 0x0004003du, 0x0000000eu, 0x000000e3u, 0x00000021u, 0x00050080u, 0x0000000eu,
++    0x000000e5u, 0x000000e3u, 0x000000e4u, 0x0003003eu, 0x000000e6u, 0x000000e5u, 0x00050039u, 0x00000006u,
++    0x000000e7u, 0x00000012u, 0x000000e6u, 0x0003003eu, 0x000000e2u, 0x000000e7u, 0x0004003du, 0x0000000eu,
++    0x000000e9u, 0x00000021u, 0x00050080u, 0x0000000eu, 0x000000ebu, 0x000000e9u, 0x000000eau, 0x0003003eu,
++    0x000000ecu, 0x000000ebu, 0x00050039u, 0x00000006u, 0x000000edu, 0x00000012u, 0x000000ecu, 0x0003003eu,
++    0x000000e8u, 0x000000edu, 0x0004003du, 0x00000006u, 0x000000f0u, 0x000000dcu, 0x000500bau, 0x00000053u,
++    0x000000f1u, 0x000000f0u, 0x00000063u, 0x000300f7u, 0x000000f3u, 0x00000000u, 0x000400fau, 0x000000f1u,
++    0x000000f2u, 0x000000f3u, 0x000200f8u, 0x000000f2u, 0x0004003du, 0x00000006u, 0x000000f4u, 0x000000d5u,
++    0x000500bcu, 0x00000053u, 0x000000f5u, 0x000000f4u, 0x00000063u, 0x000400a8u, 0x00000053u, 0x000000f6u,
++    0x000000f5u, 0x000300f7u, 0x000000f8u, 0x00000000u, 0x000400fau, 0x000000f6u, 0x000000f7u, 0x000000f8u,
++    0x000200f8u, 0x000000f7u, 0x0004003du, 0x00000006u, 0x000000f9u, 0x000000dcu, 0x0004003du, 0x00000006u,
++    0x000000fau, 0x00000023u, 0x00050083u, 0x00000006u, 0x000000fbu, 0x000000f9u, 0x000000fau, 0x0006000cu,
++    0x00000006u, 0x000000fcu, 0x00000001u, 0x00000004u, 0x000000fbu, 0x0004003du, 0x00000006u, 0x000000fdu,
++    0x000000d5u, 0x0004003du, 0x00000006u, 0x000000feu, 0x00000023u, 0x00050083u, 0x00000006u, 0x000000ffu,
++    0x000000fdu, 0x000000feu, 0x0006000cu, 0x00000006u, 0x00000100u, 0x00000001u, 0x00000004u, 0x000000ffu,
++    0x000500b8u, 0x00000053u, 0x00000101u, 0x000000fcu, 0x00000100u, 0x000200f9u, 0x000000f8u, 0x000200f8u,
++    0x000000f8u, 0x000700f5u, 0x00000053u, 0x00000102u, 0x000000f5u, 0x000000f2u, 0x00000101u, 0x000000f7u,
++    0x000200f9u, 0x000000f3u, 0x000200f8u, 0x000000f3u, 0x000700f5u, 0x00000053u, 0x00000103u, 0x000000f1u,
++    0x00000025u, 0x00000102u, 0x000000f8u, 0x0003003eu, 0x000000efu, 0x00000103u, 0x0004003du, 0x00000006u,
++    0x00000105u, 0x000000e8u, 0x000500bau, 0x00000053u, 0x00000106u, 0x00000105u, 0x00000063u, 0x000300f7u,
++    0x00000108u, 0x00000000u, 0x000400fau, 0x00000106u, 0x00000107u, 0x00000108u, 0x000200f8u, 0x00000107u,
++    0x0004003du, 0x00000006u, 0x00000109u, 0x000000e2u, 0x000500bcu, 0x00000053u, 0x0000010au, 0x00000109u,
++    0x00000063u, 0x000400a8u, 0x00000053u, 0x0000010bu, 0x0000010au, 0x000300f7u, 0x0000010du, 0x00000000u,
++    0x000400fau, 0x0000010bu, 0x0000010cu, 0x0000010du, 0x000200f8u, 0x0000010cu, 0x0004003du, 0x00000006u,
++    0x0000010eu, 0x000000e8u, 0x0004003du, 0x00000006u, 0x0000010fu, 0x00000023u, 0x00050083u, 0x00000006u,
++    0x00000110u, 0x0000010eu, 0x0000010fu, 0x0006000cu, 0x00000006u, 0x00000111u, 0x00000001u, 0x00000004u,
++    0x00000110u, 0x0004003du, 0x00000006u, 0x00000112u, 0x000000e2u, 0x0004003du, 0x00000006u, 0x00000113u,
++    0x00000023u, 0x00050083u, 0x00000006u, 0x00000114u, 0x00000112u, 0x00000113u, 0x0006000cu, 0x00000006u,
++    0x00000115u, 0x00000001u, 0x00000004u, 0x00000114u, 0x000500b8u, 0x00000053u, 0x00000116u, 0x00000111u,
++    0x00000115u, 0x000200f9u, 0x0000010du, 0x000200f8u, 0x0000010du, 0x000700f5u, 0x00000053u, 0x00000117u,
++    0x0000010au, 0x00000107u, 0x00000116u, 0x0000010cu, 0x000200f9u, 0x00000108u, 0x000200f8u, 0x00000108u,
++    0x000700f5u, 0x00000053u, 0x00000118u, 0x00000106u, 0x000000f3u, 0x00000117u, 0x0000010du, 0x0003003eu,
++    0x00000104u, 0x00000118u, 0x0004003du, 0x00000053u, 0x00000119u, 0x000000efu, 0x000300f7u, 0x0000011bu,
++    0x00000000u, 0x000400fau, 0x00000119u, 0x0000011au, 0x00000125u, 0x000200f8u, 0x0000011au, 0x0004003du,
++    0x0000000eu, 0x0000011du, 0x00000021u, 0x00050080u, 0x0000000eu, 0x0000011eu, 0x0000011du, 0x000000deu,
++    0x0003003eu, 0x0000011fu, 0x0000011eu, 0x0004003du, 0x00000006u, 0x00000121u, 0x000000dcu, 0x0003003eu,
++    0x00000120u, 0x00000121u, 0x00060039u, 0x00000014u, 0x00000122u, 0x0000001du, 0x0000011fu, 0x00000120u,
++    0x0004003du, 0x00000014u, 0x00000123u, 0x00000022u, 0x00050083u, 0x00000014u, 0x00000124u, 0x00000122u,
++    0x00000123u, 0x0003003eu, 0x0000011cu, 0x00000124u, 0x000200f9u, 0x0000011bu, 0x000200f8u, 0x00000125u,
++    0x0004003du, 0x00000006u, 0x00000126u, 0x000000d5u, 0x000500bau, 0x00000053u, 0x00000127u, 0x00000126u,
++    0x00000063u, 0x000300f7u, 0x00000129u, 0x00000000u, 0x000400fau, 0x00000127u, 0x00000128u, 0x00000132u,
++    0x000200f8u, 0x00000128u, 0x0004003du, 0x00000014u, 0x0000012au, 0x00000022u, 0x0004003du, 0x0000000eu,
++    0x0000012bu, 0x00000021u, 0x00050080u, 0x0000000eu, 0x0000012cu, 0x0000012bu, 0x000000d8u, 0x0003003eu,
++    0x0000012du, 0x0000012cu, 0x0004003du, 0x00000006u, 0x0000012fu, 0x000000d5u, 0x0003003eu, 0x0000012eu,
++    0x0000012fu, 0x00060039u, 0x00000014u, 0x00000130u, 0x0000001du, 0x0000012du, 0x0000012eu, 0x00050083u,
++    0x00000014u, 0x00000131u, 0x0000012au, 0x00000130u, 0x0003003eu, 0x0000011cu, 0x00000131u, 0x000200f9u,
++    0x00000129u, 0x000200f8u, 0x00000132u, 0x0003003eu, 0x0000011cu, 0x00000133u, 0x000200f9u, 0x00000129u,
++    0x000200f8u, 0x00000129u, 0x000200f9u, 0x0000011bu, 0x000200f8u, 0x0000011bu, 0x0004003du, 0x00000053u,
++    0x00000134u, 0x00000104u, 0x000300f7u, 0x00000136u, 0x00000000u, 0x000400fau, 0x00000134u, 0x00000135u,
++    0x00000140u, 0x000200f8u, 0x00000135u, 0x0004003du, 0x0000000eu, 0x00000138u, 0x00000021u, 0x00050080u,
++    0x0000000eu, 0x00000139u, 0x00000138u, 0x000000eau, 0x0003003eu, 0x0000013au, 0x00000139u, 0x0004003du,
++    0x00000006u, 0x0000013cu, 0x000000e8u, 0x0003003eu, 0x0000013bu, 0x0000013cu, 0x00060039u, 0x00000014u,
++    0x0000013du, 0x0000001du, 0x0000013au, 0x0000013bu, 0x0004003du, 0x00000014u, 0x0000013eu, 0x00000022u,
++    0x00050083u, 0x00000014u, 0x0000013fu, 0x0000013du, 0x0000013eu, 0x0003003eu, 0x00000137u, 0x0000013fu,
++    0x000200f9u, 0x00000136u, 0x000200f8u, 0x00000140u, 0x0004003du, 0x00000006u, 0x00000141u, 0x000000e2u,
++    0x000500bau, 0x00000053u, 0x00000142u, 0x00000141u, 0x00000063u, 0x000300f7u, 0x00000144u, 0x00000000u,
++    0x000400fau, 0x00000142u, 0x00000143u, 0x0000014du, 0x000200f8u, 0x00000143u, 0x0004003du, 0x00000014u,
++    0x00000145u, 0x00000022u, 0x0004003du, 0x0000000eu, 0x00000146u, 0x00000021u, 0x00050080u, 0x0000000eu,
++    0x00000147u, 0x00000146u, 0x000000e4u, 0x0003003eu, 0x00000148u, 0x00000147u, 0x0004003du, 0x00000006u,
++    0x0000014au, 0x000000e2u, 0x0003003eu, 0x00000149u, 0x0000014au, 0x00060039u, 0x00000014u, 0x0000014bu,
++    0x0000001du, 0x00000148u, 0x00000149u, 0x00050083u, 0x00000014u, 0x0000014cu, 0x00000145u, 0x0000014bu,
++    0x0003003eu, 0x00000137u, 0x0000014cu, 0x000200f9u, 0x00000144u, 0x000200f8u, 0x0000014du, 0x0003003eu,
++    0x00000137u, 0x0000014fu, 0x000200f9u, 0x00000144u, 0x000200f8u, 0x00000144u, 0x000200f9u, 0x00000136u,
++    0x000200f8u, 0x00000136u, 0x0004003du, 0x00000014u, 0x00000151u, 0x00000137u, 0x0004003du, 0x00000014u,
++    0x00000152u, 0x0000011cu, 0x0007000cu, 0x00000014u, 0x00000153u, 0x00000001u, 0x00000044u, 0x00000151u,
++    0x00000152u, 0x0003003eu, 0x00000150u, 0x00000153u, 0x0004003du, 0x00000014u, 0x00000155u, 0x00000150u,
++    0x0006000cu, 0x00000006u, 0x00000156u, 0x00000001u, 0x00000042u, 0x00000155u, 0x0003003eu, 0x00000154u,
++    0x00000156u, 0x0004003du, 0x00000006u, 0x00000157u, 0x00000154u, 0x000500bau, 0x00000053u, 0x00000159u,
++    0x00000157u, 0x00000158u, 0x000300f7u, 0x0000015cu, 0x00000000u, 0x000400fau, 0x00000159u, 0x0000015bu,
++    0x00000161u, 0x000200f8u, 0x0000015bu, 0x0004003du, 0x00000014u, 0x0000015du, 0x00000150u, 0x0004003du,
++    0x00000006u, 0x0000015eu, 0x00000154u, 0x00060050u, 0x00000014u, 0x0000015fu, 0x0000015eu, 0x0000015eu,
++    0x0000015eu, 0x00050088u, 0x00000014u, 0x00000160u, 0x0000015du, 0x0000015fu, 0x0003003eu, 0x0000015au,
++    0x00000160u, 0x000200f9u, 0x0000015cu, 0x000200f8u, 0x00000161u, 0x0004003du, 0x00000014u, 0x00000162u,
++    0x00000022u, 0x0006000cu, 0x00000014u, 0x00000163u, 0x00000001u, 0x00000045u, 0x00000162u, 0x0004007fu,
++    0x00000014u, 0x00000164u, 0x00000163u, 0x0003003eu, 0x0000015au, 0x00000164u, 0x000200f9u, 0x0000015cu,
++    0x000200f8u, 0x0000015cu, 0x0004003du, 0x00000014u, 0x00000165u, 0x0000015au, 0x0003003eu, 0x00000150u,
++    0x00000165u, 0x0004003du, 0x00000014u, 0x00000166u, 0x00000150u, 0x0004003du, 0x00000014u, 0x00000167u,
++    0x00000022u, 0x00050094u, 0x00000006u, 0x00000168u, 0x00000166u, 0x00000167u, 0x000500bau, 0x00000053u,
++    0x00000169u, 0x00000168u, 0x00000063u, 0x000300f7u, 0x0000016cu, 0x00000000u, 0x000400fau, 0x00000169u,
++    0x0000016bu, 0x0000016fu, 0x000200f8u, 0x0000016bu, 0x0004003du, 0x00000014u, 0x0000016du, 0x00000150u,
++    0x0004007fu, 0x00000014u, 0x0000016eu, 0x0000016du, 0x0003003eu, 0x0000016au, 0x0000016eu, 0x000200f9u,
++    0x0000016cu, 0x000200f8u, 0x0000016fu, 0x0004003du, 0x00000014u, 0x00000170u, 0x00000150u, 0x0003003eu,
++    0x0000016au, 0x00000170u, 0x000200f9u, 0x0000016cu, 0x000200f8u, 0x0000016cu, 0x0004003du, 0x00000014u,
++    0x00000171u, 0x0000016au, 0x000200feu, 0x00000171u, 0x00010038u, 0x00050036u, 0x00000026u, 0x0000002bu,
++    0x00000000u, 0x00000027u, 0x00030037u, 0x0000001fu, 0x00000028u, 0x00030037u, 0x0000001fu, 0x00000029u,
++    0x00030037u, 0x0000001fu, 0x0000002au, 0x000200f8u, 0x0000002cu, 0x0004003bu, 0x0000001fu, 0x00000174u,
++    0x00000007u, 0x0004003bu, 0x0000001fu, 0x0000017du, 0x00000007u, 0x0004003du, 0x00000014u, 0x00000175u,
++    0x00000028u, 0x0004003du, 0x00000014u, 0x00000176u, 0x00000029u, 0x0007000cu, 0x00000014u, 0x00000177u,
++    0x00000001u, 0x00000044u, 0x00000175u, 0x00000176u, 0x0006000cu, 0x00000014u, 0x00000178u, 0x00000001u,
++    0x00000045u, 0x00000177u, 0x0003003eu, 0x00000174u, 0x00000178u, 0x0004003du, 0x00000014u, 0x00000179u,
++    0x00000174u, 0x0004003du, 0x00000014u, 0x0000017au, 0x0000002au, 0x00050094u, 0x00000006u, 0x0000017bu,
++    0x00000179u, 0x0000017au, 0x000500b8u, 0x00000053u, 0x0000017cu, 0x0000017bu, 0x00000063u, 0x000300f7u,
++    0x0000017fu, 0x00000000u, 0x000400fau, 0x0000017cu, 0x0000017eu, 0x00000182u, 0x000200f8u, 0x0000017eu,
++    0x0004003du, 0x00000014u, 0x00000180u, 0x00000174u, 0x0004007fu, 0x00000014u, 0x00000181u, 0x00000180u,
++    0x0003003eu, 0x0000017du, 0x00000181u, 0x000200f9u, 0x0000017fu, 0x000200f8u, 0x00000182u, 0x0004003du,
++    0x00000014u, 0x00000183u, 0x00000174u, 0x0003003eu, 0x0000017du, 0x00000183u, 0x000200f9u, 0x0000017fu,
++    0x000200f8u, 0x0000017fu, 0x0004003du, 0x00000014u, 0x00000184u, 0x0000017du, 0x00050051u, 0x00000006u,
++    0x00000185u, 0x00000184u, 0x00000000u, 0x00050051u, 0x00000006u, 0x00000186u, 0x00000184u, 0x00000001u,
++    0x00050051u, 0x00000006u, 0x00000187u, 0x00000184u, 0x00000002u, 0x00070050u, 0x00000026u, 0x00000188u,
++    0x00000185u, 0x00000186u, 0x00000187u, 0x00000063u, 0x000200feu, 0x00000188u, 0x00010038u,
++};
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp
+index 77824a10..de0819a9 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp
+@@ -17,6 +17,7 @@
+ #include "native/render/WorldPass.hpp"
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanShadows.h" // HD: step 4 sun shadows
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAO.h" // HD: hdAO
++#include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.h" // Zeppelin F-223A: hdLightPass
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanFog.h" // HD: hdFog
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanBloom.h" // HD: hdBloom
+ #include "Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanGrade.h" // HD: hdGrade
+@@ -40,6 +41,7 @@ namespace
+     {
+         HD::VulkanShadows::Resize(); // HD step 4: hdSunShadows cvars + G-buffer request, before the world
+         HD::VulkanAO::Resize(); // HD: reads the hdAO cvars and asks for the G-buffer before the world is drawn
++        HD::VulkanLightPass::Resize(); // Zeppelin F-223A: hdLightPass cvars; from here the engine's point lights are the pass's
+         HD::VulkanFog::Resize(); // HD: hdFog
+         HD::VulkanBloom::Resize(); // HD: hdBloom / hdRays
+         HD::VulkanGrade::Resize(); // HD: hdGrade
+@@ -48,6 +50,7 @@ namespace
+         wxlvk::native::render::jitter::BeginWorld();
+         wxlvk::capture::BeginWorld();
+         g_worldScene(worldFrame, edx);
++        HD::VulkanLightPass::EndWorld(); // Zeppelin F-223A: the engine's point lights are its own again
+         wxlvk::capture::EndWorld();
+         wxlvk::native::render::jitter::EndWorld();
+         wxlvk::native::present::NoteWorld(false);
+diff --git a/Engine/Source/Model2/M2Light.cpp b/Engine/Source/Model2/M2Light.cpp
+index 05712e04..bc173baf 100644
+--- a/Engine/Source/Model2/M2Light.cpp
++++ b/Engine/Source/Model2/M2Light.cpp
+@@ -10,6 +10,13 @@
+ #include "Engine/Source/Tempest/C44Matrix.h"
+ #include "Engine/Source/Tempest/CImVector.h"
+ 
++#ifdef WOWDECOMP_VULKAN
++// Zeppelin F-223A: true while the Vulkan screen-space light pass (hdLightPass) will light this frame's opaque world per
++// pixel: the point lights are then left out of every CM2Lighting (models, terrain, map objects), so they are not
++// lit twice. Set and cleared by hd/HdVulkanLightPass.cpp (GxVulkan); always false on D3D9.
++namespace HD::VulkanLightPass { extern bool g_ownsPointLights; }
++#endif
++
+ // STATIC: 0x00AF59D4
+ static float s_lightGridScale = 0.05f;
+ 
+@@ -225,6 +232,12 @@ void CM2Lighting::AddLight(CM2Light* light) {
+         return;
+     }
+ 
++#ifdef WOWDECOMP_VULKAN
++    if (HD::VulkanLightPass::g_ownsPointLights) {
++        return; // Zeppelin F-223A: the light pass lights this frame's opaque world with every point light
++    }
++#endif
++
+     float dz = light->m_pos.z - this->m_sphere4.c.z;
+     float dy = light->m_pos.y - this->m_sphere4.c.y;
+     float dx = light->m_pos.x - this->m_sphere4.c.x;
+diff --git a/WoW/Source/WorldClient/HD/HdLights.cpp b/WoW/Source/WorldClient/HD/HdLights.cpp
+index ae02fb39..7abdb498 100644
+--- a/WoW/Source/WorldClient/HD/HdLights.cpp
++++ b/WoW/Source/WorldClient/HD/HdLights.cpp
+@@ -200,6 +200,35 @@ int32_t HD::LightsForSphere(CM2Scene* scene, const C3Vector& camera, const CAaSp
+     return count;
+ }
+ 
++// Zeppelin F-223A: the whole frame's lights, for the Vulkan light pass. Shares GatherFrame (and its per-frame cache)
++// with LightsForSphere, so both renderers see the same lamps.
++uint32_t HD::LightsGather(CM2Scene* scene, const C3Vector& camera, const FrameLamp** out) {
++    static std::vector<FrameLamp> s_lamps;
++    RegisterCVars();
++    s_lamps.clear();
++    if (out) *out = nullptr;
++    if (!scene) return 0;
++    if (scene != s_frameScene || scene->m_frameStamp != s_frameStamp) {
++        s_frameScene = scene;
++        s_frameStamp = scene->m_frameStamp;
++        GatherFrame(scene, camera);
++        ShowInfo(camera);
++    }
++    s_lamps.reserve(s_frame.size());
++    for (size_t i = 0; i < s_frame.size(); i++) {
++        const FrameLight& l = s_frame[i];
++        FrameLamp lamp;
++        lamp.pos[0] = l.pos.x;      lamp.pos[1] = l.pos.y;      lamp.pos[2] = l.pos.z;
++        lamp.color[0] = l.color.x;  lamp.color[1] = l.color.y;  lamp.color[2] = l.color.z;
++        lamp.strength = l.strength;
++        lamp.radius = l.radius;
++        lamp.fade = l.fade;
++        s_lamps.push_back(lamp);
++    }
++    if (out) *out = s_lamps.data();
++    return static_cast<uint32_t>(s_lamps.size());
++}
++
+ void HD::LightsForget(const CM2Light* light) {
+     s_known.erase(light);
+ }
+diff --git a/WoW/Source/WorldClient/HD/HdLights.h b/WoW/Source/WorldClient/HD/HdLights.h
+index 0e8b3fc7..452ac5a4 100644
+--- a/WoW/Source/WorldClient/HD/HdLights.h
++++ b/WoW/Source/WorldClient/HD/HdLights.h
+@@ -38,6 +38,21 @@ namespace HD {
+ 
+     // A model's light leaves its scene (detached or freed): forget its last animated state.
+     void LightsForget(const CM2Light* light);
++
++    // Zeppelin F-223A: one of this frame's lights for the Vulkan screen-space light pass (hd/HdVulkanLightPass), which
++    // takes them all, not kLightsMax per draw. World position, colour (CM2Light::m_dirColor), brightest channel,
++    // radius where it ends (hdLightsRadius, or from its colour), fade width at that end.
++    struct FrameLamp {
++        float pos[3];
++        float color[3];
++        float strength;
++        float radius;
++        float fade;
++    };
++
++    // Zeppelin F-223A: every light of this frame (the same gathering as LightsForSphere: the light grid plus the lamps
++    // last seen animated, within 300 yards of `camera`). The array stays valid until the next call; returns the count.
++    uint32_t LightsGather(CM2Scene* scene, const C3Vector& camera, const FrameLamp** out);
+ }
+ 
+ #endif
+-- 
+2.34.1
+
