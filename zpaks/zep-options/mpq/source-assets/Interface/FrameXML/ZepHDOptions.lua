@@ -30,10 +30,14 @@ local NO_COST = "no measurable cost.";
 -- Zeppelin F-223A: this session's measured costs (Performance page, Measure Costs), by CVar: { text = "..." }.
 local benchResults = {};
 
-local AO_QUALITY = { [0] = "Low", "Medium", "High", "Ultra" };
-local VIEW_QUALITY = { [0] = "Low", "Fair", "Good", "High", "Ultra" };
+-- Zeppelin F-223A: XeGTAO slices x steps per AO pixel (HdVulkanAO.h): 1x2, 2x2, 3x3, 9x3.
+local AO_QUALITY = { [0] = "Low (2)", "Medium (4)", "High (9)", "Ultra (27)" };
+local AO_RES = { [0] = "Full", "Half", "Quarter" };
+-- Zeppelin F-223A: Cataclysm's own presets (HdCataViewDistance.h Profiles): view distance in yards; object detail
+-- distance x0.5 / 0.75 / 1 / 1.25 / 1.5.
+local VIEW_QUALITY = { [0] = "Low (185 yd)", "Fair (507 yd)", "Good (727 yd)", "High (1057 yd)", "Ultra (1250 yd)" };
 local GRASS_SHADER = { [0] = "Blizzard", "HD", "HD Classic" };
-local ALPHA_AA = { [0] = "Off", "Coverage", "Supersampled" };
+local ALPHA_AA = { [0] = "Off", "Sharp Coverage", "Supersampled" };
 -- Zeppelin F-223E: the shadows as independent controls; the stock Shadow Quality preset (extShadowQuality) has no control
 -- any more (user, 2026-11-03): the client derives its shadow mode from these settings.
 local SHADOW_MAP = { [0] = "Off", "1024", "2048" };
@@ -97,7 +101,7 @@ local PAGES = {
 				   tooltip = "Draw terrain, the horizon and large objects with Cataclysm's distance rules instead of the original ones.",
 				   info = "Cataclysm's distance rules for terrain, the horizon and large objects. While on, View Quality sets the distance and the sliders above grey out." },
 				S{ cvar = "hdCataViewQuality", parent = "hdCataViewDistance", text = "View Quality", minValue = 0, maxValue = 4, valueStep = 1, names = VIEW_QUALITY,
-				   tooltip = "Cataclysm's view distance preset. Higher draws further." },
+				   info = "Cataclysm's preset: how far the world is drawn (185, 507, 727, 1057 or 1250 yards) and how far small and medium objects stay visible (half, three quarters, normal, 1.25 or 1.5 times the normal distance). The low-detail horizon always reaches four times the view distance, large buildings 2050 yards." },
 			},
 			{
 				C{ cvar = "hdCataWmoStreaming", text = "Background Building Loading",
@@ -114,16 +118,19 @@ local PAGES = {
 	{
 		-- Zeppelin F-223E: the shadows moved to their own page (the split shadow controls did not fit here).
 		name = "ZepVideoLightingPanel", title = "Lighting",
-		subText = "Ambient occlusion, highlights and bounced light.",
+		subText = "Ambient occlusion, highlights, bloom and sun rays.",
 		columns = {
 			{
 				C{ cvar = "hdAO", text = "Ambient Occlusion", vulkan = true,
 				   tooltip = "Soft shadowing where objects meet and in creases and corners." },
 				S{ cvar = "hdAOStrength", parent = "hdAO", vulkan = true, text = "Occlusion", minValue = 0, maxValue = 2, valueStep = 0.05,
 				   tooltip = "How dark the ambient occlusion is." },
-				S{ cvar = "hdAOQuality", parent = "hdAO", text = "Occlusion Quality", minValue = 0, maxValue = 3, valueStep = 1, names = AO_QUALITY, vulkan = true,
-				   tooltip = "Samples per pixel. Higher is smoother and slower.",
-				   cost = "High or Ultra about +1 to 3 ms GPU per frame more than Medium." },
+				S{ cvar = "hdAOQuality", parent = "hdAO", text = "Occlusion Samples", minValue = 0, maxValue = 3, valueStep = 1, names = AO_QUALITY, vulkan = true,
+				   info = "How many samples each occlusion pixel takes (2, 4, 9 or 27): more is more accurate and less grainy. The occlusion is smoothed over several frames, so Medium or High is usually enough.",
+				   cost = "Low to Ultra about 4.1 ms GPU per frame at 4K with 4x MSAA (full resolution)." },
+				-- Zeppelin F-223A: hdAOHalfRes, the bilateral half-resolution GTAO path (HdVulkanAO).
+				S{ cvar = "hdAOHalfRes", parent = "hdAO", text = "Occlusion Resolution", minValue = 0, maxValue = 2, valueStep = 1, names = AO_RES, vulkan = true,
+				   info = "Occlusion worked out at full, half or quarter the screen's resolution (Half works out a quarter of the pixels, Quarter a sixteenth), then scaled up along the depth of the scene. Occlusion is soft, so Half with more samples often looks as good as Full with fewer, for less cost; Quarter is cheapest but softens thin crevices." },
 				S{ cvar = "hdAORadius", parent = "hdAO", vulkan = true, text = "Occlusion Radius", minValue = 0.25, maxValue = 3, valueStep = 0.25, decimals = 2,
 				   tooltip = "How far, in yards, things shade the surfaces around them." },
 				S{ cvar = "hdAOThin", parent = "hdAO", text = "Ignore Grass", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
@@ -132,6 +139,16 @@ local PAGES = {
 			{
 				C{ cvar = "specular", text = "TERRAIN_HIGHLIGHTS", logout = 1, tooltipRequirement = OPTION_LOGOUT_REQUIREMENT,
 				   info = "Shiny highlights on terrain and objects where the light catches them. Takes effect after you log out." },
+				C{ cvar = "hdBloom", text = "Bloom",
+				   tooltip = "A soft glow around the brightest parts of the world." },
+				S{ cvar = "hdBloomStrength", parent = "hdBloom", text = "Bloom", minValue = 0, maxValue = 3, valueStep = 0.05,
+				   tooltip = "How strong the glow is. 1 is normal." },
+				S{ cvar = "hdBloomThreshold", parent = "hdBloom", text = "Bloom Threshold", minValue = 0, maxValue = 1, valueStep = 0.01,
+				   tooltip = "How bright a pixel must be before it glows. Lower values make more of the world glow.", cost = NO_COST },
+				C{ cvar = "hdRays", scene = "sun", text = "Sun Rays",
+				   tooltip = "Shafts of light from the sun. Only drawn while the sun is on screen." },
+				S{ cvar = "hdRaysStrength", parent = "hdRays", text = "Sun Rays", minValue = 0, maxValue = 3, valueStep = 0.05,
+				   tooltip = "How strong the sun rays are. 1 is normal." },
 				C{ cvar = "hdGI", text = "Global Illumination", d3d9 = true,
 				   tooltip = "Light bounces once off nearby surfaces and picks up their colour." },
 				S{ cvar = "hdGIStrength", parent = "hdGI", d3d9 = true, text = "Bounce Light", minValue = 0, maxValue = 2, valueStep = 0.05,
@@ -241,7 +258,7 @@ local PAGES = {
 	},
 	{
 		name = "ZepVideoAtmospherePanel", title = "Atmosphere",
-		subText = "Fog, glow, sun rays, colour grading, weather and screen effects.",
+		subText = "Fog, glow, weather and screen effects.",
 		columns = {
 			{
 				C{ cvar = "hdFog", text = "Volumetric Fog",
@@ -263,16 +280,6 @@ local PAGES = {
 				   info = "The grey, blurred screen while you are a ghost." },
 			},
 			{
-				C{ cvar = "hdBloom", text = "Bloom",
-				   tooltip = "A soft glow around the brightest parts of the world." },
-				S{ cvar = "hdBloomStrength", parent = "hdBloom", text = "Bloom", minValue = 0, maxValue = 3, valueStep = 0.05,
-				   tooltip = "How strong the glow is. 1 is normal." },
-				S{ cvar = "hdBloomThreshold", parent = "hdBloom", text = "Bloom Threshold", minValue = 0, maxValue = 1, valueStep = 0.01,
-				   tooltip = "How bright a pixel must be before it glows. Lower values make more of the world glow.", cost = NO_COST },
-				C{ cvar = "hdRays", scene = "sun", text = "Sun Rays",
-				   tooltip = "Shafts of light from the sun. Only drawn while the sun is on screen." },
-				S{ cvar = "hdRaysStrength", parent = "hdRays", text = "Sun Rays", minValue = 0, maxValue = 3, valueStep = 0.05,
-				   tooltip = "How strong the sun rays are. 1 is normal." },
 				S{ cvar = "weatherDensity", scene = "weather", text = "WEATHER_DETAIL", minValue = 0, maxValue = 3, valueStep = 1,
 				   info = "How much rain, snow and dust is drawn when the zone has weather." },
 				C{ cvar = "ffxNetherWorld", scene = "invisible", text = "Invisibility Effect",
@@ -301,7 +308,8 @@ local PAGES = {
 			},
 			{
 				S{ cvar = "hdAlphaAA", scene = "grass", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
-				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Supersampled keeps the leaves their real thickness; Coverage is cheaper but softer and fills small gaps. Needs Multisampling above 1 (Display page)." },
+				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Sharp Coverage turns each edge into a crisp one-pixel blend at almost no cost; Supersampled shades every sample, the most exact and much more expensive. Needs Multisampling above 1 (Display page).",
+				   cost = "Supersampled about 3.1 ms GPU per frame at 4K with 4x MSAA; Sharp Coverage a small fraction of that." },
 				-- Zeppelin F-223A: CMAA2 (Intel, Apache-2.0) on the finished world, after MSAA (hd/HdVulkanCMAA2.cpp).
 				C{ cvar = "hdCMAA", text = "Edge Smoothing (CMAA2)", vulkan = true,
 				   info = "Smooths the jagged edges multisampling leaves: the water's edge along the shore, leaves and fences against the sky. Works with or without Multisampling (with it, Multisampling 4 plus this can replace 8). Does not stop the shimmer of moving grass.",
