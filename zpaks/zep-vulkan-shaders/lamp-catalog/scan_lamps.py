@@ -9,6 +9,10 @@ Our own catalog: written from the client's own files, not from any other project
 import os, re, struct, sys
 ROOT = '/workspace/project/Zeppelin-Tools/Asset Library/STOCK/files'
 ORDER = ['common', 'common-2', 'expansion', 'lichking', 'patch', 'patch-2', 'patch-3']
+# Zeppelin's own patches ship lamps too (Open Azeroth's Cata Stormwind, the HD replacements of stock lamps): every zpak's
+# packed assets, after the stock client, so a zpak's copy of a model wins as it does in game (user, 2026-11-04).
+ZPAKS = '/workspace/project/Zeppelin-Craft/zpaks'
+
 KEEP = re.compile(r'nemagicimplement|lamp|torch|brazier|lantern|candle|campfire|bonfire|firepit|fireplace|fire_?pit|sconce|chandelier|'
                   r'streetlight|lightpost|lamppost|candelabra|hearth|furnace|forge|fire|light|glow|crystal|orb', re.I)
 DROP = re.compile(r'lightning|lighthouse|lightforge|flight|lightbeam|light_?ray|lightshaft|sunlight|moonlight|'
@@ -19,6 +23,9 @@ def arr(d, off):
 
 def parse(path):
     d = open(path, 'rb').read()
+    if d[:4] == b'MD21':                 # chunked (Legion+) wrapper: the MD20 data is the first chunk
+        size = struct.unpack_from('<I', d, 4)[0]
+        d = d[8:8 + size]
     if d[:4] != b'MD20' or len(d) < 0x130:
         return None
     nlights, _ = arr(d, 0x108)
@@ -43,8 +50,10 @@ def parse(path):
     return nlights, nemit, centre, bmin, bmax, ptex, texnames
 
 files = {}
-for mpq in ORDER:
-    base = os.path.join(ROOT, mpq)
+bases = [os.path.join(ROOT, mpq) for mpq in ORDER]
+bases += sorted(os.path.join(ZPAKS, z, 'mpq', 'parsed-assets') for z in os.listdir(ZPAKS)
+                if os.path.isdir(os.path.join(ZPAKS, z, 'mpq', 'parsed-assets')))
+for base in bases:
     for dp, dn, fn in os.walk(base):
         for f in fn:
             if not f.lower().endswith('.m2'):
