@@ -366,7 +366,7 @@ def model_curate(ctx, do_apply, choices_path):
         ix.pack_refs(result)
         res = hc2.resolve(result, ix, lc, zpaks, layers, log=click.echo)
         manifest, rep = res['manifest'], res['report']
-        sql = hd.curated_sql(layers, res['wanted_rows'])
+        sql = hd.curated_sql(layers, res['wanted_rows'], craft_root / 'zpaks' / hc.CURATED_ZPAK / 'dbc')
         click.echo(f"  files: {rep['files']:,} ({rep['meshes']:,} mesh assets, {rep['retail_meshes']:,} retail; "
                    f"{rep['textures']:,} textures; {rep['bakes']:,} NPC bakes, {rep['bakes_changed']:,} changed); "
                    f"{rep['dropped']:,} dropped to OA/worgoblin/ours, {rep['stock_copies']:,} stock copies")
@@ -415,7 +415,7 @@ def model_curate(ctx, do_apply, choices_path):
     layers = hd.Layers(craft_root)
     needs = hd.row_needs(result, choices, layers)
     wanted, dbc_coll = hd.resolve_rows(needs, layers)
-    sql = hd.curated_sql(layers, wanted)
+    sql = hd.curated_sql(layers, wanted, craft_root / 'zpaks' / hc.CURATED_ZPAK / 'dbc')
     click.echo(f"  dbc: {len(needs):,} rows the picks depend on; stock -> curated = "
                f"{sum(map(len, sql.values())):,} statements over {sum(1 for v in sql.values() if v)} tables; "
                f"{len(dbc_coll):,} row collisions")

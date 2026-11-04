@@ -322,10 +322,16 @@ def final_state(table: str, layers: Layers, wanted: Dict[Tuple[str, tuple], Opti
     return rows
 
 
-def stock_diff_sql(table: str, final: Dict[tuple, dict], stock: Dict[tuple, dict]) -> List[str]:
+def stock_diff_sql(table: str, final: Dict[tuple, dict], stock: Dict[tuple, dict],
+                   touched: Optional[set] = None) -> List[str]:
     """Stock -> curated, one statement per row: UPDATE of the columns that differ
     from STOCK; DELETE + INSERT for rows stock does not have; DELETE for stock rows
-    the curated state removes."""
+    the curated state removes.
+    touched = WHERE clauses the previous version of this file wrote. A row that drops out
+    of the curated state (back to stock) would otherwise vanish from the file, and a DB
+    that applied the old file keeps the old value forever (I-395: cow model 155 stayed on
+    a cow2.m2 the pack no longer shipped -> blue cube). Such rows get a full restore to
+    stock, or a DELETE when stock has no row."""
     cols = [c for c, _ in schema(table)]
     keyc = meta(table)[1]
     out = []
@@ -345,7 +351,22 @@ def stock_diff_sql(table: str, final: Dict[tuple, dict], stock: Dict[tuple, dict
             if diff:
                 out.append(f'UPDATE `{table}` SET ' + ', '.join(f'`{c}` = {_col_lit(table, c, f.get(c))}' for c in diff)
                            + f' WHERE {where(key)};')
+            elif touched and where(key) in touched:
+                out.append(f'UPDATE `{table}` SET ' + ', '.join(f'`{c}` = {_col_lit(table, c, st.get(c))}' for c in cols if c not in keyc)
+                           + f' WHERE {where(key)};')
+    if touched:
+        live = {where(k) for k in set(final) | set(stock)}
+        out.extend(f'DELETE FROM `{table}` WHERE {w};' for w in sorted(touched - live))
     return out
+
+
+def previous_touched(table: str, dbc_dir: Optional[Path]) -> set:
+    """WHERE clauses the current [F-216]_<table>.sql writes (see stock_diff_sql touched)."""
+    import re
+    f = dbc_dir / f'[F-216]_{table}.sql' if dbc_dir else None
+    if not f or not f.is_file():
+        return set()
+    return {m.group(1) for m in re.finditer(r'^(?:UPDATE|DELETE FROM) `[^`]+`.*? WHERE (.+);$', f.read_text(), re.M)}
 
 
 def pack_dbc_sql(dbc_dirs: Iterable[Path]) -> Dict[str, List[str]]:
@@ -361,7 +382,14 @@ def pack_dbc_sql(dbc_dirs: Iterable[Path]) -> Dict[str, List[str]]:
     return {t: stock_diff_sql(t, wdbc_rows(t, f.read_bytes()), stock_rows(t)) for t, f in sorted(files.items())}
 
 
-def curated_sql(layers: Layers,wanted: Dict[Tuple[str, tuple], Optional[dict]]) -> Dict[str, List[str]]:
-    """{table: statements} for every table the base pack or a pick touches."""
-    tables = sorted(set(base_tables(layers)) | {t for t, _ in wanted})
-    return {t: stock_diff_sql(t, final_state(t, layers, wanted), layers.stock(t)) for t in tables}
+def curated_sql(layers: Layers, wanted: Dict[Tuple[str, tuple], Optional[dict]],
+                prev_dbc_dir: Optional[Path] = None) -> Dict[str, List[str]]:
+    """{table: statements} for every table the base pack or a pick touches, or the previous
+    curated file touched (prev_dbc_dir = the zpak's dbc/, read before it is rewritten)."""
+    prev = {}
+    if prev_dbc_dir and prev_dbc_dir.is_dir():
+        for f in prev_dbc_dir.glob('[[]F-216[]]_*.sql'):
+            t = f.stem[len('[F-216]_'):]
+            prev[t] = previous_touched(t, prev_dbc_dir)
+    tables = sorted(set(base_tables(layers)) | {t for t, _ in wanted} | {t for t in prev if t in TABLES})
+    return {t: stock_diff_sql(t, final_state(t, layers, wanted), layers.stock(t), prev.get(t)) for t in tables}

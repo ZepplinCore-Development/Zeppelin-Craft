@@ -47,6 +47,24 @@ def _race_of(path: str) -> Optional[Tuple[int, int]]:
     return (race, gender) if race and gender is not None else None
 
 
+_WMO_GROUP = re.compile(r'_\d{3}\.wmo$')
+
+
+def _wmo_motx(f: Path) -> List[str]:
+    """Texture names in a WMO root's MOTX chunk ([] if the file has none or is unreadable)."""
+    try:
+        b = f.read_bytes()
+    except OSError:
+        return []
+    i = 12  # MVER chunk
+    while i + 8 <= len(b):
+        tag, n = b[i:i + 4], int.from_bytes(b[i + 4:i + 8], 'little')
+        if tag == b'XTOM':
+            return [x.decode('latin1') for x in b[i + 8:i + 8 + n].split(b'\0') if x.strip(b'\0 ')]
+        i += 8 + n
+    return []
+
+
 def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], layers: hd.Layers,
             log=print) -> dict:
     picks = Picks(ix, result, choices)
@@ -522,19 +540,33 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
         if mp_:
             skins_of.setdefault(mp_, set()).update(
                 str(r_.get(f'texture_variation_{i}') or '').lower() for i in (1, 2, 3))
+    from lib.model_viewer_deploy import client_texture_name
     for mp_, f_ in list(want.items()):
-        if f_ is None or not mp_.endswith('.m2') or hc._is_stock(f_) or '/retail_cache/' in str(f_):
+        if f_ is None or hc._is_stock(f_) or '/retail_cache/' in str(f_):
             continue
-        try:
-            info_ = ms.decode_m2(f_)
-        except Exception:
+        if mp_.endswith('.wmo'):
+            # WMO roots read their textures from MOTX. The closure used to skip WMOs entirely, so a pack
+            # building on new texture paths shipped bare: PR human_barn_silo/silo.wmo -> 25 x
+            # dungeons/textures/12hu_human/*.blp, solid green in Elwynn (I-438 L). Group files carry no MOTX.
+            if _WMO_GROUP.search(mp_):
+                continue
+            needed_ = {client_texture_name(ms.norm(n_)) for n_ in _wmo_motx(f_)}
+        elif mp_.endswith('.m2'):
+            try:
+                info_ = ms.decode_m2(f_)
+            except Exception:
+                continue
+            if not info_ or getattr(info_, 'error', None):
+                continue
+            folder_ = mp_.rsplit('/', 1)[0]
+            # the client loads <name minus extension>.blp whatever the M2 says (TextureLoadBlpMips), and some
+            # pack models name textures with no extension at all (Reforged elwynntreestump01/02.m2 ->
+            # .../stumps/elwynnstump02_trunk): match those as .blp or they are never closed (green stump, I-438 D)
+            needed_ = {client_texture_name(ms.norm(n_)) for t_, n_ in info_.textures if t_ == 0 and n_}
+            if any(t_ in (11, 12, 13) for t_, _ in info_.textures):
+                needed_ |= {f'{folder_}/{n_}.blp' for n_ in skins_of.get(mp_, ()) if n_}
+        else:
             continue
-        if not info_ or getattr(info_, 'error', None):
-            continue
-        folder_ = mp_.rsplit('/', 1)[0]
-        needed_ = {ms.norm(n_) for t_, n_ in info_.textures if t_ == 0 and n_}
-        if any(t_ in (11, 12, 13) for t_, _ in info_.textures):
-            needed_ |= {f'{folder_}/{n_}.blp' for n_ in skins_of.get(mp_, ()) if n_}
         owner_ = ai_owner(f_)
         for tp_ in sorted(needed_):
             if want.get(tp_) is not None or tp_ in ix.stock or tp_ in rest:
