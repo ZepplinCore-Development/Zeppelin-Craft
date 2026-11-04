@@ -294,6 +294,10 @@ local PAGES = {
 			{
 				S{ cvar = "hdAlphaAA", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
 				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Supersampled keeps the leaves their real thickness; Coverage is cheaper but softer and fills small gaps. Needs Multisampling above 1 (Display page)." },
+				-- Zeppelin F-223A: CMAA2 (Intel, Apache-2.0) on the finished world, after MSAA (hd/HdVulkanCMAA2.cpp).
+				C{ cvar = "hdCMAA", text = "Edge Smoothing (CMAA2)", vulkan = true,
+				   info = "Smooths the jagged edges multisampling leaves: the water's edge along the shore, leaves and fences against the sky. Works with or without Multisampling (with it, Multisampling 4 plus this can replace 8). Does not stop the shimmer of moving grass.",
+				   cost = "about +0.3 to 0.6 ms GPU per frame at 4K (estimate; Measure Costs gives yours)." },
 				S{ cvar = "hdGrassLight", text = "Grass Shader", minValue = 0, maxValue = 2, valueStep = 1, names = GRASS_SHADER,
 				   tooltip = "Blizzard: the original grass. HD: grass lit like the HD terrain, with wind and parting. HD Classic: the HD grass with the original lighting." },
 				C{ cvar = "hdGrassWind", text = "Grass Wind",
