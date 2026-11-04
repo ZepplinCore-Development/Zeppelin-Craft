@@ -240,27 +240,8 @@ local PAGES = {
 		},
 	},
 	{
-		-- Zeppelin F-223E: look at an area at any hour and in any weather. Client-side only (hdTime, hdWeather).
-		name = "ZepVideoTimeWeatherPanel", title = "Time & Weather",
-		subText = "See an area at any hour and in any weather. Only your screen changes: the server and other players do not.",
-		columns = {
-			{
-				S{ cvar = "hdTime", text = "Time of Day", minValue = -1, maxValue = 23.5, valueStep = 0.5, clock = true, live = true,
-				   info = "Forces the hour on your screen, so you can see an area by day, at dusk or at night. Real Time follows the server's clock.",
-				   cost = NO_COST },
-			},
-			{
-				S{ cvar = "hdWeather", text = "Weather", minValue = -1, maxValue = 3, valueStep = 1, names = WEATHER, live = true,
-				   info = "Forces rain, snow, a sandstorm or a clear sky on your screen. Server follows the zone's own weather. Stays through zone changes until set back to Server." },
-				S{ cvar = "hdWeatherIntensity", text = "Weather Strength", minValue = 0, maxValue = 1, valueStep = 0.05, live = true,
-				   info = "How heavy the forced rain, snow or sand is, and how thick its fog." },
-			},
-		},
-		status = {},
-	},
-	{
 		name = "ZepVideoAtmospherePanel", title = "Atmosphere",
-		subText = "Fog, glow, weather and screen effects.",
+		subText = "Fog, glow, weather, time of day and screen effects. Time of Day and the forced Weather change only your screen.",
 		columns = {
 			{
 				C{ cvar = "hdFog", text = "Volumetric Fog",
@@ -286,6 +267,14 @@ local PAGES = {
 				   info = "How much rain, snow and dust is drawn when the zone has weather." },
 				C{ cvar = "ffxNetherWorld", scene = "invisible", text = "Invisibility Effect",
 				   tooltip = "Tints the screen while you are invisible or in the spirit world." },
+				-- Zeppelin F-223E: the Time & Weather page folded in here (user, 2026-11-04). Client-side only (hdTime, hdWeather).
+				S{ cvar = "hdTime", text = "Time of Day", minValue = -1, maxValue = 23.5, valueStep = 0.5, clock = true, live = true,
+				   info = "Forces the hour on your screen, so you can see an area by day, at dusk or at night. Real Time follows the server's clock. The server and other players do not change.",
+				   cost = NO_COST },
+				S{ cvar = "hdWeather", text = "Weather", minValue = -1, maxValue = 3, valueStep = 1, names = WEATHER, live = true,
+				   info = "Forces rain, snow, a sandstorm or a clear sky on your screen. Server follows the zone's own weather. Stays through zone changes until set back to Server." },
+				S{ cvar = "hdWeatherIntensity", text = "Weather Strength", minValue = 0, maxValue = 1, valueStep = 0.05, live = true,
+				   info = "How heavy the forced rain, snow or sand is, and how thick its fog." },
 			},
 		},
 		status = {
@@ -321,14 +310,11 @@ local PAGES = {
 				   cost = "about +0.3 to 0.6 ms GPU per frame at 4K (estimate; Measure Costs gives yours)." },
 				S{ cvar = "hdGrassLight", scene = "grass", text = "Grass Shader", minValue = 0, maxValue = 2, valueStep = 1, names = GRASS_SHADER,
 				   tooltip = "Blizzard: the original grass. HD: grass lit like the HD terrain, with wind and parting. HD Classic: the HD grass with the original lighting." },
-				C{ cvar = "hdGrassWind", scene = "grass", text = "Grass Wind",
-				   tooltip = "Grass sways with the zone's wind, gusts and weather, and lies still under roofs and behind walls. Needs the HD grass shader." },
-				S{ cvar = "hdGrassWindStrength", parent = "hdGrassWind", text = "Wind Strength", minValue = 0, maxValue = 3, valueStep = 0.1,
-				   tooltip = "How hard the wind bends the grass. 1 is the zone's wind as authored." },
-				C{ cvar = "hdGrassReact", scene = "grass", text = "Grass Parting",
-				   tooltip = "Grass bends away from players, creatures and mounts moving through it. Needs the HD grass shader." },
-				S{ cvar = "hdGrassReactRadius", parent = "hdGrassReact", text = "Parting Radius", minValue = 0.5, maxValue = 4, valueStep = 0.25, decimals = 2,
-				   tooltip = "How wide the grass parts around a unit, as a multiple of its size. Doubled while mounted." },
+				-- Zeppelin F-223E: no Grass Wind / Grass Parting check boxes: 0 is off (the client: HdGrassWind.cpp).
+				S{ cvar = "hdGrassWindStrength", scene = "grass", text = "Grass Wind", minValue = 0, maxValue = 3, valueStep = 0.1, zeroText = "Off", zeroBelow = 0.05, bench = true,
+				   tooltip = "Grass sways with the zone's wind, gusts and weather, and lies still under roofs and behind walls. 1 is the zone's wind as authored; Off is no wind. Needs the HD grass shader." },
+				S{ cvar = "hdGrassReactRadius", scene = "grass", text = "Grass Parting", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, zeroText = "Off", zeroBelow = 0.1, bench = true,
+				   tooltip = "Grass bends away from players, creatures and mounts moving through it; how wide, as a multiple of the unit's size (doubled while mounted). Off is no parting. Needs the HD grass shader." },
 			},
 		},
 		status = {
@@ -489,7 +475,7 @@ local function FormatValue (entry, value)
 		end
 		local minutes = floor(value * 60 + 0.5);
 		return format("%02d:%02d", floor(minutes / 60), minutes % 60);
-	elseif ( entry.zeroText and value < 0.5 ) then
+	elseif ( entry.zeroText and value < (entry.zeroBelow or 0.5) ) then
 		return entry.zeroText;
 	elseif ( entry.decimals ) then
 		return format("%."..entry.decimals.."f", value);

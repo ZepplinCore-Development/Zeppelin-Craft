@@ -1,0 +1,178 @@
+From 603d9c405f30a952245e4d4c4cd0c363b6c22c42 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 4 Nov 2026 06:23:09 +0000
+Subject: [PATCH] feat: Foliage AA draw counter, Per Sample default,
+ wind/parting 0 = off (F-223A, F-223E)
+
+- hdAlphaAAInfo counts alpha-tested draws on the multisampled pass that
+  take the foliage AA and those that miss it (per frame, ~1 s average)
+- hdAlphaAASharp defaults to 3 (per-sample texture alpha)
+- Grass wind runs only with hdGrassWindStrength > 0, parting only with
+  hdGrassReactRadius > 0; a config with either switch off becomes 0 once
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp | 26 ++++++++++++++-----
+ .../wxl/src/vulkan/Pipelines.cpp              |  6 +++++
+ .../wxl/src/vulkan/Pipelines.hpp              |  3 +++
+ .../wxl/src/vulkan/pipelines/Internal.hpp     |  4 ++-
+ .../wxl/src/vulkan/pipelines/RecordInputs.cpp |  7 +++++
+ WoW/Source/WorldClient/HD/HdGrassWind.cpp     |  9 +++++--
+ 6 files changed, 46 insertions(+), 9 deletions(-)
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp
+index c6af3273..21cfa309 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp
+@@ -15,6 +15,7 @@
+ //      on a device without sampleRateShading.
+ #include "HdVulkanAlphaAA.h"
+ #include <cstdio>
++#include <chrono>
+ #include <cstring>
+ #include "Engine/Source/ConsoleBase/ConsoleVar.h"
+ #include "Engine/Source/ConsoleBase/Types.h"
+@@ -26,7 +27,7 @@ namespace {
+ CVar* mode = nullptr;
+ CVar* sharp = nullptr;   // Zeppelin F-223A
+ CVar* info = nullptr;
+-char lastInfo[96] = "";
++char lastInfo[160] = "";
+ CVar* Var(const char* name, const char* help, const char* value, uint32_t flags = 1) {
+     if (auto* old = CVar::LookupRegistered(name)) return old;
+     return CVar::Register(name, help, flags, value, nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+@@ -43,21 +44,34 @@ void Update() {
+     if (!mode) {
+         mode = Var("hdAlphaAA", "HD: Vulkan MSAA on alpha-tested grass/leaves: 0 off, 1 alpha to coverage, 2 supersampled alpha test", "2");
+         info = Var("hdAlphaAAInfo", "HD: alpha-test antialiasing status", "off", 0x80);
+-        sharp = Var("hdAlphaAASharp", "HD: coverage edges (hdAlphaAA 1): 0 plain alpha to coverage / 1 sharpened (default) / 2 analytic (alpha slope at each sample -> sample mask) / 3 texture alpha read at each sample -> sample mask", "1");
++        sharp = Var("hdAlphaAASharp", "HD: coverage edges (hdAlphaAA 1): 0 plain alpha to coverage / 1 sharpened / 2 analytic (alpha slope at each sample -> sample mask) / 3 texture alpha read at each sample -> sample mask (default)", "3");
+     }
+-    const uint32_t style = !sharp ? 1u : sharp->m_intValue <= 0 ? 0u : sharp->m_intValue >= 3 ? 3u : sharp->m_intValue == 2 ? 2u : 1u;
++    const uint32_t style = !sharp ? 3u : sharp->m_intValue <= 0 ? 0u : sharp->m_intValue >= 3 ? 3u : sharp->m_intValue == 2 ? 2u : 1u;
+     wxlvk::vk::pipelines::SetAlphaAASharp(style);
+     const int requested = mode ? mode->m_intValue : 0;
+     const uint32_t used = wxlvk::vk::pipelines::SetAlphaAA(requested > 0 ? static_cast<uint32_t>(requested) : 0u);
+     const uint32_t samples = wxlvk::native::present::MultisampleCount();
+-    char line[96];
++    // Zeppelin F-223A: the draws it reached, averaged over about a second of frames (shown in the status line)
++    static uint32_t frames = 0, taken = 0, missed = 0, shownTaken = 0, shownMissed = 0;
++    static uint64_t lastTick = 0;
++    {
++        uint32_t t = 0, m = 0;
++        wxlvk::vk::pipelines::TakeAlphaAADraws(t, m);
++        taken += t; missed += m; ++frames;
++        const uint64_t now = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count());
++        if (now - lastTick >= 1000) {
++            shownTaken = frames ? taken / frames : 0; shownMissed = frames ? missed / frames : 0;
++            frames = taken = missed = 0; lastTick = now;
++        }
++    }
++    char line[160];
+     if (samples <= 1)
+         std::snprintf(line, sizeof line, "off: no MSAA (gxMultisample 1)");
+     else if (used == 0)
+         std::snprintf(line, sizeof line, "off");
+     else
+-        std::snprintf(line, sizeof line, "%s at %ux%s", used == 2 ? "supersampled alpha test" : style == 3 ? "coverage from per-sample texture alpha" : style == 2 ? "analytic coverage" : style == 1 ? "sharpened alpha to coverage" : "alpha to coverage", samples,
+-                      requested == 2 && used == 1 ? " (no sampleRateShading)" : "");
++        std::snprintf(line, sizeof line, "%s at %ux%s: %u draws, %u missed", used == 2 ? "supersampled alpha test" : style == 3 ? "coverage from per-sample texture alpha" : style == 2 ? "analytic coverage" : style == 1 ? "sharpened alpha to coverage" : "alpha to coverage", samples,
++                      requested == 2 && used == 1 ? " (no sampleRateShading)" : "", shownTaken, shownMissed);
+     Info(line);
+ }
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
+index c7f196f6..faf475c0 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
+@@ -79,6 +79,12 @@ namespace wxlvk::vk::pipelines
+         return mode;
+     }
+ 
++    void TakeAlphaAADraws(uint32_t& taken, uint32_t& missed) // Zeppelin F-223A
++    {
++        taken = s.alphaAATaken; missed = s.alphaAAMissed;
++        s.alphaAATaken = s.alphaAAMissed = 0;
++    }
++
+     void SetAlphaAASharp(uint32_t style) {s.alphaAASharp = style > 3u ? 3u : style;} // Zeppelin F-223A
+ 
+     VkPipelineCache PipelineCache() { return s.ready ? s.cache : VK_NULL_HANDLE; }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp
+index f6574a1b..b8485778 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.hpp
+@@ -168,6 +168,9 @@ namespace wxlvk::vk::pipelines
+     /// there, plain alpha to coverage. Takes effect at the next draw (no new pipeline). 2 = analytic coverage: the
+     /// "#an<N>" module writes gl_SampleMask from the alpha's slope at each sample, alpha to coverage off (key bit 5).
+     void SetAlphaAASharp(uint32_t style);
++    /// Zeppelin F-223A: alpha-tested draws on a multisampled pass since the last call, with the foliage AA's key bits
++    /// (taken) and without (missed); resets both.
++    void TakeAlphaAADraws(uint32_t& taken, uint32_t& missed);
+ 
+     /// What a captured draw's shadow pipeline is built from (src/capture/ShadowPipelines.cpp).
+     struct ShadowSource
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
+index c57b4166..620c22c0 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
+@@ -505,7 +505,9 @@ namespace wxlvk::vk::pipelines::detail
+         /// Zeppelin I-442: hdAlphaAA (SetAlphaAA): 0 off, 1 alpha to coverage, 2 sample shading; MakeKey marks the
+         /// alpha-tested draws of a multisampled pass with key bit 3 (coverage) or 4 (per sample).
+         uint32_t              alphaAA     = 0;
+-        uint32_t              alphaAASharp = 1;   // Zeppelin F-223A: hdAlphaAASharp 0 plain / 1 sharp / 2 analytic / 3 per-sample texture alpha (coverage draws: misc.x = -ref)
++        uint32_t              alphaAATaken = 0;   // Zeppelin F-223A: alpha-tested draws on a multisampled pass with bit 3 or 4, since the last take
++        uint32_t              alphaAAMissed = 0;  // ... and those without either (the foliage AA did not reach them)
++        uint32_t              alphaAASharp = 3;   // Zeppelin F-223A: hdAlphaAASharp 0 plain / 1 sharp / 2 analytic / 3 per-sample texture alpha (coverage draws: misc.x = -ref)
+         VkDescriptorSetLayout bonesLayout = VK_NULL_HANDLE;
+         VkDescriptorPool      bonesPool   = VK_NULL_HANDLE;
+         VkDescriptorSet       bonesSets[wxlvk::vk::pipelines::kFrameSlots] = {};
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/RecordInputs.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/RecordInputs.cpp
+index 3bb6f538..3d52b1d8 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/RecordInputs.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/RecordInputs.cpp
+@@ -235,6 +235,13 @@ namespace wxlvk::vk::pipelines::detail
+         // misc.x > 0 and its alpha is below it, so a zero lets the alpha through to the sample mask.
+         // Zeppelin F-223A: sharpened coverage (hdAlphaAASharp) passes the reference negated -- still no discard -- for
+         // the "#sharp" module to centre its one-pixel ramp on (0.5 for an AlphaKey draw without its own reference).
++        // Zeppelin F-223A: what hdAlphaAAInfo counts -- alpha-tested draws on a multisampled pass, with or without
++        // the foliage AA's key bits.
++        if ((c.blend == 1u || c.alphaRef != 0u) && SamplesOf(entry->pass) != VK_SAMPLE_COUNT_1_BIT)
++        {
++            if (entry->key.bones & (kKeyAlphaCoverage | kKeyAlphaPerSample)) ++s.alphaAATaken;
++            else ++s.alphaAAMissed;
++        }
+         if (entry->key.bones & kKeyAlphaCoverage)
+             dr.misc[0] = s.alphaAASharp == 0u ? 0.0f : -(c.alphaRef >= 1u ? static_cast<float>(c.alphaRef) / 255.0f : 0.5f);
+         dr.misc[1] = static_cast<float>(c.ffColorMode);
+diff --git a/WoW/Source/WorldClient/HD/HdGrassWind.cpp b/WoW/Source/WorldClient/HD/HdGrassWind.cpp
+index 9e04851e..d2f06f95 100644
+--- a/WoW/Source/WorldClient/HD/HdGrassWind.cpp
++++ b/WoW/Source/WorldClient/HD/HdGrassWind.cpp
+@@ -233,6 +233,10 @@ void HD::GrassWindRegister() {
+     s_strength = CVar::Register("hdGrassWindStrength", "HD: grass wind multiplier (1 = the zone's wind as authored)", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     s_react = CVar::Register("hdGrassReact", "HD: 1 = grass parts around units, 0 = off", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     s_radius = CVar::Register("hdGrassReactRadius", "HD: grass parting radius = a unit's bounding radius x this", 1, "2", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++    // Zeppelin F-223E: the menu has no Grass Wind / Grass Parting check boxes any more -- strength 0 is no wind, radius 0
++    // no parting. A config with either switched off becomes 0 there once (and the switch on), so it stays reachable.
++    if (s_wind && s_strength && s_wind->m_intValue == 0) {s_strength->Set("0", true, false, false, true); s_wind->Set("1", true, false, false, true);}
++    if (s_react && s_radius && s_react->m_intValue == 0) {s_radius->Set("0", true, false, false, true); s_react->Set("1", true, false, false, true);}
+     s_info = CVar::Register("hdGrassWindInfo", "HD: grass wind status (read only)", 0x80, "not started", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     s_bendShow = CVar::Register("hdGrassBendShow", "HD: a GroundEffectDoodad ID whose measured bend hdGrassBendInfo shows (0 = none)", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     s_bendInfo = CVar::Register("hdGrassBendInfo", "HD: per-doodad grass bend status (read only)", 0x80, "none measured", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+@@ -265,8 +269,9 @@ void HD::GrassWindPrepare() {
+     s_time = std::fmod(s_time + dt, 3600.0f);
+ 
+     const HD::Living::Snapshot& snap = HD::Living::Refresh();
+-    s_windOn = snap.inWorld && (s_wind ? s_wind->m_intValue != 0 : true);
+-    s_reactOn = snap.inWorld && (s_react ? s_react->m_intValue != 0 : true);
++    // Zeppelin F-223E: strength 0 = no wind, radius 0 = no parting (the menu's "Off")
++    s_windOn = snap.inWorld && (s_wind ? s_wind->m_intValue != 0 : true) && (!s_strength || s_strength->m_floatValue > 0.0f);
++    s_reactOn = snap.inWorld && (s_react ? s_react->m_intValue != 0 : true) && (!s_radius || s_radius->m_floatValue > 0.0f);
+     s_on = s_windOn || s_reactOn;
+     for (int i = 0; i < 3; ++i) s_player[i] = snap.playerPos[i];
+ 
+-- 
+2.34.1
+

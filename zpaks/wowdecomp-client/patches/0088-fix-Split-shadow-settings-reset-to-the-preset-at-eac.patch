@@ -1,0 +1,42 @@
+From b11e7f3fe3e3cfdab2355cfac9fff3a76a1e4581 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 4 Nov 2026 06:23:09 +0000
+Subject: [PATCH] fix: Split shadow settings reset to the preset at each start
+ (F-223B)
+
+- The client writes a CVar to Config.wtf only while it differs from its
+  default, so one split shadow CVar at default counted as "missing" and
+  the extShadowQuality preset overwrote all of them at every start
+  (Character Shadow Range, World Shadow Detail)
+- Fall back to the preset only when none of them is in the config
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ WoW/Source/WorldClient/WorldParam_CVar.cpp | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/WoW/Source/WorldClient/WorldParam_CVar.cpp b/WoW/Source/WorldClient/WorldParam_CVar.cpp
+index dec53574..70bb8c40 100644
+--- a/WoW/Source/WorldClient/WorldParam_CVar.cpp
++++ b/WoW/Source/WorldClient/WorldParam_CVar.cpp
+@@ -555,11 +555,14 @@ static void RegisterShadowSplitCVars() {
+     }
+ 
+     // A config written before the split has extShadowQuality only: the new CVars start as its preset.
+-    bool missing = false;
++    // Zeppelin F-223B: only when NONE of them is in the config. The client writes a CVar to Config.wtf only while it
++    // differs from its default, so one split CVar left at default (hdShadowUnitDim) used to count as "missing" and
++    // the preset overwrote every other one at each start (Character Shadow Range, World Shadow Detail reset).
++    bool missing = true;
+     char value[32];
+ 
+     for (uint32_t i = 0; i < NUM_SHADOW_SPLIT_VARS; i++) {
+-        missing = missing || !CVar::Lookup(s_vars[i].name);
++        missing = missing && !CVar::Lookup(s_vars[i].name);
+         ShadowPresetValue(i, SHADOW_LOWEST, value, sizeof(value));
+         s_shadowSplitVars[i] = CVar::Register(s_vars[i].name, s_vars[i].help, 1, value, ShadowSplitCallback, CATEGORY_GRAPHICS, false, reinterpret_cast<void*>(static_cast<uintptr_t>(i)), false);
+     }
+-- 
+2.34.1
+
