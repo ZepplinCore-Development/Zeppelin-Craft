@@ -114,29 +114,8 @@ local PAGES = {
 	{
 		-- Zeppelin F-223E: the shadows moved to their own page (the split shadow controls did not fit here).
 		name = "ZepVideoLightingPanel", title = "Lighting",
-		subText = "Ambient occlusion and the light in the world.",
+		subText = "Ambient occlusion, highlights and bounced light.",
 		columns = {
-			{
-				C{ cvar = "hdForever", text = "Forever Lighting",
-				   tooltip = "Light, ambient and sky colours from WoW Forever wherever it has them, instead of the original ones.",
-				   cost = NO_COST },
-				S{ cvar = "hdForeverLight", parent = "hdForever", text = "Forever Sun and Ambient", minValue = 0, maxValue = 1, valueStep = 0.05,
-				   tooltip = "1 lights the world with Forever's sun and ambient, 0 with the original ones, between mixes them." },
-				C{ cvar = "hdLights", text = "Per-Pixel Lamps", d3d9 = true,
-				   other = "On Vulkan use Lamp Lighting.",
-				   tooltip = "Lamps and fires light the ground per pixel, as in WoW Forever, instead of per vertex. Needs Forever Lighting." },
-				C{ cvar = "hdLightPass", text = "Lamp Lighting (experimental)", vulkan = true,
-				   other = "On Direct3D 9 use Per-Pixel Lamps.",
-				   info = "Every lamp, fire and glowing object lights the world around it per pixel, with no limit of 4 lights per object. Replaces the game's own lamp lighting while on. Works with multisampling. Light Classic Lamps gives light to the many lamps that have none of their own." },
-				S{ cvar = "hdLightPassStrength", parent = "hdLightPass", text = "Lamp Light Strength", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
-				   info = "How bright the lamp light is. 1 is normal." },
-				C{ cvar = "hdGI", text = "Global Illumination", d3d9 = true,
-				   tooltip = "Light bounces once off nearby surfaces and picks up their colour." },
-				S{ cvar = "hdGIStrength", parent = "hdGI", d3d9 = true, text = "Bounce Light", minValue = 0, maxValue = 2, valueStep = 0.05,
-				   tooltip = "How bright the bounced light is. 1 is normal." },
-				C{ cvar = "specular", text = "TERRAIN_HIGHLIGHTS", logout = 1, tooltipRequirement = OPTION_LOGOUT_REQUIREMENT,
-				   info = "Shiny highlights on terrain and objects where the light catches them. Takes effect after you log out." },
-			},
 			{
 				C{ cvar = "hdAO", text = "Ambient Occlusion", vulkan = true,
 				   tooltip = "Soft shadowing where objects meet and in creases and corners." },
@@ -149,17 +128,46 @@ local PAGES = {
 				   tooltip = "How far, in yards, things shade the surfaces around them." },
 				S{ cvar = "hdAOThin", parent = "hdAO", text = "Ignore Grass", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
 				   tooltip = "How much grass, leaves and other thin things are left out of the occlusion, so the ground under them is not darkened. 0 is the old look." },
-				-- Zeppelin F-223A: Zeppelin\LampCatalog.txt (PATCH-V); feeds both renderers' lamp lights.
-				C{ cvar = "hdLampCatalog", text = "Light Classic Lamps",
-				   info = "Lamps, lanterns, torches, braziers, candles and fires that have no light of their own light the world around them, as the game's few lit lamps do. About 400 classic models. Used by Lamp Lighting (Vulkan) and Per-Pixel Lamps (Direct3D 9)." },
+			},
+			{
+				C{ cvar = "specular", text = "TERRAIN_HIGHLIGHTS", logout = 1, tooltipRequirement = OPTION_LOGOUT_REQUIREMENT,
+				   info = "Shiny highlights on terrain and objects where the light catches them. Takes effect after you log out." },
+				C{ cvar = "hdGI", text = "Global Illumination", d3d9 = true,
+				   tooltip = "Light bounces once off nearby surfaces and picks up their colour." },
+				S{ cvar = "hdGIStrength", parent = "hdGI", d3d9 = true, text = "Bounce Light", minValue = 0, maxValue = 2, valueStep = 0.05,
+				   tooltip = "How bright the bounced light is. 1 is normal." },
 			},
 		},
 		status = {
-			{ "Forever", "hdForeverInfo" },
 			{ "Occlusion", "hdAOInfo", vulkan = true },
 			{ "Global Illumination", "hdGIInfo", d3d9 = true },
-			{ "Lamps", "hdLightsInfo", d3d9 = true },
+		},
+	},
+	{
+		-- Zeppelin F-223A: everything about lamps on its own page (user, 2026-11-04).
+		name = "ZepVideoLampsPanel", title = "Lamps",
+		subText = "Lamps, lanterns, torches, braziers and fires lighting the world around them.",
+		columns = {
+			{
+				C{ cvar = "hdLightPass", text = "Lamp Lighting (experimental)", vulkan = true,
+				   other = "On Direct3D 9 use Per-Pixel Lamps.",
+				   info = "Every lamp, fire and glowing object lights the world around it per pixel, with no limit of 4 lights per object. Replaces the game's own lamp lighting while on. Works with multisampling. Light Classic Lamps gives light to the many lamps that have none of their own." },
+				S{ cvar = "hdLightPassStrength", parent = "hdLightPass", text = "Lamp Light Strength", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
+				   info = "How bright the lamp light is. 1 is normal." },
+				-- Zeppelin F-223A: Zeppelin\LampCatalog.txt (PATCH-V); feeds both renderers' lamp lights.
+				C{ cvar = "hdLampCatalog", text = "Light Classic Lamps",
+				   info = "Lamps, lanterns, torches, braziers, candles and fires that have no light of their own light the world around them, as the game's few lit lamps do. About 400 classic models. Used by Lamp Lighting (Vulkan) and Per-Pixel Lamps (Direct3D 9)." },
+				S{ cvar = "hdLightPassResolution", text = "Lamp Light Resolution", minValue = 0, maxValue = 2, valueStep = 1, names = EFFECT_RES, vulkan = true, bench = true,
+				   info = "Lamp Lighting worked out at full, half or a quarter of the screen's resolution, then scaled up along the depth of the scene so lamp light does not bleed onto walls in front of it.",
+				   cost = "Full about 2.7 ms GPU per frame at 4K with many lamps; Half about a quarter of that." },
+				C{ cvar = "hdLights", text = "Per-Pixel Lamps", d3d9 = true,
+				   other = "On Vulkan use Lamp Lighting.",
+				   tooltip = "Lamps and fires light the ground per pixel, as in WoW Forever, instead of per vertex. Needs Forever Lighting." },
+			},
+		},
+		status = {
 			{ "Lamp Lighting", "hdLightPassInfo", vulkan = true },
+			{ "Lamps", "hdLightsInfo", d3d9 = true },
 		},
 	},
 	{
@@ -239,19 +247,19 @@ local PAGES = {
 				C{ cvar = "hdFog", text = "Volumetric Fog",
 				   tooltip = "Fog that fills the air in layers, lit by the sun.",
 				   cost = "about +2 to 3 ms GPU per frame." },
-				C{ cvar = "hdFogShadow", text = "Light Shafts", sub = true, parent = "hdFog",
+				C{ cvar = "hdFogShadow", scene = "sun", text = "Light Shafts", sub = true, parent = "hdFog",
 				   tooltip = "The sun's shadows reach into the fog: beams of light through trees and windows." },
 				S{ cvar = "hdFogDensity", parent = "hdFog", text = "Fog Density", minValue = 0, maxValue = 3, valueStep = 0.05,
 				   tooltip = "How thick the fog is. 1 is Forever's.", cost = NO_COST },
 				S{ cvar = "hdFogSun", parent = "hdFog", text = "Fog Sunlight", minValue = 0, maxValue = 3, valueStep = 0.05,
 				   tooltip = "How much the sun lights the fog. 1 is Forever's.", cost = NO_COST },
-				C{ cvar = "hdGrade", text = "Colour Grading",
-				   tooltip = "WoW Forever's colour grading for each place.", cost = NO_COST },
-				S{ cvar = "hdGradeStrength", parent = "hdGrade", text = "Grading Strength", minValue = 0, maxValue = 2, valueStep = 0.05,
-				   tooltip = "How strong the colour grading is. 1 is Forever's." },
+				-- Zeppelin F-223A: the two costliest effects at a fraction of the screen, upsampled by depth.
+				S{ cvar = "hdFogResolution", text = "Fog Resolution", minValue = 0, maxValue = 2, valueStep = 1, names = EFFECT_RES, vulkan = true, bench = true,
+				   info = "Volumetric Fog worked out at full, half or a quarter of the screen's resolution, then scaled up along the depth of the scene so tree and roof edges stay sharp. Half looks the same in most places.",
+				   cost = "Full about 2.9 ms GPU per frame at 4K; Half about a quarter of that." },
 				C{ cvar = "ffxGlow", text = "FULL_SCREEN_GLOW",
 				   info = "The original full-screen glow: a soft bloom over the whole picture." },
-				C{ cvar = "ffxDeath", text = "DEATH_EFFECT",
+				C{ cvar = "ffxDeath", scene = "dead", text = "DEATH_EFFECT",
 				   info = "The grey, blurred screen while you are a ghost." },
 			},
 			{
@@ -261,20 +269,19 @@ local PAGES = {
 				   tooltip = "How strong the glow is. 1 is normal." },
 				S{ cvar = "hdBloomThreshold", parent = "hdBloom", text = "Bloom Threshold", minValue = 0, maxValue = 1, valueStep = 0.01,
 				   tooltip = "How bright a pixel must be before it glows. Lower values make more of the world glow.", cost = NO_COST },
-				C{ cvar = "hdRays", text = "Sun Rays",
+				C{ cvar = "hdRays", scene = "sun", text = "Sun Rays",
 				   tooltip = "Shafts of light from the sun. Only drawn while the sun is on screen." },
 				S{ cvar = "hdRaysStrength", parent = "hdRays", text = "Sun Rays", minValue = 0, maxValue = 3, valueStep = 0.05,
 				   tooltip = "How strong the sun rays are. 1 is normal." },
-				S{ cvar = "weatherDensity", text = "WEATHER_DETAIL", minValue = 0, maxValue = 3, valueStep = 1,
+				S{ cvar = "weatherDensity", scene = "weather", text = "WEATHER_DETAIL", minValue = 0, maxValue = 3, valueStep = 1,
 				   info = "How much rain, snow and dust is drawn when the zone has weather." },
-				C{ cvar = "ffxNetherWorld", text = "Invisibility Effect",
+				C{ cvar = "ffxNetherWorld", scene = "invisible", text = "Invisibility Effect",
 				   tooltip = "Tints the screen while you are invisible or in the spirit world." },
 			},
 		},
 		status = {
 			{ "Fog", "hdFogInfo" },
 			{ "Bloom and Rays", "hdBloomInfo" },
-			{ "Grading", "hdGradeInfo" },
 		},
 	},
 	{
@@ -287,25 +294,25 @@ local PAGES = {
 				S{ label = "TerrainMip", text = "TERRAIN_MIP", minValue = 0, maxValue = 1, valueStep = 1, names = LOW_HIGH,
 				   logout = 1, tooltip = OPTION_TOOLTIP_TERRAIN_TEXTURE, tooltipRequirement = OPTION_LOGOUT_REQUIREMENT, setup = TerrainMipSetup,
 				   info = "How detailed the blending of the ground textures is. Takes effect after you log out." },
-				S{ cvar = "groundEffectDensity", text = "GROUND_DENSITY", minValue = 16, maxValue = 64, valueStep = 8,
+				S{ cvar = "groundEffectDensity", scene = "grass", text = "GROUND_DENSITY", minValue = 16, maxValue = 64, valueStep = 8,
 				   info = "How much grass and small ground clutter grows." },
-				S{ cvar = "groundEffectDist", text = "GROUND_RADIUS", minValue = 70, maxValue = 140, valueStep = 10,
+				S{ cvar = "groundEffectDist", scene = "grass", text = "GROUND_RADIUS", minValue = 70, maxValue = 510, valueStep = 20,
 				   info = "How far away grass and ground clutter are drawn, in yards." },
 			},
 			{
-				S{ cvar = "hdAlphaAA", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
+				S{ cvar = "hdAlphaAA", scene = "grass", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
 				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Supersampled keeps the leaves their real thickness; Coverage is cheaper but softer and fills small gaps. Needs Multisampling above 1 (Display page)." },
 				-- Zeppelin F-223A: CMAA2 (Intel, Apache-2.0) on the finished world, after MSAA (hd/HdVulkanCMAA2.cpp).
 				C{ cvar = "hdCMAA", text = "Edge Smoothing (CMAA2)", vulkan = true,
 				   info = "Smooths the jagged edges multisampling leaves: the water's edge along the shore, leaves and fences against the sky. Works with or without Multisampling (with it, Multisampling 4 plus this can replace 8). Does not stop the shimmer of moving grass.",
 				   cost = "about +0.3 to 0.6 ms GPU per frame at 4K (estimate; Measure Costs gives yours)." },
-				S{ cvar = "hdGrassLight", text = "Grass Shader", minValue = 0, maxValue = 2, valueStep = 1, names = GRASS_SHADER,
+				S{ cvar = "hdGrassLight", scene = "grass", text = "Grass Shader", minValue = 0, maxValue = 2, valueStep = 1, names = GRASS_SHADER,
 				   tooltip = "Blizzard: the original grass. HD: grass lit like the HD terrain, with wind and parting. HD Classic: the HD grass with the original lighting." },
-				C{ cvar = "hdGrassWind", text = "Grass Wind",
+				C{ cvar = "hdGrassWind", scene = "grass", text = "Grass Wind",
 				   tooltip = "Grass sways with the zone's wind, gusts and weather, and lies still under roofs and behind walls. Needs the HD grass shader." },
 				S{ cvar = "hdGrassWindStrength", parent = "hdGrassWind", text = "Wind Strength", minValue = 0, maxValue = 3, valueStep = 0.1,
 				   tooltip = "How hard the wind bends the grass. 1 is the zone's wind as authored." },
-				C{ cvar = "hdGrassReact", text = "Grass Parting",
+				C{ cvar = "hdGrassReact", scene = "grass", text = "Grass Parting",
 				   tooltip = "Grass bends away from players, creatures and mounts moving through it. Needs the HD grass shader." },
 				S{ cvar = "hdGrassReactRadius", parent = "hdGrassReact", text = "Parting Radius", minValue = 0.5, maxValue = 4, valueStep = 0.25, decimals = 2,
 				   tooltip = "How wide the grass parts around a unit, as a multiple of its size. Doubled while mounted." },
@@ -324,17 +331,17 @@ local PAGES = {
 		subText = "Water, lava and slime.",
 		columns = {
 			{
-				C{ cvar = "hdCataWater", text = "Cataclysm Water", vulkan = true,
+				C{ cvar = "hdCataWater", scene = "water", text = "Cataclysm Water", vulkan = true,
 				   other = "On Direct3D 9 use HD Water.",
 				   tooltip = "Cataclysm's water: reflections of the world and ripples.",
 				   cost = "about +1 ms GPU per frame." },
-				C{ cvar = "hdWater", text = "HD Water", d3d9 = true,
+				C{ cvar = "hdWater", scene = "water", text = "HD Water", d3d9 = true,
 				   other = "On Vulkan use Cataclysm Water.",
 				   tooltip = "WoW Forever's water: depth colour, reflections of the world and foam." },
 				-- Zeppelin F-234: both renderers; on Vulkan they hang under Cataclysm Water (parentVulkan).
-				C{ cvar = "hdWaterRipples", text = "Ripples", sub = true, parent = "hdWater", parentVulkan = "hdCataWater",
+				C{ cvar = "hdWaterRipples", scene = "water", text = "Ripples", sub = true, parent = "hdWater", parentVulkan = "hdCataWater",
 				   tooltip = "Rings spread on the water around players and creatures in it." },
-				C{ cvar = "hdWaterWaves", text = "Waves", sub = true, parent = "hdWater", parentVulkan = "hdCataWater",
+				C{ cvar = "hdWaterWaves", scene = "water", text = "Waves", sub = true, parent = "hdWater", parentVulkan = "hdCataWater",
 				   tooltip = "Moving waves on the water instead of the original flat normal maps. On Vulkan they reach about 250 yards around you; water further away keeps Cataclysm's own small waves." },
 			},
 			{
@@ -375,9 +382,9 @@ local PAGES = {
 				   info = "How many particles fires, smoke, sparks and other effects in the world emit." },
 				C{ cvar = "projectedTextures", text = "PROJECTED_TEXTURES",
 				   info = "Spell circles and other effects painted onto the ground under them." },
-				C{ cvar = "showfootprints", text = "Footprints",
+				C{ cvar = "showfootprints", scene = "moving", text = "Footprints",
 				   tooltip = "Characters and creatures leave footprints on the ground." },
-				C{ cvar = "showfootprintparticles", text = "Footstep Dust",
+				C{ cvar = "showfootprintparticles", scene = "moving", text = "Footstep Dust",
 				   tooltip = "Footsteps kick up dust and splash particles." },
 			},
 		},
@@ -398,13 +405,6 @@ local PAGES = {
 				   tooltip = "How many patches of grass are kept loaded on the graphics card instead of being rebuilt every frame. Higher is faster when there is a lot of grass. Off rebuilds it every frame.",
 				   info = "How many patches of grass stay loaded on the graphics card instead of being rebuilt every frame. Higher is faster in thick grass.",
 				   cost = "Off about +0.5 to 0.9 ms CPU per frame (grass rebuilt every frame)." },
-				-- Zeppelin F-223A: the two costliest effects at a fraction of the screen, upsampled by depth.
-				S{ cvar = "hdFogResolution", text = "Fog Resolution", minValue = 0, maxValue = 2, valueStep = 1, names = EFFECT_RES, vulkan = true, bench = true,
-				   info = "Volumetric Fog worked out at full, half or a quarter of the screen's resolution, then scaled up along the depth of the scene so tree and roof edges stay sharp. Half looks the same in most places.",
-				   cost = "Full about 2.9 ms GPU per frame at 4K; Half about a quarter of that." },
-				S{ cvar = "hdLightPassResolution", text = "Lamp Light Resolution", minValue = 0, maxValue = 2, valueStep = 1, names = EFFECT_RES, vulkan = true, bench = true,
-				   info = "Lamp Lighting worked out at full, half or a quarter of the screen's resolution, then scaled up along the depth of the scene so lamp light does not bleed onto walls in front of it.",
-				   cost = "Full about 2.7 ms GPU per frame at 4K with many lamps; Half about a quarter of that." },
 			},
 			{
 				S{ cvar = "maxFPS", text = "Max Frame Rate", minValue = 0, maxValue = 300, valueStep = 10, zeroText = "Unlimited",
@@ -714,8 +714,10 @@ local function BuildControls (panel)
 		-- The running renderer's controls first, then the other renderer's greyed out at the foot of the column, so a
 		-- shared control never sits under the other renderer's parent (Ripples under HD Water on Vulkan).
 		local ordered = {};
+		-- Zeppelin F-223A: the other renderer's settings are not shown at all (user, 2026-11-04: Vulkan first); only a
+		-- setting Multisampling switches off is drawn greyed, at the foot of its column.
 		for _, entry in ipairs(entries) do entry = Resolve(entry); if ( Usable(entry) ) then tinsert(ordered, entry); end end
-		for _, entry in ipairs(entries) do entry = Resolve(entry); if ( not Usable(entry) ) then tinsert(ordered, entry); end end
+		for _, entry in ipairs(entries) do entry = Resolve(entry); if ( ForRenderer(entry) and not Usable(entry) ) then tinsert(ordered, entry); end end
 		for _, entry in ipairs(ordered) do
 			-- Zeppelin F-234: a control shared by both renderers can hang under a different parent on Vulkan.
 			local parent = (entry.parentVulkan and VulkanRunning()) and entry.parentVulkan or entry.parent;
@@ -921,8 +923,36 @@ local function BenchLog (line)
 	end
 end
 
+-- Zeppelin F-223A: what a scene-dependent setting needs on screen (entry.scene, user 2026-11-04). Weather is made for the
+-- test (rain through hdWeather); death, invisibility and footprints need a state the run cannot make, so they are left
+-- out unless the player is in it; water, the sun and grass are measured with a note, as the cost depends on the view.
+local SCENE_NOTE = { water = "only costs with water in view", sun = "only costs with the sun in view",
+	grass = "depends on how much grass is in view" };
+local function SceneSkip (scene)
+	if ( scene == "dead" and not UnitIsDeadOrGhost("player") ) then return "needs your character dead"; end
+	if ( scene == "invisible" and not IsStealthed() ) then return "needs your character stealthed or invisible"; end
+	if ( scene == "moving" ) then return "needs your character moving"; end
+	if ( scene == "weather" and not GetCVar("hdWeather") ) then return "needs the weather override (this client)"; end
+	return nil;
+end
+local benchWeather;
+local function BenchSceneStart (test)
+	if ( test and test.entry.scene == "weather" ) then
+		benchWeather = { GetCVar("hdWeather"), GetCVar("hdWeatherIntensity") };
+		SetCVar("hdWeatherIntensity", 1);
+		SetCVar("hdWeather", 1);
+	end
+end
+local function BenchSceneEnd (test)
+	if ( benchWeather ) then
+		SetCVar("hdWeather", benchWeather[1]);
+		SetCVar("hdWeatherIntensity", benchWeather[2]);
+		benchWeather = nil;
+	end
+end
+
 local function BenchCandidates ()
-	local tests = {};
+	local tests, skipped = {}, {};
 	for _, def in ipairs(PAGES) do
 		if ( def.name ~= "ZepVideoTimeWeatherPanel" ) then
 			for _, entries in ipairs(def.columns) do
@@ -941,7 +971,10 @@ local function BenchCandidates ()
 						if ( e.kind == CONTROLTYPE_SLIDER ) then
 							low, high = e.minValue, e.maxValue;
 						end
-						if ( low ~= high and (not continuous or e.bench) ) then
+						local skip = e.scene and SceneSkip(e.scene);
+						if ( skip ) then
+							tinsert(skipped, Label(e)..": "..skip);
+						elseif ( low ~= high and (not continuous or e.bench) ) then
 							tinsert(tests, { entry = e, low = low, high = high, original = GetCVar(e.cvar), ms = { {}, {} } });
 						end
 					end
@@ -949,7 +982,7 @@ local function BenchCandidates ()
 			end
 		end
 	end
-	return tests;
+	return tests, skipped;
 end
 
 local function BenchValueName (e, value)
@@ -971,6 +1004,8 @@ local function BenchFinish (cancelled)
 		SetCVar(test.entry.cvar, test.original);
 	end
 	SetCVar("maxFPS", run.maxFPS);
+	SetCVar("maxFPSBk", run.maxFPSBk);
+	BenchSceneEnd(test);
 	bench.run = nil;
 	if ( cancelled ) then
 		DEFAULT_CHAT_FRAME:AddMessage("|cffffd100Measure Costs:|r cancelled; settings restored.");
@@ -1002,6 +1037,7 @@ end
 
 local function BenchStartPhase (run)
 	local t, value = BenchPhaseValue(run);
+	if ( run.phase == 1 ) then BenchSceneStart(t); end
 	SetCVar(t.entry.cvar, value);
 	run.elapsed, run.measured, run.seen = 0, 0, 0;
 	run.samples = {};
@@ -1025,6 +1061,9 @@ local function BenchResult (run, t)
 	else
 		text = format("%s: %s%.1f fps (%.0f to %.0f fps), %s%.2f ms a frame.", change, costFps >= 0 and "-" or "+",
 			math.abs(costFps), fpsLow, fpsHigh, costMs >= 0 and "+" or "-", math.abs(costMs));
+	end
+	if ( e.scene and SCENE_NOTE[e.scene] ) then
+		text = text.." ("..SCENE_NOTE[e.scene]..")";
 	end
 	t.result = { costFps = costFps };
 	benchResults[e.cvar] = { text = text };
@@ -1059,6 +1098,7 @@ bench:SetScript("OnUpdate", function (self, elapsed)
 	run.phase = run.phase + 1;
 	if ( run.phase > run.phases ) then
 		SetCVar(t.entry.cvar, t.original);
+		BenchSceneEnd(t);
 		BenchResult(run, t);
 		run.phase = 1;
 		run.index = run.index + 1;
@@ -1077,7 +1117,7 @@ local function BenchStart (quick)
 	if ( bench.run ) then
 		return;
 	end
-	local tests = BenchCandidates();
+	local tests, skipped = BenchCandidates();
 	if ( #tests == 0 ) then
 		DEFAULT_CHAT_FRAME:AddMessage("|cffffd100Measure Costs:|r nothing to measure (open Video Options once first).");
 		return;
@@ -1086,8 +1126,9 @@ local function BenchStart (quick)
 		VideoOptionsFrame:Hide();
 	end
 	local phases = quick and 2 or 3;
-	local run = { tests = tests, index = 1, phase = 1, phases = phases, maxFPS = GetCVar("maxFPS") };
+	local run = { tests = tests, index = 1, phase = 1, phases = phases, maxFPS = GetCVar("maxFPS"), maxFPSBk = GetCVar("maxFPSBk") };
 	SetCVar("maxFPS", "0");
+	SetCVar("maxFPSBk", "0"); -- a window without focus is held at its background cap (the first user run read 29.7 fps flat)
 	local seconds = #tests * phases * (BENCH_SETTLE + BENCH_MEASURE + 0.1);
 	DEFAULT_CHAT_FRAME:AddMessage(format("|cffffd100Measure Costs:|r %d settings, about %d seconds. Stand still somewhere typical and do not touch the mouse.", #tests, ceil(seconds / 10) * 10));
 	if ( GetCVar("gxVSync") == "1" ) then
@@ -1096,6 +1137,10 @@ local function BenchStart (quick)
 	BenchLog(format("bench start renderer=%s resolution=%s msaa=%s vsync=%s zone=\"%s\" settings=%d phases=%d", RendererName(),
 		tostring(GetCVar("gxResolution")), tostring(GetCVar("gxMultisample")), tostring(GetCVar("gxVSync")),
 		tostring(GetRealZoneText()), #tests, phases));
+	for _, line in ipairs(skipped) do
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffd100Measure Costs:|r left out: "..line);
+		BenchLog("bench skipped "..line);
+	end
 	bench.run = run;
 	benchText:Show();
 	BenchStartPhase(run);
@@ -1132,3 +1177,4 @@ do
 	button:HookScript("OnEnter", function () ShowInfo(panel, info); end);
 	button:HookScript("OnLeave", function () ShowStatus(panel); end);
 end
+

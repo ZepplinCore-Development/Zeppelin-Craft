@@ -1,0 +1,158 @@
+From 41956fd96d7aebb8e2b01905a0d03ce4c05a5a1f Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 4 Nov 2026 02:22:01 +0000
+Subject: [PATCH] Zeppelin F-223A: remove Forever Lighting and colour grading,
+ grass radius cap 512, lamp light full resolution by default
+
+- hdForever / hdForeverLight gone: the Forever light, band and ambient overrides return the stock values (the
+  forever_data tables still load for the fog); hdGrade gone: neither renderer runs the grade, HD::VulkanGrade not made
+- groundEffectDist cap 1024 -> 512 (WorldParam_CVar, ZepCVarRanges)
+- hdLightPassResolution default 0 (full): half looked too soft to the user
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp   | 13 ++-----------
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.cpp     |  2 +-
+ .../wxl/src/native/render/WorldPass.cpp             |  1 -
+ WoW/Source/Ui/WorldFrame.cpp                        |  4 ++--
+ WoW/Source/Ui/ZepCVarRanges.cpp                     |  2 +-
+ WoW/Source/WorldClient/HD/HdForever.cpp             |  4 ++--
+ WoW/Source/WorldClient/WorldParam_CVar.cpp          |  4 ++--
+ 7 files changed, 10 insertions(+), 20 deletions(-)
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp b/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp
+index f15915ab..27500502 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/CGxDeviceVulkan.cpp
+@@ -97,7 +97,6 @@ CGxDeviceVulkan::~CGxDeviceVulkan() {
+     HD::VulkanLightPass::Shutdown(); // Zeppelin F-223A: idempotent after DeviceDestroy
+     HD::VulkanFog::Shutdown(); // HD: idempotent
+     HD::VulkanBloom::Shutdown(); // HD: idempotent
+-    HD::VulkanGrade::Shutdown(); // HD: idempotent
+     HD::VulkanCMAA2::Shutdown(); // Zeppelin F-223A: idempotent
+     HD::VulkanModelLights::Shutdown(); // HD: idempotent
+     HD::VulkanPerf::Shutdown(); // Zeppelin F-234
+@@ -477,9 +476,7 @@ int32_t CGxDeviceVulkan::DeviceCreate(GxWindowProc windowProc, const CGxFormat&
+     if (created && !HD::VulkanBloom::Init()) { // HD: hdBloom / hdRays under Vulkan (hd/HdVulkanBloom.h)
+         CGxDevice::Log("HD Vulkan bloom: initialization failed; bloom unavailable");
+     }
+-    if (created && !HD::VulkanGrade::Init()) { // HD: hdGrade under Vulkan (hd/HdVulkanGrade.h)
+-        CGxDevice::Log("HD Vulkan grade: initialization failed; grade unavailable");
+-    }
++    // Zeppelin F-223A: hdGrade (colour grading) removed; HD::VulkanGrade is no longer created
+     if (created && !HD::VulkanCMAA2::Init()) { // Zeppelin F-223A: hdCMAA (hd/HdVulkanCMAA2.h)
+         CGxDevice::Log("HD Vulkan CMAA2: initialization failed; CMAA2 unavailable");
+     }
+@@ -507,10 +504,6 @@ void CGxDeviceVulkan::DeviceDestroy() {
+         CGxDevice::Log("HD Vulkan bloom: outstanding serial; retry before device destruction");
+         return;
+     }
+-    if (!HD::VulkanGrade::Shutdown()) { // HD
+-        CGxDevice::Log("HD Vulkan grade: outstanding serial; retry before device destruction");
+-        return;
+-    }
+     if (!HD::VulkanCMAA2::Shutdown()) { // Zeppelin F-223A
+         CGxDevice::Log("HD Vulkan CMAA2: outstanding serial; retry before device destruction");
+         return;
+@@ -681,9 +674,7 @@ int32_t CGxDeviceVulkan::DeviceCreate(void* window, const CGxFormat& format) {
+     if (created && !HD::VulkanBloom::Init()) { // HD: hdBloom / hdRays under Vulkan (hd/HdVulkanBloom.h)
+         CGxDevice::Log("HD Vulkan bloom: initialization failed; bloom unavailable");
+     }
+-    if (created && !HD::VulkanGrade::Init()) { // HD: hdGrade under Vulkan (hd/HdVulkanGrade.h)
+-        CGxDevice::Log("HD Vulkan grade: initialization failed; grade unavailable");
+-    }
++    // Zeppelin F-223A: hdGrade (colour grading) removed; HD::VulkanGrade is no longer created
+     if (created && !HD::VulkanCMAA2::Init()) { // Zeppelin F-223A: hdCMAA (hd/HdVulkanCMAA2.h)
+         CGxDevice::Log("HD Vulkan CMAA2: initialization failed; CMAA2 unavailable");
+     }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.cpp
+index b216a05b..cd379fd4 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanLightPass.cpp
+@@ -352,7 +352,7 @@ bool Init() {
+     floorVar = Var("hdLightPassFloor", "HD (Vulkan): light pass floor of the estimated engine light (0.005..1; lower = brighter lamps in dark places)", "0.03");
+     stock = Var("hdLightPassStock", "HD (Vulkan): 1 keeps the engine's per-vertex lamps as well (lights them twice, for comparison) / 0 replaces them", "0", 0);
+     debug = Var("hdLightPassDebug", "HD (Vulkan): light pass debug view, 0 off / 1 lamp light only / 2 lamps per tile", "0", 0);
+-    resolution = Var("hdLightPassResolution", "HD (Vulkan): lamp light resolution, 0 full / 1 half (default) / 2 quarter of the screen", "1"); // Zeppelin F-223A
++    resolution = Var("hdLightPassResolution", "HD (Vulkan): lamp light resolution, 0 full (default; the user found half too soft) / 1 half / 2 quarter of the screen", "0"); // Zeppelin F-223A
+     info = Var("hdLightPassInfo", "HD (Vulkan): light pass status (read only)", "off", 0x80);
+     renderApi = wxl::ScriptMgr::GetInterface<const WXL_VkRenderApi>(WXL_VK_RENDER_API_NAME, WXL_VK_RENDER_API_VERSION);
+     if (!renderApi || renderApi->structSize < offsetof(WXL_VkRenderApi, UnregisterStage) + sizeof(renderApi->UnregisterStage) ||
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp
+index de0819a9..efd843ab 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/native/render/WorldPass.cpp
+@@ -44,7 +44,6 @@ namespace
+         HD::VulkanLightPass::Resize(); // Zeppelin F-223A: hdLightPass cvars; from here the engine's point lights are the pass's
+         HD::VulkanFog::Resize(); // HD: hdFog
+         HD::VulkanBloom::Resize(); // HD: hdBloom / hdRays
+-        HD::VulkanGrade::Resize(); // HD: hdGrade
+         HD::VulkanAlphaAA::Update(); // Zeppelin I-442: hdAlphaAA, the alpha test on the multisampled world pass
+         wxlvk::native::present::NoteWorld(true);   // the G-buffer class may be taken from here to AfterOpaqueWorld
+         wxlvk::native::render::jitter::BeginWorld();
+diff --git a/WoW/Source/Ui/WorldFrame.cpp b/WoW/Source/Ui/WorldFrame.cpp
+index 5da1e162..bb1c2d65 100644
+--- a/WoW/Source/Ui/WorldFrame.cpp
++++ b/WoW/Source/Ui/WorldFrame.cpp
+@@ -1837,10 +1837,10 @@ void CGWorldFrame::OnWorldRender() {
+     PlayerNameUpdateLate();
+ #ifdef WOWDECOMP_VULKAN
+     { HD::CataRenderPerf::Scope hdPerf(HD::CataRenderPerf::Stage::PostFx); HD::VulkanBloom::World(); } // HD: hdBloom / hdRays (D3D9: BloomWorld; Vulkan: AfterWorldBloom point)
+-    { HD::CataRenderPerf::Scope hdPerf(HD::CataRenderPerf::Stage::PostFx); HD::VulkanGrade::World(); } // HD: hdGrade (D3D9: GradeWorld; Vulkan: AfterWorldGrade point)
++    // Zeppelin F-223A: hdGrade (WoW Forever colour grading) removed (user, 2026-11-04: no benefit)
+ #else
+     HD::BloomWorld(); // HD: hdBloom / hdRays (halo and sun rays over the finished world)
+-    HD::GradeWorld(); // HD: hdGrade (WoW Forever colour grading)
++    // Zeppelin F-223A: hdGrade (WoW Forever colour grading) removed
+ #endif
+ 
+     if (CWorld::enables & 0x20000000) {
+diff --git a/WoW/Source/Ui/ZepCVarRanges.cpp b/WoW/Source/Ui/ZepCVarRanges.cpp
+index a62917fe..1ee42531 100644
+--- a/WoW/Source/Ui/ZepCVarRanges.cpp
++++ b/WoW/Source/Ui/ZepCVarRanges.cpp
+@@ -18,7 +18,7 @@ struct ZepCVarRange {
+ const ZepCVarRange s_ranges[] = {
+     // Stock sliders whose engine limit is above the FrameXML max.
+     { "farclip", NO_LIMIT, 10000.0 },             // World::ValidateFarClip (F-162 farclip-unlock), stock UI 1277
+-    { "groundEffectDist", NO_LIMIT, 1024.0 },     // CVar callback (F-162 ground-effect-distance), stock UI 140
++    { "groundEffectDist", NO_LIMIT, 512.0 },      // CVar callback (F-162 ground-effect-distance, 512 since F-223A), stock UI 140
+     { "groundEffectDensity", NO_LIMIT, 256.0 },   // CVar callback, stock UI 64
+     { "environmentDetail", NO_LIMIT, 3.0 },       // no engine cap (F-162 environment-detail-unlock); 3 = twice the stock cap
+     { "mouseSpeed", 0.1, 2.0 },                   // OsInputSetMouseSpeed clamp, stock UI 0.5..1.5
+diff --git a/WoW/Source/WorldClient/HD/HdForever.cpp b/WoW/Source/WorldClient/HD/HdForever.cpp
+index 698f8c4b..db050e40 100644
+--- a/WoW/Source/WorldClient/HD/HdForever.cpp
++++ b/WoW/Source/WorldClient/HD/HdForever.cpp
+@@ -70,9 +70,9 @@ namespace {
+         static bool registered = false;
+         if (registered) return;
+         registered = true;
+-        s_enabled = CVar::Register("hdForever", "HD: 1 = WoW Forever light colours where Forever has the light, 0 = original", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
++        // Zeppelin F-223A: hdForever / hdForeverLight removed (user, 2026-11-04: no benefit). The Forever light colours are
++        // never applied; the forever_data tables still load for the fog (ForeverFogAt).
+         s_force = CVar::Register("hdForeverForce", "HD: 0 = Forever setting by light, else use this Forever setting everywhere (test)", 1, "0", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+-        s_light = CVar::Register("hdForeverLight", "HD: 1 = Forever's sun and ambient on the world, 0 = 3.3.5, between = mix", 1, "1", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+         s_info = CVar::Register("hdForeverInfo", "HD: what hdForever loaded (read only)", 0x80, "not loaded yet", nullptr, CATEGORY_GRAPHICS, false, nullptr, false);
+     }
+ 
+diff --git a/WoW/Source/WorldClient/WorldParam_CVar.cpp b/WoW/Source/WorldClient/WorldParam_CVar.cpp
+index 34273c3d..dec53574 100644
+--- a/WoW/Source/WorldClient/WorldParam_CVar.cpp
++++ b/WoW/Source/WorldClient/WorldParam_CVar.cpp
+@@ -383,9 +383,9 @@ bool CWorldParam::GroundEffectDensityCallback(CVar* var, const char* oldValue, c
+ bool CWorldParam::GroundEffectDistCallback(CVar* var, const char* oldValue, const char* value, void* arg) {
+     float dist = SStrToFloat(value);
+ 
+-    if (dist < 0.0f || dist > 1024.0f) { // Not in the original (F-162 ground-effect-distance): grass/ground-clutter distance cap raised from 140 to 1024
++    if (dist < 0.0f || dist > 512.0f) { // Not in the original (F-162 ground-effect-distance): grass/ground-clutter distance cap raised from 140 to 512 (Zeppelin F-223A: was 1024, user 2026-11-04)
+         char buffer[256];
+-        sprintf(buffer, "Ground effect distance must be in range %0f to %0f.", 0.0, 1024.0);
++        sprintf(buffer, "Ground effect distance must be in range %0f to %0f.", 0.0, 512.0);
+         ConsoleWriteA(buffer, DEFAULT_COLOR);
+ 
+         return false;
+-- 
+2.34.1
+
