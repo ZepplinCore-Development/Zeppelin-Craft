@@ -38,7 +38,7 @@ local AO_RES = { [0] = "Full", "Three-Quarter", "Half", "Quarter" };
 local VIEW_QUALITY = { [0] = "Low (185 yd)", "Fair (507 yd)", "Good (727 yd)", "High (1057 yd)", "Ultra (1250 yd)" };
 local GRASS_SHADER = { [0] = "Blizzard", "HD", "HD Classic" };
 local ALPHA_AA = { [0] = "Off", "Coverage", "Supersampled" };
-local COVERAGE_EDGES = { [0] = "Plain", "Sharp", "Analytic" };
+local COVERAGE_EDGES = { [0] = "Plain", "Sharp", "Analytic", "Per Sample" };
 -- Zeppelin F-223E: the shadows as independent controls; the stock Shadow Quality preset (extShadowQuality) has no control
 -- any more (user, 2026-11-03): the client derives its shadow mode from these settings.
 local SHADOW_MAP = { [0] = "Off", "1024", "2048" };
@@ -312,9 +312,9 @@ local PAGES = {
 				S{ cvar = "hdAlphaAA", scene = "grass", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
 				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Coverage works the edge out from one shading per pixel, at almost no cost (its style is Coverage Edges below); Supersampled shades every sample, the most exact and much more expensive. Needs Multisampling above 1 (Display page).",
 				   cost = "Supersampled about 1.4 to 3.1 ms GPU per frame at 4K with 4x MSAA; Coverage a small fraction of that." },
-				S{ cvar = "hdAlphaAASharp", parent = "hdAlphaAA", scene = "grass", text = "Coverage Edges", minValue = 0, maxValue = 2, valueStep = 1, names = COVERAGE_EDGES, vulkan = true,
-				   info = "How Coverage turns a leaf's edge into multisamples (no effect with Supersampled). Plain: the texture's own soft alpha, dithered. Sharp: the edge squeezed to a crisp one-pixel blend. Analytic: the edge's direction and position worked out at every sample, the closest to Supersampled for the same small cost.",
-				   cost = "All three cost about the same." },
+				S{ cvar = "hdAlphaAASharp", parent = "hdAlphaAA", parentValue = 1, scene = "grass", text = "Coverage Edges", minValue = 0, maxValue = 3, valueStep = 1, names = COVERAGE_EDGES, vulkan = true,
+				   info = "How Coverage turns a leaf's edge into multisamples (no effect with Supersampled). Plain: the texture's own soft alpha, dithered. Sharp: the edge squeezed to a crisp one-pixel blend. Analytic: the edge's direction and position worked out from one texture read. Per Sample: the leaf texture read again at every sample, which keeps blades thinner than a pixel -- the closest to Supersampled without shading every sample.",
+				   cost = "Plain, Sharp and Analytic cost about the same; Per Sample adds one texture read per sample on foliage pixels only." },
 				-- Zeppelin F-223A: CMAA2 (Intel, Apache-2.0) on the finished world, after MSAA (hd/HdVulkanCMAA2.cpp).
 				C{ cvar = "hdCMAA", text = "Edge Smoothing (CMAA2)", vulkan = true,
 				   info = "Smooths the jagged edges multisampling leaves: the water's edge along the shore, leaves and fences against the sky. Works with or without Multisampling (with it, Multisampling 4 plus this can replace 8). Over Multisampling it shows most on foliage with Sharp or Analytic coverage edges, and little elsewhere. Does not stop the shimmer of moving grass.",
@@ -721,7 +721,7 @@ local function BuildControls (panel)
 	local def = panel.zepDef;
 	-- Setting up the sliders runs their OnValueChanged while the page is visible, which would light up Apply.
 	local applyWasEnabled = VideoOptionsFrameApply:IsEnabled() == 1 or VideoOptionsFrameApply:IsEnabled() == true;
-	local byKey, greyed = {}, {};
+	local byKey, greyed, valueDeps = {}, {}, {};
 	for column, entries in ipairs(def.columns) do
 		local x, y = COLUMN_X[column], -10;
 		-- The running renderer's controls first, then the other renderer's greyed out at the foot of the column, so a
@@ -753,7 +753,12 @@ local function BuildControls (panel)
 				end
 				byKey[entry.cvar or entry.label] = control;
 				if ( entry.baseCvar ) then byKey[entry.baseCvar] = control; end -- children name the Direct3D 9 setting
-				if ( parent ) then
+				if ( parent and entry.parentValue ) then
+					-- Zeppelin F-223A: usable only while the parent slider sits on parentValue (Coverage Edges needs
+					-- Foliage AA = Coverage): greyed by the parent's value, not its on/off state.
+					valueDeps[parent] = valueDeps[parent] or {};
+					tinsert(valueDeps[parent], control);
+				elseif ( parent ) then
 					BlizzardOptionsPanel_SetupDependentControl(byKey[parent], control);
 				end
 				HookExplain(panel, control, entry);
@@ -761,6 +766,23 @@ local function BuildControls (panel)
 		end
 	end
 	panel.zepByKey = byKey;
+	for parentKey, deps in pairs(valueDeps) do
+		local parentControl = byKey[parentKey];
+		if ( parentControl ) then
+			local function Follow (self, value)
+				value = value or self:GetValue();
+				for _, dep in ipairs(deps) do
+					if ( floor(value + 0.5) == dep.zepEntry.parentValue ) then
+						BlizzardOptionsPanel_Slider_Enable(dep);
+					else
+						BlizzardOptionsPanel_Slider_Disable(dep);
+					end
+				end
+			end
+			parentControl:HookScript("OnValueChanged", Follow);
+			parentControl.zepFollow = Follow;
+		end
+	end
 
 	-- The same set-up the stock panels get on PLAYER_ENTERING_WORLD (labels, tooltips, ranges, values).
 	BlizzardOptionsPanel_OnEvent(panel, "PLAYER_ENTERING_WORLD");
@@ -777,6 +799,9 @@ local function BuildControls (panel)
 		end
 	end
 	panel.refresh(panel);
+	for _, control in pairs(byKey) do
+		if ( control.zepFollow ) then control.zepFollow(control); end
+	end
 	if ( not applyWasEnabled ) then
 		VideoOptionsFrameApply:Disable();
 	end
@@ -976,7 +1001,8 @@ local function BenchCandidates ()
 						parent = nil;
 					end
 					if ( (def.name ~= "ZepVideoPerformancePanel" or e.bench) and e.cvar and not e.logout and not e.gameRestart and not e.restart and not e.setup and not e.after and not e.label and not e.key and not e.live
-						and Usable(e) and Exists(e) and (not parent or GetCVar(parent) ~= "0") ) then
+						and Usable(e) and Exists(e) and (not parent or GetCVar(parent) ~= "0")
+						and (not e.parentValue or tonumber(GetCVar(parent)) == e.parentValue) ) then
 						local low, high = 0, 1;
 						-- Strength, colour and radius sliders change the look, not the frame rate: left out unless
 						-- marked bench = true (a continuous slider that does cost frames).

@@ -1,0 +1,335 @@
+From 39d61ede6ea20e88968875a0335923a8fde16de8 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 4 Nov 2026 05:01:57 +0000
+Subject: [PATCH] feat: Coverage from per-sample texture alpha (F-223A)
+
+- hdAlphaAASharp 3: the leaf texture is fetched again at each MSAA sample
+  position (explicit gradients, same mip) right after the shader's own
+  sample; sample k passes when a * t_k.w / t.w >= ref, written to
+  gl_SampleMask with alpha to coverage off (key bit 6, module "#sa<N>")
+- Keeps blades thinner than a pixel, which one alpha per pixel cannot;
+  modules without a 2D sample in the first block fall back to analytic
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp |   6 +-
+ .../wxl/src/vulkan/Pipelines.cpp              |   2 +-
+ .../wxl/src/vulkan/Shaders.cpp                | 127 ++++++++++++++++--
+ .../wxl/src/vulkan/Shaders.hpp                |   3 +
+ .../wxl/src/vulkan/pipelines/Build.cpp        |   6 +-
+ .../wxl/src/vulkan/pipelines/Internal.hpp     |   3 +-
+ .../wxl/src/vulkan/pipelines/Keys.cpp         |   3 +-
+ 7 files changed, 132 insertions(+), 18 deletions(-)
+
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp
+index 3d0c6136..c6af3273 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/hd/HdVulkanAlphaAA.cpp
+@@ -43,9 +43,9 @@ void Update() {
+     if (!mode) {
+         mode = Var("hdAlphaAA", "HD: Vulkan MSAA on alpha-tested grass/leaves: 0 off, 1 alpha to coverage, 2 supersampled alpha test", "2");
+         info = Var("hdAlphaAAInfo", "HD: alpha-test antialiasing status", "off", 0x80);
+-        sharp = Var("hdAlphaAASharp", "HD: coverage edges (hdAlphaAA 1): 0 plain alpha to coverage / 1 sharpened (default) / 2 analytic (alpha slope at each sample -> sample mask)", "1");
++        sharp = Var("hdAlphaAASharp", "HD: coverage edges (hdAlphaAA 1): 0 plain alpha to coverage / 1 sharpened (default) / 2 analytic (alpha slope at each sample -> sample mask) / 3 texture alpha read at each sample -> sample mask", "1");
+     }
+-    const uint32_t style = !sharp ? 1u : sharp->m_intValue <= 0 ? 0u : sharp->m_intValue >= 2 ? 2u : 1u;
++    const uint32_t style = !sharp ? 1u : sharp->m_intValue <= 0 ? 0u : sharp->m_intValue >= 3 ? 3u : sharp->m_intValue == 2 ? 2u : 1u;
+     wxlvk::vk::pipelines::SetAlphaAASharp(style);
+     const int requested = mode ? mode->m_intValue : 0;
+     const uint32_t used = wxlvk::vk::pipelines::SetAlphaAA(requested > 0 ? static_cast<uint32_t>(requested) : 0u);
+@@ -56,7 +56,7 @@ void Update() {
+     else if (used == 0)
+         std::snprintf(line, sizeof line, "off");
+     else
+-        std::snprintf(line, sizeof line, "%s at %ux%s", used == 2 ? "supersampled alpha test" : style == 2 ? "analytic coverage" : style == 1 ? "sharpened alpha to coverage" : "alpha to coverage", samples,
++        std::snprintf(line, sizeof line, "%s at %ux%s", used == 2 ? "supersampled alpha test" : style == 3 ? "coverage from per-sample texture alpha" : style == 2 ? "analytic coverage" : style == 1 ? "sharpened alpha to coverage" : "alpha to coverage", samples,
+                       requested == 2 && used == 1 ? " (no sampleRateShading)" : "");
+     Info(line);
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
+index be97c209..c7f196f6 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Pipelines.cpp
+@@ -79,7 +79,7 @@ namespace wxlvk::vk::pipelines
+         return mode;
+     }
+ 
+-    void SetAlphaAASharp(uint32_t style) {s.alphaAASharp = style > 2u ? 2u : style;} // Zeppelin F-223A
++    void SetAlphaAASharp(uint32_t style) {s.alphaAASharp = style > 3u ? 3u : style;} // Zeppelin F-223A
+ 
+     VkPipelineCache PipelineCache() { return s.ready ? s.cache : VK_NULL_HANDLE; }
+ 
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp
+index 6e4362a4..d070c6de 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.cpp
+@@ -251,9 +251,17 @@ namespace
+      * off. The edge is placed and oriented per sample like the supersampled test, from one shader run per pixel;
+      * the alpha output is left as it is.
+      *
++     * Zeppelin F-223A, sampleAlpha (hdAlphaAASharp 3, "#sa<N>"): the texture's alpha is read at each sample instead
++     * of extrapolated. The first 2D texture sample of the entry function's first block (the leaf / blade texture) is
++     * fetched again right after it at each sample position (coordinate + its fine derivatives x the sample offset,
++     * explicit gradients so the mip stays the same), and sample k's alpha is a * t_k.w / t.w (the shader's own
++     * alpha, the vertex fade included, rescaled by the texture alone). That keeps blades thinner than a pixel, which
++     * one alpha per pixel cannot -- what the supersampled test gets, without running the whole shader per sample.
++     * A module without such a sample is refused (the build falls back to analytic coverage).
++     *
+      * @return uint32 : 1 when patched, 0 when the module is not one this applies to (left unchanged)
+      */
+-    uint32_t PatchSharpCoverage(std::vector<uint32_t>& words, uint32_t analyticSamples = 0)
++    uint32_t PatchSharpCoverage(std::vector<uint32_t>& words, uint32_t analyticSamples = 0, bool sampleAlpha = false)
+     {
+         constexpr uint32_t opTypeBool = 20, opTypeInt = 21, opTypeFloat = 22, opTypeVector = 23, opTypeStruct = 30,
+                            opTypePointer = 32, opConstant = 43, opFunction = 54, opFunctionEnd = 56, opVariable = 59,
+@@ -261,7 +269,8 @@ namespace
+                            opEntryPoint = 15, opReturn = 253, opFNegate = 127, opFAdd = 129, opFSub = 131, opFDiv = 136,
+                            opFOrdLessThan = 184, opFOrdGreaterThan = 186, opSelect = 169, opFwidth = 209,
+                            opCapability = 17, opTypeArray = 28, opFMul = 133, opFOrdGreaterThanEqual = 190,
+-                           opBitwiseOr = 197, opDPdxFine = 210, opDPdyFine = 211;
++                           opBitwiseOr = 197, opDPdxFine = 210, opDPdyFine = 211, opSampleImplicit = 87,
++                           opSampleExplicit = 88, opCompositeExtract = 81, opVectorTimesScalar = 142, opLabel = 248;
+         constexpr uint32_t decLocation = 30, decOffset = 35, decBuiltIn = 11, builtInSampleMask = 20,
+                            capDerivativeControl = 51, scOutput = 3, scUniform = 2, scStorage = 12;
+         // Vulkan's standard sample locations (pixel-relative, y down) for 2, 4 and 8 samples.
+@@ -271,6 +280,7 @@ namespace
+                                           {0.1875f, 0.8125f}, {0.0625f, 0.4375f}, {0.6875f, 0.9375f}, {0.9375f, 0.0625f}};
+         const float (*loc)[2] = analyticSamples == 2 ? kLoc2 : analyticSamples == 4 ? kLoc4 : analyticSamples == 8 ? kLoc8 : nullptr;
+         if (analyticSamples && !loc) return 0;
++        if (sampleAlpha && !analyticSamples) return 0;
+         if (words.size() < 5) return 0;
+         uint32_t bound = words[3];
+         std::vector<uint32_t> location(bound, ~0u), ptrClass(bound, ~0u), ptrType(bound, 0), varType(bound, 0),
+@@ -386,6 +396,65 @@ namespace
+             i += n;
+         }
+         if (returns.empty()) return 0;
++
++        // Zeppelin F-223A (sampleAlpha): the first 2D texture sample in the entry function's first block.
++        size_t sampleAt = 0;
++        uint32_t sResultT = 0, sResult = 0, sImage = 0, sCoord = 0, coordT = 0;
++        if (sampleAlpha)
++        {
++            std::vector<uint32_t> typeOf(bound, 0);
++            bool body = false;
++            for (size_t i = globalsEnd; i < words.size() && !sampleAt;)
++            {
++                const uint32_t op = words[i] & 0xFFFFu, n = words[i] >> 16;
++                const uint32_t* a = &words[i + 1];
++                if (op == opFunction && n >= 5) body = words[i + 2] == entry;
++                if (body)
++                {
++                    // the first block ends at its merge declaration or terminator (OpLabel 248 starts it)
++                    if (op >= 246u && op <= 255u && op != opLabel) break;
++                    switch (op)
++                    {
++                    case 61: case 79: case 80: case 81: case 83: case 12: case 127: case 129: case 131: case 133:
++                    case 136: case 142: case 169: case 245:
++                        if (n >= 3 && a[1] < bound) typeOf[a[1]] = a[0];
++                        break;
++                    default: break;
++                    }
++                    if (op == opSampleImplicit && n >= 5 && a[3] < bound)
++                    {
++                        const uint32_t ct = typeOf[a[3]];
++                        if (ct && ct < bound && vecCount[ct] == 2u && vecComp[ct] < bound && isFloat[vecComp[ct]] &&
++                            isVec4f(a[0]))
++                        {sampleAt = i + n; sResultT = a[0]; sResult = a[1]; sImage = a[2]; sCoord = a[3]; coordT = ct;}
++                    }
++                }
++                i += n;
++            }
++            if (!sampleAt) return 0;
++        }
++        // The re-fetches right after the sample (same block as its sampled image, uniform control flow).
++        std::vector<uint32_t> fetch;
++        uint32_t tw = 0, tk[8] = {};
++        if (sampleAt)
++        {
++            const uint32_t dcx = id(), dcy = id();
++            emit(fetch, opDPdxFine, {coordT, dcx, sCoord});
++            emit(fetch, opDPdyFine, {coordT, dcy, sCoord});
++            tw = id();
++            emit(fetch, opCompositeExtract, {floatT, tw, sResult, 3u});
++            for (uint32_t k = 0; k < analyticSamples; ++k)
++            {
++                const uint32_t ox = id(), oy = id(), o = id(), ck = id(), sk = id();
++                tk[k] = id();
++                emit(fetch, opVectorTimesScalar, {coordT, ox, dcx, offX[k]});
++                emit(fetch, opVectorTimesScalar, {coordT, oy, dcy, offY[k]});
++                emit(fetch, opFAdd, {coordT, o, ox, oy});
++                emit(fetch, opFAdd, {coordT, ck, sCoord, o});
++                emit(fetch, opSampleExplicit, {sResultT, sk, sImage, ck, 0x4u, dcx, dcy});   // ImageOperands Grad
++                emit(fetch, opCompositeExtract, {floatT, tk[k], sk, 3u});
++            }
++        }
+         for (auto it = returns.rbegin(); it != returns.rend(); ++it)
+         {
+             std::vector<uint32_t> code;
+@@ -401,12 +470,33 @@ namespace
+             emit(code, opSelect, {floatT, ref, hasRef, nref, fHalf});
+             if (analyticSamples)
+             {
++                uint32_t mask = c0;
++                if (sampleAt)
++                {
++                    // a_k = a * t_k.w / t.w (t.w ~ 0: the factor is 1); mask |= a_k >= ref ? bit_k : 0
++                    const uint32_t big = id(), twc = id(), qa = id(), ratio = id();
++                    emit(code, opFOrdGreaterThan, {boolT, big, tw, fEps});
++                    emit(code, opSelect, {floatT, twc, big, tw, fOne});
++                    emit(code, opFDiv, {floatT, qa, a, twc});
++                    emit(code, opSelect, {floatT, ratio, big, qa, fOne});
++                    for (uint32_t k = 0; k < analyticSamples; ++k)
++                    {
++                        const uint32_t ak = id(), ck = id(), bk = id(), ok = id();
++                        emit(code, opFMul, {floatT, ak, tk[k], ratio});
++                        emit(code, opFOrdGreaterThanEqual, {boolT, ck, ak, ref});
++                        emit(code, opSelect, {intT, bk, ck, bit[k], c0});
++                        emit(code, opBitwiseOr, {intT, ok, mask, bk});
++                        mask = ok;
++                    }
++                }
+                 // a_k = a + dFdxFine(a) * ox_k + dFdyFine(a) * oy_k; mask |= a_k >= ref ? bit_k : 0
+                 const uint32_t dx = id(), dy = id();
+-                emit(code, opDPdxFine, {floatT, dx, a});
+-                emit(code, opDPdyFine, {floatT, dy, a});
+-                uint32_t mask = c0;
+-                for (uint32_t k = 0; k < analyticSamples; ++k)
++                if (!sampleAt)
++                {
++                    emit(code, opDPdxFine, {floatT, dx, a});
++                    emit(code, opDPdyFine, {floatT, dy, a});
++                }
++                for (uint32_t k = 0; k < analyticSamples && !sampleAt; ++k)
+                 {
+                     const uint32_t mxk = id(), myk = id(), sk = id(), ak = id(), ck = id(), bk = id(), ok = id();
+                     emit(code, opFMul, {floatT, mxk, dx, offX[k]});
+@@ -439,6 +529,7 @@ namespace
+             emit(code, opStore, {p, fin});
+             words.insert(words.begin() + static_cast<std::ptrdiff_t>(*it), code.begin(), code.end());
+         }
++        if (sampleAt) words.insert(words.begin() + static_cast<std::ptrdiff_t>(sampleAt), fetch.begin(), fetch.end());
+         words.insert(words.begin() + static_cast<std::ptrdiff_t>(globalsEnd), decl.begin(), decl.end());
+         if (analyticSamples)
+         {
+@@ -464,7 +555,7 @@ namespace
+      * @return VkShaderModule module : VK_NULL_HANDLE on any refusal, each logged once per key
+      */
+     // Zeppelin F-223A: variant 1 = per sample (hdAlphaAA 2), 2 = sharpened coverage (hdAlphaAA 1)
+-    // Zeppelin F-223A: variant 3 = analytic coverage (hdAlphaAASharp 2) for `samples` samples
++    // Zeppelin F-223A: variant 3 = analytic coverage (hdAlphaAASharp 2), 4 = per-sample texture alpha (3), for `samples`
+     VkShaderModule Load(const char* key, const char* relative, int variant = 0, uint32_t samples = 0)
+     {
+         if (Entry* e = Find(key)) return e->module; // VK_NULL_HANDLE when it failed before
+@@ -543,12 +634,14 @@ namespace
+         // Zeppelin I-442: the per-sample variant (hdAlphaAA 2).
+         const bool perSample = variant == 1;
+         const uint32_t patched = variant == 1 ? PatchSampleInterpolation(words) : variant == 2 ? PatchSharpCoverage(words)
+-                                : variant == 3 ? PatchSharpCoverage(words, samples) : 0u;
++                                : variant == 3 ? PatchSharpCoverage(words, samples)
++                                : variant == 4 ? PatchSharpCoverage(words, samples, true) : 0u;
+         // Analytic coverage draws with alpha to coverage off: an unpatched module would draw its cut-outs solid, so
+         // it is refused here and the pipeline build falls back to the sharpened-coverage module (and pipeline).
+-        if (variant == 3 && !patched)
++        if ((variant == 3 || variant == 4) && !patched)
+         {
+-            wxl::ScriptMgr::Log(WXL_LOG_DEBUG, "vulkan: shaders: \"%s\": analytic coverage not applicable; sharpened coverage instead", key);
++            wxl::ScriptMgr::Log(WXL_LOG_DEBUG, "vulkan: shaders: \"%s\": %s not applicable; falling back", key,
++                                variant == 4 ? "per-sample texture alpha" : "analytic coverage");
+             return VK_NULL_HANDLE;
+         }
+ 
+@@ -574,7 +667,7 @@ namespace
+                             key, static_cast<unsigned long long>(bytes.size()),
+                             perSample ? (patched ? ", inputs per sample" : ", per sample (nothing to patch)")
+                             : variant == 2 ? (patched ? ", sharpened coverage" : ", sharpened coverage (not applicable: plain)")
+-                            : variant == 3 ? ", analytic coverage" : "");
++                            : variant == 3 ? ", analytic coverage" : variant == 4 ? ", per-sample texture alpha" : "");
+         return module;
+     }
+ }
+@@ -688,4 +781,16 @@ namespace wxlvk::vk::shaders
+         else        std::snprintf(relative, sizeof relative, "shaders\\%s.spv", name);
+         return Load(key, relative, 3, samples);
+     }
++
++    VkShaderModule GetSampleAlphaCoverage(const char* name, bool isPath, uint32_t samples)
++    {
++        if (!s.ready || !name || !*name || std::strlen(name) + 5 > kMaxName) return VK_NULL_HANDLE;
++        if (samples != 2 && samples != 4 && samples != 8) return VK_NULL_HANDLE;
++        char key[kMaxName + 1];
++        std::snprintf(key, sizeof key, "%s#sa%u", name, samples);
++        char relative[8 + kMaxName + 5];
++        if (isPath) std::snprintf(relative, sizeof relative, "shaders\\%s", name);
++        else        std::snprintf(relative, sizeof relative, "shaders\\%s.spv", name);
++        return Load(key, relative, 4, samples);
++    }
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.hpp
+index 5e045cfc..7b6d9b78 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/Shaders.hpp
+@@ -80,4 +80,7 @@ namespace wxlvk::vk::shaders
+     /// Zeppelin F-223A: analytic coverage (hdAlphaAASharp 2) for 2, 4 or 8 samples; VK_NULL_HANDLE when the module
+     /// cannot take it (the caller falls back to GetSharpCoverage with alpha to coverage on).
+     VkShaderModule GetAnalyticCoverage(const char* name, bool isPath, uint32_t samples);
++    /// Zeppelin F-223A: per-sample texture alpha coverage (hdAlphaAASharp 3); VK_NULL_HANDLE when the module has no
++    /// leaf-texture sample to re-fetch (the caller falls back to GetAnalyticCoverage).
++    VkShaderModule GetSampleAlphaCoverage(const char* name, bool isPath, uint32_t samples);
+ }
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp
+index 0649d1a5..a9520044 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Build.cpp
+@@ -209,7 +209,11 @@ namespace wxlvk::vk::pipelines::detail
+         // Zeppelin F-223A: analytic coverage (key bit 5) draws with the "#an<N>" module and alpha to coverage off; a
+         // module the patch cannot take falls back to the sharpened one with alpha to coverage on.
+         VkShaderModule analyticFrag = VK_NULL_HANDLE;
+-        if (sharp && (k.bones & kKeyAlphaAnalytic))
++        // Per-sample texture alpha (key bit 6) first; a module without a leaf-texture sample falls back to analytic.
++        if (sharp && (k.bones & kKeyAlphaSampleTex))
++            analyticFrag = (fromModules || ffVertex) ? shaders::GetSampleAlphaCoverage(fragPath, true, static_cast<uint32_t>(SamplesOf(pass)))
++                                                     : shaders::GetSampleAlphaCoverage(row->fragSpv, false, static_cast<uint32_t>(SamplesOf(pass)));
++        if (sharp && (k.bones & kKeyAlphaAnalytic) && analyticFrag == VK_NULL_HANDLE)
+             analyticFrag = (fromModules || ffVertex) ? shaders::GetAnalyticCoverage(fragPath, true, static_cast<uint32_t>(SamplesOf(pass)))
+                                                      : shaders::GetAnalyticCoverage(row->fragSpv, false, static_cast<uint32_t>(SamplesOf(pass)));
+         const VkShaderModule frag = perSample
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
+index 1adffce2..c57b4166 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Internal.hpp
+@@ -505,7 +505,7 @@ namespace wxlvk::vk::pipelines::detail
+         /// Zeppelin I-442: hdAlphaAA (SetAlphaAA): 0 off, 1 alpha to coverage, 2 sample shading; MakeKey marks the
+         /// alpha-tested draws of a multisampled pass with key bit 3 (coverage) or 4 (per sample).
+         uint32_t              alphaAA     = 0;
+-        uint32_t              alphaAASharp = 1;   // Zeppelin F-223A: hdAlphaAASharp 0 plain / 1 sharp / 2 analytic (coverage draws: misc.x = -ref)
++        uint32_t              alphaAASharp = 1;   // Zeppelin F-223A: hdAlphaAASharp 0 plain / 1 sharp / 2 analytic / 3 per-sample texture alpha (coverage draws: misc.x = -ref)
+         VkDescriptorSetLayout bonesLayout = VK_NULL_HANDLE;
+         VkDescriptorPool      bonesPool   = VK_NULL_HANDLE;
+         VkDescriptorSet       bonesSets[wxlvk::vk::pipelines::kFrameSlots] = {};
+@@ -796,6 +796,7 @@ namespace wxlvk::vk::pipelines::detail
+     constexpr uint32_t kKeyAlphaCoverage  = 8u;
+     constexpr uint32_t kKeyAlphaPerSample = 16u;
+     constexpr uint32_t kKeyAlphaAnalytic  = 32u;   // Zeppelin F-223A: with kKeyAlphaCoverage, hdAlphaAASharp 2
++    constexpr uint32_t kKeyAlphaSampleTex = 64u;   // Zeppelin F-223A: with both above, hdAlphaAASharp 3 (texture alpha per sample)
+     void SkipUnsupported(const Key& k, const char* why);
+     void RefusePair(const Key& k, const char* what, const char* semantic);
+     void CountSkip(uint32_t bucket, const Key& k, const Cmd& c, const PipelineEntry* e, int32_t slot, uint32_t detail,
+diff --git a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Keys.cpp b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Keys.cpp
+index 0c7fdc5e..3e8eaa32 100644
+--- a/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Keys.cpp
++++ b/Engine/Source/Gx/CGxDeviceVulkan/wxl/src/vulkan/pipelines/Keys.cpp
+@@ -85,7 +85,8 @@ namespace wxlvk::vk::pipelines::detail
+         const bool tested = c.blend == 1u || c.alphaRef != 0u;
+         const bool solid  = c.blend <= 1u || (c.blend == 2u && c.depthTest && c.depthWrite);
+         if (samples > 1 && s.alphaAA && tested && solid && c.colorWrite != 0u)
+-            k.bones |= s.alphaAA == 2u ? kKeyAlphaPerSample : s.alphaAASharp == 2u ? (kKeyAlphaCoverage | kKeyAlphaAnalytic) : kKeyAlphaCoverage;
++            k.bones |= s.alphaAA == 2u ? kKeyAlphaPerSample : s.alphaAASharp == 3u ? (kKeyAlphaCoverage | kKeyAlphaAnalytic | kKeyAlphaSampleTex)
++                                             : s.alphaAASharp == 2u ? (kKeyAlphaCoverage | kKeyAlphaAnalytic) : kKeyAlphaCoverage;
+     }
+ 
+     /**
+-- 
+2.34.1
+
