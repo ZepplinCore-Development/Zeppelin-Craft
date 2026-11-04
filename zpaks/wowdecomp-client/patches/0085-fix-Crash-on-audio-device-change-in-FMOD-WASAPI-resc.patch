@@ -1,0 +1,58 @@
+From b748126e40794db8cb3883450854b04e815707d0 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 4 Nov 2026 04:01:39 +0000
+Subject: [PATCH] fix: Crash on audio device change in FMOD WASAPI rescan
+ (I-462)
+
+- The device-list rescan compared each device against entry 0 (the
+  default), which stays NULL when Windows has no default device for a
+  moment (wireless headset connecting or dropping): FMOD_strcmp read 0
+- Skip the duplicate check when there is no default; guard the endpoint
+  query and release it
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UHcJJVC4feQ4s15e9bNRoN
+---
+ .../fmodex/win32/src/fmod_output_wasapi.cpp      | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/Engine/Source/SoundEngine/fmodex/win32/src/fmod_output_wasapi.cpp b/Engine/Source/SoundEngine/fmodex/win32/src/fmod_output_wasapi.cpp
+index 801a88d0..80a9ff50 100644
+--- a/Engine/Source/SoundEngine/fmodex/win32/src/fmod_output_wasapi.cpp
++++ b/Engine/Source/SoundEngine/fmodex/win32/src/fmod_output_wasapi.cpp
+@@ -296,12 +296,20 @@ FMOD_RESULT OutputWASAPI::enumerate()
+ 
+         sprintf(name, "%S (%S)", description.pwszVal, friendlyname.pwszVal);
+ 
+-        device->QueryInterface(IID_IMMEndpoint, (void **)&endpoint);
+-        endpoint->GetDataFlow(&dataflow);
++        // Zeppelin I-462: a device going away mid-scan can fail the query; keep eAll rather than call through NULL.
++        if (device->QueryInterface(IID_IMMEndpoint, (void **)&endpoint) >= 0 && endpoint)
++        {
++            endpoint->GetDataFlow(&dataflow);
++            endpoint->Release();
++            endpoint = NULL;
++        }
+ 
+         if ((dataflow == eRender || dataflow == eAll) && mNumRenderDrivers < FMOD_OUTPUT_MAXDRIVERS)
+         {
+-            if (FMOD_strcmp(name, mRenderDrivers[0].name))
++            // Zeppelin I-462: entry 0 is the default device, and it stays empty (NULL) when Windows has none -- a
++            // wireless headset connecting or dropping out leaves no default for a moment, and the device-change
++            // rescan then crashed in FMOD_strcmp(name, NULL). No default: nothing to skip as a duplicate.
++            if (!mRenderDrivers[0].name || FMOD_strcmp(name, mRenderDrivers[0].name))
+             {
+                 mRenderDrivers[mNumRenderDrivers].name = (char *)FMOD_Memory_Calloc(FMOD_strlen(name) + 1);
+                 FMOD_strncpy(mRenderDrivers[mNumRenderDrivers].name, name, FMOD_strlen(name));
+@@ -316,7 +324,7 @@ FMOD_RESULT OutputWASAPI::enumerate()
+             }
+         }
+ 
+-        if ((dataflow == eCapture || dataflow == eAll) && mNumCaptureDrivers < FMOD_OUTPUT_MAXDRIVERS && FMOD_strcmp(name, mCaptureDrivers[0].name))
++        if ((dataflow == eCapture || dataflow == eAll) && mNumCaptureDrivers < FMOD_OUTPUT_MAXDRIVERS && (!mCaptureDrivers[0].name || FMOD_strcmp(name, mCaptureDrivers[0].name)))
+         {
+             mCaptureDrivers[mNumCaptureDrivers].name = (char *)FMOD_Memory_Calloc(FMOD_strlen(name) + 1);
+             FMOD_strncpy(mCaptureDrivers[mNumCaptureDrivers].name, name, FMOD_strlen(name));
+-- 
+2.34.1
+

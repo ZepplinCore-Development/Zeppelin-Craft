@@ -32,12 +32,13 @@ local benchResults = {};
 
 -- Zeppelin F-223A: XeGTAO slices x steps per AO pixel (HdVulkanAO.h): 1x2, 2x2, 3x3, 9x3.
 local AO_QUALITY = { [0] = "Low (2)", "Medium (4)", "High (9)", "Ultra (27)" };
-local AO_RES = { [0] = "Full", "Half", "Quarter" };
+local AO_RES = { [0] = "Full", "Three-Quarter", "Half", "Quarter" };
 -- Zeppelin F-223A: Cataclysm's own presets (HdCataViewDistance.h Profiles): view distance in yards; object detail
 -- distance x0.5 / 0.75 / 1 / 1.25 / 1.5.
 local VIEW_QUALITY = { [0] = "Low (185 yd)", "Fair (507 yd)", "Good (727 yd)", "High (1057 yd)", "Ultra (1250 yd)" };
 local GRASS_SHADER = { [0] = "Blizzard", "HD", "HD Classic" };
-local ALPHA_AA = { [0] = "Off", "Sharp Coverage", "Supersampled" };
+local ALPHA_AA = { [0] = "Off", "Coverage", "Supersampled" };
+local COVERAGE_EDGES = { [0] = "Plain", "Sharp", "Analytic" };
 -- Zeppelin F-223E: the shadows as independent controls; the stock Shadow Quality preset (extShadowQuality) has no control
 -- any more (user, 2026-11-03): the client derives its shadow mode from these settings.
 local SHADOW_MAP = { [0] = "Off", "1024", "2048" };
@@ -128,9 +129,10 @@ local PAGES = {
 				S{ cvar = "hdAOQuality", parent = "hdAO", text = "Occlusion Samples", minValue = 0, maxValue = 3, valueStep = 1, names = AO_QUALITY, vulkan = true,
 				   info = "How many samples each occlusion pixel takes (2, 4, 9 or 27): more is more accurate and less grainy. The occlusion is smoothed over several frames, so Medium or High is usually enough.",
 				   cost = "Low to Ultra about 4.1 ms GPU per frame at 4K with 4x MSAA (full resolution)." },
-				-- Zeppelin F-223A: hdAOHalfRes, the bilateral half-resolution GTAO path (HdVulkanAO).
-				S{ cvar = "hdAOHalfRes", parent = "hdAO", text = "Occlusion Resolution", minValue = 0, maxValue = 2, valueStep = 1, names = AO_RES, vulkan = true,
-				   info = "Occlusion worked out at full, half or quarter the screen's resolution (Half works out a quarter of the pixels, Quarter a sixteenth), then scaled up along the depth of the scene. Occlusion is soft, so Half with more samples often looks as good as Full with fewer, for less cost; Quarter is cheapest but softens thin crevices." },
+				-- Zeppelin F-223A: hdAOResolution, GTAO at full, three-quarter, half or quarter resolution (HdVulkanAO).
+				S{ cvar = "hdAOResolution", parent = "hdAO", text = "Occlusion Resolution", minValue = 0, maxValue = 3, valueStep = 1, names = AO_RES, vulkan = true,
+				   info = "Occlusion worked out at full, three-quarter, half or quarter the screen's resolution (three-quarter works out 56 % of the pixels, half 25 %, quarter 6 %), then scaled up along the depth of the scene. Occlusion is soft, so Half with more samples often looks as good as Full with fewer, for less cost; Quarter is cheapest but softens thin crevices.",
+				   cost = "Full to Quarter saved about 1.7 ms GPU per frame at 4K with 8x MSAA (Wetlands)." },
 				S{ cvar = "hdAORadius", parent = "hdAO", vulkan = true, text = "Occlusion Radius", minValue = 0.25, maxValue = 3, valueStep = 0.25, decimals = 2,
 				   tooltip = "How far, in yards, things shade the surfaces around them." },
 				S{ cvar = "hdAOThin", parent = "hdAO", text = "Ignore Grass", minValue = 0, maxValue = 4, valueStep = 0.25, decimals = 2, vulkan = true,
@@ -308,11 +310,14 @@ local PAGES = {
 			},
 			{
 				S{ cvar = "hdAlphaAA", scene = "grass", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
-				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Sharp Coverage turns each edge into a crisp one-pixel blend at almost no cost; Supersampled shades every sample, the most exact and much more expensive. Needs Multisampling above 1 (Display page).",
-				   cost = "Supersampled about 3.1 ms GPU per frame at 4K with 4x MSAA; Sharp Coverage a small fraction of that." },
+				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Coverage works the edge out from one shading per pixel, at almost no cost (its style is Coverage Edges below); Supersampled shades every sample, the most exact and much more expensive. Needs Multisampling above 1 (Display page).",
+				   cost = "Supersampled about 1.4 to 3.1 ms GPU per frame at 4K with 4x MSAA; Coverage a small fraction of that." },
+				S{ cvar = "hdAlphaAASharp", parent = "hdAlphaAA", scene = "grass", text = "Coverage Edges", minValue = 0, maxValue = 2, valueStep = 1, names = COVERAGE_EDGES, vulkan = true,
+				   info = "How Coverage turns a leaf's edge into multisamples (no effect with Supersampled). Plain: the texture's own soft alpha, dithered. Sharp: the edge squeezed to a crisp one-pixel blend. Analytic: the edge's direction and position worked out at every sample, the closest to Supersampled for the same small cost.",
+				   cost = "All three cost about the same." },
 				-- Zeppelin F-223A: CMAA2 (Intel, Apache-2.0) on the finished world, after MSAA (hd/HdVulkanCMAA2.cpp).
 				C{ cvar = "hdCMAA", text = "Edge Smoothing (CMAA2)", vulkan = true,
-				   info = "Smooths the jagged edges multisampling leaves: the water's edge along the shore, leaves and fences against the sky. Works with or without Multisampling (with it, Multisampling 4 plus this can replace 8). Does not stop the shimmer of moving grass.",
+				   info = "Smooths the jagged edges multisampling leaves: the water's edge along the shore, leaves and fences against the sky. Works with or without Multisampling (with it, Multisampling 4 plus this can replace 8). Over Multisampling it shows most on foliage with Sharp or Analytic coverage edges, and little elsewhere. Does not stop the shimmer of moving grass.",
 				   cost = "about +0.3 to 0.6 ms GPU per frame at 4K (estimate; Measure Costs gives yours)." },
 				S{ cvar = "hdGrassLight", scene = "grass", text = "Grass Shader", minValue = 0, maxValue = 2, valueStep = 1, names = GRASS_SHADER,
 				   tooltip = "Blizzard: the original grass. HD: grass lit like the HD terrain, with wind and parting. HD Classic: the HD grass with the original lighting." },
