@@ -38,6 +38,7 @@ local ALPHA_AA = { [0] = "Off", "Coverage", "Supersampled" };
 -- any more (user, 2026-11-03): the client derives its shadow mode from these settings.
 local SHADOW_MAP = { [0] = "Off", "1024", "2048" };
 local SHADOW_CASTERS = { [0] = "Buildings", "Standard", "Everything" };
+local EFFECT_RES = { [0] = "Full", "Half", "Quarter" };
 local WEATHER = { [-1] = "Server", [0] = "Clear", "Rain", "Snow", "Sandstorm" };
 local TEXTURE_FILTER = { [0] = "Bilinear", "Trilinear", "2x", "4x", "8x", "16x" };
 local LOW_HIGH = { [0] = LOW or "Low", HIGH or "High" };
@@ -397,6 +398,13 @@ local PAGES = {
 				   tooltip = "How many patches of grass are kept loaded on the graphics card instead of being rebuilt every frame. Higher is faster when there is a lot of grass. Off rebuilds it every frame.",
 				   info = "How many patches of grass stay loaded on the graphics card instead of being rebuilt every frame. Higher is faster in thick grass.",
 				   cost = "Off about +0.5 to 0.9 ms CPU per frame (grass rebuilt every frame)." },
+				-- Zeppelin F-223A: the two costliest effects at a fraction of the screen, upsampled by depth.
+				S{ cvar = "hdFogResolution", text = "Fog Resolution", minValue = 0, maxValue = 2, valueStep = 1, names = EFFECT_RES, vulkan = true, bench = true,
+				   info = "Volumetric Fog worked out at full, half or a quarter of the screen's resolution, then scaled up along the depth of the scene so tree and roof edges stay sharp. Half looks the same in most places.",
+				   cost = "Full about 2.9 ms GPU per frame at 4K; Half about a quarter of that." },
+				S{ cvar = "hdLightPassResolution", text = "Lamp Light Resolution", minValue = 0, maxValue = 2, valueStep = 1, names = EFFECT_RES, vulkan = true, bench = true,
+				   info = "Lamp Lighting worked out at full, half or a quarter of the screen's resolution, then scaled up along the depth of the scene so lamp light does not bleed onto walls in front of it.",
+				   cost = "Full about 2.7 ms GPU per frame at 4K with many lamps; Half about a quarter of that." },
 			},
 			{
 				S{ cvar = "maxFPS", text = "Max Frame Rate", minValue = 0, maxValue = 300, valueStep = 10, zeroText = "Unlimited",
@@ -916,7 +924,7 @@ end
 local function BenchCandidates ()
 	local tests = {};
 	for _, def in ipairs(PAGES) do
-		if ( def.name ~= "ZepVideoPerformancePanel" and def.name ~= "ZepVideoTimeWeatherPanel" ) then
+		if ( def.name ~= "ZepVideoTimeWeatherPanel" ) then
 			for _, entries in ipairs(def.columns) do
 				for _, raw in ipairs(entries) do
 					local e = Resolve(raw);
@@ -924,7 +932,7 @@ local function BenchCandidates ()
 					if ( e.msaaAlone and MsaaRunning() ) then
 						parent = nil;
 					end
-					if ( e.cvar and not e.logout and not e.gameRestart and not e.restart and not e.setup and not e.after and not e.label and not e.key and not e.live
+					if ( (def.name ~= "ZepVideoPerformancePanel" or e.bench) and e.cvar and not e.logout and not e.gameRestart and not e.restart and not e.setup and not e.after and not e.label and not e.key and not e.live
 						and Usable(e) and Exists(e) and (not parent or GetCVar(parent) ~= "0") ) then
 						local low, high = 0, 1;
 						-- Strength, colour and radius sliders change the look, not the frame rate: left out unless
