@@ -298,16 +298,6 @@ local PAGES = {
 				   info = "How far away grass and ground clutter are drawn, in yards." },
 			},
 			{
-				S{ cvar = "hdAlphaAA", scene = "grass", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
-				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Coverage works the edge out from one shading per pixel, at almost no cost (its style is Coverage Edges below); Supersampled shades every sample, the most exact and much more expensive. Needs Multisampling above 1 (Display page).",
-				   cost = "Supersampled about 1.4 to 3.1 ms GPU per frame at 4K with 4x MSAA; Coverage a small fraction of that." },
-				S{ cvar = "hdAlphaAASharp", parent = "hdAlphaAA", parentValue = 1, scene = "grass", text = "Coverage Edges", minValue = 0, maxValue = 3, valueStep = 1, names = COVERAGE_EDGES, vulkan = true,
-				   info = "How Coverage turns a leaf's edge into multisamples (no effect with Supersampled). Plain: the texture's own soft alpha, dithered. Sharp: the edge squeezed to a crisp one-pixel blend. Analytic: the edge's direction and position worked out from one texture read. Per Sample: the leaf texture read again at every sample, which keeps blades thinner than a pixel -- the closest to Supersampled without shading every sample.",
-				   cost = "Plain, Sharp and Analytic cost about the same; Per Sample adds one texture read per sample on foliage pixels only." },
-				-- Zeppelin F-223A: CMAA2 (Intel, Apache-2.0) on the finished world, after MSAA (hd/HdVulkanCMAA2.cpp).
-				C{ cvar = "hdCMAA", text = "Edge Smoothing (CMAA2)", vulkan = true,
-				   info = "Smooths the jagged edges multisampling leaves: the water's edge along the shore, leaves and fences against the sky. Works with or without Multisampling (with it, Multisampling 4 plus this can replace 8). Over Multisampling it shows most on foliage with Sharp or Analytic coverage edges, and little elsewhere. Does not stop the shimmer of moving grass.",
-				   cost = "about +0.3 to 0.6 ms GPU per frame at 4K (estimate; Measure Costs gives yours)." },
 				S{ cvar = "hdGrassLight", scene = "grass", text = "Grass Shader", minValue = 0, maxValue = 2, valueStep = 1, names = GRASS_SHADER,
 				   tooltip = "Blizzard: the original grass. HD: grass lit like the HD terrain, with wind and parting. HD Classic: the HD grass with the original lighting." },
 				-- Zeppelin F-223E: no Grass Wind / Grass Parting check boxes: 0 is off (the client: HdGrassWind.cpp).
@@ -320,7 +310,40 @@ local PAGES = {
 		status = {
 			{ "Grass Shaders", "hdGrassInfo" },
 			{ "Wind", "hdGrassWindInfo" },
+		},
+	},
+	{
+		-- Zeppelin F-223A: the anti-aliasing beyond Multisampling (which stays on the Display page) on its own page.
+		name = "ZepVideoAAPanel", title = "Anti-Aliasing",
+		subText = "Smoothing of foliage and edges, and temporal anti-aliasing. Multisampling itself is on the Display page.",
+		columns = {
+			{
+				S{ cvar = "hdAlphaAA", scene = "grass", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
+				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Coverage works the edge out from one shading per pixel, at almost no cost (its style is Coverage Edges below); Supersampled shades every sample, the most exact and much more expensive. Needs Multisampling above 1 (Display page).",
+				   cost = "Supersampled about 1.4 to 3.1 ms GPU per frame at 4K with 4x MSAA; Coverage a small fraction of that." },
+				S{ cvar = "hdAlphaAASharp", parent = "hdAlphaAA", parentValue = 1, scene = "grass", text = "Coverage Edges", minValue = 0, maxValue = 3, valueStep = 1, names = COVERAGE_EDGES, vulkan = true,
+				   info = "How Coverage turns a leaf's edge into multisamples (no effect with Supersampled). Plain: the texture's own soft alpha, dithered. Sharp: the edge squeezed to a crisp one-pixel blend. Analytic: the edge's direction and position worked out from one texture read. Per Sample: the leaf texture read again at every sample, which keeps blades thinner than a pixel -- the closest to Supersampled without shading every sample.",
+				   cost = "Plain, Sharp and Analytic cost about the same; Per Sample adds one texture read per sample on foliage pixels only." },
+				-- Zeppelin F-223A: CMAA2 (Intel, Apache-2.0) on the finished world, after MSAA (hd/HdVulkanCMAA2.cpp).
+				C{ cvar = "hdCMAA", text = "Edge Smoothing (CMAA2)", vulkan = true,
+				   info = "Smooths the jagged edges multisampling leaves: the water's edge along the shore, leaves and fences against the sky. Works with or without Multisampling (with it, Multisampling 4 plus this can replace 8). Over Multisampling it shows most on foliage with Sharp or Analytic coverage edges, and little elsewhere. Does not stop the shimmer of moving grass.",
+				   cost = "about +0.2 to 0.6 ms GPU per frame at 4K." },
+			},
+			{
+				-- Zeppelin F-223A: TAA (hd/HdVulkanTAA.cpp), BeforeUi before CMAA2.
+				C{ cvar = "hdTAA", text = "Temporal Anti-Aliasing (TAA)", vulkan = true,
+				   info = "Jitters the world by a fraction of a pixel each frame and blends the frames together along the camera's motion, so edges, thin grass, reeds and lamp halos stop crawling and shimmering. Works with or without Multisampling (2x plus TAA is a good pairing). Moving grass and characters can blur a little: the history is held to the colours around each pixel to keep that small.",
+				   cost = "about +0.5 to 1 ms GPU per frame at 4K (estimate; Measure Costs gives yours)." },
+				S{ cvar = "hdTAASharpen", parent = "hdTAA", text = "TAA Sharpening", minValue = 0, maxValue = 1, valueStep = 0.05, vulkan = true,
+				   info = "Sharpens the blended image, which TAA softens slightly. Kept within each pixel's neighbours, so it adds no halos.", cost = NO_COST },
+				S{ cvar = "hdTAABlend", parent = "hdTAA", text = "TAA Frame Weight", minValue = 0.05, maxValue = 0.5, valueStep = 0.01, decimals = 2, vulkan = true,
+				   info = "How much each new frame counts. Lower is smoother and calmer (more frames blended), higher reacts faster and blurs moving things less. 0.10 blends about ten frames.", cost = NO_COST },
+			},
+		},
+		status = {
 			{ "Foliage AA", "hdAlphaAAInfo", vulkan = true },
+			{ "CMAA2", "hdCMAAInfo", vulkan = true },
+			{ "TAA", "hdTAAInfo", vulkan = true },
 		},
 	},
 	{
