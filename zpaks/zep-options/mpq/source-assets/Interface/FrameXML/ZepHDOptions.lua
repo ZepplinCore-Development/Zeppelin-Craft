@@ -313,13 +313,14 @@ local PAGES = {
 		},
 	},
 	{
-		-- Zeppelin F-223A: the anti-aliasing beyond Multisampling (which stays on the Display page) on its own page.
-		name = "ZepVideoAAPanel", title = "Anti-Aliasing",
-		subText = "Smoothing of foliage and edges, and temporal anti-aliasing. Multisampling itself is on the Display page.",
+		-- Zeppelin F-223A: all the anti-aliasing on its own page, Multisampling included (the stock drop-down, moved
+		-- here from the Display page below; user, 2026-11-05). topSpace leaves room for it above the columns.
+		name = "ZepVideoAAPanel", title = "Anti-Aliasing", topSpace = 56,
+		subText = "Multisampling, smoothing of foliage and edges, and temporal anti-aliasing.",
 		columns = {
 			{
 				S{ cvar = "hdAlphaAA", scene = "grass", text = "Foliage Anti-Aliasing", minValue = 0, maxValue = 2, valueStep = 1, names = ALPHA_AA, vulkan = true,
-				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Coverage works the edge out from one shading per pixel, at almost no cost (its style is Coverage Edges below); Supersampled shades every sample, the most exact and much more expensive. Needs Multisampling above 1 (Display page).",
+				   info = "Smooths the cut-out edges of grass, leaves, ferns and fences, which multisampling alone leaves jagged. Coverage works the edge out from one shading per pixel, at almost no cost (its style is Coverage Edges below); Supersampled shades every sample, the most exact and much more expensive. Needs Multisampling above 1 (top of this page).",
 				   cost = "Supersampled about 1.4 to 3.1 ms GPU per frame at 4K with 4x MSAA; Coverage a small fraction of that." },
 				S{ cvar = "hdAlphaAASharp", parent = "hdAlphaAA", parentValue = 1, scene = "grass", text = "Coverage Edges", minValue = 0, maxValue = 3, valueStep = 1, names = COVERAGE_EDGES, vulkan = true,
 				   info = "How Coverage turns a leaf's edge into multisamples (no effect with Supersampled). Plain: the texture's own soft alpha, dithered. Sharp: the edge squeezed to a crisp one-pixel blend. Analytic: the edge's direction and position worked out from one texture read. Per Sample: the leaf texture read again at every sample, which keeps blades thinner than a pixel -- the closest to Supersampled without shading every sample.",
@@ -535,7 +536,7 @@ local function Needs (entry)
 	if ( Usable(entry) ) then
 		return "";
 	elseif ( ForRenderer(entry) ) then
-		return "|cffff2020Needs Multisampling off|r (Display page).";
+		return "|cffff2020Needs Multisampling off|r (Anti-Aliasing page).";
 	end
 	local text = "|cffff2020Needs "..(entry.vulkan and "Vulkan" or "Direct3D 9")..".|r";
 	return entry.other and (text.." "..entry.other) or text;
@@ -732,7 +733,7 @@ local function BuildControls (panel)
 	local applyWasEnabled = VideoOptionsFrameApply:IsEnabled() == 1 or VideoOptionsFrameApply:IsEnabled() == true;
 	local byKey, greyed, valueDeps = {}, {}, {};
 	for column, entries in ipairs(def.columns) do
-		local x, y = COLUMN_X[column], -10;
+		local x, y = COLUMN_X[column], -10 - (def.topSpace or 0);
 		-- The running renderer's controls first, then the other renderer's greyed out at the foot of the column, so a
 		-- shared control never sits under the other renderer's parent (Ripples under HD Water on Vulkan).
 		local ordered = {};
@@ -915,6 +916,22 @@ display:HookScript("OnEvent", function (self, event)
 		end
 	end
 end);
+
+-- [[ Multisampling on the Anti-Aliasing page ]] --
+-- Zeppelin F-223A (user, 2026-11-05): the stock drop-down moves to the Anti-Aliasing page. It stays registered with the
+-- Display panel, so Okay / Apply / Cancel / Defaults and the restart alert work as before; only where it sits changes.
+-- Use UI Scale took its place on the Display page (it hung under the drop-down).
+do
+	local msaa = VideoOptionsResolutionPanelMultiSampleDropDown;
+	local aa = ZepVideoAAPanel;
+	if ( msaa and aa ) then
+		msaa:SetParent(aa);
+		msaa:ClearAllPoints();
+		msaa:SetPoint("TOPLEFT", aa.subText, "BOTTOMLEFT", COLUMN_X[1] - 16, -24);
+		VideoOptionsResolutionPanelUseUIScale:ClearAllPoints();
+		VideoOptionsResolutionPanelUseUIScale:SetPoint("TOPLEFT", VideoOptionsResolutionPanelResolutionDropDown, "BOTTOMRIGHT", 16, -2);
+	end
+end
 
 -- [[ Category list ]] --
 -- Display, the themed pages, then whatever else registered (stereo, loot beam, ...). The stock Effects page leaves the
